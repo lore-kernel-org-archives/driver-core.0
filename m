@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.19
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.66.70
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794299396;
-	b=ZplZssu6FpecZ2CfRQycFkcbzrC8ddJpr+AHaYzL/WEu6vppQs/TTUdmoP1DdYF7DQJj
-	 qe7nyfTfL3gAxYcnMc1OitOi96CTZdv4BQ5J12aMhozLPb643JX0Udk/9B6KI5Jl9lkD+
-	 3BmaGghrC1oI4fZlAU2q+inTFzZbooi08hHRlH/yimIop5dz6zw4SnnrVTwqUYzF7B0eH
-	 ER16aoFa7JXWjDmkLclr098QfVvELcJPBKZCv0+klaMTkXQhLxjFsDx8Z2E8cS4JgbJL1
-	 M+e4/cTQudQP2dGLtA0OLc7ROM2nTS0PRIqTZBXp5EvHS5LMfxPj6IDdnOU2yaOQOeQ==
+	t=1794299403;
+	b=rpe+vnUEWe67QV/dbUnaBGMwYBmuSexphUpbkN+jjaDmbOh9LEkBbcE/dDhCGMXv3F6j
+	 yRhi1OlfzfFafKjj0hMZuke2ek06lh3gaU1ms/pA5tgTLJIwEdVYv0uSKiJglDhAUJ8zf
+	 6Etk62knp7Sf8NaUgCZj9tXNQZa3LGbtEOohxw/KzvqV2atwzX9ToQ9MkWGPkQAl/dPhM
+	 LAqQlc+VcpSj1Z9curxIIshvGFKFsaA2jQKCB3KxGzJMjRWObgui786iEXu8JrkmGOsh0
+	 lihHtYvi4zyBQ+Q/6Rye+7jaJfrTmStFcLnSknGeMlKlXC1misNPauyoJgmWu5VAh/g==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794299396;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794299403;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:Date:Subject:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc:X-Mailer:X-ClientProxiedBy:MIME-Version:
@@ -24,60 +24,60 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=37GJRbn8y8CrnW+dQWPT5y39btSalZgtEo6tFY+a8BI=;
-	b=glhO+4ufBlPfLt8p2bVEDr4CbMANSP+NYNst8oJ/aIyiMelt6/B5lFxC40+x6aievPIk
-	 Mi0MH1So4gV80+iJxRzW8icq1uHZ31jDPgEeNPUvWUy4hPjUaL1mp0D8splNNVq5rR28I
-	 swhbBLJLbTChuX3/FLbRy7ncqasfxQVFSJpjvGeAMrobPkbgJ5kPwGyh/dhZK9jcCT9G/
-	 U4DKPruWed5CqRbPlbE/CejB2f9t4RD07QB6b8B+bA6aulYbEzjtDXbmwTWqloNlmxhSf
-	 YngpHtAY6qmh/EYnHPVmjTLSPwWp5ey27n+FqGxY7w3uKYGwX5qdXZv1+y8Z0pKuKSw==
+	bh=xtEy/9rvbQtIeonjmJCLsn0ll/Gg3WNxJSsuqISZ55c=;
+	b=aSq/zwWCocGUBVCgFS/qSmd5G0wP9Ao30OgZzurKFU9h5PH59EUh1qdKgb9eatZxnf4l
+	 a0bQJLxApGD+xOaT9Vzkzgxsbj75zcKNVug4daD3Nw9OJ2Ley4XKSbHEdLrATUH7c7YMh
+	 aTEFgD8qPtE3uOwNBr0a7uQfZ5mUXksWL+zzI6r2a+Txpd751o4Q2XziLePqJGKOUh5FD
+	 ZJDz1XnyIBOlQasiqI2RDaF7edez5ekpc6gcJsZ9CushofGc6yEK9yMmoH7ZkMJL8GVYo
+	 55pZEGBr6Jje/jhfDUnXMkCiZq9ym58Npjc9OeFnWLAvMHNHEn+zS+QoPjhPPbThRpA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.nxp.com;
 	spf=pass smtp.mailfrom=oss.nxp.com;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=rwvMy8AF;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.19
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013019.outbound.protection.outlook.com [40.107.162.19])
+	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=n+DZ8dqW;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.66.70
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012070.outbound.protection.outlook.com [52.101.66.70])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988E960A2619
-	for <driver-core@lists.linux.dev>; Tue, 10 Nov 2026 08:29:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 988E960A2619
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2A0606A333
+	for <driver-core@lists.linux.dev>; Tue, 10 Nov 2026 08:30:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9D2A0606A333
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=rwvMy8AF
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=n+DZ8dqW
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Y/JWqaEfPRopVrYgjBpCYWGfthbLegyItVB7/x/y0xsGmhkgY9oeBtgCxLfZQyXaaW+XnPi22tMua/vY8gp21z2Cg/AoGzWCAz4ylJvy+ZfLc1l9olsIw3zj26VG0L0kAprN7t1PsGeOTBqvT/r76zuhT8Os2pZPukIJazm9C4OEdklcaZpYV4T+4HJ56Ve2MODoXaZg67d4a6Qo+IGVVXDQp4fLELl1xiZJdyuwCy00eQFOsQ5KW13O/I7zcN7SGadWXifBU4b+QvHKK8UbV4dvpGPH7eWUInILthRwxqpST3als6Y0SvsmTAWI19yDhjiWa1J/CGHmTQbEHxwixA==
+ b=PPAHRlRjXptrHxWjXrCe/1x0nierLqzLYvRxdhLvfRZDMIY+5QS+4GIaKXJzgvHr+eTTObU1mQpRA6dIRSGONYGOxYJxy4dF3sp6t1cldJU1C8w1nhw9/VcVK4DMIWfgYF78JCRHwdLS3wRrRo8v9sJsid0J67BHxsuGPTztqjPIlXCShrem8ngibBBK725A7kMllAn/AC005bDnZHT13nLHp6xUjJP7BYCZ309aR1OkYUr58hBt4A+kCCGlJ0U5d5SI9lTGCZDev4hg1sRqfTrFzyBrv5mhf9sJBMt06uHxj88T1kkShuwLcB6yB9Tclxjf9q5Gvb29urgsGJyW7A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=37GJRbn8y8CrnW+dQWPT5y39btSalZgtEo6tFY+a8BI=;
- b=B5N0Kdls3sYmQ9bY8tmTFhnVrrfr7J0GsNobYtLxXDQnfNEk/6axUXtio9jMuN8Z06h3zZVfdkbJ2DLFe4SZ0QlZ9xFt429qtHF5FL0nXPS49QPnMioCMKhDyVXc3/LUP5qxFZwlVWSg/rxV6t/Eu/w4gREJuat9yewbOl5kJq6EDD4DR1fSRIunbA9B6/GYCtT7Gz0Mh80epwUhjp694//1WHl5ySYZQHZHPROWJ81GerpGRoMBGq49RHLTkyixE/mrpqmcNwCnivg6utijbcjoI0ReG2BG/EhefXDg6k9GpkpdN+ZfNhLLp7FsJMCmxAJpAcaKmAG9nvMjOR+j8Q==
+ bh=xtEy/9rvbQtIeonjmJCLsn0ll/Gg3WNxJSsuqISZ55c=;
+ b=mmQNiboNtK/2Nv/aWxzG5DTw7dqrc+kLHA+TgvCS3BEDIlcTk+1PxsE+B8yic0EKvQC1GGod78PQ9uLkaDO6slmectAWCpJKLlmSig3oUiW6dBotjXmjzxRuCWxaar9PRUkeTnhkVeZ/KEfr9EToh69LkGrp1+rCwoiaGUq8PE+0mYLX7xKQ0fKcWffX5xM7aOZ4cPraVtqSut04Si9Boi2AD41OREgmrkbX6ihKtZGh9en7lQ65U7Q3nY1zJe2Z6MrMJa4YYlOI+gvdR2hrr6psa9Ag6n7fX7RQVNqAqpkRiAuAxWAi0foOUK0G+QmHfaXKN9m/D1IM9GlQCB2FOQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=37GJRbn8y8CrnW+dQWPT5y39btSalZgtEo6tFY+a8BI=;
- b=rwvMy8AFv/wRRBlhWmTCDmBs0vB0qOiyLTot8YhaZLnHF98OxwmCqa8HckufuYDZZQHtXMVFB5ytyCuynDPEmEK+q0QuUJU0ymoOXUR4tv1SPA+H6l4wb72X70Ut0vtdn6O5F9HIs+QrbbRol0XHBH0Ff8cQv5PRK3E/h6cGSyesRxjIhnRuP3oEdMctce47l9i8634xw9CSvVBfdAlMtQqQTPaXsEgpQK6N7CPSb/b1HZjoz5ryy4xiP9eTPljX0lDlm8m1Yac4uPTi23PXqTggEDrRQGDKzn8GpJ9eHeAD4b85l44bbL7PK1556VMlitMKBVtQ9LbqE8ZTF7ezFA==
+ bh=xtEy/9rvbQtIeonjmJCLsn0ll/Gg3WNxJSsuqISZ55c=;
+ b=n+DZ8dqWS6+cxf8YSKCAMVHihQV5kv/7WIQG4qNb8S1lEEbIT1L1Z90jECbfw/0fKmP6Anr/N7l4pjVEP6bawTNlU1Y/wV4hnzJ1kNYzUfJyaPyD7x848MfYIwEpaIhic1GkjpfPwMLRd1Yyii16Qt+r/ATbbctentl7Ar6EfF1HmQLpjh9FjnrY/g5FIloFOeSQTAcHf12Unb2kBD0K4jzGl4vfbftb+B4CvE6O+3hXOqi1z++ssZIs9cbcOwcaZW31yb8HVZL3j/UR5orz3npd/qteFCFUk9u4KGtNktnFVSTSVk1jA4xOgkfInrPqKDrzt8NApjlP1Z88zzMpjA==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from DBBPR04MB7883.eurprd04.prod.outlook.com (2603:10a6:10:1e9::23)
- by FRZPR04MB12430.eurprd04.prod.outlook.com (2603:10a6:d10:1cc::15) with
+ by AMDPR04MB200793.eurprd04.prod.outlook.com (2603:10a6:20b:749::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.13; Tue, 10 Nov
- 2026 08:29:53 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Tue, 10 Nov
+ 2026 08:29:59 +0000
 Received: from DBBPR04MB7883.eurprd04.prod.outlook.com
  ([fe80::3a91:cf25:36c9:c3bb]) by DBBPR04MB7883.eurprd04.prod.outlook.com
  ([fe80::3a91:cf25:36c9:c3bb%7]) with mapi id 15.21.0592.012; Tue, 10 Nov 2026
- 08:29:53 +0000
+ 08:29:59 +0000
 From: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Date: Tue, 10 Nov 2026 16:25:31 +0800
-Subject: [PATCH 7/9] regmap: drop regmap_bus::free_on_exit
+Date: Tue, 10 Nov 2026 16:25:32 +0800
+Subject: [PATCH 8/9] regmap: use cleanup API in __regmap_init()
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-regmap-improve-v1-7-3a76b6c10ec6@nxp.com>
+Message-Id: <20261110-regmap-improve-v1-8-3a76b6c10ec6@nxp.com>
 References: <20261110-regmap-improve-v1-0-3a76b6c10ec6@nxp.com>
 In-Reply-To: <20261110-regmap-improve-v1-0-3a76b6c10ec6@nxp.com>
 To: Mark Brown <broonie@kernel.org>, 
@@ -88,8 +88,8 @@ To: Mark Brown <broonie@kernel.org>,
 Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
  Peng Fan <peng.fan@nxp.com>
 X-Mailer: b4 0.16.0
-X-ClientProxiedBy: SI1PR02CA0045.apcprd02.prod.outlook.com
- (2603:1096:4:1f6::16) To DBBPR04MB7883.eurprd04.prod.outlook.com
+X-ClientProxiedBy: SI2PR02CA0004.apcprd02.prod.outlook.com
+ (2603:1096:4:194::14) To DBBPR04MB7883.eurprd04.prod.outlook.com
  (2603:10a6:10:1e9::23)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -101,406 +101,229 @@ List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DBBPR04MB7883:EE_|FRZPR04MB12430:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9e88e8b4-00f8-414e-5d26-08df3f04cb1f
+X-MS-TrafficTypeDiagnostic: DBBPR04MB7883:EE_|AMDPR04MB200793:EE_
+X-MS-Office365-Filtering-Correlation-Id: b88a1e0c-368e-4d57-8da7-08df3f04cea1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|19092799006|261009223027099003|10067099003|5023799004|11063799006|56012099006|261022075727099003|261021121427099003|261021123027099003|261026121527099003|261102130727099003|261102123227099003|22082099003|18002099003|6133799003|3023799007;
+	BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|19092799006|5023799004|11063799006|56012099006|261022105027099003|261022075727099003|261021121427099003|261021123027099003|261026121527099003|261102130727099003|261028144727099003|261102123227099003|261009223027099003|261026140227099003|10067099003|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	gBEbHrXRIezPVbWnrYUSx4GY/DrSLyE11oohRDwCOyBX1qraF98CSDwHy1SAnkdOmSKheWiYuvEmOY2qq7M8GkgEIhNU2Dz1Sb6UXInr8KtwEooSAfZwD8bUBTeBqPreOOKcPd3aqttAPEzNSg0C6jZCP7RIIxYJS5rCdGrOOQllJqEPm2ldWzX8lmtzNo5hS5wcW5BgCeNITmd9sMF7lBA+Fzj7SisU1faIOmRza/ZPemk+G+G+c+zlJRzujAzfVKaQW55trr/af54qdf3uEJcF5bttVLCNFLGOd27AvfHRUZmV2sKzEetkUitejplI/ZDVxs6B2MQXk5LquCIVyxm0tJvfV6QoqLRbJpjR/4RkTuBIvV9ohdZQNiKBEZe1g2OmhSPo0CNIROxehP6CHa24ws+PfD1O2phaLk7NJqK5pWEjoR0uIbO8gC1AKENGAOgb4EI8LHOzAMLjX0yrWZuYDK7wJeLiCwlGKgY06UtTu6zmawb54CUX1tV0Ube8QLG4VVemQaa9WqXUhJC1ChkplqPZowqfLHecpsVklw82AteBBUBXj8jj5r5+693uGomF3UrME+e4a7adr/hzgpBVgK3h8W6h7bjdtMvjS3J1ddzttrUNH9DKhWAlYusmhPfkq2uO+4WBBEvHwopaM9jO4BhrprZch7bTrfV0LTs=
+	zM6c7h6oXAYe6e/w7NogQ4p95zaiKpPyF/UajYEx1cwsjpTsO1CS1RTS90SGtVGooDgOE5iU7vixddHQPb5fSliXUg0/eWE1hd0Aey83+D6aXVpIW2ZAY8JNorTJYjNKFyIjg74Oz3sRqpT8Kp832GJVzhyTIdgZm6iic5Go4mVW5jZSYdmSq4ZY1LjNJGXb+hUKocG1S9QjQo5GTfuSgMKUnFVGAZvqnByb78qWAHQLNIiVRcdQt1iupkxUvYmVs2nThRMfMfkdeJ7PD+EP/fNBN1d+gD0B5q4FptwX3TqmJBBxdVpciUx32t3FzcNdxxzwxTLRu1iYtSLT3AC+pi625AjKNzzgRw5zTwOk0y2QJqsvBLvk/W9U1z4LHFaQaURh9kQMjDiUiVGqeOfV5ExRHQ76WvPA114bCcSgzaKWOFvOA0iqnI5p3rXlQ1C0vXw7E+hP48tHcWOfR0h5e7tue4I113tz8fhwsT+SfMxDp79o8YQal7DH2Eb0OcBmcKOfPmIMt/blCUVQ2O6uOj3vfuhr315kVwZPmhctWsBkcH1xgFBkXIseGhteLY5LMg1ADHLPqOiZfVCOHGs48z4NHHmAZicBq5Jonj2EJxvKLDF2/vZDCKX5vR68vvqEQ8M7J8ruiBlmUykidKSvqVUfoB61jK5QvEjjxgqyb2A=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7883.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(19092799006)(261009223027099003)(10067099003)(5023799004)(11063799006)(56012099006)(261022075727099003)(261021121427099003)(261021123027099003)(261026121527099003)(261102130727099003)(261102123227099003)(22082099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7883.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(19092799006)(5023799004)(11063799006)(56012099006)(261022105027099003)(261022075727099003)(261021121427099003)(261021123027099003)(261026121527099003)(261102130727099003)(261028144727099003)(261102123227099003)(261009223027099003)(261026140227099003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eHBQenpxTHhaSUtnY292aTN5TW5NSDlkUUJqNisrQTFCQTgyaWpqN3pvcVVC?=
- =?utf-8?B?cHZvL2tFUVRKYU4raEpMdlZSU2w1Y3NKTlVqUHpaVFBtam9mV2QycWNEMVp4?=
- =?utf-8?B?dnN2ci9RYkVmMGREaVRmU25GcW8vUE9Wc2RxWWlDN0JmQ2FmaVpwdFprZzYy?=
- =?utf-8?B?M1RYb2dsQ0NnVExOa1VLUmdSVWkyS1JXUFp5bGYzM0plbm1Vc2M0dk8wcnha?=
- =?utf-8?B?R2ZtRlo5VUxMKzB3LytzWEI4MDduZG54dVVLMFZ0NWNpam9tTjk3WHpUeWxr?=
- =?utf-8?B?SG13R0dxZmMxcUlHRXlDSS93bVgxd3pHOENIZkZGNmtSUlhyWFA3Ym1lMTB5?=
- =?utf-8?B?M0tiRy8wVXNzNE5nTEZ3Y1d6R1Y0bHBWa2VPWE5wN0tPdzNob1RPZDA2ZUE3?=
- =?utf-8?B?WHUxbko3MW1nTmRWZzBLUWsxemlHem51MllQbDdXVmtEbjVmQmZFeVFiOG8r?=
- =?utf-8?B?ZjRyd2VRWkRaRElBdi8vcUNydjlNVlhBdnpmY2N4QmFxR29zT2FCVkpLenZC?=
- =?utf-8?B?ZGwyMWk2QVU2OXlaRWttamE1OTdVcXJLb0JyTU80TVdyYnE2VTR2Nzg3MDhO?=
- =?utf-8?B?QlNMWWRBV01HYXRYNkNVcTdCakNuQ2F5ejVyWUMrdTVGbFNLdlNGMkxXUTZo?=
- =?utf-8?B?MmZWY2YwTzBpUnppdCtINjJuMGFEOStyVi9sRUtnL1RLNkl4MUVrTURreThp?=
- =?utf-8?B?dzVoYkwxYjBnaDlaK1hDZmM3cTlQL3lyWjJLbGUzZHlsd1lqQzRnNU14czZv?=
- =?utf-8?B?eUt1NkhSMG1Ma3BRV3JLR0xPNm0wZnpNZ0wyTjYvaTBNZG9BOWt0dkUvb3VG?=
- =?utf-8?B?SUNJdnRWWXRRQVM5eVl3bDdYUmxHTnUyZlE1aWlpWFh5RGs5R1JBb25lZVhY?=
- =?utf-8?B?VUVuSS9BZGtYNFdEZ2tkbnhkRTZBcStlaFVPb0pCUElhTDVNdnMwQTQyL2VM?=
- =?utf-8?B?NXBVRUJJZHBwYU9ZZVYyQ3VNVDJTY2RxOXFESy9LSnZyT1pJRUZSVUFGU3p6?=
- =?utf-8?B?OUJISDFMYmdBRDBSUTVZSTlXUC9iWnJYNDhRUUZyOEh1NzVyMnZoaG85MHBu?=
- =?utf-8?B?QzI1Um10SzMwRlhQc0lLWFAxeDBKUWRDK09BTFAwSVFBR0RvM21xWTdmL1BL?=
- =?utf-8?B?c0lKclltYXBJSmNyaldhRlJOTWllbGVMWCtTa1A3dlh2MEk5YlZDYXdyNkU3?=
- =?utf-8?B?cytDMExCc1o4dnVWQ24wSHA1MVFpc3JsUkVwcjlxajk1STFrQjdLUW9vUHVM?=
- =?utf-8?B?aEZIcG1nMVQ4NEhyTW1oR3M4RHNFVFlxQW10cEdnOUNVMUwrRzlQVVJTenY2?=
- =?utf-8?B?NHpTWDNwdUl4cWNXUnNCMHRuZzVUTFp2Z3lSbk5HcmFuV0RtWWZFK2l3NzUz?=
- =?utf-8?B?clRrNS9ibEFvcEFUcmtJRm4rTGYrOTJvc3ZMQm9OSWRWYVVDVllCN2VGN0lG?=
- =?utf-8?B?MEJmNllNc0tnM0Y0T1RvTGtMVkNrSHNpUmo3aGJjZWs5R1F3RkROMjBiSk9v?=
- =?utf-8?B?TDVuSDZxaHlCUVhYV3I3dWFRQnRaRG5Ob3E4Tlh3ZG1oRE5oYndNcGtIVmhP?=
- =?utf-8?B?SUZIQWNoQ05oM1luMzQ4Qk5kVW5tbi9pYjBFZWN0UU1GOHA4LzI4dzF4aUtX?=
- =?utf-8?B?Z0pnQWlkRUZDTzJiV3ltSnZXYmg1VU5VUjJXQ1JaSWxIZUh6V1hGUUNQSXF1?=
- =?utf-8?B?ajZSUmV0cHl4MjY5V280OXJ3SW9NOFZHOUxXUE9JT013TjlIdm5YdjFsa1Uv?=
- =?utf-8?B?Z0o0YjdlNHN0OTNLRlRSUnZMWW4xdnNSR09yMkR3cmJUaHErNGsxcGNKTVpj?=
- =?utf-8?B?SUt6YzNHNmkxeUI2bWhGQ0VCeVNmMU5ZNytHWHBHVnRmdGRhK2NuNElmU3Q1?=
- =?utf-8?B?QzJWVEU0WG05a1B4ZmkvSXBvd2Jua3dJRGNLMENmUGFqclpCcWpHRm9xMmt6?=
- =?utf-8?B?MWlzWHpFK0VZcXNwN3EvRmJsbmU5NnRLeWx4K2s2YitVdnNpYWFjSGl2Wmhp?=
- =?utf-8?B?MWtmL3B0WllSVDZzVTBvM1p3NnFUTzNieWZuVVVxUW1BbVZaeFBSRHphUGx3?=
- =?utf-8?B?aEkzWmVXOHZJTWcwZnVuenBWNE91dnpHczh3UWlra29KWjgrVnB6K0JGK0No?=
- =?utf-8?B?bEFHSFdTcHo4QlpMcTRxUEpVRDlXR3Y0R1dxdllXSjBYUCtobXU5c3ZPK0Rs?=
- =?utf-8?B?MFNOL25nNkp1UWlWRWJiRnpOUUg2czRNMzFLai92NTd3UExtNGh5bi9pUmZW?=
- =?utf-8?B?azRQRTJyaHdiblU3Z0EzeW50dEQxRWZFbFM2TzZTc1lPNmUvQ3hYT0tQZGpU?=
- =?utf-8?B?enZFR1VBRGQrUVpwZG1CVUNSdUw1YUdDd2JEMVl2bHIwL0xvL1ZNME5Oakwv?=
- =?utf-8?Q?G3Z79mQErm77VLYm/siqh13/Pz5NwouapvgUj?=
+	=?utf-8?B?UjU4SjhqWEMzZFJXSytYeW91ajU5emNVZms5S21RV2J4d3hiWTR4ZmFFN21X?=
+ =?utf-8?B?V2tRUC9peXA1REtyVzdWUHNQZ3AvazBBUWVIMjFTenpyL0JHRVEzcTQwZjVh?=
+ =?utf-8?B?eEMyZElHNDhZRzFNbGpJUTlqWkxUTHRxc0V4bUYxVkZUYUVmSUtrZ0RwOGw4?=
+ =?utf-8?B?UmN0T3FUQ2g0Qis4a25wQnNwT0d4SUEyQlhTL2ZiYmV4WjByTUhNYlFTVmU1?=
+ =?utf-8?B?c0k2NzJYa3F0WU1VUHo1akduTjFycytxcUhiUVd4aTd4QTQvVHN0Sm5GTzdx?=
+ =?utf-8?B?enhvZlR6TjVQeTZvaGhOc1lJMzFTNHE4ZUVEZjBSVDJIc0tnYVhXN1ZkZThJ?=
+ =?utf-8?B?SjZGS1RSNEVZR0FrVGNTQk5xRng4eVB5QVkzd29BSWxZdmE4TW8wM3dndEcy?=
+ =?utf-8?B?ekNlcTVZVDRYQ1VZaWJGY1Q0c2FjOC9Sa04vQjNSTE53MDRnNy9xTmxySC9P?=
+ =?utf-8?B?bjZiTFdQYnZseHU2dXRTdXFiUFRocFNGQXNRenlyR0N1RkVtS0dSMFZ4VEtv?=
+ =?utf-8?B?Q2UwNWF0ZEZYaXBhVTRXeW9qeldnZ3dJN0gxeTIxSExGV2JsQUFkR05sUFhG?=
+ =?utf-8?B?RC83aHVNYVl3aTBJekhGd01YUHJwOVVVNWxTUm1YVEFKSXlGdGh1ejMxMFFO?=
+ =?utf-8?B?LzQrbXNtYmpWT2NpRlhKRlBONExXeEI2L1dzWmJPVWdGcXhSUzJrMVAvMkho?=
+ =?utf-8?B?TFIrQlpqSVdQaWZwcGRjUStrQUxEdHVNa0pPYUE3VzU5MWE5QTlCNFZUK1Qr?=
+ =?utf-8?B?UmFjTWNmQzNqZDBpOWFSTkkxSUpCNzRralBiMis4RjhIbFJpMDhkYTN4ZDQ4?=
+ =?utf-8?B?MHI0WEo2bUlDWXREdUVFUXhFSENJRXJGWmN3bklwVTloZ0FDN0hBMk54SVlS?=
+ =?utf-8?B?VlpIZzBlRDVpY2VXZlQ5MXlmUkpDSnVJb3Q4OHJWZ2p2bWdlMWRuYitqTUx2?=
+ =?utf-8?B?ak5JWmRqbUs2M2hFMVF4RUVhWnI0NnJCdG8zRGQ1Vm9CZVIydVJWb08zK3RK?=
+ =?utf-8?B?NTVvMHN4akRWVW55M05YdkM3THVvOGRnU1FuOU5mYzdUdzBJdFlmMWhKNjFG?=
+ =?utf-8?B?OVhyWGprVGR4TUpSUlJTRXpDU2t0RUtXY1FhbTlBL2JBZmxpajFLcHJvKzU3?=
+ =?utf-8?B?VklvOVpLV2ZuM3JhQmppZ3hQdForTUQzS2NMTzJPdTRLa2dMU0piWGc3Z01K?=
+ =?utf-8?B?clBEZ2x6b2dvWFI0cWFNQ0lCZS9zYTdHS1R4OWhJY0doODJhR25vVUxLMU1Y?=
+ =?utf-8?B?am1PTmxhZFFHZ2xLSTJ2WkhhdXNaQlZRclRLQnZoL28wQ2sydTg0RTFrVUlx?=
+ =?utf-8?B?akxJbDE2VUcwSHNQZys4aGRGbndsVDR0dkFDSGdSR3pkblE1U0xTOXpMVHFI?=
+ =?utf-8?B?WUs0TXNPaWxWN2grdDU2YXJqTmdiS255Ti9zYVRiS3B0L2pzTHkrUXlXenJ0?=
+ =?utf-8?B?SGEyYXNaUG50dmJaRnVqZ3RZZXJpS0pmNHhYSDR6MXdPSEd0cStja1YxdThU?=
+ =?utf-8?B?ZXBXQlNicERMdmJKS0NENVNzclB5ZXRiS1BpZDdSa0NKWE9JMUlDcUlTSHB2?=
+ =?utf-8?B?eU1pdWxQbzVhT21MMHdRQ0xBQ1A2MTUyUXNHZXBjRGdoU3RRUmJMOFUyQmxm?=
+ =?utf-8?B?NkRiVjFjQ1pXK2owOW43aWlvTExJTGlsb0hLT1NROU5ROFVxT3l5Y2RUZkpS?=
+ =?utf-8?B?S3lLdDFray9KbHp4TGJqZTR3VExMUEkrWlVZcXY3M1E5dUxjMnZYZlNUcFNI?=
+ =?utf-8?B?SkQ4TXpWWERXWWFCOGVVRDBmVUNPZzE1cGxRWWxtSkZYVGxRbEVOR2paK1Fi?=
+ =?utf-8?B?UWZOd0JxeVR5ZWJtNzNzNEFRa2IvSnprRVJUcHU4b3k2SjRpQzNiTTU5M3ZW?=
+ =?utf-8?B?ZGtjTE9ZcklOelo5VHJxeVUxa05HeURDT0l1MG8reGhEcklBbWExTWo3ZDNx?=
+ =?utf-8?B?dEplcEc1R3hTSDFEV3lCTzB6V1ZjeXhER2l1cEdoL2IzeWdUdFFTNy9aMFpX?=
+ =?utf-8?B?aFphV2NnRlZxVFAwYXFJVisxblZLa1dqZDZaTmpBRU5IaEVzbE5oSVVrYnpn?=
+ =?utf-8?B?MUZhL2RTS3lqQTMwemF5S1JndU11dXlOenpHNXR2dVZlZ3UrbUJ3bW5Zdjgw?=
+ =?utf-8?B?VS9sK3NqKzBLWFlJcjcrbWJQdzFvMVZISGtacm5UZ3ZuMGNpTGpBV0VTR2VI?=
+ =?utf-8?B?U0REdmUxZ0kyK24vZVFKMTEwY2pWM3FSTGFjTHlCMFpRWHU5ZlhUMVFaNHEw?=
+ =?utf-8?B?REhuc3lPTGVucjMrTW9RNndlZmN3am1wdkJFQUgvNUE2d0lrR2JzdkhDc0V1?=
+ =?utf-8?B?eHkzcXgxM0lIc1o3SDFOUEM3ZjBKaHBEdmoxMzVoTnFrblkvZlMvOFFKK0ZO?=
+ =?utf-8?Q?7gcpWQ6HjQ3KrV75Z07U8oKEF+EofDDr+YJ8n?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e88e8b4-00f8-414e-5d26-08df3f04cb1f
+X-MS-Exchange-CrossTenant-Network-Message-Id: b88a1e0c-368e-4d57-8da7-08df3f04cea1
 X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7883.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 08:29:53.2322
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 08:29:59.1946
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /2BBt6R81S4u0xEt6HHMk1NcjkA7eBvAR1rCTh6F6cMhDiwzBGLYCDdkFs7pHmfRvF3cTfqBrV/u/FbKvxgA84kjAR2AZtmviLLmL7uHoWREX5kUGa+oRhROj/oYfSdz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRZPR04MB12430
+X-MS-Exchange-CrossTenant-UserPrincipalName: FAjbUVFBOeWkeDWrz/lOMGoTzHiZZiSLxg0lTO4Arg39QuYhNFCm+verYecWtH83szWuKxfDoL/eek2tbbXp05iqYRNl8Lm7WgbQK87ZVcPViMOG1jinOUb9t74u9Ilh
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMDPR04MB200793
 
 From: Peng Fan <peng.fan@nxp.com>
 
-The SPI and I2C bus helpers kmemdup the static regmap_bus to override
-max_raw_read and max_raw_write per device and mark the copy with
-free_on_exit so that the regmap core frees it. This is the only user of
-free_on_exit, and the per-device limits can instead be applied to the
-map while it is being initialized.
+Convert the error unwinding in __regmap_init() to the scope-based
+cleanup API and drop all of the err_* labels. A dedicated
+regmap_init_release() helper unwinds a partially initialised map in the
+same order as the old labels.
 
-Add an optional regmap_bus::init_limits() callback which is invoked by
-__regmap_init() after the bus raw I/O limits have been copied and before
-the cache is initialized. The latter matters for maps with raw register
-defaults: regcache_hw_init() reads them from the device while the map is
-still being initialized and uses max_raw_read to chunk the transfer.
+The err label only returned ERR_PTR(ret) after the per-device bus
+allocation was removed, so the two early failure paths now return
+directly as well.
 
-Use the callback for the I2C and SPI buses, which allows using the static
-bus structures directly. This removes the per-device bus allocations and
-lets us drop free_on_exit along with the associated error and exit paths
-in the regmap core.
+regcache_exit() requires an initialised cache, so map->cache_type is now
+set right before regcache_init() instead of during the initial map setup
+and reset to REGCACHE_NONE if regcache_init() fails. This makes
+regcache_exit() safe to call from the cleanup path at any point. Nothing
+between the old and new assignment reads cache_type.
 
-No functional changes.
+No functional change.
 
 Signed-off-by: Peng Fan <peng.fan@nxp.com>
 ---
- drivers/base/regmap/regmap-i2c.c | 71 +++++++++++++++++++++-------------------
- drivers/base/regmap/regmap-spi.c | 64 ++++++++++++++----------------------
- drivers/base/regmap/regmap.c     |  7 ++--
- include/linux/regmap.h           |  7 ++--
- 4 files changed, 70 insertions(+), 79 deletions(-)
+ drivers/base/regmap/regmap.c | 66 +++++++++++++++++++++-----------------------
+ 1 file changed, 32 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/base/regmap/regmap-i2c.c b/drivers/base/regmap/regmap-i2c.c
-index eb3db02ad8fb..247dd20eb02a 100644
---- a/drivers/base/regmap/regmap-i2c.c
-+++ b/drivers/base/regmap/regmap-i2c.c
-@@ -12,6 +12,36 @@
- 
- #include "internal.h"
- 
-+static void regmap_i2c_init_limits(struct regmap *map,
-+				   const struct regmap_config *config)
-+{
-+	struct device *dev = map->bus_context;
-+	struct i2c_client *i2c = to_i2c_client(dev);
-+	const struct i2c_adapter_quirks *quirks = i2c->adapter->quirks;
-+	size_t max_read = map->max_raw_read;
-+	size_t max_write = map->max_raw_write;
-+
-+	if (!quirks)
-+		return;
-+
-+	if (quirks->max_read_len &&
-+	    (max_read == 0 || max_read > quirks->max_read_len))
-+		max_read = quirks->max_read_len;
-+
-+	if (quirks->max_write_len &&
-+	    (max_write == 0 || max_write > quirks->max_write_len)) {
-+		size_t reg_reserve_size;
-+
-+		reg_reserve_size = (config->reg_bits + config->pad_bits) /
-+				   BITS_PER_BYTE;
-+		if (quirks->max_write_len > reg_reserve_size)
-+			max_write = quirks->max_write_len - reg_reserve_size;
-+	}
-+
-+	map->max_raw_read = max_read;
-+	map->max_raw_write = max_write;
-+}
-+
- static int regmap_smbus_byte_reg_read(void *context, unsigned int reg,
- 				      unsigned int *val)
- {
-@@ -46,6 +76,7 @@ static int regmap_smbus_byte_reg_write(void *context, unsigned int reg,
- static const struct regmap_bus regmap_smbus_byte = {
- 	.reg_write = regmap_smbus_byte_reg_write,
- 	.reg_read = regmap_smbus_byte_reg_read,
-+	.init_limits = regmap_i2c_init_limits,
- };
- 
- static int regmap_smbus_word_reg_read(void *context, unsigned int reg,
-@@ -82,6 +113,7 @@ static int regmap_smbus_word_reg_write(void *context, unsigned int reg,
- static const struct regmap_bus regmap_smbus_word = {
- 	.reg_write = regmap_smbus_word_reg_write,
- 	.reg_read = regmap_smbus_word_reg_read,
-+	.init_limits = regmap_i2c_init_limits,
- };
- 
- static int regmap_smbus_word_read_swapped(void *context, unsigned int reg,
-@@ -118,6 +150,7 @@ static int regmap_smbus_word_write_swapped(void *context, unsigned int reg,
- static const struct regmap_bus regmap_smbus_word_swapped = {
- 	.reg_write = regmap_smbus_word_write_swapped,
- 	.reg_read = regmap_smbus_word_read_swapped,
-+	.init_limits = regmap_i2c_init_limits,
- };
- 
- static int regmap_i2c_write(void *context, const void *data, size_t count)
-@@ -203,6 +236,7 @@ static const struct regmap_bus regmap_i2c = {
- 	.read = regmap_i2c_read,
- 	.reg_format_endian_default = REGMAP_ENDIAN_BIG,
- 	.val_format_endian_default = REGMAP_ENDIAN_BIG,
-+	.init_limits = regmap_i2c_init_limits,
- };
- 
- static int regmap_i2c_smbus_i2c_write(void *context, const void *data,
-@@ -244,6 +278,7 @@ static const struct regmap_bus regmap_i2c_smbus_i2c_block = {
- 	.read = regmap_i2c_smbus_i2c_read,
- 	.max_raw_read = I2C_SMBUS_BLOCK_MAX - 1,
- 	.max_raw_write = I2C_SMBUS_BLOCK_MAX - 1,
-+	.init_limits = regmap_i2c_init_limits,
- };
- 
- static int regmap_i2c_smbus_i2c_write_reg16(void *context, const void *data,
-@@ -301,6 +336,7 @@ static const struct regmap_bus regmap_i2c_smbus_i2c_block_reg16 = {
- 	.read = regmap_i2c_smbus_i2c_read_reg16,
- 	.max_raw_read = I2C_SMBUS_BLOCK_MAX - 2,
- 	.max_raw_write = I2C_SMBUS_BLOCK_MAX - 2,
-+	.init_limits = regmap_i2c_init_limits,
- };
- 
- /*
-@@ -345,15 +381,13 @@ static const struct regmap_bus regmap_smbus_byte_word_reg16 = {
- 	.read = regmap_i2c_smbus_i2c_read_reg16,
- 	.max_raw_read = I2C_SMBUS_BLOCK_MAX - 2,
- 	.max_raw_write = 1,
-+	.init_limits = regmap_i2c_init_limits,
- };
- 
- static const struct regmap_bus *regmap_get_i2c_bus(struct i2c_client *i2c,
- 					const struct regmap_config *config)
- {
--	const struct i2c_adapter_quirks *quirks;
- 	const struct regmap_bus *bus = NULL;
--	struct regmap_bus *ret_bus;
--	u16 max_read, max_write;
- 
- 	if (i2c_check_functionality(i2c->adapter, I2C_FUNC_I2C))
- 		bus = &regmap_i2c;
-@@ -391,37 +425,6 @@ static const struct regmap_bus *regmap_get_i2c_bus(struct i2c_client *i2c,
- 	if (!bus)
- 		return ERR_PTR(-ENOTSUPP);
- 
--	max_read = bus->max_raw_read;
--	max_write = bus->max_raw_write;
--
--	quirks = i2c->adapter->quirks;
--	if (quirks) {
--		if (quirks->max_read_len &&
--		    (max_read == 0 || max_read > quirks->max_read_len))
--			max_read = quirks->max_read_len;
--
--		if (quirks->max_write_len &&
--		    (max_write == 0 || max_write > quirks->max_write_len)) {
--			size_t reg_reserve_size;
--
--			reg_reserve_size = (config->reg_bits + config->pad_bits) /
--					   BITS_PER_BYTE;
--			if (quirks->max_write_len > reg_reserve_size)
--				max_write = quirks->max_write_len - reg_reserve_size;
--		}
--
--		if (max_read != bus->max_raw_read ||
--		    max_write != bus->max_raw_write) {
--			ret_bus = kmemdup(bus, sizeof(*bus), GFP_KERNEL);
--			if (!ret_bus)
--				return ERR_PTR(-ENOMEM);
--			ret_bus->free_on_exit = true;
--			ret_bus->max_raw_read = max_read;
--			ret_bus->max_raw_write = max_write;
--			bus = ret_bus;
--		}
--	}
--
- 	return bus;
- }
- 
-diff --git a/drivers/base/regmap/regmap-spi.c b/drivers/base/regmap/regmap-spi.c
-index b9fec387997e..8eaebef07833 100644
---- a/drivers/base/regmap/regmap-spi.c
-+++ b/drivers/base/regmap/regmap-spi.c
-@@ -98,6 +98,26 @@ static int regmap_spi_read(void *context,
- 	return spi_write_then_read(spi, reg, reg_size, val, val_size);
- }
- 
-+static void regmap_spi_init_limits(struct regmap *map,
-+				   const struct regmap_config *config)
-+{
-+	struct device *dev = map->bus_context;
-+	struct spi_device *spi = to_spi_device(dev);
-+	size_t max_size = spi_max_transfer_size(spi);
-+	size_t max_msg_size, reg_reserve_size;
-+
-+	if (max_size == SIZE_MAX)
-+		return;
-+
-+	max_msg_size = spi_max_message_size(spi);
-+	reg_reserve_size = (config->reg_bits + config->pad_bits) / BITS_PER_BYTE;
-+	if (max_size + reg_reserve_size > max_msg_size)
-+		max_size -= reg_reserve_size;
-+
-+	map->max_raw_read = max_size;
-+	map->max_raw_write = max_size;
-+}
-+
- static const struct regmap_bus regmap_spi = {
- 	.write = regmap_spi_write,
- 	.gather_write = regmap_spi_gather_write,
-@@ -107,46 +127,16 @@ static const struct regmap_bus regmap_spi = {
- 	.read_flag_mask = 0x80,
- 	.reg_format_endian_default = REGMAP_ENDIAN_BIG,
- 	.val_format_endian_default = REGMAP_ENDIAN_BIG,
-+	.init_limits = regmap_spi_init_limits,
- };
- 
--static const struct regmap_bus *regmap_get_spi_bus(struct spi_device *spi,
--						   const struct regmap_config *config)
--{
--	size_t max_size = spi_max_transfer_size(spi);
--	size_t max_msg_size, reg_reserve_size;
--	struct regmap_bus *bus;
--
--	if (max_size != SIZE_MAX) {
--		bus = kmemdup(&regmap_spi, sizeof(*bus), GFP_KERNEL);
--		if (!bus)
--			return ERR_PTR(-ENOMEM);
--
--		max_msg_size = spi_max_message_size(spi);
--		reg_reserve_size = (config->reg_bits + config->pad_bits) / BITS_PER_BYTE;
--		if (max_size + reg_reserve_size > max_msg_size)
--			max_size -= reg_reserve_size;
--
--		bus->free_on_exit = true;
--		bus->max_raw_read = max_size;
--		bus->max_raw_write = max_size;
--
--		return bus;
--	}
--
--	return &regmap_spi;
--}
--
- struct regmap *__regmap_init_spi(struct spi_device *spi,
- 				 const struct regmap_config *config,
- 				 struct lock_class_key *lock_key,
- 				 const char *lock_name)
- {
--	const struct regmap_bus *bus = regmap_get_spi_bus(spi, config);
--
--	if (IS_ERR(bus))
--		return ERR_CAST(bus);
--
--	return __regmap_init(&spi->dev, bus, &spi->dev, config, lock_key, lock_name);
-+	return __regmap_init(&spi->dev, &regmap_spi, &spi->dev, config,
-+			     lock_key, lock_name);
- }
- EXPORT_SYMBOL_GPL(__regmap_init_spi);
- 
-@@ -155,12 +145,8 @@ struct regmap *__devm_regmap_init_spi(struct spi_device *spi,
- 				      struct lock_class_key *lock_key,
- 				      const char *lock_name)
- {
--	const struct regmap_bus *bus = regmap_get_spi_bus(spi, config);
--
--	if (IS_ERR(bus))
--		return ERR_CAST(bus);
--
--	return __devm_regmap_init(&spi->dev, bus, &spi->dev, config, lock_key, lock_name);
-+	return __devm_regmap_init(&spi->dev, &regmap_spi, &spi->dev, config,
-+				  lock_key, lock_name);
- }
- EXPORT_SYMBOL_GPL(__devm_regmap_init_spi);
- 
 diff --git a/drivers/base/regmap/regmap.c b/drivers/base/regmap/regmap.c
-index 0a7f73fc1101..c5acfe687d9c 100644
+index c5acfe687d9c..fdd538afaae4 100644
 --- a/drivers/base/regmap/regmap.c
 +++ b/drivers/base/regmap/regmap.c
-@@ -1179,6 +1179,9 @@ struct regmap *__regmap_init(struct device *dev,
- 	if (ret)
- 		goto err_range;
+@@ -1037,6 +1037,22 @@ static int regmap_init_format(struct regmap *map,
+ 	return 0;
+ }
  
-+	if (bus && bus->init_limits)
-+		bus->init_limits(map, config);
++static void regmap_init_release(struct regmap *map)
++{
++	if (!map)
++		return;
 +
++	regcache_exit(map);
++	regmap_range_exit(map);
++	kfree(map->work_buf);
++	if (map->hwlock)
++		hwspin_lock_free(map->hwlock);
++	kfree_const(map->name);
++	kfree(map);
++}
++
++DEFINE_FREE(regmap_init_release, struct regmap *, regmap_init_release(_T));
++
+ struct regmap *__regmap_init(struct device *dev,
+ 			     const struct regmap_bus *bus,
+ 			     void *bus_context,
+@@ -1044,29 +1060,25 @@ struct regmap *__regmap_init(struct device *dev,
+ 			     struct lock_class_key *lock_key,
+ 			     const char *lock_name)
+ {
+-	struct regmap *map;
+ 	bool fast_io;
+ 	int ret = -EINVAL;
+ 
+ 	if (!config)
+-		goto err;
++		return ERR_PTR(-EINVAL);
+ 
+-	map = kzalloc_obj(*map);
+-	if (map == NULL) {
+-		ret = -ENOMEM;
+-		goto err;
+-	}
++	struct regmap *map __free(regmap_init_release) = kzalloc_obj(*map);
++	if (map == NULL)
++		return ERR_PTR(-ENOMEM);
+ 
+ 	ret = regmap_set_name(map, config);
+ 	if (ret)
+-		goto err_map;
+-
++		return ERR_PTR(ret);
+ 
+ 	fast_io = (bus && bus->fast_io) || config->fast_io;
+ 
+ 	ret = regmap_set_lock(map, config, fast_io, lock_key, lock_name);
+ 	if (ret)
+-		goto err_name;
++		return ERR_PTR(ret);
+ 
+ 	/*
+ 	 * When we write in fast-paths with regmap_bulk_write() don't allocate
+@@ -1118,7 +1130,6 @@ struct regmap *__regmap_init(struct device *dev,
+ 	map->writeable_noinc_reg = config->writeable_noinc_reg;
+ 	map->readable_noinc_reg = config->readable_noinc_reg;
+ 	map->reg_default_cb = config->reg_default_cb;
+-	map->cache_type = config->cache_type;
+ 
+ 	spin_lock_init(&map->async_lock);
+ 	INIT_LIST_HEAD(&map->async_list);
+@@ -1147,7 +1158,7 @@ struct regmap *__regmap_init(struct device *dev,
+ 					 REGMAP_ENDIAN_NATIVE,
+ 					 REGMAP_ENDIAN_NATIVE);
+ 		if (ret)
+-			goto err_hwlock;
++			return ERR_PTR(ret);
+ 	} else if (!bus) {
+ 		map->reg_read  = config->reg_read;
+ 		map->reg_write = config->reg_write;
+@@ -1171,45 +1182,32 @@ struct regmap *__regmap_init(struct device *dev,
+ 					 regmap_get_reg_endian(bus, config),
+ 					 regmap_get_val_endian(dev, bus, config));
+ 		if (ret)
+-			goto err_hwlock;
++			return ERR_PTR(ret);
+ 	}
+ 
+-
+ 	ret = regmap_init_ranges(map, config);
+ 	if (ret)
+-		goto err_range;
++		return ERR_PTR(ret);
+ 
+ 	if (bus && bus->init_limits)
+ 		bus->init_limits(map, config);
+ 
++	map->cache_type = config->cache_type;
  	ret = regcache_init(map, config);
- 	if (ret != 0)
- 		goto err_range;
-@@ -1206,8 +1209,6 @@ struct regmap *__regmap_init(struct device *dev,
- err_map:
- 	kfree(map);
- err:
--	if (bus && bus->free_on_exit)
--		kfree(bus);
- 	return ERR_PTR(ret);
+-	if (ret != 0)
+-		goto err_range;
++	if (ret) {
++		map->cache_type = REGCACHE_NONE;
++		return ERR_PTR(ret);
++	}
+ 
+ 	if (dev) {
+ 		ret = regmap_attach_dev(dev, map, config);
+ 		if (ret != 0)
+-			goto err_regcache;
++			return ERR_PTR(ret);
+ 	} else {
+ 		regmap_debugfs_init(map);
+ 	}
+ 
+-	return map;
+-
+-err_regcache:
+-	regcache_exit(map);
+-err_range:
+-	regmap_range_exit(map);
+-	kfree(map->work_buf);
+-err_hwlock:
+-	if (map->hwlock)
+-		hwspin_lock_free(map->hwlock);
+-err_name:
+-	kfree_const(map->name);
+-err_map:
+-	kfree(map);
+-err:
+-	return ERR_PTR(ret);
++	return_ptr(map);
  }
  EXPORT_SYMBOL_GPL(__regmap_init);
-@@ -1513,8 +1514,6 @@ void regmap_exit(struct regmap *map)
- 		mutex_destroy(&map->mutex);
- 	kfree_const(map->name);
- 	kfree(map->patch);
--	if (map->bus && map->bus->free_on_exit)
--		kfree(map->bus);
- 	kfree(map);
- }
- EXPORT_SYMBOL_GPL(regmap_exit);
-diff --git a/include/linux/regmap.h b/include/linux/regmap.h
-index a72f17ab6264..161457726163 100644
---- a/include/linux/regmap.h
-+++ b/include/linux/regmap.h
-@@ -579,7 +579,6 @@ typedef void (*regmap_hw_free_context)(void *context);
-  *	     to perform locking. This field is ignored if custom lock/unlock
-  *	     functions are used (see fields lock/unlock of
-  *	     struct regmap_config).
-- * @free_on_exit: kfree this on exit of regmap
-  * @write: Write operation.
-  * @gather_write: Write operation with split register/value, return -ENOTSUPP
-  *                if not implemented  on a given device.
-@@ -610,10 +609,12 @@ typedef void (*regmap_hw_free_context)(void *context);
-  *     DEFAULT, BIG is assumed.
-  * @max_raw_read: Max raw read size that can be used on the bus.
-  * @max_raw_write: Max raw write size that can be used on the bus.
-+ * @init_limits: Optional callback to adjust the maximum raw read and write
-+ *     sizes for a device. Called during regmap initialization before the
-+ *     cache is initialized.
-  */
- struct regmap_bus {
- 	bool fast_io;
--	bool free_on_exit;
- 	regmap_hw_write write;
- 	regmap_hw_gather_write gather_write;
- 	regmap_hw_async_write async_write;
-@@ -630,6 +631,8 @@ struct regmap_bus {
- 	enum regmap_endian val_format_endian_default;
- 	size_t max_raw_read;
- 	size_t max_raw_write;
-+	void (*init_limits)(struct regmap *map,
-+			    const struct regmap_config *config);
- };
  
- /*
 
 -- 
 2.51.0
