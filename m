@@ -1,49 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794321954;
-	b=YBidINoJeGJJ4DRnHIlIVz0mdE7BzU5R7HDes1w9N3hrJ4KVX65swYHotlYOvsX2MFH8
-	 +S1ilVbGheynEhQwp1b7VNQOz4eiSAoh+tleKn0nES0YYkq4JCfqI8rIcngb3y855MrLX
-	 0bSPhHz+SX2zA1+TalM4RUjJftXMvA8DsiVoJlMxY4RF+rVWsQm4j2eJ6utNPbIrDkuLx
-	 ugmClQhPW++UV9uwcCMfV7R6yR+tMfYZtt52UdS1R5WjhvxVx9oATB2GgFCBj15DY+O3h
-	 CA0Bnr5y/R708nzOtAzLsjv2kt8C6Tnw+RQA4vlp1tV4QHVbwTbNxxPuW+B7CDCUylQ==
+	t=1794322550;
+	b=dsDblc8maMhUxWkIHBpiqZeo5+8IGtg0MoWm+ZIP5+Z+XlFpIhldJvamKbl9ZKYBaRWL
+	 ToNBSXUlQGRokO0hgzUgy3EsX8EC6EQ9kIF/LH1sp2sfsX59nlhCgUhzG3oVyMc3SL5tj
+	 n2S/id8K8YLv/zSLnYTAMnRs5YequrcX0ugiiIou37/s/3bUaqRFIJ8gkOCAbJWIBQSX0
+	 YTeEdJ09FCK0sQgwu3aOFkvmen0Rj7F5MKhz1X5UTe+Q4wfGAgadvG7f9LJ6BK87bA7Nt
+	 ucYJYVmWodKY91oVuYcTaZd36aj/kzKALSfM6a78YcAMKMyDP8cyddjgTFJ5GUEcCcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794321954;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=qB8QIbiIHt/Gn3tRmcosaPIBr7WjlDser9SvjhxhbVg=;
-	b=RAg9qSUhAPsyqny30o1BXllDWplMigBHa1NegoL4R/Vwka0aS4M4qAADehnANHOwQX1H
-	 asl/zrAVm+ZHb7BLlsV+PRk77HDnJSQSBzUvCEXxFo9DgOXw6vyem/BvvrTGHEt021dYJ
-	 Y+CGxOjFuFM6Sx+hLPlm4tYYwPpIzkOQ+Ce3Zi3KkQ430eywvu5QhCy41o7EoeuZ8+ifA
-	 GWfXR8v/S8B1/+wrPH6mzazEZUyAYknDjCIBx9yW/dMfmvBGsznUzKjb8gfbENtoan1Wf
-	 JgwupfSXfDvstfDwvOoCuZ2KS+QllBRB6EbLJ7FQRuY+KbaZfSpIKDFo29cgYn+X4yQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794322550;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=zSjXnOetE5oKa5v8S9LBrUhcmgizc8ch93AeD/W6gEI=;
+	b=sjS33hfS4+h+r28VKZdEwQbpSJqKu7nqrcUjvTo7k13tbqBXXDkMwcB9Lhi+Gnqt6lXl
+	 NdHzbCU+5mdYY6Ki6cI16KmUVjJ7QAgIuXLKpJqq0tumLjM0RmlEJaRG6paQPpCjRYeRf
+	 BS3Nl0udRY8OE/8GrjvZ9Y9/E3h77nJq9Mu1RfVtq0xmEKb6oMYC47Y3tWo9Iywzgusaw
+	 xD5VK4dOvXaHNJIwI+ncTJQ0IjauO5AULXxZbeLT8Cog5PcYU1rO4sWJiv27NEj3iDZ7D
+	 9VTJM4drB8h7jOinhSYG93VVnG+2dN2TSwNZUKqcNeWvPk6PmiCuWE6sgHNmQU9soUQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N+7JbBMV;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Tcwd7Q8/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AECA460A3820;
-	Tue, 10 Nov 2026 14:45:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32DB606A326;
+	Tue, 10 Nov 2026 14:55:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N+7JbBMV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7731F1F008A7;
-	Tue, 10 Nov 2026 14:45:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Tcwd7Q8/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D8D71F008A2;
+	Tue, 10 Nov 2026 14:55:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794321953;
-	bh=qB8QIbiIHt/Gn3tRmcosaPIBr7WjlDser9SvjhxhbVg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=N+7JbBMV8sLscENyAhJtuedyeQjMmFFgfeEAk1r0Z8wp78yUAcB/2gdxwhNetgCDD
-	 XdMN910RlK8ALS+je/3pQI7Rd8g9fhNeurI5F/+7etvJpx/+w8JMpb/xU4riKLQZ19
-	 bRgDr2AXCSFIOMXO7odQz5NjfuLDD1NsvKH25IVXQ/VJbwUCmLAJk0cjrrxeXI5Xrm
-	 14BsxL0q7oUwwIyOPEQC4Dc494C/P7R4Y8pMC+armK2CeJ/dWMmicLYp6WZ/r8/Bec
-	 2LPUVba54ndaOrmMuMl1L+/VlL+Edxnt5/oP3HQ/6WSSHWwzNlZt1J+8M3Q5h/B9Xk
-	 w0q9Z6JFwfcEg==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-Date: Tue, 10 Nov 2026 15:44:19 +0100
-Subject: [PATCH v5 1/4] rust: io: require freedom from plain accesses for
- `SysMem`
+	s=k20260515; t=1794322549;
+	bh=zSjXnOetE5oKa5v8S9LBrUhcmgizc8ch93AeD/W6gEI=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=Tcwd7Q8/BgCZr0AJA+q53XtkaEXHNBQAptcCIoE3INOkDT8T++JPLwFgnijhu6LIp
+	 QoJCfJqeBNhK26M7LL9xd4MzXxKVISVDOEW1cYrYEyBiFKRmR2hdLsioEex6m+2Rc5
+	 2AgfVzjCsuMDtAVvAKOrFX1qXAfAYeUYjVl2rownrESZ29DXkmWTHYRM7alPMZLQ6M
+	 DZH727vPlYTYzZb+oco6o/Bkhlk4m5LBSezhlvCb0bhHHiXIMbUlIMDObU3PIfYN46
+	 k7napT6YlagBuXnh78UDBF3WtFBwiJfcd2zG9H8WTZ7Zkc62YNaLopDBhwYuzfc472
+	 iPuH2WgxnRVeQ==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id B2761F40069;
+	Tue, 10 Nov 2026 09:55:47 -0500 (EST)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Tue, 10 Nov 2026 09:55:47 -0500
+X-ME-Sender: <xms:czDzahOxHA_IGoa_FJdwV0BFPQw-nSdKO6kKGUN5puCfrxj2G2sK_w>
+    <xme:czDzauxKYck9zKSqhpZaTHxPL9lIOi42MPCnrNTR7eaQqnpkmbe8dEx0PuhUogQkg
+    tb2W38kOzksOJlDJ4uTGR7-rkbiwtctKuF5oVtOm556TqS1yjjUw9U>
+X-ME-Proxy-Cause: dmFkZTE8jIcOTzT9axQiHwEjJScKTRkNH3ZVhgYbwXrBMnGwr/PZk5kUfGxy+RC0ezRM03
+    2Axgl1A3kstcvJQqQJ+tEirxS634eXBQm2b+wwk+7byJnMoEdYYw7Lfb7185Bnwoliq1Mt
+    XZ8lliUhOZ8AACZwbl4T2Tc7NYRy4GvnOujvSweRGBGAD4OQXGjTipshhA5n2cB6RQlk4p
+    zmTRFZMOMjoY8cueG7e24ndoN2R/gq/lSNUbCVZu/PUOrAg9f6aovYYa9SSKBBYGtgXYMN
+    0qbpFOi4S4kwXDcxuFcZlmK43Jt2p3+0W9uSzX8U3QJynW/odwma6a1hhpAbc8zEaSnbtk
+    CFI/IAk8YwHJ0hyg7qaH8oiiVC3V/1ZiobIhoPO231VrqQk5oaP4jl+jS7yMnBbNxynDhF
+    /tTsfxMaF/A9xwJBu4sKm+3lzwzMEEbqt79mE4Lq/VAgowI2/Z3gVdFMTE48DIB1KcUvAe
+    gGFx1Bx/tQmWXfeE09uUSkiQ2KYN+OrlgTMnrepjVRxO73rY2t7sodPh2AhJIAG1ZYT5ga
+    3nwb3G0mQrnmFOm4Qa4C2JwbajMdJBWMeam4uZKQraajbqcBHzCXvMtQm1fQbm3S2rexTo
+    KA6wW/vDabSoXlut9Nm5uKTSjp20eGQ9lpLOxOz31c8eLm8Mlp10sjOYDNZA
+X-ME-Proxy: <xmx:czDzaoanLMdLTFqhzMhrxv5H09chgFe3GMMhc1XBCkfiMJQ_ckta8Q>
+    <xmx:czDzauzWTK7EYc76X_4JSXvP7e9Yqejr2yggz6O-tuvCpsEWBQGUaQ>
+    <xmx:czDzasWQEDY8T3p3eaJhPzKDKFxYGPCQnFb1-n-prg7tBs3f0gJpWA>
+    <xmx:czDzaqbpJaYjvNkk5zy3xoww5EsXMA5_awnvU25FYCgSdhgQQ41Hfg>
+    <xmx:czDzavOKwCwywHfR1JNgdmNe33GAeUXrw31wmu_3YBRbMsucyl2ChD_t>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 7D2B9780070; Tue, 10 Nov 2026 09:55:47 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -53,169 +77,71 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-ThreadId: AKCAcWHxcB8B
+Date: Tue, 10 Nov 2026 09:55:27 -0500
+From: "Chuck Lever" <cel@kernel.org>
+To: "Christian Brauner" <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: "Jann Horn" <jannh@google.com>, "Chris Mason" <mason@kernel.org>,
+ "Josef Bacik" <josef@toxicpanda.com>, "Christoph Hellwig" <hch@lst.de>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ target-devel@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-mm@kvack.org, bpf@vger.kernel.org,
+ linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+ apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
+ fuse-devel@lists.linux.dev, linux-efi@vger.kernel.org,
+ xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev,
+ linux-s390@vger.kernel.org, "Linuxppc Dev" <linuxppc-dev@lists.ozlabs.org>,
+ linux-usb@vger.kernel.org, "Amir Goldstein" <amir73il@gmail.com>,
+ linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
+Message-Id: <47b8b8cb-aadb-4f84-aa5c-c5a74d73fac1@app.fastmail.com>
+In-Reply-To: <20261110-work-loop-pseudo-v1-21-4c998976c6c7@kernel.org>
+References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
+ <20261110-work-loop-pseudo-v1-21-4c998976c6c7@kernel.org>
+Subject: Re: [PATCH RFC 21/41] nfsd: use fc_init_pseudo()
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-page-volatile-io-v5-1-a91ef252c24b@kernel.org>
-References: <20261110-page-volatile-io-v5-0-a91ef252c24b@kernel.org>
-In-Reply-To: <20261110-page-volatile-io-v5-0-a91ef252c24b@kernel.org>
-To: Alice Ryhl <aliceryhl@google.com>, Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, 
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, Will Deacon <will@kernel.org>, 
- Peter Zijlstra <peterz@infradead.org>, Mark Rutland <mark.rutland@arm.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Lyude Paul <lyude@redhat.com>
-Cc: linux-mm@kvack.org, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
- Andreas Hindborg <a.hindborg@kernel.org>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6848; i=a.hindborg@kernel.org;
- h=from:subject:message-id; bh=Siw5eLJqotabo4QOvIdp7fN0xbzQlulA+dafqnLBH/o=;
- b=owEBbQKS/ZANAwAKAfpQKQiqxb3QAcsmYgBq8y37OtARtVww4XjAv40L0m0Z45DXmMaiHLLq+
- 6x2gsjXQ8eJAjMEAAEKAB0WIQRXitnI2WZ2JirAaob6UCkIqsW90AUCavMt+wAKCRD6UCkIqsW9
- 0ELBD/4vzQEimedxgnipj9APetdRFUKT1mPz+0I53BswuoS3vhHh4XYpYLYqD9nWpB91P6x5jEm
- 8qi1sefXrG4rQGcZGa8rZtKQv51YZqaPCkMOJV9eY2YAiMC3eezINvJT/rVQkN2cF+baPbo2X8P
- IGUEVJ+zDm90SKEhwZDzlZ8QHfgFJRiTEjmmnFAIH1mTyHYI4pm97yaYg/Fa3x8dzwBAFrndfog
- AZFVhOgpAYKH/EX39TvY/kyOE3zCGLL3ONIvGHXW3wfygI6e9U1sUDz7uhqSQsKCPmmDvWd5vtT
- 50tdcZ+2CVK7QrcorDCImPosf7ktSXEvP25xojplnoaQrO7dWwU4mrK/9yamfKBk3ZKDDZE5GfP
- AnH2DkMkISGYGwSKn/mPPTZAmWZg8npHEz2vV9mVouWLm6ztSn+XIejErfEbdcceQ5fG4yauvNT
- 2ngsviLQdUWeG4bZefLYF7GUVOZGOcEbQbSG+988U3Ih5dU7Ay6xUcS9uaVl9XFujbbH4OCwtnX
- jp5TU1XojDBfelG1pBcmhJ8O4BmF/DnzrGIEWjxF56kec/DL0+YkqJlqlBM0DqHQigSloqNZeiL
- Jj+TK97k7XFQR835HgG7wrYHGwRJDFouP0LRW8DNab6XqpwOAaPXVJCgjTdUqDWstmbzEosUQ+d
- jJtu07lzK1qRSmg==
-X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
- fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 
-`SysMem` accesses memory with volatile loads and stores and with the
-kernel's `memcpy()`. Both are well-defined when racing with hardware or
-user space, and when racing with atomic or volatile accesses from other
-kernel code. However, if they race with plain, non-atomic accesses from
-kernel code, they are considered a data race, and therefore undefined
-behavior.
 
-The invariants of `SysMem` only require the region to be valid and
-aligned kernel accessible memory. Nothing stops a caller from creating
-a `SysMem` over memory that other kernel code accesses with plain loads
-and stores at the same time.
 
-Make the requirement explicit. Require that no plain access to the
-region is performed for the lifetime of the view, define what a plain
-access is, and update the safety comments on the backend implementation
-to rely on the new invariant.
+On Tue, Nov 10, 2026, at 4:14 AM, Christian Brauner wrote:
+> Initialize the nfsd filesystem as a pseudo filesystem. This raises
+> SB_I_PSEUDO and also SB_I_NOEXEC and SB_I_NODEV. It never holds
+> executables or device nodes.
+>
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  fs/nfsd/nfsctl.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/fs/nfsd/nfsctl.c b/fs/nfsd/nfsctl.c
+> index f32311f2d7cf..ce2666deddbd 100644
+> --- a/fs/nfsd/nfsctl.c
+> +++ b/fs/nfsd/nfsctl.c
+> @@ -9,6 +9,7 @@
+>  #include <linux/namei.h>
+>  #include <linux/ctype.h>
+>  #include <linux/fs_context.h>
+> +#include <linux/pseudo_fs.h>
+> 
+>  #include <linux/sunrpc/cache.h>
+>  #include <linux/sunrpc/svcsock.h>
+> @@ -1375,6 +1376,7 @@ static int nfsd_init_fs_context(struct fs_context *fc)
+>  {
+>  	put_user_ns(fc->user_ns);
+>  	fc->user_ns = get_user_ns(fc->net_ns->user_ns);
+> +	fc_init_pseudo(fc);
+>  	fc->ops = &nfsd_fs_context_ops;
+>  	return 0;
+>  }
+>
+> -- 
+> 2.53.0
 
-Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
----
- rust/kernel/io.rs | 46 ++++++++++++++++++++++++++++++----------------
- 1 file changed, 30 insertions(+), 16 deletions(-)
+Acked-by: Chuck Lever <cel@kernel.org>
 
-diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-index a877df11a03e..3bc4be35e355 100644
---- a/rust/kernel/io.rs
-+++ b/rust/kernel/io.rs
-@@ -1452,7 +1452,7 @@ unsafe fn project_view<'a, T: ?Sized + KnownSize, U: ?Sized + KnownSize>(
-         ptr: *mut U,
-     ) -> Self::View<'a, U> {
-         // INVARIANT: Per safety requirement, `ptr` is projection from `view`, so it is also a valid
--        // kernel accessible memory region.
-+        // kernel accessible memory region that is free of plain accesses.
-         SysMem {
-             ptr,
-             phantom: PhantomData,
-@@ -1470,8 +1470,9 @@ fn io_read(view: SysMem<'_, $ty>) -> $ty {
-                 // SAFETY:
-                 // - Per type invariant, `ptr` is valid and aligned.
-                 // - Using read_volatile() here so that race with hardware is well-defined.
--                // - Using read_volatile() here is not sound if it races with other CPU per Rust
--                //   rules, but this is allowed per LKMM.
-+                // - Per type invariant, no plain access races with this read. Racing with atomic
-+                //   or volatile accesses from other CPUs is not sound per Rust rules, but this is
-+                //   allowed per LKMM.
-                 // - The macro is only used on primitives so all bit patterns are valid.
-                 unsafe { view.ptr.read_volatile() }
-             }
-@@ -1481,8 +1482,9 @@ fn io_write(view: SysMem<'_, $ty>, value: $ty) {
-                 // SAFETY:
-                 // - Per type invariant, `ptr` is valid and aligned.
-                 // - Using write_volatile() here so that race with hardware is well-defined.
--                // - Using write_volatile() here is not sound if it races with other CPU per Rust
--                //   rules, but this is allowed per LKMM.
-+                // - Per type invariant, no plain access races with this write. Racing with atomic
-+                //   or volatile accesses from other CPUs is not sound per Rust rules, but this is
-+                //   allowed per LKMM.
-                 unsafe { view.ptr.write_volatile(value) }
-             }
-         }
-@@ -1519,8 +1521,9 @@ fn copy_read<T: FromBytes>(view: Self::View<'_, T>) -> T {
-         // SAFETY:
-         // - Per type invariant, `ptr` is valid and aligned.
-         // - Using read_volatile() here so that race with hardware is well-defined.
--        // - Using read_volatile() here is not sound if it races with other CPU per Rust
--        //   rules, but this is allowed per LKMM.
-+        // - Per type invariant, no plain access races with this read. Racing with atomic or
-+        //   volatile accesses from other CPUs is not sound per Rust rules, but this is allowed
-+        //   per LKMM.
-         // - `T: FromBytes` so all bit patterns are valid.
-         unsafe { view.ptr.read_volatile() }
-     }
-@@ -1530,22 +1533,31 @@ fn copy_write<T: IntoBytes>(view: Self::View<'_, T>, value: T) {
-         // SAFETY:
-         // - Per type invariant, `ptr` is valid and aligned.
-         // - Using write_volatile() here so that race with hardware is well-defined.
--        // - Using write_volatile() here is not sound if it races with other CPU per Rust
--        //   rules, but this is allowed per LKMM.
-+        // - Per type invariant, no plain access races with this write. Racing with atomic or
-+        //   volatile accesses from other CPUs is not sound per Rust rules, but this is allowed
-+        //   per LKMM.
-         unsafe { view.ptr.write_volatile(value) }
-     }
- }
- 
- /// A view of a system memory region.
- ///
--/// Provides `Io` trait implementation for kernel virtual address ranges,
--/// using volatile read/write to safely access shared memory that may be
--/// concurrently accessed by external hardware.
-+/// Provides `Io` trait implementation for kernel virtual address ranges, using volatile or
-+/// byte-wise atomic accesses to safely access shared memory that may be concurrently accessed by
-+/// external actors, such as hardware or user space threads, or by other kernel code using atomic or
-+/// volatile accesses.
-+///
-+/// Accesses through a `SysMem` are never plain accesses. A plain access is a non-atomic,
-+/// non-volatile access performed by kernel code, whether in C or in Rust. A plain access that
-+/// races with any other access to the same memory is a data race, and therefore undefined
-+/// behavior. Accesses performed by hardware or by user space are not plain accesses in this sense.
-+/// Racing with them is well-defined, but the data observed may be arbitrary.
- ///
- /// # Invariants
- ///
--/// `self.ptr.addr() .. self.ptr.addr() + KnownSize::size(self.ptr)` is valid and aligned kernel
--/// accessible memory region for the lifetime `'a`.
-+/// - `self.ptr.addr() .. self.ptr.addr() + KnownSize::size(self.ptr)` is valid and aligned kernel
-+///   accessible memory region for the lifetime `'a`.
-+/// - No plain access to that memory region is performed for the lifetime `'a`.
- pub struct SysMem<'a, T: ?Sized> {
-     ptr: *mut T,
-     phantom: PhantomData<&'a ()>,
-@@ -1570,8 +1582,10 @@ impl<'a, T: ?Sized> SysMem<'a, T> {
-     ///
-     /// # Safety
-     ///
--    /// `ptr.addr() .. ptr.addr() + KnownSize::size(ptr)` must be valid and aligned kernel
--    /// accessible memory region for the lifetime `'a`.
-+    /// - `ptr.addr() .. ptr.addr() + KnownSize::size(ptr)` must be valid and aligned kernel
-+    ///   accessible memory region for the lifetime `'a`.
-+    /// - No plain access (see [`SysMem`]) to that memory region may be performed for the lifetime
-+    ///   `'a`.
-     #[inline]
-     pub unsafe fn new(ptr: *mut T) -> Self {
-         // INVARIANT: Per safety requirement.
 
 -- 
-2.54.0
-
-
+Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
