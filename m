@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.83.28
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.51
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794299384;
-	b=dlbfykLzD+v2gtoJpz3Tp9Cv6E3NDDaT6Fscj86UoWsZT/gqnzXGclJGIyDu3gtXj59Q
-	 yw36oty0NqEi+XXYzG7VIlpItLVLWRgrphHZrayeudq/0twwkwlYN3y1RCT/2tNtJeQXL
-	 SG930DXWG2n0l2+encOg3T7lVbUAwMAJn672dEUIOpzIN/7wVz/kz6Bqg7JkhMDYN1PMZ
-	 gRWVlQ71NQFwkdktwEj6VcMwbIpf0RjeJGNqHuo5e3MbVDRvFCPPHDfACe3wbl1fRPtCZ
-	 A/4mvAw0kHEw3gegkhjQLLkvDUan8A1D+BG0rM/6KJUXbTq2aV+mZbpR99h4Uv/pNrA==
+	t=1794299390;
+	b=kurxCx++kLdEnVG89Q6vR4wxDJuo12rGLDE9OaZ6JpALzO8ZNdB1zf0yteMJ/MJUL5c9
+	 GWmmUQQau7N7S+AfZe8S5z/pQwIboN/wWsVuWoUmDxA5MiHMcz8oUFLYhww/rvTf0Y2oZ
+	 s4fM7QC2HdvrHS3g5RPYSmKWKEe1U6lpkOEat13ub+rgkDaHNPnuu7SZtKPervica5Sm5
+	 HrTCRvnyYq8lJQNZi7io2xmLGqIaPdIhFpHDYAGgjO76PyPfoOaXjw0ojcWju6xyo5yUW
+	 LKk9AzcNeT7jPfddl/DBca7DzokZu+hETL+wStJPYtiNdgnNen9YTdK1H42rPzHOxTA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794299384;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794299390;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:Date:Subject:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc:X-Mailer:X-ClientProxiedBy:MIME-Version:
@@ -24,60 +24,60 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=c7hX6NPgiMXkbw4vHpOvki9EzCcN+XMYXKmh6avnXro=;
-	b=QLQSQOyMnxrmZZ+/KEKF1tWE/KWdz7IYnPABmoBEtmD9NoH7Aq8WwONhl+Qvo1GpBXLw
-	 Zoi5EzzJ71rZ60R/5GgCaOpd+d5YQSVsBQL/CEQa/JwPl/J6PxoqXR3ZEvylOg1IwZeJN
-	 A019CnJTaW9IF5VdTK6xbNYKAbiUOp5Yg6Ko+XafX3/a13v0/Ke8ytW1QUwJpOeOzb/Bf
-	 kUHNxZvSYr4fQomlSrSfQN2e9fZA+yNULrWpuL+5a88PfWW9qn0isI2s3ME4mrJneW/b5
-	 fEyXKIvFztOUoRYeOtXMcG+t1uGmQJzsds3yVeXwBv0/xbzzWL8G6NektZYzPslhpEQ==
+	bh=JMuK+U8PPfvGUEBA3srhP7KUZLvN6AL+8PVRQZQs2ik=;
+	b=tBk8U87eACuM5EU8/WDeypPPnIE2qjeGg1Z8G7qZ9t8KmOWvGQcqd1WivORUQaH/6kFM
+	 lyFv5aCEFGHNOUa5SJOJ5oYfWQnm1M9vmfBCCxHZl8EzyfbDq3BrR/T5AbsIYE0g8t0cf
+	 o9Q7Bl8DYEn3tLNxm1RKxm4zA96MrqDXJnHii8269OUCcQE/WGRXTSObjjY6d7Ab3YbHb
+	 hnUgfukyT7r+JCB48PYtNVbbiP9vG84j6vL4QIOiQ8S40ytoj3nKg3GeBfhogVeCU5Zcp
+	 6EO3mvAJcNaaWXoF72tnB/TdceoWFy9SJ1UwVFktoNeYeNB141YxXWRTIB6ic9tUeGg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.nxp.com;
 	spf=pass smtp.mailfrom=oss.nxp.com;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=GqITv5PV;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.83.28
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013028.outbound.protection.outlook.com [52.101.83.28])
+	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=stmShxRG;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.51
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013051.outbound.protection.outlook.com [40.107.162.51])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA9660A2630
-	for <driver-core@lists.linux.dev>; Tue, 10 Nov 2026 08:29:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ADA9660A2630
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05194606D023
+	for <driver-core@lists.linux.dev>; Tue, 10 Nov 2026 08:29:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 05194606D023
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=GqITv5PV
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=stmShxRG
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vbK/1NKFg83IcNj4nlUVkdQycHcaU45os0hVt2GsDJhRj6CPTJSHPTwH2N0PS6ZBmObFqoFPuLCPMWoHu0Qur8MctcvyI5EKS056NKOqpjXTAiVtsEZE+KefdoHTglYXgOCR8g73t8Xh7bdWbV/gM22bfUX2haNCy8TCp5tRKccsy5XuFOYc3TSTwvRJ1SGe8um06lGtzDOneX8nHehylMphqBskt9QhYqkQp5lJ3GMZt+8jwKqFv/teseO0kr35R36xEfw0E73UfIEJFd4+kpqy9VmBZsIueAsUvN5apj6QcG0yuCGZqSNw2DBIipQrJD72Q5xvmEKB/gVbUySmFA==
+ b=wo6gH8+yj6kzH8DhkE5QjT6dR7SYG54dDsY3oxo0OsCDQMbxYOZ3Nkgaz1fullFakbk7xPI5wTGXhwb/biwkEs7t/cbdlgNsnpM2UMxFYomDWNttaPyUkDxlFoYmK2Sj1xo1XDcn6BxYB2l0qh6aAP7/2yAOeXyxEGvNpdDc/jlF8fwcmvkGgWL1cXDGAuKJqn1Apc8EtOZ/zH1sqnKj3fj03EQImQiEHcTaUvZfmzs18RlgDel3buOzBHsLdvNtFPZ34aLT0JEBtDy8ugBro26oOUhkJeyGNFxuSRcZCWPw89fJvySPXj76DLTvKMxCmjg+SIWyX5TJ/paRl7p5vg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c7hX6NPgiMXkbw4vHpOvki9EzCcN+XMYXKmh6avnXro=;
- b=eqI3wRYwoY7a2AgY9ZbvQA4Ye1Jro5duRBBiBn5e6JvY7kMfyDI9yeiIq5bSz78SDbuxVI6ls7ZMIxEP6W2UJ2J/3xyfS5Qj8MWf1aH8kfj80z82OL97WGzj5hD8+nA/20PPMa8DyLLqskSUbmHyyzVumbcYX75A31L86ueT0tcwjndDHbvfWk8jg2K6P5NF8xXrOHpb21yCvuPIx/K5uZhrDQ4+/Wp6RZZtvN4K/GnsrXY42l63cicuTgDXOBEFsej+ObP05WLlenb47HOv2flJOFcLczkr+/DpYmOtbd5KYlKdEpRhb0xRd1+lC7/kByYDHkzA/wFSklDUzC+8ig==
+ bh=JMuK+U8PPfvGUEBA3srhP7KUZLvN6AL+8PVRQZQs2ik=;
+ b=JSb/eY0GLzYBayidAmksFVEgEiRxGz4ZeCZNaPAbvjZdY9cdKfMOk3zgM6rG9nQgl4J1S/oXRSsNsdk5cKLbAyyFNW3kAIlwQbsIzSKefkIdlFUsdiBN48P7w1flYovXoBJnYjvSdVNbYE+BUOrq53Mx262v/4SfHkxV0UO4HF5rip8R5uaTCxNoY5ejgo0wGZgZEagjzV424LNW7mKUDadRN3RZ+fDiaY/T8JORWRO4Eg445oLjL8MJ1I4hklHtWwNgtoaIOyvA13KDnPKuYjfWVo7f7xCKmPIMzVo6PN1ki/AycojWrd/pW5sTs6YeU7+gdHHI6frgF5027IjPQQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c7hX6NPgiMXkbw4vHpOvki9EzCcN+XMYXKmh6avnXro=;
- b=GqITv5PVzoY0JUq8T7Baxaj88DNoVHGTtISeK8uHQTI9E2oc7F71OdAJ0iS+xD3gj2qYsNrfm/tVLF4ERpb4SY2C6HluODEm/HQBjiWOvKTHffcqObt6/Hlvrdl9lS1AenxQ3cVZoJXWdYZcwMVnBQStpBamDv2SUv5ui2LlavWpsVGsTTiovnwJ9eYMGXdN5bNUAjWRo3ebDZ1Z4AQBz+8912QpSkTj6FyIwus0lEDsNDwh1Ccqo8b7cUfA2Jp7MwWrhogNNls+ZJFk8dmiUeP5U6O6hs+DjnWJVa3KQ9uLEb4+Nl4oY5h/63tewrN8yQ2ylAUoNfp73L1ZGDvIrw==
+ bh=JMuK+U8PPfvGUEBA3srhP7KUZLvN6AL+8PVRQZQs2ik=;
+ b=stmShxRGK5R1PVuofiF07FEy7SubCm8eu8wvBLBOVSJzphegsj6iIVNYSYzlbOru0S9d1cVwVRtHLpxvKm6J0I8Vk855ym1LUc0OnfASUUO2Dhd1ttWacMJ33JyhOKai1K95z6VhjjoBQAjUYwYvIYFLYdedHcwSr7/SnPFIRe+vNfKai7BlaLNUFd3InJoC5H5g+6UE8oBAIFyXSPRiHZP21aJcrEJlEpy6cQQxGwKlPlsgxzGhlcAZIfTEVT+4e7pyOWH4Whf4D3Y5LR7MjGgG4gjM35b6XLVxmp1NTPDFiIAxRAU37vS7HJauFLZqABMAzEWvl6vmM4zi/EH+nQ==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from DBBPR04MB7883.eurprd04.prod.outlook.com (2603:10a6:10:1e9::23)
  by FRZPR04MB12430.eurprd04.prod.outlook.com (2603:10a6:d10:1cc::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.13; Tue, 10 Nov
- 2026 08:29:41 +0000
+ 2026 08:29:47 +0000
 Received: from DBBPR04MB7883.eurprd04.prod.outlook.com
  ([fe80::3a91:cf25:36c9:c3bb]) by DBBPR04MB7883.eurprd04.prod.outlook.com
  ([fe80::3a91:cf25:36c9:c3bb%7]) with mapi id 15.21.0592.012; Tue, 10 Nov 2026
- 08:29:41 +0000
+ 08:29:47 +0000
 From: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Date: Tue, 10 Nov 2026 16:25:29 +0800
-Subject: [PATCH 5/9] regmap: factor out regmap_init_ranges()
+Date: Tue, 10 Nov 2026 16:25:30 +0800
+Subject: [PATCH 6/9] regmap: factor out format initialisation into helpers
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-regmap-improve-v1-5-3a76b6c10ec6@nxp.com>
+Message-Id: <20261110-regmap-improve-v1-6-3a76b6c10ec6@nxp.com>
 References: <20261110-regmap-improve-v1-0-3a76b6c10ec6@nxp.com>
 In-Reply-To: <20261110-regmap-improve-v1-0-3a76b6c10ec6@nxp.com>
 To: Mark Brown <broonie@kernel.org>, 
@@ -88,8 +88,8 @@ To: Mark Brown <broonie@kernel.org>,
 Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
  Peng Fan <peng.fan@nxp.com>
 X-Mailer: b4 0.16.0
-X-ClientProxiedBy: SI1PR02CA0023.apcprd02.prod.outlook.com
- (2603:1096:4:1f4::19) To DBBPR04MB7883.eurprd04.prod.outlook.com
+X-ClientProxiedBy: SI2PR01CA0018.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:191::7) To DBBPR04MB7883.eurprd04.prod.outlook.com
  (2603:10a6:10:1e9::23)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -102,183 +102,287 @@ Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DBBPR04MB7883:EE_|FRZPR04MB12430:EE_
-X-MS-Office365-Filtering-Correlation-Id: dce18149-244d-41e0-633a-08df3f04c3d0
+X-MS-Office365-Filtering-Correlation-Id: 0573a070-a6c0-4f94-c9ff-08df3f04c7ad
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|19092799006|261009223027099003|10067099003|261028144727099003|11063799006|261021135927099003|56012099006|261021121427099003|261021123027099003|261022105027099003|261026140227099003|261026121527099003|261102123227099003|22082099003|18002099003|6133799003;
+	BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|19092799006|261009223027099003|10067099003|11063799006|56012099006|261021121427099003|261021123027099003|261102123227099003|22082099003|18002099003|6133799003|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	ug7+ZLJep+zA+IgP6zk86todTVbSCpXvHSogDm2d1ZGGAh50yHKVKihuN2c0AihlH1fXZBRWwIycFaMplXxPxvHweAzARWj0BxDJ6TkbmWQRgay2kfb9xb/UX8mQoYa4Bq6mDdTPrXP50BklaekfXWpbuRKKK3H3ABd5uGKAsDv8UbAEV0PsG3fdPGbh+8XcQhsGA625NDroamMQeRC1pOrwJhIjGEfMRxIVJo7VqZl64u/foE4eXll1hcQWPiHNZoLoQcqiy+AJf30ixcmIjHW9UW0CBLc5Eng2v60ql/DHSDlsuqEBUyA9qdAOnOFD9TzP1He61MD6nTlrVK3D0NeQsU+iIC6jGDUjhzRfSmvgdDWrnt/uDHJl7bVWkqD61GyER2Mig6jukSuxaaTnflZT6v9Xyp5IdGt92CRe9ihWRSIT7CBtEtUZzHDCvPiGd8hRNcDLIfxVue0QssAxyjatNYJ1glZj0t+iej5w1b5cKCpbRrM41PhH7OxjmmWLzPWj3vJtbWyd8EJqXev8nW5Y18mTxcBQRjOQn/BgoO4RYQ8FbGFtQyTQ0ttURgLiLpN89DpT08nLk1eCvEjt+8ZEuLZXnrC+JVE/Ju3mL+31XOcsXWqzLfJbj6BGkQqRdQiL3L/7WfRsXVpfEJxayN/td2KUBG23AM7I/F55nA4=
+	+XTNAoAYHWsncPoMyqYMJHoltGiH4Ff/sp5GNC0KhXE/C4t8Qs+dkqr8mvZOIquJMo4SVu1osJP2HAfxlcKEPzGso5zcb/DIRJxU1cw/rSiUCmEckkxZf7sc6PJEdmUMWz9Z5JM2ZnY1jBKqUbCfaKQH8ADkyWDmrrFhXokMxVlPwzOlMELV6wQriWBCJJ35fn+PBJ3dsnbtrmijIKAu5HhDDN38sGKHT5aAmpMjjzv2OICEqzwhzzF9anPPPOGdpzdBgCJ55rtx8RkkiJF7DkmCbo29eBbvTFUC7pJ7LNCToawNKV6KZgOut4Y4TMvF9zAg9G3ZHttdZ5rs5QUygSM+0WJDjjt+QSpLYML7taMs9pVr+QScniYqiCcAlNyU6TMu2uGMuCQsWYYW/Bnosz2evOBek2TaK2E9EWA57i34vQOr4T7NKK7mG+Um87A8iRpvkR4KXG1tQqBJDw5v4tvRVUxR3nN/VWW0Ue6sZEjqyLlbOhGz4KcatMlQt2JAwuV/Es1ZVBSi5ewO8db7PMuwF+8GK4tyqhynjAhDOvFz/1kaf+5z2543+cQumXthOAaKgIiEBruU5Rj4Xyl4JrF9BPqTEr09GxuA5Ej5Sj0nSOZczpkC/mucFfqfe4zKKkpT6gvA/u4zGFrqayiYkMYKl/mrLUkqQf246FJDk4M=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7883.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(19092799006)(261009223027099003)(10067099003)(261028144727099003)(11063799006)(261021135927099003)(56012099006)(261021121427099003)(261021123027099003)(261022105027099003)(261026140227099003)(261026121527099003)(261102123227099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7883.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(19092799006)(261009223027099003)(10067099003)(11063799006)(56012099006)(261021121427099003)(261021123027099003)(261102123227099003)(22082099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?R0lKN3ZFMDhuRGhielFieUlxKzJvSXNiR25UdjZWN1RJSyt5V1FONC9xYzd0?=
- =?utf-8?B?aW1tZ0NiVWZ0dGh1anpqdUQySjdwYlhKcy9JMGNPcXhvWU0zMU5NdkNvU3E1?=
- =?utf-8?B?QW5lM0VDNGVuVGhtNmtHNDhxTlhGRVd2dU51WGh0WWFzUUF3Umlud3BrT2hs?=
- =?utf-8?B?TE9lR1U4KzA0YldWbFp5OGJtb0hKdXlBVGl6bnZJNWNjcXdxM3FGa2xjM2dt?=
- =?utf-8?B?YUpWVUNyYk4zZnRCRWxEMUU5TzJ6SnRrdGc1MGtNY25iUFAycVJ4SER6QVE2?=
- =?utf-8?B?dmxKb2taVzk2WHVuTHN4aDRqMWIvMUdOZTZBRVprRnhJVVpIWDV3UjFLQnVR?=
- =?utf-8?B?NXFFeFV3ZHNZVHpmV2U1WGlJdXdZOXEycFZtdmRISElXb0hUd1drMUtmbGJx?=
- =?utf-8?B?alArR0ExVzlIYi9jaDdsRVNkSmtGM2xHVDBNc01meTFWMUdWbzNkZkV5SHZC?=
- =?utf-8?B?RnAyWVhIdEFaZHlYTHgzb1NPVU1QYndENW9KRTY5N3d6a2dGYXpHbU1kZ3Ru?=
- =?utf-8?B?VHVVQkptcUlnWHZYTmlKaUdycTN0Ky9aUjRxb09xVExxRDMyd05GSmprbm1N?=
- =?utf-8?B?OThnVkxkL2ZoUTMxQVhNdE1zN1VJRm9tOU5mMXhwRWMyYXpVNlE5Si9YS3ph?=
- =?utf-8?B?TWFvQW9WRUd5ZVJpQ1JFRytVRm8zc0MvYkhhVTN6elVSMUlqQkY2bU9yeUFJ?=
- =?utf-8?B?a0wwamxscTZYajMvMXVKVXd6WjZwcC9XeXA5VU1MYmZ0elEwUGxVajl3YzRl?=
- =?utf-8?B?bFIzQUZKTWUxRzhPTTJHUGNsYjNVUHVSNlJkdTQxUnRocGtWQXJjM0g3dmQ4?=
- =?utf-8?B?VXc3QklxY0trcW5DSkRXZFQxMTNlQlE2NWRCRmRvWGJ3SmZkZG02SFN0dXR0?=
- =?utf-8?B?K3Bid2dkbnh6dThoZjk2bGlZSGo5NmtGQ0E3b1IvYnZ2OGpUTlZ0TnJoVkpH?=
- =?utf-8?B?UmFoVm9JaDNBME15YmZrOVdmZnFQVUovbXR3YVQvR0tnSTA3NjRlVVdhUW9j?=
- =?utf-8?B?NGJqRStlM3dIay9LMEc2MzBYdExWYURWci9rQXpic1cvSnRxR1RLaFU0VXd5?=
- =?utf-8?B?Um5sNDlYSXc1MXNNR2lER1lGNUxHbXhSdDd6eUxaL3AyRWU4Nkxrd1dUalQ0?=
- =?utf-8?B?RlVaMTQ2UEQ0TVJvbmhQNThpL1dwbmsyaVMycWw2ci9YUTdkckkvNnMyU2cw?=
- =?utf-8?B?ZUtkbExZSzZBcU01ZzVZN0RjME91L0FCZVdrd1k2eVdzYW1VS2dtYm1pdFNJ?=
- =?utf-8?B?ZVA0NUVsNzJBSWZaQm0xWTZtakhpUFpOa3ZWS0FLVFc0QWdjUG5qYmFLSFBr?=
- =?utf-8?B?bFdMK0hkdm9OZVVGUm1BT2o1NkJ0NmFkK1dLZ1NCYkhncjRUU0FyNXpnVm5W?=
- =?utf-8?B?VmFETytSVUpvQVR4L3E4eHpMRHBPL2Q1RWh1cFFzVDI4T0hTcytSRWVWbHVG?=
- =?utf-8?B?VWFuLzQvS0w0MjVYRHkwNW53MHBrREI1ZDdFVXFZdXhBblJXUDRmcVR6VVpC?=
- =?utf-8?B?bFBuYWJjS1JDM0V1ZzZIbWFGS3ArL1N1SE5YUWhrWnNIL2hIbjdvM2d2NWtP?=
- =?utf-8?B?MFU0azFscHJMVUYxT05yS1l5Z3RhM2xpdWh5dTMzNS9IYStiTGhmUWVsTlBl?=
- =?utf-8?B?dE54M0ErNE5TN2wxc2lFOE9BRkJTRFZibFlFVEhWdzI1anh0eHhPMjdvNkk5?=
- =?utf-8?B?QzNPbnRIcGhIbDVsbmhtRVNwcHZ1WmhMUVY1UUJXZUxXR1hzZk8vUVJLMEtU?=
- =?utf-8?B?OXBLbEYydEQ2V3UrZWxBZGUvQmNvUkY4anNXYXBkUnBCM1diNm9CTHkyS3U1?=
- =?utf-8?B?TnFQWnNOVWI0TnlrNSttMGh1THNFZ2YvRW90VW53WXF1OVlibmJrQ2VMcjB6?=
- =?utf-8?B?U1l6cFhUd096WlU4N2p1cEF4a1dyMytaRDBZRU5WVGs2UjRpeXZZcUM5RFdQ?=
- =?utf-8?B?TjkyNUxMcFhCMzhobGpyWmF1VGcwQVp6THVCcVA5OTlTY0NWSWxXbVd6MmEr?=
- =?utf-8?B?VUVBNFdiM1Q0Z25DWHU3VndLbFlBTmhlL25SYWtTVHVheE5yK2ErN0s2NnN0?=
- =?utf-8?B?ZGprdjlxNzBpSW0yVWZIekU1bXVvcGNKTzNZQkNON2lBN25zWTFQUzZOU0lI?=
- =?utf-8?B?QXh2WnVjTFViVlNpUjNock5tbUtvUFc3eTRsVVZzdC91NEt6WnZTT0lHL1Jj?=
- =?utf-8?B?WmlIdG5NRUUvK2ozeERkNFd0WElTQjV1ZEFVaGxuQklYcm5KS1lWcW9iOTBZ?=
- =?utf-8?B?UXJSSXJMWUQvUlQ5Z3VxdWRWZzJsQ3lmZ1JIZ2dna1htcUV2QUlTNnhRTnkx?=
- =?utf-8?B?NHBYQXVZanFHenVMYlNyT1dBOSsyNXBmTmg0MlhIV0ZaQloydFV6RXRsaUZt?=
- =?utf-8?Q?LfJNPNX2CleL5tuRng0e8V37f1nUTcjNUq/eu?=
+	=?utf-8?B?Sk1scktkQXg3UzlHZERmRThac3JmZ0tTT2VlT1JVWG9OUnlYeENzeXdkRXFz?=
+ =?utf-8?B?aWZPbVhEaHpxbVRWM2puNVgxYUVQMUo3ZDI3cE8zZ3NDZWloRzFnR3M1dzZQ?=
+ =?utf-8?B?eTd4VjY0N3g5UVZoemVPVHdiNFhLdVBKT2M1elRQTUF1cDVrKzNwY2phQzZY?=
+ =?utf-8?B?N2Z4Z1V0OHJSUzV6MjN6Uld0WHhIUEIvQ1UxNXE5WnNuVml2T1pnK3YycXhW?=
+ =?utf-8?B?MUlkVDUwckpoZW1Ybm9YT2dIdzR6cGEyKzlqWjRQV3hJNG5ZQ1NpeDhOMWdj?=
+ =?utf-8?B?amY5dWVVdk1yVGtMMUc2bTk1UjQwOUdlNThHRkJtNXgva281ZVY5dXh5cmRJ?=
+ =?utf-8?B?Q3dSWnNma0hzT1l6L0NjMlBINGRjWlZGNkNiR3lwZUFPcmh4aStiRkVpWnN1?=
+ =?utf-8?B?SDNUTXE0UzFodklPeEhqVFE5RGVIa2cyRXJsd2FsOGgzbEMybFhSd3RvamVz?=
+ =?utf-8?B?RnJIQ0hWa2NvTk8zdjV0UCtCQm8zM1MwTW1ZY0xLUmhiWm9rRHlPenFjQWF4?=
+ =?utf-8?B?TzFTM2lvTUw2bXNpTW1nQVFRVElMVzR3UlB5QmU3ckZ5T1o2bmtEaWVjKzFn?=
+ =?utf-8?B?T2VJb0k1VTJyS1hzZGxZMHkzeTg5TjdIYlpYYkhNYXAxSUt5di9nU0xEQmRt?=
+ =?utf-8?B?d3MzWDVJUStJcE1Qb2hiTERTQ0NjTVZuSzNZUzlqLzFLd1orQmQwMFdpTmpz?=
+ =?utf-8?B?b3BTL2grVDRRUnQvYlNhTDB2ZlNGYk9QRXBVWFFEUTRZU1BYU28rRkNKUm5F?=
+ =?utf-8?B?eVpKRzlBZE9MaWo2ZmVqdmNQcXR2WXVQOXNkaVYvZ3BuakFNQzRrVmx6RFhG?=
+ =?utf-8?B?enY2RVJDdW9Vc1FyaklqRVc2LzkxZXlTdVBqN1ZBZ3dWQTRYTzVKcWhWU2ZZ?=
+ =?utf-8?B?VnpZL0ExYmdLMm4vdFJGN0VQekJTZEpqNEFVby95eDlvT2RCWXFGQzVEMkx0?=
+ =?utf-8?B?ckN6RHZEd0ViZnNaSzdLQ082NVo4MDB0SzZEK0xsTnljT2FSR1Q4Z1ByYWdx?=
+ =?utf-8?B?bFYybDZXUFJZOHRFMm8xVHlBRUhvYnU1MmhIZmMzMmduT2s5VEkvcS9OcHZ3?=
+ =?utf-8?B?REpENUVrZkoyNkpXVVVoVmdBaTVtaWtwN2xHL1d2Q2trUVZWWkdpaWRkTk9M?=
+ =?utf-8?B?WmpSRVpWY3F6VjlsZkhxZ0EwTWsvOVZudUJOd0VZT2REUXNTa2tiNEJZVXl4?=
+ =?utf-8?B?aWRRMmxBNFh2bkhRMnRwVnpQajZ2Zmk5NmRMY21RSVFmQVBFU3p4ZngzK3hM?=
+ =?utf-8?B?WGdBV2RDVmF2YTJ4M2NucG9IRndCZXhSTGdiMEhqbzVkc2FxV1hRK3JrWDIy?=
+ =?utf-8?B?ckRKbm5vZ1doUzZ5NmJ5dXhrZnl4WjlONm03WmVjSVQyUmFhd0VjRFI0MTEr?=
+ =?utf-8?B?Y0x6UHNPRjFJUXk2TzJmRUhyamtjYmlOZUNnR0FzbWFPYVNnU2JHRk1SdlRa?=
+ =?utf-8?B?ZmYxYTgrRlhJOUxINWJqczNoREtZNjF2aWliNGtlK0o5R2o5cGxhRVZPaU9j?=
+ =?utf-8?B?WjlUMk1pRTE3RGZzRnRzY0MwQjJJUk0zak1DK1V1czQ4ODRDOGZYR2pmbVRV?=
+ =?utf-8?B?clRZbnVvcEJzQjRPOVVaWit4ZDd0WFlqcEFvdWtoVHVEVmptM3ZwOW1JdFhz?=
+ =?utf-8?B?bGZiRTF6Z2orUEh0SUpFK292NEM4VExoSDFtOFRvNFcwV2syMGo1R2VUbThz?=
+ =?utf-8?B?YTB0Rm5FUWkwaGVJSFB1Yk42Z3duNlozd0NnZzZWU3hXSEhHNUw5aWF4aTkv?=
+ =?utf-8?B?NU81MlVqKzJRM2Q5blRWYjRWSG1xRTVkaGEzRkhQakVGcE8vNy9VejM4TXdp?=
+ =?utf-8?B?dkVINGcrbVJPN0lBN1BEdU1EZHlKNkZacGFYK1VGVVlxT0dEK0wrdndEYlVj?=
+ =?utf-8?B?eEJyUER5dnhzZmdjSjBDNkdUck51ZnIxRVdCUHZWK25PV1Z5bzcrMElQa3Nr?=
+ =?utf-8?B?enI2MDNVWVlKS0pXWE5zTGRSc3VHeXNQekpYLzAvVndtOHVoTXpCck1oWHQr?=
+ =?utf-8?B?V25Lekc2ZWVkN0tLc3czT1YwVHhDOHFNdVBjWW8wRnhiVXhkRnJTcVR1UTlR?=
+ =?utf-8?B?SzV2ZzQxdUFSUS9xSzdOZnZ1S0NEdzg1R2JKQ040Zlo3czVjWFV5cTdVVzBK?=
+ =?utf-8?B?ckJnQnU3cis5MHAwUXZBUmc5SmZ1SnVLSXJTTDJsaHBFdHZidzhnbm81VXpx?=
+ =?utf-8?B?Yzd5V3pyTFRCaGpEci9ad3crcEFaUHRrelFJTW12Yy95K3Rka1dRQmZlMld3?=
+ =?utf-8?B?bnBtZGROUlpQTkpMTGZwUFFqRm1aNG5iRUxrTzF2NURFWVZwaUh6aUJpQlNT?=
+ =?utf-8?B?dHFwdDd3VjRYT0lIQ1JiN1puS3pKSjBpVndyVTBkVWc2Qll0ekJFNENWalU1?=
+ =?utf-8?Q?BgRkFamJzf74AUO2rRKcjvbRdaul7fTXfRBwO?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dce18149-244d-41e0-633a-08df3f04c3d0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0573a070-a6c0-4f94-c9ff-08df3f04c7ad
 X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7883.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 08:29:41.1638
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 08:29:47.5608
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LZmIKy2kYjQq4L9Iovpk5mjtjUAdYwVYsDJdEFfFaVJlkdUcz90nSMCu3JzSPPS+mnmwdaVo2OjEJvTEzoJ6IGLT3/Ytn5Eu14NW6reMP/wHED9r3wAxULVGoG//vQTp
+X-MS-Exchange-CrossTenant-UserPrincipalName: hQWZLlWp9hNxkpn+Ev0gwkuMHLizZjUq+6xEe1VnotmwOhqVh7O78+16ebN1hanpY9aEWrurnPiUKjt9xC6L6+ltfqj2nvX39DYKuDHW8bdT2LF1WnRnJ2OKBAs4UMIe
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRZPR04MB12430
 
 From: Peng Fan <peng.fan@nxp.com>
 
-Move the register range validation and rbtree construction loop out of
-__regmap_init() into a dedicated regmap_init_ranges() helper. This is a
-mechanical code movement with no functional change apart from fixing the
-block comment style of an existing comment that checkpatch flags when it
-appears in the diff context.
+Extract the two large nested switch statements that select
+format_reg()/format_write() and format_val()/parse_val() into dedicated
+regmap_set_reg_format() and regmap_set_val_format() helpers. Wrap the
+entire format setup sequence - format selection, endianness cross-check,
+work buffer allocation and bus write callback selection - into a single
+regmap_init_format() function.
+
+The two callers (config->read/write path with NATIVE endian, and the
+bus->read/write path with bus-derived endian) now each call
+regmap_init_format() directly, which eliminates the forward
+"goto skip_format_initialization" and removes the label entirely.
+
+The implicit "ret = -EINVAL; /* Later error paths rely on this */"
+contract is replaced by explicit return codes in each helper.
+
+No functional change.
 
 Signed-off-by: Peng Fan <peng.fan@nxp.com>
 ---
- drivers/base/regmap/regmap.c | 192 +++++++++++++++++++++++--------------------
- 1 file changed, 101 insertions(+), 91 deletions(-)
+ drivers/base/regmap/regmap.c | 398 ++++++++++++++++++++++---------------------
+ 1 file changed, 200 insertions(+), 198 deletions(-)
 
 diff --git a/drivers/base/regmap/regmap.c b/drivers/base/regmap/regmap.c
-index b079921287c2..c554079835f5 100644
+index c554079835f5..0a7f73fc1101 100644
 --- a/drivers/base/regmap/regmap.c
 +++ b/drivers/base/regmap/regmap.c
-@@ -748,6 +748,104 @@ static int regmap_set_lock(struct regmap *map, const struct regmap_config *confi
+@@ -846,6 +846,197 @@ static int regmap_init_ranges(struct regmap *map, const struct regmap_config *co
  	return 0;
  }
  
-+/* Validate config->ranges and build the range rbtree. */
-+static int regmap_init_ranges(struct regmap *map, const struct regmap_config *config)
++/* Pick format_reg()/format_write() for the register width and endianness. */
++static int regmap_set_reg_format(struct regmap *map, const struct regmap_config *config,
++				 enum regmap_endian reg_endian)
 +{
-+	int i, j;
++	switch (config->reg_bits + map->reg_shift) {
++	case 2:
++		if (config->val_bits != 6)
++			return -EINVAL;
++		map->format.format_write = regmap_format_2_6_write;
++		return 0;
 +
-+	map->range_tree = RB_ROOT;
++	case 4:
++		if (config->val_bits != 12)
++			return -EINVAL;
++		map->format.format_write = regmap_format_4_12_write;
++		return 0;
 +
-+	for (i = 0; i < config->num_ranges; i++) {
-+		const struct regmap_range_cfg *range_cfg = &config->ranges[i];
-+		struct regmap_range_node *new;
++	case 7:
++		switch (config->val_bits) {
++		case 9:
++			map->format.format_write = regmap_format_7_9_write;
++			return 0;
++		case 17:
++			map->format.format_write = regmap_format_7_17_write;
++			return 0;
++		}
++		return -EINVAL;
 +
-+		/* Sanity check */
-+		if (range_cfg->range_max < range_cfg->range_min) {
-+			dev_err(map->dev, "Invalid range %d: %u < %u\n", i,
-+				range_cfg->range_max, range_cfg->range_min);
++	case 10:
++		if (config->val_bits != 14)
++			return -EINVAL;
++		map->format.format_write = regmap_format_10_14_write;
++		return 0;
++
++	case 12:
++		if (config->val_bits != 20)
++			return -EINVAL;
++		map->format.format_write = regmap_format_12_20_write;
++		return 0;
++
++	case 8:
++		map->format.format_reg = regmap_format_8;
++		return 0;
++
++	case 16:
++		switch (reg_endian) {
++		case REGMAP_ENDIAN_BIG:
++			map->format.format_reg = regmap_format_16_be;
++			return 0;
++		case REGMAP_ENDIAN_LITTLE:
++			map->format.format_reg = regmap_format_16_le;
++			return 0;
++		case REGMAP_ENDIAN_NATIVE:
++			map->format.format_reg = regmap_format_16_native;
++			return 0;
++		default:
 +			return -EINVAL;
 +		}
 +
-+		if (range_cfg->range_max > map->max_register) {
-+			dev_err(map->dev, "Invalid range %d: %u > %u\n", i,
-+				range_cfg->range_max, map->max_register);
++	case 24:
++		if (reg_endian != REGMAP_ENDIAN_BIG)
++			return -EINVAL;
++		map->format.format_reg = regmap_format_24_be;
++		return 0;
++
++	case 32:
++		switch (reg_endian) {
++		case REGMAP_ENDIAN_BIG:
++			map->format.format_reg = regmap_format_32_be;
++			return 0;
++		case REGMAP_ENDIAN_LITTLE:
++			map->format.format_reg = regmap_format_32_le;
++			return 0;
++		case REGMAP_ENDIAN_NATIVE:
++			map->format.format_reg = regmap_format_32_native;
++			return 0;
++		default:
 +			return -EINVAL;
 +		}
++	}
 +
-+		if (range_cfg->selector_reg > map->max_register) {
-+			dev_err(map->dev,
-+				"Invalid range %d: selector out of map\n", i);
++	return -EINVAL;
++}
++
++/* Pick format_val()/parse_val() for the value width and endianness. */
++static int regmap_set_val_format(struct regmap *map, const struct regmap_config *config,
++				 enum regmap_endian val_endian)
++{
++	if (val_endian == REGMAP_ENDIAN_NATIVE)
++		map->format.parse_inplace = regmap_parse_inplace_noop;
++
++	switch (config->val_bits) {
++	case 8:
++		map->format.format_val = regmap_format_8;
++		map->format.parse_val = regmap_parse_8;
++		map->format.parse_inplace = regmap_parse_inplace_noop;
++		return 0;
++	case 16:
++		switch (val_endian) {
++		case REGMAP_ENDIAN_BIG:
++			map->format.format_val = regmap_format_16_be;
++			map->format.parse_val = regmap_parse_16_be;
++			map->format.parse_inplace = regmap_parse_16_be_inplace;
++			return 0;
++		case REGMAP_ENDIAN_LITTLE:
++			map->format.format_val = regmap_format_16_le;
++			map->format.parse_val = regmap_parse_16_le;
++			map->format.parse_inplace = regmap_parse_16_le_inplace;
++			return 0;
++		case REGMAP_ENDIAN_NATIVE:
++			map->format.format_val = regmap_format_16_native;
++			map->format.parse_val = regmap_parse_16_native;
++			return 0;
++		default:
 +			return -EINVAL;
 +		}
-+
-+		if (range_cfg->window_len == 0) {
-+			dev_err(map->dev, "Invalid range %d: window_len 0\n",
-+				i);
++	case 24:
++		if (val_endian != REGMAP_ENDIAN_BIG)
++			return -EINVAL;
++		map->format.format_val = regmap_format_24_be;
++		map->format.parse_val = regmap_parse_24_be;
++		return 0;
++	case 32:
++		switch (val_endian) {
++		case REGMAP_ENDIAN_BIG:
++			map->format.format_val = regmap_format_32_be;
++			map->format.parse_val = regmap_parse_32_be;
++			map->format.parse_inplace = regmap_parse_32_be_inplace;
++			return 0;
++		case REGMAP_ENDIAN_LITTLE:
++			map->format.format_val = regmap_format_32_le;
++			map->format.parse_val = regmap_parse_32_le;
++			map->format.parse_inplace = regmap_parse_32_le_inplace;
++			return 0;
++		case REGMAP_ENDIAN_NATIVE:
++			map->format.format_val = regmap_format_32_native;
++			map->format.parse_val = regmap_parse_32_native;
++			return 0;
++		default:
 +			return -EINVAL;
 +		}
++	}
 +
-+		/*
-+		 * Make sure that this register range has no selector
-+		 * or data window within its boundary.
-+		 */
-+		for (j = 0; j < config->num_ranges; j++) {
-+			unsigned int sel_reg = config->ranges[j].selector_reg;
-+			unsigned int win_min = config->ranges[j].window_start;
-+			unsigned int win_max = win_min +
-+					       config->ranges[j].window_len - 1;
++	return 0;
++}
 +
-+			/* Allow data window inside its own virtual range */
-+			if (j == i)
-+				continue;
++/*
++ * Set up the format/parse functions, cross-validate endianness,
++ * allocate the work buffer and select the bus write path.
++ */
++static int regmap_init_format(struct regmap *map,
++			      const struct regmap_config *config,
++			      enum regmap_endian reg_endian,
++			      enum regmap_endian val_endian)
++{
++	int ret;
 +
-+			if (range_cfg->range_min <= sel_reg &&
-+			    sel_reg <= range_cfg->range_max) {
-+				dev_err(map->dev,
-+					"Range %d: selector for %d in window\n",
-+					i, j);
-+				return -EINVAL;
-+			}
++	ret = regmap_set_reg_format(map, config, reg_endian);
++	if (ret)
++		return ret;
 +
-+			if (!(win_max < range_cfg->range_min ||
-+			      win_min > range_cfg->range_max)) {
-+				dev_err(map->dev,
-+					"Range %d: window for %d in window\n",
-+					i, j);
-+				return -EINVAL;
-+			}
-+		}
++	ret = regmap_set_val_format(map, config, val_endian);
++	if (ret)
++		return ret;
 +
-+		new = kzalloc_obj(*new);
-+		if (new == NULL)
-+			return -ENOMEM;
-+
-+		new->map = map;
-+		new->name = range_cfg->name;
-+		new->range_min = range_cfg->range_min;
-+		new->range_max = range_cfg->range_max;
-+		new->selector_reg = range_cfg->selector_reg;
-+		new->selector_mask = range_cfg->selector_mask;
-+		new->selector_shift = range_cfg->selector_shift;
-+		new->window_start = range_cfg->window_start;
-+		new->window_len = range_cfg->window_len;
-+
-+		if (!_regmap_range_add(map, new)) {
-+			dev_err(map->dev, "Failed to add range %d\n", i);
-+			kfree(new);
++	if (map->format.format_write) {
++		if (reg_endian != REGMAP_ENDIAN_BIG ||
++		    val_endian != REGMAP_ENDIAN_BIG)
 +			return -EINVAL;
-+		}
++		map->use_single_write = true;
++	}
 +
-+		if (map->selector_work_buf == NULL) {
-+			map->selector_work_buf =
-+				kzalloc(map->format.buf_size, GFP_KERNEL);
-+			if (map->selector_work_buf == NULL)
-+				return -ENOMEM;
-+		}
++	if (!map->format.format_write &&
++	    !(map->format.format_reg && map->format.format_val))
++		return -EINVAL;
++
++	map->work_buf = kzalloc(map->format.buf_size, GFP_KERNEL);
++	if (map->work_buf == NULL)
++		return -ENOMEM;
++
++	if (map->format.format_write) {
++		map->defer_caching = false;
++		map->reg_write = _regmap_bus_formatted_write;
++	} else if (map->format.format_val) {
++		map->defer_caching = true;
++		map->reg_write = _regmap_bus_raw_write;
 +	}
 +
 +	return 0;
@@ -287,114 +391,256 @@ index b079921287c2..c554079835f5 100644
  struct regmap *__regmap_init(struct device *dev,
  			     const struct regmap_bus *bus,
  			     void *bus_context,
-@@ -759,7 +857,6 @@ struct regmap *__regmap_init(struct device *dev,
+@@ -856,7 +1047,6 @@ struct regmap *__regmap_init(struct device *dev,
+ 	struct regmap *map;
  	bool fast_io;
  	int ret = -EINVAL;
- 	enum regmap_endian reg_endian, val_endian;
--	int i, j;
+-	enum regmap_endian reg_endian, val_endian;
  
  	if (!config)
  		goto err;
-@@ -1076,96 +1173,9 @@ struct regmap *__regmap_init(struct device *dev,
+@@ -871,7 +1061,6 @@ struct regmap *__regmap_init(struct device *dev,
+ 	if (ret)
+ 		goto err_map;
  
- skip_format_initialization:
+-	ret = -EINVAL; /* Later error paths rely on this */
  
--	map->range_tree = RB_ROOT;
--	for (i = 0; i < config->num_ranges; i++) {
--		const struct regmap_range_cfg *range_cfg = &config->ranges[i];
--		struct regmap_range_node *new;
--
--		/* Sanity check */
--		if (range_cfg->range_max < range_cfg->range_min) {
--			dev_err(map->dev, "Invalid range %d: %u < %u\n", i,
--				range_cfg->range_max, range_cfg->range_min);
--			goto err_range;
--		}
--
--		if (range_cfg->range_max > map->max_register) {
--			dev_err(map->dev, "Invalid range %d: %u > %u\n", i,
--				range_cfg->range_max, map->max_register);
--			goto err_range;
--		}
--
--		if (range_cfg->selector_reg > map->max_register) {
--			dev_err(map->dev,
--				"Invalid range %d: selector out of map\n", i);
--			goto err_range;
--		}
--
--		if (range_cfg->window_len == 0) {
--			dev_err(map->dev, "Invalid range %d: window_len 0\n",
--				i);
--			goto err_range;
--		}
--
--		/* Make sure, that this register range has no selector
--		   or data window within its boundary */
--		for (j = 0; j < config->num_ranges; j++) {
--			unsigned int sel_reg = config->ranges[j].selector_reg;
--			unsigned int win_min = config->ranges[j].window_start;
--			unsigned int win_max = win_min +
--					       config->ranges[j].window_len - 1;
--
--			/* Allow data window inside its own virtual range */
--			if (j == i)
--				continue;
--
--			if (range_cfg->range_min <= sel_reg &&
--			    sel_reg <= range_cfg->range_max) {
--				dev_err(map->dev,
--					"Range %d: selector for %d in window\n",
--					i, j);
--				goto err_range;
--			}
--
--			if (!(win_max < range_cfg->range_min ||
--			      win_min > range_cfg->range_max)) {
--				dev_err(map->dev,
--					"Range %d: window for %d in window\n",
--					i, j);
--				goto err_range;
--			}
--		}
--
--		new = kzalloc_obj(*new);
--		if (new == NULL) {
--			ret = -ENOMEM;
--			goto err_range;
--		}
--
--		new->map = map;
--		new->name = range_cfg->name;
--		new->range_min = range_cfg->range_min;
--		new->range_max = range_cfg->range_max;
--		new->selector_reg = range_cfg->selector_reg;
--		new->selector_mask = range_cfg->selector_mask;
--		new->selector_shift = range_cfg->selector_shift;
--		new->window_start = range_cfg->window_start;
--		new->window_len = range_cfg->window_len;
--
--		if (!_regmap_range_add(map, new)) {
--			dev_err(map->dev, "Failed to add range %d\n", i);
--			kfree(new);
--			goto err_range;
--		}
--
--		if (map->selector_work_buf == NULL) {
--			map->selector_work_buf =
--				kzalloc(map->format.buf_size, GFP_KERNEL);
--			if (map->selector_work_buf == NULL) {
--				ret = -ENOMEM;
--				goto err_range;
--			}
--		}
+ 	fast_io = (bus && bus->fast_io) || config->fast_io;
+ 
+@@ -954,22 +1143,23 @@ struct regmap *__regmap_init(struct device *dev,
+ 		map->read = config->read;
+ 		map->write = config->write;
+ 
+-		reg_endian = REGMAP_ENDIAN_NATIVE;
+-		val_endian = REGMAP_ENDIAN_NATIVE;
++		ret = regmap_init_format(map, config,
++					 REGMAP_ENDIAN_NATIVE,
++					 REGMAP_ENDIAN_NATIVE);
++		if (ret)
++			goto err_hwlock;
+ 	} else if (!bus) {
+ 		map->reg_read  = config->reg_read;
+ 		map->reg_write = config->reg_write;
+ 		map->reg_update_bits = config->reg_update_bits;
+ 
+ 		map->defer_caching = false;
+-		goto skip_format_initialization;
+ 	} else if (!bus->read || !bus->write) {
+ 		map->reg_read = _regmap_bus_reg_read;
+ 		map->reg_write = _regmap_bus_reg_write;
+ 		map->reg_update_bits = bus->reg_update_bits;
+ 
+ 		map->defer_caching = false;
+-		goto skip_format_initialization;
+ 	} else {
+ 		map->reg_read  = _regmap_bus_read;
+ 		map->reg_update_bits = bus->reg_update_bits;
+@@ -977,201 +1167,13 @@ struct regmap *__regmap_init(struct device *dev,
+ 		map->read = bus->read;
+ 		map->write = bus->write;
+ 
+-		reg_endian = regmap_get_reg_endian(bus, config);
+-		val_endian = regmap_get_val_endian(dev, bus, config);
 -	}
-+	ret = regmap_init_ranges(map, config);
-+	if (ret)
-+		goto err_range;
+-
+-	switch (config->reg_bits + map->reg_shift) {
+-	case 2:
+-		switch (config->val_bits) {
+-		case 6:
+-			map->format.format_write = regmap_format_2_6_write;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-
+-	case 4:
+-		switch (config->val_bits) {
+-		case 12:
+-			map->format.format_write = regmap_format_4_12_write;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-
+-	case 7:
+-		switch (config->val_bits) {
+-		case 9:
+-			map->format.format_write = regmap_format_7_9_write;
+-			break;
+-		case 17:
+-			map->format.format_write = regmap_format_7_17_write;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-
+-	case 10:
+-		switch (config->val_bits) {
+-		case 14:
+-			map->format.format_write = regmap_format_10_14_write;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-
+-	case 12:
+-		switch (config->val_bits) {
+-		case 20:
+-			map->format.format_write = regmap_format_12_20_write;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-
+-	case 8:
+-		map->format.format_reg = regmap_format_8;
+-		break;
+-
+-	case 16:
+-		switch (reg_endian) {
+-		case REGMAP_ENDIAN_BIG:
+-			map->format.format_reg = regmap_format_16_be;
+-			break;
+-		case REGMAP_ENDIAN_LITTLE:
+-			map->format.format_reg = regmap_format_16_le;
+-			break;
+-		case REGMAP_ENDIAN_NATIVE:
+-			map->format.format_reg = regmap_format_16_native;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-
+-	case 24:
+-		switch (reg_endian) {
+-		case REGMAP_ENDIAN_BIG:
+-			map->format.format_reg = regmap_format_24_be;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-
+-	case 32:
+-		switch (reg_endian) {
+-		case REGMAP_ENDIAN_BIG:
+-			map->format.format_reg = regmap_format_32_be;
+-			break;
+-		case REGMAP_ENDIAN_LITTLE:
+-			map->format.format_reg = regmap_format_32_le;
+-			break;
+-		case REGMAP_ENDIAN_NATIVE:
+-			map->format.format_reg = regmap_format_32_native;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-
+-	default:
+-		goto err_hwlock;
+-	}
+-
+-	if (val_endian == REGMAP_ENDIAN_NATIVE)
+-		map->format.parse_inplace = regmap_parse_inplace_noop;
+-
+-	switch (config->val_bits) {
+-	case 8:
+-		map->format.format_val = regmap_format_8;
+-		map->format.parse_val = regmap_parse_8;
+-		map->format.parse_inplace = regmap_parse_inplace_noop;
+-		break;
+-	case 16:
+-		switch (val_endian) {
+-		case REGMAP_ENDIAN_BIG:
+-			map->format.format_val = regmap_format_16_be;
+-			map->format.parse_val = regmap_parse_16_be;
+-			map->format.parse_inplace = regmap_parse_16_be_inplace;
+-			break;
+-		case REGMAP_ENDIAN_LITTLE:
+-			map->format.format_val = regmap_format_16_le;
+-			map->format.parse_val = regmap_parse_16_le;
+-			map->format.parse_inplace = regmap_parse_16_le_inplace;
+-			break;
+-		case REGMAP_ENDIAN_NATIVE:
+-			map->format.format_val = regmap_format_16_native;
+-			map->format.parse_val = regmap_parse_16_native;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-	case 24:
+-		switch (val_endian) {
+-		case REGMAP_ENDIAN_BIG:
+-			map->format.format_val = regmap_format_24_be;
+-			map->format.parse_val = regmap_parse_24_be;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-	case 32:
+-		switch (val_endian) {
+-		case REGMAP_ENDIAN_BIG:
+-			map->format.format_val = regmap_format_32_be;
+-			map->format.parse_val = regmap_parse_32_be;
+-			map->format.parse_inplace = regmap_parse_32_be_inplace;
+-			break;
+-		case REGMAP_ENDIAN_LITTLE:
+-			map->format.format_val = regmap_format_32_le;
+-			map->format.parse_val = regmap_parse_32_le;
+-			map->format.parse_inplace = regmap_parse_32_le_inplace;
+-			break;
+-		case REGMAP_ENDIAN_NATIVE:
+-			map->format.format_val = regmap_format_32_native;
+-			map->format.parse_val = regmap_parse_32_native;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-	}
+-
+-	if (map->format.format_write) {
+-		if ((reg_endian != REGMAP_ENDIAN_BIG) ||
+-		    (val_endian != REGMAP_ENDIAN_BIG))
++		ret = regmap_init_format(map, config,
++					 regmap_get_reg_endian(bus, config),
++					 regmap_get_val_endian(dev, bus, config));
++		if (ret)
+ 			goto err_hwlock;
+-		map->use_single_write = true;
+-	}
+-
+-	if (!map->format.format_write &&
+-	    !(map->format.format_reg && map->format.format_val))
+-		goto err_hwlock;
+-
+-	map->work_buf = kzalloc(map->format.buf_size, GFP_KERNEL);
+-	if (map->work_buf == NULL) {
+-		ret = -ENOMEM;
+-		goto err_hwlock;
+-	}
+-
+-	if (map->format.format_write) {
+-		map->defer_caching = false;
+-		map->reg_write = _regmap_bus_formatted_write;
+-	} else if (map->format.format_val) {
+-		map->defer_caching = true;
+-		map->reg_write = _regmap_bus_raw_write;
+ 	}
  
- 	ret = regcache_init(map, config);
- 	if (ret != 0)
+-skip_format_initialization:
+ 
+ 	ret = regmap_init_ranges(map, config);
+ 	if (ret)
 
 -- 
 2.51.0
