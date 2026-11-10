@@ -1,59 +1,66 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794345386;
-	b=h0234a1zPDu9UFq72Yqn3VktCKxaRML8VkXcWsWFt3jF0Jv+uo/Ac9blIvN9FdgBIUqr
-	 wk7/clUxPdYE6vh4F0Tfb5oDN00JzTlDv4qhiKljOELruXQSf/hSt5ZX/APQY6lwel6IY
-	 i0E9VwsYEPDnzpyY7C1CsnZ5zJedZ+U5gNaL2dYD6xXvVzatuG9ikgzPlP+/MRTF3mTgp
-	 zZDwjINxew1MpzmDWCNOWxm/eewSu6zDFrAcaPqKG/YEYYfoJliKJSR3zb9ayzKo6cr62
-	 H03xuvVVmqCOydG2ZGl7VBLyeI0fi5SfVSH0aQCrvc0QXCWjYAeVXPe7h15P06UJP+g==
+	t=1794353257;
+	b=BtyObp4fAXxDDpQ+AQ1QQJHVxAONEWb72Y08nS28Cv1upiFvjIvlWXxopbF4Pl+Lgr8/
+	 AqcwA1nWsqrR33kBxPiVc6MlmhqXdH7PALOiyILVDLyymoKi500fkk7GselrCB/wRcGQ/
+	 r7rf2h4tZczeLyZQl4hZ+ErIyY8241MW07YFXzLYjk5+uhcGczzjNeAjHDVUZJnQ9Eq3n
+	 YteeKX1fsuwQrmVJrbpgpv4f6dUmuYBNXNSlWqhz2eCrRSo3MzPr0wct0VcZT8XLcpCU8
+	 5xz26+ToX8wMV2B8fTItepj3abENlzfX3NbBkrVcreH1o2d+GtWA4xroOH/s9BTMsWg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794345386;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794353257;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=f2xxir49kH924Q8nc9HfK5Im8oQ4gV9kzCsSqvll8RA=;
-	b=s2rnGOB52OKlLcHlcJG4GlhEMuQRqoNGJrM74Oberph+1WNHY7TX8LKkAXq+QgXIndmN
-	 1ualvACDUp6fnxrpQ0HIomc46IvU+BKQUoFLb+ah9r9q1QRLot7kZ2m0EtXbm6d9L+4JG
-	 ojIfl4NRmC1gB9gL4c1x9IMKsfhEcNSgTfCy3ghqO5YWqqQ7xsjm9GOOTLTWzn6SsEs6b
-	 Oc4mgihr3VoSlCIcA6gWfiP1oZ+LzA3Eids9mBU1QSQnkSMWGbR1uF0cgutnXcp2ykcHf
-	 zUF5KWrVUQwHwvh0boclzzbv2BVoPKPfotVDjgItJ6IIwIx5YHH0hmEkMXPWwx4a4Zw==
+	bh=9SU31qE105wrvP2RpFtRMcpfeuKBum+yU6ILTSHS1GM=;
+	b=n02YznYzH4FldH63UE7+o/g+PNp7h0M4VbQifJu24VIBf1ozWZ40peJep8oS3Wv2I8LP
+	 wX6U0unwr2KF+gCOcqVsJLjjtgd/TQ8nBZXMMDenfxuIGxGMEoMKY+AIeFXJ9qY87A+wf
+	 mO/FefoISvkgCq9xiwG7Moj6/bp3QziVMk7d9woNVR9C6ULv0fpj9fcypHaYrwTEd5oV7
+	 iH/FMKmlgaUj7tlcBNbpvSKL7vTTSoxXha7VhM+EW8umGcUXoQFUHLfR1Ofm1XG8jVM9/
+	 WtoBpLX+hfsrTPqlFY9npmqwsqBGZgsUzmuFO4C/sIKByDqusS5K6laQtKJ46OZ/ncA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b="k/dY/UWV";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KJ19FyuM;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288FE606A321;
-	Tue, 10 Nov 2026 21:16:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6135A606A31C;
+	Tue, 10 Nov 2026 23:27:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=k/dY/UWV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 707611F0089F;
-	Tue, 10 Nov 2026 21:16:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1794345385;
-	bh=f2xxir49kH924Q8nc9HfK5Im8oQ4gV9kzCsSqvll8RA=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KJ19FyuM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 160641F0093C;
+	Tue, 10 Nov 2026 23:27:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794353257;
+	bh=9SU31qE105wrvP2RpFtRMcpfeuKBum+yU6ILTSHS1GM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=k/dY/UWVqnJsn4pWVeby6n8so5Iarg1v5YlTCw/EMsYdsymY6IA4a1iTTs0sp79/r
-	 NQzBA/j9mOWBf1/rYr6hYK346KJy39hmFmeECvgBDUvEi+TlArmCWyBjMk/rT/PoNG
-	 Vkz6umn3yIdFLro/AofWcrESQ285qbdN7J7iH81g=
-Date: Tue, 10 Nov 2026 16:16:24 -0500
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Joshua Crofts <crofts@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
-	Johan Hovold <johan@kernel.org>, linux-pm@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dominik Brodowski <linux@dominikbrodowski.net>
-Subject: Re: [PATCH 2/3] PM: add sysfs attributes for additional
- suspend/resume metrics
-Message-ID: <2026111004-stability-crisping-1204@gregkh>
-References: <20261110-pm-runtime-summary-v1-0-12ebf283db78@kernel.org>
- <20261110-pm-runtime-summary-v1-2-12ebf283db78@kernel.org>
- <2026111023-padlock-deluge-4173@gregkh>
- <20261110195020.7d07ae63@systembl0wer>
- <2026111027-purifier-revolver-37c3@gregkh>
- <2026111004-landmine-residue-a660@gregkh>
- <20261110200242.70e533e9@systembl0wer>
+	b=KJ19FyuMQ16mdsKO22OSo/lQFdDl2kxijdpfs/PF1yA76fI+By9ox3drrd/O0XSvA
+	 v8NjcftwFfKTxaSM5Xnh5Cywb5T2elzFBm9YYwZzhfuwUmxX+ObbaEYuBbsF6XzJWb
+	 +lT05RUof+xJFIWGEur+Dgt+EoY1Pmn2X1idZFZAsVNpDr9SlGuwDi9YyMwwNP8QC1
+	 YBk2jHRBSo3r5YVW3aFyBqXuTlAdATK8Az+lPxbfvj8MxuK0xFJTrbK/ihEKC3zpIw
+	 KGlCJ/lwbgrMAuyzQV/knVHSvNk/0aSmVJQ99Rg3sktRktx8jKxiR8HoXGFCLVA3cX
+	 ijdLNfc56ltkg==
+Date: Wed, 11 Nov 2026 00:27:28 +0100
+From: Alejandro Colomar <alx+linux-hardening@kernel.org>
+To: Joe Perches <joe@perches.com>
+Cc: Alejandro Colomar <alx@kernel.org>, linux-hardening@vger.kernel.org, 
+	Krzysztof Kozlowski <krzk@kernel.org>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Andreas Schwab <schwab@linux-m68k.org>, 
+	Andy Shevchenko <andy@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Daniel Scally <djrscally@gmail.com>, Danilo Krummrich <dakr@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Len Brown <lenb@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Linus Walleij <linusw@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Saravana Kannan <saravanak@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v3 5/5] string: Make strprefix() const-qualifier-generic
+Message-ID: <avOn57pfHntiwcaD@devuan>
+References: <cover.1794323750.git.alx@kernel.org>
+ <35bf6672f84f07de3f40e8db9e7fcfd643894fec.1794323750.git.alx@kernel.org>
+ <64aa89daf23821f95780813fe96882ff61688578.camel@perches.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -63,48 +70,105 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="b2kxsrve4gpqpi5u"
 Content-Disposition: inline
-In-Reply-To: <20261110200242.70e533e9@systembl0wer>
+In-Reply-To: <64aa89daf23821f95780813fe96882ff61688578.camel@perches.com>
 
-On Tue, Nov 10, 2026 at 08:02:42PM +0100, Joshua Crofts wrote:
-> On Tue, 10 Nov 2026 13:58:34 -0500
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> 
-> > On Tue, Nov 10, 2026 at 01:54:05PM -0500, Greg Kroah-Hartman wrote:
-> > > On Tue, Nov 10, 2026 at 07:50:20PM +0100, Joshua Crofts wrote:  
-> > > > On Tue, 10 Nov 2026 12:29:11 -0500
-> > > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> > > > 
-> > > > ...
-> > > >   
-> > > > > > +static ssize_t runtime_resume_count_show(struct device *dev,
-> > > > > > +					 struct device_attribute *attr,
-> > > > > > +					 char *buf)
-> > > > > > +{
-> > > > > > +	u64 count;
-> > > > > > +
-> > > > > > +	spin_lock_irq(&dev->power.lock);
-> > > > > > +	count = dev->power.resume_count;
-> > > > > > +	spin_unlock_irq(&dev->power.lock);    
-> > > > > 
-> > > > > Why is a lock needed at all?  The value isn't going to "smear", it will
-> > > > > change right after the lock anyway.  
-> > > > 
-> > > > On 64-bit systems an aligned u64 read is atomic, but on 32-bit systems it
-> > > > gets split into two 32-bit loads. Without locking, the read can tear
-> > > > between the upper and lower halves.  
-> > > 
-> > > Are you sure?  ANd if so, is that so bad?  The value is "best effort" as
-> > > it can, and will, change right after reading it.  
-> 
-> Fair enough, I agree this is "best effort", so no problem on my end with
-> dropping the locks. 
-> 
-> > And even more relevant, what specific 32bit system are you using that
-> > this new api is going to be relying on?
-> 
-> I'm not using any 32-bit system, this issue was flagged by a local Sashiko
-> run and at the time it made sense to me.
 
-Don't let a random number generator replace your thinking :)
+--b2kxsrve4gpqpi5u
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx+linux-hardening@kernel.org>
+To: Joe Perches <joe@perches.com>
+Cc: Alejandro Colomar <alx@kernel.org>, linux-hardening@vger.kernel.org, 
+	Krzysztof Kozlowski <krzk@kernel.org>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Andreas Schwab <schwab@linux-m68k.org>, 
+	Andy Shevchenko <andy@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Daniel Scally <djrscally@gmail.com>, Danilo Krummrich <dakr@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Len Brown <lenb@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Linus Walleij <linusw@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Saravana Kannan <saravanak@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v3 5/5] string: Make strprefix() const-qualifier-generic
+Message-ID: <avOn57pfHntiwcaD@devuan>
+References: <cover.1794323750.git.alx@kernel.org>
+ <35bf6672f84f07de3f40e8db9e7fcfd643894fec.1794323750.git.alx@kernel.org>
+ <64aa89daf23821f95780813fe96882ff61688578.camel@perches.com>
+MIME-Version: 1.0
+In-Reply-To: <64aa89daf23821f95780813fe96882ff61688578.camel@perches.com>
+
+Hi Joe,
+
+> Date: 2026-11-10 08:32:41-0800
+> From: Joe Perches <joe@perches.com>
+>
+> On Tue, 2026-11-10 at 16:33 +0100, Alejandro Colomar wrote:
+>=20
+> no commit description on proposed patch
+
+There isn't much to say, but I'll add something (the explanation of why
+the parentheses are needed around the function name, for example).
+
+> > Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> > Signed-off-by: Alejandro Colomar <alx@kernel.org>
+> > ---
+> >  include/linux/string.h | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/include/linux/string.h b/include/linux/string.h
+> > index 9e59f9697c9e..55ca4cb5122c 100644
+> > --- a/include/linux/string.h
+> > +++ b/include/linux/string.h
+> > @@ -590,7 +590,9 @@ void memcpy_and_pad(void *dest, size_t dest_len, co=
+nst void *src, size_t count,
+> >   * *  @s+strlen(@prefix) if @s starts with @prefix
+> >   * *  NULL if @s does not start with @prefix
+> >   */
+> > -static inline char *strprefix(const char *s, const char *prefix)
+> > +#define strprefix(s, pfx)  const_cast(CQChar_of(s) *, strprefix(s, pfx=
+))
+> > +
+> > +static inline char *(strprefix)(const char *s, const char *prefix)
+>=20
+> Why introduce a new coding style?
+
+It's not style; the parentheses are technically needed to avoid macro
+expansion, since the macro has the same name as the function.
+
+Alternatively, I could rename the function to __strprefix().
+
+
+Have a lovely night!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--b2kxsrve4gpqpi5u
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrzqFoACgkQ64mZXMKQ
+wqnkyw//SMcrvLK94m7pGptAYwrkzsAjnS/ms1rp2DXVYYygDz590sAwqXuMmExR
+SIEeUlm5Tj25X3zVAAi1b1P9GPG96sKMz1xVWYrbr2rp5kTW6Ugzlh2lozAfCpn2
+KKR6o+yz5vrU0dor0jy6/m0FdiIuWUiDcAquAoNIuXP7xXJifq/YQiaXrqV7wGQw
+qPA7rP8WcEXGtStTMGyZMscwwkbEAkUOjj62u4LKIXEdBIT531d+tVgGo8wZDXYx
+yNQshQTqYa10OZGy3Yox8CukE6h70T9PSUSGp/hdGnriyUY4OlsgnSvbESvPbHM7
+Hogdw3SS+hEV2mPxVsiKhYdomgUe2OlMNFaXwocFYzG14kGSVrKHHSjgAOhiXuBT
+8Y/DdHRNaUwvk4n4M+JkjWsqBlBlEtOkwN/EiXoaXxjP2wfkJgK/XnkcxMERclrY
+gDUsM/wiP73wMno2RMb9kicpHFd17RjWMAvH1/57QW4Oypa3y/fCTCEIXPn+Zt2i
+GELd/ylruhm6vPAIN9bPC3vtBbrWs/PVUqK1ezgf6khXdJq+DdbFkFG8t/wesnm6
+utI5wPKRQ1moDEwIfqTBBCialEyod8Nh3a+hCUz5B4yg8EzbZxGuAG6ctjIEI8Mr
+99esL/VEmx5QoXEHdE1RhoejHLhmlfgk+4FKZHTXSbC0+Ty3o68=
+=AAVC
+-----END PGP SIGNATURE-----
+
+--b2kxsrve4gpqpi5u--
