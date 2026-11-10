@@ -1,68 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794310522;
-	b=HbowaCFyvZMO6frs1W7AdIar5Iu9icl8fwXOOZI7XUOv2wsMQohfls+KOzCyNv+nryxX
-	 Y36NsMJjiLsyCKcTgBDrJ0Ebz1OC41BXDh0OinOdwxTO3P+5tHhPkbZ6vgSeEohvcX/IA
-	 Uu82uVjfqYC2EB5SQ3xcdZhOVxVDNtMs3iVXoUBASARnBbGBVuHZCbvi1mEjTf+lZGFYS
-	 Bo3j6fp2e+wVo+dLf4rhxZ69FDVxaPzkjF1+a9OFkq8pSauZg/M8yhUCJR8zm4xBZXBDV
-	 mrPxJXNfwOhngFK+MgYf4Sk9Jqhf7uydxPyIPU5BgJciXogRhQxzykfbwgvDhDx6VVA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794310522;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=BbpERa55+bAqGoKd07R6gWLaZO/6XQcmtI/WmnBnKK0=;
-	b=omzX3QaZu4BJTbKWqASAKatBZlrx2UDvzFIrIGtXu7frByFC5+67Sc9JIMA59T2gKbuv
-	 jPeIhDjvYQ2w1S6HoUbqaUfgK2vPdtYvSVBP2nxN0a1AcWnmt29Je31lmxzcZMrb/u4W5
-	 sw+BWjriz29ptVoGt4PYeXv9R+zBCY6jpln7+hAq38f5xtUdH6T4aFFGnXIhQMJV6uOS+
-	 Sx1mXRHytj0Oa+65CcUe8+4PwMCgo7th8ZNxuI+BlKpfqoUNiKX1Udz4UfcXpBem6bW0u
-	 MZq2aqfraVCkV3mcxC3wJUymIrraE1wZi7gSxaqq07G3aWP9jIgv+Gu9n7PGKPMcFYg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="HQJT/BMO";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.83.67
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794310936;
+	b=XbAwAECIDa9NVo/CDRtnG1z2bsS3uGVsxY1FMVFPkjBRA48hkuUBsplrxzfMpeJcxzcY
+	 Wabzfr2E0uaywi9osC2rlP2BQYJ011mu4i4w6/JU1SAmgcP1XOM/f6VUmStEjcU04Y7I/
+	 bvlUjPTKapLOJzgvbrx5EUJdvy1+YBAnZGcAwjqiSGo4CF6dpHh8YYmBE45mM9SKu6t/0
+	 hCmbI8qAmc+nKCC3uURSVh7dyIPxiVAofw5hA1ocxdwC5hTFiXLJSNqdMWIMSWoGx58th
+	 zJyJN+NCP42Tk+RmOo8inEDjtrvdPOpE3e3sbRnkAI8YqJIef8qd2uNeRS8C+JEWbUg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794310936;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=biS2YXkL1LdqGm/e9eSFF9+/NJ1/4ChCJYArfIF9alk=;
+	b=H58dAK3TFx4gkpz7wfTsc4XCSzkQw3ACrseUOHnQ5/RIq9vRYTGFWQYUZT02Ycv6suoQ
+	 1jGyPchOiCVxcfoH0q2U4STqokDd1MQY8QCqshjgRVcPMh9LGMfQerrA/YkZ5zWSkom/D
+	 p1A3h/lQ4wyPH+BUBb+VbKIgklDaGySU3pwJLTV+CVvG7njj/O+yaE92maLvSysJZBIKV
+	 o2UTcdiYA6oM9Di8PfIQM72dyYCUmgTk5SbyMk7Z4lTKMn3zO9cDQR6QiD32U9nlw8CT7
+	 rE3h3VJAkmXHk+Zu4Pp0QbFFBX2IkH9xdc2MwXuXH8AVQsxZkcCgQeBeCkwCxu0jG+w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.nxp.com;
+	spf=pass smtp.mailfrom=oss.nxp.com;
+	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=HgjPPT+z;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.83.67
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013067.outbound.protection.outlook.com [52.101.83.67])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59566606A325;
-	Tue, 10 Nov 2026 11:35:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B3A606A325
+	for <driver-core@lists.linux.dev>; Tue, 10 Nov 2026 11:42:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7B3A606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HQJT/BMO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8388E1F0089F;
-	Tue, 10 Nov 2026 11:35:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794310522;
-	bh=BbpERa55+bAqGoKd07R6gWLaZO/6XQcmtI/WmnBnKK0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HQJT/BMOysNk2pBuRiNkoHZMo5RU/FWxxT7T64FMMsKnYjIpK9fnEphlbftVYkezl
-	 U6W1DegmBEpaTiFZVdAQSNMC92VHMUWvj+PPtWUBHq8VbkTNETA6ugEMhpSIIudyhC
-	 qV2aA7Bw07ex9Cc50hyTOLKk7O+OgKwR7KFjPPdp6cqXqa3Pv6rCMCTpdn4SUS6ehh
-	 yYHCTnVtKETDRWPYDryI7fvVqAM2Ry6qDc+mguJbP1tiR/SaA2kCvdLMaIEDBPFNTQ
-	 7mFkpp+as+jal0yDw7xqEkbG2R5PxJUYNy2W8UiZ/eyyyj8TBhLbGQ4kYyqgt1nft5
-	 2H7bulKQqSbEw==
-Date: Tue, 10 Nov 2026 12:35:15 +0100
-From: Alejandro Colomar <alx+linux-hardening@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, 
-	Hans Verkuil <hverkuil@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	Linus Walleij <linusw@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 5/9] of: property: implement the .property_get_names()
- fwnode operation
-Message-ID: <avMBNUEL9_V7WnK-@devuan>
-References: <20261104-fwnode-for-each-prop-v1-0-6e28fe1c72c4@oss.qualcomm.com>
- <20261104-fwnode-for-each-prop-v1-5-6e28fe1c72c4@oss.qualcomm.com>
- <auuhy40x1BMoW96-@ashevche-desk.local>
- <7sfr4ljlwbehal3or4dmy5jxbjz6ya2lf3dq3yptr54wym5tea@eqaexflmocih>
- <avICwdxyi-W1Y3PD@ashevche-desk.local>
- <ab73ez55exen3ew52svsxfinwsuatppdodu2e2zp6izjwwqwwu@2imxzxwclgtl>
- <avL4LoCz2wc164zo@devuan>
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=HgjPPT+z
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=heX+d9YLe87biONtpEIzt4J7bZ+NUtJ52l9CVEpTqwXTpi1GaSBd0igm/YeAkMHK9G/sSx8PsX+z9MdkqCJVhNoBrVPNwgZZK7Cteh119ZZYa9d7EVcwa8q+sOUXIsOPpNzDUYQdV+8b5qS4b7VS3oIkTK7JGeT+7thfiAZxugfSo0NeqqgXtVVAESxGweLqlQzN7fCuRFRnbFV71rFht0vyulXMnkcKeLpJQ2I7Nf5C+U2ARI2Guys3I0qZT+QWO+hJiJTr2XP0jSVVt0W7oR4xruOX/cBwT87Falwxsrd3lhNb+5v0AhJMyR1QbwPVaiuXyaSrR9AMmvmhuoFXuA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=biS2YXkL1LdqGm/e9eSFF9+/NJ1/4ChCJYArfIF9alk=;
+ b=sp0zrZR8RGcfUBURxvgHHTedRakFAQz5Aj+L7Fe86zTMfCfczV964vfJA3wSpgDW+g+DlFXC56r5rvU8f7sGML+FU1I6kDtYybT7vkuVEB9YXaFW4+ZgMf484XMXzf3y+EHxg6OIbL2wV6Z/BuFNiK1p+AOqePrLMXY+B6XZKhblcbyhF+nFBp1VBaqcNuBGpe2w/UQwTTkBIlh9v5vwa9WPAKXrh7oGh9TnalOPOPwO9dqgdxcCJKrkmrq4PgNXmc1jxJXpR9Qoz86LcB8E+QxlyxAiy1jFosVlydrYRkek0RH+LcEV+GSVyxE8IMQUksYcAlkBK3OVGDcUs/6hwQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=biS2YXkL1LdqGm/e9eSFF9+/NJ1/4ChCJYArfIF9alk=;
+ b=HgjPPT+zb4C1OTysMXWF+gKgC/82qr3BCp7+E6hkH2h8cEs9EX/XVLNvRmEZUSVMSc8+vEAbqWp+6OeAOJDWJxCO/kVScRbzIJoik1GORcJA1jm5vdBTezbo6Rzu7f4dB51tXHrsWi66tGXPSREOvoj6XokE3nbZnY9ccTB9s/KpCRRxRANN7x4j1RWTCjJNOBHW/MMusvaRbxW7kC9wuHWVuKlMWY15KF+g3pVh21aE//IbDNh4SYtHs87MBj8Lt6Yvn9SY8EuiArj/lW2D4Bi5b4PMFgYEBv9q1u+/1+kRX+1ANJStzWL2L3kUlu7IFEzE+5OyTfxbqyWAdWfE0w==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from DBBPR04MB7883.eurprd04.prod.outlook.com (2603:10a6:10:1e9::23)
+ by PA2PR04MB10087.eurprd04.prod.outlook.com (2603:10a6:102:40b::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.13; Tue, 10 Nov
+ 2026 11:42:12 +0000
+Received: from DBBPR04MB7883.eurprd04.prod.outlook.com
+ ([fe80::3a91:cf25:36c9:c3bb]) by DBBPR04MB7883.eurprd04.prod.outlook.com
+ ([fe80::3a91:cf25:36c9:c3bb%7]) with mapi id 15.21.0592.012; Tue, 10 Nov 2026
+ 11:42:12 +0000
+Date: Tue, 10 Nov 2026 19:47:06 +0800
+From: Peng Fan <peng.fan@oss.nxp.com>
+To: Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Lucas Tanure <tanureal@opensource.cirrus.com>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH 0/9] regmap: clean up and improve __regmap_init()
+Message-ID: <avMEOkZDXc+2XbmW@shlinux89>
+References: <20261110-regmap-improve-v1-0-3a76b6c10ec6@nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261110-regmap-improve-v1-0-3a76b6c10ec6@nxp.com>
+X-ClientProxiedBy: SI2PR01CA0040.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:193::14) To DBBPR04MB7883.eurprd04.prod.outlook.com
+ (2603:10a6:10:1e9::23)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -72,177 +99,65 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4kcwff6zv5lgihta"
-Content-Disposition: inline
-In-Reply-To: <avL4LoCz2wc164zo@devuan>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBBPR04MB7883:EE_|PA2PR04MB10087:EE_
+X-MS-Office365-Filtering-Correlation-Id: 087bf3c5-fcb3-48de-6812-08df3f1fa8f2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|19092799006|23010399003|376014|1800799024|18002099003|22082099003|11063799006|56012099006|261028144727099003|10067099003|261022105027099003|261026140227099003|261009223027099003;
+X-Microsoft-Antispam-Message-Info:
+	9d7r21Z2CsrhZ40YHeB9YgJPPq25VNJhvg3+Z6wN9g/uLGJDs06YHhPY2MbKCn1cWgUsJUYil/1z3HC+eDLiEr9QAHv5YFnoeGmKkWxchZPp7hZG4aGoqbFyJH4xp0kNrE9xsTNEQcFaMHYFL8dyEh3l0nb+F9jYRXtmLGAK9JE8FMQ8JrdH+kYWvEWtywzTfpbb7GG2OtUhW164HwJ69HlFG8ZkTNSDZnsYjrulTE7nQnwc5ubqhlROGBPlogQjmLQnNa57s1IKOquw0wkP0Fe3DxlPZ7ioakMJcC4T6qAG6DOEZZKD3mSw9kH76T672AQ6ZlSOR7WahjrFYcIlXFvRm9q+rt/Cyg1oOBLNkwWAJnRZCCkZSJvxiqVyssouG0spUFVCfK+uLuCSBIxbecE1PKX2A+v4Jo2XcKmKA14LpZaJ4ZxCjKHu9nujMQXfPB9d0RnHYpst+Il+oQFLu+KGcRvVmVq7Q60mV0u+VDwMudWu7+XbGCL4WeNOHz7b/wUrN+Bg7z6bA2aVEBLYYUkQlapfVJUSSnXabFlkP9ksRivvZuyfJDov8Sq+ss+srL4PU/qRvEURfRTFrVdEexnWdZlkuUYYbdHlFVc5fDc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7883.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(23010399003)(376014)(1800799024)(18002099003)(22082099003)(11063799006)(56012099006)(261028144727099003)(10067099003)(261022105027099003)(261026140227099003)(261009223027099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?2YN+PjscW7YDFAHZw0XWzxDjDL84seUhMej8pPrF2I3WFIzOSAVs7o7eFD/X?=
+ =?us-ascii?Q?X0tXJSbw24lxOcZsLXHFT1HDhV8veHNdw/LK/2IgvWH7MqEXSX9KCnH1WQPP?=
+ =?us-ascii?Q?lTUMTWMDhRrhnzyJ/GSMCX2M3DQ5//IL22bX3l6qqbK0KndyaGGgkkwlHhSy?=
+ =?us-ascii?Q?RSYMoP8reN12hUnFmhzFx3nipiA6qjCp7QYsaXTX8dEf92QcphrYTW0zKaZq?=
+ =?us-ascii?Q?XoVuMRrfCxwostllwdrM8soaX0BFpllvbROzldR4SHWnN0KbSGSpDxAvaOY/?=
+ =?us-ascii?Q?3Wkxe0GWk3m1mltKpCo90kn0SdjBABMRYiWyS5NPQLU6+Dco0AbgLgZ9rOT1?=
+ =?us-ascii?Q?zkvpnkFA9/v5Wem9Z0m6dBlwCieS6Tmgf9MdTLfGuR4WpLxk2rTYIXp9Ml3u?=
+ =?us-ascii?Q?AtSj/5FmSTg7GBN+mKmh+XzmineeC1BuF5jonkRN6tB9OB+ZPVu4NW2kopdb?=
+ =?us-ascii?Q?Y0Ht+CL0Patdfj4Z17VYpxr+Lz3HUW5CF2FmxHQn06i7GJpUrXZpH5EDL2Yt?=
+ =?us-ascii?Q?qG73UvH0ljw9mwrJe1L2dbX+lI29PaiBzvrQkhyhS3gnXuNPGhAO0ku4RHTf?=
+ =?us-ascii?Q?3MNwQvvjsobz7Aoo5grXLzl8oQ5F5CCASL1rMVv+dHJ4XIHmcgzqMF6utfwL?=
+ =?us-ascii?Q?p/R8AAnwIBv4tiZ9dTppcCWXpruXNEQxympC9jnGy6z9Vlc8J5geXnyedojF?=
+ =?us-ascii?Q?Y/z/7JwIs2svYFIfl+U5ZfmXt+oKt1uuQLKwRBGQoMfIRvqWcxGRPxPj89QV?=
+ =?us-ascii?Q?yOtpeQowETcJRx8J73+br2ObaNDku/NbWBRoZhnXReFtznxGgAkE4DCRtFRm?=
+ =?us-ascii?Q?M921wZlPUCv+zXrVIgCjFz0UAR6lWU9645WuYv2qkiLZ3HFDmCPW5XqzlB4P?=
+ =?us-ascii?Q?M7H3SWERVgZTc4+QRJ5w/3aGMMhfMxM633QOMtrX6z+3nTndp0DRWG7SMQyW?=
+ =?us-ascii?Q?6p8H57vfYEA9JTWa/RC04xqVHtiUxWeoj9vhP/+gcyDnPiupEn7MvyemqLND?=
+ =?us-ascii?Q?7FoAssMMsIfUpgnTX7cANcmsIw8NbE5KB2kqCO/d16irF/LdikIyu0dm23Ct?=
+ =?us-ascii?Q?9cRGlZV07k6JTas0ESHg+mJTadyNsXf0Rai86aIDPDtpIPBgN/OBXyiQGfBc?=
+ =?us-ascii?Q?Oxr3ErBD6CXj8BPZmPv+Ra2no1YpI7S9UpAFEwAM4ulDfA2C1VVPn/fpohw1?=
+ =?us-ascii?Q?2HtjIGvuI/SLwHyfSp72N8tV/5XNMjwQN3kksRL4i30t+CoN95MSelHVhCbu?=
+ =?us-ascii?Q?yjcu7dLZOkaQIe7XdnSm+DSgAvAVHFgXlbOnu9LUyheyFD+yw2YpoihII5hK?=
+ =?us-ascii?Q?xzjZpNHH9HmprGZKxE6jfDv7NFBX7Phy55l4iNffZktZafmuKFFTemlY+0C6?=
+ =?us-ascii?Q?e3EHqFcRPKTBvUAtfs2Z7M0m4+6MVI2qyUzgL0NvSL8p16N7xvJc1225lc/8?=
+ =?us-ascii?Q?52JCFN3idyika8bJ0ACpIjjpFSJD/fsLGB1Pt4JemaHFtd/4MzUAPrCjqppB?=
+ =?us-ascii?Q?QcMV0fkzYQGH3gsXPZO8GtuEJ5PkjslkzEIQq9dAWJvERz6CwZ9SdcxpCKvb?=
+ =?us-ascii?Q?wzLrtCYyd1xWTGf9YpHOeCb1aY+E9ejJVG2Of6ij9KITGtcTRnAhVYJqEmMU?=
+ =?us-ascii?Q?D+LfUN/cGmNfri0+CtE2X0QeUiucaCjhMDpAaVzKb8SVST1msJZ3ZcOMz/U8?=
+ =?us-ascii?Q?BV4XBTiCx4gyR2TdXg2G/fkHvCgVVUkB9HDHuwpArJ/Z5nYoe9gsaFRnHAj/?=
+ =?us-ascii?Q?gRjGZ4JMdDrTnENzUyMExCN3A+LxrH8GA/hu9yITFVV1cC4QW3bn?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 087bf3c5-fcb3-48de-6812-08df3f1fa8f2
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7883.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 11:42:12.2207
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hDt1AbTIETGqlhvNKftqC/vOLmQZGtwgsUK4Ih9R30smPXnDj1PbaCu0MBCO5HYR32wEuU60w91zsOxkrArEq3HdWxKPZ2WTxUtD0uVt7NKb6eRZiOSrL34TIAArCL6r
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR04MB10087
 
+Sashiko reported a few findings:
+https://sashiko.dev/#/patchset/20261110-regmap-improve-v1-0-3a76b6c10ec6%40nxp.com
 
---4kcwff6zv5lgihta
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx+linux-hardening@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, 
-	Hans Verkuil <hverkuil@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	Linus Walleij <linusw@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 5/9] of: property: implement the .property_get_names()
- fwnode operation
-Message-ID: <avMBNUEL9_V7WnK-@devuan>
-References: <20261104-fwnode-for-each-prop-v1-0-6e28fe1c72c4@oss.qualcomm.com>
- <20261104-fwnode-for-each-prop-v1-5-6e28fe1c72c4@oss.qualcomm.com>
- <auuhy40x1BMoW96-@ashevche-desk.local>
- <7sfr4ljlwbehal3or4dmy5jxbjz6ya2lf3dq3yptr54wym5tea@eqaexflmocih>
- <avICwdxyi-W1Y3PD@ashevche-desk.local>
- <ab73ez55exen3ew52svsxfinwsuatppdodu2e2zp6izjwwqwwu@2imxzxwclgtl>
- <avL4LoCz2wc164zo@devuan>
-MIME-Version: 1.0
-In-Reply-To: <avL4LoCz2wc164zo@devuan>
+I will address in V2, so please wait V2.
 
-> Date: 2026-11-10 12:10:57+0100
-> From: Alejandro Colomar <alx+linux-hardening@kernel.org>
->
-> Hi Bart,
->=20
-> > Date: 2026-11-10 10:00:42+0100
-> > From: Bartosz Golaszewski <brgl@kernel.org>
-> >
-> [...]
-> > > > > > +		names[i] =3D kstrdup(prop->name, GFP_KERNEL);
-> > > > >=20
-> > > > > Can property be statically defined somewhere? We might want to al=
-so optimize
-> > > > > these duplications with const variant (here or elsewhere, for fwn=
-ode generic
-> > > > > path, I believe).
-> > > >=20
-> > > > Please rephrase because I'm not quite following what you're saying.
-> > >=20
-> > > Can prop->name come from something that is declared as
-> > >=20
-> > > static const ... foo =3D {
-> > > 	... .name =3D "bar";
-> > > };
-> > >
-> >=20
-> > You can't know it for every instance of struct fwnode_handle, so the
-> > answer is: no.
-> >=20
-> > PS: is there a way of using match_string() with non-const data?
->=20
-> Given the definition here:
->=20
-> 	$ grepc match_string .
-> 	./include/linux/string.h:int match_string(const char * const *array, siz=
-e_t n, const char *string);
-> 	./lib/string_helpers.c:int match_string(const char * const *array, size_=
-t n, const char *string)
-> 	{
-> 		int index;
-> 		const char *item;
->=20
-> 		for (index =3D 0; index < n; index++) {
-> 			item =3D array[index];
-> 			if (!item)
-> 				break;
-> 			if (!strcmp(item, string))
-> 				return index;
-> 		}
->=20
-> 		return -EINVAL;
-> 	}
->=20
-> You should be able to call it with a cast.  It's dangerous, but
-> technically it works.  I'm not encouraging it, though.  :)
->=20
-> 	char **strings;
->=20
-> 	...
->=20
-> 	i =3D match_string((const char *const *) strings, n, "foo");
->=20
-> This is a historic problem in C, which was solved in C++.
-
-BTW, self-correction:  it is solved for char *const *, but char** is not
-convertible to const char *const *, neither in C++ nor in future C.
-
-
-Cheers,
-Alex
-
->  I have
-> a proposal paper for the C Committee for solving it as in C++:
-> <https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3987.htm>
->=20
-> This paper will be discussed (and probably voted in) in the next meeting
-> of the committee (which happens next week), so there's a chance that
-> this will be solved for C2y, and thus the cast will no longer be
-> necessary.
->=20
-> The history of why this is not allowed in C but is in C++ is, as far as
-> I've been told, the following:
->=20
-> Back before C and C++ were standardized, C++ invented const, with rules
-> slightly more allowing than what they are now.  This was going to be
-> standardized first in C89.  But very close to the release of C89, they
-> realized about the danger of converting a const char** to a char**
-> implicitly.  They were so close to the release, that they opted for the
-> safest approach: disallow any non-trivial conversions.
->=20
-> Later, while standardizing C++98, they realized we could allow a few
-> more conversions safely, and so they did.
->=20
-> C could have taken advantage of that, and pick C++ rules in C99 or C11,
-> but for some reason, nobody proposed that.  I'm proposing it now.  :)
->=20
-> We've already discussed this proposal informally within the committee
-> for some a year and a half, and there seems to be consensus that we want
-> it.  We're only being careful about the specific language.  But I think
-> I finally got it, and it will go in next week.
->=20
->=20
-> Have a lovely day!
-> Alex
->=20
-> >=20
-> > Bart
-> >=20
->=20
-> --=20
-> <https://www.alejandro-colomar.es>
-
-
-
---=20
-<https://www.alejandro-colomar.es>
-
---4kcwff6zv5lgihta
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrzAXMACgkQ64mZXMKQ
-wqn4jA/+Nrjt3oAo7ab82L0PwByaKld2tiUanIh5j9GnTXUIvFhJ1Fzha4b1DL1/
-F31kpq3MdXc3dB+R5Q+MkyYGvGOysxAmn9LzyJ0yJ+L8AkIHKBgogLdkcINvw2+1
-AOVVJLFEffs07j2zedSkQYDwQWMi8p60Mfo+qL6ZE3TxoTGv8I8vYeYMEgY1lTai
-c46jn3KHvn8xZdV9rU5097tSPg6jhikn68+IK2mL51Im93fceRJ41jpkKA17Qrwx
-bJm0psSpancqH6pLWveNR+3iuyJ966tU7nP5sDlOIBB0/vbsYUuuYwg4q1YCakOZ
-duPcdG9L3JYLfqdg+v2pHcrCSWsw2ae+tUivZVd/g+pYf0jzd6m8Yujp+HzhIC7S
-uazeu8telgKmOlvy3ETLSb2tdMy4/6Gze7qVTO4PVSAoGPLyPLk+XwRb0nvzxIeF
-sBShqOUMxlnVbAOIxWPp5h+ks8Deakq6W4qdDhdlW8dzvUyHovoSZDThED9mrKw2
-tn1b4AZ93P39gIAR+oFBKx/wMQW/i0hCMyAhd6zdnMTj1wmFyOdWjdNu7lkGObhM
-hJ/Lg8856jNfMaGtT59Uq/1MDbxy4IAMNyfXty5JFRWeU2ZR8zdDEQ4El0kOKdmU
-cBe9ucoZvZrH4TJt39ztQZhRFQbos3mNe1SIlUjE6S64GC3SIcE=
-=HIIa
------END PGP SIGNATURE-----
-
---4kcwff6zv5lgihta--
+Thanks,
+Peng
