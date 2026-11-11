@@ -1,76 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794389424;
-	b=nwIeq67lpo6QDf4BElx4PZDfFuHYql8M8NjL6XnPw41o4BKS+lPiTTaQAsJ45FPwFtQ4
-	 +e0+NGQUq9AOlKa3Iq6VHU9WgxT/01tkN3q93sPiaCnJ/8T4L0Z0W22wb8o5AVLdcHyCl
-	 3BhM55l2UqfLenM7re+JdYMXleDvYfUZ3gJD+lr78AWss0HnLZkq1iSX/nfPXJ0WH5Io8
-	 F0DUEQBHLYy63iCIWk/A4W8aVAjzqUytWwQ9r0FLvHCK2dq8UwVOW5oQs1OhcubF3FcHX
-	 l3f0xUFTXTXPqXKSAaJbJkN8DF6BcxPXB0lxBHTdTy2u025LdJGdXqEeRpKwRU10nnw==
+	t=1794390418;
+	b=Nhg17AHd9HIsgif4fVjmYtD/xKXR+uvPcs3IYUG3gJChisY2yxpIKMyBa6l0T1/NbsSq
+	 EYYJGywpl7EdxgBl8jYPljIws1lM368Pqk9GPcDVGGI67G44dCXiSZFGmgdVgWoShTCRP
+	 wIrtM6S0f/VLX+QQSIXgFVzoyeoglxgdJRyjtGFjGoZ1SG+Hrr9gjHPlRDNzktmrCt95J
+	 8bBRmZYy2HeXjR+QxNau+0VzK9STPFreHMv90uwyI7klW1CopIxlfUPgEViqIxj1EhRnH
+	 U94oxaU/dZIdfz4QWzSSg1O69Wt6cexCjRZFKveTyhZKPD+rxl+g/HPH8za6UmRWJqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794389424;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=84mNVAxJB/4EPEIoYQQ2iI0OwXIBX5UcAERwTVjPWHY=;
-	b=EqVFVTFthHAOtDHFPcIbS2biIFi0XWRIN3k/Dvcfz6+2lbHcuczoPYKq+tv4KhN6LvW/
-	 EQ3quVviFpMaf25VcxeC2qwtD/XW6NXBUh7Fs0G4ZwSHFs1pvR+r7zf2gghMdWxzskfhc
-	 TlXZ/gpuN5G//9qyOQa6u5HRU186ig6+C3n+XBRxsh3j4xry4ZhL50H8umznPTsz7VksE
-	 d935+tW3a78uMa8hm0es2NLd48asl1N0GH8KdIlEwTI7b7GAcRHuvaiGyvqrQOm8SLEq1
-	 cTYLpCuqB8HeK2BHSIPrjx27BYJi1U/okpZC+dtpnjVQGZ1Lmc3XPskpOWQarag492w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794390418;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Debian-User;
+	bh=g4FJ8o8UQUtyD0eGI0sUCpicqPvdI4Vdc4LMM0bmn0w=;
+	b=Hswx4nOcAxEn2mYXM+ZJr7H/uWd6tZV0QzCT4hYr1fl+14rNU9s+/ViqQ9z1Ugna1oRS
+	 BFkTk1j+MqQiagMQvynOawuKEKyONjBiV18uaMTwiPLVAq7qzB8keqRfSSA42kc6ODfXz
+	 i1+GfJfXQwnp8403YtvM1/TYnjXvY21mSx2W/lDKVBjpVKjMcIfgQdOpTRQe1RmRd7ZaQ
+	 bXcnFeiSpsBlotq3RK0uh3T+hRiWbt4uovHA8I7iYaz1An7qvtsK2GXwM4oWNwVjWkjHF
+	 06u2vbn8KvnfDrbtUbRfIimbv4xggVXvUlwGDZG1XSbiMUrd1DLUsP0sDl3FiaimEdg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=CYXD1D4R;
-	arc=none smtp.remote-ip=90.155.92.199
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=cmZW0raJ;
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D22C60A261D;
-	Wed, 11 Nov 2026 09:30:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D22C60A261D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60BA606A332;
+	Wed, 11 Nov 2026 09:46:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A60BA606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=CYXD1D4R
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=cmZW0raJ
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=84mNVAxJB/4EPEIoYQQ2iI0OwXIBX5UcAERwTVjPWHY=; b=CYXD1D4RloSJvjkVTIKKM0ZLEH
-	L71IzC0gJbd/iXHNJVQ+RyUh59BZ66wBfR+Ej+dxaM/fK3HF7i2z21HUaxVPIjXauhMjhYK8ELgww
-	BXMSuL2dopUT5z6F8kyEEr7kQGK+JzRGowhDSp6pfgdiFq0bTgndsQ5qV/ch/zNB9dEVdeDF5RyK3
-	DWr+yJID/of+vcCT+JKjXNhYKJ1k+vxiIVKqqOu3EF0aX28RJtcqT8AuM+9a8fbVPpZ0pZlzbV9pW
-	ps0RfGrNFHYXkOlo5oFwmfBKGL4lb4IOFlb4qzEN2WHRmiYUJd2VT9+7TT9yA8crTPoorn1KuU0H7
-	Sg/w4iwQ==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xR4eo-00000008yUr-2gtD;
-	Wed, 11 Nov 2026 09:30:18 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 2659B303011; Wed, 11 Nov 2026 10:30:17 +0100 (CET)
-Date: Wed, 11 Nov 2026 10:30:17 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Alice Ryhl <aliceryhl@google.com>, Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>, Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Lyude Paul <lyude@redhat.com>, linux-mm@kvack.org,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH v5 0/4] rust: byte-wise atomic copies between `Page` and
- shared memory
-Message-ID: <20261111093017.GX2668804@noisy.programming.kicks-ass.net>
-References: <20261110-page-volatile-io-v5-0-a91ef252c24b@kernel.org>
+	bh=g4FJ8o8UQUtyD0eGI0sUCpicqPvdI4Vdc4LMM0bmn0w=; b=cmZW0raJpZImC504fK0B0kMd2h
+	XJQXfLj15TrbtRxuoXIll7+dYj88ZVAl2AayT9vhDBlAQ57+Eho/cFEk5It94wIbKS4EH4G+cdutI
+	0K9jgabrgunrLX95HA3KOWeYRz+hLh5iGe5EyD3w5xx8w9MzCtlstOcNUcfrAtIPd3RxiWEjnELaD
+	hbo41pU2e/eygmvhOngKp7971UVKKEY71/mIvuWf0WfaOur34IyUdpGFowB9/oVJFRm81ZxsZDxLw
+	5M54Kif6OKPedXxyOCO9YpK4/4uqCIxZE2p81NHj3kV9mf9cnMGZSmbBCsLntHmPvgWT1OTOymjci
+	CwvzesXA==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xR4up-00D5nW-2D;
+	Wed, 11 Nov 2026 09:46:51 +0000
+Date: Wed, 11 Nov 2026 01:46:43 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
+	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, 
+	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, apparmor@lists.ubuntu.com, 
+	linux-nfs@vger.kernel.org, netdev@vger.kernel.org, fuse-devel@lists.linux.dev, 
+	linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev, 
+	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
+	Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC 16/41] configfs: use fc_init_pseudo()
+Message-ID: <avQ5dv0747H-XKmD@gmail.com>
+References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
+ <20261110-work-loop-pseudo-v1-16-4c998976c6c7@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -82,22 +78,14 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261110-page-volatile-io-v5-0-a91ef252c24b@kernel.org>
+In-Reply-To: <20261110-work-loop-pseudo-v1-16-4c998976c6c7@kernel.org>
+X-Debian-User: leitao
 
-On Tue, Nov 10, 2026 at 03:44:18PM +0100, Andreas Hindborg wrote:
-> This series adds a way to copy data between a `Page` and memory that is
-> shared with actors outside the kernel, such as user space threads or
-> hardware, without introducing a data race.
+On Tue, Nov 10, 2026 at 10:14:32AM +0100, Christian Brauner wrote:
+> Initialize configfs as a pseudo filesystem. This raises SB_I_PSEUDO and
+> also SB_I_NOEXEC and SB_I_NODEV. configfs never holds executables or
+> device nodes.
 > 
-> The copy is built on `SysMem` from `kernel::io`, which already accesses
-> system memory with volatile or byte-wise atomic operations. The series
-> first makes the requirements of `SysMem` explicit by requiring freedom
-> from plain accesses for the lifetime of a view. It then adds
-> `atomic_per_byte_memcpy()`, a wrapper around the kernel's `memcpy()`
-> with explicit safety requirements, and routes the `SysMem` copies
-> through it. Finally, it adds `Page::{read,write}_bytewise_atomic`, which
-> take a `SysMem<'_, [u8]>` view of the shared buffer.
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-I am still completely confused by this. In what universe is your magical
-atomic_per_byte_memcpy() not memcpy() ?
-
+Acked-by: Breno Leitao <leitao@debian.org>
