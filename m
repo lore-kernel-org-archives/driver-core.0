@@ -1,85 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794388321;
-	b=mTeFvB3m46EjnP62PXRfXzjGZY5g8fENVzb5KbBx7YaXspBGdQ3TqlUPQ0X+qufbwq7h
-	 hNhStGp5uFgNIJs5WH7NBO5YYZAJW3P8oBB7VqEKNjuEc39vgOf0WX5FLSDSSCNMYL0YS
-	 OrJ0lcB1Q1SHwLoipjfOdYDuTQRQEiGcXnFZ9VKUtaUS20VXREtGREs04rDtcduEmCtyF
-	 yAkwhL/ps6OU0MZpcpglVGttt7bSPUMTv/HInwii0TQ76a4MGqpDrkq35Q/gxYufQK6Vn
-	 Kq8Xv4pGHAb4MTPwK+5qArpivt0d2bFmh9o/c4TEpGP2n4jjpnV7C9RtIz/lCzYx/Fg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794388321;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=xMsUgCsGYtAuzjV6fXKjB5LSgRF1fx8Yzkw480NcByU=;
-	b=rCOxqVXBhqnxPZJSaQgjIxd9YLvflSVsi5zL9kNQLu79n60Xs/sq31halLejzDj0yjwx
-	 aNaYtn6UbCjaVSQb4y5b/Rb+khRoI0j+j9XPHZRuQXtz9qUWFGjlsEtf8BET1vqoHiLjq
-	 uoRXttqplp81goqwMHPXfKT6abb1PW0B2brHV4WgytVD8gFTG7leCbfP1SE2hEd27xikJ
-	 tsBmSJCQSwE17xd7iAGR+cND80vgVHqJoNR7MHoWzaimAeczsM7hA1OkvbuQJR7IIID74
-	 5+kdEJHH7iCNbKdHnsSsl/0VyIfWXsqxBMU5Ll/Vwudj8koPsAoPqDxQy88yKwKRSPg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jJ6mlt9Y;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794389424;
+	b=nwIeq67lpo6QDf4BElx4PZDfFuHYql8M8NjL6XnPw41o4BKS+lPiTTaQAsJ45FPwFtQ4
+	 +e0+NGQUq9AOlKa3Iq6VHU9WgxT/01tkN3q93sPiaCnJ/8T4L0Z0W22wb8o5AVLdcHyCl
+	 3BhM55l2UqfLenM7re+JdYMXleDvYfUZ3gJD+lr78AWss0HnLZkq1iSX/nfPXJ0WH5Io8
+	 F0DUEQBHLYy63iCIWk/A4W8aVAjzqUytWwQ9r0FLvHCK2dq8UwVOW5oQs1OhcubF3FcHX
+	 l3f0xUFTXTXPqXKSAaJbJkN8DF6BcxPXB0lxBHTdTy2u025LdJGdXqEeRpKwRU10nnw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794389424;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=84mNVAxJB/4EPEIoYQQ2iI0OwXIBX5UcAERwTVjPWHY=;
+	b=EqVFVTFthHAOtDHFPcIbS2biIFi0XWRIN3k/Dvcfz6+2lbHcuczoPYKq+tv4KhN6LvW/
+	 EQ3quVviFpMaf25VcxeC2qwtD/XW6NXBUh7Fs0G4ZwSHFs1pvR+r7zf2gghMdWxzskfhc
+	 TlXZ/gpuN5G//9qyOQa6u5HRU186ig6+C3n+XBRxsh3j4xry4ZhL50H8umznPTsz7VksE
+	 d935+tW3a78uMa8hm0es2NLd48asl1N0GH8KdIlEwTI7b7GAcRHuvaiGyvqrQOm8SLEq1
+	 cTYLpCuqB8HeK2BHSIPrjx27BYJi1U/okpZC+dtpnjVQGZ1Lmc3XPskpOWQarag492w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=CYXD1D4R;
+	arc=none smtp.remote-ip=90.155.92.199
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49A6606A31C;
-	Wed, 11 Nov 2026 09:12:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D22C60A261D;
+	Wed, 11 Nov 2026 09:30:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D22C60A261D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jJ6mlt9Y
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=90.182.112.124
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794388321;
-	b=iFfVSkaJR6km2bunnsvcj4jYwqm/fPWR1KdLi0pwL0w6+1vFvfVErfzWMFKd5ajaDLdE
-	 YKFTK9BP9mpYrb0vXrSB/lWouSyPF9Gf0XSuboHWfzSPVDSFMF0GWetzykXu+SgDmYNmy
-	 fde2Lf0nEK5zZUrMMNEfZ8ure4itvQCUqeQd+w7fvRUz9U0sMVez94BatZGFk49ShxrmD
-	 BFVonLj2aQQzcDlMs4IJO7qNxC6vs9kV5HJ24Q4XaGZ2QTCRvrQHSqWA++FJAGkHz9Gwo
-	 hCPZMfoRmR/YbMl6s8SsFPW/dLPIAuH//6Rc/aROkidSdjkuv5DEjvASAQ9zWVv0pAw==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794388321;
-	h=DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:
-	 References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=xMsUgCsGYtAuzjV6fXKjB5LSgRF1fx8Yzkw480NcByU=;
-	b=WLOH2uCGVB1192Ov09Md8reL0SLS7ODjVSj9gmyKDrtbfEk8uHeJ6PYYiidZ1CZmlnA0
-	 dfmHuQJLWIuSvz57tNMthUOEvPHA5Gdh9+rPq/LZzc/2EvJkQMy/zgNuaIR7q9F7l4Hje
-	 e7pz0CGlwqzgCOVK5akxhTv7swYQtRAwvs4f84Gx3VMd+l/931xhg0MT43UZDXDNQb4DJ
-	 oo4zr6GSuDLfKWmJQuT+qbuipY200nLel6y5YHp/gCsHDealM3ObJlNd/qdYtIMfDlwgq
-	 Qn5mw6o+MNrrOFxnqvcqrtC14szqaL7Iqjry3ZbiMYwHqyZIXI1NeKrflrMMpoxLcRQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=90.182.112.124
-Received: from localhost (90-182-112-124.rcp.o2.cz [90.182.112.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPSA id 60E031F00A05;
-	Wed, 11 Nov 2026 09:11:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794388321;
-	bh=xMsUgCsGYtAuzjV6fXKjB5LSgRF1fx8Yzkw480NcByU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=jJ6mlt9Y0hvWgVq3eymBZ6VNr8zYwwRBVTHJel4Zbbd5K6jpqi9NlNzcFAiBHgdS+
-	 TK0hSyyZDYm6NK8sb78zk3Px/O0QSZTtOOmzebKgC1uSAdnUYoy3L4GGlVms2Kg/Tj
-	 7o9Jb7+gldIxrzLOifi/ASAdHPttA816EYbMp2WuxDgu8npCESb93MOy1mgvFAy+47
-	 9k9XJU6rE+cBiGwfVFqTwLDSgGHTAJdM19TsqNYikWXmi2tuSr1PX48Qk7aiQ9jVpl
-	 rqooqOR+qL9AVO+phwSH1AhbAMv3PJCNlLamD0/uSXLNC8uqViSgGHFsljsi9nYCV9
-	 GOeGpVVfzldtw==
-Date: Wed, 11 Nov 2026 10:11:52 +0100
-From: Joshua Crofts <crofts@kernel.org>
-To: Samuel Wu <wusamuel@google.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
- Pavel Machek <pavel@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, Johan
- Hovold <johan@kernel.org>, linux-pm@vger.kernel.org,
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, Dominik
- Brodowski <linux@dominikbrodowski.net>
-Subject: Re: [PATCH 0/3] PM: runtime: add new runtime metrics and summary
-Message-ID: <20261111101152.00007785@kernel.org>
-In-Reply-To: <CAG2KctpRRDMXR8wG40PeohsTyAdoNC=+4Nc9pHGQc1fmw9AXeQ@mail.gmail.com>
-References: <20261110-pm-runtime-summary-v1-0-12ebf283db78@kernel.org>
-	<CAG2KctpRRDMXR8wG40PeohsTyAdoNC=+4Nc9pHGQc1fmw9AXeQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=CYXD1D4R
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=84mNVAxJB/4EPEIoYQQ2iI0OwXIBX5UcAERwTVjPWHY=; b=CYXD1D4RloSJvjkVTIKKM0ZLEH
+	L71IzC0gJbd/iXHNJVQ+RyUh59BZ66wBfR+Ej+dxaM/fK3HF7i2z21HUaxVPIjXauhMjhYK8ELgww
+	BXMSuL2dopUT5z6F8kyEEr7kQGK+JzRGowhDSp6pfgdiFq0bTgndsQ5qV/ch/zNB9dEVdeDF5RyK3
+	DWr+yJID/of+vcCT+JKjXNhYKJ1k+vxiIVKqqOu3EF0aX28RJtcqT8AuM+9a8fbVPpZ0pZlzbV9pW
+	ps0RfGrNFHYXkOlo5oFwmfBKGL4lb4IOFlb4qzEN2WHRmiYUJd2VT9+7TT9yA8crTPoorn1KuU0H7
+	Sg/w4iwQ==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xR4eo-00000008yUr-2gtD;
+	Wed, 11 Nov 2026 09:30:18 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 2659B303011; Wed, 11 Nov 2026 10:30:17 +0100 (CET)
+Date: Wed, 11 Nov 2026 10:30:17 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Alice Ryhl <aliceryhl@google.com>, Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>, Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Lyude Paul <lyude@redhat.com>, linux-mm@kvack.org,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH v5 0/4] rust: byte-wise atomic copies between `Page` and
+ shared memory
+Message-ID: <20261111093017.GX2668804@noisy.programming.kicks-ass.net>
+References: <20261110-page-volatile-io-v5-0-a91ef252c24b@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -89,46 +80,24 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261110-page-volatile-io-v5-0-a91ef252c24b@kernel.org>
 
-On Tue, 10 Nov 2026 19:38:39 -0800
-Samuel Wu <wusamuel@google.com> wrote:
+On Tue, Nov 10, 2026 at 03:44:18PM +0100, Andreas Hindborg wrote:
+> This series adds a way to copy data between a `Page` and memory that is
+> shared with actors outside the kernel, such as user space threads or
+> hardware, without introducing a data race.
+> 
+> The copy is built on `SysMem` from `kernel::io`, which already accesses
+> system memory with volatile or byte-wise atomic operations. The series
+> first makes the requirements of `SysMem` explicit by requiring freedom
+> from plain accesses for the lifetime of a view. It then adds
+> `atomic_per_byte_memcpy()`, a wrapper around the kernel's `memcpy()`
+> with explicit safety requirements, and routes the `SysMem` copies
+> through it. Finally, it adds `Page::{read,write}_bytewise_atomic`, which
+> take a `SysMem<'_, [u8]>` view of the shared buffer.
 
-...
+I am still completely confused by this. In what universe is your magical
+atomic_per_byte_memcpy() not memcpy() ?
 
->=20
-> What is the vision for using these runtime PM stats once surfaced to
-> userspace? Runtime PM and suspend have disjoint portions, but I'm
-> curious if you see any non-obvious areas where these stats would be
-> insightful.
-
-The main things this is useful for are detecting power "thrashing" and
-tuning autosuspend delays. Currently, sysfs only shows the total time
-a device spent in active and suspended mode; from an energy standpoint,
-a continuous 50 second suspension is different from a device cycling
-1000 times for 50ms each (these transitions can be pretty power-hungry).
-This could help userspace utilities like PowerTOP to more effectively
-determine what is causing an increased power consumption.
-
-=46rom the kernel dev standpoint - this is genuinely useful when testing
-runtime PM functions in new drivers (for example in the IIO subsystem we
-deal with a lot of runtime PM stuff).
-
-> And is there a reason the stats need to be surfaced in both sysfs and deb=
-ugfs?
-
-sysfs definitely, as you should definitely be able to access this info
-per-device (and this is the way userspace tools would get this info).
-
-The debugfs summary is however pretty elegant IMO and useful. I'm sure a lot
-of people investigating odd device behaviour would like this (plus there
-are overviews like this in the kernel already - clk_summary for example).
-
-I'll add these points to the cover letter in v2.
-
-Thanks.
-
---=20
-Kind regards,
-Joshua Crofts
