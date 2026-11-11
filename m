@@ -1,117 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.57.44
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794429463;
-	b=khVPe97PkLSf+2Ik4+kQlIINfmkfsTLPzsZHbTYr+ulv65qtPwcXCEYXSAov/NGLEg58
-	 1kCmTFQkOyGy4H51xyPWKwwEsk+esqz/RdSFGVa529X5aEDzQEz3onweB/sY8SR1UPXu7
-	 Z8lwSc4goQHYj3mYTbSLX4RuckO8KeJsOrZsqv5of0na+/QaS0ArrKWI6VFzIs1OuAFUo
-	 ZYG4Zux+Pb14NoOImFp8DoIRkPT4ZRpecTnckJpeiTg3X4fSm+Wr8wPOzGvHMmv0vFhNz
-	 K0C5/xuSbc5icWZ48SGTUUA1l4lZzJkjOIqF7YX+iikMxE49HixpUiFsxbfZ1z46gdQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794429463;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=vpFFUBef3ORhRhRHBmdSYeFTIBv896sR/I4WSwGYm5E=;
-	b=afXE6mbljREuF5/TrqAcp0+Dsoojm8AKRDSAryPHIiID8cPR22sdszpGbIZUvotu4Ari
-	 ZD5yLvu3gpdI0ew6xMJuTAQh+tSekq5efunjl3ATNSPdNGnU0RoYuOELeGIhgqrf31ata
-	 EBVUAFinYAn1Cvv20F1uWxzRprPiLq4iIkQmlXuYzaJHPsJJniaLeOFnqNRQEgcQGdguZ
-	 M86KLY5w1pdVN0y83K+OcNWZ9K6KYL5jltnrNur8NaFdEVcu4e9f/KTerNDOSmKZ79S9+
-	 RZZNcAjJMTZSl92KOFOnFLC3YFRk3Nelidh0joeon654xs0MC08DLDiH+c44qysNgAg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=qsd2Z4e6;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.57.44
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011044.outbound.protection.outlook.com [52.101.57.44])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21A7606A8B1
-	for <driver-core@lists.linux.dev>; Wed, 11 Nov 2026 20:37:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C21A7606A8B1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794429935;
+	b=zstQipOZxaPfg2FQ4qyQEhVrLW0IV7WIzVnoj2sdrVgsTx3E1hbqiFaeujdlZl4jYSwF
+	 DtexRFNqzmhEObs9qPw0Vb2ofT4E+78UAVANYNtzzbTRlvUwRG0ZwZYTqVJX8ihRX2hm5
+	 5o2jL9r7lt7V3zchcMf7/+TDQ8G1JF/9L4u2MzMp9l6fmxUpEHw5d6U/95E2/rowADMdw
+	 1z8jUs07aylUfe10v+/hjt/USx3WhFNBwOJThWfIozy7yR/7Xx0c3aMO0c606lVbhwi9s
+	 B8hGkgDVovINRFHN0nNTmv+XSnqAN4ythc4lKbWOHgINldNSUSyZzAHB6lix1oaA5BQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794429935;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=yVeXYht7akFSY/gai/1Qv7DeakG1hQuPn+nM3CDxqEA=;
+	b=ZZ4oW74Z/zk/qSY/Rh3T5yvkoQOyNse6l3hbmfdy9l7Cm5mcI9+Jsyc77GYZItI1kR0E
+	 b/7twCdfZAgpvmsGp/+5upIOOkXBvgqIFJ7u1kiqtskAQsyROSHhhKbSud8slB4S8KqR5
+	 XBP409y/Er93TuOUqvSrGn/ksY5nw0gxcozwGf7ibmg+3qpl1qETZQf5WKy0quo8q0MsL
+	 Gt1okaA8GiqDQ70otH5PY/gthD5eWScaTWh3wdQhT905USGNRQjRRZJC/RyZ1duI70kIF
+	 faovuojFKq3PO6eyBhUnEensjSh8ECeHSCA+yvYzXoYkZOMAY9GwdZJN9tIlwOV8lfA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=gCGULcr3;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60CCD606A321
+	for <driver-core@lists.linux.dev>; Wed, 11 Nov 2026 20:45:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60CCD606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=qsd2Z4e6
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=de8iawACYRTwuFamji85i9tBZNTmIKu3P/Sfjd9jHPul9Ph28q+KrBKNTLnFnJ5a/2de69Z8oiZW8hmaOQm50O1tzrz888GvZx6OIekH4UQFOvLWimen+QgVCJrMob5Ant0x3bdFqNrekhVbmLspdZMt3F48OX3CmVG+j5ABbqyJ3UxGLqtqyfiRhnMu982pdbQdT3gOgXXFPyy//fqCF27xxupY81lH6lV8dmbdrh27fqnkiGxNI7wLOhyDriroQTRB4toV5AzZTNzLcBwFBHGeDeBAHKg4hRpuFhWVA1Uc5nGovbeh9f+XoiOS93jNzyj+79bGJ6BoPl58nVA5vA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vpFFUBef3ORhRhRHBmdSYeFTIBv896sR/I4WSwGYm5E=;
- b=tu5xdihqn83bUtxz3ZmaMKutPpv3MncQEyCk6dSUg+7Hau1ArOUm+6xo5KAsJ59fVuOD1CNyvYHFgwHsBcxyG70wzf3EovBu78sLzfigD584Ti90OmMgelUFrC4hLf6DCBnurQ1XOH3/T+LAhSvjybp25OphToELROszUpxzt2HNN6uciet0bt8Q4Rlewwjzcl5ymVHzqENWXsAa2pycEszBnId0WJXsmj5uj61teuNZ1zkJ1cUtnro4NM32K230qc6tj9J+4/DNGG0IBT5/9Gr8iFkaE8U8iHUgTfwEk4Zh/s66fg20oYkiYLKhYQtpjEkDZBK7ussP7gcSPA+49w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vpFFUBef3ORhRhRHBmdSYeFTIBv896sR/I4WSwGYm5E=;
- b=qsd2Z4e6QpJdugGmBQt34V6o/u2BUfVwze4ozq+tCH864fDBxAD8uApPpWLpN6mQYKkghX2OSYBjff954k91Q+e68k+OrwuPyxa2YEytSrDvoW7xSs+zjiXw711Qw1ttW5xwkXRz1LvWirgTa2jpkr3YJ8AE/wiXIYsr4rprQVF6eg8VseCUlud6L6bA60S6KFhdoVisM7ygJjXE5CM8+dzQ92S0NURMBHSwIkhkonExaUmCz0vOD3gn1TYQBbTqhde4HZXgbYQCSldXd3bkbutciwc0ZD9/FL4HnxIuoPyZcLv8oMzadGsr9i84XweSZu9VxxdyRk5W/u9/PQ2v1A==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
- by CY5PR12MB6273.namprd12.prod.outlook.com (2603:10b6:930:22::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Wed, 11 Nov
- 2026 20:37:32 +0000
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286%4]) with mapi id 15.21.0615.007; Wed, 11 Nov 2026
- 20:37:32 +0000
-Date: Wed, 11 Nov 2026 15:37:31 -0500
-From: Yury Norov <ynorov@nvidia.com>
-To: Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andrea Righi <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-s390@vger.kernel.org
-Subject: Re: [PATCH 0/6] sched: Expose writable interface for preferred CPUs
- mask
-Message-ID: <avTSC2r61uht9oFK@yury>
-References: <20261101192203.6979-1-ynorov@nvidia.com>
- <A2B09626-39F0-4EC3-B57D-CD83D77DD208@grdncc.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <A2B09626-39F0-4EC3-B57D-CD83D77DD208@grdncc.com>
-X-ClientProxiedBy: MN0P223CA0018.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:208:52b::35) To LV3PR12MB9356.namprd12.prod.outlook.com
- (2603:10b6:408:20c::21)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=gCGULcr3
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 677F9153B;
+	Wed, 11 Nov 2026 12:45:30 -0800 (PST)
+Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B30373F85F;
+	Wed, 11 Nov 2026 12:45:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1794429933; bh=4ZrLT8DNHk4yKklrJI+ERSH8q+MA2T/2YvUo3b0tsZQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gCGULcr330vGNwdoUpKcc4HVf4e4fgoEmxaE5hlC0E5kphTVGycXKjofZotPTa2H8
+	 d77g+CVxBrethlQJByqeKuPvYheYaWHVsmXS5/jqlrFn7ZwfzIfbT64d7UDKYJ/qsv
+	 tXMWvfGCB7/YokTgiHk1+NC+Nj+foSaTCzfTEKtM=
+Date: Wed, 11 Nov 2026 21:45:25 +0100
+From: Beata Michalska <beata.michalska@arm.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: ojeda@kernel.org, gregkh@linuxfoundation.org, rafael@kernel.org,
+	aliceryhl@google.com, boqun@kernel.org, gary@garyguo.net,
+	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org,
+	tmgross@umich.edu, daniel.almeida@collabora.com,
+	boris.brezillon@collabora.com, work@onurozkan.dev,
+	samitolvanen@google.com, acourbot@nvidia.com,
+	rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v5 1/3] rust: add runtime PM support
+Message-ID: <avTT5VuspuFKbnBv@arm.com>
+References: <20261026120523.526942-1-beata.michalska@arm.com>
+ <20261026120523.526942-2-beata.michalska@arm.com>
+ <DMNFI31C8X12.3L2J0GKKNJN81@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -121,99 +67,365 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|CY5PR12MB6273:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae2a9e64-e8ff-45cd-6393-08df40339c83
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|10070799003|23010399003|261028144727099003|4143699003|11063799006|261022105027099003|56012099006|261022075727099003|261026140227099003|261026121527099003|261009223027099003|22082099003|18002099003|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	b/u0G0e7uwhApBEBNOijjHLDlqcqRQtPOOIyDa1cVniPiaoFluzGmou88GrTX1ybEqKWvX4KbuPCsODeNSFN1epgnh+nXu7EjeL/Ydx5//snIuVR5DLXl8hxr2xITQaF2O3uthzijy6hFt7ePbtDoFLu7LG1Bb7mHfawb3bc8NAjydmEsZC2I3qoDimssdr99Q+m/k+MP8dNngmCw3RxwRAz3c0jg0wE//pfz+e102VmjoYMRBwoP7kQJmXf0zev79FY75DCZAnbPWAYRCkhsSnVI2qwkt2V6JtXvnVX4nSKIzcIdABEqlvWyj3WiOPsOPPvL2ZKZ7D/NrSQ2VpFD+iR9x50dcIx3xuDy3a4GUcwDUSeXfMVaFQryvNZsU+426irPX2Gb/ENGKRCHcFZ+ruF1UH3CYl52qn2Z9oVt6nl0UmDQRqvQR/IWr0QYb0dnThcWSmRDu682/jH6Fxg98+mnXRtWj1V9TgQ9ylWdSENbPV89JvF8BlAIFhdv6idI3GbxPqb5Ly+b64HPWQslGG9ne8u8OZiOGP2r9B19tm8vs+CBazFBH41HLC8fVLwZRYWGZ95MDZf4mtLPDa7ioicaTb4KbXoAVjIwBDmam+yQUR7OCDvJeq8spiX4xObsBD53Dplw4RcZ1d1ROusyuxbAth0eDbIsJ5STtDv8qc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(10070799003)(23010399003)(261028144727099003)(4143699003)(11063799006)(261022105027099003)(56012099006)(261022075727099003)(261026140227099003)(261026121527099003)(261009223027099003)(22082099003)(18002099003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?xaf1dn3EpjUUehIlz4laOaepTzUAjNCpC1smEIin5uxjxOlQZ6ZqudhZfm7a?=
- =?us-ascii?Q?P3gvc/IAkykDzJmVG0cfS80ZihlPlWiHzHeQSrI9Z0sPu65y/Sc6nAQjR1rK?=
- =?us-ascii?Q?Hr/IpO8NNlJVQ46YdW5wQX5Hzw/PtdidtkrVHmSOaPsRYmMK65Ey+ud4C+ZS?=
- =?us-ascii?Q?LuR9nn5/by78UjV9fOh4i8dAydOoYr4ohUhJ5ncr/BPeC2/xNdotuyjczDr7?=
- =?us-ascii?Q?vu0Ub9oZ2NAgClf4yW8cC0yHrcWAxsnquiBQ/4k7/sroXRhCHQQjXzco038W?=
- =?us-ascii?Q?iVcffhoy2wlOnMYqYMDD/HChzme+KwvFWwBmAwvZOEmJ3r72ctv/U9pi+Yr6?=
- =?us-ascii?Q?m2s5oVN4MHOG6lBqo9+vH3ngelQPkeONjIq6fZ2YYvI35h1dmbBmxRy+0zCz?=
- =?us-ascii?Q?BJM2VGmh8HA1bcXEd7fLyZQajRH48A5h4S/40BwEB1Hhp2lQiyGlOXnTtPrE?=
- =?us-ascii?Q?NQVDSzMdT4QISSYF9Ywcb2qrx1R7IDTKG4pmcqEvMouffvlkqIIV1bXR51kM?=
- =?us-ascii?Q?I5Wnpmytg2eXfb+EvxS5AhI07KwNrZbNx6pdWYyWm4Zasn7Ev/iGPs4crViO?=
- =?us-ascii?Q?+yEJ3WmJF2EqXqUMrEigdWlQpw7L5D1LEslvM1TEmxY9rKr+e38+CFqaSbuY?=
- =?us-ascii?Q?Nu5Wp/jGev/+hCi5EzWiR1aAIw3J9D00g+c4+x49n5GCyoaVhGr2Wn/3SniO?=
- =?us-ascii?Q?81niCyuPmjzSc5KH1txvOwUZHdmkZiYPjkcvLc9BAn3h3wlMQ0W87h68960n?=
- =?us-ascii?Q?Q0uopWZAkyqXRjAHvA83YFDXvKvQCa0QIrrc9+ye+I9bj5UoLsrKRX0IJHIQ?=
- =?us-ascii?Q?wxdiYBI/fZFNzcEIXZxUE23aRyec9dllhnJzsD2PFS8Ndmbq3dyv3ARsdbYE?=
- =?us-ascii?Q?/4JkMAd7wN6PekJgXT06uj6c1TWlPZDv7zLWLMeY9wyytgpmrkiolQYsbM3M?=
- =?us-ascii?Q?yWeAtsOoAGK0znhqx843Xb/iCzIh7wUUOvFC3SCgUIpLJez7qZ6elPpzl61p?=
- =?us-ascii?Q?071N6yIIE4UcfeO1f1BLrYC6Rx1G5qcHeRxIgCDufvP82CXzVlsrI1t96PMY?=
- =?us-ascii?Q?cafKP9ta9pt4MK7iLJSI4Wv5u7Os1dnS1+n4SdRxwFOXAhs8JJv3h8qriSYv?=
- =?us-ascii?Q?K10dy5f7fRcyh25gvOIaFJbzmQhs7JXqLiHYOe4uYBJ/BEGsBcCGpMVRuORe?=
- =?us-ascii?Q?9sACS9djdXtsz2j3ajXRt0Bi+LtLpm1EPYNrfqIhi4rikis/vN1QfassqiQ0?=
- =?us-ascii?Q?+ys6MYk6nczNj4dOOdYvdTm3ziKoVSXyMh2zRdfix77GryXkyabCBUcxnXPa?=
- =?us-ascii?Q?gHXsTc7vXnplcSXglpjkdKtKj4DEmkvXKJLDIbr/D2CM0mx4Ea04BblGCih9?=
- =?us-ascii?Q?PyfcYIp1YwH07r87X9hTktjfx4cKnbDKNbysmhyVLU8oID0hZ0fn7Yap3XvC?=
- =?us-ascii?Q?dU2P1V/IzojRHzM++icDE5Xnuy/IRFmKHEHc5czC4yJ4+pwFi2d+dSLpDRCY?=
- =?us-ascii?Q?LW1+XpZ7H2U6kfiayhy8/oEvMkUJPrWnIJ4i5hwvDZmtTh/ZK4vrr63iYBCL?=
- =?us-ascii?Q?lRLhgu3B+zeTpQC5hCYkXn5V/LJ31Ytv8H+tIuvfPTIRxAJOkMJje0m/umgb?=
- =?us-ascii?Q?tJ4VsNRXw0I9tDzEctHevESD+weFYW8NtAkDQgqf8r2cZd2BcE7Rr9DeF3Hp?=
- =?us-ascii?Q?k+DrY4qPNLPu2g69G+EWO63FAOUICm4CkrglGbjIidR0zkdWPJLVZLaDOdu1?=
- =?us-ascii?Q?uj+O7I0GCeMOauqCuUkiKS3eM3GqXefFkYJimelgw+lP08Flx017?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae2a9e64-e8ff-45cd-6393-08df40339c83
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2026 20:37:32.4546
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SSqsdXiehB9k4oPFQDdgCKF1DwlXlY3XWpNPSvHXaI6dnMV7NchS1rzP9VGZkkTddkbLX+GfylMjCA31TMvozw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6273
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DMNFI31C8X12.3L2J0GKKNJN81@kernel.org>
 
-On Tue, Nov 10, 2026 at 04:15:31PM +1300, Maxim Kuvyrkov wrote:
-> > On Nov 2, 2026, at 08:21, Yury Norov <ynorov@nvidia.com> wrote:
-> > 
-> > The preferred CPU mask currently lets the steal governor reduce vCPU
-> > demand when physical CPUs are contended. This series adds manual control,
-> > opening more use cases.
-> > 
-> > For example, setting CPUs aside for selected fair tasks at runtime while
-> > steering other fair tasks toward the remaining CPUs.
+Hi Danilo,
+
+Thank you for the review!
+I've applied fixes for most of them, apart from one. See below.
+
+On Thu, Nov 05, 2026 at 05:47:28PM +0100, Danilo Krummrich wrote:
+> On Mon Oct 26, 2026 at 1:05 PM CET, Beata Michalska wrote:
+> >  drivers/base/base.h             |    4 +
+> >  rust/bindings/bindings_helper.h |    1 +
+> >  rust/helpers/helpers.c          |    1 +
+> >  rust/helpers/pm_runtime.c       |   89 +++
+> >  rust/kernel/lib.rs              |    1 +
+> >  rust/kernel/pm.rs               | 1106 +++++++++++++++++++++++++++++++
 > 
-> Hi Yury,
+> I think this fits better under rust/kernel/device/pm.rs. This would also avoid
+> naming like DevPMOps, which can then just be device::PMOps.
 > 
-> I've been trying to do this with crutches in user-space for a long time.  Thanks for implementing this in the kernel, and with a convenient user interface.
+> We should also add the file to POWER MANAGEMENT CORE in MAINTAINERS.
 > 
-> > 
-> > A user can mark a CPU non-preferred and pin a workload to it. Fair tasks
-> > whose affinity includes preferred CPUs are steered away, while tasks
-> > whose allowed CPUs contain no preferred CPU can still run there. The CPU
-> > stays online, task affinity is preserved, and the selection can be
-> > reversed without rebooting:
-> > 
-> >    # rmmod steal_governor
-> >    # echo 0 > /sys/devices/system/cpu/cpu3/preferred
-> >    # taskset -c 3 ./my_workload
-> >    # echo 1 > /sys/devices/system/cpu/cpu3/preferred
+> > diff --git a/drivers/base/base.h b/drivers/base/base.h
+> > index a5b7abc10ff0..e79108bc754a 100644
+> > --- a/drivers/base/base.h
+> > +++ b/drivers/base/base.h
+> > @@ -103,6 +103,7 @@ struct driver_private {
+> >   *			   dev_err_probe() for later retrieval via debugfs
+> >   * @device: pointer back to the struct device that this structure is
+> >   *	    associated with.
+> > + * @rust_private: private data used exclusively by the Rust driver core
+> >   * @dead: This device is currently either in the process of or has been
+> >   *	  removed from the system. Any asynchronous events scheduled for this
+> >   *	  device should exit without taking any action.
+> > @@ -119,6 +120,9 @@ struct device_private {
+> >  	const struct device_driver *async_driver;
+> >  	char *deferred_probe_reason;
+> >  	struct device *device;
+> > +#ifdef CONFIG_RUST
+> > +	void *rust_private;
 > 
-> My use-case (being a compiler optimization engineer) is to pin benchmarks to specific cores, and stop the system from using those cores even when the cores are idle.  This prevents L1/L2 cache pollution and makes performance numbers more stable.
+> Let's call this pointer pm_registration_data_rust. Or even just add
+> 
+> 	struct {
+> 		void *pm_registration_data;
+> 	} rust;
+> 	
+> > +use core::{cell::UnsafeCell, marker::PhantomData, mem::ManuallyDrop};
+> 
+> NIT: Formatting.
+> 
+> > +impl From<Mode> for core::ffi::c_int {
+> > +    #[inline]
+> > +    fn from(mode: Mode) -> core::ffi::c_int {
+> > +        mode.0 as core::ffi::c_int
+> > +    }
+> > +}
+> 
+> You can just use c_int, as it comes from the prelude. Also note that the prelude
+> takes it from ::ffi, rather than ::core.
+> 
+> > +    /// Explicitly release the scope
+> > +    /// This should be used in favor of regular drop
+> > +    /// when error handling is required.
+> 
+> NIT:
+> 
+> 	// Explicitly release the scope.
+> 	//
+> 	// This should be used in favor of regular drop when error handling is
+> 	// required.
+> 
+> > +    pub fn release(self) -> Result {
+> > +        self.release_inner();
+> > +        core::mem::forget(self);
+> > +        Ok(())
+> > +    }
+> > +}
+> > +
+> > +impl<'a> Drop for RetainScope<'a> {
+> > +    fn drop(&mut self) {
+> > +        self.release_inner();
+> > +    }
+> > +}
+> > +
+> > +/// Runtime PM helpers - wrappers around C runtime PM interface.
+> > +/// All methods require a reference to a bound device.
+> 
+> I'd rather say a few words about what those helpers are. The fact they require a
+> &Device<Bound> is rather obvious from the signature; if at all I'd rather
+> mention why that is.
+> 
+> > +struct Request;
+> > +
+> > +impl Request {
+> > +    #[inline]
+> > +    fn active(dev: &device::Device<device::Bound>) -> bool {
+> > +        // SAFETY: `dev.as_raw()` must provide a valid pointer to
+> > +        // `struct device` for the duration of the call.
+> 
+> This reads like a requirement, but it rather is the justifiation for this
+> requirement coming from pm_runtime_active().
+> 
+> > +        // The `Device<Bound>` reference provides that guarantee.
+> 
+> Plus that we are in a scope where the device is guaranteed that the device
+> remains bound to the driver, which is a requirement as well.
+> 
+> > +/// Common runtime PM callback entry point
+> > +///
+> > +/// The generated extern "C" callbacks call into this helper with the raw
+> > +/// `struct device *` provided by the PM core. It rebuilds the Rust device
+> > +/// reference, retrieves the device's PM registration data and performs
+> > +/// handoff to corresponding driver callback.
+> > +#[cfg(CONFIG_PM)]
+> > +fn runtime_pm_callback<T, F>(dev: *mut bindings::device, cb: F) -> Result
+> 
+> This function has to be unsafe, given that it takes a raw pointer.
+> 
+> > +where
+> > +    T: PMOps,
+> > +    F: FnOnce(
+> > +        &<T as PMOps>::DeviceType,
+> > +        <T as PMOps>::RuntimePayloadType,
+> > +    ) -> PMCallbackResult<<T as PMOps>::RuntimePayloadType>,
+> > +{
+> > +    let dev: &device::Device<device::Bound>  =
+> > +             // SAFETY: `dev` is provided by the PM core and remains
+> > +             // valid for the duration of the callback.
+> > +            unsafe { device::Device::from_raw(dev) };
+> 
+> Please prefer Device::from_raw() plus Device::as_bound().
+> 
+> > +
+> > +    // SAFETY: `dev` is provided by the PM core and remains
+> > +    // valid for the duration of the callback.
+> > +    let ptr = unsafe { (*(*dev.as_raw()).p).rust_private };
+> > +
+> > +    if ptr.is_null() {
+> > +        return Err(ENODEV);
+> > +    }
+> 
+> How can we ever reach this?
+> 
+> > +/// Typed reference to a driver's runtime PM ops.
+> > +///
+> > +/// Instances of this type are generated from static [`DevPMOps`]
+> > +/// and are used by bus registration code to install the matching
+> > +/// C `dev_pm_ops` pointer into the driver object.
+> > +/// The `A` parameter identifies the bus adapter that is allowed
+> > +/// to install the table.
+> > +pub struct DevPMOpsRef<'a, A> {
+> > +    #[cfg_attr(not(CONFIG_PM), allow(unused))]
+> > +    ops: &'a bindings::dev_pm_ops,
+> > +    _p: PhantomData<fn() -> *const A>,
+> > +}
+> 
+> I'd probably rename this to pm::AdapterOpsRef<'a, A> and add a type alias:
+> 
+> 	pub type OpsRef<T> = AdapterOpsRef<'static, <T as PMOps>::Adapter>;
+> 
+> so it looks cleaner in drivers:
+> 
+> 	 const DEV_PM_OPS: Option<device::pm::OpsRef<Self>> = Some(TYR_PM_OPS.pm_ops());
+> 
+> (I'd probably also rename DevPMOps to device::pm::Ops, as I think that reads
+> cleaner.)
+> 
+> > +/// Runtime PM callbacks implemented by a driver.
+> > +///
+> > +/// Defines the [`PMOps`] trait and its corresponding [`bindings::dev_pm_ops`].
+> > +///
+> > +/// The Adapter associated type identifies the bus adapter that installs
+> > +/// the generated PM ops.
+> > +/// Implementations should normally be enabled through a
+> > +/// bus-specific constructor for [`DevPMOps`], which constrains
+> > +/// [`Self::DeviceType`] to the correct bound device type for that bus.
+> > +///
+> > +/// Each C callback recovers the Rust bus device from the raw
+> > +/// `struct device *`, borrows the registered runtime PM payload, and delegates
+> > +/// to the matching [`PMOps`] trait method.
+> 
+> This kind of implementation detail doesn't belong in this doc-comment.
+> 
+> > +#[vtable]
+> > +pub trait PMOps: Sized {
+> > +    /// The bus adapter that installs the generated PM ops.
+> > +    type Adapter: driver::DriverLayout + 'static;
+> > +
+> > +    /// Type of the bound bus device passed to runtime PM callbacks.
+> > +    type DeviceType: AsBusDevice<device::Bound>;
+> > +
+> > +    /// Type of the payload moved through runtime PM transitions.
+> > +    type RuntimePayloadType: Send + 'static;
+> 
+> I got back to this type after writing the below, because at first I thought this
+> is purely the data type that is cycled through suspend() and resume().
+> 
+> However, reading further this is currently the Registration's private data. This
+> won't work. The Registration's private data must not require 'static as we need
+> device resources in this data.
+> 
+> So, there should be at least two separate types:
+> 
+>   (1) The private data of pm::Registration.
+> 
+>   (2) An object that is created and returned by suspend() and passed by value to
+>       resume(), so it can store e.g. reverse guard types (see below).
+> 
+> This should also get us rid of the PMPayload magic.
+> 
+The `'static' lifetime is definitely a shortsighted idea on my side.
+Splitting the data does seem reasonable, though I'm not sure how that would allow
+us to get rid of moving around the `PMPayload`, as this is what I assume you
+are referring to by 'magic'. The pm framework still needs to keep the callback
+data between the transitions. Also I am not convinced the pm should distinguish
+between suspend and resume data - my thinking was it should be handled by the
+driver. We just need 'an' object to move back and forth.
 
-Hi Maxim,
+---
+BR
+Beata
 
-Thank you for the feedback.
-
-I agree, this trick with pinning a workload to an non-preferred CPU
-looks promising for benchmarking purposes, and probably for more.
-
-I'm going to split this series to the cleanup and follow-up parts.
-In the follow-up, I'll focus on this writable interface. I'll keep
-you in CC there.
-
-Thanks,
-Yury
+> > +
+> > +    /// Runtime resume callback.
+> 
+> It would be good to expand this doc-comment explaining the semantics of
+> RuntimePayloadType.
+> 
+> > +    fn runtime_resume<'a>(
+> > +        _dev: &'a Self::DeviceType,
+> > +        _payload: Self::RuntimePayloadType,
+> > +    ) -> PMCallbackResult<Self::RuntimePayloadType> {
+> > +        build_error!(VTABLE_DEFAULT_ERROR)
+> > +    }
+> > +
+> > +    /// Runtime suspend callback.
+> > +    fn runtime_suspend<'a>(
+> > +        _dev: &'a Self::DeviceType,
+> > +        _payload: Self::RuntimePayloadType,
+> > +    ) -> PMCallbackResult<Self::RuntimePayloadType> {
+> > +        build_error!(VTABLE_DEFAULT_ERROR)
+> > +    }
+> 
+> I think for Tyr it so far is sufficient to have a single RuntimePayloadType that
+> keeps cycling through the callbacks, but there will be use-cases where the types
+> differ.
+> 
+> For instance, for a PCI driver you will have DeviceDisableGuard stored in
+> suspend() and then you'll want to drop it in resume() so the device gets enabled
+> again.
+> 
+> We should also avoid requiring 'static, as reverse guards will borrow the
+> regular guard, e.g. pci::DeviceDisableGuard will borrow from
+> pci::DeviceEnableGuard.
+> 
+> For runtime_resume() I think of something like:
+> 
+> 	fn runtime_resume<'a>(
+> 	    dev: &Self::DeviceType,
+> 	    suspended: Self::SuspendData<'a>,
+> 	) -> Result<(), (Self::SuspendData<'a>, Error)>;
+> 
+> 
+> > +/// Runtime PM context tied to a device.
+> > +pub struct PMContext<'a, T: PMOps> {
+> > +    // Preferably, PMContext could be shared via borrowed reference over
+> > +    // a pm Registration's lifetime but that bears complications on its own
+> > +    // when the context needs to be shared across different Registration types.
+> > +    inner: Arc<PMContextInner<'a, T>>,
+> 
+> Since we now have self-referencial pin-init, can we please avoid this Arc?
+> 
+> > +impl<'a, T: PMOps> Registration<'a, T> {
+> > +    /// Creates a runtime PM registration for `dev`.
+> > +    ///
+> > +    /// The provided profiles and configuration are stored in the associated
+> > +    /// [`PMContext`]. The `payload` is stored as a Registration data
+> > +    /// and is used to service PM transitions.
+> > +    ///
+> > +    /// The device must use the callback represented by `ops`, generated
+> > +    /// for the same bus adapter and driver pair `(D, T)`.
+> > +    ///
+> > +    /// # Safety
+> > +    ///
+> > +    /// The returned [`Registration`] object cannot be mem::forgotten,
+> > +    /// or it's [`Drop`] implementation cannot be skipped in any way.
+> > +    ///
+> > +    pub unsafe fn new(
+> > +        dev: &'a device::Device<device::Core<'_>>,
+> > +        ops: &'static DevPMOps<T>,
+> > +        profiles: Option<KVec<PMProfile>>,
+> > +        configs: Option<KVec<PMConfig>>,
+> > +        payload: T::RuntimePayloadType,
+> 
+> This should be impl PinInit<T::PMRegistrationData<'a>, E> + 'a.
+> 
+> > +    ) -> Result<Self> {
+> 
+> This should be impl PinInit<Self, Error> + 'a.
+> 
+> > +        // SAFETY: For the duration of this call, `dev` is a valid `Device<Core>`,
+> > +        // and so is its raw `struct device` pointer.
+> > +        unsafe {
+> 
+> Please use separate unsafe blocks per unsafe operation.
+> 
+> > +            let drv = (*dev.as_raw()).driver;
+> > +            if drv.is_null() || (*drv).pm != ops.as_raw() {
+> 
+> drv.is_null() can't happen as we require Device<Core>.
+> 
+> > +                return Err(EINVAL);
+> > +            }
+> > +        }
+> > +
+> > +        let payload = KBox::new(
+> > +            RegistrationData::<T> {
+> > +                data: PMPayload {
+> > +                    in_flight: AtomicFlag::new(false),
+> > +                    inner: UnsafeCell::new(ManuallyDrop::new(payload)),
+> > +                },
+> > +                _marker: PhantomData,
+> > +            },
+> > +            GFP_KERNEL,
+> > +        )?;
+> > +
+> > +        let inner_ctx = Arc::new(
+> > +            PMContextInner {
+> > +                dev,
+> > +                state: Atomic::new(PMContextState::Disabled),
+> > +                profiles: profiles.unwrap_or_default(),
+> > +                configs: configs.unwrap_or_default(),
+> > +                _marker: PhantomData,
+> > +            },
+> > +            GFP_KERNEL,
+> > +        )?;
+> > +
+> > +        // SAFETY: For the duration of this call, `dev` is a valid `Device<Core>`,
+> > +        // and so is its raw `struct device` pointer.
+> > +        // The payload allocation is converted into a foreign pointer
+> > +        // and owned by this `Registration` until `Drop` clears
+> > +        // `rust_private` and reconstructs the `KBox`.
+> > +        unsafe {
+> 
+> Same as above.
+> 
+> > +            let ptr = (*(*dev.as_raw()).p).rust_private;
+> 
+> This is accessed a couple of time, let's add a helper for this.
+> 
+> > +            if !ptr.is_null() {
+> > +                return Err(EBUSY);
+> > +            }
+> > +            (*(*dev.as_raw()).p).rust_private = payload.into_foreign();
+> > +        }
+> > +
+> > +        Ok(Self {
+> > +            ctx: PMContext { inner: inner_ctx },
+> > +        })
+> > +    }
