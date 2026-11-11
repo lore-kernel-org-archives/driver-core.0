@@ -1,52 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794391421;
-	b=sgv0kfpqh6/z/lw22N/KKSQArfQ5txmGPT446/6ar5UeKGZ3ZkfqNnp62vpfdvQjMojt
-	 E/tRFWnjlHGnU+f9upOC+r6vN+JMukLuRkh8eaA9gevh1dCqZytetTcOknEzEHc6y/iR/
-	 XIcLAFcqYgqUpUwyQ+CfXfubGCzeaKb1exvRX2P0bwR/cd60QeC4hD664BkfVMTOooe/X
-	 Z3es9MSlAnhWeOGrVsOXQUWBeAFK6dAjfHHPaTisAPlGmu4RcbMPVPFGrZvfCCrNxGDgC
-	 b94/Tu/arrXdTv8AtThjb1BNnkW+dFML6FJi+Dl3LzZRaJceJcwpHTFkSIjtZArNghw==
+	t=1794391422;
+	b=EaPntNGSqJHJJV/m/uGrFvcnFAYSo8A7/yW7vpln5gg7XaebGvEtqKIFdnHXl+E6pJU0
+	 GfLGwAkW6bFNkRi4oX4yCCrjXkjxX77lCq7Tvv+57r0ekVKFMt95mRbltVHFLggvSE9Ba
+	 n2oA2u3HSPpyP7TJXIdawaMNynM+dsgzmcntUhiqLPTD4HylTc4jRVSD/xk5kA/yLE+nf
+	 f0DGKfmV4EQnj5C0/KtEOTzrHmIik+9bfrMmPwBx9HLMj6bNQXQu5G3C9ELLaadrn+bSx
+	 H/1zq9kZ57CU3D3T2d72FzMQHRqUZWToqoGiKgPatRNvTHQ3Z4Lo2MHQSH974/Q7LLw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794391421;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794391422;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=V7eM2wyexXDlmlz0kzw9nI9J5mtD0TkmCXwynuXm4ZE=;
-	b=eY9SMVHhHWj7reR+ANr9EUH/Xo1nurv7U9T05Xy0uL6xSZyY3qwza/sQcOCnjnm+D9bw
-	 y34i11Jfo5AOo8QRb1TDl0zdnG9vZnwcVVuHpOkyCBYCXcDyKsK7RdivpyiYAvwGAeGID
-	 hEGwbyIJDiUtcSqSL8s6dyNc2ArXFVreq83De2FGieVodLyqjfgPyu8JkmAU4B/DHU+rm
-	 wOkP7VCmjyeNHM9Uk4+RBQyrWXsyVeL94PDQC0vWEs6u22614MZGXTC2meY5cnJmHz2QI
-	 QLfIdX6kkX4i54ppYCXsja7RG2yDai8eeol4qHocK/LVmaumDTFs3COXweLr5zBPhBQ==
+	bh=ed/IHz3PxJm5ZNWBaZpu1Eskyyp5O6m7B7gIGFQDSLo=;
+	b=1kfcS5I8Gy1PDKhSWXFJMi8LIqOQjZCu3CsHSfAfZLV3plglB3zbT5mKNh/VJA8J+jD6
+	 AzC4QLKRzj9CtSs2ZXyChsrIX7j4Km6S4Hk6NJU6rE7s8LxJbK/wD3DKDdUHK51LVngIG
+	 /BL58IJyIyvQCXp+rwxC4CFuYvSLBtswVthuK/V8btQxiRBvZ9y32A4q8tgirJ5eu2kdr
+	 FPn+Iq5loDgB+VyEjDIaN3lmtR6vhtOO8cGwdLU0MfHi/I7uUCQ9g/sW6NMrqs8eQwRMb
+	 ElAScyLeXC+qzwgMilk0R7tdyCRcTpaOTf0TnO+zhaHyDUQ7R7ZYEjT3WjSUuQXF8rA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V8NCpTtg;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QGUQS7xU;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7269B606A899
-	for <driver-core@lists.linux.dev>; Wed, 11 Nov 2026 10:03:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC200606A899
+	for <driver-core@lists.linux.dev>; Wed, 11 Nov 2026 10:03:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V8NCpTtg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 702C71F00A09;
-	Wed, 11 Nov 2026 10:03:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QGUQS7xU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF0861F00A07;
+	Wed, 11 Nov 2026 10:03:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794391421;
-	bh=V7eM2wyexXDlmlz0kzw9nI9J5mtD0TkmCXwynuXm4ZE=;
+	s=k20260515; t=1794391422;
+	bh=ed/IHz3PxJm5ZNWBaZpu1Eskyyp5O6m7B7gIGFQDSLo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=V8NCpTtggd+LgJPv64ITgToO8uBagIHq3ioMUuXV7VDIkbjVlLO2XnZd4iW8e6ikK
-	 AS+ADY6jzD6IdIOk7DNiQPKIP5U5nwwdRR7RHJW4+vAYa/cj2CEc5HhBtVx8Q9OB47
-	 7t+6H0JKuLXdmsJQKLq71menCsAWIfLbQEuP9iLBsn+JkC56v4mx8PMYklkqxjJqt4
-	 heWNnGplNVsOSrxVuQiG7E9SMaDXUv0ZpFo3dEUgZw6aCv8rfvFPl+oGERAFaWLFNd
-	 /+dCski+5NkyvWBI3zELI8BtWe9Gpq3x/K7ADBMkbnGtElFoD+eQfx0eCdKYFvnQw2
-	 nI68u866zkZ7A==
+	b=QGUQS7xUku+0RCUH7MWNLiskDyg5SG/6CR0bA7hcgBDJVjDN2Ou6mKQ6E5JiYAQmx
+	 2STVWCeWdXTZI3Dtv3uegPhigvCIBBpiLArUGMQDf+HkwkCnqEoXeH8gYBbbHrjARS
+	 pky83vYMT/TwSh68qgzPOITahLtekSJMRThqbd7pkb92a3GJ+ke1aA1tWBOe3ncZnh
+	 ECdaudeYFgDpT+7sXPWmjKvdxLDjZGQZBfMm48UtopRbGbpQT+lzj959mCtAshKB31
+	 MnLoJxTN5iMD8w5Dy9axJs7LtykarSLTeI+5hd5xKRLTNEj6ePXagOAmeiR/k6fjcK
+	 JYcpdg3wWLZuA==
 From: Sudeep Holla <sudeep.holla@kernel.org>
 To: driver-core@lists.linux.dev
 Cc: Sudeep Holla <sudeep.holla@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH v4 2/4] arch_topology: Free ACPI SMT entries on lookup failure
-Date: Wed, 11 Nov 2026 10:03:29 +0000
-Message-ID: <20261111100331.2945297-3-sudeep.holla@kernel.org>
+Subject: [PATCH v4 3/4] arch_topology: Reset SMT state when topology is unavailable
+Date: Wed, 11 Nov 2026 10:03:30 +0000
+Message-ID: <20261111100331.2945297-4-sudeep.holla@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261111100331.2945297-1-sudeep.holla@kernel.org>
 References: <20261111100331.2945297-1-sudeep.holla@kernel.org>
@@ -61,70 +61,54 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A later CPU can fail find_acpi_cpu_topology() after earlier threaded
-CPUs have populated hetero_cpu. Returning immediately leaks the stored
-cpu_smt_info objects and the XArray nodes.
+If DT has no CPU information or cpu-map, parsing succeeds without
+notifying the SMT framework. A later topology validation failure can
+discard parsed data while leaving the SMT thread count set by
+parse_socket().
 
-Send the error through the existing cleanup and retain its return code.
-Only update the SMT thread count after a successful parse.
+Reset the count to one on these paths so the SMT framework matches
+the topology that remains available.
 
 Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://sashiko.dev/#/bug/linux-f41acdf3-9470-4de9-b497-d5de16c8e7e8
-Fixes: e6b18ebfaf63 ("arm64: topology: Support SMT control on ACPI based system")
+Closes: https://sashiko.dev/#/bug/linux-486a8656-d962-4966-8d90-bbb2ce276147
+Fixes: 5deb9c789ae4 ("arch_topology: Support SMT control for OF based system")
 Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
 ---
- drivers/base/arch_topology.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ drivers/base/arch_topology.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
-index 8ed29885dccf..eea4c4257d08 100644
+index eea4c4257d08..c439fc91270d 100644
 --- a/drivers/base/arch_topology.c
 +++ b/drivers/base/arch_topology.c
-@@ -858,7 +858,7 @@ __weak int __init parse_acpi_topology(void)
- 	struct cpu_smt_info *entry;
- 	struct xarray hetero_cpu;
- 	unsigned long hetero_id;
--	int cpu, topology_id;
-+	int cpu, topology_id, ret = 0;
+@@ -662,6 +662,7 @@ static int __init parse_dt_topology(void)
  
- 	if (acpi_disabled)
+ 	if (!cn) {
+ 		pr_err("No CPU information found in DT\n");
++		cpu_smt_set_num_threads(1, 1);
  		return 0;
-@@ -867,8 +867,10 @@ __weak int __init parse_acpi_topology(void)
+ 	}
+ 
+@@ -672,8 +673,10 @@ static int __init parse_dt_topology(void)
+ 	struct device_node *map __free(device_node) =
+ 		of_get_child_by_name(cn, "cpu-map");
+ 
+-	if (!map)
++	if (!map) {
++		cpu_smt_set_num_threads(1, 1);
+ 		return ret;
++	}
+ 
+ 	ret = parse_socket(map);
+ 	if (ret != 0)
+@@ -951,6 +954,7 @@ void __init init_cpu_topology(void)
+ 		 * arch-specific early cache level detection a chance to run.
+ 		 */
+ 		reset_cpu_topology();
++		cpu_smt_set_num_threads(1, 1);
+ 	}
  
  	for_each_possible_cpu(cpu) {
- 		topology_id = find_acpi_cpu_topology(cpu, 0);
--		if (topology_id < 0)
--			return topology_id;
-+		if (topology_id < 0) {
-+			ret = topology_id;
-+			goto out;
-+		}
- 
- 		if (acpi_cpu_is_threaded(cpu)) {
- 			cpu_topology[cpu].thread_id = topology_id;
-@@ -912,6 +914,7 @@ __weak int __init parse_acpi_topology(void)
- 		cpu_topology[cpu].package_id = topology_id;
- 	}
- 
-+out:
- 	/*
- 	 * This is a short loop since the number of XArray elements is the
- 	 * number of heterogeneous CPU clusters. On a homogeneous system
-@@ -923,9 +926,13 @@ __weak int __init parse_acpi_topology(void)
- 		kfree(entry);
- 	}
- 
-+	/* Reset max_smt_thread_num to 1 on failure like in parse_socket() */
-+	if (ret)
-+		max_smt_thread_num = 1;
-+
- 	cpu_smt_set_num_threads(max_smt_thread_num, max_smt_thread_num);
- 	xa_destroy(&hetero_cpu);
--	return 0;
-+	return ret;
- }
- 
- void __init init_cpu_topology(void)
 -- 
 2.43.0
 
