@@ -1,96 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794392739;
-	b=wrjCjOfH8rEBu8oehhdtBClUUFuxNkUPtPJhCc7g1mbErrdY1RCLbDBVJ4+pvNcLhXFw
-	 Uu91zF8ec9OMRxVws6cWFF6ZuG5eaedrJBEuqN3evmvNUBtjGKmWd51Klt6p38wL2X7vZ
-	 9fae6Ggz7DyeJ4i7wgQb5HK7JBJPlwpA8TAPxCpFtx+QWZvSYkNQfzOkqggdCwVRLU73H
-	 gpWgk+haiuTzbRNkRkQl7q9O9bKv1gOKo3y3G2KfGq3fwkjBUlwocKkI1rBoDZidNpadL
-	 T5ivSYVx67oiaH+sH0Md7zvrr8t4/KuG+jn1TBU8hprLcGC/qqffT69AYtUCMDeyM+w==
+	t=1794392920;
+	b=FcTgpIvc0CIve7k3UaHUYEV1Gsanupq9K4i/dXsVnDd3C7JpXKMXWIuCrj1baYN7RFar
+	 1wEGXldE7gTTp8v/OinJqbWsBTXrGoBW1D7xtU4a6PhsPhDw1M1F/nxOek632GBCI8wS3
+	 thsW0v8t2OGU+FQaSU1QV79cZDOMrfLmSkohfUgv7fpx5kraJKs5hlJSEW7pEYno7Q3DK
+	 r7qd6bGb0d6XBzxCFUagLUnuUS4halaHnV2PTvFwTTySuK3reJ0wy/nrAatw7vj2QBsp3
+	 BNPD1zekPTJDkxz00YMHpENzBuRjRmp5HhTrnAOQZyCFzfR5CTMwfLtdUG8AEGNmNow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794392739;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794392920;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=WCGh2v7nU1b/qpgNrVkksi8LEcAJjTlz9SScJQHog1U=;
-	b=j3p/JSFP3npW+MD/8HMA4zf7GKLrht38YWC120x3xvAW2kO6s0U49WtMkc1FEQ7xRcNN
-	 Rg6TZOK14tq4G82jWtkllz8bCAVxN8bI0fECr7JQv2JBHIIdY3VlS7U1jlN6mqNA0Ulwg
-	 n9wS3ds+CT0AfEtS7opm1w0IWyMKlS2d97kKtvROnPA1LXOJAz4PKvMM0n6GJmPCG7vMY
-	 iJ7+QVhQ3e9F6MmByery3n04R2QrV8fzvW03NuLovFSnxycFLACruFp4zAws81BP7gv62
-	 3BJ5eqe26FD3ujchjEzchNVk3xfr0qW+6KkMUIsmv3Y42oh5pri8DCxNE3+K1p1V8RQ==
+	bh=FgfjZ6gPNStEt/RNYx2qJuKKf940MnozlyJhtYv0suI=;
+	b=30ejy0T0oGYD65MsIIwE8gNHMUeTI2aRha/rc6MOluCrL45BG6vuaziAVETAGqLqcVOx
+	 yRbTjxbldXyitNFMgRSYbLn/yXAXwRTVOhy9MOMqpzM1Q+089hZZ2c3P6EyqVmvso/A/e
+	 7R+c4w8iS+psVh4OsEoSglBad/hCPKdJsJbo/HLdSKRWPbjAYlDca2SWz683iGs/UH+co
+	 QtKVueAbRWV2mc07y3VQFn5ZmRdz1TeGXU2FdGgNCIZ+4v02VT7GdLQvb3E8lLP2ulHz2
+	 uMo7GRGFUdPaMHM9FEN4iIF3JQjzjnP4IRO8Dv3S4ZgGGI6ai0KB+6B+Bq5GGKNpTlA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QlYfqlUq;
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ToHwQ3Wm;
+	arc=none smtp.remote-ip=209.85.221.45
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D23606A326
-	for <driver-core@lists.linux.dev>; Wed, 11 Nov 2026 10:25:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71D23606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 289A0606A330
+	for <driver-core@lists.linux.dev>; Wed, 11 Nov 2026 10:28:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 289A0606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QlYfqlUq
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a2000d5fb1so17417005e9.1
-        for <driver-core@lists.linux.dev>; Wed, 11 Nov 2026 02:25:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ToHwQ3Wm
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-498f5fa5103so801207f8f.2
+        for <driver-core@lists.linux.dev>; Wed, 11 Nov 2026 02:28:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794392738; x=1794997538; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794392918; x=1794997718; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=WCGh2v7nU1b/qpgNrVkksi8LEcAJjTlz9SScJQHog1U=;
-        b=QlYfqlUqKJsIH9u5SyVCHNSOTeXj4XAOYKR0hly0QJFGwbklm2RhXw8IroChucr9MQ
-         x0wrEDZJmaw1Z8dRwkCF4yatcjUtRbhZX+EdhYXskAnPsWnIGkQf6Z66w1gRPEWqP3jm
-         tx0a2on1LfvvQacXflXShd0Nzx7jfScNUaCGF66XJGJLv8yFjPKj4x6x6pK+ydw7XxBF
-         FrBn9cMOVvf6v9hddgpvR+mYksr8N704H4vUciSEF2n1zTcOm/I3sF4ACce0mnOQzyxO
-         v0wigu3/25XBDU4tgOLa1YfepUNlfdZxREiOHzw8KzsvyblcyWIzfKXW8Hrg9CnokJtn
-         yb/Q==
+        bh=FgfjZ6gPNStEt/RNYx2qJuKKf940MnozlyJhtYv0suI=;
+        b=ToHwQ3WmCGihBDJFNt0Dq1fszy29SEWBcSLjTB98ARINSgeaO6jLKx/NH5h2cwdP+5
+         zieVkaKFYVqHZZW8U1RLe+qcWmVBLXW20i3AgCIruYkPfjlIMAW6twKIFg2kDog+ZLtj
+         tUxyIjvMXsWJdwQP3rs2LpgFEij7nq9AumAOS81sFtMvlIBH1F7dgq+WvIRh4B8EfS/j
+         PKLfP9ZXeDmDqHJMDunZjYZ2XmcuIr8/6GQ1SaYpZJ6Fp4moHNgsuDjl1bbH4O3Rkx57
+         EjiI22sYzonJp8EHk3QFuGixfE8ROHbz0XotxsZLBEYWMFSFoUN/Ac5u59dPURIIvFys
+         ZL/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794392738; x=1794997538;
+        d=1e100.net; s=20260707; t=1794392918; x=1794997718;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=WCGh2v7nU1b/qpgNrVkksi8LEcAJjTlz9SScJQHog1U=;
-        b=W4CmItb2HIhbDuvPyTCGftbSCAKilpj/faZQuIkw0BKaKQulGMhTvTMzhPd4dbpq7g
-         BzwrVSubKZV6KrKNhjDowDWkaQVbf/NdiDX78U1GKy39PXkuF7Atnj9z5jQ93a08boTH
-         ofxAwRvreetRGhXC5NnEGEBMXxtatF0cw3BFL3zrDcvLJxgoizm0m6wcHa0thFOB9WrW
-         hHhEos7lG96AM03ViyDdzt1bOCuW+22cK5NIcK58fcCqAxm7FlxYFa6UeJ09fz6e6cND
-         J/QhD+ksuYvETkfPRc0J09XFzpUQ1Yw7I2BwdxOm5TtGsngLHMtOwF2lLmactX/3A8eZ
-         DCuw==
-X-Forwarded-Encrypted: i=1; AL+hErFstiUfZECfwR/yQzuAzQjt+7SLPEnkBy5avEAvO7D6yLbAlYhN6s8IJO+SF70lw6g4k2carcNJ4l47/w==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9JAJ6WneUljD+6bhTJ9wl5qa+8KjZrJm5fFR4bb5t+O6P8YvDw
-	Glh0c5hkiEh6MfG2J1+2AKIifkM2PF6ZwthTAjTXPch5SEjpjAilJRZ4
-X-Gm-Gg: AYBFou35jxJrStxHbPMLk/mP7Pw1Qx9oyPG49S8o7DAOvk5ekVGEyKxjivA1uxgHvho
-	qOeWCP7Nhl/ER0oOc76ynpm+wxE6/ZT0kINEHTp2BNacm6h76cmliAcacBqSR5NkzNhjp2DGYMl
-	cmEA+pouCIJ0FUNiFjOnX3pkdy2btA0dOl7A1m+Ewe4PzPpq6d53Ce/9tA3jGS5Tua2+LLIUowk
-	W5HtnsIWAVAaq4tpwIHdgDUg8T2Jv6lFpaDdI6Uy1e/BW7s59yJeTHze8NxpHPOEq3Xma/di2U3
-	QV7cjKzVd3Bz3Ocw4/p1L/7OghBVAQD47Lub4X/z4WTvrDR1274wiVhP1uPRatNlbJtGsvJdIe5
-	3Z0+A33b/WFkQKxk8ZPRR7HBQoqTMC9aRxuYSuORLK6RG2d4vhOp4lmxp3a+Ak254twlYJke+Be
-	/BAq3ksLKeLPtcwnvc00gHACYA6SxyMqHVzPofOv+zsM18iioLKxVfdHyiPIwsWgseq85+IGHxo
-	2fEoVNtae324uKU5TYv6TaO02K71NyXS9nGpy9D9oZy20yUt3QzWydMytsAdZTJGOqyH/mB9B8V
-	vawtJk6Mb4fvmH749C6lqdT4iciKmijcFGJVohTw/Vz7nfWqdLSMIwfqeg/xykr8y0s=
-X-Received: by 2002:a05:600c:4f14:b0:4a6:44b:2593 with SMTP id 5b1f17b1804b1-4ba093b5ec4mr41235955e9.29.1794392737707;
-        Wed, 11 Nov 2026 02:25:37 -0800 (PST)
+        bh=FgfjZ6gPNStEt/RNYx2qJuKKf940MnozlyJhtYv0suI=;
+        b=ZA8EOjH7qo5oWUUcIGyrfHWf7J+UaQL441Xky68/TY+47Gx5TXBY20tZ5aybPTb0bN
+         MnN0lF98Z8ZQoOKh5ZUgiZ49FBWceBwyVDGpQs4Vm0fl6Wd/qvqOJKTfiQ2MHpr7iHNK
+         WMl0bqaNjuLwE+4vJ0W0CVBAndQrXYMHACsR62MHAN/XUwWI47dtBkG73HZn+lm/VHdY
+         UJVoMpcnTtnqF5kqXUKErYbse4lKqmMoharYDjtJPaOAG3Rx9D2tO4kMp5ba2kfuKRyx
+         RAzyJw46DPrtyq8+TWvWe1VMBktTWGIvKRtifwwb8LYvwKZsPXcPXOFNzmIh2OnFTz68
+         l3mw==
+X-Forwarded-Encrypted: i=1; AL+hErGb0dRVEbAzvjJGwiLpgXoCxawCjzZr0GlODvOrnA4tste/Z5fSdSB5lQGUj6Rh0kuAK5miWNN751AoAQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+BVYrHgVC9U91Y85ZdSk6jsRvxr8qX/WqeGjXVJvK04ejVWMhM
+	eUQT44eddc9VtzLaNl1jYoiEQ7gp50y1kGoknevRD7r7sjcv9dmsLud+
+X-Gm-Gg: AYBFou17I8uOZ1Twctij8+nGbgw6GjH3e8oYioxWt1DXNJ/2OH3S3vkwC60501w5XXM
+	ug8ydgR7g9ClIKrk+N8Ddp5A/d+Mt8+heeuOwzacjs28tjD/PKFJtCmssGtNC3yoyNC1WrlZ7bA
+	Xa/Qea5KxeuE3Lt68ZclEg3Qp10ES2ej0Expgyb7PFd7vw2voTuiEapiK/hcrKfHVrYgQEgsHS6
+	kJPT1skc0pQ9FJpo8o4MegxA49bShxFR2IbRWpXNCzArWbjFpgd6gvCuRvNvS2m8CkX3qpuQm70
+	n8YWav7Gmp7pw6rusQy+ILPZVlS6BaeKeW/bpVoEKpQE73cz8QPotiKGPMFKapmqlJcyaYYwqcq
+	kUuHH1WFdwrGauzI2RpM03zzZUzpLhi5R8IYxsvsyn4/olF3fQrAJlXYfRHlY7BqSCo7TIantPl
+	Mqcar1lq7qWPyXg+3+2fDKBifrMT/yKaym0vXy2vbrnW1bm/N3cUEvYomipV0gQ65n3A5WUwgvP
+	kHQ0OVpZEjr22IebHRFPK/wMjFdomtvkcIRRCGCrlXBlpDzLKa9AhZH6V8id+/OQo11zUsJZDlw
+	MAOHyxMfJQ70+zzAfKQbu9JGelmRk2T4Tfd8e9XmvVV660orYhAXfg/dE5PTbSFnfg==
+X-Received: by 2002:a5d:5f47:0:b0:48d:ef7a:e59f with SMTP id ffacd0b85a97d-499c75528cdmr3034821f8f.17.1794392918442;
+        Wed, 11 Nov 2026 02:28:38 -0800 (PST)
 Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4988f5b1ce3sm8610917f8f.14.2026.11.11.02.25.36
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-498361f674fsm10337668f8f.33.2026.11.11.02.28.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 02:25:37 -0800 (PST)
-Date: Wed, 11 Nov 2026 10:25:35 +0000
+        Wed, 11 Nov 2026 02:28:37 -0800 (PST)
+Date: Wed, 11 Nov 2026 10:28:36 +0000
 From: David Laight <david.laight.linux@gmail.com>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-hardening@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+To: Alejandro Colomar <alx+linux-hardening@kernel.org>
+Cc: Joe Perches <joe@perches.com>, Alejandro Colomar <alx@kernel.org>,
+ linux-hardening@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
  "Maciej W. Rozycki" <macro@orcam.me.uk>, Geert Uytterhoeven
  <geert@linux-m68k.org>, Andreas Schwab <schwab@linux-m68k.org>, Andy
  Shevchenko <andy@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Daniel
  Scally <djrscally@gmail.com>, Danilo Krummrich <dakr@kernel.org>, Greg
  Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil
  <hverkuil-cisco@xs4all.nl>, Heikki Krogerus
- <heikki.krogerus@linux.intel.com>, Joe Perches <joe@perches.com>, Johan
- Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>, Laurent Pinchart
+ <heikki.krogerus@linux.intel.com>, Johan Hovold <johan@kernel.org>, Kees
+ Cook <kees@kernel.org>, Laurent Pinchart
  <laurent.pinchart@ideasonboard.com>, Len Brown <lenb@kernel.org>, Linus
  Torvalds <torvalds@linux-foundation.org>, Linus Walleij
  <linusw@kernel.org>, Namhyung Kim <namhyung@kernel.org>, "Rafael J.
@@ -100,11 +101,13 @@ Cc: linux-hardening@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
  linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
  linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v3 3/5] stddef: Add const_cast()
-Message-ID: <20261111102535.434c2eee@pumpkin>
-In-Reply-To: <2bf5cf7baad87b5b7b7f833df390596a033fd6f6.1794323750.git.alx@kernel.org>
+Subject: Re: [PATCH v3 5/5] string: Make strprefix() const-qualifier-generic
+Message-ID: <20261111102836.759ec121@pumpkin>
+In-Reply-To: <avOn57pfHntiwcaD@devuan>
 References: <cover.1794323750.git.alx@kernel.org>
-	<2bf5cf7baad87b5b7b7f833df390596a033fd6f6.1794323750.git.alx@kernel.org>
+	<35bf6672f84f07de3f40e8db9e7fcfd643894fec.1794323750.git.alx@kernel.org>
+	<64aa89daf23821f95780813fe96882ff61688578.camel@perches.com>
+	<avOn57pfHntiwcaD@devuan>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -118,49 +121,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 10 Nov 2026 16:33:40 +0100
-Alejandro Colomar <alx@kernel.org> wrote:
+On Wed, 11 Nov 2026 00:27:28 +0100
+Alejandro Colomar <alx+linux-hardening@kernel.org> wrote:
 
-> This macro serves to cast const away without risking unwanted
-> conversions due to mistakes in the cast.
+> Hi Joe,
 > 
-> It's similar to C++'s const_cast(), but it is more restrictive: it can
-> only cast away 'const', and not arbitrary qualifiers.
+> > Date: 2026-11-10 08:32:41-0800
+> > From: Joe Perches <joe@perches.com>
+> >
+> > On Tue, 2026-11-10 at 16:33 +0100, Alejandro Colomar wrote:
+> > 
+> > no commit description on proposed patch  
 > 
-> Signed-off-by: Alejandro Colomar <alx@kernel.org>
-> ---
->  include/linux/stddef.h | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+> There isn't much to say, but I'll add something (the explanation of why
+> the parentheses are needed around the function name, for example).
 > 
-> diff --git a/include/linux/stddef.h b/include/linux/stddef.h
-> index e1851c50c89b..d79a81406b78 100644
-> --- a/include/linux/stddef.h
-> +++ b/include/linux/stddef.h
-> @@ -194,4 +194,16 @@ enum {
->  #define TRAILING_OVERLAP(TYPE, NAME, FAM, MEMBERS)				\
->  	__TRAILING_OVERLAP(TYPE, NAME, FAM, /* no attrs */, MEMBERS)
->  
-> +/**
-> + * const_cast() - Drop const in the left-most derivation of a pointer
-> + *
-> + * @T: Type for the cast.
-> + * @p: Pointer to be casted.
-> + *
-> + * If @p is of type const @T, then it is casted to @T.
-> + * Otherwise, @p is returned without any casts.
-> + * This avoids mistakes that change anything other than 'const' in a cast.
-> + */
-> +#define const_cast(T, p)  _Generic(p, const T: (T) (p), default: (p))
+> > > Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> > > Signed-off-by: Alejandro Colomar <alx@kernel.org>
+> > > ---
+> > >  include/linux/string.h | 4 +++-
+> > >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/include/linux/string.h b/include/linux/string.h
+> > > index 9e59f9697c9e..55ca4cb5122c 100644
+> > > --- a/include/linux/string.h
+> > > +++ b/include/linux/string.h
+> > > @@ -590,7 +590,9 @@ void memcpy_and_pad(void *dest, size_t dest_len, const void *src, size_t count,
+> > >   * *  @s+strlen(@prefix) if @s starts with @prefix
+> > >   * *  NULL if @s does not start with @prefix
+> > >   */
+> > > -static inline char *strprefix(const char *s, const char *prefix)
+> > > +#define strprefix(s, pfx)  const_cast(CQChar_of(s) *, strprefix(s, pfx))
+> > > +
+> > > +static inline char *(strprefix)(const char *s, const char *prefix)  
+> > 
+> > Why introduce a new coding style?  
+> 
+> It's not style; the parentheses are technically needed to avoid macro
+> expansion, since the macro has the same name as the function.
+> 
+> Alternatively, I could rename the function to __strprefix().
 
-Should it be de_const_cast(), or just de_const().
-It is a shame you need to specify the type, but why not:
-	_Generic(p, T: p, const T: (T)(p))
-so that you get a compile time error from the _Generic() if the type
-is wrong.
+Or put the #define after the function definition.
 
 David
 
-
-> +
->  #endif
+> 
+> 
+> Have a lovely night!
+> Alex
+> 
 
