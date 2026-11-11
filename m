@@ -1,65 +1,117 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794428294;
-	b=vEqbOAOzmQV4BPqsUJPDYe2FTaN2rswqBV7bzgKpkkiTmPJp/9ayLcvNbmgTRiNNhE1Z
-	 MAyQ5gsFGHOAU+Cu1iK1Nw/BGyq8hLYnz9c0wQEd7dyOMgrEGDPsckSSWoKzuFrvV93k0
-	 rDNdd6gPM+R5L4hQ6FN+YSDyKMAE2BycCONLzRFUNJBCXTkFPQw9siI0k14FlTRppGHTK
-	 ScGMWjpwNYQcf7hfohVmnbvOQH4ZF9aFVLhiEHdCjEYxayFWQQA72eaPnvGGuTqVGSKbV
-	 9JNcPl8jOdNyqGTfaafmDkkuY0aYOLEBoFJdvoGPTiJ487RNngl1G+dWDjMmLiF1kXA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794428294;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Els3/l9AGCSjcC7efz1j19ntkOAQMAY8UI2QWizsyMU=;
-	b=R/w0ioztyeTGpw+iH81efs75Gr11u1T7FTX/D4R6WRKdGM/r/Lxg5Fn4aF4IZS9cakik
-	 DWqOto5Gp03qWXLqEHRnpMTRtsBGWSz89HDyRYoJ9xuP2WV9FqSRq7viKIsGFf/EpxS4Z
-	 hjPDdD8lKrC6iJVYfIaxD6a1FIO+FYYj5AtX16tBYNuzTprcLRCCMugChIX/nWtvfivnp
-	 tZBhoB41xazDU0K2euchANBodL1Tt5oFBtHeIbu/RTJI3ALUGL5Vel1Q2BwC9Tdx7aDwy
-	 jJGol60jVPU70+ZPu1+xO9lbm1bWjibvr0Qg6k3Rv2fYZ+LNhNjvWu+crD/fXZxQL5g==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="nLI3/DNW";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.57.44
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794429463;
+	b=khVPe97PkLSf+2Ik4+kQlIINfmkfsTLPzsZHbTYr+ulv65qtPwcXCEYXSAov/NGLEg58
+	 1kCmTFQkOyGy4H51xyPWKwwEsk+esqz/RdSFGVa529X5aEDzQEz3onweB/sY8SR1UPXu7
+	 Z8lwSc4goQHYj3mYTbSLX4RuckO8KeJsOrZsqv5of0na+/QaS0ArrKWI6VFzIs1OuAFUo
+	 ZYG4Zux+Pb14NoOImFp8DoIRkPT4ZRpecTnckJpeiTg3X4fSm+Wr8wPOzGvHMmv0vFhNz
+	 K0C5/xuSbc5icWZ48SGTUUA1l4lZzJkjOIqF7YX+iikMxE49HixpUiFsxbfZ1z46gdQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794429463;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=vpFFUBef3ORhRhRHBmdSYeFTIBv896sR/I4WSwGYm5E=;
+	b=afXE6mbljREuF5/TrqAcp0+Dsoojm8AKRDSAryPHIiID8cPR22sdszpGbIZUvotu4Ari
+	 ZD5yLvu3gpdI0ew6xMJuTAQh+tSekq5efunjl3ATNSPdNGnU0RoYuOELeGIhgqrf31ata
+	 EBVUAFinYAn1Cvv20F1uWxzRprPiLq4iIkQmlXuYzaJHPsJJniaLeOFnqNRQEgcQGdguZ
+	 M86KLY5w1pdVN0y83K+OcNWZ9K6KYL5jltnrNur8NaFdEVcu4e9f/KTerNDOSmKZ79S9+
+	 RZZNcAjJMTZSl92KOFOnFLC3YFRk3Nelidh0joeon654xs0MC08DLDiH+c44qysNgAg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=qsd2Z4e6;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.57.44
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011044.outbound.protection.outlook.com [52.101.57.44])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAAF3606A321;
-	Wed, 11 Nov 2026 20:18:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21A7606A8B1
+	for <driver-core@lists.linux.dev>; Wed, 11 Nov 2026 20:37:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C21A7606A8B1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nLI3/DNW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE5FC1F00A05;
-	Wed, 11 Nov 2026 20:18:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794428293;
-	bh=Els3/l9AGCSjcC7efz1j19ntkOAQMAY8UI2QWizsyMU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nLI3/DNWdeV0x1vHF44IGq1ZgW1d12PIIB+PI2iGWrUtJREN6UWn50o5jtAKDZHAP
-	 VGvfhxb5Y89pzBf6edS//7RnKRcqZRrMIYW7a1vY5srKD0JLCv3IfAUSt2JBhKSiFE
-	 kvMBGL71p1wRbe5uOqiV+7JcSYZOmAsLDhU2/AcyuoDWcu5WOegiWpyeWiCUyAGPrV
-	 GbUnZqgqkhG+L6a8A/qLfBXYEhL5XdQ5lCXIvca5JL4WgtWLqQSNJstSHEKd+7NZ0S
-	 /vEOx3OgGLn3Zpky4EquBRs3HjuxoWtbaPgQ7k31pOA+ekt+GnkTDLtexOAModBNgp
-	 4e2OsXagqP1xA==
-Date: Wed, 11 Nov 2026 21:18:05 +0100
-From: Alejandro Colomar <alx+linux-hardening@kernel.org>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: linux-hardening@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, 
-	"Maciej W. Rozycki" <macro@orcam.me.uk>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Andreas Schwab <schwab@linux-m68k.org>, Andy Shevchenko <andy@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Daniel Scally <djrscally@gmail.com>, 
-	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Joe Perches <joe@perches.com>, Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Len Brown <lenb@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Linus Walleij <linusw@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Saravana Kannan <saravanak@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v4 4/6] stddef: Add const_cast()
-Message-ID: <avTMrylZawfodg_A@devuan>
-References: <cover.1794425425.git.alx@kernel.org>
- <ce623fe0432ba7fe74e12171e52d2dd1f1ad2c39.1794425425.git.alx@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=qsd2Z4e6
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=de8iawACYRTwuFamji85i9tBZNTmIKu3P/Sfjd9jHPul9Ph28q+KrBKNTLnFnJ5a/2de69Z8oiZW8hmaOQm50O1tzrz888GvZx6OIekH4UQFOvLWimen+QgVCJrMob5Ant0x3bdFqNrekhVbmLspdZMt3F48OX3CmVG+j5ABbqyJ3UxGLqtqyfiRhnMu982pdbQdT3gOgXXFPyy//fqCF27xxupY81lH6lV8dmbdrh27fqnkiGxNI7wLOhyDriroQTRB4toV5AzZTNzLcBwFBHGeDeBAHKg4hRpuFhWVA1Uc5nGovbeh9f+XoiOS93jNzyj+79bGJ6BoPl58nVA5vA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vpFFUBef3ORhRhRHBmdSYeFTIBv896sR/I4WSwGYm5E=;
+ b=tu5xdihqn83bUtxz3ZmaMKutPpv3MncQEyCk6dSUg+7Hau1ArOUm+6xo5KAsJ59fVuOD1CNyvYHFgwHsBcxyG70wzf3EovBu78sLzfigD584Ti90OmMgelUFrC4hLf6DCBnurQ1XOH3/T+LAhSvjybp25OphToELROszUpxzt2HNN6uciet0bt8Q4Rlewwjzcl5ymVHzqENWXsAa2pycEszBnId0WJXsmj5uj61teuNZ1zkJ1cUtnro4NM32K230qc6tj9J+4/DNGG0IBT5/9Gr8iFkaE8U8iHUgTfwEk4Zh/s66fg20oYkiYLKhYQtpjEkDZBK7ussP7gcSPA+49w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vpFFUBef3ORhRhRHBmdSYeFTIBv896sR/I4WSwGYm5E=;
+ b=qsd2Z4e6QpJdugGmBQt34V6o/u2BUfVwze4ozq+tCH864fDBxAD8uApPpWLpN6mQYKkghX2OSYBjff954k91Q+e68k+OrwuPyxa2YEytSrDvoW7xSs+zjiXw711Qw1ttW5xwkXRz1LvWirgTa2jpkr3YJ8AE/wiXIYsr4rprQVF6eg8VseCUlud6L6bA60S6KFhdoVisM7ygJjXE5CM8+dzQ92S0NURMBHSwIkhkonExaUmCz0vOD3gn1TYQBbTqhde4HZXgbYQCSldXd3bkbutciwc0ZD9/FL4HnxIuoPyZcLv8oMzadGsr9i84XweSZu9VxxdyRk5W/u9/PQ2v1A==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ by CY5PR12MB6273.namprd12.prod.outlook.com (2603:10b6:930:22::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Wed, 11 Nov
+ 2026 20:37:32 +0000
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286%4]) with mapi id 15.21.0615.007; Wed, 11 Nov 2026
+ 20:37:32 +0000
+Date: Wed, 11 Nov 2026 15:37:31 -0500
+From: Yury Norov <ynorov@nvidia.com>
+To: Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Andrea Righi <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-s390@vger.kernel.org
+Subject: Re: [PATCH 0/6] sched: Expose writable interface for preferred CPUs
+ mask
+Message-ID: <avTSC2r61uht9oFK@yury>
+References: <20261101192203.6979-1-ynorov@nvidia.com>
+ <A2B09626-39F0-4EC3-B57D-CD83D77DD208@grdncc.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <A2B09626-39F0-4EC3-B57D-CD83D77DD208@grdncc.com>
+X-ClientProxiedBy: MN0P223CA0018.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:208:52b::35) To LV3PR12MB9356.namprd12.prod.outlook.com
+ (2603:10b6:408:20c::21)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -69,128 +121,99 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wqjyunsqqp33uwdl"
-Content-Disposition: inline
-In-Reply-To: <ce623fe0432ba7fe74e12171e52d2dd1f1ad2c39.1794425425.git.alx@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|CY5PR12MB6273:EE_
+X-MS-Office365-Filtering-Correlation-Id: ae2a9e64-e8ff-45cd-6393-08df40339c83
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|10070799003|23010399003|261028144727099003|4143699003|11063799006|261022105027099003|56012099006|261022075727099003|261026140227099003|261026121527099003|261009223027099003|22082099003|18002099003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	b/u0G0e7uwhApBEBNOijjHLDlqcqRQtPOOIyDa1cVniPiaoFluzGmou88GrTX1ybEqKWvX4KbuPCsODeNSFN1epgnh+nXu7EjeL/Ydx5//snIuVR5DLXl8hxr2xITQaF2O3uthzijy6hFt7ePbtDoFLu7LG1Bb7mHfawb3bc8NAjydmEsZC2I3qoDimssdr99Q+m/k+MP8dNngmCw3RxwRAz3c0jg0wE//pfz+e102VmjoYMRBwoP7kQJmXf0zev79FY75DCZAnbPWAYRCkhsSnVI2qwkt2V6JtXvnVX4nSKIzcIdABEqlvWyj3WiOPsOPPvL2ZKZ7D/NrSQ2VpFD+iR9x50dcIx3xuDy3a4GUcwDUSeXfMVaFQryvNZsU+426irPX2Gb/ENGKRCHcFZ+ruF1UH3CYl52qn2Z9oVt6nl0UmDQRqvQR/IWr0QYb0dnThcWSmRDu682/jH6Fxg98+mnXRtWj1V9TgQ9ylWdSENbPV89JvF8BlAIFhdv6idI3GbxPqb5Ly+b64HPWQslGG9ne8u8OZiOGP2r9B19tm8vs+CBazFBH41HLC8fVLwZRYWGZ95MDZf4mtLPDa7ioicaTb4KbXoAVjIwBDmam+yQUR7OCDvJeq8spiX4xObsBD53Dplw4RcZ1d1ROusyuxbAth0eDbIsJ5STtDv8qc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(10070799003)(23010399003)(261028144727099003)(4143699003)(11063799006)(261022105027099003)(56012099006)(261022075727099003)(261026140227099003)(261026121527099003)(261009223027099003)(22082099003)(18002099003)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?xaf1dn3EpjUUehIlz4laOaepTzUAjNCpC1smEIin5uxjxOlQZ6ZqudhZfm7a?=
+ =?us-ascii?Q?P3gvc/IAkykDzJmVG0cfS80ZihlPlWiHzHeQSrI9Z0sPu65y/Sc6nAQjR1rK?=
+ =?us-ascii?Q?Hr/IpO8NNlJVQ46YdW5wQX5Hzw/PtdidtkrVHmSOaPsRYmMK65Ey+ud4C+ZS?=
+ =?us-ascii?Q?LuR9nn5/by78UjV9fOh4i8dAydOoYr4ohUhJ5ncr/BPeC2/xNdotuyjczDr7?=
+ =?us-ascii?Q?vu0Ub9oZ2NAgClf4yW8cC0yHrcWAxsnquiBQ/4k7/sroXRhCHQQjXzco038W?=
+ =?us-ascii?Q?iVcffhoy2wlOnMYqYMDD/HChzme+KwvFWwBmAwvZOEmJ3r72ctv/U9pi+Yr6?=
+ =?us-ascii?Q?m2s5oVN4MHOG6lBqo9+vH3ngelQPkeONjIq6fZ2YYvI35h1dmbBmxRy+0zCz?=
+ =?us-ascii?Q?BJM2VGmh8HA1bcXEd7fLyZQajRH48A5h4S/40BwEB1Hhp2lQiyGlOXnTtPrE?=
+ =?us-ascii?Q?NQVDSzMdT4QISSYF9Ywcb2qrx1R7IDTKG4pmcqEvMouffvlkqIIV1bXR51kM?=
+ =?us-ascii?Q?I5Wnpmytg2eXfb+EvxS5AhI07KwNrZbNx6pdWYyWm4Zasn7Ev/iGPs4crViO?=
+ =?us-ascii?Q?+yEJ3WmJF2EqXqUMrEigdWlQpw7L5D1LEslvM1TEmxY9rKr+e38+CFqaSbuY?=
+ =?us-ascii?Q?Nu5Wp/jGev/+hCi5EzWiR1aAIw3J9D00g+c4+x49n5GCyoaVhGr2Wn/3SniO?=
+ =?us-ascii?Q?81niCyuPmjzSc5KH1txvOwUZHdmkZiYPjkcvLc9BAn3h3wlMQ0W87h68960n?=
+ =?us-ascii?Q?Q0uopWZAkyqXRjAHvA83YFDXvKvQCa0QIrrc9+ye+I9bj5UoLsrKRX0IJHIQ?=
+ =?us-ascii?Q?wxdiYBI/fZFNzcEIXZxUE23aRyec9dllhnJzsD2PFS8Ndmbq3dyv3ARsdbYE?=
+ =?us-ascii?Q?/4JkMAd7wN6PekJgXT06uj6c1TWlPZDv7zLWLMeY9wyytgpmrkiolQYsbM3M?=
+ =?us-ascii?Q?yWeAtsOoAGK0znhqx843Xb/iCzIh7wUUOvFC3SCgUIpLJez7qZ6elPpzl61p?=
+ =?us-ascii?Q?071N6yIIE4UcfeO1f1BLrYC6Rx1G5qcHeRxIgCDufvP82CXzVlsrI1t96PMY?=
+ =?us-ascii?Q?cafKP9ta9pt4MK7iLJSI4Wv5u7Os1dnS1+n4SdRxwFOXAhs8JJv3h8qriSYv?=
+ =?us-ascii?Q?K10dy5f7fRcyh25gvOIaFJbzmQhs7JXqLiHYOe4uYBJ/BEGsBcCGpMVRuORe?=
+ =?us-ascii?Q?9sACS9djdXtsz2j3ajXRt0Bi+LtLpm1EPYNrfqIhi4rikis/vN1QfassqiQ0?=
+ =?us-ascii?Q?+ys6MYk6nczNj4dOOdYvdTm3ziKoVSXyMh2zRdfix77GryXkyabCBUcxnXPa?=
+ =?us-ascii?Q?gHXsTc7vXnplcSXglpjkdKtKj4DEmkvXKJLDIbr/D2CM0mx4Ea04BblGCih9?=
+ =?us-ascii?Q?PyfcYIp1YwH07r87X9hTktjfx4cKnbDKNbysmhyVLU8oID0hZ0fn7Yap3XvC?=
+ =?us-ascii?Q?dU2P1V/IzojRHzM++icDE5Xnuy/IRFmKHEHc5czC4yJ4+pwFi2d+dSLpDRCY?=
+ =?us-ascii?Q?LW1+XpZ7H2U6kfiayhy8/oEvMkUJPrWnIJ4i5hwvDZmtTh/ZK4vrr63iYBCL?=
+ =?us-ascii?Q?lRLhgu3B+zeTpQC5hCYkXn5V/LJ31Ytv8H+tIuvfPTIRxAJOkMJje0m/umgb?=
+ =?us-ascii?Q?tJ4VsNRXw0I9tDzEctHevESD+weFYW8NtAkDQgqf8r2cZd2BcE7Rr9DeF3Hp?=
+ =?us-ascii?Q?k+DrY4qPNLPu2g69G+EWO63FAOUICm4CkrglGbjIidR0zkdWPJLVZLaDOdu1?=
+ =?us-ascii?Q?uj+O7I0GCeMOauqCuUkiKS3eM3GqXefFkYJimelgw+lP08Flx017?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae2a9e64-e8ff-45cd-6393-08df40339c83
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2026 20:37:32.4546
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SSqsdXiehB9k4oPFQDdgCKF1DwlXlY3XWpNPSvHXaI6dnMV7NchS1rzP9VGZkkTddkbLX+GfylMjCA31TMvozw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6273
 
+On Tue, Nov 10, 2026 at 04:15:31PM +1300, Maxim Kuvyrkov wrote:
+> > On Nov 2, 2026, at 08:21, Yury Norov <ynorov@nvidia.com> wrote:
+> > 
+> > The preferred CPU mask currently lets the steal governor reduce vCPU
+> > demand when physical CPUs are contended. This series adds manual control,
+> > opening more use cases.
+> > 
+> > For example, setting CPUs aside for selected fair tasks at runtime while
+> > steering other fair tasks toward the remaining CPUs.
+> 
+> Hi Yury,
+> 
+> I've been trying to do this with crutches in user-space for a long time.  Thanks for implementing this in the kernel, and with a convenient user interface.
+> 
+> > 
+> > A user can mark a CPU non-preferred and pin a workload to it. Fair tasks
+> > whose affinity includes preferred CPUs are steered away, while tasks
+> > whose allowed CPUs contain no preferred CPU can still run there. The CPU
+> > stays online, task affinity is preserved, and the selection can be
+> > reversed without rebooting:
+> > 
+> >    # rmmod steal_governor
+> >    # echo 0 > /sys/devices/system/cpu/cpu3/preferred
+> >    # taskset -c 3 ./my_workload
+> >    # echo 1 > /sys/devices/system/cpu/cpu3/preferred
+> 
+> My use-case (being a compiler optimization engineer) is to pin benchmarks to specific cores, and stop the system from using those cores even when the cores are idle.  This prevents L1/L2 cache pollution and makes performance numbers more stable.
 
---wqjyunsqqp33uwdl
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx+linux-hardening@kernel.org>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: linux-hardening@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, 
-	"Maciej W. Rozycki" <macro@orcam.me.uk>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Andreas Schwab <schwab@linux-m68k.org>, Andy Shevchenko <andy@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Daniel Scally <djrscally@gmail.com>, 
-	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Joe Perches <joe@perches.com>, Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Len Brown <lenb@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Linus Walleij <linusw@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Saravana Kannan <saravanak@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v4 4/6] stddef: Add const_cast()
-Message-ID: <avTMrylZawfodg_A@devuan>
-References: <cover.1794425425.git.alx@kernel.org>
- <ce623fe0432ba7fe74e12171e52d2dd1f1ad2c39.1794425425.git.alx@kernel.org>
-MIME-Version: 1.0
-In-Reply-To: <ce623fe0432ba7fe74e12171e52d2dd1f1ad2c39.1794425425.git.alx@kernel.org>
+Hi Maxim,
 
-Hi David,
+Thank you for the feedback.
 
-> Date: 2026-11-11 20:55:39+0100
-> From: Alejandro Colomar <alx@kernel.org>
->
-> This macro serves to cast const away without risking unwanted
-> conversions due to mistakes in the cast.
->=20
-> It's similar to C++'s const_cast(), but it is more restrictive: it can
-> only cast away 'const', and not arbitrary qualifiers.
->=20
-> David made it a bit more robust.
->=20
-> Link: https://lore.kernel.org/linux-hardening/20261111102535.434c2eee@pum=
-pkin/
-> Co-developed-by: David Laight <david.laight.linux@gmail.com>
-> Signed-off-by: Alejandro Colomar <alx@kernel.org>
-> ---
->  include/linux/stddef.h | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->=20
-> diff --git a/include/linux/stddef.h b/include/linux/stddef.h
-> index e1851c50c89b..5201d71db387 100644
-> --- a/include/linux/stddef.h
-> +++ b/include/linux/stddef.h
-> @@ -194,4 +194,16 @@ enum {
->  #define TRAILING_OVERLAP(TYPE, NAME, FAM, MEMBERS)				\
->  	__TRAILING_OVERLAP(TYPE, NAME, FAM, /* no attrs */, MEMBERS)
-> =20
-> +/**
-> + * const_cast() - At most, drop const in the left-most derivation of a p=
-ointer
-> + *
-> + * @T: Type for the cast.
-> + * @p: Pointer to be casted.
-> + *
-> + * If @p is of type const @T, then it is casted to @T.
-> + * If @p is of type @T, then it is returned without any casts.
-> + * This avoids mistakes that change anything other than 'const' in a cas=
-t.
-> + */
-> +#define const_cast(T, p)  _Generic(p, const T: (T) (p), T: (p))
+I agree, this trick with pinning a workload to an non-preferred CPU
+looks promising for benchmarking purposes, and probably for more.
 
-Ouch!  I _thought_ I had built with this already, but I might have done
-something wrong.  Trying to build now, it fails to compile.  Which
-reminds me why I used 'default:' in the first place: when T is the same
-type as const T, this fails to build, because _Generic() can't have two
-identical selectors.
+I'm going to split this series to the cleanup and follow-up parts.
+In the follow-up, I'll focus on this writable interface. I'll keep
+you in CC there.
 
-So, indeed, we need default:.  It's not a big problem, because since
-the type T is already validated by the function itself: it T is not
-something that can be passed to strprefix()'s first parameter, it will
-fail to compile.
-
-So, I'll revert this in v5.
-
-
-Have a lovely night!
-Alex
-
-> +
->  #endif
-> --=20
-> 2.55.0
->=20
-
-
-
---=20
-<https://www.alejandro-colomar.es>
-
---wqjyunsqqp33uwdl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr0zXcACgkQ64mZXMKQ
-wqkGUA/+OaiDbeJU30QN+XXhjq4wsZoadkGM+HONKlcYIvwd1wpZCXvTexjqEAiu
-rBOd45EWU9TJmFtZfv0ss7JTAc5xMLd7aFuqjFWXUQeb0xlMmHyb1RyU8wEHf2TP
-b9l8iEe2F0wpccRV30rYPspU28euHBBwvIVQaoWRFNztin3JDGFM76O8OPXI4ySP
-oErRSC5piw6pB1fLLy0YfyobN4qkzm9TU6qjnz8W+LUWE2lLq3L2AyRwth6oE/5E
-Y3l1kVzSJFuyvlf2pFUxGsNTt0GyHP0UD3tRB0uSJkg/VKOCPChJPXNZiM8IERPU
-EH8hK4TivyOOgfEl6M35wtjASXP3TUtZqIajnGuVKIDCb1lq/s5nZGJavY5G9NCQ
-NCN5azwflC5oLRU+4gVaTaoXGRq06ZPZYTpMlR6qcHQAhexT+K1/MJXmCDiRpD2f
-T4HSIzb2y/3jZW48Ac+5miIOz/AJn3/kq7yu0VvSwmYqBMDqouuPYaOyD7v1CvPW
-CT/T3+VPGXsYTAgyZ/4bj4noo33Rr0K1SgBQcwrgtbKOSbCyCf3wny0cFngFZeEj
-cm0nPs5WLLhnD6aDNwvrPKRN0U6r5Dkqp/BDgQqqkIr+nDlauvmgPYboFufrkQs/
-bKfX7UNnK9v+T1LTE3qorD8tPCCSYtCabBda3K3CYLRCkdw3kic=
-=i3+x
------END PGP SIGNATURE-----
-
---wqjyunsqqp33uwdl--
+Thanks,
+Yury
