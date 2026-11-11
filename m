@@ -1,45 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794422947;
-	b=TFgkgRpCNhpjgbhYoCuZ9Ef4yg/IzfMW0zIhd/4zGrvjT1YmLKVJQPHhAVdFiIzfVNrI
-	 wjoec8mKssaCpw4/1EdQiwC0z5atLmGyb2Gf3Rsh3EL94pV7IQYvzPMfp7tooSKCvgwAt
-	 6iq34TzysBIJ4XAzufRoes3veGziRrLAG79REWj1OHl4ny2DBrO6boXyvt6ZKXAb/Nj3I
-	 5mLPZnaK7wlhwt2lBcicz7PdJ/5cjXdyjZwDAVMruE7fpKF+C6nHDLn8H6nprB6B+gDxa
-	 FkW+yUJRC8k1dbfMpONira5jfk3gWsBtXYzvWzUP6Fwf2IPCOwUdgrcuybUGUPB6DlA==
+	t=1794425510;
+	b=zTzhBXIaZfGr7ddzeXlxBQx8OYFkD9M4ml6YTAtmgF1OZa7iFDwVyx+Q1pQfhxkJPoPc
+	 +FV8WDmQS/OHm/Parj9RFqczaC869/T+JGGSIlj/bmYgXdyzV8IZytvIabB5CUvyqR0os
+	 5ipcJea5uEDaZ1GNNAh2EC+8t6V3LUl4GI4JiaErkVv7XGmPmRF73YdOYB8BuO8OKS9o9
+	 Z8opGOZPqHaT1M1Y4hO+n/PL9IkXEfhN2YYvPxFDH32ETuD6zMHGbBrISAhicHlJZVBKo
+	 vMyWZkhCthvCiuX+V9VTQVy0gnaMIshOCrI0aFBuaQlv813SamK8M1EyjlvIy+OArqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794422947;
-	h=Received:DKIM-Signature:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=VGWIKmWswB1Q4yLhLzgHlNgrt70vFwanu4l3eS4A5Zw=;
-	b=SQyQgeotbu2UMHY1VdwKp5gkNECCJS7UWTTRTKab7CdD5lPMSUQYeafizFO5h7WbLggw
-	 +QumSeUNNd2/fTDk6D3Bxg9TCOJvdDtfwws+XvSmVQSFJ9BwNsaKY5w/Xvgueb37sqv1M
-	 hwi+V+TQpfIBTjqmwpHW1I7gAUihQsDScwrj8/MreM3H3eJ+JfCb1Kv6adn75teZlZvbM
-	 9YomupCM7Us0m2tue+4z6een4XIyKpT/9xCwuoAnN20SMkexW/NDZbwG0OVgTfs53AbQc
-	 3WtM65U02ZlWHM3vZBEh3BkqrdMw5i0pz1M3u7btn6phnU/FhrNjchTjjcxV8hnMZzA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794425510;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=Ihmjpaq362zzdxmp/sT8AuTP1S4oabw2RE04rYS9y5E=;
+	b=UyLlX54nb+HsxRaJyYBSjC2qxHenKuRxjRpWWeEat4l2H6xa8ksmDCzCn6gK/bSHwQOO
+	 HCmlBRF0nV/TqeH9rj1t8nOf9Ded5fSjLJCp2ZeFzfEAQo5Jl0UOlub9o731C9pfE1TWN
+	 lBGroGzaa5CH9deZAoqmmzMB1RGvXL7N7ve60nNHkyi7imw3ryaBsZjuIRs+9HbgzKtkH
+	 52Y7VrEQAqDY4BJY3bVqMJHdk3h+OgIYhpV8H3hgiVn9J28lEF9qQVyn3p+7X2SoRKQkp
+	 Xsh8HKePT7blYNK36xUzoBurpLlpNM103p2C7cVEnI7HuXqbb0OtSlm5LTPggig43Nw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mRspQmnU;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=T0dFk7c9;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95CE4606A324;
-	Wed, 11 Nov 2026 18:49:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12F9606A333;
+	Wed, 11 Nov 2026 19:31:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A12F9606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mRspQmnU
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B07621F00A05;
-	Wed, 11 Nov 2026 18:49:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794422947;
-	bh=VGWIKmWswB1Q4yLhLzgHlNgrt70vFwanu4l3eS4A5Zw=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=mRspQmnUxGUW2s9BQfRJ73ezempym8k8dZnXylohsEGVdeecQ73TuAPvLqLS4obgJ
-	 J5tfYJXf6Iy4yUu03HmCGhgqvTZmSG9KDCCyTaZSKUaIw380YvOvTqmIZU5FEcv8D9
-	 jgXnYMqpjrirsnlWkCVEZZcPCp41AB4wED1nPbvo5Rel6+lFE39PEzfw//paD7DD0V
-	 nXUkCP5CKqJLgoD+uAch5F8O/vKZyklwAhvuqlDx+pR5OVrvdOvtOFFYr6Sde1XUO2
-	 C7XiQkWBySl7aidUOcsE4wEcaaL8fIkoBKUnMZSjZj0RlB940e8boHZtGR72ZEnX66
-	 XwbR/H+OQ1w9w==
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=T0dFk7c9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794425510; x=1825961510;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DcTofesJFT1jeKz+4gvXAC2F9ujJKAM96Sgs1nkt01o=;
+  b=T0dFk7c9m3m7kFV4rOmhFdAQVhA4EAKbMnU6tKzTmHNAY9tSf3moFCM2
+   KkW5lZZ0vJm/Sdy3Mpyq97CUwZeVBDRGwU55IDYyn3+QWvUnibJ475new
+   XNKJRvOONmrAXiN9Ya6Kas+JuQQcSNLY0T5XGbySWLtI0ZbEr4mYBKIlO
+   xRn9rPoLbS+RM9SnsWUCkSSxCbP0QcvT5mmziO/mvcQGZRzzoeKxSAeBF
+   rAdgh2ioWxHtf0/etD4GifkhI9WuSA6XFkBsr2UIznCeuNn1y3TkuGOpJ
+   pLTwhmpP6xYYJU8SN6iEfRpQMa2nax60vhzL2L2FswsxD8TRKsUpHjr0q
+   Q==;
+X-CSE-ConnectionGUID: iyKSmpnzSlyDwx4qiwLvmQ==
+X-CSE-MsgGUID: LWMCpU3qTT6ccSin4DAGpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3099043"
+X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
+   d="scan'208";a="3099043"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 11:31:49 -0800
+X-CSE-ConnectionGUID: 7Qov/K15S6C/fBiJhfO24g==
+X-CSE-MsgGUID: l+vjy1i3SXmfMFLMolRq8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
+   d="scan'208";a="8820410"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 11 Nov 2026 11:31:44 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xRE2n-00000000zZl-2KpJ;
+	Wed, 11 Nov 2026 19:31:41 +0000
+Date: Thu, 12 Nov 2026 03:30:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Xueqin Luo <luoxueqin@kylinos.cn>, rafael@kernel.org,
+	viresh.kumar@linaro.org, sudeep.holla@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	zhanjie9@hisilicon.com, christian.loehle@arm.com,
+	zhenglifeng1@huawei.com, sumitg@nvidia.com, lenb@kernel.org,
+	maciej.wieczor-retman@intel.com, pawel.chmielewski@intel.com,
+	gregkh@linuxfoundation.org, dakr@kernel.org, johan@kernel.org,
+	ionela.voinescu@arm.com, pierre.gondois@arm.com,
+	linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, acpica-devel@lists.linux.dev,
+	driver-core@lists.linux.dev, Xueqin Luo <luoxueqin@kylinos.cn>
+Subject: Re: [PATCH v6 3/3] arch_topology: Add topology_update_cpu_capacity()
+ for runtime updates
+Message-ID: <202611120358.5eM3xOiA-lkp@intel.com>
+References: <20261111085022.1229866-4-luoxueqin@kylinos.cn>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -49,41 +91,49 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v1 2/4] regmap: Drop never used devm_regmap_*_free()
- APIs
-From: Mark Brown <broonie@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org, 
- driver-core@lists.linux.dev, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Johan Hovold <johan@kernel.org>
-In-Reply-To: <20261110093820.454682-3-andriy.shevchenko@linux.intel.com>
-References: <20261110093820.454682-1-andriy.shevchenko@linux.intel.com>
- <20261110093820.454682-3-andriy.shevchenko@linux.intel.com>
-Date: Wed, 11 Nov 2026 18:49:02 +0000
-Message-Id: <179442294226.513646.6459407661987242086.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=484; i=broonie@kernel.org;
- h=from:subject:message-id; bh=trXHNXa8gImhO/vuHbTFfq4yvnJ/7p2SAmQ47qaoRQI=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLK+7Jh/qYDD0SH0ZbBtdtaRwCmiPm6Fv7j/r3q7fCZPX
- Y61L3NQRykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACbispOR4WnmvInZXG/73H6V
- Wwve9Jqqs1n1L5cGE9+KIDvZqN8HDBj+p/XxiC1R0lPdVVbBcY7lchaDwslWvWlzphuIN1R8V/j
- FBQA=
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261111085022.1229866-4-luoxueqin@kylinos.cn>
 
-> devm_regmap_field_free() was introduced in 2013 and was never ever used.
-> devm_regmap_field_bulk_free() was introduced in 2020 and the same story.
-> 
-> Drop never used APIs.
+Hi Xueqin,
 
-I tend to think that if we have allocation functions we should have
-matching release functions, this avoids cross tree annoyances and bugs
-due to people using inappropriate release functions which actually
-exist rather than adding the ones they should use.
+kernel test robot noticed the following build warnings:
 
--- 
-Mark Brown <broonie@kernel.org>
+[auto build test WARNING on driver-core/driver-core-testing]
+[also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v7.4-rc2]
+[cannot apply to rafael-pm/linux-next rafael-pm/bleeding-edge next-20261110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xueqin-Luo/cpufreq-cppc-Add-update_limits-support-for-Highest-Performance-changes/20261111-165020
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20261111085022.1229866-4-luoxueqin%40kylinos.cn
+patch subject: [PATCH v6 3/3] arch_topology: Add topology_update_cpu_capacity() for runtime updates
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20261112/202611120358.5eM3xOiA-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project e73e336290028f26553b46c9fba844c13da38c9c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611120358.5eM3xOiA-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611120358.5eM3xOiA-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/base/arch_topology.c:232:21: warning: unused variable 'raw_capacity_lock' [-Wunused-variable]
+     232 | static DEFINE_MUTEX(raw_capacity_lock);
+         |                     ^~~~~~~~~~~~~~~~~
+   1 warning generated.
+
+
+vim +/raw_capacity_lock +232 drivers/base/arch_topology.c
+
+   230	
+   231	static u32 *raw_capacity;
+ > 232	static DEFINE_MUTEX(raw_capacity_lock);
+   233	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
