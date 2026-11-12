@@ -1,100 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794496677;
-	b=fk3BkiWdArwCZXU3apRvJnxf51iJtgR+bmDsRs7gtU5b+81Dk4iDzs1uivmGiZTNr9T8
-	 PdGpz7pbr/krQg6qhPesFJoR9wkCa3EkN1UTZwuLSnki+mvXCEDVZOHL9Ggc73pC8WqMA
-	 2N0md/X9KQhNmQDgDHNyvgBCCnQudzZ25cHTqABYlFwRWy/EpIQA3Gu2LDuthYrLqwRIN
-	 9HoWIQOOpPoTf730Y4IXw7/oRzt36KIP47k3/+Cs7RJE/3ac/TZMXpPEV2Dynt62HrEHu
-	 z5oXfLJpYn7lVxTvw7y6rSGkNdhTBlnWfKR8O/sxBWx4omASAe0wyh8RMzM1h6msGjQ==
+	t=1794501274;
+	b=21aqRs7dIvRr2m16k9nj0chL9lUHj2mtkdzq3tcBtWm3kqLTMyLVU2mkUtIw0i79r4RH
+	 EBGRzP4CXIh40vekKyDmLBbFtbtuvZvHoxtI74Ar0h9hICYn2pAM7ZjtN0nnJ46uQjwAc
+	 1I6hX0pifBFlAD+XwzyvwaoD1M5pPcn0iq0lsKGw07U/4kvxSSFfB9V+P/KJzN6QuHnVg
+	 st/gsvVneU1yvEmSOETpTKQjJzIMEUVuy4PVZc99cfC41qQRWerzoRfHC/1xM0qEwNMFn
+	 j5LNJdRxfg1SqbKoNIFdqq4HUYEM28UyC4mvtqjgBQ+GAxzJPV4paFxr/TwLn5kTQEQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794496677;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
-	 Organization;
-	bh=HcfmMvR1qzdPr89sAfJlOhAVra0ryuXlnn4zleNOQ/A=;
-	b=QN248Z3MebAaa4HtTHuvrQeUZ8+AyMCj0cHG61zQ7jfq6Z5XIzkRI2cKKJN1/YwkfRF5
-	 Ll1s8xum/9ztkWuzWrRQZn+BHnuNkLo1BwyludZ2kaScds5yDacwHjzsjJovVn2vEo5br
-	 1M457xUi3Dz7JTikaLMi4Uja7+nvoNK1vTKrLhW4SSNFIty7PBPTIvhm6+X1rmMLWCB03
-	 odjFNmKNds1DX4y3vPLQs7ZePFGLb7FAe9u6mJx6PZTKSyYqhGTGcJSU63ekAq/gQxbZE
-	 YgZgS+Em8+vA908VxwmdAhwhmIfE9iJWp2Q58r14MyGpSqEE6v9+5XJZQJny0qyLdcQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794501274;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=BkOan397muuCEgFMqk3a5KpizGYyvJYTBVZxmg+BXRc=;
+	b=fqKZfkP8nPE07znaeju1qlm3xzCcdsXZpTtrDhrLlvOH8mqeuS0lOxn9EBVBMkOB8eWy
+	 UvCgxsTAjcmxaboMGyYi8IwaKxOm32ltf60kRY1yIKQP+KGaVU78GcqD8RWoFhhnkkJ/L
+	 OhfKeXnyh7xLY/pj/ahegxA8yjFQYWg/7bkMHwGGkB92/fq2mhT3LkOtcWC3bInC4tOxI
+	 uQZ/xob26PpdKbAcARrLivT+Dgixm6uY53mLPeQ88KFx7uZPECMlxYXDzi1Pnr8PXUjKc
+	 TFRJ6RIcVQB9di+UDqI2b7JRN+e+SklWqLviCy1LwAL05MzZK+7e3KcQmxgo3iY+Qrw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mptqeHQp;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=linuxfoundation.org;
+	spf=pass smtp.mailfrom=linuxfoundation.org;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=dlNo6jXg;
+	arc=none smtp.remote-ip=209.85.218.45
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFBBD60A2606
-	for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 15:17:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DFBBD60A2606
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9A0606A323
+	for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 16:34:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F9A0606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mptqeHQp
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794496676; x=1826032676;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=l/sGAcCwfQqpuM7I0t6QaN2LlZZJmg+0QyYbf8b7HSU=;
-  b=mptqeHQpJSZTOSP4M25z/P/ctZ66IGcbwPp33hzoSvUF7iRlP63B0wOv
-   50vrYEJ0wW1jAdwMWwQr/ahWAPQqWUvbzi+AmSGldACwuKN/wfP+VuXbl
-   SsDmecnc4VWzFzUtwtFpSue/ErUVgfm/mS7iefxxdYTBkxJl4Ys4Aja4u
-   +wUtaGHoYr6AlxZsc2SSqb2N3raJFwoMGVEaOQ4TxOJqrNHi+ugWaCOGO
-   5xh00qRrq8fvAQVDlghzQVT3nfUhw+Xf47LEDEHHw7tWOBocmZSW3g3db
-   3546b5rSute+DjnMr+aJYZJ4KqGPb0GYRCd1P88ktaDM+yEBs7/dDyM5v
-   w==;
-X-CSE-ConnectionGUID: saDaKmD1TSOhMkSnmAmUxQ==
-X-CSE-MsgGUID: wmvKvF5/RN6/toirBmXK6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11964"; a="3149363"
-X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="3149363"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 07:17:55 -0800
-X-CSE-ConnectionGUID: wfIkWaJLRrmvIrOEp8se0Q==
-X-CSE-MsgGUID: /2i6zEKlS2WGLvvpV+ybAA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="8853135"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.6])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 07:17:49 -0800
-Date: Thu, 12 Nov 2026 17:17:46 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-hardening@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
-	"Maciej W. Rozycki" <macro@orcam.me.uk>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Andreas Schwab <schwab@linux-m68k.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Joe Perches <joe@perches.com>, Johan Hovold <johan@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Len Brown <lenb@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v4 0/6] Add strprefix() and fix a bug with it
-Message-ID: <avXYmk5sZKS0rm92@ashevche-desk.local>
-References: <cover.1794425425.git.alx@kernel.org>
- <avTIWshl9klX0obF@devuan>
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=dlNo6jXg
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c4d28f75d62so119607466b.0
+        for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 08:34:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1794501271; x=1795106071; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BkOan397muuCEgFMqk3a5KpizGYyvJYTBVZxmg+BXRc=;
+        b=dlNo6jXgbBOD+GFWTmUxXhJ3/2EnWT1IDQf0ZD1YtIXn21EmBfe8lOH7cNy25l4+BW
+         3qngYumNPMec5JThD/h1AxPSuo8BsQ1NIKsk1ddUCBAKHw7Y8w4AikJgAoKgnA6TTgEO
+         eBNtbYzBuX35gNqdgrWcTMzxPVsnQeWpw3pTI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794501271; x=1795106071;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=BkOan397muuCEgFMqk3a5KpizGYyvJYTBVZxmg+BXRc=;
+        b=JWgwAzTWIUO5sZVuOkGQaE8VLuWZUfq2FMyFVfJ72YT9DT/aHn4M5lAZ1XYskeYZQR
+         ppUTUQFsBsK+MREH68TWWC8Xv61WZyaf7kFts8uIQifX5gqTaOd+bBgpzjuZEOoKCbMm
+         DOC/jKsWhUUoR2h/Ar+VRIBPEvVKybYU8s4i6xLwnzUFaq6KpKwMuWbDp53nMrX96Oig
+         muU7Bz57WsUvhGxmaLz2KSAE3fw9X9JiQDdTTlzdYCD+WufXlFrvsVpTTW2013M8xMce
+         +BX4j8hBGubLRlD5uNlvB5sAUUHrnvTNsqFTGNFpp57lks34oLGlPbGWCtKFBTvZrSqI
+         HcRw==
+X-Forwarded-Encrypted: i=1; AL+hErFv4f0v0mh4pkwG/RUzqF/+Ip6i01mtOeNfzHquoOZwnKVbb+HtZ5Nm/wdPni06x5+LfVqnrsCZrr48ug==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8NiKiNOzp2jT/guYHQFzcpRLJ423eOI2dm92oSTDit9EWGDfx4
+	ZGVtnkJH1cJUEm/yfSIYeo4g3SPh7OiJqsEA1mDj+IaNc9QUFszMW05f+pmx73uCmRCFQRPO8Ob
+	tAsWaW8rJRw==
+X-Gm-Gg: AYBFou2Jy2+CSGM2G10I+xYBFzR3iiB+POxGOzyirfv5solQhWIySohf8J7cFZQKS31
+	ebNF/pg9qxpYt3sbX+7RafPacmutYsnUkG1BUYxoSkffa27suNgJhRE2DDn+bE8LXh9F6VG9t6j
+	laHM/zTCJYfnIux2LiLvHk0/ZmjYll1+pT9BZmK6E9zkIDLtMdf5zdmRizLs0SXZhLuql0cre/A
+	AqwuvCFlHG1p47lYivPBUIh8w4Ypejg5bLFXJYk7sXi0oy7OGBUxmepETvWER41YZDWnij/YM3c
+	b8TAhAG8Da12mZnFy8GrCnQP+isZKSen6DM6+3Ylc919W9/HsmqPBYL+Chr5u1D5kp2jGmxSwbl
+	P5vKKJvVUEwKcpFAGcEXkG/Sd5v9GXao6KZfEdZjw17piswa16kmB80WpA7ijuGhxPqxmCCdXCR
+	4NyUegIDsJ3kSZ9qK9oPXYN+Nc+/DXSbrYohd4zXjGGoulurtUpnlybd31OVG5xmPNOpxIgiV+Y
+	QPWhROd9zAi0FowwIeI6JbCOYSCGe0a/yF5CKX5Pyas5329UvesQyoqkz6WU+dG4qjBotdlQQcF
+	5tIUonOFK6W/9FFMMkJxRa8rJkBs9VJs4c9rkdad1MXVgSFtscwFZS17KkwDcl4DsI6DyIwZtGH
+	KTQ==
+X-Received: by 2002:a17:907:1c8e:b0:c4c:bff4:202a with SMTP id a640c23a62f3a-c5066da4745mr522408666b.49.1794501271400;
+        Thu, 12 Nov 2026 08:34:31 -0800 (PST)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com. [209.85.218.45])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c504a67258asm365872066b.73.2026.11.12.08.34.30
+        for <driver-core@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Nov 2026 08:34:30 -0800 (PST)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c4d28f75d62so119602866b.0
+        for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 08:34:30 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErEM+fZPEcKgpR1t9dNIrJR2HY7NTEa/klTiF77M8A94ToZQvti+gDY5KFE1+iY+f5+70XvSZY1eBY3aAw==@lists.linux.dev
+X-Received: by 2002:a17:907:96a5:b0:c41:e75e:5889 with SMTP id
+ a640c23a62f3a-c5066b5bba0mr524017266b.33.1794501270421; Thu, 12 Nov 2026
+ 08:34:30 -0800 (PST)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -104,51 +94,51 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <avTIWshl9klX0obF@devuan>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20260914223212.i.829-kees@kernel.org> <20260914223219.901347-2-kees@kernel.org>
+ <20261112004039.GA523044@killaraus.ideasonboard.com> <avWNCC3_Ff0knO6J@devuan>
+In-Reply-To: <avWNCC3_Ff0knO6J@devuan>
+From: Linus Torvalds <torvalds@linuxfoundation.org>
+Date: Thu, 12 Nov 2026 08:34:13 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wgYBrhvo2NAG_Ja-0ovPf=xO20Gcopv9Yrr1u=QVxECZw@mail.gmail.com>
+X-Gm-Features: AclHuK9Nmkkll1Jqx8Ewj5iXnIEjw3xkEvFj8OVOVXeQp99rrxeYYFJHUsjvVTk
+Message-ID: <CAHk-=wgYBrhvo2NAG_Ja-0ovPf=xO20Gcopv9Yrr1u=QVxECZw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] devres: Provide kmalloc_obj*-style API for devm_kmalloc
+To: Alejandro Colomar <alx+linux-hardening@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kees Cook <kees@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, driver-core@lists.linux.dev, 
+	linux-hardening@vger.kernel.org, Lorenzo Stoakes <ljs@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Brendan Jackman <brendan.jackman@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	David Hildenbrand <david@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Nov 11, 2026 at 08:57:30PM +0100, Alejandro Colomar wrote:
+On Thu, 12 Nov 2026 at 02:13, Alejandro Colomar
+<alx+linux-hardening@kernel.org> wrote:
+>
+> I suggest removing kmalloc_obj() entirely, and using kmalloc_objs()
+> always, with a second argument of 1 when we want a single object.  This
+> would remove the risk of that typo.
+>
+> I also suggest having default arguments without variadic macros.  The
+> way to do that is using empty arguments.  Linus complained that it hurts
+> his eyes, but it really makes these macros much safer.
 
-...
+No to both. These are both "make the code worse to catch errors that
+the compiler should have been able to catch anyway".
 
-> > Testing
-> > ~~~~~~~
-> > 
-> > I haven't changed the implementation of the function meaningfully, so
-> > haven't re-run tests.  Since the changes since v2 are only about type
-> > safety and diagnostics, I have built again with 'allmodconfig', just to
-> > make sure it still compiles.
-> 
-> Ouch!  It seems I had built before adding WARN_ON_ONCE(), not after.
-> I just saw a compiler error in a background terminal after hitting send.
-> 
-> 	$ make 
-> 	  DESCEND objtool
-> 	  CC      arch/x86/purgatory/sha256.o
-> 	In file included from ./include/crypto/sha2.h:10,
-> 			 from lib/crypto/sha256.c:13:
-> 	./include/linux/string.h: In function ‘str_has_prefix’:
-> 	./include/linux/string.h:619:9: error: implicit declaration of function ‘WARN_ON_ONCE’ [-Wimplicit-function-declaration]
-> 	  619 |         WARN_ON_ONCE(len == 0);
-> 	      |         ^~~~~~~~~~~~
-> 	make[4]: *** [arch/x86/purgatory/Makefile:12: arch/x86/purgatory/sha256.o] Error 1
-> 	make[3]: *** [scripts/Makefile.build:572: arch/x86/purgatory] Error 2
-> 	make[2]: *** [scripts/Makefile.build:572: arch/x86] Error 2
-> 	make[1]: *** [/srv/alx/src/linux/linux/master/Makefile:2244: .] Error 2
-> 	make: *** [Makefile:248: __sub-make] Error 2
-> 
-> Will fix that for v5, and fully test again.
+If you *really* want to catch them, make "gfp_t" be a 'struct'. That
+way even compilers without things like the restricted types that
+sparse has will catch at least that one.
 
-Are you sure that it's okay to use asm/bug.h APIs in string.h?
-The include/linux/string.h along with the backed C implementations is really
-special in the kernel. Hint: check which stages of kernel boot use it.
+I did that many many years (argh, decades - I'm old) ago to catch all
+the 'pte_t' etc issues when rewriting the MM layer, and it works very
+well.
 
--- 
-With Best Regards,
-Andy Shevchenko
+It's going to be somewhat painful, but ti might be worth it. People
+who only use GFP_xyz flags to pass them around wouldn't notice.
 
-
+            Linus
