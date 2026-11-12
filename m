@@ -1,59 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.67.36.66
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794504619;
-	b=W0lT4b3uJ8lY68j1N0q/v4VmGJDOjd6No6ZpHwZrDN5y92nMwDU73CfaewEsS53myOIb
-	 XMNulaXZzLPnUaUV4gUYzf+eY8ajSFiFC8XOvKu0c85xgI9ojRDJ0AlfRKxEsgSoKtlVE
-	 L+fl6Glp9GUyvVXTsZaNhSDoT98T7YXNXb/aiqr0IvZu/tOwNz6DLWGeNoxf1H+7fp0AC
-	 yJDHo5ykmB/vZVn4pUA+m/xa2ziAOjDd2tA4gwwASw2PnEAabKkLOcohjp89BUqVpRy/7
-	 6eufczf8mV3h8QI0WYy4gOkVmVE4KIriZnrKNm1E5zjpjwkepGE0cexZJ/F9saA5tGA==
+	t=1794504623;
+	b=3iB0Cban3e+xpnPMO0LxVtRoJyCx3aiR0LIg7X+uK1ENMHpAiNrW2KEDdZKU7eGDjKja
+	 QDaN/31RMhhOVhSIvmeB0HfVz9QPmrFGo1Cw+e9zyDdEbAB2ZYFB8oJOGr0lxjeHLsnZ0
+	 SEAyi1617XWmRlaO0tBdzq8yHDt3tl/aUpFVMdVZvTLCDMal4Koq6glbdrtrz2sM1mWU3
+	 utCcYUq/vnTKMqI03ujow9uvKo+Jnt65S4shsYQov5XE3idhJJPxzV/YSXo0AzuxaeLuY
+	 T7uNyU4KnMos1p0mVmiL/+EhDp79bSDk30cJkQuYr5Gn5KE5jQ5+FtnHgdF89UQvQTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794504619;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794504623;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Developer-Signature:X-Developer-Key:
 	 Autocrypt:OpenPGP;
-	bh=IYJJYKSjYrP0RZi62K5VPZIlTsOxwDzjSTyNjhgSgv8=;
-	b=qRkteD1fygIZeQJLSDiRfnihSMYB6NYbWjrLlJbNNg2hBsgH590KMCWobKtPErFzxY72
-	 TqbvJwpZGvqTlqwD+muSKDhq0hM1sl2KjQimzlp31VDJcuqysrB7YTRdlBpc7iiI2GXFr
-	 CxeC2hSjE3WH+4A9AFCzpKHQrLajgP60oDm5hEGn8IwrbB4h0aDjn59JJK9l0fmjoQ+le
-	 gv3avuFGecId/y/iespZMrbgiOJaV34CWQYde/tMVvuh/y6KGnmiTXSR5kZMMeCFmnqCg
-	 RfT6keyedtwN9AvixYwh3KLo+K0i3FiCYU4qJexyMsCOros+ovY2Y3v+iyAqrH0J1tQ==
+	bh=8t2w3X9gBxMSAWh3jCNyL8b6eRut0vhiqMUVvAbRK+c=;
+	b=Ymy0ZTLzAJ//K5amugpiHPpNn07yq/5j4n/BdeEEOPBh6e12faiYeBSftLkMGorvQYtf
+	 wyi878gvKvc1z4ck2ACWq/xTdcd21JKNf8SLAcIChaZeaOg3XmZzvFXAe1FxzvwFPe4yN
+	 YrOg8qKXMPENVmnpHJoJaq4pCdgTxhlNHwMHxjeGFe083URkmG82LVSkVzD6yntQa+BTQ
+	 FuSMJP2XQDLMa/P4o0wNrLkaSdby+jDCjgGgg5V0ASy3KMtvLg+RChhqmMh9ThqsN1xtZ
+	 Nf8bV+AHdtGQEsgpYCRtLeg8mdTgo1ElLYN7s5hulCjmn+L25vmBbwiPcSoju8a848A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=posteo.de;
 	spf=pass smtp.mailfrom=posteo.de;
-	dkim=pass header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=BEj23zz2;
+	dkim=pass header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=ONbvkV0i;
 	arc=none smtp.remote-ip=185.67.36.66
 Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D9A606A882
-	for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 17:30:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 54D9A606A882
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A180606A8B1
+	for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 17:30:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A180606A8B1
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=BEj23zz2
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=ONbvkV0i
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 015DA240105
-	for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 18:30:10 +0100 (CET)
+	by mout02.posteo.de (Postfix) with ESMTPS id 73C75240111
+	for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 18:30:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
-	s=1984.8680eb; t=1794504611;
-	bh=IYJJYKSjYrP0RZi62K5VPZIlTsOxwDzjSTyNjhgSgv8=;
+	s=1984.8680eb; t=1794504620;
+	bh=8t2w3X9gBxMSAWh3jCNyL8b6eRut0vhiqMUVvAbRK+c=;
 	h=From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:To:Cc:Autocrypt:OpenPGP:From;
-	b=BEj23zz2Nqt74tpmE0Lzb3tgRs7HSTCuqzNp9Vmjh8E26OjON70YWTvUgbcCJ5UTP
-	 JCOXqtfS9Ogc3yMyZrq9aUCItPaxA7SHLilOFiuLy5R73mK8rgelogdi2h6VsgzNCE
-	 5fplncQ7R6MvgywuoVdIC6vBNGdZlYsaDbgjCpCmZlWAwJbs7AGW+o7u7wWS+IYlRK
-	 OV2OfJuGj/CzMHYPh+Y1F+n7VWFDIbR0Yg/O1bwKujrSHkv0rKD5t0VbSg1s2q/I9S
-	 9bVWQkLN7pmnGaoEPg/NIecoRFUFqrE7aPV2HQVu7YJN8SyB5viSPhDn/vn+DFRNSb
-	 Cg/MIFA5/lH1Q==
+	b=ONbvkV0i18M5eNdziCBxHtFNF+1NOHDuF18bBBhPUHaJ8TikBpFQGQ6VnYsjOJQnw
+	 xz7FnMZo05TTLD7t31OA6qxNkie8stjKX+N6/ClQA68ILfFfAc8wGCBDdUZyZ34Q1H
+	 8sxExLCRg6DgEuV8PSVM88qNNMVxSSpDNVxSBXK0ycuuOqnUYWE2UpjUIqf7K6iK3s
+	 cmbx4cWjyvrA2xzTXEU1WSlvPIT/By/88oAOlaBHw3AaKa7m1O1wCMDKnXxNGAtQSX
+	 kOhv587Mv51d3mzz4WlqEI1cExEdINk4vgjiRJ2QSGysgzbuQZAhswFOzKyZsB9SOk
+	 nb9Ch5c09PorQ==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4jQS7y5W1wz9rxK;
-	Thu, 12 Nov 2026 18:30:06 +0100 (CET)
+	by submission (posteo.de) with ESMTPSA id 4jQS881qDzz9rxK;
+	Thu, 12 Nov 2026 18:30:16 +0100 (CET)
 From: Markus Probst <markus.probst@posteo.de>
-Date: Thu, 12 Nov 2026 17:30:09 +0000
-Subject: [PATCH v6 1/4] tty: serdev: Add mutex lock
+Date: Thu, 12 Nov 2026 17:30:19 +0000
+Subject: [PATCH v6 4/4] rust: serdev: Simplify callbacks
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -65,7 +65,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261112-rust_serdev_probe_refactor-v6-1-3568ed56264c@posteo.de>
+Message-Id: <20261112-rust_serdev_probe_refactor-v6-4-3568ed56264c@posteo.de>
 References: <20261112-rust_serdev_probe_refactor-v6-0-3568ed56264c@posteo.de>
 In-Reply-To: <20261112-rust_serdev_probe_refactor-v6-0-3568ed56264c@posteo.de>
 To: Ayush Singh <ayush@beagleboard.org>, Johan Hovold <johan@kernel.org>, 
@@ -88,21 +88,21 @@ To: Ayush Singh <ayush@beagleboard.org>, Johan Hovold <johan@kernel.org>,
 Cc: greybus-dev@lists.linaro.org, linux-serial@vger.kernel.org, 
  rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
  driver-core@lists.linux.dev, Markus Probst <markus.probst@posteo.de>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5493;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8488;
  i=markus.probst@posteo.de; h=from:subject:message-id;
- bh=nlroOpwgoIkgLKv6whLds/yWA7a+Z/hs3CfwInm5QJo=;
- b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBq9feZ+15T9pIdk89Wd9N4yNQ3LCgmNyuOWp8IS
- hrpW82Is7uJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCavX3mRsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9KC+w//eqA0lnVb5oM2EpfKxxro0R3FSt7Uhsy
- RWqJblo1QfAl3w9RN/2EzoYUkCZcT6JS+c+4HBN/Gyr2UAALNemrRmmvaAJ+yDfvAxaFDTSi6tI
- KCtQUUXEu9EgYdY3n1lLZnqC+TQXuv/HoeoNv9mPpS0rJqN5R50hfZdoGhLFumc2ARU6tnFDrbE
- cXZmmlHblB1VSUGMuvhpGM0uIOB9LtR/pgvblbcsvVY8mkDQgD72apLy6ak6aNeLCXY4sVOprmV
- XD+mhz/EC5CtI3hNSt0Xp/mY1N61HBL71Cmm4Y4lHBYIv6oqF6/00KNWJ1bsl4Fdm8y+X+0dsSE
- Ghu+zQPnleviFcp97/vWIAoaLVCDXPs2dMq9uy/LWvZuJvZqm9E89Lsd8Z2PCmOg78x+JHhS+gW
- LY0tu98UH34cEaR/ardYtwKaxpu7sulZZeoYdNmEJcZuf9lUcQsmNJTCc99i2lBiVxojkSOpW6J
- k/U8KOKlJ7Gh8BDdmYob80FlszNIdEDrE2CGHloIRtTo0TE/qO8KBLxQ92KDJCApPwCd34gNb4D
- ktkZ7uZopo3W30lvuNdX+ecXWdCBW7FKsR8Vpfm+S5OqzpmunE4jgMPsSzXL0aCyA3V5SPtRdmy
- JGg7SAm0gGHkbVMT5nMVwOtdO4oRngfTvHFMG+nqnnng1gpf0w34=
+ bh=Lxt7UemlZgDFQ8kDDFDsmM1pi4/cF1J/vLHXf7YC+c0=;
+ b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBq9fea+3HlJm1iod+/U3XHrSp9JZ50Fmg11KdWK
+ rVEQXwXa+WJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCavX3mhsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9JntQ/+LTFdxp/a3+j+e+QLiOh+eOW2qYqeczl
+ B77qq2ulLM5B6nAd3Sd4HUBNwTRB6p6RP/i4qnV6cGCxUIHuniCyORlTqut/J0+I7RYrzCyV1Px
+ jE7FWHaC59poVvFJyix1R6aldKR4OS0JNgyAO34V0Uo9Bde3+jwhSrS7BnMPW5w9fdqBiZl52wv
+ gK056I3ruaz8/LnooLZt4GZgZW3SGFvsmC1c7RJw7hYzjjI4+1axPPN7K/WR58Z5bpVB1V5VumF
+ aZHR1KjwcA51Mq9vXazGCrcBdOC4GBER5W7jZAhl0OcB2cOrti/8I5exUEiYIxU7mG2C8xohwj9
+ qhGm/35q7Ue2AsAi1+jODKyHYOJcuKIEd69xErjEmk09AivlO5g2h91apnwxYXiuZaZbHVj2mMv
+ TSM0XmejuGPgxC2Lix6C6B78j7pbqn7UHVho8njnNo9H1OCFDlYlPnwrHp4pfkp3oNeizFag+Q7
+ G6rjLHGULDzNFEHHqP2Mih2Qjw/6UDI008VLpHqHwLMXXCLeqJqvLW1ePh/7e9iUezHCp+6lLYb
+ YHrhu20dsATGzwlyRYucbORkyXNlQZphWnzASlatn7uumpzn2rj5wN5gOVk2cLxkNbsu8A/83bv
+ e3i6v8MXPKsr1mVGzcEzHdZRZsTFMPu2XnkhCDk4lvcMtkdoHrnU=
 X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
  fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
 Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
@@ -148,179 +148,211 @@ Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
   aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
 OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-Besides more predictable behaviour, this allows for several hardened
-behaviour changes:
+Initialize the driver's private data directly on `PrivateData`.
 
-Return -EALREADY in `serdev_device_open` if the device is already open
-instead of causing undefined behaviour.
-
-Allow calling `serdev_device_close`, even if the device is already
-closed instead of causing a null pointer dereference.
-
-If the device is left open by the driver after remove, close it and warn
-instead of leaving it in a invalid state.
+Introduce `OpenGuard` for resource cleanup.
 
 Signed-off-by: Markus Probst <markus.probst@posteo.de>
 ---
- drivers/tty/serdev/core.c           | 12 +++++++---
- drivers/tty/serdev/serdev-ttyport.c | 44 +++++++++++++++++++++++++++++++------
- include/linux/serdev.h              |  2 +-
- 3 files changed, 47 insertions(+), 11 deletions(-)
+ rust/kernel/serdev.rs | 134 ++++++++++++++++++++------------------------------
+ 1 file changed, 52 insertions(+), 82 deletions(-)
 
-diff --git a/drivers/tty/serdev/core.c b/drivers/tty/serdev/core.c
-index 7500efcdfc21..86d9cf8215ed 100644
---- a/drivers/tty/serdev/core.c
-+++ b/drivers/tty/serdev/core.c
-@@ -142,6 +142,13 @@ void serdev_device_remove(struct serdev_device *serdev)
- 	struct serdev_controller *ctrl = serdev->ctrl;
- 
- 	device_unregister(&serdev->dev);
-+
-+	/* Warn if driver did not close the serial device. */
-+	if (ctrl->ops->close && ctrl->ops->close(ctrl)) {
-+		dev_WARN(&ctrl->dev, "Child driver did not close the serial device");
-+		pm_runtime_put(&ctrl->dev);
-+	}
-+
- 	ctrl->serdev = NULL;
- }
- EXPORT_SYMBOL_GPL(serdev_device_remove);
-@@ -181,9 +188,8 @@ void serdev_device_close(struct serdev_device *serdev)
- 	if (!ctrl || !ctrl->ops->close)
- 		return;
- 
--	pm_runtime_put(&ctrl->dev);
--
--	ctrl->ops->close(ctrl);
-+	if (ctrl->ops->close(ctrl))
-+		pm_runtime_put(&ctrl->dev);
- }
- EXPORT_SYMBOL_GPL(serdev_device_close);
- 
-diff --git a/drivers/tty/serdev/serdev-ttyport.c b/drivers/tty/serdev/serdev-ttyport.c
-index b6638f9f40d2..17c18d4b0cb8 100644
---- a/drivers/tty/serdev/serdev-ttyport.c
-+++ b/drivers/tty/serdev/serdev-ttyport.c
-@@ -16,6 +16,8 @@ struct serport {
- 	struct tty_driver *tty_drv;
- 	int tty_idx;
- 	unsigned long flags;
-+	struct mutex lock; /* lock preventing modification of flags */
-+	struct mutex receive_lock; /* lock preventing execution of serdev_controller_receive_buf */
+diff --git a/rust/kernel/serdev.rs b/rust/kernel/serdev.rs
+index 559d142ce557..3f9165e16776 100644
+--- a/rust/kernel/serdev.rs
++++ b/rust/kernel/serdev.rs
+@@ -17,16 +17,12 @@
+     prelude::*,
+     sync::aref::AlwaysRefCounted,
+     time::Jiffies,
+-    types::{
+-        Opaque,
+-        ScopeGuard, //
+-    }, //
++    types::Opaque, //
  };
  
- /*
-@@ -29,6 +31,8 @@ static size_t ttyport_receive_buf(struct tty_port *port, const u8 *cp,
- 	struct serport *serport = serdev_controller_get_drvdata(ctrl);
- 	size_t ret;
+ use core::{
+-    cell::UnsafeCell,
+     marker::PhantomData,
+-    mem::{offset_of, MaybeUninit},
++    mem::offset_of,
+     ptr::NonNull, //
+ };
  
-+	guard(mutex)(&serport->receive_lock);
-+
- 	if (!test_bit(SERPORT_ACTIVE, &serport->flags))
- 		return 0;
- 
-@@ -99,14 +103,23 @@ static int ttyport_open(struct serdev_controller *ctrl)
- 	struct ktermios ktermios;
- 	int ret;
- 
-+	mutex_lock(&serport->lock);
-+
-+	if (test_bit(SERPORT_ACTIVE, &serport->flags)) {
-+		ret = -EALREADY;
-+		goto err_flags_unlock;
-+	}
-+
- 	tty = tty_init_dev(serport->tty_drv, serport->tty_idx);
--	if (IS_ERR(tty))
--		return PTR_ERR(tty);
-+	if (IS_ERR(tty)) {
-+		ret = PTR_ERR(tty);
-+		goto err_flags_unlock;
-+	}
- 	serport->tty = tty;
- 
- 	if (!tty->ops->open || !tty->ops->close) {
- 		ret = -ENODEV;
--		goto err_unlock;
-+		goto err_tty_unlock;
- 	}
- 
- 	ret = tty->ops->open(serport->tty, NULL);
-@@ -128,26 +141,38 @@ static int ttyport_open(struct serdev_controller *ctrl)
- 	ktermios.c_cflag |= CLOCAL;
- 	tty_set_termios(tty, &ktermios);
- 
-+	mutex_lock(&serport->receive_lock);
- 	set_bit(SERPORT_ACTIVE, &serport->flags);
-+	mutex_unlock(&serport->receive_lock);
-+
-+	mutex_unlock(&serport->lock);
- 
- 	return 0;
- 
- err_close:
- 	tty->ops->close(tty, NULL);
--err_unlock:
-+err_tty_unlock:
- 	tty_unlock(tty);
- 	tty_release_struct(tty, serport->tty_idx);
- 	serport->tty = NULL;
-+err_flags_unlock:
-+	mutex_unlock(&serport->lock);
- 
- 	return ret;
+@@ -92,24 +88,36 @@ unsafe fn unregister(sdrv: &Opaque<Self::DriverType>) {
+     }
  }
  
--static void ttyport_close(struct serdev_controller *ctrl)
-+static bool ttyport_close(struct serdev_controller *ctrl)
- {
- 	struct serport *serport = serdev_controller_get_drvdata(ctrl);
--	struct tty_struct *tty = serport->tty;
-+	struct tty_struct *tty;
++struct OpenGuard<'bound> {
++    sdev: &'bound Device<device::Bound>,
++}
 +
-+	guard(mutex)(&serport->lock);
- 
--	clear_bit(SERPORT_ACTIVE, &serport->flags);
-+	tty = serport->tty;
++impl Drop for OpenGuard<'_> {
++    fn drop(&mut self) {
++        // SAFETY:
++        // - `self.sdev.as_raw()` is guaranteed to be a pointer to a valid
++        //   `struct serdev_device`.
++        // - The existence of self proves that the device is open.
++        unsafe { bindings::serdev_device_close(self.sdev.as_raw()) };
++    }
++}
 +
-+	scoped_guard(mutex, &serport->receive_lock)
-+		if (!__test_and_clear_bit(SERPORT_ACTIVE, &serport->flags))
-+			return false;
- 
- 	tty_lock(tty);
- 	if (tty->ops->close)
-@@ -156,6 +181,8 @@ static void ttyport_close(struct serdev_controller *ctrl)
- 
- 	tty_release_struct(tty, serport->tty_idx);
- 	serport->tty = NULL;
-+
-+	return true;
+ #[doc(hidden)]
+-#[pin_data(PinnedDrop)]
++#[pin_data]
+ pub struct PrivateData<'bound, T: Driver> {
+-    sdev: &'bound Device<device::Bound>,
+     #[pin]
+-    driver: UnsafeCell<MaybeUninit<T::Data<'bound>>>,
+-    open: UnsafeCell<bool>,
++    driver: T::Data<'bound>,
++    open: OpenGuard<'bound>,
  }
  
- static unsigned int ttyport_set_baudrate(struct serdev_controller *ctrl, unsigned int speed)
-@@ -290,6 +317,9 @@ struct device *serdev_tty_port_register(struct tty_port *port,
- 	port->client_ops = &client_ops;
- 	port->client_data = ctrl;
- 
-+	mutex_init(&serport->lock);
-+	mutex_init(&serport->receive_lock);
+-#[pinned_drop]
+-impl<T: Driver> PinnedDrop for PrivateData<'_, T> {
+-    fn drop(self: Pin<&mut Self>) {
+-        // SAFETY: We have exclusive access to `self.open`.
+-        if unsafe { *self.open.get() } {
+-            // SAFETY: `self.sdev.as_raw()` is guaranteed to be a pointer to a valid
+-            // `struct serdev_device`.
+-            unsafe { bindings::serdev_device_close(self.sdev.as_raw()) };
+-        }
++impl<'bound, T: Driver> PrivateData<'bound, T> {
++    #[inline]
++    fn driver_data(self: Pin<&Self>) -> Pin<&T::Data<'bound>> {
++        // SAFETY: We treat the result as pinned.
++        let inner = unsafe { Pin::into_inner_unchecked(self) };
 +
- 	ret = serdev_controller_add(ctrl);
- 	if (ret)
- 		goto err_reset_data;
-diff --git a/include/linux/serdev.h b/include/linux/serdev.h
-index b6c3d957ec15..0f4e81c0950d 100644
---- a/include/linux/serdev.h
-+++ b/include/linux/serdev.h
-@@ -81,7 +81,7 @@ struct serdev_controller_ops {
- 	ssize_t (*write_buf)(struct serdev_controller *, const u8 *, size_t);
- 	void (*write_flush)(struct serdev_controller *);
- 	int (*open)(struct serdev_controller *);
--	void (*close)(struct serdev_controller *);
-+	bool (*close)(struct serdev_controller *);
- 	void (*set_flow_control)(struct serdev_controller *, bool);
- 	int (*set_parity)(struct serdev_controller *, enum serdev_parity);
- 	unsigned int (*set_baudrate)(struct serdev_controller *, unsigned int);
++        // SAFETY: `self.driver` is pinned.
++        unsafe { Pin::new_unchecked(&inner.driver) }
+     }
+ }
+ 
+@@ -134,46 +142,30 @@ extern "C" fn probe_callback(sdev: *mut bindings::serdev_device) -> kernel::ffi:
+ 
+         from_result(|| {
+             sdev.as_ref().set_drvdata(try_pin_init!(PrivateData::<T> {
+-                sdev: &**sdev,
+-                driver: MaybeUninit::<T::Data<'_>>::zeroed().into(),
+-                open: false.into(),
++                open: {
++                    // SAFETY:
++                    // - `sdev.as_raw()` is guaranteed to be a valid pointer to
++                    //   `serdev_device`.
++                    // - It is safe to call before open.
++                    unsafe { bindings::serdev_device_set_client_ops(sdev.as_raw(), Self::OPS) };
++
++                    // SAFETY: `sdev.as_raw()` is guaranteed to be a valid pointer to
++                    // `serdev_device`.
++                    unsafe { bindings::serdev_device_pause_rx(sdev.as_raw()) };
++
++                    // SAFETY: `sdev.as_raw()` is guaranteed to be a valid pointer to
++                    // `serdev_device`.
++                    to_result(unsafe { bindings::serdev_device_open(sdev.as_raw()) })?;
++
++                    OpenGuard { sdev }
++                },
++                driver <- T::probe(sdev, info),
+             }))?;
+-            // SAFETY: We just set drvdata to `PrivateData<'_, T>`.
+-            let private_data = unsafe { sdev.as_ref().drvdata_borrow::<PrivateData<'_, T>>() };
+-            let private_data = ScopeGuard::new_with_data(private_data, |_| {
+-                // SAFETY: We just set drvdata to `PrivateData<'_, T>`.
+-                drop(unsafe { sdev.as_ref().drvdata_obtain::<PrivateData<'_, T>>() });
+-            });
+-            // SAFETY: `sdev.as_raw()` is guaranteed to be a valid pointer to `serdev_device`.
+-            unsafe { bindings::serdev_device_set_client_ops(sdev.as_raw(), Self::OPS) };
+ 
+             // SAFETY: `sdev.as_raw()` is guaranteed to be a valid pointer to `serdev_device`.
+-            unsafe { bindings::serdev_device_pause_rx(sdev.as_raw()) };
+-
+-            // SAFETY: The serial device bus only ever calls the probe callback with a valid pointer
+-            // to a `serdev_device`.
+-            to_result(unsafe { bindings::serdev_device_open(sdev.as_raw()) })?;
+-
+-            // SAFETY: We have exclusive access to `private_data.open`.
+-            unsafe { *private_data.open.get() = true };
+-
+-            let data = T::probe(sdev, info);
++            unsafe { bindings::serdev_device_resume_rx(sdev.as_raw()) };
+ 
+-            // SAFETY: We have exclusive access to `private_data.driver`.
+-            let driver = unsafe { &mut *private_data.driver.get() };
+-            // SAFETY:
+-            // - `driver.as_mut_ptr()` is a valid pointer to uninitialized data.
+-            // - `private_data.driver` is pinned.
+-            let result = unsafe { pin_init::raw_try_init(driver.as_mut_ptr(), data) };
+-
+-            result.map(|()| {
+-                private_data.dismiss();
+-
+-                // SAFETY: `sdev.as_raw()` is guaranteed to be a valid pointer to `serdev_device`.
+-                unsafe { bindings::serdev_device_resume_rx(sdev.as_raw()) };
+-
+-                0
+-            })
++            Ok(0)
+         })
+     }
+ 
+@@ -189,24 +181,10 @@ extern "C" fn remove_callback(sdev: *mut bindings::serdev_device) {
+         // and stored a `Pin<KBox<PrivateData<'_, T>>>`.
+         let private_data = unsafe { sdev.as_ref().drvdata_borrow::<PrivateData<'_, T>>() };
+ 
+-        // SAFETY: No one has exclusive access to `private_data.driver`.
+-        let data = unsafe { &*private_data.driver.get() };
+-        // SAFETY:
+-        // - `private_data.driver` is pinned.
+-        // - `remove_callback` is only ever called after a successful call to `probe_callback`,
+-        //   hence it's guaranteed that `private_data.driver` was initialized.
+-        let data_pinned = unsafe { Pin::new_unchecked(data.assume_init_ref()) };
+-
+-        T::unbind(sdev, data_pinned);
++        T::unbind(sdev, private_data.driver_data());
+ 
+         // SAFETY: `sdev.as_raw()` is guaranteed to be a valid pointer to `serdev_device`.
+         unsafe { bindings::serdev_device_pause_rx(sdev.as_raw()) };
+-
+-        // SAFETY: We have exclusive access to `private_data.driver`.
+-        let data = unsafe { &mut *private_data.driver.get() };
+-
+-        // SAFETY: We already established that `data` is guaranteed to be initialized.
+-        unsafe { data.assume_init_drop() };
+     }
+ 
+     extern "C" fn receive_buf_callback(
+@@ -214,6 +192,9 @@ extern "C" fn receive_buf_callback(
+         buf: *const u8,
+         length: usize,
+     ) -> usize {
++        // SAFETY: `buf` is guaranteed to be non-null and has the size of `length`.
++        let buf = unsafe { core::slice::from_raw_parts(buf, length) };
++
+         // SAFETY: The serial device bus only ever calls the receive buf callback with a valid
+         // pointer to a `struct serdev_device`.
+         //
+@@ -225,18 +206,7 @@ extern "C" fn receive_buf_callback(
+         // and stored a `Pin<KBox<PrivateData<'_, T>>>`.
+         let private_data = unsafe { sdev.as_ref().drvdata_borrow::<PrivateData<'_, T>>() };
+ 
+-        // SAFETY: No one has exclusive access to `private_data.driver`.
+-        let data = unsafe { &*private_data.driver.get() };
+-        // SAFETY:
+-        // - `private_data.driver` is pinned.
+-        // - `receive_buf_callback` is only ever called after a successful call to `probe_callback`,
+-        //   hence it's guaranteed that `private_data.driver` was initialized.
+-        let data_pinned = unsafe { Pin::new_unchecked(data.assume_init_ref()) };
+-
+-        // SAFETY: `buf` is guaranteed to be non-null and has the size of `length`.
+-        let buf = unsafe { core::slice::from_raw_parts(buf, length) };
+-
+-        T::receive(sdev, data_pinned, buf)
++        T::receive(sdev, private_data.driver_data(), buf)
+     }
+ }
+ 
 
 -- 
 2.56.1
