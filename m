@@ -1,74 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794446300;
-	b=YRpK7GdTaSxh8Gm3FfcuDItvoCuW7R8UCaZk9n8qlyL8bbyORfG/NhQCGaL0Fwd1F3M0
-	 GhtNhECw38jyFOhvZUY+YxGUAdjTxWv083wRMJPVd+L87ZceNCp7unvfk47n9jN3s3Mbn
-	 8eBpOHRJ9fpe0TO0ec3sVQdz1S7aH6YdIgBx2zW5HEvcuY3efrCl3BW+t2eAohZEXmF3x
-	 cOeqQ/96NWVGBkx8Jzu6Hhhtbj6GiOQzX+KL2+7hNa91TG8zDWx6951L6Xkqe6WhlPlgc
-	 8K1kXKiQejPzL4CN7iOptjAOfZIVg4Uef149OA7Iri3j6eDL5JK/87qsShACOJi14tA==
+	t=1794446961;
+	b=C10yUgUdBzP62Fm/QcdJZ46R7gEPM/KU/DS7F2bSTw+0vHLNSPGAfbf59+ht/oCLCyCx
+	 XHU0fLHqGHp7n1osM7JmuM/Eg8OkITGumMJz1YdrKaQMGkIGmPK7N4Qrri7wqPDYQ1tl3
+	 c0A5S48q0I77Tb5qCaTXy13s6GtfeqWNYzN1tFIHWUY6QzWACzY6bGLgjVjO6aD+i21n+
+	 8Bx8Yt1FPCTrOr/J7O6Ze1DQGLEtrHoo+1218C+yBy+JQhiFV+WXhKwdtCBjePjzMeCe5
+	 iLh+KvhZAjVPHsGodPhC9FQYpW64dyHOR7JkHXT4Jzb91luB8c/PPVCI3Vl2AnHY/NA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794446300;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794446961;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=EZx5k7geWUkka50W6MOHS2J6Xnk3P46GguPiHBvqeNY=;
-	b=eIoBdcMV0K9nPScovV6mVkxsiKtYamLjhaOMW5Pm+ITcyxzX5eo073um8rhSrdmCIvPv
-	 tdEAoxMgHQaKt1NZ+OVEkls1tI/DHmf6yV3wQ0BNp66+7LVdUtHPe5AbFXB1dXnE9lYEx
-	 RzxXbW4LPk/f0Fy2QqfDiw9Um2Gc38ko6I8xBcNvRUChTL+b2sfxPfOqK6MFeQFMBtRRH
-	 GLcRXFoTfDMYydqBuaEB8gvQuTQ5DMbvF7KjheehOhQSqcNUtwHHiY/RDSSXKU7RwNMZc
-	 6MTL7a1rUo+PWpNvzc65HMf81UdAJ1iXBq1BMh1jRn2eLqVeL+uOgUCsC9yPd0iPI2A==
+	bh=naeHT3lsD43WVFFXOIg9/UkqxmnGM41dLQc0bv16TWs=;
+	b=GiS0rdr7A5M4TaSyxYhS4wFqUpQZ3dT32BQUaLdL8LCalsfyrsP5ak6DXvODgDQFGa2f
+	 0RplkxuP+W57oOk9r/lU30L8ntvMywtCMI0NXgk2zA63gozUxAm8ASkvSY4zylv8xiLOQ
+	 koz4i+LT0NCcc7vdpBbSF9UylXMXfWlGW6wbMMDTodVkuGVt2G35Ofo2RB1YvhGQfc2LN
+	 zMLJOb5ke4D+fsuL7Uz9uH5r3/37C+nTxfTOPFTZnOAA4FzlztiL+mobsI71qEbNlqfFx
+	 JooGjz5angr9fP1DCeEhD5s13LvWAaJ1SS3w3UnV8kRntcgX9UGHtawVR9fiDvuZwFg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nuGSld8Z;
-	arc=none smtp.remote-ip=198.175.65.14
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dR+4nUqB;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4E9606A327;
-	Thu, 12 Nov 2026 01:18:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A4E9606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5896D60A2627;
+	Thu, 12 Nov 2026 01:29:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5896D60A2627
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nuGSld8Z
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dR+4nUqB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794446299; x=1825982299;
+  t=1794446961; x=1825982961;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XzhoicYFHQtaBduXxA9DHIFJWU3DL3AA6BxXunzhRj0=;
-  b=nuGSld8ZsZpo0Y+Ugusc4Rh+F1YnQoi5YNlluAaoW/DHX0D7YebokUxU
-   6jVCWetraiPKCMpTifIStZe28d8cujnSS/sou/Ztku9Ho3MRg2bwbKCsH
-   K3qDRgTffMci3rr8rniyclID4vXH1qCy7jTYK2tJc22K/ZfG7HnHZbtoQ
-   2tD9PMm9aZbEIEuQdZsLMTnVvEHKXl0/AnAH1VxPKcAkj4fsyeOGgZNC1
-   MpSuBCXqxCKa8/wVI2pjLqPPwrY3XRbszKPIB3e/TDiWZySVr0spDkkgk
-   5gNSSBe/DmQaVaABpoc4VWtCiCFVe8fAG2LCFUPm2c07Vt6jm8i2MTB0x
-   Q==;
-X-CSE-ConnectionGUID: AtPvUJ3HRSGhkwMmLelDCQ==
-X-CSE-MsgGUID: Ax0dzjTtT2KyFWKKvs0QEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3119587"
+  bh=drwpAsrOFw4B/qCkDMxl8Rzegtt/n6DW8SOYJld6ACA=;
+  b=dR+4nUqBg1xP5hLwWGCi48LPh3R4Z1e+9HVF2DiAxa7vIuqzFzs5+cEK
+   dANeswCa4jq/MwJLiRYwr/0HCp1iV3EQPYPalLgNQ3Iv2YEeCmQnvqq6F
+   SLoiLNo3H9LawT65jaCBZGLOUMPHJWgUMYN/17xSY7H3O2uldga4R2MRu
+   1MrHAn+n6djSYIwAEYYc6Y1jLHw6i/1oiBpDToboA7+lcAR3ejJPNMQME
+   XhjJQcDFxBsS5y3JOKfz532lZFemDySb0t4xxJa+7Oq8o4wJ2Msg0RrqW
+   aQcKL22n6RuXXJ8fEPgf4G+deuSx+LUJZt83aZ7gxWLJYXx7OXGGKqSyz
+   w==;
+X-CSE-ConnectionGUID: yDyFFMfOQ7qjs3Hzoi8k+w==
+X-CSE-MsgGUID: SOrm4ri1S+u3c8R48EJUBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3306722"
 X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
-   d="scan'208";a="3119587"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 17:18:18 -0800
-X-CSE-ConnectionGUID: n4YdawboSm6iGZUYGgGZtw==
-X-CSE-MsgGUID: UwrUxPsZQfilm24D64xW6A==
+   d="scan'208";a="3306722"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 17:29:20 -0800
+X-CSE-ConnectionGUID: wXIAkD9OSb+cGo57KrKyqA==
+X-CSE-MsgGUID: KnBwmaLHRL28S7SM9UOKBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
-   d="scan'208";a="8412277"
+   d="scan'208";a="10415943"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 Nov 2026 17:18:13 -0800
+  by fmviesa013.fm.intel.com with ESMTP; 11 Nov 2026 17:29:14 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRJS5-000000010AJ-3GPI;
-	Thu, 12 Nov 2026 01:18:09 +0000
-Date: Thu, 12 Nov 2026 09:17:17 +0800
+	id 1xRJcl-000000010BX-15iQ;
+	Thu, 12 Nov 2026 01:29:11 +0000
+Date: Thu, 12 Nov 2026 09:28:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: Alejandro Colomar <alx@kernel.org>, linux-hardening@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Alejandro Colomar <alx@kernel.org>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alejandro Colomar <alx@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
 	"Maciej W. Rozycki" <macro@orcam.me.uk>,
 	Geert Uytterhoeven <geert@linux-m68k.org>,
@@ -94,7 +95,7 @@ Cc: oe-kbuild-all@lists.linux.dev, Alejandro Colomar <alx@kernel.org>,
 	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
 	devicetree@vger.kernel.org
 Subject: Re: [PATCH v4 2/6] string: Warn if the prefix is the empty string
-Message-ID: <202611120923.khG1i6jO-lkp@intel.com>
+Message-ID: <202611120922.GqXZB0lH-lkp@intel.com>
 References: <cd09427148a0c4718b46029c9e806f9dc1622f9b.1794425425.git.alx@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -123,25 +124,25 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Alejandro-Colomar/string-
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/hardening
 patch link:    https://lore.kernel.org/r/cd09427148a0c4718b46029c9e806f9dc1622f9b.1794425425.git.alx%40kernel.org
 patch subject: [PATCH v4 2/6] string: Warn if the prefix is the empty string
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20261112/202611120923.khG1i6jO-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611120923.khG1i6jO-lkp@intel.com/reproduce)
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20261112/202611120922.GqXZB0lH-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project c628d639fc66f8e6d8ab1f0cc6b1df38f974e020)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611120922.GqXZB0lH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611120923.khG1i6jO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611120922.GqXZB0lH-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/uuid.h:11,
-                    from include/linux/device-id/hv_vmbus.h:6,
-                    from include/linux/mod_devicetable.h:31,
-                    from scripts/mod/devicetable-offsets.c:4:
-   include/linux/string.h: In function 'str_has_prefix':
->> include/linux/string.h:575:9: error: implicit declaration of function 'WARN_ON_ONCE' [-Wimplicit-function-declaration]
+   In file included from scripts/mod/devicetable-offsets.c:4:
+   In file included from include/linux/mod_devicetable.h:31:
+   In file included from include/linux/device-id/hv_vmbus.h:6:
+   In file included from include/linux/uuid.h:11:
+>> include/linux/string.h:575:2: error: call to undeclared function 'WARN_ON_ONCE'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      575 |         WARN_ON_ONCE(len == 0);
-         |         ^~~~~~~~~~~~
+         |         ^
+   1 error generated.
    make[3]: *** [scripts/Makefile.build:185: scripts/mod/devicetable-offsets.s] Error 1
    make[3]: Target 'scripts/mod/' not remade because of errors.
    make[2]: *** [Makefile:1424: prepare0] Error 2
