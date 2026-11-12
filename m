@@ -1,65 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794504781;
-	b=IidayTP6r/nsrmyUSndiQ26Ik4MTE1fJLDC4/feqXxEPT1ywrxyVdIYSUiF6msPFuRIm
-	 BDuvpgKNlkCd/34JRl0jeg0GFFzZAWVcrfO7HwJbQn+4zTgiyQ+v/ERJElyxFRIRQR4bN
-	 fro4c1TMvUyodcPUUaKOgljK3Y521yo8R8gYrE5BQhBPQHwQAnsme1VgTo3kTIHoeogFs
-	 77cB5Tz62nesh3kz9NqXwXftW2fT5Bg8+7OiJJ34inWT/cmtC5bxVbufe+VrZssDSkVDa
-	 ehPZRjN0MIccGBtLP5/GT1cAvlLXQ8aexZEumZenPKCybmCbsJ+LLF7KMDqI4zirr8A==
+	t=1794505648;
+	b=Kj8mV9W9HAIgyB2WO8TZi2iQU/N4su6g/D/sh2n7Z00RB3Kv4pIJFgkLmuobQ3dFoq4Z
+	 BM8RypQhXNA3shwg9OQqSC+HEg3eVa3TPW3OdhA/QUs2iIK6iV91YAO5CjVUpbsyBoLwP
+	 q0/Cu44OSOJI1+aqzwMMKufZXY74NoQ+tXWTw73naXhkxqTasM1HR/a3WUeaDGwCMzamu
+	 4pq5Vyog2SlMdwR0esk/aSg1TPdTpjWijtR3HqfCPMZC+VpxkNyoEwvWQfH8TK+/vQL5L
+	 Jjh1XO8PnZPTa8rr0K6s+2nmh0sVC/6noEdDjHksqsEhTaJpqvTaWWnm2WIgV1uqkuA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794504781;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=ijLAFKTpy2rO1cmzfktYDhNmrdiTCs2qOQ9IyeBu0gU=;
-	b=PK/JuRQ3CXlmSwj53eiL9c+8+ItVscobnswe/FvognsuqrRWOXHmoxGwGU11eh1taPoa
-	 agyNj+IpKybW1A7J3qVEIIiK831xERAi1V00li5oKQOVv791Ptrl8w9qMt1Jo4DlZz0ef
-	 aiB4S4TWyeJRHL9T34vi78gbKX7QyFq71+J+Bv8TJ3fj7sZGo3R5pRIYep6TPLMaFboPu
-	 +KvOUhmJlNuV74e6ATa725SJPev+se1OmDzy3y20Gv3RSdYdwFmlsCNpH4Atm+S6HwO5E
-	 6n99tyFeMgkquR/kDGTWLoAlOMolJUy3Z9rRwrgQkhf1NSu+6NROM77esWK/vIqZYxg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794505648;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=CPqL/jXjgacEff5dEPASqy6/Bbk+NnoKXgfKHY7JVag=;
+	b=HHJIbSngWfVYXKYth4KV8lfSvuWs4wpdNFvXNwPHci8LlYjZJkO7yAb2a5zqjKgqWkvH
+	 SjPk0keKu5hbVz5ixq3Fm3yaMXqBa0peBCMqkgtzsWQNqSuofLwyf7KgMiMLKicEIQNGU
+	 qa/Ma14yIr+rUFhRfYw/jHqWKrrka//0FPAGPCe/0rXDJOSwOG8o7G2oHJtiSjjIwedl6
+	 IT7xnQPiLq83hF+uexOjxo2zljJbP4al/8XWr45J0dojAE6xviR0QYOg2iGR1q08iLl6i
+	 eq9cpILRQx07aJS0MIncRHbkp28vAPhks7Sp8wCBh5Yr/rUEmNoRlEIxz4cm/h604rw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=elhci1b6;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linuxfoundation.org;
+	spf=pass smtp.mailfrom=linuxfoundation.org;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=BxkZuiCd;
+	arc=none smtp.remote-ip=209.85.218.53
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75574606A883;
-	Thu, 12 Nov 2026 17:33:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62327606A323
+	for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 17:47:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62327606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=elhci1b6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADE9A1F000C4;
-	Thu, 12 Nov 2026 17:32:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794504781;
-	bh=ijLAFKTpy2rO1cmzfktYDhNmrdiTCs2qOQ9IyeBu0gU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=elhci1b6GnKtBWt0nQTZvjUTh92Tkc0Atzo7j8Uh/tHub/ME65zeo1xQsu/jIpVp8
-	 5IJ/EkDpmZ7RUIaOyASBzPSETZCCEWYV5ZcE6YlUymvq6CVKiBSoHYE2l4QOYdjen+
-	 53LJsT1qg38aLYwSdA8k3QDgypHmRMmasM6uGKYCo06YUiVUQt8SK4b+DQF1kZ3Uha
-	 tpHmLS6jsp1PvpcklB4To0trHT7m70w3vUlpaSWJvNSCRoNIypW1bho53PTEbdYrpg
-	 C5FiY50vSOtCQKOBkAn0E5jzUUTLNPXpkEYW1MclJlLcpRSkKAs0s2GWQb6e7FNs+Y
-	 pZQL8t+07nmAg==
-Date: Thu, 12 Nov 2026 18:32:54 +0100
-From: Alejandro Colomar <alx+linux-hardening@kernel.org>
-To: Linus Torvalds <torvalds@linuxfoundation.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Kees Cook <kees@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, driver-core@lists.linux.dev, linux-hardening@vger.kernel.org, 
-	Lorenzo Stoakes <ljs@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, David Hildenbrand <david@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH 2/2] devres: Provide kmalloc_obj*-style API for
- devm_kmalloc
-Message-ID: <avX3Y08tF8Z0C4LH@devuan>
-References: <20260914223212.i.829-kees@kernel.org>
- <20260914223219.901347-2-kees@kernel.org>
- <20261112004039.GA523044@killaraus.ideasonboard.com>
- <avWNCC3_Ff0knO6J@devuan>
- <CAHk-=wgYBrhvo2NAG_Ja-0ovPf=xO20Gcopv9Yrr1u=QVxECZw@mail.gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=BxkZuiCd
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c4395d31228so628901466b.1
+        for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 09:47:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1794505646; x=1795110446; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CPqL/jXjgacEff5dEPASqy6/Bbk+NnoKXgfKHY7JVag=;
+        b=BxkZuiCdUmAz2E63jZmVdxf+6l8Jke7N4huTyrDLvn0aLFKBx6j9b+sQ900PmX/WNU
+         UjNTFbifNKJJMSlgmnZhcaYao0ukyTgNZArRiN/Z4m9rv/lTLgl/XiPGbuzSvEVat+Gk
+         jGRVMkdDp5jbrheqvuDeRXGjpeT/4BjnhudsY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794505646; x=1795110446;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=CPqL/jXjgacEff5dEPASqy6/Bbk+NnoKXgfKHY7JVag=;
+        b=JaUmrW4E+7l+W9giZwnxAMEC4VyvozFfljp3/Pw/wYNN5iRge8EAKVOLfdq9UPz0uQ
+         o7EHU9JIDn/ZE338iz7+c5eTuR9ZJnBQrj0ADs7l+cqMTCxRZlvrvcXoDWYvO64FqoMM
+         81Zk2nm7gaxlKygvgKRaWePCzr4GCRKk3s0WXNR0TfKesm5QPMNbih/qiN8wDSUyUnJV
+         zFzdZy7plPcsVN8RPuor8gKLzxfupJ7tOUtw/AD/J/zvDjO6a7Op3d1Zzs+saeK/Y3rB
+         tRyj2wuqpA5SyKBZVtYwifafmeDXsISyVIZkoIXhjJrVgfIpXoNQO2VssVEqkwuoaf1n
+         K+NQ==
+X-Forwarded-Encrypted: i=1; AL+hErG5sUkVO3da+1He74xY/E+Hw8d6tWNJ7yrQcoCwRbbe8/g3vJR54rQRKm3XkYMvRrDKp/sZ1s1LZsgePQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8A5mjpqg7kWNuoAd0pOxdeTtsULNGosuKmvf7cKIiiwSePz7d1
+	XvEHVx9iJSAWgFkalgTzJmmPQX33Fi6o8afD1JtM3otmZdyzxnCLzp5e4mUxyYEU9uUJwsqAYdj
+	R98kUhpUd4Q==
+X-Gm-Gg: AYBFou3oJ9CZcsnFxOZEpBzAClBBX7lbOksRMiN/x3hz0Wh7f3kv5JL8inBSsHjKaQR
+	VTwBeZzzK83ftjVeD64Y6v0tZq9MmckPPTlF26T2twgfzReMbX3+XcFvHv+KWDutjy9UFlPKTLx
+	+hNOM3IPVWvwtg0yAMytBeFDz+n12RHEdG2cvqPauN3hma3N27rWBnUBYd427cSjZ/gpwNFHP42
+	+53+X4tnXu3/aE2XCTgB8Wx4C9x8xaUQfZ2X2RIJ7rDaRKf4vs6wVVEjs9ZO76ADqecz7YylLpm
+	xLAHTzHbAcDUFs4qfqjrFTAPLzt9K2QF0hJuxQoaNoymC35/pzaqF3X/yNSMW5or+SjQp+KYv0r
+	Bg6/VKK5Jbz/UkcgKF6JeCBPlv4eLjQzh0FARMoq8Gv1Srj5Qla41fkxQr54LHVS2/Yra36SHcS
+	QFjwua3Y9QjjDXQBmB5xgEEtRqnDjxFK6LNiG/xHXxZ1P1OBGJLoRFltYdlGJA/l6T4oaggVl3n
+	/g6TQT+d/wXHBVhOGDjkubXEOWirG4ZaC7K5oh6M4OfO8Bm3evf4+xHCgRadWg1sk/usv8cgf6C
+	X4BlUasjtvMGaf4VmsINhyacpmQ00EebcpdrbP9jGsuECJlW/En9fiTSvCSWTsRft5LdfCDk3My
+	fzwIsoIL6FPyT+gCwYL+1oIo=
+X-Received: by 2002:a17:907:3e1e:b0:c42:2d07:4c38 with SMTP id a640c23a62f3a-c5066c8b906mr609008666b.26.1794505645764;
+        Thu, 12 Nov 2026 09:47:25 -0800 (PST)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com. [209.85.208.52])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095a5b93csm3495566b.5.2026.11.12.09.47.25
+        for <driver-core@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Nov 2026 09:47:25 -0800 (PST)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6b2237b596cso170071a12.0
+        for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 09:47:25 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErGL659XuY2AA6Om92SeY5oHBHD4O0B844QYx9LipmppP03bMxoCKuUuIf8NsSr2GmeLoRX7ROcJTDuRig==@lists.linux.dev
+X-Received: by 2002:a17:907:2d9e:b0:c50:4b7a:de71 with SMTP id
+ a640c23a62f3a-c5066c973bfmr611766466b.28.1794504214466; Thu, 12 Nov 2026
+ 09:23:34 -0800 (PST)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -69,107 +94,46 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="o4pnicbxuhqys6k7"
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wgYBrhvo2NAG_Ja-0ovPf=xO20Gcopv9Yrr1u=QVxECZw@mail.gmail.com>
+References: <20260914223212.i.829-kees@kernel.org> <20260914223219.901347-2-kees@kernel.org>
+ <20261112004039.GA523044@killaraus.ideasonboard.com> <avWNCC3_Ff0knO6J@devuan>
+ <CAHk-=wgYBrhvo2NAG_Ja-0ovPf=xO20Gcopv9Yrr1u=QVxECZw@mail.gmail.com> <202611120905.DF88D9849@keescook>
+In-Reply-To: <202611120905.DF88D9849@keescook>
+From: Linus Torvalds <torvalds@linuxfoundation.org>
+Date: Thu, 12 Nov 2026 09:23:18 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whAF3brA9Wrcf3KDhNn_653zhUsoqe1MSneYJWtS5505Q@mail.gmail.com>
+X-Gm-Features: AclHuK_HNQpT4tCfX_FLYbv7PC35fGzeh8ZhM2vC9ghehMzLoLgyRTCdJiNaTCw
+Message-ID: <CAHk-=whAF3brA9Wrcf3KDhNn_653zhUsoqe1MSneYJWtS5505Q@mail.gmail.com>
+Subject: Re: [PATCH 2/2] devres: Provide kmalloc_obj*-style API for devm_kmalloc
+To: Kees Cook <kees@kernel.org>
+Cc: Alejandro Colomar <alx+linux-hardening@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, driver-core@lists.linux.dev, 
+	linux-hardening@vger.kernel.org, Lorenzo Stoakes <ljs@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Brendan Jackman <brendan.jackman@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	David Hildenbrand <david@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, justinstitt@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-
---o4pnicbxuhqys6k7
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx+linux-hardening@kernel.org>
-To: Linus Torvalds <torvalds@linuxfoundation.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Kees Cook <kees@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, driver-core@lists.linux.dev, linux-hardening@vger.kernel.org, 
-	Lorenzo Stoakes <ljs@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, David Hildenbrand <david@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH 2/2] devres: Provide kmalloc_obj*-style API for
- devm_kmalloc
-Message-ID: <avX3Y08tF8Z0C4LH@devuan>
-References: <20260914223212.i.829-kees@kernel.org>
- <20260914223219.901347-2-kees@kernel.org>
- <20261112004039.GA523044@killaraus.ideasonboard.com>
- <avWNCC3_Ff0knO6J@devuan>
- <CAHk-=wgYBrhvo2NAG_Ja-0ovPf=xO20Gcopv9Yrr1u=QVxECZw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAHk-=wgYBrhvo2NAG_Ja-0ovPf=xO20Gcopv9Yrr1u=QVxECZw@mail.gmail.com>
-
-Hi Linus,
-
-> Date: 2026-11-12 08:34:13-0800
-> From: Linus Torvalds <torvalds@linuxfoundation.org>
+On Thu, 12 Nov 2026 at 09:09, Kees Cook <kees@kernel.org> wrote:
 >
-> On Thu, 12 Nov 2026 at 02:13, Alejandro Colomar
-> <alx+linux-hardening@kernel.org> wrote:
-> >
-> > I suggest removing kmalloc_obj() entirely, and using kmalloc_objs()
-> > always, with a second argument of 1 when we want a single object.  This
-> > would remove the risk of that typo.
-> >
-> > I also suggest having default arguments without variadic macros.  The
-> > way to do that is using empty arguments.  Linus complained that it hurts
-> > his eyes, but it really makes these macros much safer.
->=20
-> No to both. These are both "make the code worse to catch errors that
-> the compiler should have been able to catch anyway".
+> One thing Justin was poking at was adding a "strict" mode to typedef
 
-I don't agree that the code is worse.  It's _different_, just like Rust
-forces one to write different code in order to make certain bugs trivial
-to reject.  But I don't think having to write malloc_objs(T, 1) is
-objectively worse than malloc_obj(T).
+Honestly, the sparse setup is superior. It does that 'strict' thing
+(except it calls it 'nocast') _and_ it has 'bitwise' that is a nocast
+that also disallows non-bit type checks (which is *very* useful for
+things like "this is a big-endian value: you can only do bitwise
+checks against other big-endian values).
 
-But let's agree to disagree.
+So the compiler addition may be worth it, but  even the "poking at" is
+weaker than what sparse already does.
 
-> If you *really* want to catch them, make "gfp_t" be a 'struct'. That
-> way even compilers without things like the restricted types that
-> sparse has will catch at least that one.
+And the 'struct' model is honestly superior to both when it works -
+but can add extra overhead (but can also end up being nicer than both:
+instead of casting with special "I really mean it" casts, you can
+derefence the struct and get its value that way)
 
-Yes, that's a third alternative, which Kees and I discussed some months
-ago in Prague as a mitigation.
-
-> I did that many many years (argh, decades - I'm old) ago to catch all
-> the 'pte_t' etc issues when rewriting the MM layer, and it works very
-> well.
->=20
-> It's going to be somewhat painful, but ti might be worth it. People
-> who only use GFP_xyz flags to pass them around wouldn't notice.
-
-Indeed, I don't volunteer for writing this patch.  :)
-But yeah, it would also work.
-
-
-Have a lovely night!
-Alex
-
---=20
-<https://www.alejandro-colomar.es>
-
---o4pnicbxuhqys6k7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr1+EYACgkQ64mZXMKQ
-wqlMCw/8D8u1QGJxQwMLy0ohBNrNNSiwG+9uYTovzBcTZNUribjecgVSktGCQgCd
-o+kAvS4NRBmheiua/UIF9dZ1UV7Vdn1tzPIV8EQj7/mRvQy88KKwrrZXy1DCUTuo
-sNDTbAcOzuRnrTIBl1TkQvPo4zc6YbWeDh+v+ZMkelU8jU/lx5tj0XtC1LPgnI5w
-vrkXOSgyCWO9OnljQL8A68U5u3vsSdbXt9wHXyOjmFUAo8Pfu8dvhT+gv7bKAJrt
-PE9W4sMXLWaYMDjpbCSHS/4t6REVcSspzh7g9YkVXGXAKDkps5YQrJbH5eeGMG0k
-6iTxucLbzRrNck24w662nPeGWwYA6b6pn0JW4riCZfxKHTpMBY/XdlrcOWT8RBn8
-PQNSJH9/txKdRQghBIK4yCxhW+y1x1slic57adqPizBJAW6AdzVPlYVaTZOeKE4E
-ppg+JQ77XLA2BTtd+ROkTJdDAycc9fwrhY5bnpAzEzQeuojymLW3bYQZ54jxTmXc
-k5qFDyKnNKtvIVCNfelZtmExZpPBFozOr5BYZ2lo0xounJKyu+j2ynNUZeH45oxj
-+ZQBvzb7NEPFMee/5zkcb9odWebSaZ468E10YYPH51AkNtFmoN2SOSyVpzmmbT/w
-fShkHI5qPzCw/J+mGgtPOmMgQN8BvD/kZTsr+SFo1Y0GDEmNWnA=
-=GL7T
------END PGP SIGNATURE-----
-
---o4pnicbxuhqys6k7--
+              Linus
