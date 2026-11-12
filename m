@@ -1,100 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.95.105
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794476844;
-	b=qksfcE/jteH8rR1i8cHbAaM6ZcX2qqw6V0UDgj01m/VRYQGF7hDhSilh3An9NLNthM3P
-	 T0mhds3AYqTI+e7RI7eqM06T9o5WDBNveuJa5sOz4deHx4B9eFtb6lIc5rvZhTr1M5lBS
-	 nnfwSEiqBK051dCHBk+IdVkTgVFJcF/VtMdOMe7GgQalyW5SW4Gf3Jbhwp7fPB2AQBeQP
-	 2g1lsd8YfvehWUTT32r/TuSLZr7VfCwPgVM6Y3cuz8ZKPfvgi0VSV6IGP4LjvG+4h65P3
-	 8IoMBIAmL85MuYR6R7iH5IMjI8DA/akZOsB6b1IRkgsZpvTzvt93KXLiIiQXkXexsCQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794476844;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Cc:Subject:
-	 From:To:X-Mailer:References:In-Reply-To:X-ClientProxiedBy:
-	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=//1RTsB2B/+TuRbi8pChRHbnzjf9u/+fI8NjyUW/Yl4=;
-	b=27RcGCYIZmuVQdDPagJy9sGDWwoOPzAl8E51LX6YK7tURCJr5wravXEeYVRN74Lf6red
-	 8orkr90vdgeisYkdNhdTaJFr6S51gWLoUFH5drhAvcG7MIqCUvEu4L5MEpt6HVZFTTZQP
-	 LxBwIAhrDo8/IeF4VElt7bxGWYjZRdViSlgsQsA8qd7ZdVJ60qRBlQWPDA+pjV6NmJARO
-	 HYTSVrGtimk4urIn+Qn/kXxuTejwPUYgc3n2iYQcuoVYvQdmaJHsDwkJ2XFGzId6UVRaJ
-	 M+jzNMuUQ7Ufe6M8BTtySABKFhNY6k0Fu8qt4NZi4U8uDpZ4+Jpc8FVFndG1TgMSz3w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=garyguo.net;
-	spf=pass smtp.mailfrom=garyguo.net;
-	dkim=pass header.d=garyguo.net header.i=@garyguo.net header.a=rsa-sha256 header.s=selector1 header.b=YVsDTNxt;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.95.105
-Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021105.outbound.protection.outlook.com [52.101.95.105])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794477424;
+	b=MAgYoxnES4FIdpT1l/oDlYXhMkGrZElN54uI5qi9AQzeTs1fvJvdB5Or/KTpmIhfCMwH
+	 LJygM3OLN/mGq20xKMQ7x639hx6pv3B/X7nLjJk50EqLFy9x8DAPx6orDyQQ7kf3PCqu6
+	 gGnfAhUfHOtWjZ/r7QzslDHNOKyykfiF8hxhcAtI9AwBt0x2QR2wRQpaNxurNFowzt7i1
+	 3Dw/S059+c2+QjCGZizneOcvtv0PNBV27temwuDVhvPpkwxt7+Img2J70gaQOgu8z8jYi
+	 AJM80MQ/EPTEoblX6T5OEQEzj9vZWcpaqSKffyjX1NnfnxMjpzkqKWTrDkCqH9Ly3tA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794477424;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
+	 X-Proofpoint-Reinject:X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=Ycds2+vuVeecukpZKkEj1RvHul1iDk9sjhEdWisBqXM=;
+	b=GHjFBehoQe7TRBVAd7g+SevVYf1GbIZ2qdZKNuypnjTWJtJr3PrppugCRPtojJfeJmhh
+	 37fwzfNTG7oEMgxLa125HVIxEL+vWDxr5ZPGZVCHRyzHnFkabkN/v74a/EaMdKI6MelJK
+	 Gm5XGkj04MIZqjbDTqtKZoE/xIWSYuSupg2qCyrYLxy8numWiQoDjAPEUerJi0koMu0cS
+	 Q5YZZyHDuo6m5jyHX1TPCvrpm4XW6ewfk54EiaOw6YE/9Uugexz+j+DIxWOjvD8oP4Z8w
+	 E7ebGKjMWsqNs7gLs8BdlXKTWFkInrJA9leKJVsBXciYSyw1929FaL1rOwFmRDFAkQA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=geX9WeuM;
+	arc=none smtp.remote-ip=148.163.156.1
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE13606A32A
-	for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 09:47:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ABE13606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C906C606A32D
+	for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 09:57:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C906C606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=garyguo.net header.i=@garyguo.net header.a=rsa-sha256 header.s=selector1 header.b=YVsDTNxt
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pllDjZKwUyXVBzbzVJgLAEiQUm4VoBN16pR8fVNVQQ5rcEjDZ/xAHbxISNNRR44sP6Hk1gluGU389twGXXIHV42VGPGkd4UqlbuyKdlM0wE5cZNIlE6IV55pyjcOm9GhwATeUhktdDgn45sUqoRvr9bUgKj1CB9mZlU4mWyBWwBXiKsRiim8xyWVXRjx4nOSdRWO8x89m1SGgrw8+Phrh3jz69TbDGQZ7ILHAkVWEhbap1//r7cL3lILgEs9Rz5X6EGt/iCkjYyEDxTfsYJrm1ytkpMZdpTAb7TFVpWxGX2tPcUypec46rrx3qBnbok7SqVSqQ82Ti6TpdEflFQHrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=//1RTsB2B/+TuRbi8pChRHbnzjf9u/+fI8NjyUW/Yl4=;
- b=nBtJgdkKuaIHfKcBj68AtnCIrfmEJw57znnVaMXFY+35hpUtv64zIeS+kZgp4PELeOhY6iwize588yggr7Wh3KSsiNME5wZMLPzFvmTTJt3pVJPT40RgySHKqL4qurc67K+47pRRRLckHfzhZnQEu+QlEq47gtGVcGhPETuMaauxhUzHTvHDmzJj1xmzM8N2PhhjeH4aScUNAwkVn/gfnIDHLwg/YocCieHO2m+UQ7vGfo7EJfTw9PVov2rJWtIDM/YIO9kDPDN9FaH78WHqDUmyNkdt3E/T3Mb3aTlVL3GYqq40rfgv2a9IIJbfGTwPs1J2OBDLJz76oVmeJ6xT6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=//1RTsB2B/+TuRbi8pChRHbnzjf9u/+fI8NjyUW/Yl4=;
- b=YVsDTNxtrWUsaGx9V/JoZI14otKftC2zihNR61LzVGVnq4zF7IxltGn3XckJXPM+FgVewrgZWCrnMG4zBncy1hgxPq4BvoX5dcdaXzpM/7Pv/jegA/IsP7u+KoGKUt4K7QMx4S/nl/quQ+B203YQS8F9hrvrmzQVA89dFoa9WPU=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1cb::9)
- by LO2P265MB2511.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:124::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.10; Thu, 12 Nov
- 2026 09:47:19 +0000
-Received: from CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
- ([fe80::55f6:f98b:7fad:c6e3]) by CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
- ([fe80::55f6:f98b:7fad:c6e3%2]) with mapi id 15.21.0615.009; Thu, 12 Nov 2026
- 09:47:18 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 12 Nov 2026 09:47:17 +0000
-Message-Id: <DMT4Y6N50BGG.3IEM84MO461ZY@garyguo.net>
-Cc: <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
- <linux-serial@vger.kernel.org>, <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH 0/7] rust: treewide: remove driver unbind callbacks
-From: "Gary Guo" <gary@garyguo.net>
-To: "Danilo Krummrich" <dakr@kernel.org>, <gregkh@linuxfoundation.org>,
- <rafael@kernel.org>, <johan@kernel.org>, <david.m.ertman@intel.com>,
- <iweiny@kernel.org>, <leon@kernel.org>, <ojeda@kernel.org>,
- <boqun@kernel.org>, <gary@garyguo.net>, <bjorn3_gh@protonmail.com>,
- <lossin@kernel.org>, <a.hindborg@kernel.org>, <aliceryhl@google.com>,
- <tmgross@umich.edu>, <daniel.almeida@collabora.com>, <tamird@kernel.org>,
- <acourbot@nvidia.com>, <work@onurozkan.dev>, <igor.korotin@linux.dev>,
- <bhelgaas@google.com>, <kwilczynski@kernel.org>, <markus.probst@posteo.de>
-X-Mailer: aerc 0.22.0
-References: <20261112005455.1224352-1-dakr@kernel.org>
-In-Reply-To: <20261112005455.1224352-1-dakr@kernel.org>
-X-ClientProxiedBy: LO4P265CA0073.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2bd::6) To CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:400:1cb::9)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=geX9WeuM
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AC2i4tn3053535;
+	Thu, 12 Nov 2026 09:56:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=Ycds2+
+	vuVeecukpZKkEj1RvHul1iDk9sjhEdWisBqXM=; b=geX9WeuMWcmyLmfi9qTCWQ
+	GXdNlMoig+JM1uUm+ne1IXzh9EtUFRf/EkwBC8i1h/96aijcd43KIO2HYSYtYrMT
+	YHg9BigglMVb4JLsTnOMnimikOAIuHfQAMp4n/YF3ohOZupcPLxsrgyAWqZjkejC
+	6yMrO2VdwAGXR3WQeD7LpU1bdUYm/6RVO0Fe5JZtw4oPAoezkdG8mv5coJCnLvzy
+	HbD8yORVRBoyv5n5LDROUq9ESxpj7uLd44r3Zm/pUY6+ZfFq+z9BJRwQ6hFRU2QX
+	ZXQzxassLf8iw6ePaxbrgx6LFGYqn4LxWpleyGSikNHJB9k/3kCa7a5J2SHG68UA
+	==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hsug6ev87-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 12 Nov 2026 09:56:42 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AC88jRW3145596;
+	Thu, 12 Nov 2026 09:56:41 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4hvd51wxqy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Nov 2026 09:56:41 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AC9ucxS52036052
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 12 Nov 2026 09:56:38 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F34412004B;
+	Thu, 12 Nov 2026 09:56:37 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DBAA620043;
+	Thu, 12 Nov 2026 09:56:36 +0000 (GMT)
+Received: from [9.111.4.227] (unknown [9.111.4.227])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 12 Nov 2026 09:56:36 +0000 (GMT)
+Message-ID: <91823f62-57fe-44ad-9dab-ba91ba3d26d3@linux.ibm.com>
+Date: Thu, 12 Nov 2026 10:56:36 +0100
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -104,110 +86,118 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP265MB6051:EE_|LO2P265MB2511:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9ba64df1-c6a6-4fff-f170-08df40a1f0e4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|10070799003|23010399003|1800799024|366016|921020|10067099003|56012099006|261022105027099003|261028144727099003|261026121527099003|261026140227099003|261021123027099003|261021121427099003|261102123227099003|261009223027099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	rQpaPv5YAWCFFnGo2xcobRK+N57peQFYjLAqIYSbqLqmw9YPt0/piozMg6aCuXcjnNacHQP81vlbvj3O9ZX5A/NNBH3Il3tDFVrTgwUu0c1DhkOADz2wG1WQ32d8054B8A4+2DTLqbGrg1f7AK+S+1vY6LIeeQzx/H96Kx+qptyY0q4jKzEcsmITk8XveC/ijqXVSGdfjfQnGDYXl+DGTrLFj14FQ4BF79TYNtVdLWQTRu0i0I7ELiPaaA8uKhDiou/REdbCe7EMlximETMjWnIm/VSh/4i3BY7FRBMKclaMbmIJvDDgELF4/B4YhKSfzgcltpFfepQvgIwaBWYJI6aKvBqPiEMxNzCbUkGZTk67rxALEo2aOKnQbU6M10oNbeBSKkMvJIbdKvNN4PqEUhNi3r4iGbCy3ewtdn195Y/OFlM+NGpmGXO3+UDy6RLSNRPHiH/G0oqMjG4FKzqzv+VuzFeltFozYs01aO0H0P1YxV3Aa2AOcezBPAf9F7SmpOPKlzlTr9HvQRuIflwLKDwpDPN8RzB6sYfCkBcNO9F+BxTh2vqsKnecxuQxHDFRWIBtAqo2jTL01l4BxDfx9t5yijsCXzfHjP1MrOmlEplXhyx+fz5b93gQ0uXKU5XhFLTq5ej9LQS7xvhY/FlwiOnKxGIkHMEvfAMl8VgxYC9LuEo6smiZg98r+Spis6lhcriwkFgs2aCLWAusEmhjxw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(10070799003)(23010399003)(1800799024)(366016)(921020)(10067099003)(56012099006)(261022105027099003)(261028144727099003)(261026121527099003)(261026140227099003)(261021123027099003)(261021121427099003)(261102123227099003)(261009223027099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Z3czN2g0dDhRcHQrb0tCcHdNbFlwNi8xbUhJbzVwRkNMWnhyd0R4Qm9DeFQ1?=
- =?utf-8?B?WE80NFFCQ0JuZjgycW1UN21WWUhBbWhXVUJzYS81ZlpWMnV5a1Z5c3ZsbjRi?=
- =?utf-8?B?MjJ4QmFLNE1qY2NXZEhGTzdtNy9ydjhZVUF6VGx0R1BWSCs1TW1wNisraXR2?=
- =?utf-8?B?TFBKdXRVcUdzcFN2Q05yRFcvTW9zOXBHY0tJaG5GWi9ldHo2TlpHS0hwVjdF?=
- =?utf-8?B?dVdUNCs0NkY4VVYzWVEvUXlNdWV0L2l3bmp2ZnQyc2lzc1d3dmpOL0lidjA4?=
- =?utf-8?B?RHAvNTBlcTEweEVTVTRDbzV3b3NpM1V2WWRUbkp1bFF5NXQwTjNxd1pnVG5o?=
- =?utf-8?B?L2tmY0JCOUFOcXZ4MzBSYzU5YW15WCtMN0M3L3J1TDIyWk1jVU5xZmo4QkNm?=
- =?utf-8?B?TjVaSnRlazFWM0FNMExJaTFXWkJhdnlaQzY2VEZBSGRZdE5ZYWsrT0pET3R5?=
- =?utf-8?B?NVl6Q2lBbWdKN01haUl0Z0tmaTVkekpnWUxPaERFdmpGTDlEOXpQV1ZsOTk2?=
- =?utf-8?B?d3h3OXExaEF5Y3hqMjVYUlcxeE9EWmVhV2orcHVLZm5zeUhLeTNCUjF2dVRO?=
- =?utf-8?B?dTBWUTdFZXJFWk82RC9IbTErUlBheEE2V2Nzazg3WDdpV2EyM0p0RlBDaDBy?=
- =?utf-8?B?WHNxWktlN0ZFQXkzTVppeTNLWm5LLzBtcGV2NDBNbW5MT3E4SW9iVGExTU1W?=
- =?utf-8?B?Vzl2bUYydVFPVVFXU2t4OWU0SUtNN2ZGSmgwbGdUMTVKTVZvb203WGs0Qmo3?=
- =?utf-8?B?ak1CYkZVd3RhSmRyekJ5RzVOc25jd1FOZUxqU3dRN3p1MGY3Q1F5WHU1OWp4?=
- =?utf-8?B?WHZ1ZWFER2QvVm5RampvRnpheXFRVGR4RzJFd0wwdWpEcWtvTVdQSUNFSlVw?=
- =?utf-8?B?UjVPUFZHTWtnT2s0SytrVkpMT1dnbEY3Uk5rbmRxcldUenZnMUl0R3E2Snht?=
- =?utf-8?B?NnNLUXhuRkJLcWtsVVNpVXg5RTZMV0ZKV0s4aUVIMUcydXJwNmJBY3hmZlRD?=
- =?utf-8?B?ZnVoY3lzNzZ5T1pxNklNdEhFL2szNXJSa2JVRTdZK0V0M2t0My9vMS82dkFq?=
- =?utf-8?B?SGpqS2lHZDk3WjI3ek1kdzNsVjVHWnFma3pjdHEyU3lKTSs2RTJZMFU4RVpt?=
- =?utf-8?B?ZWdOY1BJRDV2OEkzUXVFcXBvcldiOG5uaVgycWVmSmF3TnpJTGFMendjVnM4?=
- =?utf-8?B?bDRhcGdqZUhmZDhVc2hQckV6Tk5WeGtJRkFYeEp6end5UG16NG9hTHROdHVm?=
- =?utf-8?B?MWh0YmpxalpidHd4TXJScWpJT0JXMGxlNytYQzZZOTlpU3JpT0oyeU1FWjJ6?=
- =?utf-8?B?c0lyWnF1Z0dOSWxRS3AvRTNCRmcrN20xRzJaWjRuRXJXcVljRnlRMWpERFhT?=
- =?utf-8?B?U2ZoM1pWMS9kclBIUEN2VmFxQmY3VE41SnJudXoyZmE2SWtCRUlmZ0VkMEdm?=
- =?utf-8?B?cHZ6dzJEQktZeEl0ODhJRG9vZndvT243alM4REgvRjNrdHMyMXFyQ0dnZ2lr?=
- =?utf-8?B?Z3NXYjEzRkYvRGhTZnFlUWt1bkRqZTdvQ2FsNTlnS0FpVU9BdHQyTVQ1UzdW?=
- =?utf-8?B?Y3l2NkRvOG12TnN1eThDTHZyYi8rS29ubjBUdExZTzllTVZRTjFQUjBKVmhX?=
- =?utf-8?B?aktIUS9ENHJ3R2thdWFzS1BsQ1I4azFvSFVUZG9LZGJBaXZ1N3IwRmJZS2hh?=
- =?utf-8?B?OWw2UmpvNEVabkh2dkNYUHhxeEZIKzVBcGM1OWxHU084clF2UHFhd2FBaUx4?=
- =?utf-8?B?dDA3REo4R2lFR21BaW9RVzUrNzF4WkVOZXFkNE5pTWdiUTU3Wkk1NFoxZ0xn?=
- =?utf-8?B?QjB3VlNtRnMrV1ZXZENHc2czYTZ2Wnd3MXF3SmlxS25kSzNQTXZ6c3lYY0pm?=
- =?utf-8?B?NmJWWjJ0RVRiMW9paDYwN2ozb1VyVS90cjJuMUlJVVAvM01RL0hHd3ZXcWVy?=
- =?utf-8?B?SERHbnV1cUJuWXQ0Uk93dDlJM0NUdUo0YXUrQ3ZQalEyR1B1ejBxZVVQUlNi?=
- =?utf-8?B?c2NJWE91Y3V2b3I4OUs4cWtnc0pPenMvZ1RFUzgrSHNpYjZLRjVjQ0txSVQy?=
- =?utf-8?B?d3hYamM5dzNuQk85ZzRST2t4UllraFR0MVZvOGFxZTQyZWVMZ0xzL2kvRG5F?=
- =?utf-8?B?WlVpbjVlcXd3VG5aU3JweDVYUW1ab2dmYTR1dmJBSUJ1RS9EMkhULzB6Y2tE?=
- =?utf-8?B?Y3FRQzNZUEdPV2ZDTy9hODlPS1paKy9EZmdpUVUzN3JrS2J4OXRDL0RZREtr?=
- =?utf-8?B?R0UrUWRIWkdnZlFlc25wQ3RTTjJiOFRUbG96QWJiRXYvSk5zUnhRa1NrTm0v?=
- =?utf-8?B?Wm5MTzJUZTM3Y3J1Rk53OHN6emRTV1JPOGtEYXdJNmU2S0VHd3VWZz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ba64df1-c6a6-4fff-f170-08df40a1f0e4
-X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2026 09:47:18.7868
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uev+DYFV+h6PB4g0twbUk36x1lHFPI3tTz3PyTHNY2IsDQPh+1mepJhf5i52EAVWaFxqXbyxn5eUSZM+1BkBfQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB2511
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/6] sched: Expose writable interface for preferred CPUs
+ mask
+To: Shrikanth Hegde <sshegde@linux.ibm.com>, Yury Norov <ynorov@nvidia.com>,
+        Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@kernel.org>, Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Andrea Righi
+ <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        K Prateek Nayak <kprateek.nayak@amd.com>, Mel Gorman <mgorman@suse.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Steven Rostedt
+ <rostedt@goodmis.org>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-s390@vger.kernel.org
+References: <20261101192203.6979-1-ynorov@nvidia.com>
+ <A2B09626-39F0-4EC3-B57D-CD83D77DD208@grdncc.com> <avTSC2r61uht9oFK@yury>
+ <ef8dcbd9-61e9-467a-88da-3d159a5df9df@linux.ibm.com>
+Content-Language: en-US
+From: Mete Durlu <meted@linux.ibm.com>
+In-Reply-To: <ef8dcbd9-61e9-467a-88da-3d159a5df9df@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: Grk7OAPM9lezy57svraLsYt8P7yEZPh5
+X-Authority-Analysis: v=2.4 cv=PeVqFShd c=1 sm=1 tr=0 ts=6af58d5b cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=swU2ZibCdQ0ba2sdvOoA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: ERKEVtWXCKvlZPEGzNvGFeK9TNk9wyT_
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEyMDAzOCBTYWx0ZWRfXxMV2Wht4hmPe
+ ATcJgeQPIjUEr5HuxvL4Ln9qinQG1FbV/i0c0TW2lZk61lABarnA5lr5pAu/QDN1RnE60fd75c9
+ WovOlHBxN9TslF6FukMWh495bB8f9za0wgnZ/0fc/okmO8Z4xEsW0guOUwk33uSzk1oeIlN0ZkP
+ hq4gENODboK49Q6r0//GH1y1PEYpxq877+NMsw1dBc6WqbkDlMyVGRbT9H31lii0JXbkJmvNj1T
+ 0bCCYSvh3TDxPvHbJEuNfWmPKGEuUkEVOZJbyUZRA8YenpuCgy1as/rx1KKkup4j+EflgtZfUOg
+ xcnx3vFJ3+93M/WG4FP1ZL+7orCl253LfZMQjKTrd7gTJMqizw3UrhxxsptB5dp5X1X5XT2zhKJ
+ LAJGv4g3OyucFYWJ1Pryro1Ns456nsIOahVPJkU3at9iNiWZdBFwTdNDjm04JUBupVbJ8Pe3AYw
+ mNXCAGT5dpYYuuCEojA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEyMDAzOCBTYWx0ZWRfXwyQ7QVWz6uQR
+ b79qlJeBwWTAcP4zO76K/UFjY0jTKe0AE0yylU3KB42XWkE0vbhx9+D3unLYHvztUqEiKItgFXc
+ p+gbirrononB6sfJrYWVQSX8i3A5DUk=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-12_01,2026-11-11_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0 suspectscore=0 impostorscore=0 priorityscore=1501
+ lowpriorityscore=0 spamscore=0 malwarescore=0 clxscore=1011 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611120038
 
-On Thu Nov 12, 2026 at 12:52 AM GMT, Danilo Krummrich wrote:
-> The driver model uses native Rust lifetimes, allowing driver data to
-> retain device resources and a bound device reference for use in its
-> destructor. Separate teardown callbacks are therefore no longer needed.
->
-> Remove unbind() from the PCI, platform, auxiliary, serdev and I2C driver
-> traits, and disconnect() from the USB driver trait. Move the affected
-> sample teardown into destructors and update the driver documentation.
+Hi Shrikanth,
 
-unbind() has the `Device<Core>` state, which the destructor won't be able t=
-o
-get. Are we sure we won't need it in the future?
+>>> I've been trying to do this with crutches in user-space for a long 
+>>> time.  Thanks for implementing this in the kernel, and with a 
+>>> convenient user interface.
+>>>
 
-Best,
-Gary
+>>>> A user can mark a CPU non-preferred and pin a workload to it. Fair 
+>>>> tasks
+>>>> whose affinity includes preferred CPUs are steered away, while tasks
+>>>> whose allowed CPUs contain no preferred CPU can still run there. The 
+>>>> CPU
+>>>> stays online, task affinity is preserved, and the selection can be
+>>>> reversed without rebooting:
+>>>>
+>>>>     # rmmod steal_governor
+>>>>     # echo 0 > /sys/devices/system/cpu/cpu3/preferred
+>>>>     # taskset -c 3 ./my_workload
+>>>>     # echo 1 > /sys/devices/system/cpu/cpu3/preferred
+>>>
+>>> My use-case (being a compiler optimization engineer) is to pin 
+>>> benchmarks to specific cores, and stop the system from using those 
+>>> cores even when the cores are idle.  This prevents L1/L2 cache 
+>>> pollution and makes performance numbers more stable.
+>>
+>> Hi Maxim,
+>>
+>> Thank you for the feedback.
+>>
+>> I agree, this trick with pinning a workload to an non-preferred CPU
+>> looks promising for benchmarking purposes, and probably for more.
+>>
+> 
+> Sorry, i don't follow.
+> 
+> Did you mean pin to preferred CPUs? Why would anyone want to run their
+> workload only on non-preferred CPUs? By definition, they are not meant to
+> be used as much as possible. and It is benchmarking.
 
->
-> Danilo Krummrich (7):
->   rust: pci: remove the unbind() callback
->   rust: platform: remove the unbind() callback
->   rust: auxiliary: remove the unbind() callback
->   rust: serdev: remove the unbind() callback
->   rust: i2c: remove the unbind() callback
->   rust: usb: remove the disconnect() callback
->   rust: driver: document teardown through destructors
->
->  rust/kernel/auxiliary.rs        | 34 ++++-----------------------
->  rust/kernel/driver.rs           | 18 ++++++---------
->  rust/kernel/i2c.rs              | 31 ++++---------------------
->  rust/kernel/pci.rs              | 34 ++++-----------------------
->  rust/kernel/platform.rs         | 34 ++++-----------------------
->  rust/kernel/serdev.rs           | 41 ++++-----------------------------
->  rust/kernel/usb.rs              | 36 +++++------------------------
->  samples/rust/rust_driver_i2c.rs | 18 ++++++++++-----
->  samples/rust/rust_driver_pci.rs |  7 ++----
->  samples/rust/rust_driver_usb.rs | 11 +++++----
->  samples/rust/rust_i2c_client.rs | 12 +++++-----
->  11 files changed, 59 insertions(+), 217 deletions(-)
->
->
-> base-commit: de7625abe4e92f1fb0047ed5f163b2ecaba77e50
+I think they want to prevent anything else *besides* their workload
+from running on these CPUs by marking them non-preferred and then
+pinning their workload there.
+Sort of like like dynamically configurable isolated CPUs.
 
+IMO this fits 1-1 with what Yury is describing with this patchset.
 
+Thanks,
+-Mete
