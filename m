@@ -1,55 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794492216;
-	b=plx/9QaCCeq2iHg66b+M6QcV4vNiqSbHqP2vqJuhl0AO6HZRZOCHk7Nnht30YZ27DtUw
-	 N27ZoJvILQzYKYN0DK+KCkf43YnavWdOVqkMvOzSzQ7cKM3SXQeTo+eFvmne1weSBMdmb
-	 UX4clF7rTr7ci8dGZJGm4f+03vSiPKcKlalT/TiDZfG2/fX1FG8M1rSGdX7LQzQA04Tk1
-	 5JJ5JaIMatF0pgitsHVif4/AQk8l+3kaWmMbb49ZQWieVjCT30akijA03l3pBbIm/MDnl
-	 b3XGtCxOJNw7aOVq3jNz1KU08TufezImzfxQKYdOdsApD5lumc2CV7aP0s6bpVVOQ8w==
+	t=1794492397;
+	b=ePItzpCxrW64yZvXwskUraN8/DQyZLL8kJqRWST00SgWgqP1nazdrMjDRxVMruVeX0EY
+	 1V6QLInW/bVpIi0mOvy6BzAf8eRoB7SteKvxW2EtBiqOjmW8YDg39DyHemvK9wVQoB/lD
+	 AqSKGaIy/bxIaS9LLe1KFThN079HXbYPRgCTqIZhuJmCapHozQHqEDZhp9Or5jqvhMu0N
+	 jrCuxmaK3jvLOVTQEAUxYFjjXyPCIVdiryccqZwgcLpiwGHaKrJevuXQOUXLZJqUjdRqz
+	 j2xL1xXnXNTxAHinGkzqG9+6tl6nli95VvkophvR5uy8PdH6eKEk7yw/35WLAQUqy1A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794492216;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=zmPWh+NYf7w6PPrSZKb5ErSaLMlekSlLFc1zs9w8z0Q=;
-	b=KLA51L+zyRAeoBCjZu0q8KVy7w2I9KoGZ+GKov06TqORH+dJZ1UdbO4Y0MJ6w3I/Pt8K
-	 Rv7c7SFh31g0Rbu8jTRTNYc6yxuxa6LLlSOd/s+xy0+qLOw8qcSm/A0Rg9a8ZzEcuxmUX
-	 InvDFN5EyYMbtF+m3ojF4CKX3zN5/05ZXXy9MXtJUytcVUmUQKR6UPyAqqRAE73rPzqdh
-	 F8qG18uxPbttHRqdT+PnKcl1A9wvVN2Jfq2fRUZaX0cKoFwHs9gXVrUt9sv9ASHw8OEyl
-	 STIJicIaNpqLn88MzjzrBx59xW1nLn/BKgEHnIV+QlJspE+cVCkoTbGLnhXCKOc5O+w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794492397;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=LXIm36iFMZ8kOBujPBh4eH/qjfWvYnVfBxH0cH6iwsM=;
+	b=zccfMyHNHlwxX7t8/lgmlzCaHqfdCPrHm7rvofNGivlKKMa3MymICW6TShugq68havZr
+	 EDisJ8otT0S0cn5RnRUPPT4zit/XhTyy8iJJW+S+OEh1ByHELTpBmkwEioOjlDesymYy2
+	 snFaR0oS2iqBSKP9uQJFDSpX3YCNq5yGkXVoNOTh552C2fMBUCrxaa138h9CfVTJL4SRH
+	 krggpY45OH0md9cB/X62BZz/4PXaQVvAWBOIdQAES6ORU4Gs4H8EHtmHLJ/eXvV2yezdL
+	 /6iBeZWTGmGalI14ruXhA98lhpYZetV3SxSXKIFLQ7plDGTEGkZ6c0MHUbqiFMY2JOg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=orsbQZ0F;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fTM5cbwv;
+	arc=none smtp.remote-ip=209.85.218.45
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BFC60A261F
-	for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 14:03:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF9960A2613
+	for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 14:06:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1FF9960A2613
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=orsbQZ0F
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA4641F00A07
-	for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 14:03:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794492215;
-	bh=zmPWh+NYf7w6PPrSZKb5ErSaLMlekSlLFc1zs9w8z0Q=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=orsbQZ0Fs9Yc8FoXyxHjcSt+uJVAY+FT7P5zPQScjNFhGP+bVpgRbU3Y7B2W4r5ip
-	 jYZ9/Q19ow3k5lCv00/d1zZk9ds6paCeSflAFSlCvbbLvyeiiaAW4Rq+kHZBeRW4Pp
-	 bTr+jvfP6jzc6TcM/YurJSBpq5Wtu9sgabNOIxa4E1NqT7TPcCIN34HGb5mzwwhJw+
-	 +BSvzMnr8Ru5liz74l5qe1mFxtxLV9B1KTq2GpRMWsDQ9w4AsJy8W1i3zy9f8H2JQ7
-	 5uRyQi5gB9uowIXCvriwEaOesFmJhMU3QZ0k6xQHTxWXqVhrdlI942Gh4e9e2TUEJf
-	 Eu7mfm85Zywug==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5c15ccd7fb5so1452066e87.2
-        for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 06:03:35 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErE4cBs4+ZdES5t/xZUr0JUoZGuCVnHE6FfdtlbLt8pdEHCq0YKy7L6ork0WjGcIuLW1m9RAZdPPGLQcgA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/TyW6ZPs0L6f6SjdRt2Yw4hH4ubsoqUQsabK/y1W3x8bv4QKg3
-	CtXb/p0kLNj7a/x6vA+cUH+QYb5gTi6HsGXWogIdIrgyx8jN9tMZiafv2RrtauM5vt5lWQID12Y
-	0sn0J6ew1xZRmHejjx5itGLRgHx++828=
-X-Received: by 2002:a05:6512:1325:b0:5c1:4a5d:6ae1 with SMTP id
- 2adb3069b0e04-5c15d62c5dcmr2107662e87.14.1794492214280; Thu, 12 Nov 2026
- 06:03:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fTM5cbwv
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c506094fd93so411398866b.1
+        for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 06:06:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794492396; x=1795097196; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LXIm36iFMZ8kOBujPBh4eH/qjfWvYnVfBxH0cH6iwsM=;
+        b=fTM5cbwvLYz5Omo+Sm5sy6Ng2L1WZWWplwTP0JZzIGsWBy2GUXbBZXIiV9vudLxYgP
+         GrWaiMoJiMbaLChO047tk2yLSQxzYm5+s6LHR8vlgVq7HINOn4awPs7bSu01xYXV9/EB
+         Kt0V6I9v8HGbQkajtQYkbm1N9KaXUguJHufWvEjiRm1d8Uhhv8Mu623ztKCCdIlB3lwo
+         FQgGSYBMCvBg+Xpz9ShleKOqutksQTtbn6QMlTKzoMxYdoeZEF2zJDSX8AWG4ndASegO
+         kLX29gRc3GRRHHjVHNt5JsAuoVwh+jjftujH9crrVWigwc1YbIBvxio9nb0RUN3+Y5hd
+         xwuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794492396; x=1795097196;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LXIm36iFMZ8kOBujPBh4eH/qjfWvYnVfBxH0cH6iwsM=;
+        b=edrXr9f8IwJsRQynthdQOwc/Rv7IlSsxvsh4WXe5Pjk8bb8GGgVNtwjsP0+qpH5GdZ
+         MhT0I8d/1T24cozD8/8ryWSNouNz3FrsxhgfYb27dM2rYU08TTiqEX2+92Cw38062psE
+         KDHvaBgMvxEv7Zci9I44CdSOEPIFIohOJpeDVPXeiRHTz4V/QMWz6M8GwcGOGUif7wSn
+         UXbY+VNRbvsPIXTlpfEdTh7jTbm9E5tWeAlQCkhXtsdto8psRn83uFcgnoLof1u7Xhrz
+         3Viw0s6541UsFUvv1JKQAxeuloY5GT/N1YaBdCdXK863ZosTNUohyT/QOHnkFlGl0Ybi
+         cg7w==
+X-Forwarded-Encrypted: i=1; AL+hErE/ClAVRE4LNZw99HfcB4kkrR9IY/6/VlhDFyqjOyrSOLTxLB9HRekVkK/adnvxhfwEd+f9Pu1iINR+Nw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/Mz6I2fMxld1wIOvQeWVGjLcbr9Y4siSntfoWflf8eKw2y0ajY
+	5eMn1UQ5HThuw+4R0WxxoTXKrfh/GX2Ffws32qI7ots0dU9bTXDOZVw6
+X-Gm-Gg: AYBFou1w4v0eAZkPy4/YDqtoxCMmxqx1pLReDiNdn1dzuwsZxRqkdE12GHuWTg0PLBr
+	BgonALCCrl9z8dIc0L/KTEEI7/RbMjjXz6UeajHJtYa14Jv91rw5KF2rkuYLw81l1I+iiuj14e0
+	jgz39oUb6BleWxHSKeLSIyaFoUKFO0VcyZj/SfGvtsB8zeX9nB/EbIjPVFlZKMibb0LpLHrRd+L
+	gpgcjZT9+Ucj2om0REn4cWG3nKd6LDhb3+qpoDSZogHMond9eiLbbQogiqsRX4MsJ8IAeWE2aZr
+	lDb6n9GpJafi8VWSd4RIfrKS3Kx40F77sg0/287fCQTmkJkjCphJMkP40goB+/HNYsH0g+xffV0
+	vnw9TZvIEid5ThCGHxp5DJUKI8+EyZ9rlCzHX9VvdyMW+whvPbN1GkSUMPpFHZ1BxRuU8jT8KZC
+	WVaHIV7Nu66CReQ6+D9ziAIZYiQ05xwhnUfN5Je+Mc9l2CFC0pPcppNoS2AK33TtVB7lSAs/iqf
+	i8JYwzSKaaStNay+6IMI9iwksVlHhrJDgffH7Dg+ngMNLWFpm/f18hhu4+kmVr14P7xc/UuxA/I
+	L4WcYqWgrxMAcaVT2H9EGbVu9GQ40q/0OIo4C8CTaqe3GE5UHs9hGD2vitWI34c6EDXLL5iW/DP
+	nhheX4a1i0A9zfZ6o+kLzWi4dLk9GuTcHrHg3us52sBPGKrutpD+eaRSDnSL+3picS1jMUBWIpA
+	JxRTnaxOk9ret8gcTvfkpthsb94NAoX6051Z+blLyFnSJRp2zRc/LEGbuR8nbnGQdQedhSCzsEl
+	hVST0wJ+Skt3A==
+X-Received: by 2002:a17:907:1b1d:b0:c4d:31c5:e30 with SMTP id a640c23a62f3a-c5066d3db13mr442488966b.49.1794492395421;
+        Thu, 12 Nov 2026 06:06:35 -0800 (PST)
+Received: from [192.168.100.100] (87-205-15-91.static.ip.netia.com.pl. [87.205.15.91])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c504a593b5esm363017266b.34.2026.11.12.06.06.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Nov 2026 06:06:34 -0800 (PST)
+Message-ID: <c1af6845-bfa6-480d-a240-7b918331234f@gmail.com>
+Date: Thu, 12 Nov 2026 15:06:33 +0100
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -59,131 +95,61 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261102-b4-pm-sleep-hibernation-fixes-v1-0-51fac96d080d@oss.qualcomm.com>
- <20261102-b4-pm-sleep-hibernation-fixes-v1-2-51fac96d080d@oss.qualcomm.com> <CAPx+jO86pgUXuHMPKAMKN6Tq9unxnpd9kB8eE9byZw_B=0xxyw@mail.gmail.com>
-In-Reply-To: <CAPx+jO86pgUXuHMPKAMKN6Tq9unxnpd9kB8eE9byZw_B=0xxyw@mail.gmail.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Thu, 12 Nov 2026 15:03:21 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0gEDWA_zc6KTJqCPNwHt74+pt6WfBC8Ka6XCp8ZSK15HA@mail.gmail.com>
-X-Gm-Features: AclHuK8e-AJ-XjrSAXBkD-hu4PMVxz0LC00YFvk3ACIuaq22lQdmQ2x0hsZZ62o
-Message-ID: <CAJZ5v0gEDWA_zc6KTJqCPNwHt74+pt6WfBC8Ka6XCp8ZSK15HA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] PM: sleep: Do not arm wakeup IRQs for hibernation
- freeze and quiesce
-To: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
-Cc: Abel Vesa <abel.vesa@oss.qualcomm.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Johan Hovold <johan@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, Ulf Hansson <ulfh@kernel.org>, 
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, linux-pm@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] kernfs, sysfs: refuse splice on /sys/power/resume
+To: Tejun Heo <tj@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Ian Kent <raven@themaw.net>,
+ Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+ Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ driver-core@lists.linux.dev, linux-pm@vger.kernel.org,
+ autofs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
+References: <cover.1793715774.git.krystianmkaniewski@gmail.com>
+ <c943b8e768ef766b0f6563b6085e99fe@kernel.org>
+Content-Language: en-US
+From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+In-Reply-To: <c943b8e768ef766b0f6563b6085e99fe@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 12, 2026 at 2:46=E2=80=AFPM Ulf Hansson
-<ulf.hansson@oss.qualcomm.com> wrote:
->
-> On Mon, Nov 2, 2026 at 3:47=E2=80=AFPM Abel Vesa <abel.vesa@oss.qualcomm.=
-com> wrote:
-> >
-> > Freezing devices to take a hibernation image and quiescing them before
-> > jumping into one go through the regular noirq suspend path, which arms
-> > the wakeup IRQs of all devices that may wake up the system. A wakeup
-> > IRQ firing then aborts the hibernation or the restore:
-> >
-> >   PM: Triggering wakeup from IRQ 180
-> >   Wakeup pending. Abort CPU freeze
-> >   PM: hibernation: Failed to load image, recovering.
-> >
-> > On a Qualcomm Glymur CRD this happens on every hibernation and every
-> > restore. The WWAN modem keeps asserting WAKE# once its root port goes
-> > down, after its driver has shut it down for the freeze, and the WAKE#
-> > GPIO of a PCIe port is a dedicated wakeup IRQ with wakeup enabled by
-> > default.
-> >
-> > Neither transition is one the system can be woken up from, as nothing
-> > goes to sleep, and Documentation/driver-api/pm/devices.rst already says
-> > that in the freeze_late and freeze_noirq phases a device "should not be
-> > allowed to generate wakeup events". Do not arm the wakeup IRQs for
-> > them, and only disarm them in the noirq resume path if they have been
-> > armed. Wakeup IRQs are still armed for the final transition to sleep,
-> > PM_EVENT_HIBERNATE, and for suspend.
-> >
-> > Signed-off-by: Abel Vesa <abel.vesa@oss.qualcomm.com>
->
-> This seems reasonable to me, but I can't judge from a reasonably brief
-> review if this is the proper place to fix this. Rafael, what do you
-> think?
+On 11/3/26 16:51, Tejun Heo wrote:
+> Hello, Krystian.
+> 
+> On Tue, Nov 03, 2026 at 03:57:41PM +0100, Krystian Kaniewski wrote:
+>> Patch 1 adds SYSFS_LOOKUP and kernfs_ops->may_lookup. Writable opens of a
+>> marked file refuse both splice directions. Their of->mutex and seq_file lock
+>> use separate classes. Read-only opens retain splice support.
+> 
+> Can we be explicit and name the flag after what it does, e.g.
+> SYSFS_NO_SPLICE and kernfs_ops->no_splice?
+> 
 
-I think I'd do it differently, but give me some more time to think it throu=
-gh.
+Yes, that is clearer. I renamed the flag to SYSFS_NO_SPLICE and the
+kernfs_ops member to no_splice in v3.
 
-> Nevertheless, please add:
->
-> Reviewed-by: Ulf Hansson <ulfh@kernel.org>
->
-> Kind regards
-> Uffe
->
-> > ---
-> >  drivers/base/power/main.c | 21 +++++++++++++++++++--
-> >  1 file changed, 19 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-> > index 16a1f017051e..34ba0e5941a3 100644
-> > --- a/drivers/base/power/main.c
-> > +++ b/drivers/base/power/main.c
-> > @@ -949,6 +949,9 @@ static void dpm_noirq_resume_devices(pm_message_t s=
-tate)
-> >         trace_suspend_resume(TPS("dpm_resume_noirq"), state.event, fals=
-e);
-> >  }
-> >
-> > +/* Whether dpm_suspend_noirq() has armed the wakeup IRQs of devices */
-> > +static bool dpm_wake_irqs_armed;
-> > +
-> >  /**
-> >   * dpm_resume_noirq - Execute "noirq resume" callbacks for all devices=
-.
-> >   * @state: PM transition of the system being carried out.
-> > @@ -961,7 +964,11 @@ void dpm_resume_noirq(pm_message_t state)
-> >         dpm_noirq_resume_devices(state);
-> >
-> >         resume_device_irqs();
-> > -       device_wakeup_disarm_wake_irqs();
-> > +
-> > +       if (dpm_wake_irqs_armed) {
-> > +               device_wakeup_disarm_wake_irqs();
-> > +               dpm_wake_irqs_armed =3D false;
-> > +       }
-> >  }
-> >
-> >  static void async_resume_early(void *data, async_cookie_t cookie);
-> > @@ -1685,7 +1692,17 @@ int dpm_suspend_noirq(pm_message_t state)
-> >  {
-> >         int ret;
-> >
-> > -       device_wakeup_arm_wake_irqs();
-> > +       /*
-> > +        * Freezing devices to take a hibernation image, and quiescing =
-them
-> > +        * before jumping into one, are not transitions the system can =
-be woken
-> > +        * up from, as nothing goes to sleep. A wakeup IRQ of a device =
-that
-> > +        * signals for attention once its link goes down, like a PCIe e=
-ndpoint
-> > +        * asserting WAKE#, would only abort the hibernation or the res=
-tore.
-> > +        */
-> > +       if (state.event !=3D PM_EVENT_FREEZE && state.event !=3D PM_EVE=
-NT_QUIESCE) {
-> > +               device_wakeup_arm_wake_irqs();
-> > +               dpm_wake_irqs_armed =3D true;
-> > +       }
-> >         suspend_device_irqs();
-> >
-> >         ret =3D dpm_noirq_suspend_devices(state);
-> >
-> > --
-> > 2.54.0
-> >
+>> The new property cannot be combined with mmap or preallocated buffers.
+>> Kernfs rejects those combinations for direct callers, and sysfs rejects
+>> SYSFS_LOOKUP together with SYSFS_PREALLOC before selecting operations.
+>> Binary attributes do not support SYSFS_LOOKUP and reject it at creation.
+> 
+> Can we keep the rest minimal? With /sys/power/resume the only user, I don't
+> think things like the mmap and prealloc combination checks or the binary
+> attribute rejections are needed.
+> 
+> Thanks.
+> 
+> --
+> tejun
+
+Agreed. I dropped the mmap and prealloc combination checks and the binary
+attribute rejections. /sys/power/resume remains the only user.
+
+I'll send v3 shortly with these changes.
+
+Thanks,
+-- 
+Krystian Kaniewski
