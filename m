@@ -1,58 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794460418;
-	b=oJt2ootcN3OeYbSyG7pJnMEdHToAX8Zb9/cxXGzoubsq+vyMimUs1ofoahfHHMVQxMWS
-	 YXWzZKtLQgV3A3JsF5ctw2pvKjivaAkswJws80567ajZT/kIH/Y4zSdp5BcF7FHT+qafO
-	 yxrlf6GiO5Kz3aROox5RecSRaLD/Hb2QsCb4glDMaxxCs3HjPYTcIZT5IxjYMOEEEpcws
-	 ndJ/a8bDfapgRJX8GyA2YI+iT1XHCae3Z03kz7SsbI+Z+PhYTebVJxRNW5AuqnEp5xHps
-	 MGAhxZdlNgGYg6FnylM1jg0HkRpjEV7f2TXj6X5LHGB13ZLJR03pefwq3fSqmR5CoyA==
+	t=1794466605;
+	b=f/0SktGJIrzFHiouWeYpHbRtigcRK0ACXAusCfl0/i84KjH/EoDRJUYKi2eIzdYApcCb
+	 3WcQyqBMvHDKCq4I85f6ADpyeeCFjGFN1zJeK8KwBfDyG5AinIBpqI9LCpCzF40AXxkaJ
+	 B5Hl4KjEpbxZ9Awp0EixOiyp/AzVjZRNE6PX9z5DQVrCNR67Ltun8wsZL0AfzGvpBfsk5
+	 SMIC/1BA02a9FvQwx8634Wd8VQeD/TxsFH0zFg8NSt5wzZfhNG8XS41QW//Sl8MCX1mNu
+	 gOUemI2jQCVlL8q+3XGXWTNbvaIX1KVbINygQlZv70mIbhs82zX9REUWExBK7Zrjoig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794460418;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=cRUDGnLfO0bI/ZKYLMo/IPOSFBGiK0gdMvTEjCrwYl8=;
-	b=VawNoU9ogTZt/9xn/+Pk+J5Hqi/T0oLWAKwlXA/5uFTgOvzSR6BWyUNdA9v2oSpbCChm
-	 guEoJt+KUgJNMNeDcIGIfhD5mfLrHu8zur5tNBVWLsAw2K0Pa884sBCZTS8fc7Aw3jkid
-	 LYMjKwP/JAj4RD5lOQCkujcK03e/nYizhR/BEo+qcNBq22owvxOx3W2leTqFMMaHUqgdG
-	 gYZmQPKo6F6hsLvPNFpifxxPKj0FvCntnouBg9TFaloFJvftuoYDhtjKb6deOMsh/mKn5
-	 NGEGA5aLegWvlKmv43bBjxmRSssyxLe9KXkkzVqMy9R1cCPJvXcj0VCMNNNijjs0fgg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794466605;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=Ix74LSl5qRLb02pi/asTcn2VdzYi6cghGTmwBn7ornk=;
+	b=SfHBAC0zP+x82v94QRVT7J2q7F6xATUpchYCcThc4unKINCcEplpzIJMmnR/rTkRCv1R
+	 WeCPvZgtk/OKd2/FO2stIaPi4AHg4R+Z4bATwQiz8GNJynsPIWnVDPWt+cvwG3veR+Vxw
+	 Skz9dC9B9f39OtUiLRAXgBhIiEHGQY3mF6s4gFen1lk7MHJYX3XCooKBfb8PTpr3Lxn+W
+	 S7qoX9eI5KDPusk3r/1r36AtFPQdePgNcFgg9jhnXlrpUoiyxdy8EgAtFG01FPMder21G
+	 PzcRYgpkCx8G+V5x13uist4Fnc8B1LPQxkBVLq53RbNqpBaPINGtu+xOq4OYhqZPBCQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cMOg96us;
+	arc=none smtp.remote-ip=192.198.163.14
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56C8606A323;
-	Thu, 12 Nov 2026 05:13:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A56C8606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: ca2f8160de5711f19a56ed5b684f684d-20261112
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:5fdecb04-0666-42c4-9ebb-c02f989342c4,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:7db8b62,CLOUDID:68529bbf875d0f11b69a9fa443e77b28,BulkI
-	D:nil,BulkQuantity:0,SF:80|81|82|83|102|136|865|898,TC:nil,Content:0|15|52
-	|99,EDM:-3|-100,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,CO
-	L:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: ca2f8160de5711f19a56ed5b684f684d-20261112
-X-User: luoxueqin@kylinos.cn
-Received: from [10.42.13.56] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <luoxueqin@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 766716511; Thu, 12 Nov 2026 13:13:26 +0800
-Message-ID: <c6227bc2-beff-40f0-a76f-f2e296de5081@kylinos.cn>
-Date: Thu, 12 Nov 2026 13:11:43 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A093606A321
+	for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 06:56:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A093606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cMOg96us
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794466605; x=1826002605;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8iTWUlQ4QhM12UeFeyZ/FZKti6wV6wr0cS46tNo0NpQ=;
+  b=cMOg96ustU9jOosciEqrpLP4w2Udo7IObRQsJL4Z1dK9OE1jWiu/LYNM
+   q+e3lVtUqvJWqTokSoQemV1V9Y49ZLg86tf2nvoMy+IGzr4TYsGczbL+H
+   W0A2LmDv+hdQTiZshcLoyTYdYcUDx9Z0vvNIqdqVqTOru5nKVgofk8bZI
+   IDlebYxc69l5xe4JF0ttRoEsPGJ2yEINxVbHjiHcl6qVhhPSWA0PsBdr6
+   9UJ7iE11g+sJW0I+5JM5uBpsa7ciow2moCqif0nb/UGmC9ZSc8EUed3SV
+   Wk9CCKcsj+/vswD1Ny/VQ6iLt7Z4lnnw97JXlnRNZx5I3GAuJ6F79gOmQ
+   w==;
+X-CSE-ConnectionGUID: UC+ED3+sSgqv0gE8DQrOOw==
+X-CSE-MsgGUID: jcr0S2/4SGeiMD6znQMUqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3275382"
+X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
+   d="scan'208";a="3275382"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 22:56:44 -0800
+X-CSE-ConnectionGUID: ZBTbt0LGSpKdX4glZ/3O6A==
+X-CSE-MsgGUID: 0VodtLolQEK0/fsGAxoFpg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
+   d="scan'208";a="8683592"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.6])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 22:56:42 -0800
+Date: Thu, 12 Nov 2026 08:56:40 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>
+Subject: Re: [PATCH v1 2/4] regmap: Drop never used devm_regmap_*_free() APIs
+Message-ID: <avVjKPairv4zkB4o@ashevche-desk.local>
+References: <20261110093820.454682-1-andriy.shevchenko@linux.intel.com>
+ <20261110093820.454682-3-andriy.shevchenko@linux.intel.com>
+ <179442294226.513646.6459407661987242086.b4-review@b4>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -62,73 +82,30 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/3] arch_topology: Add topology_update_cpu_capacity()
- for runtime updates
-To: kernel test robot <lkp@intel.com>, rafael@kernel.org,
- viresh.kumar@linaro.org, sudeep.holla@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- zhanjie9@hisilicon.com, christian.loehle@arm.com, zhenglifeng1@huawei.com,
- sumitg@nvidia.com, lenb@kernel.org, maciej.wieczor-retman@intel.com,
- pawel.chmielewski@intel.com, gregkh@linuxfoundation.org, dakr@kernel.org,
- johan@kernel.org, ionela.voinescu@arm.com, pierre.gondois@arm.com,
- linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-kernel@vger.kernel.org, acpica-devel@lists.linux.dev,
- driver-core@lists.linux.dev
-References: <20261111085022.1229866-4-luoxueqin@kylinos.cn>
- <202611120358.5eM3xOiA-lkp@intel.com>
-Content-Language: en-US
-From: luoxueqin <luoxueqin@kylinos.cn>
-In-Reply-To: <202611120358.5eM3xOiA-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <179442294226.513646.6459407661987242086.b4-review@b4>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Thanks for the report. Fixed: the mutex is now defined inside the
-CONFIG_ACPI_CPPC_LIB block, next to its only user, so ACPI-less
-configs no longer warn. It will be folded into the next revision of
-the series.
+On Wed, Nov 11, 2026 at 06:49:02PM +0000, Mark Brown wrote:
+> > devm_regmap_field_free() was introduced in 2013 and was never ever used.
+> > devm_regmap_field_bulk_free() was introduced in 2020 and the same story.
+> > 
+> > Drop never used APIs.
+> 
+> I tend to think that if we have allocation functions we should have
+> matching release functions, this avoids cross tree annoyances and bugs
+> due to people using inappropriate release functions which actually
+> exist rather than adding the ones they should use.
 
-在 2026/11/12 03:30, kernel test robot 写道:
-> Hi Xueqin,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on driver-core/driver-core-testing]
-> [also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v7.4-rc2]
-> [cannot apply to rafael-pm/linux-next rafael-pm/bleeding-edge next-20261110]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Xueqin-Luo/cpufreq-cppc-Add-update_limits-support-for-Highest-Performance-changes/20261111-165020
-> base:   driver-core/driver-core-testing
-> patch link:    https://lore.kernel.org/r/20261111085022.1229866-4-luoxueqin%40kylinos.cn
-> patch subject: [PATCH v6 3/3] arch_topology: Add topology_update_cpu_capacity() for runtime updates
-> config: arm-defconfig (https://download.01.org/0day-ci/archive/20261112/202611120358.5eM3xOiA-lkp@intel.com/config)
-> compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project e73e336290028f26553b46c9fba844c13da38c9c)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611120358.5eM3xOiA-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202611120358.5eM3xOiA-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> drivers/base/arch_topology.c:232:21: warning: unused variable 'raw_capacity_lock' [-Wunused-variable]
->       232 | static DEFINE_MUTEX(raw_capacity_lock);
->           |                     ^~~~~~~~~~~~~~~~~
->     1 warning generated.
-> 
-> 
-> vim +/raw_capacity_lock +232 drivers/base/arch_topology.c
-> 
->     230	
->     231	static u32 *raw_capacity;
->   > 232	static DEFINE_MUTEX(raw_capacity_lock);
->     233	
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+In general yes, but for devm_*() it makes not much sense as proven by dozens
+of dropped "release/free" type of devm_*() calls in the past. Also as commit
+message says for more than 10 years nobody used it even once. What does make
+you think there eventually be at least a single user?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
