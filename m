@@ -1,80 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=66.163.188.212
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794448237;
-	b=FDqQ0kDCQedHvJPDcDake5bz/gibqcvAoAHQ6wCuQu5xHjpzVCjeORbam2pHuNQwNDbs
-	 cS1MLeyDEjg62D7eh55OiZMo4Ch6sqfBc7tOn8IAMKRupQS7n1fw5E6K1ltVY8/cWXGuw
-	 iTN3HFZNqiKeQBAqkhaAGA980+Oi+q1+S410UNYOgpRrx7R2KxfMoZ44aMIAEgUBiKXS7
-	 DBTLrf2FnGhy68ETBejz5JLDdcmSdBSq9VWMqBx0EbE3ttaS9AWhDFhX+EfGyHQ5KwANA
-	 Be7TY7u5nxvLjQZrl9v3oy2Es5SVT84km2s3TTjOYoUpozDFcrqlRlfOKDmw/qfM5gQ==
+	t=1794460180;
+	b=KpBbf+U94TUqoXmzqRimsd8AL1ozL84v0xPkVuUiQHWvFdqDZBRosu/H1rh2knHLzHOV
+	 7iUxavC35X1A7sOjNiElpJfh5LqsV9d5M+K6ajmnTYsn6ylRfCzygJOMa44pQNJ8hNXgA
+	 GykQbUybaUINeNpeG/DhmRYTl0ONSme27N6pdhy3gJN8JQcj7YL+Yvn8JZBPVzVCXl7ZB
+	 M0P4m9N9lydeeSu6fScTqlD8JyH3u/+NKDVvOThHZf8A+UuPXzpubWQxAVNFnIkYgWzZy
+	 jo04rGcfhn4e8HEQTktyos/n6l04O712HGI7l8qHrh+l/N/Iy+/nBFU12OoAKYomlmg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794448237;
-	h=DMARC-Filter:DKIM-Signature:X-SONIC-DKIM-SIGN:X-YMail-OSG:X-Sonic-MF:
-	 X-Sonic-ID:Received:Received:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Mailer;
-	bh=O8h9fybdyu+Al7CdWlfRBQ6LgqQutaBSF+Rc2HGjCVE=;
-	b=Zq0TyIVb/s6FpavkdNmbDDxCv+o0iH+Fxs+2jFSvcUHgvMP78A0OqvgkuaAJDaGpOrLF
-	 NfaM00sdhh95Hxw8US5HW8V63CPqZK2u36Pmm5VvCJnofIdk7886tOp7eA232KVs623yu
-	 nYwhvjos0vz+IzUADbQMudVWm7PQBTrx2CSAN44s+Ba9Gb3kZ8kI/lr+9cp1omVQ/18US
-	 xPHnLCz715MWd500kqvkP4W0g+6mKhKBYUWOD+8EBytka5DWYYYqdaojQMbYHGEEyae4B
-	 d6d1klJzVYLVsS4JjuICnphit5RZ5vIpcMerbe+pi+WHu2pmqIc4dkJRse9C7DlhU4Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794460180;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
+	 X-Proofpoint-Reinject:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=nVVIfN4BTkm5Q9xCDqSEMw7hlfWL7ACUPVcuHFZ/o3g=;
+	b=rqUYmNgjvSE4Sf0oEu6XyDzYwtGaQ2rpZtRqVoU6x9mqxY9Hx4ZoPAqCsvg6hUnfeDgk
+	 NBAy1wBc5skPSFO5qfm72GwSynophSRxItK5oO3Slnoj/y8FERroAi+bhz6JuvsIyjeyc
+	 mDKRySe1ax3GZ21H0JYmqm0jgTt8g0Ps+O4u3fih+jDTs7snbG4To1fYvweP36OkTBODe
+	 mmHVNB1axImX3PsTL0JpZoI+Zs61bhFbmTq/41z6uYyQfnYIZ9pHYfARY6SP1wnuu71oA
+	 YW1lmDjaK+czrKlClL6Q/Q/KJ3/ga7ZwiOts5sEV/lYl5K4gLIz092RBtQzfyeoKa9Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=schaufler-ca.com;
-	spf=pass smtp.mailfrom=schaufler-ca.com;
-	dkim=pass header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=F+m434hx;
-	arc=none smtp.remote-ip=66.163.188.212
-Received: from sonic311-31.consmr.mail.ne1.yahoo.com (sonic311-31.consmr.mail.ne1.yahoo.com [66.163.188.212])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=OlG5tUX1;
+	arc=none smtp.remote-ip=148.163.156.1
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAC0606A327
-	for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 01:50:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AEAC0606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=schaufler-ca.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=schaufler-ca.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BA3606A321
+	for <driver-core@lists.linux.dev>; Thu, 12 Nov 2026 05:09:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 57BA3606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=F+m434hx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1794448235; bh=O8h9fybdyu+Al7CdWlfRBQ6LgqQutaBSF+Rc2HGjCVE=; h=Date:Subject:To:Cc:References:From:In-Reply-To:Content-Type:From:Subject:Reply-To:Content-Type; b=F+m434hxnazo+znIsDN87b1q6q2BjDXrSK85l4sPO4/7/Nv6ouklEMGBpfrTHUnO8eGiNQoV5Bbw/uB3JZACliQBg8PtdTRYRP97HHZoegx3ArYwH69kAdVaUPkV7WcyNd89YKs91cZCwmWeziNsUM+FCRLahqzZW3a6Ku8pvIiJlMO/7XaKbdkzRicymfmmSk9XFsFNG+fkHI8UO70pZ1hFT9v2XQiwRrAslvpHUFbDR+3rpTT4Ikh/N/oSBL0qRMnhxDrBkdI0Mmku6tTsyJWpgcJjSTSvBuepznmh0kGiP8yElqSHRAm6ov8qvVTBbZJZj+71HtVfmpD+WAp7XA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1794448235; bh=cB6ms4YZu3OSr7Oj5Ktyy9vRYllWqlKKBSjCDtAOhd3=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=Wh5tO+A7k6l9RAB9CmF+7nFPpV+s7vwQOvHRCpB836zmpk+EmZdiT1obFQYb3eEYUV/ZZrDMNSGrpqiSFrVBvEAP1+BcX3bVXL8AkZe5aM0djERGyxVy+oivb40ItIA89tHRP/kW5BzO7GaPGZrOTfFkDQF1HHnKQVH/ifoH5PYTL/BXjLkbPViq5JKecTMlRIryhz3iU6NkOHkP1F3oliaijdeTD+Tk00HCA4w802Q1PFZvsZSndMk6hlb4A1wMRPh3z4tVeu12oZckS5JIJR1ywCFknBKWBE+hVxojbZ57Qr3RCaKJrua5vLBD1s/SnsdmRZ+/JLOhUlVDaAQyJw==
-X-YMail-OSG: zqmnDtkVM1n5t6ueog55b_vkFHSYM5E1qoECEJywzBr3UwiKAfUIVI_o6w7R9SH
- CQ1t93f4qyBpZEcVGjU2OBO9C0Of8.lRAD_UtcVdUMSf6_GiG98G7rNXb1ZhUGsyYLDyJE5oLG69
- MPpknxdoviNcfunvMa.q1ATsxUiRNZaaYFEtaSi7o3ARz3uzFbYwa4zXUFVTxVNR1M4yEm8E_vMu
- CX3lc6b1b0MWbnmh3DAeGebLmTpZwI12LuF9QH7MRRpV.Y7YkiPkkooycQl42qWPa_ZCsKSCVnTi
- cfYjzn7ZtEqmGYVjYEY1kEbVCA4JoS5GMMDKMoO39G5YhBugROnX2jrgGh0AwdwAby30.ZBxmd.l
- S62hS2hlPvIDoPxGhzS2whxCcIZrt8XbiUGRsBq2lfu8t9x.TIubZ4wIiRqzfDYoZIwioLDCjm6k
- .cljRFJEOnSix_ImX_sSyVP7eQAAEJ1GsHeUHb7atzAIHDlw0lV7YT_EQZaDbjuCghjYyGwMa7FJ
- LxdRDFOXlr05WMcbROqV0a4sd0J7UyT01rGVa2p8mqlfg_ZPSk1p0.zKLMJDr5A1o8n0sxe4LbiR
- qbREBgT6XAwECEJNbNHKO1YTM4iOmevp8GvnGDd6MDNapigfFoPwfu59SMy7zYd9LO3Z8_0VkIJt
- aPlGTgcyxBF.v1wQggIdb30_WaSmydGJlcGPdQ03irHq2wrwxiCoQO6IJUZEr0jypo3mUQnAGyDG
- k9vUUntKtCsyi.w0t_vFjR1T1M3Z6Xk5RLKDL9njS7LNW.CupQSEmNQ1GkX7kSwPFQP21HwmyMsp
- i9SdJowJ0s5y.bw2SrHxrP7sM6YbNToNL5ZVELMODpe5VuCBtDWl7VcCxYMmahr5455.ZE_hGmHs
- LrmFJx1uQ46OcZ2Ii956498sukETOy0INQsrtoq.ypS01I6QTO8GSI7rVFeq81ZNfcHhvUGJ06ME
- B8yJmeeVBase_8cBDx_Yk7y0xRppCWZz9S9bNwiHzQcmhSHJ99JaTf4E0zOIsgLWqU5tZh4wLZKp
- MnYneLIuBkBNwjBcYTuKXcpCwff8fTcsfan2g9ag6_HRqbKvb3lqTrnQRPIG.IGMBIXdu4D1HB2r
- Ygn65JHFmN1QF2ROBGshwilsGajQNSqHXHgx.co9RO5Evfjv8vx67t__1ew7rn3sc1C.7W_m4N4M
- cSR8SYdV43PcknGSee9yB1x8pWannWLYRUROzisZnoPLwDPX1S0a5pIeYojUo9jnHaAdfaOw5IJs
- bc0nB3tQZQ.0b782FrYX_n_pf05DxifKK1hrJ0OqXSo23BlRt.p63_4auT8X4tq9HTs9fxQLg0OA
- ydi2BtTIKopjFdQtWH0NOUC1U6_wILbgtZfZnlVsbVhHJ7Tk.UZGmAVff_vQl8b4id5D4T9jwtS9
- 8nKfk1Ghey2tqeZDF9SgVACRH_x6kJa81R1e4J_83TMyBY4Ays_MTt39YbFzXRfBMRqG0I92h9IS
- Xl4i4wMK_gUqmjpP0P_oaDsTzptxLp7NMOmOY3T81w3i60pQpmuYMvggEU3dv.ebRC4Brat.KcXq
- ZyjrZ4BouQUvapbNSNNP1Y253sBId7Ys37DryRT0fCsyFp6LIN0DYA1xElaICSH34S2v84muDGZe
- .CGRnjEo0Q2679LeUfRrG7eDmdHtGbtXa02kyQjntuOc7VrR9y8jRUHqkLiiITgSdxH1QGB5PWuQ
- ARpFP1xjX3OHKFGeQd7o8WX3xDhKeppcWAPJEhIosno79RY0IQ4.4JX7WCaXgDYbj6BL4okuPPnu
- 9CEiWKr_A1oRBHcXo_t2XyX1N2Jd1tPqjLAB1WY0vIGe1SVdGRdRloM6.RT24mU1pbFP4DjeRn1w
- _aXrAymHoztvd7BVNk78MI6f1URU2iBFJ6msmP6JgXQac5cfrtvlS9yn2eohnwEPfv__IKNy26n1
- mYs7i0yOvj6LH9jEvBJfejsFOAeuf8LBdL.MbTk8ZZiVorhzaxO81Zf4PRAQwZfM29CLtP5dAKbb
- klVicXy3HgsPrMZiM94qTb2yOlO2WSLEgrPS_2Vx31FNEHJNJpuKXHkfgTtKgjLPmpCr4Taq44yO
- KB8vbaoDybAHzNwFN22pWQG3NDp.x8aciLmMT8fUQgwMgW8NlLKb6ErL7ChYlwsHUhzhzMbUfvnT
- 2bA6QlHpoN4OcRsGeb2ygbIpUCMhvL1tqClAnkg41oGlCJa3crNRCKKeXXqZBarf9KzLHJa8i581
- 0YgHHROuHzbtZ8GRm6ggBoLbsrITMfTGKIshO9uwpGYYxl6nVscbC6LtZUsxlV5iP8t8XsYi.ga0
- EDsRWYHlK
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: 4e6572e0-628c-4102-8309-f6caa349ac8e
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.ne1.yahoo.com with HTTP; Thu, 12 Nov 2026 01:50:35 +0000
-Received: by hermes--production-gq1-fd7994565-9vhlr (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 15d81e1a8a6348ae9dcd84771e3b8196;
-          Thu, 12 Nov 2026 01:50:33 +0000 (UTC)
-Message-ID: <41617b0a-90d9-484e-a143-78e2a92e872c@schaufler-ca.com>
-Date: Wed, 11 Nov 2026 17:50:30 -0800
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=OlG5tUX1
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AC2iXeY1214888;
+	Thu, 12 Nov 2026 05:09:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=nVVIfN
+	4BTkm5Q9xCDqSEMw7hlfWL7ACUPVcuHFZ/o3g=; b=OlG5tUX1O2ww6cm14macBK
+	cjdgAgo854InLT7kSM7FJBlU0ki9XlUW6NlQAycQTkwTh+HDjEbPX3cQvzHZs6zm
+	KnoQoE5MO47PSQIRmChH5gDaAm9K/vycIVK8ulHnbbe34AuQfZMIap6DN3IU+DQM
+	GO/fMKgGYq+U0XuXx4v9P66yTDkWnjRlghuRnxmZ9dc1CDTzNVm2qSsqPBD5tJ3t
+	CcQiv8l0f5RD/w4Z2iA1PaZL4IYYH1QMQ04qiTZdeL789Gt31X7YKUe2nLm8FHvj
+	PuYoaETiuPCHOcTWdYaJRlNC42SnLcgUac7/sq0B8YOEJLPfRkLftjJ6sxwkxnew
+	==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hsuntdwak-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 12 Nov 2026 05:09:18 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AC2ZnlC016704;
+	Thu, 12 Nov 2026 05:09:17 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hv3327f2u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Nov 2026 05:09:17 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AC59DeP48890152
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 12 Nov 2026 05:09:13 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E9F1720043;
+	Thu, 12 Nov 2026 05:09:12 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3CA882004E;
+	Thu, 12 Nov 2026 05:09:04 +0000 (GMT)
+Received: from [9.39.17.134] (unknown [9.39.17.134])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 12 Nov 2026 05:09:03 +0000 (GMT)
+Message-ID: <1d170fb4-7e78-4c8c-9cd0-642973dd9163@linux.ibm.com>
+Date: Thu, 12 Nov 2026 10:39:03 +0530
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -85,67 +87,147 @@ List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [apparmor] [PATCH RFC 19/41] smack: use fc_init_pseudo() for
- smackfs
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: linux-efi@vger.kernel.org, Jan Kara <jack@suse.cz>,
- Amir Goldstein <amir73il@gmail.com>, linux-nvme@lists.infradead.org,
- fuse-devel@lists.linux.dev, linux-mm@kvack.org,
- target-devel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Chris Mason <mason@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-s390@vger.kernel.org, linux-erofs@lists.ozlabs.org,
- linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
- driver-core@lists.linux.dev, Jann Horn <jannh@google.com>,
- selinux@vger.kernel.org, apparmor@lists.ubuntu.com,
- Josef Bacik <josef@toxicpanda.com>, linux-block@vger.kernel.org,
- ocfs2-devel@lists.linux.dev, Alexander Viro <viro@zeniv.linux.org.uk>,
- linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, Casey Schaufler <casey@schaufler-ca.com>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
- <20261110-work-loop-pseudo-v1-19-4c998976c6c7@kernel.org>
+Subject: Re: [PATCH 0/6] sched: Expose writable interface for preferred CPUs
+ mask
+To: Yury Norov <ynorov@nvidia.com>
+Cc: Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>,
+        Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@kernel.org>, Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Andrea Righi
+ <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        K Prateek Nayak <kprateek.nayak@amd.com>, Mel Gorman <mgorman@suse.de>,
+        Mete Durlu <meted@linux.ibm.com>, Randy Dunlap <rdunlap@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Steven Rostedt
+ <rostedt@goodmis.org>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-s390@vger.kernel.org
+References: <20261101192203.6979-1-ynorov@nvidia.com>
+ <A2B09626-39F0-4EC3-B57D-CD83D77DD208@grdncc.com>
+ <1d1b22ce-fdf1-47ad-99ec-8c9925ea7275@linux.ibm.com> <avSorfTkB3pZX2ic@yury>
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
 Content-Language: en-US
-From: Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <20261110-work-loop-pseudo-v1-19-4c998976c6c7@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <avSorfTkB3pZX2ic@yury>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.26943 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEyMDAxOCBTYWx0ZWRfX311hCVMLD0Hc
+ Kt4HlOAhsQOnWUC78GYq0edsRUwn/hPsvXRE3OjmQrYBWkTXjJYTVt//CaMzQmiyJiFcEeQt4dq
+ vo3NkFb+W8PLaZnW49I/NRYDGE9AFmQsWN780tb+WzHjhYt7Ch9fNLotNoO3RYhwzKaCzd7+N6B
+ /c4T1cKQhIBP1tyR2piSpOenZ8vV6pDAPEY4Jny41DxLMvLJ/d9RdrCu4v5NImh0fjwgko8Ww4R
+ k02HM7PxH0hpwyse1d7IJlrZ2QYsCAjR+uh2DTSX+4lfHqxFlmTA2fEpmACYtQyummjm59IghOZ
+ KB0fLOcg8MW5xJV6vsKAuKhDvJGxXWuY33rCcHefh3ifSIoe5Rh4qXTT3MGTLAJvo2uBfJA8ipK
+ 2BhVQr7fsdkOVlneP2+PTyDyqKDyn6Be1T5jFxK1ITZ2yxdTZp3hA1RowSimbEnYHk/anYWRRmI
+ ZCD8oJrRiuO6BsiXcjg==
+X-Proofpoint-ORIG-GUID: mwJVrk1495EbgCbioZERqcZZWLE3v8di
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEyMDAxOCBTYWx0ZWRfX90f2Q/uxeZHe
+ BwIB1tOEwf31qkUi5OKpqWym4bFrZxa0Gc7VkteZXl9nM1Kv2x61K2UKk2Wbk43/y8QCoyE1H6x
+ avmCGoBVhmICPW77VY2mhOr/bWo8nnI=
+X-Authority-Analysis: v=2.4 cv=euZKXYpX c=1 sm=1 tr=0 ts=6af549fe cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=Ikd4Dj_1AAAA:8
+ a=9Qk1hqGbzmtnogXl2ysA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: eD0RfhbmiDm4gZvmVYr9UM_KGr6YPB50
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-12_01,2026-11-11_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 suspectscore=0 spamscore=0 priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 impostorscore=0 adultscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611120018
 
-On 11/10/2026 1:14 AM, Christian Brauner via AppArmor wrote:
-> Initialize smackfs as a pseudo filesystem. This raises SB_I_PSEUDO and
-> also SB_I_NOEXEC and SB_I_NODEV. smackfs never holds executables or
-> device nodes.
->
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Please include me at least as a CC on Smack patches.
-I ain't dead yet. Nonetheless,
 
-Acked-by: Casey Schaufler <casey@schaufler-ca.com>
+On 11/11/26 11:11 PM, Yury Norov wrote:
+> On Tue, Nov 10, 2026 at 02:45:58PM +0530, Shrikanth Hegde wrote:
+>> Hi,
+>>
+>> On 11/10/26 8:45 AM, Maxim Kuvyrkov wrote:
+>>>> On Nov 2, 2026, at 08:21, Yury Norov <ynorov@nvidia.com> wrote:
+>>>>
+>>>> The preferred CPU mask currently lets the steal governor reduce vCPU
+>>>> demand when physical CPUs are contended. This series adds manual control,
+>>>> opening more use cases.
+>>>>
+>>>> For example, setting CPUs aside for selected fair tasks at runtime while
+>>>> steering other fair tasks toward the remaining CPUs.
+>>>
+>>> Hi Yury,
+>>>
+>>> I've been trying to do this with crutches in user-space for a long time.  Thanks for implementing this in the kernel, and with a convenient user interface.
+>>>
+>>>>
+>>>> A user can mark a CPU non-preferred and pin a workload to it. Fair tasks
+>>>> whose affinity includes preferred CPUs are steered away, while tasks
+>>>> whose allowed CPUs contain no preferred CPU can still run there. The CPU
+>>>> stays online, task affinity is preserved, and the selection can be
+>>>> reversed without rebooting:
+>>>>
+>>>>      # rmmod steal_governor
+>>>>      # echo 0 > /sys/devices/system/cpu/cpu3/preferred
+>>>>      # taskset -c 3 ./my_workload
+>>>>      # echo 1 > /sys/devices/system/cpu/cpu3/preferred
+>>>
+>>> My use-case (being a compiler optimization engineer) is to pin benchmarks to specific cores, and stop the system from using those cores even when the cores are idle.  This prevents L1/L2 cache pollution and makes performance numbers more stable.
+>>>
+>>
+>> Do you change it when running workload based on any signal/event? or you set it before starting it?
+>>
+>> If it is set before starting, you might as well offline the CPUs to achieve the same. I assume you are
+>> managing the preferred CPUs manually with write interface. You can do the same for online state.
+>> (Though it takes a longer)
+> 
+> How that? I tried, and offlining destroys the affinity, as it should:
+> 
 
-> ---
->  security/smack/smackfs.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/security/smack/smackfs.c b/security/smack/smackfs.c
-> index a72bc7fabea9..4a56bbeaeca3 100644
-> --- a/security/smack/smackfs.c
-> +++ b/security/smack/smackfs.c
-> @@ -25,6 +25,7 @@
->  #include <linux/magic.h>
->  #include <linux/mount.h>
->  #include <linux/fs_context.h>
-> +#include <linux/pseudo_fs.h>
->  #include "smack.h"
->  
->  #define BEBITS	(sizeof(__be32) * 8)
-> @@ -2880,6 +2881,7 @@ static const struct fs_context_operations smk_context_ops = {
->   */
->  static int smk_init_fs_context(struct fs_context *fc)
->  {
-> +	fc_init_pseudo(fc);
->  	fc->ops = &smk_context_ops;
->  	return 0;
->  }
->
+You are doing "hotplug when workload is running".
+
+>    # taskset -c 3 sh -c 'while :; do :; done' &
+>    [1] 380
+>    # taskset -pc "$pid"
+>    pid 380's current affinity list: 3
+>    # echo 0 >/sys/devices/system/cpu/cpu3/online
+>    [  115.767634] process 380 (sh) no longer affine to cpu3
+>    [  115.772881] smpboot: CPU 3 is now offline
+>    taskset -pc 380
+>    pid 380's current affinity list: 0-2,4-7
+> 
+> Did you mean something else, maybe?
+
+What matters is how/when you start the workload.
+ From the use case, I see it is about using only specific set of CPUs and there is no explicit affinity assigned.
+
+Sequence1:
+1. You are setting preferred CPUs.
+2. You start the workload. Workload finishes using preferred CPUs.
+3. You set the preferred same as active.
+
+In that sequence, offlining the CPUs is going to be similar. You are managing preferred CPUs, you can as well manage
+offline CPUs. Most of the workload check the CPU state before assigning any explicit affinity or spawning threads etc.
+
+Sequence 2:
+1. workload is long running job. Lets say comprising of warmup/steady/closure phases.
+2. You only to run on specific CPUs during steady phase.
+3. You fallback to active during closure phase again.
+
+In that sequence what you said about offline breaking affinities is very much possibility. It is
+good to set preferred CPUs in this sequence.
+
+but reading maxim's description it fitted Sequence1.
