@@ -1,80 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794445312;
-	b=qC2HnQQlBZdmyJX4p0K6JvCOVpEfMdF02LH422z1mgOMBgmhuv7eOYw0tKNosumuWPOn
-	 LCuJ6GfWPLiDJXUZI543iA3y02IicKP3a3N91ALhKH6XhP8C34WPmwTrZ51f6gPTJBEXQ
-	 dx9Z97pPq7wOGhFkFgw6D5FPQ4+hMEzDdr7JW9ig2antWLKFO5xm0axT6SuvkZnmbrk90
-	 cvrk9N7VHeJOBoPSTOw0qFpBkUbOVLrz2JUZMkHJCUMg0X+E2/tFFgWWMl2fDLFlhaNt5
-	 Avt2/NRjAGcoMBB2w81hjvbjtnjZr1QEGVytrOAbZhBV9MA0rfWUHU2cjFLnabyzOrw==
+	t=1794446300;
+	b=YRpK7GdTaSxh8Gm3FfcuDItvoCuW7R8UCaZk9n8qlyL8bbyORfG/NhQCGaL0Fwd1F3M0
+	 GhtNhECw38jyFOhvZUY+YxGUAdjTxWv083wRMJPVd+L87ZceNCp7unvfk47n9jN3s3Mbn
+	 8eBpOHRJ9fpe0TO0ec3sVQdz1S7aH6YdIgBx2zW5HEvcuY3efrCl3BW+t2eAohZEXmF3x
+	 cOeqQ/96NWVGBkx8Jzu6Hhhtbj6GiOQzX+KL2+7hNa91TG8zDWx6951L6Xkqe6WhlPlgc
+	 8K1kXKiQejPzL4CN7iOptjAOfZIVg4Uef149OA7Iri3j6eDL5JK/87qsShACOJi14tA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794445312;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=Cf7boD6hpGKId813REYrLYDwJ9gl5k4oPicfAqWx4Zo=;
-	b=5eKQ/rFXCsA8tD+YOy5NFqh2W30KEtSMGsZdqDRWWeYi34XpUCGbU6GpbbMw2LfX0aRl
-	 GEvUWU32oRk9ungilSpdAYzifUKbcSOUGX8qMUoU9TAXAPqplLEC8LMF0ARrveNX59KCJ
-	 bmjymg5fkrYEc4q+zLMDazAdemeMT51zYb7w/+qZ+xGSNWl6hJh+MCh/opQ6ZeNNC/T74
-	 mzYpNpxt/TW8MUeEu10nOsrbMXm99u9PpP4Uj0lxwPLS7UJE5q8bGUkbS+41Os7a3qXj1
-	 5EfAueJT6zO4yi+HFHuR0IoqM7if6GJ+Prl2EQLcnHm0wkbhc99c58mlDbNL9vfNnyw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794446300;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=EZx5k7geWUkka50W6MOHS2J6Xnk3P46GguPiHBvqeNY=;
+	b=eIoBdcMV0K9nPScovV6mVkxsiKtYamLjhaOMW5Pm+ITcyxzX5eo073um8rhSrdmCIvPv
+	 tdEAoxMgHQaKt1NZ+OVEkls1tI/DHmf6yV3wQ0BNp66+7LVdUtHPe5AbFXB1dXnE9lYEx
+	 RzxXbW4LPk/f0Fy2QqfDiw9Um2Gc38ko6I8xBcNvRUChTL+b2sfxPfOqK6MFeQFMBtRRH
+	 GLcRXFoTfDMYydqBuaEB8gvQuTQ5DMbvF7KjheehOhQSqcNUtwHHiY/RDSSXKU7RwNMZc
+	 6MTL7a1rUo+PWpNvzc65HMf81UdAJ1iXBq1BMh1jRn2eLqVeL+uOgUCsC9yPd0iPI2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qtzr2fij;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nuGSld8Z;
+	arc=none smtp.remote-ip=198.175.65.14
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D98606A89F;
-	Thu, 12 Nov 2026 01:01:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4E9606A327;
+	Thu, 12 Nov 2026 01:18:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A4E9606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qtzr2fij
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 851E21F00A06;
-	Thu, 12 Nov 2026 01:01:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794445312;
-	bh=Cf7boD6hpGKId813REYrLYDwJ9gl5k4oPicfAqWx4Zo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Qtzr2fijqZARZlfbIMikkluQX9iKaqFTulpGetqia8Hx1iwEjyK+xQ3FjjeYmSQkt
-	 fCq6VwCxhURWJThPr/VFBqFbvE4/fkc19/eziGOquUOgbUmxTemtcZ3m+icEW8U9Qi
-	 ikrW6Ax35+1cCzbTkONE/OcvvR9XRysCcrdjugAoztzIWBKwuUFglYpFtH9i3oMWK9
-	 oC+uDydT1xlHI7KEAp4/UcDW5EhsenvT86vhdov3p91j9jbyPzFXncBo8pf7ICWbod
-	 SVUi37FZm/5GO711aKfQLhOBn5mk6eNwtAbltBSPPJ4Rk3mhqcViu1w+u++idyc0Lf
-	 TuwrsznCseKUg==
-From: Danilo Krummrich <dakr@kernel.org>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	dakr@kernel.org,
-	johan@kernel.org,
-	david.m.ertman@intel.com,
-	iweiny@kernel.org,
-	leon@kernel.org,
-	ojeda@kernel.org,
-	boqun@kernel.org,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	aliceryhl@google.com,
-	tmgross@umich.edu,
-	daniel.almeida@collabora.com,
-	tamird@kernel.org,
-	acourbot@nvidia.com,
-	work@onurozkan.dev,
-	igor.korotin@linux.dev,
-	bhelgaas@google.com,
-	kwilczynski@kernel.org,
-	markus.probst@posteo.de
-Cc: driver-core@lists.linux.dev,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH 7/7] rust: driver: document teardown through destructors
-Date: Thu, 12 Nov 2026 01:53:01 +0100
-Message-ID: <20261112005455.1224352-8-dakr@kernel.org>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261112005455.1224352-1-dakr@kernel.org>
-References: <20261112005455.1224352-1-dakr@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nuGSld8Z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794446299; x=1825982299;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XzhoicYFHQtaBduXxA9DHIFJWU3DL3AA6BxXunzhRj0=;
+  b=nuGSld8ZsZpo0Y+Ugusc4Rh+F1YnQoi5YNlluAaoW/DHX0D7YebokUxU
+   6jVCWetraiPKCMpTifIStZe28d8cujnSS/sou/Ztku9Ho3MRg2bwbKCsH
+   K3qDRgTffMci3rr8rniyclID4vXH1qCy7jTYK2tJc22K/ZfG7HnHZbtoQ
+   2tD9PMm9aZbEIEuQdZsLMTnVvEHKXl0/AnAH1VxPKcAkj4fsyeOGgZNC1
+   MpSuBCXqxCKa8/wVI2pjLqPPwrY3XRbszKPIB3e/TDiWZySVr0spDkkgk
+   5gNSSBe/DmQaVaABpoc4VWtCiCFVe8fAG2LCFUPm2c07Vt6jm8i2MTB0x
+   Q==;
+X-CSE-ConnectionGUID: AtPvUJ3HRSGhkwMmLelDCQ==
+X-CSE-MsgGUID: Ax0dzjTtT2KyFWKKvs0QEg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3119587"
+X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
+   d="scan'208";a="3119587"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 17:18:18 -0800
+X-CSE-ConnectionGUID: n4YdawboSm6iGZUYGgGZtw==
+X-CSE-MsgGUID: UwrUxPsZQfilm24D64xW6A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
+   d="scan'208";a="8412277"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 11 Nov 2026 17:18:13 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xRJS5-000000010AJ-3GPI;
+	Thu, 12 Nov 2026 01:18:09 +0000
+Date: Thu, 12 Nov 2026 09:17:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alejandro Colomar <alx@kernel.org>, linux-hardening@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Alejandro Colomar <alx@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	"Maciej W. Rozycki" <macro@orcam.me.uk>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Andreas Schwab <schwab@linux-m68k.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Joe Perches <joe@perches.com>, Johan Hovold <johan@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Len Brown <lenb@kernel.org>, Linus Walleij <linusw@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 2/6] string: Warn if the prefix is the empty string
+Message-ID: <202611120923.khG1i6jO-lkp@intel.com>
+References: <cd09427148a0c4718b46029c9e806f9dc1622f9b.1794425425.git.alx@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -84,63 +105,80 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cd09427148a0c4718b46029c9e806f9dc1622f9b.1794425425.git.alx@kernel.org>
 
-The bus driver traits no longer provide an unbind() callback. Remove it
-from the example driver trait and describe how the generic registration
-infrastructure drops driver data during unbind cleanup.
+Hi Alejandro,
 
-Document that device teardown belongs in Drop or PinnedDrop, where the
-bound device reference and device resources remain accessible.
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
----
- rust/kernel/driver.rs | 18 +++++++-----------
- 1 file changed, 7 insertions(+), 11 deletions(-)
+[auto build test ERROR on kees/for-next/hardening]
+[also build test ERROR on driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus kees/for-next/pstore kees/for-next/kspp linus/master v7.4-rc2 next-20261110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/rust/kernel/driver.rs b/rust/kernel/driver.rs
-index c9c74c4dde8f..c228d82ace9d 100644
---- a/rust/kernel/driver.rs
-+++ b/rust/kernel/driver.rs
-@@ -31,14 +31,6 @@
- //!         dev: &'bound Device<device::Core<'_>>,
- //!         id_info: &'bound Self::IdInfo,
- //!     ) -> impl PinInit<Self::Data<'bound>, Error> + 'bound;
--//!
--//!     /// Driver unbind (optional).
--//!     fn unbind<'bound>(
--//!         dev: &'bound Device<device::Core<'_>>,
--//!         this: Pin<&Self::Data<'bound>>,
--//!     ) {
--//!         let _ = (dev, this);
--//!     }
- //! }
- //! ```
- //!
-@@ -57,9 +49,12 @@
- //! [`Device`] infrastructure provides common helpers for this purpose on its
- //! [`Device<CoreInternal>`] implementation.
- //!
--//! All driver callbacks should provide a reference to the driver's private data. Once the driver
--//! is unbound from the device, the bus abstraction should take back the ownership of the driver's
--//! private data from the corresponding [`Device`] and [`drop`] it.
-+//! All driver callbacks should provide a reference to the driver's private data. The generic
-+//! [`Registration`] infrastructure drops the driver's private data during unbind cleanup.
-+//!
-+//! Device teardown should be performed in [`Drop`] or [`PinnedDrop`](pin_init::PinnedDrop) for the
-+//! driver's private data. The `'bound` lifetime allows the data to retain device resources and a
-+//! [`Device<Bound>`] reference for use during teardown.
- //!
- //! All driver callbacks should provide a [`Device<Core>`] reference (see also [`device::Core`]).
- //!
-@@ -98,6 +93,7 @@
- //!
- //! [`Core`]: device::Core
- //! [`Device`]: device::Device
-+//! [`Device<Bound>`]: device::Device<device::Bound>
- //! [`Device<Core>`]: device::Device<device::Core>
- //! [`Device<CoreInternal>`]: device::Device<device::CoreInternal>
- //! [`DeviceContext`]: device::DeviceContext
--- 
-2.56.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Alejandro-Colomar/string-Add-strprefix-and-deprecate-str_has_prefix/20261111-205515
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/hardening
+patch link:    https://lore.kernel.org/r/cd09427148a0c4718b46029c9e806f9dc1622f9b.1794425425.git.alx%40kernel.org
+patch subject: [PATCH v4 2/6] string: Warn if the prefix is the empty string
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20261112/202611120923.khG1i6jO-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611120923.khG1i6jO-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611120923.khG1i6jO-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/uuid.h:11,
+                    from include/linux/device-id/hv_vmbus.h:6,
+                    from include/linux/mod_devicetable.h:31,
+                    from scripts/mod/devicetable-offsets.c:4:
+   include/linux/string.h: In function 'str_has_prefix':
+>> include/linux/string.h:575:9: error: implicit declaration of function 'WARN_ON_ONCE' [-Wimplicit-function-declaration]
+     575 |         WARN_ON_ONCE(len == 0);
+         |         ^~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:185: scripts/mod/devicetable-offsets.s] Error 1
+   make[3]: Target 'scripts/mod/' not remade because of errors.
+   make[2]: *** [Makefile:1424: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +/WARN_ON_ONCE +575 include/linux/string.h
+
+   555	
+   556	/**
+   557	 * str_has_prefix - Test if a string has a given prefix
+   558	 * @str: The string to test
+   559	 * @prefix: The string to see if @str starts with
+   560	 *
+   561	 * This is similar to strprefix(), but returns an offset instead of
+   562	 * a pointer.
+   563	 *
+   564	 * Unlike for strprefix(), if the prefix is an empty string, the
+   565	 * behavior is undefined.  If you need to support arbitrary prefixes,
+   566	 * use strprefix().
+   567	 *
+   568	 * Returns:
+   569	 * * strlen(@prefix) if @str starts with @prefix
+   570	 * * 0 if @str does not start with @prefix
+   571	 */
+   572	static __always_inline size_t str_has_prefix(const char *str, const char *prefix)
+   573	{
+   574		size_t len = strlen(prefix);
+ > 575		WARN_ON_ONCE(len == 0);
+   576		return strncmp(str, prefix, len) == 0 ? len : 0;
+   577	}
+   578	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
