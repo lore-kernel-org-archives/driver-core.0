@@ -1,56 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.60
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794583932;
-	b=HrSpC/G/y5c6dWpP7Y2G6ratLtfy6vC4dJwYDy9SxfMmq3ONXGPGD04Sr9tss2b3HElR
-	 Y1Eban/ARHp5cW9Hep1iQ69sclJd+7lCi4wK0I8AoqjKo1hdUVq3dZizfglxhqjzUVptI
-	 jiGNeoVif7c+nb9q14IiSeV9+qDN7XHDdyGgg5Ke4O9UsgZslZysvQRROHYBsb3KCHk5J
-	 HB8X17JKh7ptCeHQtuE0NmGG/maahoSNcQ+HKOTCnNGovCleJsLSe8WPe74HRa/t/r9im
-	 16bCWMY/9vTv2BybCbVTIy+OMaWUsnSgzASp3BAUs0fapqj7eWR6HxFKoJqhxQrRuAw==
+	t=1794583937;
+	b=BmtIE59F5iG7D7nRz2oyyXrSJzTUAWP2Kw4r6HGoPqe1VUVfO7LD56nFLU9ime0A+wUx
+	 eIzRHD2n1DeFxMMtAKF649d4+QexG3+Z8gSY4N/aB832ehD3aO+jD2FBNVISku01tVYzv
+	 RH/8nb7jTVdSZefoWjotIPhEBGGC1Gh1cCe+XBd5DXk394U1yzkEfIbOtvuHrDG7XTCNf
+	 1xpgiDpsXMFyIg+BL/lWIHihjPf00CpcX3hxMVwKgDanWDLr/qfDNWI5++0xAkDcDftzS
+	 FqTO39gGPjKgFbz6wwnKUSkAshvgk+/ss2bII0C5Q1Amt489YSKzrYfmGTQkz4JTX5w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794583932;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794583937;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc:X-Mailer;
-	bh=+AF8rxrVs5leS4swff53I33rqYcRZ3ybrAATN/A0bvc=;
-	b=wKwO4NyYm0WI+CdEQaeC//GblpLfwYH+5hYk4GSMkDWbemrG9uxcKfA6oc642kWT5Ciq
-	 1BDxGMJ0c5jOH00cbJWLGECqma2wykLpQOvYEYaMQJ3y0xTxM+z0puECI70FoaPsk2xE1
-	 qfBl1y6kEUXkVgUU/VHC8vdN5ZTdPD3SQ8/gQkw9da1wpFFJA7MZySfLAQjPHG9oAUJx2
-	 kpyykk+Ibb9OK7Rlzz3jtuG8IHSlVTZ+lRXMK+PDu/rL8kjtBWyOSjeGSECCsNmNWhHvR
-	 r9zpFnW38xqQgMtgLNLphp8KCrYmgUsvo/Hi6n/v3bnJ3hIKxEkt9KWNnPBKZ0/m4CA==
+	bh=ERzH1Kn1Y16W93oO/+2OLuXQMn+6z6tclyWb9WrVbl8=;
+	b=ejqSi57pu/4i/Pe/duK4tlV6tvrsFywaZpuvxLDpQTrVvsFSK9I8jUrLdylXbsNIptOB
+	 G643x6cX/WS78M8xnEWE3D9XfhULOZaXNJBHQYoQNkLM99eP690QuRapbPDqVZSjNsyx+
+	 3Hu1wkcXS7b09qM47uv7oUzk9eYIPSJ3JpNk29oWBeoNPeqb2hEZxM/oMZEfjSZUaKDZI
+	 Ny2lILN+nNx5m2yxfWYr6HVrNwjdXJlJTxWSARKZKtZt3Wy7IpAuqIsnV6pq7vqAyY5Qd
+	 VdDqy1Sjqoi6p0FCtZJ++ihmyzHL9ZOZhumc+VVVkG9MQzAo8HNdK3VfbXEYXfhsUqA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=EczKAdfS;
-	arc=none smtp.remote-ip=95.215.58.17
-Received: from mta1.migadu.com (out-17.mta1.migadu.com [95.215.58.17])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=mTU8gMU2;
+	arc=none smtp.remote-ip=91.218.175.60
+Received: from mta0.migadu.com (out-60.mta0.migadu.com [91.218.175.60])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA9E606A333
-	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 15:32:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1EA9E606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87FF606A33F
+	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 15:32:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D87FF606A33F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=EczKAdfS
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=mTU8gMU2
 X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=h9vDUcTlFuZv+2e04iwT1Nc5kh2/0YVX+hNUDjF9CFs=;
+DKIM-Signature: a=rsa-sha256; bh=eiQCVAPTFGB4dzwgGOIKbq8pzYm9DgU/Qxt5MG1MaEI=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794583930; v=1; x=1795188730;
- b=EczKAdfSPltWxI8Q+E4I9tdXwY3q/iE99vqBkcooj/HVM/fus0YlS7ihYOy8iI/fPKL6PdDj
- cOf8FU5M1pLI7WQz/0chgSgC9sMw08HdnqZzx6Aq3P2GLFU6uBkOQFk9zktmyMZAHsn0YcCvn8B
- 5+KalmGuOiJCRrfQqfiCKcyI=
+ t=1794583935; v=1; x=1795188735;
+ b=mTU8gMU2LNeAPCVuH7YGE47qvJQ4ykqJpgNraghh0Ajy2t6SKuToRZZPCkZvwJYijf/AKZrW
+ CW1up3L4lTgkO3nuGzMTEr9TkjUtg4DXZ0TcPm5wCklG6O4aL/dgOUq4gKVhR+V0xDh9695JzIQ
+ KZgtswbnUCPFbSkfrOEO2MDA=
 X-Envelope-To: driver-core@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id 7149c44fd578d60a;
-	Fri, 13 Nov 2026 15:32:10 +0000
-X-Mizu-Trace-ID: 7149c44fd578d60a
+Received: by smtp.migadu.com with ESMTPS id e441452a01d0e55c;
+	Fri, 13 Nov 2026 15:32:14 +0000
+X-Mizu-Trace-ID: e441452a01d0e55c
 X-Migadu-Flow: FLOW_OUT
 From: Peng Fan <peng.fan@linux.dev>
-Date: Fri, 13 Nov 2026 23:31:50 +0800
-Subject: [PATCH v2 02/10] regmap-i2c: keep bus raw write limit when
- applying read quirk
+Date: Fri, 13 Nov 2026 23:31:51 +0800
+Subject: [PATCH v2 03/10] regmap-i2c: fix write limit clamping for adapter
+ quirks
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -62,7 +62,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261113-regmap-improve-v2-2-5dfd6a89078f@nxp.com>
+Message-Id: <20261113-regmap-improve-v2-3-5dfd6a89078f@nxp.com>
 References: <20261113-regmap-improve-v2-0-5dfd6a89078f@nxp.com>
 In-Reply-To: <20261113-regmap-improve-v2-0-5dfd6a89078f@nxp.com>
 To: Mark Brown <broonie@kernel.org>, 
@@ -76,66 +76,82 @@ X-Mailer: b4 0.14.3
 
 From: Peng Fan <peng.fan@nxp.com>
 
-regmap_get_i2c_bus() applies adapter quirks on top of the raw I/O limits
-advertised by the selected bus, but it starts from zero-initialised local
-variables and then overwrites both max_raw_read and max_raw_write of the
-copied bus. If only one direction is clamped by the adapter, the limit of
-the other direction is dropped.
+The adapter max_write_len quirk covers the whole write message, including
+the register address, while max_raw_write is the payload limit. Calculate
+the payload limit before comparing it with max_raw_write, otherwise a bus
+limit that fits in the message but not in the quirk payload is left
+unchanged and the transfer fails in i2c_check_for_quirks().
 
-For example, regmap_i2c_smbus_i2c_block sets a 31-byte limit for both
-directions. An adapter that only reports max_read_len causes the copied
-bus to advertise 31 bytes for reads and no limit for writes, even though
-I2C_SMBUS_BLOCK_MAX - 1 still applies.
+Also avoid installing a payload limit smaller than one value.
+_regmap_raw_write() splits transfers using max_raw_write / val_bytes, so a
+limit below val_bytes results in a zero chunk size and a division by zero.
+If the adapter cannot fit a single value after the register address, no
+raw write can succeed, so keep the existing limit.
 
-Seed the locals from the selected bus and only replace a limit when the
-adapter quirk is more restrictive. Also only allocate the bus copy when
-one of the limits actually changes.
+The subtraction must not underflow when max_write_len does not exceed the
+register address size, so only calculate the payload limit when the quirk
+leaves room for it. Apply the same minimum-size check to the read quirk
+because max_raw_read is used as a divisor too.
 
-Fixes: ea030ca68819 ("regmap-i2c: Set regmap max raw r/w from quirks")
+Fixes: 611b7eb19d0a ("regmap-i2c: Subtract reg size from max_write")
 Signed-off-by: Peng Fan <peng.fan@nxp.com>
 ---
- drivers/base/regmap/regmap-i2c.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/base/regmap/regmap-i2c.c | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/base/regmap/regmap-i2c.c b/drivers/base/regmap/regmap-i2c.c
-index 51a04961faf7..8663a4ec0a3d 100644
+index 8663a4ec0a3d..a4a259232980 100644
 --- a/drivers/base/regmap/regmap-i2c.c
 +++ b/drivers/base/regmap/regmap-i2c.c
-@@ -353,7 +353,7 @@ static const struct regmap_bus *regmap_get_i2c_bus(struct i2c_client *i2c,
+@@ -8,6 +8,7 @@
+ 
+ #include <linux/regmap.h>
+ #include <linux/i2c.h>
++#include <linux/bitops.h>
+ #include <linux/module.h>
+ 
+ #include "internal.h"
+@@ -353,6 +354,7 @@ static const struct regmap_bus *regmap_get_i2c_bus(struct i2c_client *i2c,
  	const struct i2c_adapter_quirks *quirks;
  	const struct regmap_bus *bus = NULL;
  	struct regmap_bus *ret_bus;
--	u16 max_read = 0, max_write = 0;
-+	u16 max_read, max_write;
++	size_t val_bytes;
+ 	u16 max_read, max_write;
  
  	if (i2c_check_functionality(i2c->adapter, I2C_FUNC_I2C))
- 		bus = &regmap_i2c;
-@@ -391,18 +391,22 @@ static const struct regmap_bus *regmap_get_i2c_bus(struct i2c_client *i2c,
- 	if (!bus)
- 		return ERR_PTR(-ENOTSUPP);
+@@ -393,17 +395,28 @@ static const struct regmap_bus *regmap_get_i2c_bus(struct i2c_client *i2c,
  
-+	max_read = bus->max_raw_read;
-+	max_write = bus->max_raw_write;
-+
+ 	max_read = bus->max_raw_read;
+ 	max_write = bus->max_raw_write;
++	val_bytes = BITS_TO_BYTES(config->val_bits);
+ 
  	quirks = i2c->adapter->quirks;
  	if (quirks) {
  		if (quirks->max_read_len &&
--		    (bus->max_raw_read == 0 || bus->max_raw_read > quirks->max_read_len))
-+		    (max_read == 0 || max_read > quirks->max_read_len))
++		    quirks->max_read_len >= val_bytes &&
+ 		    (max_read == 0 || max_read > quirks->max_read_len))
  			max_read = quirks->max_read_len;
  
- 		if (quirks->max_write_len &&
--		    (bus->max_raw_write == 0 || bus->max_raw_write > quirks->max_write_len))
-+		    (max_write == 0 || max_write > quirks->max_write_len))
- 			max_write = quirks->max_write_len -
- 				(config->reg_bits + config->pad_bits) / BITS_PER_BYTE;
+-		if (quirks->max_write_len &&
+-		    (max_write == 0 || max_write > quirks->max_write_len))
+-			max_write = quirks->max_write_len -
+-				(config->reg_bits + config->pad_bits) / BITS_PER_BYTE;
++		if (quirks->max_write_len) {
++			size_t reg_reserve_size, max_payload;
++
++			reg_reserve_size = (config->reg_bits + config->pad_bits) /
++					   BITS_PER_BYTE;
++			if (quirks->max_write_len > reg_reserve_size) {
++				max_payload = quirks->max_write_len -
++					      reg_reserve_size;
++				if (max_payload >= val_bytes &&
++				    (max_write == 0 || max_write > max_payload))
++					max_write = max_payload;
++			}
++		}
  
--		if (max_read || max_write) {
-+		if (max_read != bus->max_raw_read ||
-+		    max_write != bus->max_raw_write) {
- 			ret_bus = kmemdup(bus, sizeof(*bus), GFP_KERNEL);
- 			if (!ret_bus)
- 				return ERR_PTR(-ENOMEM);
+ 		if (max_read != bus->max_raw_read ||
+ 		    max_write != bus->max_raw_write) {
 
 -- 
 2.56.0
