@@ -1,91 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794583207;
-	b=IOA/3gUgax9fxueb4V/VzRT7BjrxUWgLPhm6hRJA3C0AaAIZF9vYRrDRZu3VyJjNRr/5
-	 koFfw44f9eeTQJUy9pkCtiUmPiFBU5RI5qZ/04YPMfOEEz3S9g0cHydUSPDnq/em2ic53
-	 UqDs8UpW9SO95UVD9RgFiSdzYnI6UvmX9H2tFfETmLMpgOa/t8cZyL87PPCv2Lku4NHor
-	 oo3tgAA1dpeFtIeQJvUOtvJDxnI7J7ngY0EM9We2i+ACv5REX5VT6rCBB8Mhtlqd/XFOy
-	 kXQHMr0l3ig2KaaYe1mZeqcmc1ZNow+Y+l9EBNCdinlq0BswpPYP8YKbY8xq/rdQOMQ==
+	t=1794583380;
+	b=EKdNAbjE+vNN78q/RR6Z2ZDIU81kcchdq2U3dqIFE8raE21rocvyz7AngYh4xlN2bBXr
+	 avMgUing4tZjCFTAa6HR0K/Q1SJOHKeTC4dUQL28ZzSQWiyTQW7Gzh5gyenQPZPv1hJRS
+	 BOwWu0/bDMxIXZqARf5e9aNldnFDqcCb6B65Fu7MfTEPSz6o4S57Qdu6Zf+UFcLv8QLsf
+	 UpFoppycgkIVhh5Mln7uHC3e4s2e9Bcb0npqns4r6Fkh2O7EM/G3gg4qFI2E58yjF4xxp
+	 EwCySkV3FDYd85dhFxB8IQo79frStOT/bojuVGcxSnGzKD3aJD20Z1ySZRQ/kiAvsRA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794583207;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794583380;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=6dIw/cEasDaTMuxY4JqRIaZBNhw3B2/VuC8Ktx1d1fI=;
-	b=YvzsJ833EH11O3QbWkYDWa8U6GaSbvNJ/2ZKfR+Fdft3HfM7dp+PZa4Gh4bBbArbTkTH
-	 MdU7E7/OokI/+j5n89si2XnmMzV9GHTaGLDF+540I3LrphIpXWYjjRbIzwhm2yd5mwqht
-	 HNgm557udFG95Hd9Kdyp8dbpszBaipW3JKyUOmZmnhd1+YkIy97pYMXua+i40SYcB24++
-	 YZhCjoVm/hOxK8VhEuWzz4Jeqg9+ojGJ9oqh8XQvVSe/haL0IiDwaIIZTOSPfGrwffZRV
-	 tzA34we2Fi2lraHCdTBIoyhE7lm9hHUTmsqRSmWtSS1wLW1C4+MD7cjZhOJVE7Hsajg==
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=bIqcVrxwFlf/MOw6E2I1r/DVGSQU9l7E6EGdUXXdXtE=;
+	b=s4EwcQkegAVGbNlx3tbX6KrueCzcG8/8hgX8ozRV8/pIp0i/Rdj+TstWrb+uMHSxCEJt
+	 aGAp/D0UxnwhybjWTOoMKhVy5dap/uTujDpzu4aTICqjUw058h1TTAzY84FfgBpQIHkhT
+	 ry8nHULRanW3J41H/U4e86IjKr41tQDf2p65Jt0kR6W6d4WSH5vUsuLaVC9kKHCGYRkc3
+	 aKZJt5kMXQ61i5FWvU3kMc75I5ETf8wkScoXhn4XiRNGz8+uvPQcZQRB+cUtBX4Bo4KhQ
+	 iJjbMA1BCds2WjGKQx4DEdK2mcAiH9SacGMXzZM5KnxBbKcOopPO+yQGKAuDwWtNESA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ujfLgrkP;
-	arc=none smtp.remote-ip=209.85.128.48
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	dmarc=pass header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=idz+TH8l;
+	arc=none smtp.remote-ip=209.85.128.47
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FFA6606A337
-	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 15:20:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0FFA6606A337
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEAA606A332
+	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 15:22:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ECEAA606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ujfLgrkP
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a1b07c3c5fso15885165e9.1
-        for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 07:20:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=idz+TH8l
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4afe2d546f9so17841085e9.3
+        for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 07:22:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794583205; x=1795188005; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6dIw/cEasDaTMuxY4JqRIaZBNhw3B2/VuC8Ktx1d1fI=;
-        b=ujfLgrkPzvdWlAby/AJuJRf8xfM81Xum9JpAD+hD+Hkc3LVhpwt1XeF8Kxo6fsnm1m
-         jeLuagCRjKZa3LhnUb9JbB18wvuplxcciyU3zzwq1OpBMs6ant4CHPJfXzGX7hqiL/MG
-         +x+fTXcrnYW08TKVigzfShDfUauFPpbC2oupC4MO3vuthx1fT8otgUfQpVOfRSHopfdY
-         84I84InWxePkAraPbtgSzaX1Nw7BBuG93x4U8Ji8SCn37gj3bHjpBNQi9mzxs+AogAsE
-         qs5LL+Uee0BBFfizJfJFLGRT3Uu3WGK/+9luxqimOgK7pQqN4OSzPIPjxIghBqKbxcdJ
-         bnQg==
+        d=baylibre.com; s=google; t=1794583378; x=1795188178; darn=lists.linux.dev;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=bIqcVrxwFlf/MOw6E2I1r/DVGSQU9l7E6EGdUXXdXtE=;
+        b=idz+TH8lm30MnVgVYDXMwAWbHphFS4J0l2xiVf4llPpXvhBBnv2OlWeFTQCykJTN/I
+         nL5KZ4vEwVXPb0jnhnucMh+tSPGPLUkJXSiv2FsyB4YAeZiy05ng0C6WjT/AkmauajF4
+         ZSTK5PZV971Qd4GsFtBtwtzTSXygExxKmWG7D5gd+u1JENj3bu1cZfN3zGzdxk0tNzjv
+         iJX7YnBGwc4T4GLX4OoZ+8gkEpg7pNtzsNet6Psium9+Vu0o/ws2p5vCxqoUEmEUS2xM
+         K8FM7U2z8lLu3nfuzlTOcRA/rYXaA0gQiCdQKEWbVEn2NpJOfP5qmD+OssNMmpW7Nmpm
+         YiuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794583205; x=1795188005;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6dIw/cEasDaTMuxY4JqRIaZBNhw3B2/VuC8Ktx1d1fI=;
-        b=VhjkyxAhJExmMY9Qc7mM2C1fJIl/ME2lL82LYBPLlnNnI8nHXpvBjHdmdOKvkpxH0r
-         fo/r07n1rqqoxPeUFTuqujFM9RhqpM8FZzmBaS9xpL7154YtqtO5rfXXo+JmxBir3+ar
-         Ezf/DJch6XK7NOY8/DzZ1Lhn/xvGgP8lxLxjui+nSeavEed0efn1J+7wt6KsVkOv1epU
-         ZmXb9B4MOmkEThCwop9u6FVAGwR5uqDRUA/XtXu1Wo23AIwNMQafpqBZ3+69eHx4ecMm
-         DcJ1gOHLuTXqpiDmrc1IcPiU+TQc3m35GBvRE1sSiL785Gjat5C6luZXKXJMrKFCcwaa
-         M+aA==
-X-Forwarded-Encrypted: i=1; AL+hErFuIm/n1uqJeWc2VHW2PMTiTtriRqo0O/X9VyjBqS/8aR9Y/Nc9UQ/nhzH/qCUoGtPeMCGwO1LPCiluBQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9cPjeNVmyzs5yo+INVX3ZBUY1knn1veDL7qjoLVgDCECFPq/eW
-	EU0Wr0EvfeoXfVQqaizNQfsAT709mEeHdMtuexIzd3dkomZU/FlyWoCV
-X-Gm-Gg: AYBFou3XYm/Kq3ToBlI7d4bUGe7rxAG5lvwzp04i6bdwr8/YqDinAxz9CxmPfYB6M+K
-	Wbl/RrEEdFJ7tTyWtqF+WRyQejSDjTpqIwI3QHwD1Ahc8RtuEck6neRuy2YXxvUB1DoJzYNSkn6
-	9Djk9OMfrAx2urNyU0QlaaRfUljzEUvV8V9cJtT8Dnm2BVXqmy3fH8BNx3FAYH8jcWOkNEkNPrk
-	oq5NC+r3eptKN7rOisk5uaieC0K+A50dQSnP58BBVgJRhqE/Drfsz4onB3rU4zSu9jAh9Uf/KeV
-	fXoB6bnbllxAcsCDpxrRWeQViwgKLCSALK8dPnVKFpB3DqpAiK+Fw5qkxAVy0/RsZFFoD8o5BeE
-	bdoLVtm4Rvywkk8P/o7B7Vk8z7GCtKScXQYVSTiwKZ76w1PrVjYCxohvUUnESWQITy6n0nFzSrN
-	L9ExPuAIeUt4tEpJyCVw41bi0GflvOt6h4Z0ox/wLDIaJv01gfnFRdJW/Pas+YdFQq+E0f+fcgX
-	bifNhExWkOXczVXEofLBjSACwybd0ugOXWmCjQag59NIXw2DHtIk1YhyeRep7+eOOxkDdJmKSsF
-	qJL8hpat3iOlvnkgbq+fx4l5QnrJvuQ/CE/gA0moFWiYlbR3btha1LW/rYNHkkMGj/oH2j2qIL3
-	WrKOOlOUrBJiJMy5i+DJigIwmZm/8kxNceuAk2zOfPYT88e5c00IZFaI0rYfAVzrInPQS5nxOet
-	xcEg08gt48UO4CBGo4P2AiV9NT7wnx4CfC4HDsERbWwO5U1nhrgOcOBzPJf8iTxX1ibzIROmqEl
-	xgDWVTFJH3yRg==
-X-Received: by 2002:a05:600c:1d03:b0:4b1:4017:c4f4 with SMTP id 5b1f17b1804b1-4bb55a58e1amr67471255e9.20.1794583205214;
-        Fri, 13 Nov 2026 07:20:05 -0800 (PST)
-Received: from [192.168.100.100] (87-205-15-91.static.ip.netia.com.pl. [87.205.15.91])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2adf53sm159789845e9.15.2026.11.13.07.20.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Nov 2026 07:20:04 -0800 (PST)
-Message-ID: <a0a6a72f-0ed5-4f1a-a93e-30bb99338045@gmail.com>
-Date: Fri, 13 Nov 2026 16:20:02 +0100
+        d=1e100.net; s=20260707; t=1794583378; x=1795188178;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bIqcVrxwFlf/MOw6E2I1r/DVGSQU9l7E6EGdUXXdXtE=;
+        b=15C1MztrjNKefuHHEqlV5Z1AkTngf8CEjx5CNcH9+eYGNu1qkDx54ln6c3ZLAbwtuy
+         Ircx/75J8cZHvtv/wUPPH2Q2RJVrVTXL/ZXhnA+YspA0W1R17CcejKrvBzpYXCAIGdFG
+         ZaYMlzWBZOizCgktN4KkHJhFjWCE5zQMBSBd837mxLYGoLqBqTa/ZQaCWRfO3LX7hQI3
+         n/skbh+NE/he6a+4nR/e51GOambYI+1ku5pN+UJ9Rm/iAfhJPh213JZXxBC0aZCbPdqS
+         DFd3rI0f23EFGgbmhcxuX26r8V+tFRKc1ab3haFDZiAFTxGHVaY92zNVSg8BajN1eKD8
+         WJGw==
+X-Forwarded-Encrypted: i=1; AL+hErHYyT4AJVQqVE/5cZyhQFf8VN5kLZPRHlyIROv4KNB95CS/gyeRC3ZBtoPrgMFLwGqeiUJkghZOZTa+Cg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9hw1dmN57ugc/f1O4s81brz1M1lGagVyoXI0++OUPzS1CclSsU
+	7AlVaTNDRgZPdPzx1vXxkVvVRp7Hh8l2Ai8gLXWVpzsWuODt/+F5QDU9BYqqi+s+SPU=
+X-Gm-Gg: AYBFou0AJMLVm6EovUIh4CgIxu2NoQiPfNrOlBxCM+4iAckpFPJZHFhRO8NYC014ASo
+	Pq+8CCYXPYJpzhd3FHH6JFMVNSFrw/HJH95qR83mGp0Zm6PX+0Ms7PUYirs4lM2vQCDsufcPJIv
+	T1SicGJRmTI4P/S59C3Er8dozlBKDH3UTLLVT4uLw0Bgef0XoGFmIoD1QXDWkQv83a4+da7p9Ea
+	0OvqGYDfRY56s0NJbkBhB+WmTYCPN7Mw9wja5EcOaJocBCkJNz/6XRYBcTa6HPuol0Z7veWNGhV
+	611oQu98vTJVl3w2o+RELOudpbjHIgx0w97DYLF/fNrOM3mS/ThXDz+iHaPefZGeDO8yRyXVRup
+	lOBpn5oUQIVlOKBSoqC24hYBYIDKX+ezk+CelzZnMjs9NEdkmJsb4iUar8H+4AkDsN+kJNR2h5+
+	5k1Grv9fJmUj3a+lPVVIhpCEEbmPDBuhYfm8mPL9iU+AojWFSGS8HVWyCZlt9+1ytdTWF7zmXtv
+	coaQEUCVeo393fvSS+6D7DLLW9RNV0QnLNCHxHfnOR8fIxDQItfm1yqQp4jPoO7/UmMyz8NFLsV
+	V+b4Gk6ZOVrhoO6ylB69Oh/WPmcb/iMlvcMoGXjAlF+T29Qs
+X-Received: by 2002:a05:600c:470a:b0:4a1:f7f4:7cf1 with SMTP id 5b1f17b1804b1-4bb55a44996mr54909955e9.11.1794583378164;
+        Fri, 13 Nov 2026 07:22:58 -0800 (PST)
+Received: from localhost (82-67-6-57.subs.proxad.net. [82.67.6.57])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e252f7fsm169848395e9.2.2026.11.13.07.22.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 07:22:57 -0800 (PST)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -95,57 +89,110 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] kernfs, sysfs: add SYSFS_NO_SPLICE to refuse
- splice on writable opens
-To: Tejun Heo <tj@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Ian Kent <raven@themaw.net>,
- Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
- Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- driver-core@lists.linux.dev, linux-pm@vger.kernel.org,
- autofs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
-References: <cover.1794479968.git.krystianmkaniewski@gmail.com>
- <f9f3df7a60ecbbacc3186b700deb947d7dc23e9f.1794479968.git.krystianmkaniewski@gmail.com>
- <07d063ef8ebcfc7f4e05c7318a423728@kernel.org>
-Content-Language: en-US
-From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
-In-Reply-To: <07d063ef8ebcfc7f4e05c7318a423728@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH RFC 02/16] clk: Acquire resources for clock transitions
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+ Brian Masney <bmasney+clk@redhat.com>, 
+ Jerome Brunet <jbrunet+clk@baylibre.com>, Viresh Kumar <vireshk@kernel.org>, 
+ Nishanth Menon <nm@ti.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, 
+ Ulf Hansson <ulfh@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Abel Vesa <abelvesa@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Mike Tipton <mike.tipton@oss.qualcomm.com>, 
+ Taniya Das <taniya.das@oss.qualcomm.com>, linux-clk@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ driver-core@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+ devicetree@vger.kernel.org
+In-Reply-To: <825fbfbe-a9a0-43e2-bb54-f9e38ce779f4@oss.qualcomm.com>
+References: <20261014-topic-qc_clk_dvfs-v1-0-3041b788e9f7@oss.qualcomm.com>
+ <20261014-topic-qc_clk_dvfs-v1-2-3041b788e9f7@oss.qualcomm.com>
+ <179275170360.4070168.11650113664838519061.b4-review@b4>
+ <f0ca2bd4-851e-473d-bf21-678cf964f854@oss.qualcomm.com>
+ <825fbfbe-a9a0-43e2-bb54-f9e38ce779f4@oss.qualcomm.com>
+Date: Fri, 13 Nov 2026 16:22:56 +0100
+Message-Id: <179458337623.3308909.8679910347462508471.b4-reply@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3271; i=jbrunet@baylibre.com;
+ h=from:subject:message-id; bh=n9gjeLxQD41dq62t9Q1UDoH8EzTxjE0oy5fasIAenSY=;
+ b=owGbwMvMwCW2VtK+WnvWU3HG02pJDFnftQNYFjZnu9ws4l/TOn1RRddMPbttkjGdaTOj796rf
+ TLVYhFvRykLgxgXg6yYIksNd7X4O0mtL7Om69yGmcPKBDKEgYtTACZiVMDI0GWS98twnrmegNbD
+ XZYWZY3fVXqXcW6esoxPSy1QcfHdMEaGC//MfS5kr/0fcIBJuSN16412sdN5/5b/Mpj7ZUnLzj5
+ 3PgA=
+X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
+ fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
 
-On 11/12/26 16:11, Tejun Heo wrote:
-
-Hello Tejun,
-
-> Hello, Krystian.
+On 2026-11-09 15:06 +0100, Konrad Dybcio wrote:
+> On 10/26/26 2:11 PM, Konrad Dybcio wrote:
+> > On 10/23/26 12:35 PM, Jerome Brunet wrote:
+> >>> Preparing a clock protects its current requirements, not the resources
+> >>> needed while changing its rate or parent. A transition can temporarily
+> >>> use both parents or access an unprepared clock, and a parent rate change
+> >>> can cause other clocks to be programmed too. Raising resources one clock
+> >>> at a time leaves those operations exposed to insufficient power.
+> >>>
+> >>> Failures make this worse: hardware may already have changed when the
+> >>> operation returns an error. A matching cached rate is then not proof
+> >>> that resource reconciliation finished. Retaining a temporary enable
+> >>> reference without a corresponding prepare reference also breaks a
+> >>> consumer's normal disable/unprepare sequence after a failed reparent.
+> >>>
+> >>> Make CCF acquire the affected tree's and parent paths' resources before
+> >>> notifiers or programming, and reconcile them only when the walk stops.
+> >>> Keep fault recovery independent of rate shortcuts and subsequent
+> >>> consumer reference-count changes. Require explicit recovery of an
+> >>> ancestor's uncertain parent selection rather than reporting success
+> >>> from a descendant request.
+> >>
+> >> I don't think all this is necessary to address the problem described
+> >> here and in the cover letter.
+> >>
+> >> IMO a new provider API is the wrong layer. The framework already has
+> >> the hook a provider needs: the rate change notifiers. What the core
+> >> should do instead is fix those notifiers, which do have a few issues.
+> >> You are fixing one in patch 1. Another fix, about setting the parent,
+> >> was sent recently:
+> >>
+> >> https://patchwork.kernel.org/project/linux-clk/patch/20261021-submit-clk-parent-abort-v1-v1-1-2936181822fc@gmail.com/
+> >>
+> >> You want to act on some changes before anything is programmed. PRE
+> >> notifiers are the right tool for this. The user of this change in
+> >> patch 7 could use them AFAICT: PRE sets a temporary vote, POST settles
+> >> it, ABORT drops it.
+> >>
+> >> Also, what is acquired here follows the requested clock. When an
+> >> ancestor switches parent, the chain of its new parent is not acquired,
+> >> although it feeds the whole subtree after the switch.
+> >>
+> >> With notifiers, the parent fault state is not needed either. As it is,
+> >> it blocks every request on or below the clock until the same switch is
+> >> retried.
+> >>
+> >> Could you tell me what you need from this approach that cannot be done
+> >> with (fixed) notifiers?
+> > 
+> > I'm a little worried about the ordering there, since some device
+> > drivers may also be registering listeners in parallel, so we don't
+> > get a clean split of what PRE means ("has power for sure " or "may
+> > not have power")
 > 
-> On Thu, Nov 12, 2026 at 03:17:01PM +0100, Krystian Kaniewski wrote:
->> Read-only opens keep splice support because they cannot reach
->> ->write().
-> 
-> The patch looks fine to me, but I'm not sure whether the read-only
-> exemption is necessary. Is it addressing an actual problem? busybox, for
-> example, just falls back to regular reads when sendfile() fails with
-> -EINVAL, and refusing splice reads on read-write opens while allowing them
-> on read-only ones seems more confusing than anything else. Would it be
-> simpler to refuse splice for all opens of the file?
-> 
-> Thanks.
-> 
-> --
-> tejun
+> Do you have any thoughts on this? I'd like to proceed with this
+> series in one way or another.
 
-The read-only exemption was only intended to minimize the behavior
-change. It is not addressing a known user or regression.
+As I have replied before, if there are things to fix in notifiers, we surely
+can discuss it but, at the moment, I don't think the complexity of what you
+are proposing here is justified.
 
-I agree that refusing splice for all opens would be simpler and give
-SYSFS_NO_SPLICE consistent semantics. I can make that change in v4.
+Please allow some time for Brian to have a look.
 
-Thanks,
 -- 
-Krystian Kaniewski
+Jerome
+
