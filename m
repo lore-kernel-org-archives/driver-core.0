@@ -1,87 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794565648;
-	b=3lCa4cLPtpUsPJQfxRnF+qLsz3UC2khi9NPnHszISm5UaQaqs/rGYaB+oN243x7VCtFP
-	 rJ/A4GvnAKg+z7vGYPbKDBTmnq43O+UWhKWPTAXeAnpOzE2BG8FBZgf5U+CAL17kcUpv1
-	 9Z0sacN0DFm8Bra1PRYweaBs58qk0Vb8RMeiRxLHqbjrqYSMIfqsNBUreNxkyylWn2pLZ
-	 3VkKsQtlcVn37y1BsZ0UhjWTXIKA+64aXDghVecya6aOijui6vV1NyqKl8Bg2EQCfMM9g
-	 KGdhEo6sTKfN/y0FKoH8vejPjOhuKIYEfmLjghrvMRuG1roihD7gFwrYGQAOYJpQ4CQ==
+	t=1794565724;
+	b=wn0CjrH38XZSsC5n9ofeogQ/BJeNhOyJIZTIm+94YEnLBCIRGH/Kew6OvX62nouv8Kbc
+	 oozs8QCaIkfl7M3pFXMnqTw6GjWJ2hptRPp5opRx7Be+s3IHfHb2RrdVudhF+YFHdR/TL
+	 pAC8lspoq6ZcDdlLRUTSisMmZipGoiMCSTdGlQ9h/qUOe93lcsR0B3HjKaSmqUyxFXfSf
+	 mG8ka7kfjHGrmF1oSnf+3cjUFiDKu6Tr5Z+k2sKu3Lk8jRUXUshco+Okrk3LN5yjtszRW
+	 tNdL/8zyASvoS9BRiz1L1lmgnQ3128j27peauEbhRpCweCnEzU89srIqNWFsluf3fQQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794565648;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794565724;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
 	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=TXY31nY7nMCHyiOZTp7Dn0JSWYPda+tFg8CPAdTq7II=;
-	b=dR2MUPPJMkMm8IcSTjQoK9SydT6EAvCmIDq+oEA/hYkEUzrpg/Hhw23hM5zO0bqC3zso
-	 /TCbreIWqagP8v9GJ4sXOV5K/qizBtYVbTj5SFsO58b7MByh0HByd6UicM2w3z5mMukmz
-	 hQD8pOtE+mXgSQ5DWJpKMHDBHjMIdo3J1mLUwbiiQrBRs6ez0/t1KAIkYZ4tYyuvwDt3l
-	 Fz4TLa8ImvthLc0+iom+n24IcGMPmXtpDkhi39FjkfbEdWm6dmNxE/YxxRv2mP8KT8nUr
-	 6M10kNTPqlVeE+qwi8A+JskPkvkGZUimKsKH33c3jJj9Iof6QwZwILqhHqKW1SWGpfA==
+	bh=HIAZ+a2RY8snYu8gjwIzGL7aFLB+UDjcbceUrGWDUl0=;
+	b=hbmjw2nXAn4LfYlHMCNW7ZRiCfY3YrxKXYGGtMIUo1Uu+3DgCocMeKrcADK902FxPnwe
+	 vFlN+YtrTSPq6GV0CjPFHrMLSzd4FVypKcu1EgKfMo6OO0CDfoOlnuEVnkmC1ZSlhZUuX
+	 azCkcOFULT4y7EvMAuHatmYg7Hv+ePV4S5nu3r+vjA7j7MK59EBqWn2uuAQ8ZhdbfnEiK
+	 hS07BYvlS4kuKxUfL+tp3vS1Cidl+j5YS3CJKAnwq9hBsyOOSbQBz4ryMtU4rIwSQ8LRT
+	 YDajtBj2fBUIFhnYQKswWkpIY/Cfd7HnVvDi8i5dufYlnp0rZ3X+v99LbOHOd/UKYyw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=amutable.com;
 	spf=pass smtp.mailfrom=amutable.com;
-	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=P2Ovnntx;
-	arc=none smtp.remote-ip=209.85.221.54
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=VlHoglXf;
+	arc=none smtp.remote-ip=209.85.128.50
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56178606A337
-	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 10:27:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 56178606A337
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7736606A32A
+	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 10:28:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7736606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=P2Ovnntx
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-492f0a1b685so752882f8f.0
-        for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 02:27:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=VlHoglXf
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4b7252a32c8so11958725e9.0
+        for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 02:28:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794565647; x=1795170447; darn=lists.linux.dev;
+        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794565721; x=1795170521; darn=lists.linux.dev;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=TXY31nY7nMCHyiOZTp7Dn0JSWYPda+tFg8CPAdTq7II=;
-        b=P2OvnntxZklgGup/ZCAKqCiR1BnSGRhZX++h/K+LxEVACpcdsdiAP8aEbgxELzDp04
-         fyqJW0hKmvcMvXAUsmAZq5rzuw6DOnAzSl4En1EX63jjNTRhhcRQjMKZEBsvf/yY6qjh
-         aQSM+biz1Od5VE8AG0xfPooy3uuM9dKpCM1lc6NyGrPt0pcEH8r0yCoObFji3GZawpg6
-         59buDiramCqFSt4U3TQM0Cjf9uaOHjxU+0RLkw+vlWOpzT9FFabgSW0bIGOjhv+0APjP
-         RLKwx4XintCLJCvQbx6tUNVbtWObeEbkkD/kdoW7bz1WNnoVmH9V9zbAonV5/31qWhTC
-         JFeA==
+        bh=HIAZ+a2RY8snYu8gjwIzGL7aFLB+UDjcbceUrGWDUl0=;
+        b=VlHoglXfntK1uOOECu9u3O6EPXojoIKVOL2wPIM/Pq4SAt7H6z5KWRVu+rckK+EYOB
+         7hOBh+DlVNP5eUpU/k/H7aQzb/Lvjau3E8XYvFK9zZiEnQbdm7HZK2PD1x6+hW+7tcV1
+         vrVoAbJ5WWq3nKeapTnvHLILmyFy1t4Z7vJGUrB7iL44sK7SYnjsLJwEvK7K1DChSmAP
+         h9oFajixVpvX4Hzp3xDowD9OLhDhXvnuxjvaHLbD1O1nTbig5dXFd5uTLjIJpV2pRfIl
+         b7PI10DjbD12WHc6CnUOFjfvsJeFqL7SiHlfcXGbf1+rswAPCVatvCLEiKZlTXLvwvZK
+         n2HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794565647; x=1795170447;
+        d=1e100.net; s=20260707; t=1794565721; x=1795170521;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=TXY31nY7nMCHyiOZTp7Dn0JSWYPda+tFg8CPAdTq7II=;
-        b=itaBxp25Lj/Kd5NqjOo4npNopUI26+YftMDYSQcmnIS5nhybqWP7AoJoa3Ni2ufOai
-         WdPqi/cfBWHYEcN5Ebr3t817+3dZCJ7vkzTs0mu+QBbLnaKEV08YIsqhAAD2ft6DK0O5
-         47ruGetVRgIc6QW3EynbneQBVYZ7gBgszHcAjox2BGvaemmhJ934RNKr7JU2J7igWqZx
-         xylF/5wjk95WYlNf0ZNzHzRAENAgyBig6ESuOjS+cDV7aA3lejgzoeyOFpubnrRn20Ln
-         okSp8neyEktqxD9ba/fLke0KPh2DW9IT/EgeS5/kS2X/jaxdUPiwm4fP12dpHzIqF8zc
-         yJwA==
-X-Forwarded-Encrypted: i=1; AL+hErGUiklfPrhkfXAOv657R07mmtTvMPGWRkdpYo56ZF2qHU3xHWfw7qpcdu+L1D9Z5TuS122+BAWyJF0opg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8FKDdRg4HyrTalG+oEl11e6gHzXuRXkXLjItvycIc1wXvQRm88
-	0MZPzHlA5JVZ6DYVBpB7/dSakPjJF8gdpa59dfkxE1wMwl/Rm24yETxJ2vf3iIZx4eX6
-X-Gm-Gg: AYBFou1JSCXNtKqDLxLT2o5Ilg1HXp44wEB48+3Yv+bm/SiSUze+WWxcMtzDGOA51oQ
-	vvH+lQERSTbQ9WczEWXcdBAlLSYJ0OtTT+PUhtJgu4rBwxyi/D5BASpaiXU5QcY6JAlU/uSOwcj
-	/wY2VKBffJHycCEQroMqtkjcpiacxtslY+ryqsoZcpmw2iUDycyXyE4tIcq2OYFk/BVvfAutl6S
-	Ppl33gsqi0APVoCiK744WnZSDBi14t5J1BUfi2v+UTCgGSjhQSMoLVIiErqNX/2oe1eEw1hZ1Vp
-	2TI5vJwtMYx9Szf3Atmm7uapqGlZSLmutLABJrNubxFVIosUcvUXbN9XnnPsuKfAfkXZCKw35ij
-	NjW6cgcT8DjZVvFWkz72SiK514suKB3Rc1ZIlF8d6ML6qjKIxYrKlPjIsulh5YVVEZtU1hikXMF
-	HJr7xQ6Nmt5gOPHFgQy7iy+kH03ooUo++YnmcRVzX71IgDuVcI+M+OAHqsUdRhlhyF2WK2uAo+e
-	Q14GScLbw8eO65VR7sIdgYE6Wx7TYCU5mPEjh6dTw1ijwXF+H+ZjCrCv0yj0zihSWvSlvA9gJC0
-	N4EFv/4JW49/F3cG5mntW4fHgBW2WmPQbHLDKm8F0rWbNIGZUeOjVHMQhteAm5s=
-X-Received: by 2002:a05:6000:4707:b0:498:c419:3728 with SMTP id ffacd0b85a97d-49c713ae367mr4463557f8f.22.1794565646661;
-        Fri, 13 Nov 2026 02:27:26 -0800 (PST)
+        bh=HIAZ+a2RY8snYu8gjwIzGL7aFLB+UDjcbceUrGWDUl0=;
+        b=w+450R1I06anAIUOVxwxBe7t3pdQWwCueCmeP9Obu7jf712HYJIrPb0boc5smxE/sa
+         lS1DnQlqSmsvyMZo3yI/lhLRp8TMFCqha5Dn7ct9ewqZp+Wffni/SE77xXxMOPMTjPyP
+         pUYj6GvZtIlNU9qPp4CWDEO8qEdxYcEL/EPz5BDLxCvGwKBHu9PYyzWbCTCrK+KlCeGk
+         zFxmuGg2VL7MkPg6lrRAGPz/0VgqEdbQxb+4XQ43DWU6MnXndWLdYRtckKgP6qii5Wgi
+         qanWCqC6paWuzB7WEfZ3mmtaQsxJ3KB0PXY7mC+VENKHsBKsBTIp/Rm6lcKmYcq3hhRg
+         2PuQ==
+X-Forwarded-Encrypted: i=1; AL+hErHbA29kJnIqA4EgzELRpifIHhzGxhe4Lly+40+Xim327ZZDFowfbZcX7nD+EuQSioMxHYZEzwCviJjEdw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9HZFvOZQmrY3l//jWFPkO93skirSPv/9LmhWo1DHzc1CMdnAgS
+	/GdNAjujkuUp9z71E2Z7pp6DfuzJuv2q3j+uH5MU2aNH+DdQMq+ehCeiJGyvbdJWc5/m
+X-Gm-Gg: AYBFou2WelZvIMTPQa9GMDE8F1m+RL9X02dxTfs6twtnDEAhWilObdOu3DLna+v3BIw
+	Ze9vc/kWwUn+HHX6q7SObwMzsLqPVTZGyoOC8JTSQzojl2r8QwziiEy0a9t3tGSMQL4KSH7LhfH
+	WErZAje3env2jU9f0KLGE9YWghDeAQYK/rHLg+Bs9L/91OwMrU4zyWASeFgVLC5/gI2d9n7u1Gp
+	nB9/6tLU028avfnKMmQool9pLDVZvRV7Xbu9USXYylsy8sQW3hsLH1Z4NU15gVo76rmYoJq6hvp
+	5+DpeGrU66tTwHGRazGNigSRNxOyYfrLONnLW8YPc4O4t95Opdf8r2JbdZ6YuX5NaebETq5j3gz
+	GFQB31Wnt3fNohKr0hW+iDNdenrclRP44UVK2uUJh5pabdcxn9W6YSDIPAVbhH+P8TIkPszke7w
+	8lf3HvhSuUeCFi4ZnmofauxHTMu2SPUd8bmdU2V5zCV4ngMZ438x3vaNt4CwkPhrbOoAVPK8QL1
+	UizNa7CIlZUDzDB1gB5VygSdbqErhOHfwY2wcNP45nM/xuHTB56P/HHH5LJVE4S0+nPtr2b5M4F
+	pwDhM+vIhOjGgrLSs61/pts7gVko/X3+WC700pYAPXdfqCG1EHmEzTIeDcEmcm4=
+X-Received: by 2002:a05:600c:428c:b0:4a1:9661:14b5 with SMTP id 5b1f17b1804b1-4bb55aabd53mr26666375e9.29.1794565721222;
+        Fri, 13 Nov 2026 02:28:41 -0800 (PST)
 Received: from [10.0.0.233] (tmo-086-54.customers.d1-online.com. [80.187.86.54])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5a32d336sm5077482f8f.0.2026.11.13.02.27.24
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e252f7fsm152260095e9.2.2026.11.13.02.28.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 02:27:26 -0800 (PST)
-Message-ID: <0c109a58804a2d782e549af6ad13e89532d9f9d2.camel@amutable.com>
-Subject: Re: [PATCH RFC 40/41] erofs: refuse files on pseudo filesystems as
- backing files
+        Fri, 13 Nov 2026 02:28:40 -0800 (PST)
+Message-ID: <ae5a09a7dc0ab5d01e78114c38e90b39af32362c.camel@amutable.com>
+Subject: Re: [PATCH RFC 41/41] selftests/filesystems: add backing file tests
+ for pseudo files
 From: Alexander Mikhalitsyn <alex@amutable.com>
 To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
 Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
@@ -99,10 +99,10 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
  linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
  <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
  linux-kselftest@vger.kernel.org
-Date: Fri, 13 Nov 2026 11:27:24 +0100
-In-Reply-To: <20261110-work-loop-pseudo-v1-40-4c998976c6c7@kernel.org>
+Date: Fri, 13 Nov 2026 11:28:38 +0100
+In-Reply-To: <20261110-work-loop-pseudo-v1-41-4c998976c6c7@kernel.org>
 References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
-	 <20261110-work-loop-pseudo-v1-40-4c998976c6c7@kernel.org>
+	 <20261110-work-loop-pseudo-v1-41-4c998976c6c7@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-0+deb13u1 
@@ -117,48 +117,376 @@ Precedence: list
 MIME-Version: 1.0
 
 On Tue, 2026-11-10 at 10:14 +0100, Christian Brauner wrote:
-> File-backed mounts take any regular file as the image and the same
-> goes
-> for the extra devices of such a mount. erofs reads them with the
-> credentials of the mounter so this doesn't hand out anything the
-> mounter
-> couldn't read anyway. But files on pseudo filesystems aren't images.
-> Refuse them just like loop does.
+> Add tests that files on pseudo filesystems can't be used as storage:
+>=20
+> - a procfs file attached read-only to a loop device
+> - sysfs files attached read-only and read-write to a loop device
+> - a sysfs file behind a lower-only overlayfs attached to a loop
+> device
+> - a sysfs file as the backing file of a usb mass storage gadget LUN
+> - a sysfs file as the source of a file-backed erofs mount
+>=20
+> And make sure that a memfd and another loop device still work as loop
+> backing files and that loop refuses a backing file that isn't open
+> for
+> reading.
 >=20
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
 Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 
 > ---
-> =C2=A0fs/erofs/super.c | 6 +++++-
-> =C2=A01 file changed, 5 insertions(+), 1 deletion(-)
+> =C2=A0tools/testing/selftests/filesystems/.gitignore=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0=C2=A0 1 +
+> =C2=A0tools/testing/selftests/filesystems/Makefile=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
+> =C2=A0tools/testing/selftests/filesystems/config=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 9 +
+> =C2=A0.../selftests/filesystems/pseudo_backing_test.c=C2=A0=C2=A0=C2=A0 |=
+ 274
+> +++++++++++++++++++++
+> =C2=A04 files changed, 285 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/fs/erofs/super.c b/fs/erofs/super.c
-> index ce05557bd998..980d5fc2b576 100644
-> --- a/fs/erofs/super.c
-> +++ b/fs/erofs/super.c
-> @@ -158,7 +158,8 @@ static int erofs_init_device(struct erofs_buf
-> *buf, struct super_block *sb,
-> =C2=A0		if (!erofs_is_fileio_mode(sbi)) {
-> =C2=A0			dif->dax_dev =3D
-> fs_dax_get_by_bdev(file_bdev(file),
-> =C2=A0					&dif->dax_part_off, NULL,
-> NULL);
-> -		} else if (!S_ISREG(file_inode(file)->i_mode)) {
-> +		} else if (!S_ISREG(file_inode(file)->i_mode) ||
-> +			=C2=A0=C2=A0 file_is_pseudo(file)) {
-> =C2=A0			fput(file);
-> =C2=A0			return -EINVAL;
-> =C2=A0		}
-> @@ -835,6 +836,9 @@ static int erofs_file_get_tree(struct fs_context
-> *fc)
-> =C2=A0{
-> =C2=A0	struct erofs_sb_info *sbi =3D fc->s_fs_info;
+> diff --git a/tools/testing/selftests/filesystems/.gitignore
+> b/tools/testing/selftests/filesystems/.gitignore
+> index cf79000e4092..8df38eabb125 100644
+> --- a/tools/testing/selftests/filesystems/.gitignore
+> +++ b/tools/testing/selftests/filesystems/.gitignore
+> @@ -7,3 +7,4 @@ kernfs_test
+> =C2=A0idmapped_tmpfile
+> =C2=A0ustat_test
+> =C2=A0rw_hint_test
+> +pseudo_backing_test
+> diff --git a/tools/testing/selftests/filesystems/Makefile
+> b/tools/testing/selftests/filesystems/Makefile
+> index fbd5c27505ef..0ebb9005bcd2 100644
+> --- a/tools/testing/selftests/filesystems/Makefile
+> +++ b/tools/testing/selftests/filesystems/Makefile
+> @@ -2,7 +2,7 @@
 > =C2=A0
-> +	if (file_is_pseudo(sbi->dif0.file))
-> +		return invalfc(fc, "source is on a pseudo
-> filesystem");
+> =C2=A0CFLAGS +=3D $(KHDR_INCLUDES)
+> =C2=A0TEST_GEN_PROGS :=3D devpts_pts anon_inode_test kernfs_test fclog
+> ustat_test rw_hint_test
+> -TEST_GEN_PROGS +=3D idmapped_tmpfile
+> +TEST_GEN_PROGS +=3D idmapped_tmpfile pseudo_backing_test
+> =C2=A0TEST_GEN_PROGS_EXTENDED :=3D dnotify_test
+> =C2=A0
+> =C2=A0include ../lib.mk
+> diff --git a/tools/testing/selftests/filesystems/config
+> b/tools/testing/selftests/filesystems/config
+> index 9f45bc493a30..228196160d29 100644
+> --- a/tools/testing/selftests/filesystems/config
+> +++ b/tools/testing/selftests/filesystems/config
+> @@ -6,3 +6,12 @@ CONFIG_NET=3Dy
+> =C2=A0CONFIG_NET_NS=3Dy
+> =C2=A0CONFIG_INET=3Dy
+> =C2=A0CONFIG_SYSFS=3Dy
+> +CONFIG_BLK_DEV_LOOP=3Dy
+> +CONFIG_OVERLAY_FS=3Dy
+> +CONFIG_TMPFS=3Dy
+> +CONFIG_CONFIGFS_FS=3Dy
+> +CONFIG_USB_GADGET=3Dy
+> +CONFIG_USB_CONFIGFS=3Dy
+> +CONFIG_USB_CONFIGFS_MASS_STORAGE=3Dy
+> +CONFIG_EROFS_FS=3Dy
+> +CONFIG_EROFS_FS_BACKED_BY_FILE=3Dy
+> diff --git
+> a/tools/testing/selftests/filesystems/pseudo_backing_test.c
+> b/tools/testing/selftests/filesystems/pseudo_backing_test.c
+> new file mode 100644
+> index 000000000000..bc8e17ab8e6e
+> --- /dev/null
+> +++ b/tools/testing/selftests/filesystems/pseudo_backing_test.c
+> @@ -0,0 +1,274 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#define _GNU_SOURCE
 > +
-> =C2=A0	if (!test_opt(&sbi->opt, SUPERBLOCK_SHARE))
-> =C2=A0		return get_tree_nodev(fc, erofs_fc_fill_super);
-> =C2=A0
+> +#include <errno.h>
+> +#include <fcntl.h>
+> +#include <limits.h>
+> +#include <sched.h>
+> +#include <stdbool.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <string.h>
+> +#include <unistd.h>
+> +#include <linux/loop.h>
+> +#include <linux/magic.h>
+> +#include <sys/ioctl.h>
+> +#include <sys/mman.h>
+> +#include <sys/mount.h>
+> +#include <sys/stat.h>
+> +#include <sys/vfs.h>
+> +
+> +#include "kselftest_harness.h"
+> +#include "wrappers.h"
+> +
+> +/*
+> + * Put @fd behind a free loop device. The device is set up with
+> + * LO_FLAGS_AUTOCLEAR and goes away again when it is closed here.
+> + */
+> +static int loop_attach(int fd, bool rw, char *dev, size_t len)
+> +{
+> +	struct loop_config cfg =3D {};
+> +	int ctl, nr, lfd, ret =3D 0;
+> +
+> +	ctl =3D open("/dev/loop-control", O_RDWR | O_CLOEXEC);
+> +	if (ctl < 0)
+> +		return -errno;
+> +	nr =3D ioctl(ctl, LOOP_CTL_GET_FREE);
+> +	if (nr < 0)
+> +		ret =3D -errno;
+> +	close(ctl);
+> +	if (ret)
+> +		return ret;
+> +
+> +	snprintf(dev, len, "/dev/loop%d", nr);
+> +	lfd =3D open(dev, (rw ? O_RDWR : O_RDONLY) | O_CLOEXEC);
+> +	if (lfd < 0)
+> +		return -errno;
+> +
+> +	cfg.fd =3D fd;
+> +	cfg.info.lo_flags =3D LO_FLAGS_AUTOCLEAR;
+> +	if (!rw)
+> +		cfg.info.lo_flags |=3D LO_FLAGS_READ_ONLY;
+> +	if (ioctl(lfd, LOOP_CONFIGURE, &cfg)) {
+> +		ret =3D -errno;
+> +		close(lfd);
+> +	} else {
+> +		ret =3D lfd;
+> +	}
+> +	return ret;
+> +}
+> +
+> +static int attach_path(const char *path, bool rw)
+> +{
+> +	char dev[PATH_MAX];
+> +	int fd, ret;
+> +
+> +	fd =3D open(path, (rw ? O_RDWR : O_RDONLY) | O_CLOEXEC);
+> +	if (fd < 0)
+> +		return -errno;
+> +	ret =3D loop_attach(fd, rw, dev, sizeof(dev));
+> +	close(fd);
+> +	if (ret >=3D 0) {
+> +		close(ret);
+> +		ret =3D 0;
+> +	}
+> +	return ret;
+> +}
+> +
+> +static bool can_use_loop(void)
+> +{
+> +	return geteuid() =3D=3D 0 && access("/dev/loop-control", R_OK |
+> W_OK) =3D=3D 0;
+> +}
+> +
+> +TEST(memfd_backing_file)
+> +{
+> +	char dev[PATH_MAX];
+> +	int fd, lfd;
+> +
+> +	if (!can_use_loop())
+> +		SKIP(return, "loop devices unavailable");
+> +
+> +	fd =3D memfd_create("pseudo_backing_test", MFD_CLOEXEC);
+> +	ASSERT_GE(fd, 0);
+> +	ASSERT_EQ(ftruncate(fd, 1 << 20), 0);
+> +
+> +	lfd =3D loop_attach(fd, true, dev, sizeof(dev));
+> +	ASSERT_GE(lfd, 0);
+> +	EXPECT_EQ(close(lfd), 0);
+> +	EXPECT_EQ(close(fd), 0);
+> +}
+> +
+> +TEST(loop_device_backing_file)
+> +{
+> +	char dev[PATH_MAX], dev2[PATH_MAX];
+> +	int fd, lfd, bfd, lfd2;
+> +
+> +	if (!can_use_loop())
+> +		SKIP(return, "loop devices unavailable");
+> +
+> +	fd =3D memfd_create("pseudo_backing_test", MFD_CLOEXEC);
+> +	ASSERT_GE(fd, 0);
+> +	ASSERT_EQ(ftruncate(fd, 1 << 20), 0);
+> +	lfd =3D loop_attach(fd, true, dev, sizeof(dev));
+> +	ASSERT_GE(lfd, 0);
+> +
+> +	/* A block device stays fine as a backing file. */
+> +	bfd =3D open(dev, O_RDWR | O_CLOEXEC);
+> +	ASSERT_GE(bfd, 0);
+> +	lfd2 =3D loop_attach(bfd, true, dev2, sizeof(dev2));
+> +	ASSERT_GE(lfd2, 0);
+> +
+> +	EXPECT_EQ(close(lfd2), 0);
+> +	EXPECT_EQ(close(bfd), 0);
+> +	EXPECT_EQ(close(lfd), 0);
+> +	EXPECT_EQ(close(fd), 0);
+> +}
+> +
+> +TEST(write_only_backing_file)
+> +{
+> +	char dev[PATH_MAX], path[PATH_MAX];
+> +	int fd, wfd, lfd;
+> +
+> +	if (!can_use_loop())
+> +		SKIP(return, "loop devices unavailable");
+> +
+> +	fd =3D memfd_create("pseudo_backing_test", MFD_CLOEXEC);
+> +	ASSERT_GE(fd, 0);
+> +	ASSERT_EQ(ftruncate(fd, 1 << 20), 0);
+> +
+> +	/* Loop reads from its backing file so it must be open for
+> reading. */
+> +	snprintf(path, sizeof(path), "/proc/self/fd/%d", fd);
+> +	wfd =3D open(path, O_WRONLY | O_CLOEXEC);
+> +	ASSERT_GE(wfd, 0);
+> +
+> +	lfd =3D loop_attach(wfd, true, dev, sizeof(dev));
+> +	if (lfd >=3D 0)
+> +		close(lfd);
+> +	EXPECT_EQ(lfd, -EBADF);
+> +	EXPECT_EQ(close(wfd), 0);
+> +	EXPECT_EQ(close(fd), 0);
+> +}
+> +
+> +TEST(procfs_backing_file)
+> +{
+> +	if (!can_use_loop())
+> +		SKIP(return, "loop devices unavailable");
+> +
+> +	ASSERT_EQ(attach_path("/proc/cpuinfo", false), -EINVAL);
+> +}
+> +
+> +TEST(sysfs_backing_file)
+> +{
+> +	if (!can_use_loop())
+> +		SKIP(return, "loop devices unavailable");
+> +
+> +	ASSERT_EQ(attach_path("/sys/kernel/warn_count", false), -
+> EINVAL);
+> +
+> +	if (access("/sys/kernel/reboot/mode", F_OK))
+> +		SKIP(return, "no /sys/kernel/reboot/mode");
+> +	ASSERT_EQ(attach_path("/sys/kernel/reboot/mode", true), -
+> EINVAL);
+> +}
+> +
+> +TEST(overlayfs_on_sysfs_backing_file)
+> +{
+> +	if (!can_use_loop())
+> +		SKIP(return, "loop devices unavailable");
+> +
+> +	ASSERT_EQ(unshare(CLONE_NEWNS), 0);
+> +	ASSERT_EQ(mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL),
+> 0);
+> +	ASSERT_EQ(mount("tmpfs", "/tmp", "tmpfs", 0, NULL), 0);
+> +	ASSERT_EQ(mkdir("/tmp/empty", 0755), 0);
+> +	ASSERT_EQ(mkdir("/tmp/merged", 0755), 0);
+> +
+> +	/* A lower-only overlayfs serves reads from sysfs. */
+> +	if (mount("overlay", "/tmp/merged", "overlay", MS_RDONLY,
+> +		=C2=A0 "lowerdir=3D/sys/kernel:/tmp/empty"))
+> +		SKIP(return, "no overlayfs on top of sysfs: %s",
+> strerror(errno));
+> +
+> +	ASSERT_EQ(attach_path("/tmp/merged/warn_count", false), -
+> EINVAL);
+> +}
+> +
+> +#define CONFIGFS_DIR "/sys/kernel/config"
+> +#define GADGET_DIR CONFIGFS_DIR "/usb_gadget/pseudo_backing_test"
+> +#define MASS_STORAGE_DIR GADGET_DIR "/functions/mass_storage.0"
+> +
+> +TEST(usb_mass_storage_backing_file)
+> +{
+> +	const char *path =3D "/sys/kernel/warn_count";
+> +	struct statfs sfs;
+> +	ssize_t ret;
+> +	int fd, err;
+> +
+> +	if (geteuid())
+> +		SKIP(return, "needs root");
+> +
+> +	/* Mounting configfs on top of itself fails with EBUSY. */
+> +	if (statfs(CONFIGFS_DIR, &sfs) || sfs.f_type !=3D
+> CONFIGFS_MAGIC) {
+> +		ASSERT_EQ(unshare(CLONE_NEWNS), 0);
+> +		ASSERT_EQ(mount(NULL, "/", NULL, MS_REC |
+> MS_PRIVATE, NULL), 0);
+> +		if (mount("configfs", CONFIGFS_DIR, "configfs", 0,
+> NULL))
+> +			SKIP(return, "no configfs: %s",
+> strerror(errno));
+> +	}
+> +
+> +	if (mkdir(GADGET_DIR, 0755))
+> +		SKIP(return, "no usb gadget configfs: %s",
+> strerror(errno));
+> +	if (mkdir(MASS_STORAGE_DIR, 0755)) {
+> +		err =3D errno;
+> +		rmdir(GADGET_DIR);
+> +		SKIP(return, "no usb mass storage function: %s",
+> strerror(err));
+> +	}
+> +
+> +	/* Writing the path opens the LUN's backing file right away.
+> */
+> +	fd =3D open(MASS_STORAGE_DIR "/lun.0/file", O_WRONLY |
+> O_CLOEXEC);
+> +	EXPECT_GE(fd, 0);
+> +	if (fd >=3D 0) {
+> +		ret =3D write(fd, path, strlen(path));
+> +		err =3D errno;
+> +		EXPECT_EQ(ret, -1);
+> +		EXPECT_EQ(err, EINVAL);
+> +		EXPECT_EQ(close(fd), 0);
+> +	}
+> +
+> +	EXPECT_EQ(rmdir(MASS_STORAGE_DIR), 0);
+> +	EXPECT_EQ(rmdir(GADGET_DIR), 0);
+> +}
+> +
+> +TEST(erofs_backing_file)
+> +{
+> +	bool refused =3D false;
+> +	char buf[256];
+> +	int fsfd, ret, err;
+> +	ssize_t n;
+> +
+> +	if (geteuid())
+> +		SKIP(return, "needs root");
+> +
+> +	fsfd =3D sys_fsopen("erofs", FSOPEN_CLOEXEC);
+> +	if (fsfd < 0)
+> +		SKIP(return, "no erofs: %s", strerror(errno));
+> +
+> +	ASSERT_EQ(sys_fsconfig(fsfd, FSCONFIG_SET_STRING, "source",
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "/sys/kernel/warn_count", 0), 0)=
+;
+> +	ret =3D sys_fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL,
+> 0);
+> +	err =3D errno;
+> +	if (ret && err =3D=3D ENOTBLK) {
+> +		close(fsfd);
+> +		SKIP(return, "no file-backed erofs mounts");
+> +	}
+> +	ASSERT_EQ(ret, -1);
+> +	ASSERT_EQ(err, EINVAL);
+> +
+> +	/*
+> +	 * Something that isn't an erofs image fails with EINVAL as
+> well so
+> +	 * check that the source itself was refused.
+> +	 */
+> +	while ((n =3D read(fsfd, buf, sizeof(buf) - 1)) > 0) {
+> +		buf[n] =3D '\0';
+> +		if (strstr(buf, "pseudo filesystem"))
+> +			refused =3D true;
+> +	}
+> +	EXPECT_TRUE(refused);
+> +	EXPECT_EQ(close(fsfd), 0);
+> +}
+> +
+> +TEST_HARNESS_MAIN
