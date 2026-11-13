@@ -1,72 +1,119 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.67.36.66
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794604390;
-	b=NgHYEgK1A0tRqUosDk+hOLVnQvWYU/l89NAT7VppGsa8Scuco6G0IhOxT23cOXR1edW2
-	 fCjuqfJ0TkvS7HV3C+Pmu2wD5iBM3+cMWRtOJW2/VMP2IUpAIX/+fG5TB5C88ojmI18M0
-	 /pb1yB1TDZWQ7G6cWHaf75YZoOOw7H1Bezw5D3UfWwPiZ/HyJq0FqUm/QPciKh+QkE5BO
-	 BJ2M49kQoJZH9N2AUxni86PKgvsfMis4LmJ2PYgyTW7SGKaeYVnDwtW/7iARVFEbCkux3
-	 xgBcCfE3x082oByG+c6Zu2ar0gNLtR+p9lTMhBfhiuaYG1epg7P/5gnKbq81qk/t9aQ==
+	t=1794604477;
+	b=AdxDgwAemrn4nO1FbiodqN29ziTDPGCXchYD90phZygud3MD5fHAnbjEV/i8Gvb2NDVz
+	 ZclzvHdki8hg06worNpr+7ZyXNP/PlvS3Jayc07eU5pI+cOHre7YP73tHUnm8LfKzmIZb
+	 RJu6SV52igRhSNyMiAcuwb7JmwlYyzEY4Y+JPpZ3rS663KnWitdg5nA6R24wWFt1nfq7p
+	 2s5s5lPAjo34OxGEYXV4L9XstY4QMYg3my3n4e0xqBxTd5gkBrLUXaBG7IpraeCJcfo6M
+	 4Onmmsed4juYZPuT7Q73bvXVSP3XIdcDNpaNnlwQG+gIsybwF/xF6sgIONxTq5/ASQQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794604390;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=dGx07IkTX64qfZTXn4n2KUmOW0Nf0dSqzevN84bvutE=;
-	b=qwz7i8PAxi7o6DH0f05lz0d6F9r3gtGz6HLCc7yCG1dzluM35vj8cAs8mfAKijS8IpyL
-	 ytM/eVMvMxDtH1/pD3RqGXlTB2Hpnf4PKuvFxIMVNrslN9B/5EW7nO4cEpUCBciBnPm/m
-	 gLBlMo4VmxJdbCL/Bw4pqhgvA4efqWWX8iWx6DfyYxeKD6X1AmJO7coQ7x9cOOeBicrjd
-	 8BbHobp8crrfdhxwY4SLgSN94eqQK1sUahlOHTuLgrq0Uh0OITfJRfJJy9MQo8OAMufLZ
-	 Xgfknm4gqcA8UrVmuNKAEdRDxwfG0oVTBUytEmeJfr2AvfcGUZ2b/EUTxeuiZSwmqEw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794604477;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Message-ID:Subject:
+	 From:To:Cc:Date:In-Reply-To:References:Autocrypt:Content-Type:
+	 MIME-Version:OpenPGP;
+	bh=bi+qbuXC7Kr0qdcc2OWqT62yrf9jqwzAVB3DjteEz/8=;
+	b=BsxQ5dLl+0z+157URc8Ne34FMNbuh4fuqyfMKAMZo3RVxgGZ9jMKlJlzvPwUp7C22s72
+	 CaCzV0qh7ffolQppDiHKTi/l6IUr0VR0a8hqnzSkbrsUnuV8RIfbTOeU1+hDXxr0M2jj4
+	 bpxGW0F5e2TfQmgSAUY9IScRYApI8hzd8Y6ts3rl+gcaK37xgdaL/ATNEa5VhY/BNU4wf
+	 xjKYIKHqih4ze7Oa3nXNkJNapgVNYgKmKBGPnCAHIBZ0ZQLXymejprh/0oKY3fqaHUM8P
+	 KhMMt+8H24UowDgMFrYasLNtHljvrDl2GrZeGLAb4kzwF/YOMyOBLZoOdqvKL7yfJBg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bvHfQKWP;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=posteo.de;
+	spf=pass smtp.mailfrom=posteo.de;
+	dkim=pass header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=e66y+Ya3;
+	arc=none smtp.remote-ip=185.67.36.66
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95C7606A32E;
-	Fri, 13 Nov 2026 21:13:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F334B606A330
+	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 21:14:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F334B606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bvHfQKWP
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EFFE1F000C5;
-	Fri, 13 Nov 2026 21:13:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794604390;
-	bh=dGx07IkTX64qfZTXn4n2KUmOW0Nf0dSqzevN84bvutE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bvHfQKWPdlo4UWP6zlAXCICnXXN8xXAaOfYS3jFZRikl03GyRsU02iSf6m5/pZrkS
-	 X16xNV1eE1vy2LXeJruDIF6BawYjER8b20i9zJ9rRUmoJF94BeoB8Cwx2K+VG769Hz
-	 VTI3jrWJybkC2I6Inb05TZTHNheZ2b4menjPYKJ9TuNryPyu5Pqjl5pShuMvSZd3QE
-	 SdIdHOzwQDVL6GkAP6JWRNE4D+0tWI8DqpM48mMHbRMrHd2IKqEfqBaaemS+z5bPkT
-	 d1QWjiqw8fwTjS/WfKrEX62Osv9j+l1bi7EJShvYy8Y/xLIsC4vIf4eQPHzmN6inHC
-	 M58N8Q7DnfZNA==
-Date: Fri, 13 Nov 2026 22:13:01 +0100
-From: Alejandro Colomar <alx+linux-hardening@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Alejandro Colomar <alx@kernel.org>, linux-hardening@vger.kernel.org, 
-	Krzysztof Kozlowski <krzk@kernel.org>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Andreas Schwab <schwab@linux-m68k.org>, 
-	Andy Shevchenko <andy@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Daniel Scally <djrscally@gmail.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Joe Perches <joe@perches.com>, Johan Hovold <johan@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Len Brown <lenb@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Linus Walleij <linusw@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Saravana Kannan <saravanak@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v5 7/7] string: Implement strstarts() with strprefix()
-Message-ID: <avd794VWdjncD9YI@devuan>
-References: <cover.1794574496.git.alx@kernel.org>
- <382a44f7c68672ecead2436d9f569ee23f383830.1794574496.git.alx@kernel.org>
- <avciONW-b_WXoetv@ashevche-desk.local>
- <avcj0YbmHRyhFW-Y@devuan>
- <avcntwOjI2i4seyB@ashevche-desk.local>
- <avcrlaWDlBVAHpnj@devuan>
- <avc1LK0_Deeh0zZo@ashevche-desk.local>
- <avd4XpBivw86pBYh@devuan>
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=e66y+Ya3
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id D47B4240104
+	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 22:14:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
+	s=1984.8680eb; t=1794604466;
+	bh=bi+qbuXC7Kr0qdcc2OWqT62yrf9jqwzAVB3DjteEz/8=;
+	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
+	 MIME-Version:OpenPGP:From;
+	b=e66y+Ya3CBpmgj5yn6s1yu62nY7pVrXAfMTeZO6eM+InWKyLDt/d+2AzOin1l7mY4
+	 D4xGZ4dUKdoxDYA40buJ8Om9oMSiz1OvYxIKtVeEjoWM6Qj5+cwkktmYTfmH/o7tcH
+	 WfvLaja9IpRnIyL6b3HD1DsioGcV1JAtUK02t9xZbtOnoBPm8Cu55PLZI8U3wO+GBT
+	 C/kCb1yk9g1GALRmSUz0en6i6hCBLcLrLGQt56mOk9NX6TgdE5liu2qViYCd5FEuBY
+	 8n7U/3RIwGmbbuQN6wa6A9WQYuLUbBgryxFamZ7vvdlSn5R2BF3bjl46Or8d1iKsBz
+	 Wrw+Qh0jPyZ6g==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4jR94H1xfCz9rxD;
+	Fri, 13 Nov 2026 22:14:23 +0100 (CET)
+Message-ID: <3e4aafb4c2dab636e9f113199d4cb95e0af9c6bb.camel@posteo.de>
+Subject: Re: [PATCH 4/7] rust: serdev: remove the unbind() callback
+From: Markus Probst <markus.probst@posteo.de>
+To: Danilo Krummrich <dakr@kernel.org>, gregkh@linuxfoundation.org, 
+	rafael@kernel.org, johan@kernel.org, david.m.ertman@intel.com,
+ iweiny@kernel.org, 	leon@kernel.org, ojeda@kernel.org, boqun@kernel.org,
+ gary@garyguo.net, 	bjorn3_gh@protonmail.com, lossin@kernel.org,
+ a.hindborg@kernel.org, 	aliceryhl@google.com, tmgross@umich.edu,
+ daniel.almeida@collabora.com, 	tamird@kernel.org, acourbot@nvidia.com,
+ work@onurozkan.dev, igor.korotin@linux.dev, 	bhelgaas@google.com,
+ kwilczynski@kernel.org
+Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org
+Date: Fri, 13 Nov 2026 21:14:25 +0000
+In-Reply-To: <20261112005455.1224352-5-dakr@kernel.org>
+References: <20261112005455.1224352-1-dakr@kernel.org>
+	 <20261112005455.1224352-5-dakr@kernel.org>
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+ keydata=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
+ jfGillcaQOqFZ3WwVqyzG1BUfTow==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-EDAa2rzL4vfrR9iRkevA"
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -76,326 +123,143 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7pxy7jt4w7gbfcvk"
-Content-Disposition: inline
-In-Reply-To: <avd4XpBivw86pBYh@devuan>
+OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
 
---7pxy7jt4w7gbfcvk
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
+--=-EDAa2rzL4vfrR9iRkevA
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx+linux-hardening@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Alejandro Colomar <alx@kernel.org>, linux-hardening@vger.kernel.org, 
-	Krzysztof Kozlowski <krzk@kernel.org>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Andreas Schwab <schwab@linux-m68k.org>, 
-	Andy Shevchenko <andy@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Daniel Scally <djrscally@gmail.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Joe Perches <joe@perches.com>, Johan Hovold <johan@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Len Brown <lenb@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Linus Walleij <linusw@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Saravana Kannan <saravanak@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v5 7/7] string: Implement strstarts() with strprefix()
-Message-ID: <avd794VWdjncD9YI@devuan>
-References: <cover.1794574496.git.alx@kernel.org>
- <382a44f7c68672ecead2436d9f569ee23f383830.1794574496.git.alx@kernel.org>
- <avciONW-b_WXoetv@ashevche-desk.local>
- <avcj0YbmHRyhFW-Y@devuan>
- <avcntwOjI2i4seyB@ashevche-desk.local>
- <avcrlaWDlBVAHpnj@devuan>
- <avc1LK0_Deeh0zZo@ashevche-desk.local>
- <avd4XpBivw86pBYh@devuan>
-MIME-Version: 1.0
-In-Reply-To: <avd4XpBivw86pBYh@devuan>
 
-> Date: 2026-11-13 21:57:24+0100
-> From: Alejandro Colomar <alx+linux-hardening@kernel.org>
->
-[...]
-> > > -  strstarts():
-> > > 	It could be improved by returning a boolean-like pointer,
-> > > 	instead of a bool, but:
-> > >=20
-> > > 	-  We may need to fix some callers, since some of them might
-> > > 	   need an explicit conversion with !!.  It'd be risky to change
-> > > 	   the implementation without first verifying that.
-> >=20
-> > How many cases do we have that needs special attention? Can you run spa=
-tch to
-> > grep those?
+On Thu, 2026-11-12 at 01:52 +0100, Danilo Krummrich wrote:
+> The driver model uses native Rust lifetimes to let driver data retain
+> device resources and a Device<Bound> reference for the duration of the
+> binding. Both remain accessible from the destructor, so a separate
+> unbind() callback is no longer needed.
 >=20
-> I *think* the only ones I expect this would be necessary are functions
-> that return a boolean-like int.
+> Remove serdev::Driver::unbind() and the adapter's remove callback and
+> document that device teardown belongs in Drop or PinnedDrop.
 >=20
-> 	// returns 1:true 0:false -1:error=3D
-> 	int
-> 	foo(...)
-> 	{
-> 		...
-> 		return !!strprefix(...);
-> 	}
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> ---
+>  rust/kernel/serdev.rs | 41 ++++-------------------------------------
+>  1 file changed, 4 insertions(+), 37 deletions(-)
+>=20
+> diff --git a/rust/kernel/serdev.rs b/rust/kernel/serdev.rs
+> index 17ca504b7f8d..fd998b68b74f 100644
+> --- a/rust/kernel/serdev.rs
+> +++ b/rust/kernel/serdev.rs
+> @@ -81,7 +81,6 @@ unsafe fn register(
+>          unsafe {
+>              (*sdrv.get()).driver.name =3D name.as_char_ptr();
+>              (*sdrv.get()).probe =3D Some(Self::probe_callback);
+> -            (*sdrv.get()).remove =3D Some(Self::remove_callback);
+>              (*sdrv.get()).driver.of_match_table =3D of_table;
+>              (*sdrv.get()).driver.acpi_match_table =3D acpi_table;
+>          }
+> @@ -210,29 +209,6 @@ extern "C" fn probe_callback(sdev: *mut bindings::se=
+rdev_device) -> kernel::ffi:
+>          })
+>      }
+> =20
+> -    extern "C" fn remove_callback(sdev: *mut bindings::serdev_device) {
+> -        // SAFETY: The serial device bus only ever calls the remove call=
+back with a valid pointer
+> -        // to a `struct serdev_device`.
+> -        //
+> -        // INVARIANT: `sdev` is valid for the duration of `remove_callba=
+ck()`.
+> -        let sdev =3D unsafe { &*sdev.cast::<Device<device::CoreInternal<=
+'_>>>() };
+> -
+> -        // SAFETY: `remove_callback` is only ever called after a success=
+ful call to
+> -        // `probe_callback`, hence it's guaranteed that `Device::set_drv=
+data()` has been called
+> -        // and stored a `Pin<KBox<PrivateData<'_, T>>>`.
+> -        let private_data =3D unsafe { sdev.as_ref().drvdata_borrow::<Pri=
+vateData<'_, T>>() };
+> -
+> -        // SAFETY: No one has exclusive access to `private_data.driver`.
+> -        let data =3D unsafe { &*private_data.driver.get() };
+> -        // SAFETY:
+> -        // - `private_data.driver` is pinned.
+> -        // - `remove_callback` is only ever called after a successful ca=
+ll to `probe_callback`,
+> -        //   hence it's guaranteed that `private_data.driver` was initia=
+lized.
+> -        let data_pinned =3D unsafe { Pin::new_unchecked(data.assume_init=
+_ref()) };
+> -
+> -        T::unbind(sdev, data_pinned);
+> -    }
+> -
+>      extern "C" fn receive_buf_callback(
+>          sdev: *mut bindings::serdev_device,
+>          buf: *const u8,
+> @@ -365,6 +341,10 @@ pub trait Driver {
+>      type IdInfo: 'static;
+> =20
+>      /// The type of the driver's bus device private data.
+> +    ///
+> +    /// Device teardown should be performed in [`Drop`] or [`PinnedDrop`=
+](pin_init::PinnedDrop)
+> +    /// for this type. The `'bound` lifetime allows the data to retain d=
+evice resources and a
+> +    /// [`Device<device::Bound>`] reference for use during teardown.
+>      type Data<'bound>: Send + Sync + 'bound;
+> =20
+>      /// The table of OF device ids supported by the driver.
+> @@ -382,19 +362,6 @@ fn probe<'bound>(
+>          id_info: Option<&'bound Self::IdInfo>,
+>      ) -> impl PinInit<Self::Data<'bound>, Error> + 'bound;
+> =20
+> -    /// Serial device bus device driver unbind.
+> -    ///
+> -    /// Called when a [`Device`] is unbound from its bound [`Driver`]. I=
+mplementing this callback
+> -    /// is optional.
+> -    ///
+> -    /// This callback serves as a place for drivers to perform teardown =
+operations that require a
+> -    /// `&Device<Core>` or `&Device<Bound>` reference. For instance.
+> -    ///
+> -    /// Otherwise, release operations for driver resources should be per=
+formed in `Drop`.
+> -    fn unbind<'bound>(sdev: &'bound Device<device::Core<'_>>, this: Pin<=
+&Self::Data<'bound>>) {
+> -        let _ =3D (sdev, this);
+> -    }
+> -
+>      /// Serial device bus device data receive callback.
+>      ///
+>      /// Called when data got received from device.
 
-I've searched for cases of this, and also for cases of assignment to
-a variable that might be of type int (I expect this to be less
-frequent).  I haven't used spatch(1) so far, but just grep(1):
+Reviewed-by: Markus Probst <markus.probst@posteo.de>
 
-	$ grep -rn -e '=3D .*strstarts(' -e 'return .*strstarts('
-	drivers/mtd/spi-nor/issi.c:141:	return name && strstarts(name, "pm25lv");
-	drivers/platform/x86/dell/dell-lis3lv02d.c:109:	return strstarts(adap->nam=
-e, "SMBus I801 adapter");
-	arch/arm/kernel/module.c:25:	return strstarts(name, ".init") ||
-	arch/arm/kernel/module.c:32:	return strstarts(name, ".exit") ||
-	arch/powerpc/perf/imc-pmu.c:1026:	return strstarts(event->pmu->name, "thre=
-ad_imc");
-	tools/perf/util/map.c:21:	return strstarts(filename, "/data/app-lib/") ||
-	tools/perf/util/annotate-arch/annotate-x86.c:144:	if (arch->family >=3D 0x=
-15 && (strstarts(ins1, "test") ||
-	tools/perf/util/annotate-arch/annotate-x86.c:150:	if (arch->family >=3D 0x=
-19 && (strstarts(ins1, "add") ||
-	tools/perf/util/annotate-arch/annotate-x86.c:200:		arch->ins_is_fused =3D =
-strstarts(cpuid, "AuthenticAMD") ?
-	tools/perf/util/symbol.c:854:	if (e_machine =3D=3D EM_S390 && strstarts(na=
-me, "psw_idle")) {
-	tools/perf/util/env.c:733:		return strstarts(perf_arch, "ppc64") ? EM_PPC6=
-4 : EM_PPC;
-	tools/perf/util/env.c:1049:		is_amd =3D env->cpuid && strstarts(env->cpuid=
-, "AuthenticAMD") ? 1 : -1;
-	tools/perf/util/env.c:1072:		is_intel =3D env->cpuid && strstarts(env->cpu=
-id, "GenuineIntel") ? 1 : -1;
-	tools/perf/util/symbol.h:55:	return strstarts(str, KLP_SYM_PREFIX);
-	tools/perf/builtin-trace.c:2272:			if (*after =3D=3D '=3D' && (strstarts(a=
-fter + 1, "0x") ||
-	tools/perf/perf.c:143:	return (strstarts(var, header) && !strcmp(var + str=
-len(header), c->cmd));
-	tools/perf/tests/symbols.c:155:	if (dso !=3D text_dso && strstarts(dso__sh=
-ort_name(dso), dso__short_name(text_dso)))
-	tools/testing/selftests/bpf/prog_tests/sockmap_redir.c:321:	if (type =3D=
-=3D SK_SKB_INGRESS && strstarts(out, "v_"))
-	tools/objtool/klp-sympos.c:372:	return strstarts(sym->sec->name, ".init");
-	tools/objtool/klp-checksum.c:66:	return strstarts(sym->sec->name, ".rodata=
-=2Ecst") &&
-	tools/objtool/klp-diff.c:204:		export->mod_ns =3D strstarts(namespace, "mo=
-dule:");
-	tools/objtool/klp-diff.c:339:	return strstarts(sym->name, ".L");
-	tools/objtool/klp-diff.c:380:	return strstarts(sec->name, ".discard.");
-	tools/objtool/klp-diff.c:422:	return strstarts(sym->name, "__initcall__") =
-||
-	kernel/module/main.c:1866:	return strstarts(name, ".init");
-	kernel/module/main.c:1871:	return strstarts(name, ".exit");
-
-=46rom all these, only one case was using int.  Here's a patch for making
-it more robust:
-
-	diff --git i/tools/perf/util/map.c w/tools/perf/util/map.c
-	index 41cdddc987ee..944f10d32796 100644
-	--- i/tools/perf/util/map.c
-	+++ w/tools/perf/util/map.c
-	@@ -16,7 +16,7 @@
-	 #include "thread.h"
-	 #include "vdso.h"
-	=20
-	-static inline int is_android_lib(const char *filename)
-	+static inline bool is_android_lib(const char *filename)
-	 {
-		return strstarts(filename, "/data/app-lib/") ||
-		       strstarts(filename, "/system/lib/");
-
-It's technically not necessary, since the '||' operator converts to
-bool, but just in case someone removes one of those calls, using bool
-will prevent a bug.
-
-All the other cases were either using 'bool', or didn't need a change
-for other reasons.
-
-So, I can include this diff as a preparation patch in this set, and then
-make strstarts() be
-	#define strstarts(s, prefix)  strprefix(s, prefix)
-
-And then have a global search-and-replace for it.
+Thanks
+- Markus Probst
 
 
-Cheers,
-Alex
-
->=20
-> >=20
-> > > 	   To avoid that risk, I prefer adding a new API, and
-> > > 	   deprecating strstarts() for new code.  Over time, I could
-> > > 	   slowly migrate users from strstarts() to strprefix().
-> >=20
-> > I believe this is unneeded step which may last for a few releases witho=
-ut even
-> > guarantee that it will be finished. In such a case I would like to see =
-a branch
-> > with full conversion done before you start sending per-subsystem pieces=
- out.
->=20
-> Okay; I can do that.
->=20
-> > > 	-  The name isn't ideal, since "starts" doesn't specify whether
-> > > 	   it looks for a string that starts with a given prefix, or if
-> > > 	   it looks for a string that starts with any of the given
-> > > 	   characters.
-> > >=20
-> > > 	   That is, by the name, I wouldn't be able to know whether
-> > > 	   strstarts implements
-> > >=20
-> > > 		bool strstarts(const char *s, const char *xxx)
-> > > 		{
-> > > 			return strspn(s, xxx);
-> > > 		}
-> > > 	   or
-> > > 		bool strstarts(const char *s, const char *xxx)
-> > > 		{
-> > > 			return strprefix(s, xxx);
-> > > 		}
-> >=20
-> > I didn't get this. We should not really need an implementation details =
-of
-> > the API beneath. Documentation what should be read before use. Do we ha=
-ve
-> > documentation for strstarts()? Is it clear? Maybe that what should be a=
-ddressed
-> > first?
-> >=20
-> > > -  strends():
-> > > 	Same as with strstarts() but from the end.
-> > >=20
-> > > -  str_has_prefix():
-> > > 	It was an attempt at strprefix(), but with a problematic
-> > > 	approach.  It's frozen because of trace code.
-> > >=20
-> > > -  strprefix()/strsuffix():
-> > > 	I'd add them to slowly replace strstarts()/strends().
-> >=20
-> > See above about "slowly"...
-> >=20
-> > > > > I prefer replacing strstarts()/strends() with strprefix()/strsuff=
-ix().
-> > > > >=20
-> > > > > But if you prefer changing strstarts() to return a pointer, I'm a=
-lso
-> > > > > okay-ish with it.  It's not a perfect name, but I can live with i=
-t.
-> > > > >=20
-> > > > > > However, after looking at the uses in the kernel, I prefer
-> > > > > > to see the strprefix() be not implemented at all, just optimiza=
-tion against
-> > > > > > strstarts()/strends() if required can be performed.
-> > > > >=20
-> > > > > I don't understand this last sentence.
-> > > >=20
-> > > > It's basically repeats the idea of having only one pair out of two.
-> > >=20
-> > > Ok.
-> > >=20
-> > > > With this series will be
-> > > >=20
-> > > > str_has_previx()
-> > > > strstarts()
-> > > > strends()
-> > > > strprefix()
-> > > > // potentially strsuffix()
-> > >=20
-> > > Yes.  I'd like to replace strstarts()/strends() with
-> > > strprefix()/strsuffix(), but prefer to do that slowly, to avoid
-> > > introducing bugs due to missing explicit conversions to bool.
-> > >=20
-> > > Should I add notes that the strstarts()/strends() APIs are deprecated?
-> >=20
-> > Isn't Steven against that? I already forgot his points.
->=20
-> As far as I understood, he was against deprecating str_has_prefix(), but
-> we didn't yet talk about strstarts().
->=20
-> > Keeping them
-> > just as aliases to strprefix()/strsuffix() perhaps the good start
-> > (see below).
->=20
-> Ok.
->=20
-> > > > To me seems too many for the similar task. I understand that trace =
-user is
-> > > > special one, but does it use strstarts()/strends()?
-> > >=20
-> > > I didn't find any uses:
-> > >=20
-> > > 	$ git ls-files | grep kernel/trace/ | xargs grep strstarts
-> > > 	$ git ls-files | grep kernel/trace/ | xargs grep strends
-> > >=20
-> > > > Despite on naming I think we just good to have only str_has*() and =
-one of
-> > > > strprefix()/strsuffix(), strstarts()/strends().
-> > >=20
-> > > In the long term, I agree.  But I think the transition should be
-> > > careful.  What do you think?
-> >=20
-> > Yes, it should take a few phases, first one perhaps to align strstarts(=
-) to not
-> > rely on the returned value to be boolean.
->=20
-> Ok.
->=20
-> > In parallel with that, your current series can also be considered. Then
-> > similar, if even required, to be done against strends().
->=20
-> Agree.
->=20
-> > And one more phase
-> > is to replace strstarts()/strends() with strprefix()/strsuffix() all ov=
-er
-> > the kernel.
->=20
-> Ok.
->=20
-> Thanks!
->=20
->=20
-> Have a lovely night!
-> Alex
->=20
-> >=20
-> > --=20
-> > With Best Regards,
-> > Andy Shevchenko
-> >=20
-> >=20
-> >=20
->=20
-> --=20
-> <https://www.alejandro-colomar.es>
-
-
-
---=20
-<https://www.alejandro-colomar.es>
-
---7pxy7jt4w7gbfcvk
+--=-EDAa2rzL4vfrR9iRkevA
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr3fVcACgkQ64mZXMKQ
-wqln4w//fpBJiQ4zkPG/2pLBvZbo+A4RioSCGAZpTt26UgZM9tPY0l8w7++PT3I1
-LCdlucJFo4yqqYWh6vMA5mMAWDcbYoCWvNWGPWtx71KBkHp/0tVS7iPsl1/0bebl
-XZ1Vv4QwOB3800/ViRQFdW8xsXDt/vyGpjxvi2bf/ht0CIjhCFtkGkZIaqHKFjOk
-5DVbzDzQ1GpGnQAaQlv7lNOMLSxgI0eowhBn5im/YDSVa5zSMlUo1Qpuj1KazXay
-xWIdjQQG7O/GdjJN2BgLmGFOIM6IqLs1dm9sqbaqlbs8+LCSEDZ6QP4jj64cojN0
-JlglcPBSWo1QJK/mQKYzS+K91qi/0/ORXuAdMf9M12sOIyZ50Q0I8yCKQAhuIqNy
-YTtj22sXslrTxa8MEgKcqYRzlHy/Fp9hXsR52ppPu1RW+eC5U1WqxKOyvde4qsBy
-DDRBpZ1TsIovMw0iBbkzmebQYRGIugtGXgEuTj4fpteL/QfASFdZDU/yGFNCr3gQ
-pV1NnPItO8X+AS+v/X5X7PygE9BIeCJrc+KiuMR8Q20njzWymrV+MOMmxsm/aqvi
-DKhP62kPTfPbTgcaQ40uVVIjXmu28L7y/CV3+VQtXbm+B2Vn7BJ1qKJkKGdlA9Qu
-bapvFOH/MvYD/H6CoDAXMNcFGth1ZPxGCQzTWOrQaetSJ/6wwfw=
-=piCm
+iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmr3fakbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPS9NAQAJz35dn34vwO1cHY+moo
+kIjIgv5XKwFm73AdFdW7aqUO9XCW9TQqd4JCG8Sg8++Jq6vkXd+GnrO4jHcuhoAU
+n6+/uv0aG5iH2FF2UbfA7BA0VY5ZTL1wI5WFrpXpsJGPoe2E4NCeNvhkF3PvkDqy
+CSKx5R3xkGoA2v/HB1nEcmkh1s9/qa3gTS6f+vaE/M5XXogmYcX424ktnA42jUdR
+joohrncC/wHKQhShQWNjOhYJh8oPHPZLKJhXq3rtiT1GNNmiijrnK/RhJZbCWwBT
+tVTIkVfmaZxdQ8weTr0FB8OhOyao0NMmrNZvAhv4xuTGx1KHCb267y/35iR7Mg6i
+Fjy9YWiOEboK+fBTIAOtGuAm2XrLtT54KV1u+0R8CoMwsUgcBjZ7F+1hPBiEpkME
+PJhRPSXwYA913kusT3+m8HWlbuObBNyD8kOTyVD44bxYB3C5y6yOxfp+P+J/Ax5x
+qWLXbLRuOGOTzgj6cyluHPbjcsoDewsAFUkvBbk5huHHTGom8LjhAEiHqnajmm4k
+m7ItRvbrxPl+sy6/JTXu/45vZh2xblT7AC8rGvRNZHoErdeY56KVEEio9td08FJE
+qPlLHfuuo/Jy52qpiIlM7ue5VkA/tkGZri/I0krHiTkvRMfTgIoP8ZMt8JOkPqdE
+Zxou2D0rXcA8KBONQi+Nwbxv
+=mwoh
 -----END PGP SIGNATURE-----
 
---7pxy7jt4w7gbfcvk--
+--=-EDAa2rzL4vfrR9iRkevA--
