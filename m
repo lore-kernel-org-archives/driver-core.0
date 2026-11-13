@@ -1,55 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794592208;
-	b=dP/bnb3g4mxHOSL7ycaVn0xOObjqalCDyrV7DLuFAsl1hq7uYy3aJz+sSDfxXr+Be75J
-	 4wpIBv/9bxs4fGWEANzOJvOxAtO6dMI3/HW0ZT/GL/ci9Nu30v+8ClBSIbC1zI2ia9Oui
-	 j9g60ax0w/dx6ZtF0Ve8EWFlBsQPt08JH7b2Q2dz/fX7bvM/HH4YwVP2zn/xJJhm9iQM7
-	 Jo67GoEiUcsETlyEmYVJujhL2UwQbcXBeLIntIIek01pFM5g7j7YZRYux9hwsuVSHekyW
-	 dZu5wTvOhO5ihk8upU3KO6cJmrqPZiUKbO1tcgVtrXG1z6HrKUOEJ0Aym8Fzq1YzqEg==
+	t=1794592368;
+	b=jxrps48h+O2EbgDT7lniLOyv1U7kKULaxAUlbNe5bW67aU6gXR4P84FAdQwFs44Qzg2q
+	 lplwwbiC2nPg6kslU5TOcQfY2UM3ma8E5vpYjr0CXEjk9kVE+n5JZlAKBYU75YoHH///w
+	 huXMoJHy+I/IVcMP6nhx+vGD8vgbBp2dU9nxk4rmMy2GGbruzzcvh3Si/O5vrxZ/Mg6xy
+	 /JzEEPoqNbP+w4IHTFMNGgb6CfuwAFq+fCc6Tuz6QjL0anXi1UdwSnj+R271ZpVat8Nrc
+	 LGGalwXAh+RECWifCMji679xjr4paLaFBnbBYlF8xsAp2VpjlUtQruhGnUVyp/9qSLg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794592208;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=EU1uYM/NmLFZaI8ig83tMQonoDZ93Lw71raJgl086sU=;
-	b=tvfefjf7VuGR8bj4VOVOKtVUasgqA9U4FDxHmVklBSd5L5EfzY2EVyvUVyM5yi/CoSoO
-	 i6TiVVAz3a207/nIS+CRlZreL/CVvmwyDNQUlQK/FQlNmgdywJOVcPLxjaOpTEdtcu+sw
-	 fe2wkqM9vOjNiDllhNpdIGxiU5CKYY0VpcKvvuXqvKQYQMpFXsb5jsfyMRq7f5u4SYiQy
-	 7UqqOVT8y3ur5TTn3Ew7mWb4fif0+BsimWqgG2UytCdstzbJTlNv/3kY6J2PgKUfhv8GZ
-	 YJIPJqt7b+JyC+cW25+alOoUwnN5yvtAYKD2mGVFp8Es9zPxhsf5nk4ZlcxKk0A+3Ug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794592368;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=s5Tqx0IqS1hUP1VTyxULc2SKeezgn3DcuF6eMYjyhxA=;
+	b=XwkbWNccsZKsEUNzryQvC7QxULtgbUiurz2e2KD1E7T+LTY8t2zrGSySb+5adJYtnwr4
+	 dJ4y1DxLCZ5n6IzCCqzc5MRZ8ubzavWsw/xhpxbvU6LlXfC2jRH9qE9gG6cSSXpWD4N7Y
+	 R3bZlW9lCRFIimWIldbT01xjNauRa7Vl2ZtQZnc2/+8Pqkqvnjgry61S3nOxr5ly/UH5s
+	 iNTWe4F02C/VxKBLKGNBk9IvSfWDsdrG9EdD5fU/DVe/6sRCPQJ3aepJ5/P7QLEi2xKVL
+	 bu265bGnDm64DQ1hWm5wMFlNM4gBxOkvFluCph9uGfcD5bR/f4J6w+0rdFbecm0Vf9w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Oe2bngzq;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h7l87nwp;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4714A606E203
-	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 17:50:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F023606B342;
+	Fri, 13 Nov 2026 17:52:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Oe2bngzq
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6B5C1F000C9
-	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 17:50:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h7l87nwp
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 298291F000C4;
+	Fri, 13 Nov 2026 17:52:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794592207;
-	bh=EU1uYM/NmLFZaI8ig83tMQonoDZ93Lw71raJgl086sU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Oe2bngzq4C8gbD+i78EHwnVvNOgsuhw774fp5I4cEfe8PABs/x8esZV2Mm3DBh76r
-	 DeA2YUqWAJRoY5OBi0zbUJrroJ5+FutHwPbhSZzRhU8pNPSdMVtxnbOo3yzPU/aMD/
-	 b1kKzTSO6SI2Cge1RcTLVBA99PSYmbYGCbYQRW5l8MY1wZjud8QKAn8oylC2yHl99w
-	 Pc/9D3RfR157Mt8HtqMWkIFF6zUen49Mg+c+bHYKOTyqVYbyeldb7wCmUEBF5i7ScA
-	 FLLN55pbrEN+/NF5uP8/4Lgna+eWR5gcNKpde3XlAl0e0arWd/buXECd8KUQUoKMu2
-	 Pzv/mNxLeayig==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5c08539c827so1335533e87.2
-        for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 09:50:07 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFBNJc5Wsuaty/lUsyPzbg8K8Yi7LURBSWpxzZX47myJEZBq/TZPaX0yseBMuiKHKYn2qyAeANY4ZSXow==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+6JaPrNS8fsrIvMB3Nas8gidM+8f5/sC5n5CPPSrky8xicp29v
-	dm7Ni6IuOkv/F1eLkfcz/o3GbKkX9sAbMSQ+Nkb6NqTh5N/peXSAE2Nwl6m0St9TFBOeS/rSG8q
-	ufzKsACYdaGSFmh0ajP3ekEN5QRWlsB8=
-X-Received: by 2002:ac2:5683:0:b0:5bf:dd04:8d7f with SMTP id
- 2adb3069b0e04-5c17075c348mr1704210e87.11.1794592206322; Fri, 13 Nov 2026
- 09:50:06 -0800 (PST)
+	s=k20260515; t=1794592367;
+	bh=s5Tqx0IqS1hUP1VTyxULc2SKeezgn3DcuF6eMYjyhxA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=h7l87nwpytXvkktpYHeKytrdd1gt9G1cEcvGByhSFJVkUwSyhI4Sro4Ry/r2RKqsB
+	 rWGJoq1pZWMNO8bQX92mEL5ztOqgsQ0yk0zuOQvou2B4h3uxufI1GYv4FQpSNHMxoX
+	 nMhwbKf1kP41n+gz2K3drjH/Mco/kOMx+dZ1grI/q1EpIQHCqJQvlaGHkhUgpyFKFp
+	 vWLXTmvknaAEBocPTjWzYuAYnbiz0/Xhxo5cTzJutREsLxZeMrjn5PgW5nJPcm3SxF
+	 gbM4YudhEMDFJ4oGpPnruEp8HAhrYCvTrECTgDjaks3EewmxXb+5lxBcxIbe7OySot
+	 +Q6qbpvVdkdZg==
+Date: Fri, 13 Nov 2026 17:52:43 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>
+Subject: Re: [PATCH v1 2/4] regmap: Drop never used devm_regmap_*_free() APIs
+Message-ID: <ec267c4b-2412-4da0-a46d-d9ca8810d093@sirena.org.uk>
+References: <20261110093820.454682-1-andriy.shevchenko@linux.intel.com>
+ <20261110093820.454682-3-andriy.shevchenko@linux.intel.com>
+ <179442294226.513646.6459407661987242086.b4-review@b4>
+ <avVjKPairv4zkB4o@ashevche-desk.local>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -59,84 +62,49 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110085125.2535508-1-johan@kernel.org> <20261110085125.2535508-9-johan@kernel.org>
-In-Reply-To: <20261110085125.2535508-9-johan@kernel.org>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Fri, 13 Nov 2026 18:49:54 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0g+X0etuZSoTrFr2OXgF9o0q+LLLTcQSfvo0A3dib9M4Q@mail.gmail.com>
-X-Gm-Features: AclHuK8FkWmm3X6Ez4fQpYts4d02b-gmJ11NIGOgqEPyiws4gYW8Iu7-IoWq1Cs
-Message-ID: <CAJZ5v0g+X0etuZSoTrFr2OXgF9o0q+LLLTcQSfvo0A3dib9M4Q@mail.gmail.com>
-Subject: Re: [PATCH v2 8/8] device property: fix fwnode_get_next_child_node() comments
-To: Johan Hovold <johan@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Andi Shyti <andi.shyti@kernel.org>, driver-core@lists.linux.dev, 
-	linux-acpi@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Xu Yang <xu.yang_2@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="LR1K+I1v0utGIzb4"
+Content-Disposition: inline
+In-Reply-To: <avVjKPairv4zkB4o@ashevche-desk.local>
+X-Cookie: Flee at once, all is discovered.
 
-On Tue, Nov 10, 2026 at 9:52=E2=80=AFAM Johan Hovold <johan@kernel.org> wro=
-te:
->
-> The parent pointer in fwnode_get_next_child_node() may not point to a
-> primary firmware node so update the comments to reflect that.
->
-> While add it, fix an indefinite article in an earlier comment.
 
-s/While add/While at/
+--LR1K+I1v0utGIzb4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> Fixes: 190069255582 ("device property: fix infinite loop in fwnode_for_ea=
-ch_child_node()")
-> Cc: Xu Yang <xu.yang_2@nxp.com>
-> Signed-off-by: Johan Hovold <johan@kernel.org>
-> ---
->  drivers/base/property.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/base/property.c b/drivers/base/property.c
-> index 51109794d727..32df0c6724ac 100644
-> --- a/drivers/base/property.c
-> +++ b/drivers/base/property.c
-> @@ -810,7 +810,7 @@ fwnode_get_next_child_node(const struct fwnode_handle=
- *fwnode,
->
->         /*
->          * If this function is in a loop and the previous iteration retur=
-ned
-> -        * an child from fwnode->secondary, then we need to use the secon=
-dary
-> +        * a child from fwnode->secondary, then we need to use the second=
-ary
->          * as parent rather than @fwnode.
->          */
->         if (child) {
-> @@ -822,12 +822,12 @@ fwnode_get_next_child_node(const struct fwnode_hand=
-le *fwnode,
->         if (IS_ERR_OR_NULL(parent))
->                 return NULL;
->
-> -       /* Try to find a child in primary fwnode */
-> +       /* Try to find a child in parent */
+On Thu, Nov 12, 2026 at 08:56:40AM +0200, Andy Shevchenko wrote:
+> On Wed, Nov 11, 2026 at 06:49:02PM +0000, Mark Brown wrote:
 
-I'm not sure if this comment is still useful after the change, so
-maybe drop it altogether?
+> > I tend to think that if we have allocation functions we should have
+> > matching release functions, this avoids cross tree annoyances and bugs
+> > due to people using inappropriate release functions which actually
+> > exist rather than adding the ones they should use.
 
->         next =3D fwnode_call_ptr_op(parent, get_next_child_node, child);
->         if (next)
->                 return next;
->
-> -       /* When no more children in primary, continue with secondary */
-> +       /* When no more children in parent, continue with any secondary *=
-/
+> In general yes, but for devm_*() it makes not much sense as proven by dozens
+> of dropped "release/free" type of devm_*() calls in the past. Also as commit
+> message says for more than 10 years nobody used it even once. What does make
+> you think there eventually be at least a single user?
 
-What about
+Some of those release/free of devm issues are people intentionally doing
+a free and using the wrong function to do so, the main use case is
+enumerating something and deciding that some of the functionality is not
+usable so freeing the state for that functionality so you're not wasting
+memory carrying it around unused.
 
-  /* Direct children exhausted, go to secondary */
+--LR1K+I1v0utGIzb4
+Content-Type: application/pgp-signature; name="signature.asc"
 
->         return fwnode_get_next_child_node(parent->secondary, NULL);
->  }
->  EXPORT_SYMBOL_GPL(fwnode_get_next_child_node);
-> --
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmr3TmoACgkQJNaLcl1U
+h9BpfggAgaeRbroXiJauXKJFOh7AQpyorIQK/OS3zj185w3PA43OWfTMsj8+NRE6
+VHPyvQif96UWZEgYeiSD7uU9vFNeZjF32wSJoMvpN/WSF+hDMw2RYsFNWuyx3XAB
+02V7jV+3TvbQei1iXzGQEzC8aBM9K9LkzdTFpuEsySa20yuKzD6AOWtrLPtoclN9
+6VRA9qKLkZceIixIiPApKAZAP52WgCm26i39NyxYHiEJJPCsedeBN3Y3dIk2P34j
+hcBBkd/wyL91oRNt2IBCTT/Dgaw77nq8svc0WkqrvaOyPMuyk7QTpwLmc0b2f8Fk
+uKacq4jHoEo167OvrRohenquwhv+Pg==
+=gpLV
+-----END PGP SIGNATURE-----
+
+--LR1K+I1v0utGIzb4--
