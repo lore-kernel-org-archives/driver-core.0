@@ -1,86 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794564140;
-	b=32vD9thLbXnKiMSr6HyzRfVecTwhXimYn2YBSJiMaHS64Jb0q/CzQGWGGRFjK6JGWizH
-	 EKxSzC3SbK6rWhrPgKbARgcw6T5BzvCRYAToKa+ktpiV/zYOFZqDQ2EacqLwivswSZznY
-	 zdCrEEHsklGGowFQmIGF/1+ctahZz9IoFIYroP9CMfuTJzi3MqW+CA4iKn52Rgb9YNREu
-	 cyAOC8R78ZOESRmGClFYgEHuMoljId8ULC1klIufL47cxAKsuR9RBuQrPSbJA4XtVHFdl
-	 iFvM7mcOeMGnKYeNLld8tOe2TNvPXdiflDtLs3YTkTjwX9a8Bm1t12V6FSKwpkmbduw==
+	t=1794564161;
+	b=IOWDN7k5DYpM99PUt8MMhkG6AbFN1MOq6cODGE3nciCjEAvRdG36UhXTgCLp2tyLurVO
+	 zT9ZePqXe2aAKUCpbfvk9rTbueYjElSDGeBAL7n9xKoj+8XsjQse+m64ekxkoDvJPzSm2
+	 0fGaszcRDX/+7dzPgQPm+5201l+Syw7Zl+ebGJfybKT8MYlih+PdlaRz6RUUqszpCe7yE
+	 PB+AECcrLxsBm9EUkEZdgoYPCVs4SggDufSNZoD87kf5FrRw9GTpnfXwT4aiiMQz4rQ/t
+	 a5yhMf6ozFk180fEG+/G6upIdc7on1LaKSUu3ZZf8u96tH0D53uN1Hm0wZWk40ejLcQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794564140;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794564161;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
 	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=Ee4ggwaa7pvqsvjnONVsvhhjx7Blw4b1QTFG8P7u7TE=;
-	b=AuS1yoaKYo/S0i5FLWu2BX2VKitINQthuPUg16/QvjG0Gnc8smmXy8QW7uXoSPFfdOKN
-	 6AocRex0KXIXU6y8Z8OlFeaz7KqlT/C8rqsKWZq6XrHNg8kuxutqjBGNBzK2kSWfG5A1i
-	 jAlrfc8zTyKBZUUDdHKKim53p6/HDUU0obFUx5DcjTPrXuvGTdXweiVlw3zpPOFauSTXR
-	 MQSmPU6fC3PZjP7ZRnowzJc8k+1ZQQtC2szYvWwo7MqJPaklTYOjoA1tMKxb7qY2dWkFr
-	 pigjHGxyZKgrHcxw4fswL8Z45phBafulQPoWF0IyJeRbaYZPSPi2I7AkYKlLlghm5MQ==
+	bh=8oHy35ptJ0fLQb2YrI1vdssfNtJpVRQvJ6BVJKFTHRg=;
+	b=FbNbNGW44HKxgOdDayz0pRpOGk+WzUra4kkwE2E0U1eRiz6hlcm2w1T0hysOr/tmVYlJ
+	 Y8wF1EZYT/STsCHjk4/MZxs66gk250mhfRarRY3YU/nlh8xACVJyEcqRIFH2X+ka+Ai1H
+	 NAADcRiccX66EkUsB7bbqosQ/h6vvMqHB5SLkxAH2jPNgfmr87bULMVWW9Mfx4dMmrFkW
+	 FoyzJNnJ88m8oQoIzogzx1bYKWWIFtQP1+Mg4C3hkg2jXSsryxZvDTi6wUcCM/lq5OgWs
+	 wR+jeQrd+DhkqXPy+LIiePkpD/8Am2JoEKICjBsMBjkDkcpMMji9xaR1PwSyIG5Snjw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=amutable.com;
 	spf=pass smtp.mailfrom=amutable.com;
-	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=ggJN0w7o;
-	arc=none smtp.remote-ip=209.85.208.43
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=ntuGkCAM;
+	arc=none smtp.remote-ip=209.85.218.44
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63CE606A330
-	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 10:02:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E63CE606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD46606A899
+	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 10:02:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CD46606A899
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=ggJN0w7o
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6b70880c0a4so1097608a12.2
-        for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 02:02:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=ntuGkCAM
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c506a231b88so130912166b.3
+        for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 02:02:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794564138; x=1795168938; darn=lists.linux.dev;
+        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794564160; x=1795168960; darn=lists.linux.dev;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=Ee4ggwaa7pvqsvjnONVsvhhjx7Blw4b1QTFG8P7u7TE=;
-        b=ggJN0w7o4OBGyMU0n0Uw13SgI6jYSwEIOuWiy64uSAPbyZySLGT3tf0UWrZ9eRz2Sb
-         bOrkDXu8pRz2peCHlKWysnlK5aS6x/Bc33hvYKz/AOx3zUDwL8snp5pVvni9O4m2mmKw
-         1Z6JBPykfuzGFof/fsPq3noEw7kBFmTr+Jrgkscu5wsPZ50Z3g9kVh9Bz5P8Zofw8ecQ
-         k+SNcRAw4KlUB227trMMXjzYDca9vvgTYmHeU/Yon8GX6ieRzNytvdnE6adYjKHS29JF
-         qEYEhzyk46psYTkndGQ6nz1/Mg0lMmsnlszdXqq8BDqqFteqwF2iogFLXUTun2QW1M6P
-         n4Zg==
+        bh=8oHy35ptJ0fLQb2YrI1vdssfNtJpVRQvJ6BVJKFTHRg=;
+        b=ntuGkCAM4aWXV/nBhniX6yE94msfC9IfknTe2n/Iule0D/GO9gcIHSQutZ67lnyJXg
+         IummEkR2mfMzfc9caRoBsqj2KqL8bFs8PaJCLA5upvdxhyEXOxLYJArRNP+JzUEjSmgW
+         QYP5trRdAl24ZhUIeORlwiuQTlccBdh44EPdTgB6BtpG+/5GXsQ7lGM0NlA19pep85pJ
+         iQ8jlDOsi5i2kG7DB5N6OLIWxcwWimjpwZpxmMOSF6j51PQ5P7ZzjfLZAu8bASHnxQOx
+         Vf9rIRBpF1Df1EKmS7Sryqw66G+/NWDu+A4eRn/Tkz4eUlqXTNGwprmz2dD5FNFjKxcS
+         rzGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794564138; x=1795168938;
+        d=1e100.net; s=20260707; t=1794564160; x=1795168960;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Ee4ggwaa7pvqsvjnONVsvhhjx7Blw4b1QTFG8P7u7TE=;
-        b=SlbM0cZYVhiimCO2j3NJAIvGA8573ivB67HA1+Y0OpArxH6IXxw3OxlQTkOVP8OoYG
-         Q5WA65hUAC2AzoCJtzBKiFyEcYDAxTq+Nq9weNqC2Jj4EYji6JVTVgKl7myucHS6Kxhy
-         ovsNG1oAX7wSBYaZH/T6HgLZi3M3YJ1btUDPBddiKVRUyv+rapAQbmku5qQikErSz0G1
-         bMoFxNjroQ4anvgyIZBnBadoqdFwEWeu0nPKnGq17vPtvEc6v2plGW2P+XeCYsV4PV3F
-         zA47VdWGS/aFX3TQMdYOx6fPA7s+jSSJMrCEDO7ay+YxpVEzpWwFThCkhbylT8/dB1pA
-         00Fg==
-X-Forwarded-Encrypted: i=1; AL+hErGgzDq07+4HbzKrHqR2+nWcq4Ee1Z2dvNsmuqrxQmE/jigi2KaU1wsgCofXTCZTtxn1PfWYmsxE98dzOQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8h0Wkir788tSV6niigU79NKiPhcOO3nxJaB/vQ/qLfbR01Ez+I
-	NXaTy+FrERH6DIE9ixyRctNL8zDb6xrMdEeiCuXrSQWhErUOKMGK7P04diqEHevf/TUr
-X-Gm-Gg: AYBFou2bDBY0xIYPj1ObyNZhShuHKgOsHNChSqz1OBtFLa1CUwNSczHUUsbyvceMMl1
-	dxIgb02mZzCa70AU7DWOYaxT6JSxopMy1HBDFjHdOfO2o8eN1+m1OjuVFhO3TjTQVbiqTG3NjHB
-	tHenTkrgXHHRrqZW/itJ7tjZdAtDMAhsKTt7Gd7D6wcRituwj/M7nN1aYB1QAzUrumJe6mGuX9b
-	8VFgzu1ANX5ytcrrYXchbN4TP/MslAk52coIOI5RsX0BHja7WAfwMov8YRbec6PS5ZKQZjxPY0N
-	zfzi1pZbgFdHlYXx228WkCEMk/jq68GOxtB2SeBL2yQMmalM4cMQ58Hci5SaMFHp3rTSVmYlrT5
-	duVGxZ2LvExv+gZCLU3L+m/NO09KLGbxYw9K6JQJIJxweteCNsUwpjQrIInBF0xCJV4t4rLSr2p
-	VMTWlQkV8BLoFtGB637obH3MrAxCKGcDJgBkQOEXeHrLlG/PekK/DzqEYXfWEi48Cvur/l9Bcxt
-	5tD1mphUtINYN0F23Ehs+uVzibT0V9TTGR/PBryhNsIc/FOIZ1H7iI9cn/WueNuq64Ui44IgO/R
-	NQqPy4a0kKV7cu9gKn8nghLRIFFoacwauzm6KnixQgqoPRbwBnibQzW3pteBvZw=
-X-Received: by 2002:a05:6402:c4e1:10b0:6b6:eefc:ae7a with SMTP id 4fb4d7f45d1cf-6b7c088f8ecmr1236733a12.4.1794564138223;
-        Fri, 13 Nov 2026 02:02:18 -0800 (PST)
+        bh=8oHy35ptJ0fLQb2YrI1vdssfNtJpVRQvJ6BVJKFTHRg=;
+        b=kB4HSM2M0irh7kvpVz8JFzHS5ZxgMjfvOGbtPK3Kl5joLN5r0TV2m/XZoCceeV4olv
+         lUxYaDer+zc2CVQlUCDXCu+yasqcDhhijDMwkNNMjvLn0osZyHhy8VExBael4eTr4+Xe
+         rdoUF8oGqUURtP4SkcodwNOJezVVazFD5w4K4mpNQgJX28O/oSDohlGdCtyo8BJxbYcq
+         hT9i0tcg4mz4/3yjG/Eg+7QDA19MUqtvoV76pQSD++JfN9/przjusS+4zde3FEw6W8Oq
+         nmaJ6TUao2UsRrcVirEXw9sTFK2Rd5eO4ughrJxb8SZ8V4JWaV6D3tzzhq3iJYSAwMRW
+         utgg==
+X-Forwarded-Encrypted: i=1; AL+hErEu810Sf8t/OKK9lFswHmh/gSSshoqUMCklN1rzVYKCfEC4eLvbARzE5V2GU2FYJnjV9XBNYwMXiVoDbw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8sZgPgRYxKf0Z2+TAASetBOgXVqM933Q1B6QZb0xIN6QNzusPn
+	BSmAY+9pX/3O9Qpz3TNnYgfCkPQkcxR6HHVsQtoHq7FEAuCbqtCotP9liZYfJQUVXdXY
+X-Gm-Gg: AYBFou0Tb41H0dlnWJo0pCKFEQDaleBiB+3F0cGLSQNn/B6cujFMGztyQJI8ZfL+bZT
+	DIq630Mm1VLg+M8t7Ckc0Bt7IVICc+s2FtDwKrrGDbhACKKyAPEka3ivxHrJX9MlOkJgNFihzkW
+	TEQNk6JFKQgVuof3NjD70elMvvqC3QMxXB2OzuDOmHZkGGagCMd2THfH3YNCqYHeA4dYSxxq7wf
+	DbUU5+12UT3VEp9w/aZfRuQgAn03snkSBjSm3248A4adoDQ8HiukzkH73yf9lwQagGtXNro/qeD
+	4cTPYjvJEDRJqwCvGjC8hAb3uT9tiEh8hyFAPSVrai3ZeKnAVdsHaWWtSb/r1a/klriMaBAmq4G
+	NE659CKvkfXshiHjCJCEunFQ+PFFSjYqwA/8HUiEawsf4cNuKnbsony7TassfLx4ZqqZviTie/l
+	s6KDLvebv6Z2CxkdGYAUTPahh7o7mrkEXE77n9YSBcwcqElNz5BRrGRHwJM/rn2zSqcqJh5xjLh
+	6AVMXCKwJokXtec5vDyx0I1nMKzTApwSX0tTyC6QCDYLbxETLOi4RT28OuIheCQRa015yORttkB
+	j9iYmsiCwxRY5IyKR0waDe3Q3dayslP4P0IOt9E1ZP6G5Rp7GPXpjRttoLHD4PA=
+X-Received: by 2002:a17:907:7b93:b0:c29:f5d5:5a9c with SMTP id a640c23a62f3a-c509654de57mr163595166b.38.1794564159104;
+        Fri, 13 Nov 2026 02:02:39 -0800 (PST)
 Received: from [10.0.0.233] (tmo-086-54.customers.d1-online.com. [80.187.86.54])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b7c23c672asm734155a12.15.2026.11.13.02.02.16
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b23afdsm74417566b.13.2026.11.13.02.02.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 02:02:17 -0800 (PST)
-Message-ID: <f4ce8239f22046e90cf4807853282a570c73707a.camel@amutable.com>
-Subject: Re: [PATCH RFC 04/41] fs: add SB_I_PSEUDO
+        Fri, 13 Nov 2026 02:02:38 -0800 (PST)
+Message-ID: <8c51aa1ad231dea30af06ecf761a971f5958d063.camel@amutable.com>
+Subject: Re: [PATCH RFC 05/41] kernfs: use fc_init_pseudo()
 From: Alexander Mikhalitsyn <alex@amutable.com>
 To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
 Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
@@ -98,10 +98,10 @@ Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
  linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
  <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
  linux-kselftest@vger.kernel.org
-Date: Fri, 13 Nov 2026 11:02:15 +0100
-In-Reply-To: <20261110-work-loop-pseudo-v1-4-4c998976c6c7@kernel.org>
+Date: Fri, 13 Nov 2026 11:02:36 +0100
+In-Reply-To: <20261110-work-loop-pseudo-v1-5-4c998976c6c7@kernel.org>
 References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
-	 <20261110-work-loop-pseudo-v1-4-4c998976c6c7@kernel.org>
+	 <20261110-work-loop-pseudo-v1-5-4c998976c6c7@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-0+deb13u1 
@@ -116,104 +116,48 @@ Precedence: list
 MIME-Version: 1.0
 
 On Tue, 2026-11-10 at 10:14 +0100, Christian Brauner wrote:
-> Currently, there's no way to tell whether the files of a filesystem
-> store data or whether they are kernel interfaces. Files on pseudo
-> filesystems such as procfs or sysfs generate their contents when
-> they're
-> read and writes to them are commands to the kernel.
->=20
-> But a few places in the kernel take an arbitrary file and use it as
-> storage: loop, zloop, the nvme target's file backend, the scsi
-> target's
-> fileio backend, fuse passthrough, the usb mass storage gadget and
-> erofs
-> file-backed mounts. At most they check the file type and whether the
-> file implements ->read_iter() and ->write_iter(). That's not enough.
-> kernfs provides both for every sysfs attribute for example.
->=20
-> Add SB_I_PSEUDO so a filesystem can state that its regular files are
-> kernel interfaces and must not be used as storage.
->=20
-> Pseudo filesystems also never hold executables or device nodes. But
-> currently each of them decides on its own whether to raise
-> SB_I_NOEXEC
-> and SB_I_NODEV. Some do, most don't. Add fc_init_pseudo() as the
-> common
-> initialization point for all pseudo filesystems that raises all three
-> flags and switch init_pseudo() over to it. The following patches
-> convert the mountable pseudo filesystems.
->=20
-> Nothing checks SB_I_PSEUDO yet so no functional changes.
+> Initialize all kernfs based filesystems as pseudo filesystems in
+> kernfs_get_tree() instead of raising SB_I_NOEXEC and SB_I_NODEV by
+> hand
+> in kernfs_fill_super(). This adds SB_I_PSEUDO for sysfs, cgroupfs and
+> resctrl.
 >=20
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
 Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 
 > ---
-> =C2=A0fs/libfs.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +=
--
-> =C2=A0include/linux/fs/super_types.h |=C2=A0 1 +
-> =C2=A0include/linux/pseudo_fs.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 11 ++++++=
-+++++
-> =C2=A03 files changed, 13 insertions(+), 1 deletion(-)
+> =C2=A0fs/kernfs/mount.c | 4 ++--
+> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/fs/libfs.c b/fs/libfs.c
-> index 96a6e9b1535f..8c8789489fdf 100644
-> --- a/fs/libfs.c
-> +++ b/fs/libfs.c
-> @@ -735,7 +735,7 @@ struct pseudo_fs_context *init_pseudo(struct
-> fs_context *fc,
-> =C2=A0		fc->fs_private =3D ctx;
-> =C2=A0		fc->ops =3D &pseudo_fs_context_ops;
-> =C2=A0		fc->sb_flags |=3D SB_NOUSER;
-> -		fc->s_iflags |=3D SB_I_NOEXEC | SB_I_NODEV;
-> +		fc_init_pseudo(fc);
-> =C2=A0		fc->global =3D true;
-> =C2=A0	}
-> =C2=A0	return ctx;
-> diff --git a/include/linux/fs/super_types.h
-> b/include/linux/fs/super_types.h
-> index 72f4288e16c5..472200bdf081 100644
-> --- a/include/linux/fs/super_types.h
-> +++ b/include/linux/fs/super_types.h
-> @@ -359,5 +359,6 @@ struct super_block {
-> =C2=A0#define SB_I_NOIDMAP	0x00002000	/* No idmapped mounts on
-> this superblock */
-> =C2=A0#define SB_I_ALLOW_HSM	0x00004000	/* Allow HSM events on this
-> superblock */
-> =C2=A0#define SB_I_NO_DATA_INTEGRITY	0x00008000 /* fs cannot guarantee
-> data persistence on sync */
-> +#define SB_I_PSEUDO	0x00010000	/* regular files are kernel
-> interfaces, not storage */
+> diff --git a/fs/kernfs/mount.c b/fs/kernfs/mount.c
+> index a0be784bfb06..6b60d212b003 100644
+> --- a/fs/kernfs/mount.c
+> +++ b/fs/kernfs/mount.c
+> @@ -8,6 +8,7 @@
+> =C2=A0 */
 > =C2=A0
-> =C2=A0#endif /* _LINUX_FS_SUPER_TYPES_H */
-> diff --git a/include/linux/pseudo_fs.h b/include/linux/pseudo_fs.h
-> index a651e60d9410..0ca408aa60af 100644
-> --- a/include/linux/pseudo_fs.h
-> +++ b/include/linux/pseudo_fs.h
-> @@ -2,6 +2,7 @@
-> =C2=A0#define __LINUX_PSEUDO_FS__
+> =C2=A0#include <linux/fs.h>
+> +#include <linux/pseudo_fs.h>
+> =C2=A0#include <linux/mount.h>
+> =C2=A0#include <linux/init.h>
+> =C2=A0#include <linux/magic.h>
+> @@ -298,8 +299,6 @@ static int kernfs_fill_super(struct super_block
+> *sb, struct kernfs_fs_context *k
+> =C2=A0	struct dentry *root;
 > =C2=A0
-> =C2=A0#include <linux/fs_context.h>
-> +#include <linux/fs/super_types.h>
+> =C2=A0	info->sb =3D sb;
+> -	/* Userspace would break if executables or devices appear on
+> sysfs */
+> -	sb->s_iflags |=3D SB_I_NOEXEC | SB_I_NODEV;
+> =C2=A0	sb->s_blocksize =3D PAGE_SIZE;
+> =C2=A0	sb->s_blocksize_bits =3D PAGE_SHIFT;
+> =C2=A0	sb->s_magic =3D kfc->magic;
+> @@ -388,6 +387,7 @@ int kernfs_get_tree(struct fs_context *fc)
+> =C2=A0	info->ns =3D kfc->ns_tag;
+> =C2=A0	INIT_LIST_HEAD(&info->node);
 > =C2=A0
-> =C2=A0struct pseudo_fs_context {
-> =C2=A0	const struct super_operations *ops;
-> @@ -15,4 +16,14 @@ struct pseudo_fs_context {
-> =C2=A0struct pseudo_fs_context *init_pseudo(struct fs_context *fc,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long magic);
-> =C2=A0
-> +/*
-> + * Common initialization for all pseudo filesystems, mountable or
-> not. Their
-> + * regular files are kernel interfaces. They don't store data and
-> pseudo
-> + * filesystems never hold executables or device nodes.
-> + */
-> +static inline void fc_init_pseudo(struct fs_context *fc)
-> +{
-> +	fc->s_iflags |=3D SB_I_PSEUDO | SB_I_NOEXEC | SB_I_NODEV;
-> +}
-> +
-> =C2=A0#endif
+> +	fc_init_pseudo(fc);
+> =C2=A0	fc->s_fs_info =3D info;
+> =C2=A0	sb =3D sget_fc(fc, kernfs_test_super, kernfs_set_super);
+> =C2=A0	if (IS_ERR(sb))
