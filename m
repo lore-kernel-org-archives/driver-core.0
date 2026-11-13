@@ -1,115 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.136
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.225.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794569451;
-	b=GidhkB43x6+ES+O/jJLHPryi1G4AZ7ddualw6MCPrzORr0YT5GzQWumBInP1lBiObAlG
-	 HYlADDRbjH/Nis6/vLShtER7fAZpwLtTHnaovdIdIbuioVGhjyfIXRvJCelYS/8nxZ18u
-	 EjlkXLNb2b2H09SgH5bHn902MFKu+qIrMJYQ63mHtszoq3qVRU/OfO9+BXWFgAbYJuDKC
-	 CQsFfNfBHU+ZWzKtawmo/7HqcLCMBHqArLiqhZe+nRVEQjNGP39yVd6+gkdzrgl96jK7E
-	 JVPh8WZBvCEpYzQI5RgDPXqY0x/6M9LLThppbL9kS/4DocyKSWiQkZMFzmn8ETimC5g==
+	t=1794570657;
+	b=cjvR+4Qiy+SDj4gMAjScSQH6OWQ9QrOd8FpJXPLcs+HVW8dnyCCaSx9IsUAqjYEyzmyO
+	 UwURMAUT5HqOF1nSJYJYn9meZBKhUFPHmX1v7RB9CZGs1KDBBU/9/vHqpiMl7aGcm6b28
+	 GbXs8ljQwyX/lziLyzkO3/k+a6htVVKax17xHpoQsbL7dN5B3zIT839yxYYxaAFPflLX8
+	 GW1tfJknjzecalVyiu4wP7/b31zhLlqr9gPboF9wJgcHtYXEiM+X2mqITjfxm9nYg8bQB
+	 1J4EZS6MnDAjnkku6sVRfWIv5DRjABEyI4TlUnvOumOS5HLY7VkJNBBiRNGdXTZR5oA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794569451;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:From:Content-Language:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=PnqFm2jYeAVrycuwwVcWm5rqzekmC81/znw1H31yK8Y=;
-	b=p0PP7BD+XR+fRzHKYHfPIwwpqwMe45HcZtWAxuTjOkUqfj0cJdc7mRzVphLYLrvNYJT3
-	 JgpnBo+spOHq3/8pbuaza72sDrZw38gpzbqxgHxgY/dGnKnKddrDBSU8ilZFeCynZg4qg
-	 iz3Ej+q5v+LpLPd3bii3miLiW1QloMHm792WQSq5W2b28jsoMjDBCjgR8c/NYbsOVRQrQ
-	 7QUrzTCu88Hom0Z0imtz9ZXUDjrc55rsmj1hffX7U/Rvw/0LZAn/tayUUKMgerUjvbKFY
-	 4AQvBn4IOqqVR/ZeG7qrNv98MEOsK+T9GJak0jP2GW98l/A5/IZUuZkVVen3//0ckfw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794570657;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=Rk3otRCyAGvYi9qROv1wnRXT7VTrY+ckBcx/ltC2G4s=;
+	b=CMSZTjCtHTheJ4vb+RyLj5nPq/tcngUUgqf9XyPOb6kT19KY3anlbr8BqzZTXyEcBhbu
+	 MRSCE8xOPkGuEyKZpu7h1s5aQQezP7C+ApKrCqnWTqRwEvrGZEwptLByZwDSqBAFGI/cX
+	 44pSBmAG772VU28tnqDIBti/92AUQ4DKO9z8t91JcP6n0wkOLipa3oqQ+oNWwu9Fg8GEt
+	 qHk5FzbX7qDx3p13cjieNJ0CSDsyg12zcG9uE4uyrF5UTSaP4fgHGIfIDNvYv6AdZ2QMO
+	 6mIjgK/E1S35XAtCf43cfTNadeaV9xCZH1/RcIBP0DHOh96Xyw+2++a0Cn/GUpc3xZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ozlabs.ru;
-	spf=pass smtp.mailfrom=ozlabs.ru;
-	dkim=pass header.d=ozlabs.ru header.i=@ozlabs.ru header.a=rsa-sha256 header.s=fm2 header.b=meyXLT19;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=z5KwZaQH;
-	arc=none smtp.remote-ip=202.12.124.136
-Received: from flow-b1-smtp.messagingengine.com (flow-b1-smtp.messagingengine.com [202.12.124.136])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=amutable.com;
+	spf=pass smtp.mailfrom=amutable.com;
+	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=V6udKOoy;
+	arc=none smtp.remote-ip=74.125.225.137
+Received: from mail-wm2-f9.google.com (mail-wm2-f9.google.com [74.125.225.137])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F551606A32E
-	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 11:30:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F551606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ozlabs.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ozlabs.ru
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5761E606A332
+	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 11:50:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5761E606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ozlabs.ru header.i=@ozlabs.ru header.a=rsa-sha256 header.s=fm2 header.b=meyXLT19;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=z5KwZaQH
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailflow.stl.internal (Postfix) with ESMTP id 825FC130329B
-	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 06:30:48 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Fri, 13 Nov 2026 06:30:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ozlabs.ru; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1794569443;
-	 x=1794576643; bh=PnqFm2jYeAVrycuwwVcWm5rqzekmC81/znw1H31yK8Y=; b=
-	meyXLT19M5tP7DpYkCarFfEvAZ98dGNdhyj5+9QpEzKxvNaClUxy6dTnbD0Rpd/n
-	zWdv/EQHbNzX/lkVmrCGaUCDm2V0L0gg7WR9CMXWT7D2AtrkYFblMEydDYmEqHc5
-	T5/8mp8dv4ddaRmHBiM20By/5mThMboMBfRh+bl2seBgnftCq7zNz+WFc9qU3txx
-	y1zsoVUdjuvjSybxPHt6io16q/yhVkejW3o7KJexkFMPO5TmRy640ENV93bFDWvF
-	tmctKNQdFOPtT1yBDFpvNYcaEBnbBkSpqtbQl6BflVVdiVPuwRbu42yUoE605UjK
-	fp8mJRtNsA5XpYQWstw9Iw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794569443; x=
-	1794576643; bh=PnqFm2jYeAVrycuwwVcWm5rqzekmC81/znw1H31yK8Y=; b=z
-	5KwZaQHi47wioxVdckkyfexJXNh1yWLwJd+lk0ReeNehcKro10LwL9bD7bs9WnIM
-	Z7Qbk65gvREhLj6tSfZnPDhsDd5sIdcyFc8iV/LJd9AujjpHob9yGLMjdmFusZtz
-	iuqunZzSnWkrrH4E0+JKZEuVHPcFRnsBerwvqxCcA3847KTmMB8MGogcQC8/F6VG
-	34TvkYXJNzfWW4IM6wDxxxqmcBZTs1zN08liBDYh0SyKU6yMl4v9ij91WMgWodoJ
-	87fXCfvyIe9ikwPHuYplmB6nfdWyhz7vWP3PgQMW9QGF9WEZyoWbAKNijHxnuiJb
-	QttyeCAKCpVJhWKkTn5LQ==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=ozlabs.ru a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1794569443; d=ozlabs.ru;
-	mf=PGFpa0BvemxhYnMucnU+;
-	rt=PGRyaXZlci1jb3JlQGxpc3RzLmxpbnV4LmRldj4=;
-	s=fm2:rsa-sha256:PF4iRkiXjmF24YyTplC2VUiMvma9v8MZmuvgARkWSXUxSW3
-	Aou9cvuFcPcRhbSxDZGOvo7kW4t++9vps5/0y38Dgi35LrZkldQcNOM4qhQqzyAp
-	ArHiOlI3hBSxSE6NrhJb9adgFs6Nl8HRy504Mw3TQmTuuUNsl4yJKiNMFRLS2+A0
-	Mltf/v0cpreGCollcMOVQyRTJ/uO4tepKmhyJ+ahG2g50KVSmO4LhInMrvmT2kYV
-	fdHl8g4TDaQHleQHOn98+XeWhIn+kxnXTCx2gi0IOszw88m17HwOZVUwvW+zmmeN
-	O5BxSIcziKKrCfRSlJ6dUsSZDhZqHhCb6nn1uxg==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=14;
-	hn=cc,content-language,content-transfer-encoding,content-type,
-	date,feedback-id,from,in-reply-to,message-id,mime-version,
-	references,subject,to,user-agent;
-Message-Instance: m=1; h=sha256:iFx97hTcJ8Y1HUPfOfFECH232yfXw3++rBlsuYz0mF0=:tlT8VnyioQvKXETdlI95QOP3NKRxuzvpY7TOEGpmLWA=;
-X-ME-Sender: <xms:4vT2aukLJNhXIlf5PCN5DDG_DUPVgFMdT3W3STgPD6GZFqVfRZBunA>
-    <xme:4vT2ath-eWWok9eJRVsMbzX26Zs67vK0HG9xuIiXoCBdNCyp9uux2qSyB8cLCnQPa
-    AfjZbjzKaY_I9ndGZiEb_sQz63W9zRN7re10r9-47dGWxL2N0KOBmsYVw>
-X-ME-Received: <xmr:4vT2au0hf_49BkaVpZVERbm7WPN01EaKpUsTyIQ_u13aDA3gmVmP2541xH8vYpLuJCY>
-X-ME-Proxy-Cause: dmFkZTGaq2+9qYRP465S1d+h0vXe/GuuDBYKns8z2mjhl4Mh0Tz8Jm1Q5IM59n2D+nYg00
-    adwvLbeR/yRRkZP0bvBiD3E+0a7ovEe1XqkgRvybXznyODhw8beoxifL9k20sY2YwzmQoj
-    R6l5ikRhfWRx3WaGBbFDyppVKKBZw9G6WIBDHCtAMj/mkNi/iCMOhe/08YcdFgBcef6tj6
-    VyPIRk+TFJ26QQnBWIPmk6f6yldoBEuKiueQEwzUJ3kUyoOWpE4fIwDfLkEJPNsGEcG9Dw
-    qEzByjb+To7cJv6CAJ36oyif6gyFz8GxU55MM1bSRgezL7B1iLqWnUYZIEVeORWHwTMrEo
-    DQWU963CHbyGdksWrG9aZenHkDnTlUf2FX4V+ez7VangjG+/vZbYZjKk2CKp8Tjpyt8pno
-    Gjhv01vgSNvg/pblIP/pWZyjUB5WQwo0Sf9n2/iLH1XZLgSg+6DeZMTVo1H3MDMECQXmvB
-    tx1bJgI8JpCUVsYAwLxCDaAsC4hNzvwNedUqA+IzVOJ9uTOfhG4njJ2KYmNMS8q5I24owj
-    seD77vt2pgtfFxHHNzvGEjwbCxL0I0kNXFyNrXCuL3dQDQ1CJ/w1/oKl4lNWUt2nPZOYLR
-    N8iDMJOHzKj4RNhR3wnB9RHeT4TgPYv1JEIHhK7NpSBn3GDTDjJtBLmifAVw
-X-ME-Proxy: <xmx:4vT2ahTlwSkZzQRCNTy4e4IM1jjgnsiV6UQQe5LtT3yhoLT7lAnbUA>
-    <xmx:4vT2agbrba6_sGmOV8yoWpigfnLXrNHVxahQV1rGxnC3A4QpIpBM0w>
-    <xmx:4vT2au4qVBkej9Xwa24yw8dsyUBpBsGuInNz8qBD8STYHJGZ2R1oBA>
-    <xmx:4vT2ahv2H635BgSHqh-pUX_ge_nlp_d02QRTAzGWj151IJlG3YtULw>
-    <xmx:4_T2ajypviWSmq8MjGemjX20HXWfonfrDF0zuQLuAQ4YiMzffTrauvgd>
-Feedback-ID: i6e394913:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 13 Nov 2026 06:30:29 -0500 (EST)
-Message-ID: <de5772b3-c340-4822-a49a-1434ece1b144@ozlabs.ru>
-Date: Fri, 13 Nov 2026 22:30:23 +1100
+	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=V6udKOoy
+Received: by mail-wm2-f9.google.com with SMTP id 5b1f17b1804b1-4bb5b21feccso490435e9.1
+        for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 03:50:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794570655; x=1795175455; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=Rk3otRCyAGvYi9qROv1wnRXT7VTrY+ckBcx/ltC2G4s=;
+        b=V6udKOoyGp9v6JtgSgAxPmtGCA39jAtbspcsZaAeyuKtcTiCowVKkxf32iiubC8bmG
+         MeVHdbNShFGvFqCXMS84F/IztSH+cnWtD/750pQ6mZf8X/XWLHNhJhzDIvkLCnw2hu3w
+         XgFyEeIAj4YJZP/T5Q3EwE4ixgO7FRgwaQ+LEoVl/k9X2pMOBJn+Zxx0tq5IB5ig/Nxk
+         tfJlaNcB1rGoMRJ2GeOFRuoUj/UdLSVGiwk2VAlD9Ecl96uxwb4m2wEOSXC4MPX2ekLf
+         owmnMZ+r+H4LS2emrgRq04Bb5WZLQax5Pn1jHX1t1YSbWFqC37BvcCnOMYFqWYjl3yIo
+         rceg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794570655; x=1795175455;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Rk3otRCyAGvYi9qROv1wnRXT7VTrY+ckBcx/ltC2G4s=;
+        b=v7so8m3PlsjpbbXuj9VLnaGXi5+zh2Ns5swxg6IyOsjdSXJew8yxPZmc3E0YSxlG4M
+         aAb3tlm20Oo3CBo4sFhxYdB6/IiuRPKLi7iwmxxO9n7hNDY+XquY+W5mBgvAAdAr40r5
+         slw03ngUiSuEF5Mn69af4zXYfWAIVy3Rh/QmONu/xsluwfYdpUu09sqvLk3UdueWKdSW
+         AC8EWRBCTmQa1bS+i//DIl2Xy6qzAVf5XGGtxJwV3pGtyBuwHcXzd03TzlpTRv31BU7d
+         HSuVtRojnWbd1c/HdTIOjFL06ul7A20cjKRoR7V4BahAPXznMcp74W9p28AMTK4lFFTT
+         WCEw==
+X-Forwarded-Encrypted: i=1; AL+hErGD1iKZAYEW1IU1P8JWpxC7uoAQ65QM+E3Jy5akbNdLhPH7UIwf3I6sys4Ygurxvo0D96laOsDZVVMzUw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+Og4NLXf7L4A5S72aMiRORGqw7Jk+mZb8BxMo3D97V5zUB+len
+	sTQB2Dh3PNEeN7WeXhYWxmrX7MPn0IBY1ei7/A+CLFfoGM1efHKXCuLYc0v72wcwC3iH
+X-Gm-Gg: AYBFou0exGponX4HpEFofutu9nzs9pSegOvWwVo9TWAsOJ9fO+v/x1WqGvCS+3W5FeB
+	MroLNgnWkY0mJGOL8Iy85GiNs73vW0GPZCKnCIL3NSf3FkWEVB2zkap+tHKY4i3tQ6gRdQZP0Pp
+	St3gVxiOXGJiS6UmmKisjpNqm9M3yZsXRbMV+rKFNRBU9/L7+/d6Ml9Ly8N3sAfvxb315q84JRy
+	ln3WoCC2Mm0ng0k8LvO1g00Zzf0f24ESq+9WPje/79yYDLkRGbg4vsTACALbQsRWFcTDxYgRv9D
+	YGjP06WBZmjIlmooM7/H/K1vor5kM1vW/ROvhkVRim44+3418kExmlnFIRYcIGrVU2VgEPxU1GA
+	DuLgQTzXODlkXcEPfTs4RY8OsOlafrfCndJoKGFQ2SD+i4NwkNx6/KEDjWIoDedzg6tgtQhlsmu
+	3NHB8jOduEN4RXfq9foL5cpD48f9wkQ/0/cqFGq6LoRvUpXAODWox4fiz5unlizbhZuHolNeCpN
+	a+kqlxVaJ2wPqNvv4M1ro/gcb5PmC2ESUoGnp7jfAeSVrbNhWK87aUhrOjIqacLLIg+t292oTB1
+	9FINrqslcfxJiTvMAspYbKGQaIkQH9qyQDqJKpUJL97ilGGKcE0kukrXWck9l1U=
+X-Received: by 2002:a05:600c:b95:b0:4a2:d99:3171 with SMTP id 5b1f17b1804b1-4bb55aa3688mr46865575e9.23.1794570654371;
+        Fri, 13 Nov 2026 03:50:54 -0800 (PST)
+Received: from [10.0.0.233] (tmo-086-54.customers.d1-online.com. [80.187.86.54])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb571d7e87sm33015315e9.3.2026.11.13.03.50.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 03:50:53 -0800 (PST)
+Message-ID: <ae189903d4cda27130317a9312d94b53d07415ba.camel@amutable.com>
+Subject: Re: [PATCH RFC 00/41] fs: don't use pseudo filesystem files as
+ storage
+From: Alexander Mikhalitsyn <alex@amutable.com>
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
+ Bacik	 <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, 	driver-core@lists.linux.dev,
+ linux-mm@kvack.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org,
+ netdev@vger.kernel.org, 	fuse-devel@lists.linux.dev,
+ linux-efi@vger.kernel.org, 	xen-devel@lists.xenproject.org,
+ ocfs2-devel@lists.linux.dev, 	linux-s390@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
+ <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
+ linux-kselftest@vger.kernel.org, 	stable@vger.kernel.org
+Date: Fri, 13 Nov 2026 12:50:50 +0100
+In-Reply-To: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
+References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -119,545 +114,230 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/19] driver core: Introduce a generic device trust
- level
-To: Leon Romanovsky <leon@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, David Woodhouse <dwmw2@infradead.org>,
- Lu Baolu <baolu.lu@linux.intel.com>, Johan Hovold <johan@kernel.org>,
- Eric Dumazet <edumazet@kernel.org>, Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Nipun Gupta <nipun.gupta@amd.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>,
- Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
- linux-input@vger.kernel.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, iommu@lists.linux.dev,
- Jason Gunthorpe <jgg@ziepe.ca>, Alexey Kardashevskiy <aik@amd.com>
-References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
- <20261109-device-trust-core-v2-11-3b12d9a9f861@nvidia.com>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-Content-Language: en-US
-In-Reply-To: <20261109-device-trust-core-v2-11-3b12d9a9f861@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 9/11/26 18:33, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
-> 
-> Device setup needs a common operating policy before driver probing or DMA
-> configuration. Userspace must be able to hold devices disabled until it
-> authorizes them.
-> 
-> Add generic trust admission with an immutable global boot policy. Restrict
-> the compatibility attachment API to explicit global full policy and full
-> operation, checking admission before probe. Keep the operating level
-> stable until teardown and retain normal locked admission for other callers.
-> 
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-
-this got many CCs except the one where I was (eagerly) looking for it: linux-coco@lists.linux.dev :)
-
-
-> ---
->   Documentation/admin-guide/kernel-parameters.txt |   8 ++
->   drivers/base/Makefile                           |   2 +-
->   drivers/base/base.h                             |  16 +++
->   drivers/base/core.c                             |   3 +
->   drivers/base/dd.c                               |  38 ++++++-
->   drivers/base/trust.c                            | 132 ++++++++++++++++++++++++
->   include/linux/device.h                          |   8 ++
->   include/linux/device/bus.h                      |  10 ++
->   include/linux/device/trust.h                    |  44 ++++++++
->   9 files changed, 258 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 0b3c140babd94..81a936dca9476 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1259,6 +1259,14 @@ Kernel parameters
->   	dell_smm_hwmon.fan_max=
->   			[HW] Maximum configurable fan speed.
->   
-> +	device_trust.default=
-> +			[KNL] Set the initial trust policy for all devices.
-> +			Format: { default | disabled | adversary | full }
-> +			If omitted or set to default, preserve bus policy.
-> +			Other values replace bus policy. The last valid value wins.
-> +			Full-only manual driver attachment requires full; other
-> +			global policies reject it before the probe callback.
-> +
->   	dfltcc=		[HW,S390]
->   			Format: { on | off | def_only | inf_only | always }
->   			on:       s390 zlib hardware support for compression on
-> diff --git a/drivers/base/Makefile b/drivers/base/Makefile
-> index 435710f643a5c..cb3bd5fa2287a 100644
-> --- a/drivers/base/Makefile
-> +++ b/drivers/base/Makefile
-> @@ -3,7 +3,7 @@
->   
->   obj-y			:= component.o core.o bus.o dd.o syscore.o \
->   			   driver.o class.o platform.o \
-> -			   cpu.o firmware.o init.o map.o devres.o \
-> +			   cpu.o firmware.o init.o map.o devres.o trust.o \
->   			   attribute_container.o transport_class.o \
->   			   topology.o container.o property.o cacheinfo.o \
->   			   swnode.o faux.o
-> diff --git a/drivers/base/base.h b/drivers/base/base.h
-> index 866b2beb6baa2..ba8b5b3c51a65 100644
-> --- a/drivers/base/base.h
-> +++ b/drivers/base/base.h
-> @@ -10,6 +10,7 @@
->    * shared outside of the drivers/base/ directory.
->    *
->    */
-> +#include <linux/device/trust.h>
->   #include <linux/notifier.h>
->   
->   /**
-> @@ -88,6 +89,13 @@ struct driver_private {
->   };
->   #define to_driver(obj) container_of(obj, struct driver_private, kobj)
->   
-> +enum device_trust_state {
-> +	DEVICE_TRUST_SELECTABLE,
-> +	DEVICE_TRUST_WAITING,
-
-What is the exact difference between these? "Waiting" is waiting for what?
-
-> +	DEVICE_TRUST_AUTHORIZED,
-> +	DEVICE_TRUST_COMMITTED,
-
-And exact difference between these two? Some documentation would be great.
-
-dev->trust_policy is how we want the device to operate.
-dev->p->trust_state is where the device is on its way to that final policy.
-
-right?
-
-
-> +};
-> +
->   /**
->    * struct device_private - structure to hold the private to the driver core
->    *			   portions of the device structure.
-> @@ -105,6 +113,7 @@ struct driver_private {
->    *			   dev_err_probe() for later retrieval via debugfs
->    * @device: pointer back to the struct device that this structure is
->    *	    associated with.
-> + * @trust_state: policy admission state
->    * @dead: This device is currently either in the process of or has been
->    *	  removed from the system. Any asynchronous events scheduled for this
->    *	  device should exit without taking any action.
-> @@ -121,6 +130,7 @@ struct device_private {
->   	const struct device_driver *async_driver;
->   	char *deferred_probe_reason;
->   	struct device *device;
-> +	enum device_trust_state trust_state;
->   	u8 dead:1;
->   };
->   #define to_device_private_parent(obj)	\
-> @@ -166,6 +176,12 @@ void bus_remove_driver(struct device_driver *drv);
->   void device_release_driver_internal(struct device *dev, const struct device_driver *drv,
->   				    struct device *parent);
->   
-> +/* Full-only manual attachment uses the caller's subsystem serialization. */
-> +void device_trust_init_state(struct device *dev);
-> +int device_trust_prepare(struct device *dev, const struct device_driver *drv);
-> +int device_trust_prepare_full(struct device *dev, const struct device_driver *drv);
-> +void device_trust_clear(struct device *dev);
-> +
->   void driver_detach(const struct device_driver *drv);
->   void driver_deferred_probe_del(struct device *dev);
->   void device_set_deferred_probe_reason(const struct device *dev, struct va_format *vaf);
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index cbe05197d4a0b..6b94a163cda8d 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -3681,6 +3681,9 @@ int device_add(struct device *dev)
->   	if (error)
->   		goto name_error;
->   
-> +	device_trust_init(dev);
-> +	device_trust_init_state(dev);
-> +
->   	pr_debug("device: '%s': %s\n", dev_name(dev), __func__);
->   
->   	parent = get_device(dev->parent);
-> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-> index 0f56c3d825731..449986f741009 100644
-> --- a/drivers/base/dd.c
-> +++ b/drivers/base/dd.c
-> @@ -558,12 +558,24 @@ static int __device_bind_driver(struct device *dev)
->    */
->   int device_bind_driver(struct device *dev)
->   {
-> -	return __device_bind_driver(dev);
-> +	int ret;
-> +
-> +	if (dev->bus && dev->bus->trust_resolve)
-> +		return -EOPNOTSUPP;
-> +
-> +	ret = device_trust_prepare(dev, dev->driver);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = __device_bind_driver(dev);
-> +	if (ret)
-> +		device_trust_clear(dev);
-> +	return ret;
->   }
->   EXPORT_SYMBOL_GPL(device_bind_driver);
->   
->   /**
-> - * device_driver_attach_full - attach a driver using subsystem serialization
-> + * device_driver_attach_full - attach a driver under the global full policy
->    * @drv: driver to attach
->    * @dev: device to attach it to
->    *
-> @@ -576,6 +588,12 @@ EXPORT_SYMBOL_GPL(device_bind_driver);
->    * It calls the bus or driver probe callback and publishes the binding without
->    * performing the normal driver-core DMA, pinctrl or power-domain setup.
->    *
-> + * Requires device_trust.default=full and a full operating level. Runtime
-> + * policy writes are disabled in this mode; boot policy exceptions still
-> + * apply. When driver boot rules exist, an explicit device boot rule must
-> + * exclude them for @dev. Buses with a trust resolver must use
-> + * device_driver_attach().
-> + *
->    * Return: 0 on success, or a negative error before binding.
->    */
->   int device_driver_attach_full(const struct device_driver *drv, struct device *dev)
-> @@ -587,6 +605,10 @@ int device_driver_attach_full(const struct device_driver *drv, struct device *de
->   	if (dev->driver)
->   		return -EBUSY;
->   
-> +	ret = device_trust_prepare_full(dev, drv);
-> +	if (ret)
-> +		return ret;
-> +
->   	device_set_driver(dev, drv);
->   	if (dev->bus->probe)
->   		ret = dev->bus->probe(dev);
-> @@ -610,6 +632,7 @@ int device_driver_attach_full(const struct device_driver *drv, struct device *de
->   	devres_release_all(dev);
->   	device_set_driver(dev, NULL);
->   	dev_set_drvdata(dev, NULL);
-> +	WRITE_ONCE(dev->trust_level, DEVICE_TRUST_DISABLED);
->   	if (ret == -EPROBE_DEFER)
->   		return -EAGAIN;
->   	return ret;
-> @@ -739,6 +762,14 @@ static int really_probe(struct device *dev, const struct device_driver *drv)
->   	}
->   
->   re_probe:
-> +	ret = device_trust_prepare(dev, drv);
-> +	if (ret) {
-> +		device_links_no_driver(dev);
-> +		/* Report it like a probe error so a scan tries the next driver. */
-> +		ret = -ret;
-> +		goto done;
-> +	}
-> +
->   	device_set_driver(dev, drv);
->   
->   	/* If using pinctrl, bind pins now before probing */
-> @@ -805,6 +836,7 @@ static int really_probe(struct device *dev, const struct device_driver *drv)
->   		if (dev->bus && dev->bus->dma_cleanup)
->   			dev->bus->dma_cleanup(dev);
->   		device_unbind_cleanup(dev);
-> +		device_trust_clear(dev);
->   
->   		goto re_probe;
->   	}
-> @@ -831,6 +863,7 @@ static int really_probe(struct device *dev, const struct device_driver *drv)
->   pinctrl_bind_failed:
->   	device_links_no_driver(dev);
->   	device_unbind_cleanup(dev);
-> +	device_trust_clear(dev);
->   done:
->   	return ret;
->   }
-> @@ -1420,6 +1453,7 @@ static void __device_release_driver(struct device *dev, struct device *parent)
->   			dev->bus->dma_cleanup(dev);
->   
->   		device_unbind_cleanup(dev);
-> +		device_trust_clear(dev);
->   		device_links_driver_cleanup(dev);
->   
->   		klist_remove(&dev->p->knode_driver);
-> diff --git a/drivers/base/trust.c b/drivers/base/trust.c
-> new file mode 100644
-> index 0000000000000..6a71abf10b3bb
-> --- /dev/null
-> +++ b/drivers/base/trust.c
-> @@ -0,0 +1,132 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <linux/device.h>
-> +#include <linux/errno.h>
-> +#include <linux/export.h>
-> +#include <linux/init.h>
-> +#include <linux/string.h>
-> +#include <kunit/visibility.h>
-> +
-> +#include "base.h"
-> +
-> +static enum device_trust_policy device_trust_default_policy __ro_after_init;
-> +
-> +void device_trust_init_state(struct device *dev)
-> +{
-> +	dev->p->trust_state = dev->trust_policy == DEVICE_TRUST_POLICY_DISABLED ?
-> +		DEVICE_TRUST_WAITING : DEVICE_TRUST_SELECTABLE;
-> +}
-> +
-> +static int __device_trust_prepare(struct device *dev,
-> +				  const struct device_driver *drv, bool full_only)
-> +{
-> +	enum device_trust_policy policy;
-> +	enum device_trust_level level;
-> +	int ret;
-> +
-> +	policy = dev->trust_policy;
-> +
-> +	if (policy == DEVICE_TRUST_POLICY_DISABLED)
-> +		return -EPERM;
-> +	if (dev->bus && dev->bus->trust_resolve) {
-> +		ret = dev->bus->trust_resolve(dev, drv, policy, &level);
-> +		if (ret)
-> +			return ret;
-> +	} else {
-> +		level = policy == DEVICE_TRUST_POLICY_ADVERSARY ?
-> +			DEVICE_TRUST_ADVERSARY : DEVICE_TRUST_FULL;
-> +	}
-> +	if (level == DEVICE_TRUST_DISABLED)
-> +		return -EPERM;
-
-This check can go right after trust_resolve() above. Thanks,
-
-
-> +	if (full_only && level != DEVICE_TRUST_FULL)
-> +		return -EPERM;
-> +	if (dev->p->trust_state == DEVICE_TRUST_COMMITTED &&
-> +	    dev->trust_committed_level != level)
-> +		return -EINVAL;
-> +
-> +	WRITE_ONCE(dev->trust_committed_level, level);
-> +	dev->p->trust_state = DEVICE_TRUST_COMMITTED;
-> +	WRITE_ONCE(dev->trust_level, level);
-> +	return 0;
-> +}
-> +
-> +int device_trust_prepare(struct device *dev, const struct device_driver *drv)
-> +{
-> +	device_lock_assert(dev);
-> +	return __device_trust_prepare(dev, drv, false);
-> +}
-> +
-> +int device_trust_prepare_full(struct device *dev, const struct device_driver *drv)
-> +{
-> +	if (device_trust_default_policy != DEVICE_TRUST_POLICY_FULL)
-> +		return -EPERM;
-> +
-> +	return __device_trust_prepare(dev, drv, true);
-> +}
-> +
-> +void device_trust_clear(struct device *dev)
-> +{
-> +	device_lock_assert(dev);
-> +	WRITE_ONCE(dev->trust_level, DEVICE_TRUST_DISABLED);
-> +}
-> +
-> +/**
-> + * device_get_trust_level - Return a device's active trust level
-> + * @dev: device to inspect
-> + *
-> + * The value is stable from the start of DMA configuration through the end of
-> + * DMA cleanup. An unbound device has %DEVICE_TRUST_DISABLED as its active
-> + * trust level.
-> + *
-> + * Return: The active trust level for the current bind transaction.
-> + */
-> +enum device_trust_level device_get_trust_level(const struct device *dev)
-> +{
-> +	return READ_ONCE(dev->trust_level);
-> +}
-> +EXPORT_SYMBOL_GPL(device_get_trust_level);
-> +
-> +/**
-> + * device_is_adversarial - Test whether a device is operated as an adversary
-> + * @dev: device to inspect
-> + *
-> + * Return: True when the active trust level is %DEVICE_TRUST_ADVERSARY.
-> + */
-> +bool device_is_adversarial(const struct device *dev)
-> +{
-> +	return device_get_trust_level(dev) == DEVICE_TRUST_ADVERSARY;
-> +}
-> +EXPORT_SYMBOL_GPL(device_is_adversarial);
-> +
-> +static const char * const device_trust_policy_names[] = {
-> +	[DEVICE_TRUST_POLICY_DEFAULT] = "default",
-> +	[DEVICE_TRUST_POLICY_DISABLED] = "disabled",
-> +	[DEVICE_TRUST_POLICY_ADVERSARY] = "adversary",
-> +	[DEVICE_TRUST_POLICY_FULL] = "full",
-> +};
-> +
-> +static int __init device_trust_default_setup(char *str)
-> +{
-> +	int policy = match_string(device_trust_policy_names,
-> +				  ARRAY_SIZE(device_trust_policy_names), str);
-> +
-> +	if (policy < 0) {
-> +		pr_warn("device_trust: ignoring invalid default policy '%s'\n", str);
-> +		return 1;
-> +	}
-> +
-> +	device_trust_default_policy = policy;
-> +	return 1;
-> +}
-> +__setup("device_trust.default=", device_trust_default_setup);
-> +
-> +/**
-> + * device_trust_init - Apply global boot policy before registration
-> + * @dev: unregistered device with its initial policy set
-> + */
-> +void device_trust_init(struct device *dev)
-> +{
-> +	if (device_trust_default_policy != DEVICE_TRUST_POLICY_DEFAULT)
-> +		dev->trust_policy = device_trust_default_policy;
-> +}
-> +EXPORT_SYMBOL_GPL(device_trust_init);
-> diff --git a/include/linux/device.h b/include/linux/device.h
-> index 42e966ebaa2d3..57d2e1b0d98ad 100644
-> --- a/include/linux/device.h
-> +++ b/include/linux/device.h
-> @@ -30,6 +30,7 @@
->   #include <linux/device/class.h>
->   #include <linux/device/devres.h>
->   #include <linux/device/driver.h>
-> +#include <linux/device/trust.h>
->   #include <linux/cleanup.h>
->   #include <asm/device.h>
->   
-> @@ -695,6 +696,10 @@ enum struct_device_flags {
->    * @removable:  Whether the device can be removed from the system. This
->    *              should be set by the subsystem / bus driver that discovered
->    *              the device.
-> + * @trust_policy: Requested operating policy, resolved before driver probe.
-> + * @trust_level: Active trust level while a driver is bound, see
-> + *		device_get_trust_level().
-> + * @trust_committed_level: Operating level retained across bind transactions.
->    * @flags:	DEV_FLAG_XXX flags. Use atomic bitfield operations to modify.
->    *
->    * At the lowest level, every device in a Linux system is represented by an
-> @@ -798,6 +803,9 @@ struct device {
->   	struct device_physical_location *physical_location;
->   
->   	enum device_removable	removable;
-> +	enum device_trust_policy trust_policy;
-> +	enum device_trust_level trust_level;
-> +	enum device_trust_level trust_committed_level;
->   
->   	DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
->   };
-> diff --git a/include/linux/device/bus.h b/include/linux/device/bus.h
-> index 9ef7538a9a7f2..ba2b5743a47cd 100644
-> --- a/include/linux/device/bus.h
-> +++ b/include/linux/device/bus.h
-> @@ -17,6 +17,7 @@
->   #include <linux/kobject.h>
->   #include <linux/klist.h>
->   #include <linux/pm.h>
-> +#include <linux/device/trust.h>
->   
->   struct device_driver;
->   struct fwnode_handle;
-> @@ -59,6 +60,11 @@ struct fwnode_handle;
->    * @resume:	Called to bring a device on this bus out of sleep mode.
->    * @num_vf:	Called to find out how many virtual functions a device on this
->    *		bus supports.
-> + * @trust_resolve: Resolve a requested trust policy to an active trust level
-> + *		immediately before driver probe. The device lock is held and
-> + *		@drv is the candidate driver, which dev->driver does not name
-> + *		yet. Return 0 on success or a negative errno. This callback
-> + *		must not enable the device.
->    * @dma_configure:	Called to setup DMA configuration on a device on
->    *			this bus.
->    * @dma_cleanup:	Called to cleanup DMA configuration on a device on
-> @@ -102,6 +108,10 @@ struct bus_type {
->   
->   	int (*num_vf)(struct device *dev);
->   
-> +	int (*trust_resolve)(struct device *dev,
-> +			     const struct device_driver *drv,
-> +			     enum device_trust_policy policy,
-> +			     enum device_trust_level *level);
->   	int (*dma_configure)(struct device *dev);
->   	void (*dma_cleanup)(struct device *dev);
->   
-> diff --git a/include/linux/device/trust.h b/include/linux/device/trust.h
-> new file mode 100644
-> index 0000000000000..b8f5514cacec3
-> --- /dev/null
-> +++ b/include/linux/device/trust.h
-> @@ -0,0 +1,44 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _DEVICE_TRUST_H_
-> +#define _DEVICE_TRUST_H_
-> +
-> +#include <linux/types.h>
-> +
-> +struct device;
-> +
-> +/**
-> + * enum device_trust_level - active trust level for a device
-> + * @DEVICE_TRUST_DISABLED: The device cannot be operated by a driver
-> + * @DEVICE_TRUST_ADVERSARY: Operate the device with adversarial restrictions
-> + * @DEVICE_TRUST_FULL: Operate the device with the usual kernel privileges
-> + *
-> + * Active trust levels are discrete states, not an ordered privilege scale.
-> + */
-> +enum device_trust_level {
-> +	DEVICE_TRUST_DISABLED,
-> +	DEVICE_TRUST_ADVERSARY,
-> +	DEVICE_TRUST_FULL,
-> +};
-> +
-> +/**
-> + * enum device_trust_policy - requested device trust policy
-> + * @DEVICE_TRUST_POLICY_DEFAULT: Let the bus select the active trust level
-> + * @DEVICE_TRUST_POLICY_DISABLED: Request that the device remain disabled
-> + * @DEVICE_TRUST_POLICY_ADVERSARY: Request adversarial operation
-> + * @DEVICE_TRUST_POLICY_FULL: Request normal operation
-> + *
-> + * A requested policy is resolved to an active trust level before a driver is
-> + * probed.
-> + */
-> +enum device_trust_policy {
-> +	DEVICE_TRUST_POLICY_DEFAULT,
-> +	DEVICE_TRUST_POLICY_DISABLED,
-> +	DEVICE_TRUST_POLICY_ADVERSARY,
-> +	DEVICE_TRUST_POLICY_FULL,
-> +};
-> +
-> +void device_trust_init(struct device *dev);
-> +enum device_trust_level device_get_trust_level(const struct device *dev);
-> +bool device_is_adversarial(const struct device *dev);
-> +
-> +#endif /* _DEVICE_TRUST_H_ */
-> 
+T24gVHVlLCAyMDI2LTExLTEwIGF0IDEwOjE0ICswMTAwLCBDaHJpc3RpYW4gQnJhdW5lciB3cm90
+ZToKPiBMb29wIGhhcHBpbHkgdGFrZXMgYW55IHJlZ3VsYXIgZmlsZSB3aXRoIC0+cmVhZF9pdGVy
+KCkgYXMgYSBiYWNraW5nCj4gZmlsZSBhbmQgYW55IGZpbGUgdGhhdCBhbHNvIGhhcyAtPndyaXRl
+X2l0ZXIoKSBhcyBhIHdyaXRhYmxlIG9uZS4gQQo+IGZldwo+IGV4YW1wbGVzOgo+IAo+ICogL3By
+b2Mva2NvcmUgYXR0YWNoZXMgcmVhZC1vbmx5IGFzIGEgbG9vcCBkZXZpY2UgdGhlIHNpemUgb2Yg
+dGhlCj4gwqAga2VybmVsJ3MgdmlydHVhbCBhZGRyZXNzIHNwYWNlICg2NCBQaUIgd2l0aCA1LWxl
+dmVsIHBhZ2luZykKPiAqIHN5c2ZzIGF0dHJpYnV0ZXMgYXR0YWNoIHJlYWQtd3JpdGUgYXMgNDA5
+NiBieXRlIGxvb3AgZGV2aWNlcwo+ICogdXNpbmcgL3N5cy9rZXJuZWwvbW0vdHJhbnNwYXJlbnRf
+aHVnZXBhZ2UvZW5hYmxlZCBmb3IgdGhlIGxvb3AKPiBkZXZpY2UKPiDCoCBhbmQgd3JpdGluZyBh
+IGJsb2NrIHRvIHRoZSBsb29wIGRldmljZSBjaGFuZ2VzIHRoZSBUSFAgc2V0dGluZwo+IAo+IEl0
+J3Mgbm90IGp1c3Qgc2lsbHkuIEl0J3MgYWJ1c2FibGUgKGlzIHRoYXQgYSB3b3JkPykuIExvb3Ag
+Y2FsbHMKPiAtPnJlYWRfaXRlcigpIGFuZCAtPndyaXRlX2l0ZXIoKSBvZiB0aGUgYmFja2luZyBm
+aWxlIGRpcmVjdGx5IGZyb20KPiBpdHMKPiBrd29ya2VyIHdoaWNoIHJ1bnMgd2l0aCBrZXJuZWwg
+Y3JlZGVudGlhbHMuCj4gCj4gQnV0IHBzZXVkbyBmaWxlcyBlbmZvcmNlIHBhcnQgb2YgdGhlaXIg
+YWNjZXNzIHJ1bGVzIGF0IHJlYWQgYW5kIHdyaXRlCj4gYWdhaW5zdCB0aGUgY2FsbGVyLiBTbyBk
+b3plbnMgb2Ygc3lzZnMgLT5zaG93KCkgYW5kIC0+c3RvcmUoKSBtZXRob2RzCj4gY2FsbCBjYXBh
+YmxlKCkuCj4gCj4gQnV0IHNldHRpbmcgdXAgYSBsb29wIGRldmljZSByZXF1aXJlcyBubyBjYXBh
+YmlsaXRpZXMuIEl0IG9ubHkKPiByZXF1aXJlcwo+IGFjY2VzcyB0byB0aGUgZGV2aWNlIG5vZGVz
+LiBTbyB3aG9ldmVyIGhhcyBhIGxvb3AgZGV2aWNlIHNraXBzIGFsbCBvZgo+IHRoZSBjYXBhYmxl
+KCkgY2hlY2tzLgo+IAo+IEEgY291cGxlIG9mIGZ1biBleGFtcGxlczoKPiAKPiBPbiB2Ny40LXJj
+MSB1aWQgMCB3aXRob3V0IGFueSBjYXBhYmlsaXRpZXMgY2FuJ3Qga2lsbCBhIHByb2Nlc3Mgb2YK
+PiB1aWQKPiAxMDAwIGFuZCBjYW4ndCBwb2lzb24gaXRzIG1lbW9yeSBlaXRoZXI6Cj4gCj4gwqDC
+oMKgICQgZ3JlcCBDYXBFZmYgL3Byb2Mvc2VsZi9zdGF0dXMKPiDCoMKgwqAgQ2FwRWZmOiAwMDAw
+MDAwMDAwMDAwMDAwCj4gwqDCoMKgICQga2lsbCAtOSAzMjcKPiDCoMKgwqAgYmFzaDoga2lsbDog
+KDMyNykgLSBPcGVyYXRpb24gbm90IHBlcm1pdHRlZAo+IMKgwqDCoCAkIGVjaG8gMHgyMjA2ODkw
+MDAgPiAvc3lzL2RldmljZXMvc3lzdGVtL21lbW9yeS9oYXJkX29mZmxpbmVfcGFnZQo+IMKgwqDC
+oCBiYXNoOiBlY2hvOiB3cml0ZSBlcnJvcjogT3BlcmF0aW9uIG5vdCBwZXJtaXR0ZWQKPiAKPiBC
+dXQgcHV0IGhhcmRfb2ZmbGluZV9wYWdlIGJlaGluZCBhIGxvb3AgZGV2aWNlLCB3cml0ZSBhIGJs
+b2NrCj4gY29udGFpbmluZyAweDIyMDY4OTAwMCB0byB0aGUgbG9vcCBkZXZpY2UgYW5kIHRoZSBs
+b29wIHdvcmtlciBoYXBwaWx5Cj4gZG9lcyBpdDoKPiAKPiDCoMKgwqAgTWVtb3J5IGZhaWx1cmU6
+IDB4MjIwNjg5OiByZWNvdmVyeSBhY3Rpb24gZm9yIGRpcnR5IExSVSBwYWdlOgo+IFJlY292ZXJl
+ZAo+IMKgwqDCoCBNQ0U6IEtpbGxpbmcgdmljdGltOjMyNyBkdWUgdG8gaGFyZHdhcmUgbWVtb3J5
+IGNvcnJ1cHRpb24gZmF1bHQKPiBhdCA3ZjQ2OGU5NzIwMDAKPiAKPiBUaGF0IGhhcmRfb2ZmbGlu
+ZV9wYWdlIGlzIGEgd3JpdGUtb25seSBmaWxlIGRvZXNuJ3Qgc3RvcCBsb29wIGZyb20KPiB1c2lu
+ZyBpdCBhcyBhIHdyaXRhYmxlIGJhY2tpbmcgZmlsZSBlaXRoZXIuCj4gCj4gT3RoZXIgZnVuIGV4
+YW1wbGVzOgo+IAo+ICgxKSBzb2Z0LWJsb2NrIHJhZGlvcyB2aWEgL3N5cy9jbGFzcy9yZmtpbGwv
+cmZraWxsKi9zb2Z0Cj4gwqDCoMKgIChDQVBfTkVUX0FETUlOKQo+IAo+ICgyKSBjaGFuZ2UgdGhl
+IHJlYm9vdCBtb2RlIHZpYSAvc3lzL2tlcm5lbC9yZWJvb3QvbW9kZSAoQ0FQX1NZU19CT09UKQo+
+IAo+ICgzKSByZWNvbmZpZ3VyZSBtZCBhcnJheXMgdmlhIC9zeXMvYmxvY2svbWQqL21kLy4gbWRf
+YXR0cl9zdG9yZSgpCj4gwqDCoMKgIHJlcXVpcmVzIENBUF9TWVNfQURNSU4gZm9yIGV2ZXJ5IG1k
+IGF0dHJpYnV0ZS4KPiAKPiAoNCkgcmVjb25maWd1cmUgc2NzaSBkaXNrcyB2aWEgL3N5cy9jbGFz
+cy9zY3NpX2Rpc2svKi9hbGxvd19yZXN0YXJ0Cj4gYW5kCj4gwqDCoMKgIGZyaWVuZHMgKENBUF9T
+WVNfQURNSU4pCj4gCj4gKDUpIHJlYWQgZG1pLXN5c2ZzIGF0dHJpYnV0ZXMgKENBUF9TWVNfQURN
+SU4pCj4gCj4gQW5kIGFuIHVucHJpdmlsZWdlZCBjb250YWluZXIgdGhhdCB3YXMgaGFuZGVkIGEg
+bG9vcCBkZXZpY2UgY2FuCj4gY2hhbmdlCj4gZ3JvX2ZsdXNoX3RpbWVvdXQgb2YgaXRzIG93biBu
+ZXR3b3JrIGRldmljZXMuIFRoYXQgdXN1YWxseSByZXF1aXJlcwo+IENBUF9ORVRfQURNSU4gaW4g
+dGhlIGluaXRpYWwgdXNlciBuYW1lc3BhY2UgKHZpYSBzeXNmcyBhbmQgdmlhCj4gbmV0bGluayku
+Cj4gCj4gSSd2ZSByZXByb2R1Y2VkIHRoYXQgYWxsIG9uIHY3LjQtcmMxLgo+IAo+IEFhYWFuZCB6
+bG9vcCwgdGhlIG52bWUgdGFyZ2V0J3MgZmlsZSBiYWNrZW5kLCB0aGUgc2NzaSB0YXJnZXQncwo+
+IGZpbGVpbwo+IGJhY2tlbmQsIGZ1c2UgcGFzc3Rocm91Z2ggYW5kIHRoZSB1c2IgbWFzcyBzdG9y
+YWdlIGdhZGdldCBoYXZlIHRoZQo+IHNhbWUKPiBwcm9ibGVtLiBlcm9mcyB0YWtlcyBwc2V1ZG8g
+ZmlsZXMgYXMgaW1hZ2VzIGZvciBmaWxlLWJhY2tlZCBtb3VudHMgYXMKPiB3ZWxsLiBJdCByZWFk
+cyB0aGVtIHdpdGggdGhlIG1vdW50ZXIncyBjcmVkZW50aWFscyB0aG91Z2ggc28gdGhhdCdzCj4g
+anVzdAo+IHNpbGx5IGFuZCBub3QgYWJ1c2FibGUuCj4gCj4gRndpdywgZGV2aWNlIG1hcHBlciBk
+b2Vzbid0IG5lZWQgYW55dGhpbmcuIEl0IG9ubHkgdGFrZXMgYmxvY2sKPiBkZXZpY2VzLgo+IG1k
+J3MgZGVwcmVjYXRlZCBiaXRtYXAgZmlsZSBpcyBmaW5lIGFzIHdlbGwuIEl0IG1hcHMgdGhlIGZp
+bGUgd2l0aAo+IGJtYXAoKSB3aGljaCBubyBwc2V1ZG8gZmlsZXN5c3RlbSBpbXBsZW1lbnRzLgo+
+IAo+IFNvIHRoaXMgc2VyaWVzIGFkZHMgU0JfSV9QU0VVRE8gdG8gc3RhdGUgdGhhdCB0aGUgcmVn
+dWxhciBmaWxlcyBvZiBhCj4gZmlsZXN5c3RlbSBhcmUga2VybmVsIGludGVyZmFjZXMgYW5kIG5v
+dCBzdG9yYWdlIGFuZCBtYWtlcyBhbGwgc2V2ZW4KPiByZWZ1c2Ugc3VjaCBmaWxlcy4KPiAKPiBJ
+IGRpZG4ndCB3YW50IHRvIHNwcmlua2xlIFNCX0lfUFNFVURPIG92ZXIgYWxsIHBzZXVkbyBmaWxl
+c3lzdGVtcyBvbmUKPiBieQo+IG9uZS4gSW5zdGVhZCB0aGVyZSdzIG5vdyBhIGNvbW1vbiBpbml0
+aWFsaXphdGlvbiBwb2ludCBmb3IgYWxsIG9mCj4gdGhlbQo+IHZpYSBmY19pbml0X3BzZXVkbygp
+Lgo+IAo+IGluaXRfcHNldWRvKCkgdXNlcyBpdCBmb3IgdGhlIGludGVybmFsIHBzZXVkbyBmaWxl
+c3lzdGVtcyBhbmQgYWxsCj4gbW91bnRhYmxlIHBzZXVkbyBmaWxlc3lzdGVtcyBjYWxsIGl0IGZy
+b20gdGhlaXIgLT5pbml0X2ZzX2NvbnRleHQoKS4KPiAKPiBrZXJuZnMgZG9lcyBpdCBvbmNlIGlu
+IGtlcm5mc19nZXRfdHJlZSgpLiBJdCByYWlzZXMgU0JfSV9QU0VVRE8sCj4gU0JfSV9OT0VYRUMg
+YW5kIFNCX0lfTk9ERVYuIFBzZXVkbyBmaWxlc3lzdGVtcyBuZXZlciBob2xkIGV4ZWN1dGFibGVz
+Cj4gb3IKPiBkZXZpY2Ugbm9kZXMuIFNvbWUgb2YgdGhlbSByYWlzZWQgU0JfSV9OT0VYRUMgYW5k
+IFNCX0lfTk9ERVYgYWxyZWFkeSwKPiBtb3N0IGRpZG4ndC4KPiAKPiBJIHdlbnQgdGhyb3VnaCBl
+dmVyeSBzaW5nbGUgb25lIG9mIHRoZW0uIE5vbmUgb2YgdGhlbSBuZWVkcyB0bwo+IGV4ZWN1dGUK
+PiBhbnl0aGluZy4gVGhlIGZpbGVzIHRoYXQgY2FuIGJlIG1tYXAoKWVkIG1hcCBkYXRhIGFuZCB0
+aGUgdHJhY2luZwo+IHJpbmcKPiBidWZmZXIgcmVmdXNlcyBWTV9FWEVDIGFueXdheS4KPiAKPiBT
+Ql9JX05PREVWIGlzIGNsZWFyZWQgYWdhaW4gYnkgZGV2cHRzLCBiaW5kZXJmcyBhbmQgc2VsaW51
+eGZzLiBUaGUKPiBmaXJzdAo+IHR3byBkaWQgdGhhdCBhbHJlYWR5LiBzZWxpbnV4ZnMgbmVlZHMg
+aXQgYmVjYXVzZSBBbmRyb2lkIGluaXQgb3BlbnMKPiAvc3lzL2ZzL3NlbGludXgvbnVsbCBieSBw
+YXRoIGFzIC9kZXYvbnVsbCBkb2Vzbid0IGV4aXN0IHlldCBhdCB0aGF0Cj4gcG9pbnQuIE5vdGUg
+dGhhdCBzeXN0ZW1kIG1vdW50cyBtb3N0IG9mIHRoZXNlIGZpbGVzeXN0ZW1zIHdpdGggbm9leGVj
+Cj4gYW5kIG5vZGV2IGFscmVhZHkuCj4gCj4gZmlsZV9pc19wc2V1ZG8oKSBsb29rcyBhdCBkX3Jl
+YWxfaW5vZGUoKS4gb3ZlcmxheWZzIGhhcHBpbHkgc3RhY2tzIG9uCj4gdG9wIG9mIHN5c2ZzLCBj
+Z3JvdXAyLCBkZWJ1Z2ZzLCB0cmFjZWZzLCBjb25maWdmcyBhbmQgc2VjdXJpdHlmcyBhbmQKPiBy
+ZWFkcyBvZiBzdWNoIG92ZXJsYXlmcyBmaWxlcyBhcmUgc2VydmVkIGJ5IHRoZSBwc2V1ZG8gZmls
+ZS4gT25seQo+IHByb2Nmcwo+IGFuZCBiaW5mbXRfbWlzYyBhcmUgcmVmdXNlZCBhcyB0aGV5IHNl
+dCBzX3N0YWNrX2RlcHRoIHRvCj4gRklMRVNZU1RFTV9NQVhfU1RBQ0tfREVQVEguCj4gCj4gV2hl
+dGhlciBhbGwgcHNldWRvIGZpbGVzeXN0ZW1zIHNob3VsZCByZWZ1c2Ugc3RhY2tpbmcgaXMgYSBz
+ZXBhcmF0ZQo+IGRpc2N1c3Npb24uIG92ZXJsYXlmcyByZWFkcyB0aGUgbG93ZXIgZmlsZSB3aXRo
+IHRoZSBtb3VudGVyJ3MKPiBjcmVkZW50aWFscyBzbyBhIHJvb3QtbW91bnRlZCBvdmVybGF5ZnMg
+b24gdG9wIG9mIGEgc3lzZnMgZGlyZWN0b3J5Cj4gaGFuZHMgY2FwYWJpbGl0eSBnYXRlZCByZWFk
+cyB0byBldmVyeSByZWFkZXIuIFdpdGggU0JfSV9QU0VVRE8KPiBvdmVybGF5ZnMKPiBjb3VsZCBl
+YXNpbHkgcmVmdXNlIHRoZW0uCj4gCj4gVGhlIGZpcnN0IHRocmVlIHBhdGNoZXMgYXJlIGluZGVw
+ZW5kZW50IGZpeGVzLiBMb29wIG5ldmVyIGNoZWNrZWQKPiB3aGV0aGVyIGl0cyBiYWNraW5nIGZp
+bGUgaXMgb3BlbiBmb3IgcmVhZGluZy4gSXQgcmVsaWVkIG9uCj4gdmZzX2l0ZXJfcmVhZCgpIHJl
+ZnVzaW5nIHN1Y2ggZmlsZXMuIERpcmVjdCBJL08gbmV2ZXIgd2VudCB0aHJvdWdoCj4gdmZzX2l0
+ZXJfcmVhZCgpIGFuZCBzaW5jZSB2Ni4xNSBidWZmZXJlZCBJL08gZG9lc24ndCBlaXRoZXIuIFNv
+Cj4gd2hvZXZlcgo+IGhhcyBhIGxvb3AgZGV2aWNlIGNhbiByZWFkIGZpbGVzIHRoZXkgY291bGQg
+b25seSBvcGVuIGZvciB3cml0aW5nLgo+IEFuZAo+IHRoZSBudm1lIHRhcmdldCdzIGZpbGUgYmFj
+a2VuZCBhbmQgdGhlIHNjc2kgdGFyZ2V0J3MgZmlsZWlvIGJhY2tlbmQKPiBjYWxsCj4gLT5yZWFk
+X2l0ZXIoKSBhbmQgLT53cml0ZV9pdGVyKCkgd2l0aG91dCBjaGVja2luZyB0aGF0IHRoZXkgZXhp
+c3QuCj4gCj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEJyYXVuZXIgKEFtdXRhYmxlKSA8YnJh
+dW5lckBrZXJuZWwub3JnPgo+IC0tLQo+IENocmlzdGlhbiBCcmF1bmVyICg0MSk6Cj4gwqDCoMKg
+wqDCoCBsb29wOiByZWZ1c2UgYmFja2luZyBmaWxlcyB0aGF0IGFyZW4ndCBvcGVuIGZvciByZWFk
+aW5nCj4gwqDCoMKgwqDCoCBudm1ldDogY2hlY2sgdGhhdCB0aGUgZmlsZSBiYWNrZW5kIHN1cHBv
+cnRzIC0+e3JlYWQsd3JpdGV9X2l0ZXIKPiDCoMKgwqDCoMKgIHRhcmdldDogZmlsZWlvOiBjaGVj
+ayB0aGF0IHRoZSBiYWNraW5nIGZpbGUgc3VwcG9ydHMgLQo+ID57cmVhZCx3cml0ZX1faXRlcgo+
+IMKgwqDCoMKgwqAgZnM6IGFkZCBTQl9JX1BTRVVETwo+IMKgwqDCoMKgwqAga2VybmZzOiB1c2Ug
+ZmNfaW5pdF9wc2V1ZG8oKQo+IMKgwqDCoMKgwqAgcHJvYzogdXNlIGZjX2luaXRfcHNldWRvKCkK
+PiDCoMKgwqDCoMKgIGJpbmZtdF9taXNjOiB1c2UgZmNfaW5pdF9wc2V1ZG8oKQo+IMKgwqDCoMKg
+wqAgbXF1ZXVlOiB1c2UgZmNfaW5pdF9wc2V1ZG8oKQo+IMKgwqDCoMKgwqAgYnBmOiB1c2UgZmNf
+aW5pdF9wc2V1ZG8oKSBmb3IgYnBmZnMKPiDCoMKgwqDCoMKgIG51bGxmczogdXNlIGZjX2luaXRf
+cHNldWRvKCkKPiDCoMKgwqDCoMKgIGZhaWxmczogdXNlIGZjX2luaXRfcHNldWRvKCkKPiDCoMKg
+wqDCoMKgIHJ1c3RfYmluZGVyZnM6IHVzZSBmY19pbml0X3BzZXVkbygpCj4gwqDCoMKgwqDCoCBk
+ZXZwdHM6IHVzZSBmY19pbml0X3BzZXVkbygpCj4gwqDCoMKgwqDCoCBkZWJ1Z2ZzOiB1c2UgZmNf
+aW5pdF9wc2V1ZG8oKQo+IMKgwqDCoMKgwqAgdHJhY2VmczogdXNlIGZjX2luaXRfcHNldWRvKCkK
+PiDCoMKgwqDCoMKgIGNvbmZpZ2ZzOiB1c2UgZmNfaW5pdF9wc2V1ZG8oKQo+IMKgwqDCoMKgwqAg
+c2VjdXJpdHlmczogdXNlIGZjX2luaXRfcHNldWRvKCkKPiDCoMKgwqDCoMKgIHNlbGludXg6IHVz
+ZSBmY19pbml0X3BzZXVkbygpIGZvciBzZWxpbnV4ZnMKPiDCoMKgwqDCoMKgIHNtYWNrOiB1c2Ug
+ZmNfaW5pdF9wc2V1ZG8oKSBmb3Igc21hY2tmcwo+IMKgwqDCoMKgwqAgYXBwYXJtb3I6IHVzZSBm
+Y19pbml0X3BzZXVkbygpIGZvciBhcHBhcm1vcmZzCj4gwqDCoMKgwqDCoCBuZnNkOiB1c2UgZmNf
+aW5pdF9wc2V1ZG8oKQo+IMKgwqDCoMKgwqAgc3VucnBjOiB1c2UgZmNfaW5pdF9wc2V1ZG8oKSBm
+b3IgcnBjX3BpcGVmcwo+IMKgwqDCoMKgwqAgZnVzZTogdXNlIGZjX2luaXRfcHNldWRvKCkgZm9y
+IGZ1c2VjdGwKPiDCoMKgwqDCoMKgIGVmaXZhcmZzOiB1c2UgZmNfaW5pdF9wc2V1ZG8oKQo+IMKg
+wqDCoMKgwqAgcHN0b3JlOiB1c2UgZmNfaW5pdF9wc2V1ZG8oKQo+IMKgwqDCoMKgwqAgeGVuZnM6
+IHVzZSBmY19pbml0X3BzZXVkbygpCj4gwqDCoMKgwqDCoCBvcGVucHJvbWZzOiB1c2UgZmNfaW5p
+dF9wc2V1ZG8oKQo+IMKgwqDCoMKgwqAgb2NmczI6IHVzZSBmY19pbml0X3BzZXVkbygpIGZvciBk
+bG1mcwo+IMKgwqDCoMKgwqAgczM5MC9oeXBmczogdXNlIGZjX2luaXRfcHNldWRvKCkKPiDCoMKg
+wqDCoMKgIHBvd2VycGMvc3B1ZnM6IHVzZSBmY19pbml0X3BzZXVkbygpCj4gwqDCoMKgwqDCoCB1
+c2I6IGdhZGdldDogZl9mczogdXNlIGZjX2luaXRfcHNldWRvKCkKPiDCoMKgwqDCoMKgIHVzYjog
+Z2FkZ2V0OiBnYWRnZXRmczogdXNlIGZjX2luaXRfcHNldWRvKCkKPiDCoMKgwqDCoMKgIGZzOiBh
+ZGQgZmlsZV9pc19wc2V1ZG8oKQo+IMKgwqDCoMKgwqAgbG9vcDogcmVmdXNlIGZpbGVzIG9uIHBz
+ZXVkbyBmaWxlc3lzdGVtcyBhcyBiYWNraW5nIGZpbGVzCj4gwqDCoMKgwqDCoCB6bG9vcDogcmVm
+dXNlIHpvbmUgZmlsZXMgb24gcHNldWRvIGZpbGVzeXN0ZW1zCj4gwqDCoMKgwqDCoCBudm1ldDog
+cmVmdXNlIGZpbGVzIG9uIHBzZXVkbyBmaWxlc3lzdGVtcyBhcyBuYW1lc3BhY2UgYmFja2luZwo+
+IGZpbGVzCj4gwqDCoMKgwqDCoCB0YXJnZXQ6IGZpbGVpbzogcmVmdXNlIGZpbGVzIG9uIHBzZXVk
+byBmaWxlc3lzdGVtcyBhcyBiYWNraW5nCj4gZmlsZXMKPiDCoMKgwqDCoMKgIGZ1c2U6IHJlZnVz
+ZSBmaWxlcyBvbiBwc2V1ZG8gZmlsZXN5c3RlbXMgYXMgcGFzc3Rocm91Z2ggYmFja2luZwo+IGZp
+bGVzCj4gwqDCoMKgwqDCoCB1c2I6IGdhZGdldDogZl9tYXNzX3N0b3JhZ2U6IHJlZnVzZSBmaWxl
+cyBvbiBwc2V1ZG8gZmlsZXN5c3RlbXMKPiDCoMKgwqDCoMKgIGVyb2ZzOiByZWZ1c2UgZmlsZXMg
+b24gcHNldWRvIGZpbGVzeXN0ZW1zIGFzIGJhY2tpbmcgZmlsZXMKPiDCoMKgwqDCoMKgIHNlbGZ0
+ZXN0cy9maWxlc3lzdGVtczogYWRkIGJhY2tpbmcgZmlsZSB0ZXN0cyBmb3IgcHNldWRvIGZpbGVz
+Cj4gCj4gwqBhcmNoL3Bvd2VycGMvcGxhdGZvcm1zL2NlbGwvc3B1ZnMvaW5vZGUuY8KgwqDCoMKg
+wqDCoMKgwqDCoCB8wqDCoCAyICsKPiDCoGFyY2gvczM5MC9oeXBmcy9pbm9kZS5jwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDIgKwo+
+IMKgZHJpdmVycy9hbmRyb2lkL2JpbmRlci9ydXN0X2JpbmRlcmZzLmPCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgfMKgwqAgMyArLQo+IMKgZHJpdmVycy9ibG9jay9sb29wLmPCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgNiAr
+Cj4gwqBkcml2ZXJzL2Jsb2NrL3psb29wLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDUgKwo+IMKgZHJpdmVycy9udm1lL3Rh
+cmdldC9pby1jbWQtZmlsZS5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAg
+MTAgKwo+IMKgZHJpdmVycy90YXJnZXQvdGFyZ2V0X2NvcmVfZmlsZS5jwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgMTUgKysKPiDCoGRyaXZlcnMvdXNiL2dhZGdldC9mdW5j
+dGlvbi9mX2ZzLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAyICsKPiDC
+oGRyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi9zdG9yYWdlX2NvbW1vbi5jwqDCoMKgwqDCoMKg
+IHzCoMKgIDUgKwo+IMKgZHJpdmVycy91c2IvZ2FkZ2V0L2xlZ2FjeS9pbm9kZS5jwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAyICsKPiDCoGRyaXZlcnMveGVuL3hlbmZz
+L3N1cGVyLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCB8wqDCoCAyICsKPiDCoGZzL2JpbmZtdF9taXNjLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCA1ICstCj4g
+wqBmcy9jb25maWdmcy9tb3VudC5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgMiArCj4gwqBmcy9kZWJ1Z2ZzL2lub2Rl
+LmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIHzCoMKgIDIgKwo+IMKgZnMvZGV2cHRzL2lub2RlLmPCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAg
+MiArCj4gwqBmcy9lZml2YXJmcy9zdXBlci5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgMiArCj4gwqBmcy9lcm9mcy9z
+dXBlci5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgNiArLQo+IMKgZnMvZmFpbGZzLmPCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgfMKgwqAgMyArLQo+IMKgZnMvZnVzZS9iYWNraW5nLmPCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAg
+MyArCj4gwqBmcy9mdXNlL2NvbnRyb2wuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAyICsKPiDCoGZzL2tlcm5m
+cy9tb3VudC5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDQgKy0KPiDCoGZzL2xpYmZzLmPCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCB8wqDCoCAyICstCj4gwqBmcy9uZnNkL25mc2N0bC5jwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKg
+wqAgMiArCj4gwqBmcy9udWxsZnMuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAzICstCj4g
+wqBmcy9vY2ZzMi9kbG1mcy9kbG1mcy5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgMiArCj4gwqBmcy9vcGVucHJvbWZzL2lub2Rl
+LmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIHzCoMKgIDIgKwo+IMKgZnMvcHJvYy9yb290LmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgNCAr
+LQo+IMKgZnMvcHN0b3JlL2lub2RlLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgMiArCj4gwqBmcy90cmFjZWZz
+L2lub2RlLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIHzCoMKgIDIgKwo+IMKgaW5jbHVkZS9saW51eC9mcy5owqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8
+wqAgMTIgKwo+IMKgaW5jbHVkZS9saW51eC9mcy9zdXBlcl90eXBlcy5owqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAxICsKPiDCoGluY2x1ZGUvbGludXgvcHNl
+dWRvX2ZzLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCB8wqAgMTEgKwo+IMKgaXBjL21xdWV1ZS5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAzICst
+Cj4gwqBrZXJuZWwvYnBmL2lub2RlLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDQgKy0KPiDCoG5ldC9zdW5ycGMv
+cnBjX3BpcGUuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgfMKgwqAgMiArCj4gwqBzZWN1cml0eS9hcHBhcm1vci9hcHBhcm1vcmZzLmPC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDIgKwo+IMKgc2Vj
+dXJpdHkvaW5vZGUuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDIgKwo+IMKgc2VjdXJpdHkvc2VsaW51eC9z
+ZWxpbnV4ZnMuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzC
+oMKgIDUgKwo+IMKgc2VjdXJpdHkvc21hY2svc21hY2tmcy5jwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAyICsKPiDCoHRvb2xzL3Rlc3Rp
+bmcvc2VsZnRlc3RzL2ZpbGVzeXN0ZW1zLy5naXRpZ25vcmXCoMKgwqDCoCB8wqDCoCAxICsKPiDC
+oHRvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL2ZpbGVzeXN0ZW1zL01ha2VmaWxlwqDCoMKgwqDCoMKg
+IHzCoMKgIDIgKy0KPiDCoHRvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL2ZpbGVzeXN0ZW1zL2NvbmZp
+Z8KgwqDCoMKgwqDCoMKgwqAgfMKgwqAgOSArCj4gwqAuLi4vc2VsZnRlc3RzL2ZpbGVzeXN0ZW1z
+L3BzZXVkb19iYWNraW5nX3Rlc3QuY8KgwqDCoCB8IDI3NAo+ICsrKysrKysrKysrKysrKysrKysr
+Kwo+IMKgNDMgZmlsZXMgY2hhbmdlZCwgNDE5IGluc2VydGlvbnMoKyksIDE1IGRlbGV0aW9ucygt
+KQo+IC0tLQo+IGJhc2UtY29tbWl0OiA2NjI4ZTdkNGM2YjI1YzhkMThmMTM0NWUzYTIwZDIxODI5
+YWFlN2U0Cj4gY2hhbmdlLWlkOiAyMDI2MTEwOS13b3JrLWxvb3AtcHNldWRvLTg5MDg0NDE2OGVm
+MQoKSGkgQ2hyaXN0aWFuLAoKSSB0aGluayB3ZSBzaG91bGQgYWxzbyBjb3ZlciBhY2N0KDIpIGNh
+c2Ugd2l0aCBzb21ldGhpbmcgbGlrZSB0aGlzOgoKZGlmZiAtLWdpdCBhL2tlcm5lbC9hY2N0LmMg
+Yi9rZXJuZWwvYWNjdC5jCmluZGV4IGM0NDBkNDM0NzljYS4uOTE4MzViODRiZTAxIDEwMDY0NAot
+LS0gYS9rZXJuZWwvYWNjdC5jCisrKyBiL2tlcm5lbC9hY2N0LmMKQEAgLTI0NSwxMSArMjQ1LDEw
+IEBAIHN0YXRpYyBpbnQgYWNjdF9vbihjb25zdCBjaGFyIF9fdXNlciAqbmFtZSkKICAgICAgICAg
+ICAgICAgIHJldHVybiAtRUFDQ0VTOwogCiAgICAgICAgLyogRXhjbHVkZSBrZXJuZWwgaW50ZXJu
+YWwgZmlsZXN5c3RlbXMuICovCi0gICAgICAgaWYgKGZpbGVfaW5vZGUoZmlsZSktPmlfc2ItPnNf
+ZmxhZ3MgJiAoU0JfTk9VU0VSIHwKU0JfS0VSTk1PVU5UKSkKKyAgICAgICBpZiAoZmlsZV9pbm9k
+ZShmaWxlKS0+aV9zYi0+c19mbGFncyAmIFNCX0tFUk5NT1VOVCkKICAgICAgICAgICAgICAgIHJl
+dHVybiAtRUlOVkFMOwogCi0gICAgICAgLyogRXhjbHVkZSBwcm9jZnMgYW5kIHN5c2ZzLiAqLwot
+ICAgICAgIGlmIChmaWxlX2lub2RlKGZpbGUpLT5pX3NiLT5zX3R5cGUtPmZzX2ZsYWdzICYKRlNf
+VVNFUk5TX01PVU5UX1JFU1RSSUNURUQpCisgICAgICAgaWYgKGZpbGVfaXNfcHNldWRvKGZpbGUp
+KQogICAgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7CiAKICAgICAgICBpZiAoIShmaWxlLT5m
+X21vZGUgJiBGTU9ERV9DQU5fV1JJVEUpKQo=
 
