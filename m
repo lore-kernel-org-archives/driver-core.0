@@ -1,67 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794586194;
-	b=xf3MT3FVKZAozJ16qM+DEOON7lm42dNcro5VIpjYzdDCUHgOZtWSGwIfbWVti7KXS+UR
-	 18XZnYSgnAtbjs/Qo7bXs18tbueckDL5+EXPKlswaXa6jnalYt1FaimcYEtfKYrZLIuKM
-	 opgAjXBYhqv6U98/DbDdDSSq20mDdpVdhtPOP45lZ5Hu1p6Eep7c51lQCn/a/KpNkEI8+
-	 nJ0s1gZ1HjuPf9Z0P3ACR1RkFBbOyZi5Ju/07Ba328BKetSY37ZgpOjlQseBYC9JtETHb
-	 OyEf54noeGwy3jsh8T9MTT1346Xl4eUSN0N7NI0z+8Tbwa9VwN9kYTWpfEZg5Crar+w==
+	t=1794586393;
+	b=dvhQEw2jiV5OOvZa7yqSn0wJ9srZnNdnaB8R3hUMCmUbmaoRaxR/bVvFOTjZJnV+hdBl
+	 NDaeoCCjdLX2vaCKb+AeFsEBffc6QoNlRUFmPPj7W19txN0DscZIr+ADXx0eCvB4ByP2A
+	 cBfAmMUiAeYEw9ZbBklg69VD8J3cXPOYHthgpT8LQrFvFE8SzPepzga7OPVjr18bBZMDb
+	 wLlKeWBIHI0URkRqoOxPqu2rdmgg6mU5oYRYy7gRlnilXNrFzijNw5ZhBvQBjkTq+yg99
+	 XU2EzVOuRJYgwt4a5e4orMHW2PWwfJWyEsHqcPM2geCHPeZG8m0qyvQncVR5PEaej3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794586194;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794586393;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
 	 Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To:Organization;
-	bh=C0MWHQysDEd87y5/D+eFZ6XJDew4RfFsL3e3ZqMqHq8=;
-	b=PQtMdzVCRyD22BUMfwj7Gts07vCsGdOJRRhdPeB20USij/EfspuTE1ORpbZJhBJlZmuR
-	 xmoI59pdJ7hlK/XH6RpzZyMtPJRcd/NtvcTi46BkRRDEM9T/+mIT9qKtzIOqg2h1eYqf8
-	 BkdfSjktAps0AhZ/uHp0pIvnA68P3JZpzWs8drQCMHunR4SzFtnnb9T4SSLGMk1LeQOgc
-	 R3k/KJbhyo9eOPiN4nqkScKiSY0jSw6TnRzg2OUfnRbV2uZ9cVl5ddv/TZFm40vUMGIoT
-	 m8qwy6KVgqFTVPpRsrld+tPoKZR8fdiLFQcrtBB031x6wnFmy5GvsU9a8QBkkuOlBdw==
+	bh=k3sSdj/Fj8r+WusGOm78ZahxMk2w6/t6D9Bm31RNpcA=;
+	b=uZJxi8po8FZsN7iL4yeDM/ZRswuNg0A5TB5AKrqjxc1Kl70Prk4rBoMHrbwJ9nJFEQ5q
+	 8KaHTenmKMdKYh0JD8fol+YbyyhB133cGhXMjX6pYB4Pve1jUHYUewDSLa6lezkioFNKk
+	 AaA7koCbR7VEAhYLHRG1rLps8sgP5uvTRUjfBlYytTUJvQPojcmWBA5GXno981kUmBquP
+	 B5bXiIeOklEvuBeShZQUADEwth8tL0HzOaN8aI0TyrGGkO7gXKOhiUZbn9vGbr8QLFxqu
+	 dKmkfdI1hxx/DvEKvLzkI8aXfk3YexRTEwQvkyyYlGVejPB0Q6Vq98mWt6KYkPrXFAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="P0F/EtZ6";
-	arc=none smtp.remote-ip=198.175.65.12
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=H+VulyAc;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2AC606BA86
-	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 16:09:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB2AC606BA86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C89606EB9C
+	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 16:13:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14C89606EB9C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=P0F/EtZ6
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=H+VulyAc
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794586194; x=1826122194;
+  t=1794586393; x=1826122393;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xVqysPj+hkTB/imj3I1xoTZQjZM3hYs2UW5h7nd8/3o=;
-  b=P0F/EtZ6FuiKpSve/T5LzEYCZEuO9q4nX6K358bbC7jJTQarpukByzoL
-   T+A3+klmoFR37ncCRlP2Y8+MiYNplF1G2OHvS/8sMkTibPOGv8WRhT1UE
-   qyknjepMhaO7JwZ/2mtqMTGGFbwfUzIQCnRAXaF+2UrTP93zPoRrk5Xkl
-   v1oH1Vr+GZYuwPH5A09HzSbWLLNH8VqVB6avC8qvWFm3CMNAwfq+nVAbA
-   Mh61DuTr2T+O5Bc1DekfsXqAXe42cUwhGeniSvlT0oOFZ2iusLhZKYXX0
-   h9r7VxY8oIvjXIvzDNo5H6l2Upzjlz4DXQ/mr7dudts0V3v3CcW6oPWG4
-   g==;
-X-CSE-ConnectionGUID: OP0xl7NaRhKQrIImW0/Jmw==
-X-CSE-MsgGUID: gW+P+J4eT4WvroSVJgpIZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3263235"
+  bh=XJszu6++5eh8DMo5JkBUm4tqlvWrEhfU4XHnKfHIWx4=;
+  b=H+VulyAc0fMTX4DiRCQKTHwcXNIwJsYbq9mf/+Uqaj6vgiDrmWLS/Qh1
+   GMDtplCKeQbvs0hhsmIVAnOKHXbDCbgno3A/JhjJ0nGmDGEkFQhKhXhj9
+   SJ801tgkkDLanthocTG8o2Fu/VEnzUAq/PGPtLOkMSGhqszp+0Je7ZaAy
+   cgFj2aoZ0jKVlv3gSouPB8cAx1+uuhX582HPC5En5qakA3ua0dSbw6Xcc
+   +w3NfrUIytlGm4+ZPm/B7DVNaeREG8eZKPPh0C0bxTBFIQ/hBEeID/F4Q
+   QsU1nBfXM20PEPOWoAPloTWVvEH5xzJ8hXYKV0IWquIUw0dSaDjHqNuvr
+   A==;
+X-CSE-ConnectionGUID: brVO0sOTQjyZ+3MitJLx8g==
+X-CSE-MsgGUID: 89UNKyGKR9GEMUQV20r9NQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3408608"
 X-IronPort-AV: E=Sophos;i="6.27,211,1787036400"; 
-   d="scan'208";a="3263235"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 08:09:53 -0800
-X-CSE-ConnectionGUID: mWlXUNYZSjiGDDL7C9Ocwg==
-X-CSE-MsgGUID: ZwNL6jx/SEK93Cxo9lbYyw==
+   d="scan'208";a="3408608"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 08:13:12 -0800
+X-CSE-ConnectionGUID: GpvPIBx2Sx6hhcdLnQjvzA==
+X-CSE-MsgGUID: SRjzV1wDQFSY1lVU3VER3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,211,1787036400"; 
-   d="scan'208";a="8800970"
+   d="scan'208";a="9298571"
 Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.148])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 08:09:48 -0800
-Date: Fri, 13 Nov 2026 18:09:45 +0200
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 08:13:07 -0800
+Date: Fri, 13 Nov 2026 18:13:05 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 Cc: Daniel Scally <djrscally@gmail.com>,
@@ -82,11 +82,11 @@ Cc: Daniel Scally <djrscally@gmail.com>,
 	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v2 02/10] lib: string_helpers: implement a CLASS() for
- string arrays
-Message-ID: <avc2SeHYGmAcG37O@ashevche-desk.local>
+Subject: Re: [PATCH v2 07/10] device property: provide
+ fwnode_property_count_references()
+Message-ID: <avc3EfUI7UlFcSB9@ashevche-desk.local>
 References: <20261113-fwnode-for-each-prop-v2-0-4edc23d5cf50@oss.qualcomm.com>
- <20261113-fwnode-for-each-prop-v2-2-4edc23d5cf50@oss.qualcomm.com>
+ <20261113-fwnode-for-each-prop-v2-7-4edc23d5cf50@oss.qualcomm.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -98,15 +98,15 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261113-fwnode-for-each-prop-v2-2-4edc23d5cf50@oss.qualcomm.com>
+In-Reply-To: <20261113-fwnode-for-each-prop-v2-7-4edc23d5cf50@oss.qualcomm.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Nov 13, 2026 at 04:47:02PM +0100, Bartosz Golaszewski wrote:
-> Provide a CLASS() for managed arrays of strings. It can be used for
-> automated release of temporary string arrays when they go out of scope.
+On Fri, Nov 13, 2026 at 04:47:07PM +0100, Bartosz Golaszewski wrote:
+> Provide fwnode_property_count_references() - a new fwnode function that
+> allows callers to retrieve the number of references in given property.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+I don't understand why we have this patch separated from previous one?
 
 -- 
 With Best Regards,
