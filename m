@@ -1,52 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.117.254.33
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794607479;
-	b=RNx8F+7X+E2Lbt9t0x0xwqgOXfFFwZihtEzLWx3pu/HmpNhuaG/xbF3WBlysGsYWc3wA
-	 v0xmiAWwqoRz1oBlprIB/jkCFkKW7qDUHEJR1Hoyxuq6sq/uXNqnemdNMask35D1Y/KHa
-	 bi85GFUb3kB+IApndrJ7ZcBv3o/hPfyx0kQVoIJ2MHr1hcdVYr0Qn4MyicDvzgi+spbkm
-	 U33ZjxD1XtePBEqmiizvwROMhcUtM4LwyPbI+AMoWcYfWE/xUoF8+ulFXP2lPksC4BhrM
-	 JlcX48WxSxNz21LwtmwPWjtZaz2csoMtFoyFq1T5pIlZkTTtWgMPqpJctY6iZ/h3Trw==
+	t=1794607531;
+	b=bY5qS26sVWWw5Hp1MugBXSNb18HZOdvGSrwXCRRjf8zVSO9JhHloTbZ9ffmHn110KAsb
+	 qOXOtx9Xumx0IWm3Z3o715t+/hPhJ3e1+4/h4082dUK4egJsPW/2eWwvVXehnNz3Kc9fJ
+	 vtk9PIVIRGzFQ6drqfPkSP3pRbjVBRIz2IdZGr1JPm2Vz8rw+nQRSVfJKZTMPREYoDYsW
+	 UFJIPpg5eg6HYnfZILGoclPBixbYnengnI0g4BxASoxba2JL4dS5tx5duuytW3udtiIxL
+	 Ba2xf9tYtpVVmAL7Zaj+2QZgtA5QOIJZp4LpnkUjjfWTUMoSdKg1JCima42FTLJlzgQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794607479;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794607531;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:X-UD-Smtp-Session:Date:
 	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=060IlpN6nZBHuShVfn1h6xjHXL8bq9e9OYpRoM9tWdM=;
-	b=qLsdwpIYp8ZUVjo0c0GDCGdTySReGCjyaLUSJfCx2QK2+oQOXYKDQd2X/f4uwqQ5jmdA
-	 48WM7fYiFJrLi5bj5HQ7P8nttTUfFUc2BgOZlM/3CjqaJuDQNrraq0jIGnKOSX1f3nS4f
-	 5yx9IiJp8iYcUD7cYbBNz1AjFsoB1AEOh94i2Qg1rgrZKyCvzk+oQf9Mq/FTYyOlP3e4x
-	 VqB8pS2IEFPp/Tp+AWMHaO7Zo+gi1MYhoiV51k0HTtymvaorCIB+NFdPTS1IEuo7rkjrF
-	 wFybyeuD+FhLgFHHjHNcR93QALHQE6tE+8NATk98xJbrq6E8bMnExYlPIS7QJMN+2iQ==
+	bh=KDBiAP/Ln+eH+FIXOmqjg3zWT6yseYeyvqpzRG5VDZo=;
+	b=xUvscKjXU3waqcOatBn4oLOvOmjNjQBsfT6b7pnZ2NUPBafHnRUO/0Cdi4Vb850TQchN
+	 NhBUr94imjxUlah+WPTxmQBaZkQv5wo2OEc9VXDGdJzNnCwT4SBYsG5HcqPBO7AMTZI5p
+	 ricb051Qp1NG91Vd/qk2iLIh/+rp1g4z7zgSvwQmxdCJRSV7ylqXnXXPjnM8DUqL/Xgmq
+	 wDyZZinOTfnwNLpQfx1rQRD4t493YHurVaIjpS7MMALCAZRWci5Awz13ZS+0JlnwDqlPq
+	 35yaVp/aIk16o3c5HQlAEAsfjp85kJPuwlQOcay9qgLsWoEIu3JlEQgtUiibwLX63Aw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=sang-engineering.com;
 	spf=pass smtp.mailfrom=sang-engineering.com;
-	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=QtKGYcQI;
+	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=hUqpx+iO;
 	arc=none smtp.remote-ip=194.117.254.33
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1EC606A333
-	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 22:04:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D1EC606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAE4606A327
+	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 22:05:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7FAE4606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=QtKGYcQI
+	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=hUqpx+iO
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=060I
-	lpN6nZBHuShVfn1h6xjHXL8bq9e9OYpRoM9tWdM=; b=QtKGYcQINLZUbtBvGCrX
-	feBVnRhzy4dEj4v8brwXHAjMaRSL7bcMQaulQM1FlgQOGXCUMedRIYcOXT9cAZCa
-	kRyT5afiDUnnj/EqONlbiNV1sxsCNgDfidTvRAaHQ+4S9wvNzHNT3Rqj6I/DKVeC
-	aXmoKMaCQDVwusYmeKu0SqpliUW7whlJohAEdqKFwD2XMhypU58x38EiedEkywjb
-	DYkYWEEJTtfJ3ODg0NVlHHEHhWrO8oQ1kobOVK0CaA1DwB4A0L/l2UqffG3r+8iw
-	fof+7B1NO0+SruLY6T6U7ByveZh4NZ/m9lz8z6Fdm3hkB/sj1+5m/xmejGZpMLXB
-	NQ==
-Received: (qmail 379181 invoked from network); 13 Nov 2026 23:04:34 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Nov 2026 23:04:34 +0100
-X-UD-Smtp-Session: l3s3148p1@E2f9nC9g+uAujntX
-Date: Fri, 13 Nov 2026 23:04:32 +0100
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=KDBi
+	AP/Ln+eH+FIXOmqjg3zWT6yseYeyvqpzRG5VDZo=; b=hUqpx+iODK6xqqqe+Zwm
+	OyRQqDEK4HcedhVFne6ZFKTdPAvqW9te4ZSCucAbh0/VBdqAEY49FnH1gOxtJNdj
+	uPKJ0eVO2myEhlU87lE2kfflwOyWulaCl5hxTaOWkOXyI/vwoyD5tBa9CIXbYEyI
+	L203NDNzD7DGMTxFAljA6akX75nAhVx8usF4LiQjiaEqAUR7pCuGKKjZBvDr8ly2
+	PNq4ipCKp4DTOPrSzCbDl4fY09TVjfWOpjsQtZZusp1gpsiimxSLVcVCM7ZGMKiL
+	hGCudkIGcrRyPMF2LxQhT1H+UIdo6vFRoFG8tXMtmvpoChav15C/KS1/kxa9KXX0
+	sQ==
+Received: (qmail 379548 invoked from network); 13 Nov 2026 23:05:28 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Nov 2026 23:05:28 +0100
+X-UD-Smtp-Session: l3s3148p1@4908oC9guoAujntX
+Date: Fri, 13 Nov 2026 23:05:27 +0100
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: Johan Hovold <johan@kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -59,13 +59,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Bartosz Golaszewski <brgl@kernel.org>,
 	Andi Shyti <andi.shyti@kernel.org>, driver-core@lists.linux.dev,
 	linux-acpi@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Hans de Goede <hansg@kernel.org>
-Subject: Re: [PATCH v2 2/8] i2c: core: fix swnode use-after-free on client
- deregistration
-Message-ID: <aveJbJBz0lRkpXMV@shikoro>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 4/8] swnode: ignore primary nodes in
+ device_remove_software_node()
+Message-ID: <aveJp5-BqQ0E_X6f@shikoro>
 References: <20261110085125.2535508-1-johan@kernel.org>
- <20261110085125.2535508-3-johan@kernel.org>
+ <20261110085125.2535508-5-johan@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -76,58 +75,47 @@ List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="j+L7QhPvMLGA3QYz"
+	protocol="application/pgp-signature"; boundary="oHhREp/cCkpx5Oye"
 Content-Disposition: inline
-In-Reply-To: <20261110085125.2535508-3-johan@kernel.org>
+In-Reply-To: <20261110085125.2535508-5-johan@kernel.org>
 
---j+L7QhPvMLGA3QYz
+--oHhREp/cCkpx5Oye
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 10, 2026 at 09:51:18AM +0100, Johan Hovold wrote:
-> If a client has both a primary and a secondary firmware node, the
-> secondary node is accessed via the ->secondary pointer of the primary
-> node.
+On Tue, Nov 10, 2026 at 09:51:20AM +0100, Johan Hovold wrote:
+> device_remove_software_node() should only be used to remove secondary
+> firmware nodes added by device_add_software_node() but will currently
+> drop a reference also if a device has a primary software node.
 >=20
-> Use a temporary variable to track whether the firmware node is a
-> software node and remove any software node before dropping its reference
-> to avoid a use-after-free in device_remove_software_node() when
-> accessing the secondary firmware node.
+> Bail out early if device_remove_software_node() is called for a device
+> whose primary firmware node is a software node and fix up the two
+> callers that currently work around this themselves.
 >=20
-> Fixes: df6d7277e552 ("i2c: core: Do not dereference fwnode in struct devi=
-ce")
-> Fixes: 1c24e5fc0c70 ("i2c: core: Fix double-free of fwnode in i2c_unregis=
-ter_device()")
-> Cc: stable@vger.kernel.org	# 6.16
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Hans de Goede <hansg@kernel.org>
 > Signed-off-by: Johan Hovold <johan@kernel.org>
 
-Looks reasonable to me. Thanks for doing this and the cleanup in patch
-4/8.
-
-Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com> # I2C part
 
 
---j+L7QhPvMLGA3QYz
+--oHhREp/cCkpx5Oye
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmr3iWwACgkQFA3kzBSg
-KbaIMA//eWcgbnF7PZjDx4nprctqMRhaYXXJNHPesqlrO7deaWAuj6I1+Cliuco4
-sUxbGoaqeI3Pdn5iMAVHzuzxk4YWp9NqEGaarZZ6oT3MrPx8oTvQwYwnNTsou6yz
-t+x04+dPmw5di/r02KlpuI//3aGLKLVH1TStEZ7fdYdeKf9Cjw1BhzTQ5evVW0H2
-Xurqmq1uWGZ3QUvb7+LppwTkp3wp6AFbjY8Y2pRmxfrM4VgGuYLWExK7P//qqKR1
-pkpxjV4XGIvlZDlX7ynIWf55Yh2xWNjI89dS2ytFYtkXXgKf3KoGzZ+fGg0Y1Yhf
-mHJbnTCL+24rtpfDhPnC1fci8rVLJ2VvKVLtfXK3zaNe6ZOshRh8Rdl+dwfNckLi
-BMzTAr8NWsfp8m+sCrPZUDRk+bDEZiGu5IQbbgw4WwdREq/5g6z3eo+G7PF2D+HY
-cFHkyOVcMkKfq4IyYTm9AVXIKl1Oruz9QyefgNHCmdauegytSfsuI+oBvw66kXBu
-MhPSRrAlD2FLZYmOjfUT1R+rbncrT6tLHHwlRnSsjdvnVrZN5PUr+r3Jx9KTkchQ
-jTkp8P3WIcE3j3A+5DynJ2+VKhN9Pi/n/dLaK84buiyzOlzbm+TZ8NylR2nng6+q
-44eBFj99f+HuUQI/i9a6ovZwD1E9fLT0+J55g4IKqUeVi9KoIak=
-=UwRm
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmr3iacACgkQFA3kzBSg
+KbYVlA//eYVad2Zpmxh/QuRS+B/qbudGpoSMFDnHOBSXK6XupJ3PxzwBXAJmw/6Q
+akQkJ/g+CYk6/hQyCwLAJBzAYANuNIeWzOUhyqTJzAponfWe/d4RUPNbF6MFKCHI
+pm1lany0cAHzJt9LRx3EQakVUcooGfxxDPYilwEl1RNM13wpf7o8LWiTDVgLHTBz
+y9o0MvOg6hsCwYSnbu3gHRrhfYfyFJaeSoDioO9Ccdc++5RIcOK1UHD2PCmhg28I
+AhOHk00RirYjWnyntbT33lSMnXqqjqsioHPrDHUrUXJ1q1Z4PFx+cn4Ys5wLiWjJ
+KJnCIlyqZr8WiqZJtWAIjXCtbHHjLIm9Zd4Go/XMLqjNiZW2hUwEsJgEbgWKEpGe
+47Un8/oL3+N/MdYCQIBWBtnlEPE09f2Q/MWjG/3Zg01ghGDFfQ/U8ESuskvsB8cK
+WWjLc19kY855+WeUlX2i8jwazp1wKNXh7QNNEemvIFdHEyfRoigXVJqOCMlUj2PW
+oGruNTMZa/uHf3wegYlBx6vEQqhTq6yXW529cmxTbpBZLj1DK5AY0olawHWoPSua
+cD8cToEA2zk6LDaIRlnJeBJdDpP1nX273HslXo+AnO7x8uL4MhxlllJNwkpAXdE/
+P/+kLEtTdRCMnUuCan03TvAdX6ttm7qytczd6ZraA/dp0hQUXPw=
+=1BPw
 -----END PGP SIGNATURE-----
 
---j+L7QhPvMLGA3QYz--
+--oHhREp/cCkpx5Oye--
