@@ -1,67 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794586159;
-	b=apZsLjCkGeKchrSbO77GB3Oz5EHSwIVGG3X3IA5UGCHoRPJ1wx4Daj28jk7hqbqSVfef
-	 33hKuWtzoxZPVMJCrdBwYQwO5pw1izA2SSFcbiCT3gmSShnMXx4iDFnFfCm1GSQtgPxz0
-	 QrpVOuXrUQWRSWL98IGDuTaeer6st1+6odzAF5CjCXEqAF+FN9p8R3SDEL7z2dBgLfVL7
-	 qfWIjU1rfpJ4IqZ8GFr4Dymni1RbK6vbZoArVApCtM/W8/McvV2NPgWu7PaZCb0ubJfJs
-	 wagc4N8NTZottH1k6R9V+4Tf5jBBdDF2Gwu8RplnbacbE335IYp+c/B9B77DtkDnLZg==
+	t=1794586194;
+	b=xf3MT3FVKZAozJ16qM+DEOON7lm42dNcro5VIpjYzdDCUHgOZtWSGwIfbWVti7KXS+UR
+	 18XZnYSgnAtbjs/Qo7bXs18tbueckDL5+EXPKlswaXa6jnalYt1FaimcYEtfKYrZLIuKM
+	 opgAjXBYhqv6U98/DbDdDSSq20mDdpVdhtPOP45lZ5Hu1p6Eep7c51lQCn/a/KpNkEI8+
+	 nJ0s1gZ1HjuPf9Z0P3ACR1RkFBbOyZi5Ju/07Ba328BKetSY37ZgpOjlQseBYC9JtETHb
+	 OyEf54noeGwy3jsh8T9MTT1346Xl4eUSN0N7NI0z+8Tbwa9VwN9kYTWpfEZg5Crar+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794586159;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794586194;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
 	 Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To:Organization;
-	bh=UzRtJe9k/TIfMygxRi1Dshl9doPqG/GK6K3D7F5Qdd0=;
-	b=tyqEXuwy0NXNOpfvlvGgllGw4xXZ76cWmsbfo/a6dtAhFkkV1mny/SU5omfqyyluCVuE
-	 x6W+t4xqTmHjUeAGBaxQssRgzYq0ge8QbnF7p8+FKmzitXetCW+xu4EuErOiosnhY3w+M
-	 mNcrPKvG/yi9qw9xqRtpHWRXryRpBlEIEe98WBM7E4zfBulNHzieZPyaRmA5RjNNHEvb8
-	 v17t71n/9A5geTnN76YiFu1kK2WcDv/LsEFJBPkVdhd0jAgnGGmdtr9PWG4R6u0t8NfN2
-	 VVc011kGpu9fhpQ5NaDlMBXf7HYh0gwAzZfKPEw1Rk3Y5h5i9DkSffdUzdq1y0LmhsA==
+	bh=C0MWHQysDEd87y5/D+eFZ6XJDew4RfFsL3e3ZqMqHq8=;
+	b=PQtMdzVCRyD22BUMfwj7Gts07vCsGdOJRRhdPeB20USij/EfspuTE1ORpbZJhBJlZmuR
+	 xmoI59pdJ7hlK/XH6RpzZyMtPJRcd/NtvcTi46BkRRDEM9T/+mIT9qKtzIOqg2h1eYqf8
+	 BkdfSjktAps0AhZ/uHp0pIvnA68P3JZpzWs8drQCMHunR4SzFtnnb9T4SSLGMk1LeQOgc
+	 R3k/KJbhyo9eOPiN4nqkScKiSY0jSw6TnRzg2OUfnRbV2uZ9cVl5ddv/TZFm40vUMGIoT
+	 m8qwy6KVgqFTVPpRsrld+tPoKZR8fdiLFQcrtBB031x6wnFmy5GvsU9a8QBkkuOlBdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZtesTI3J;
-	arc=none smtp.remote-ip=192.198.163.17
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="P0F/EtZ6";
+	arc=none smtp.remote-ip=198.175.65.12
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14AFC607B697
-	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 16:09:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14AFC607B697
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2AC606BA86
+	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 16:09:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB2AC606BA86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZtesTI3J
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=P0F/EtZ6
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794586159; x=1826122159;
+  t=1794586194; x=1826122194;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=j7xpIOpqXoovT7Lty0XB42ypoT8ee6ey870rThtyt/o=;
-  b=ZtesTI3J/w/a3DIEVxvIQOYyXo14saD9yrx08syALM2PRPO+fF+lpqiM
-   7rKRqbaHnI8+2qgyFm0pLDCg/3HjFaDJnkf9pF3HhkanCu2KiXFSGLFN7
-   TrsUZyopN0hN9aE3JwTxFDB4IMkCAOY0X8Bqcp2I8z2lL7bcjTs6HgH5x
-   ToqiJP2keXLVTOwMlWI2Zd/KpgmKmAdT5Voq8qooiVpWNMPmzlTkZ4NoQ
-   wXzD8FdI9BFVrOtqpbo953dMJXDpbCP11jcjWwLBOK8SReZkvNw6DL5Ne
-   IB2Sj4gDEkLBpRV2eddKjaJWMQY11L0ekDS3FfuWfl6UoNiYGxJKEnEUn
-   A==;
-X-CSE-ConnectionGUID: 9cnBuIH5ShyhAbHUe0K0Kg==
-X-CSE-MsgGUID: XF1gewBqQJS23gBzW3BHPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3384901"
+  bh=xVqysPj+hkTB/imj3I1xoTZQjZM3hYs2UW5h7nd8/3o=;
+  b=P0F/EtZ6FuiKpSve/T5LzEYCZEuO9q4nX6K358bbC7jJTQarpukByzoL
+   T+A3+klmoFR37ncCRlP2Y8+MiYNplF1G2OHvS/8sMkTibPOGv8WRhT1UE
+   qyknjepMhaO7JwZ/2mtqMTGGFbwfUzIQCnRAXaF+2UrTP93zPoRrk5Xkl
+   v1oH1Vr+GZYuwPH5A09HzSbWLLNH8VqVB6avC8qvWFm3CMNAwfq+nVAbA
+   Mh61DuTr2T+O5Bc1DekfsXqAXe42cUwhGeniSvlT0oOFZ2iusLhZKYXX0
+   h9r7VxY8oIvjXIvzDNo5H6l2Upzjlz4DXQ/mr7dudts0V3v3CcW6oPWG4
+   g==;
+X-CSE-ConnectionGUID: OP0xl7NaRhKQrIImW0/Jmw==
+X-CSE-MsgGUID: gW+P+J4eT4WvroSVJgpIZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11965"; a="3263235"
 X-IronPort-AV: E=Sophos;i="6.27,211,1787036400"; 
-   d="scan'208";a="3384901"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 08:09:18 -0800
-X-CSE-ConnectionGUID: AGgDHqGAQmubd8uBvQL3xg==
-X-CSE-MsgGUID: +fmZvJyNQ6ODkvVabY9eMQ==
+   d="scan'208";a="3263235"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 08:09:53 -0800
+X-CSE-ConnectionGUID: mWlXUNYZSjiGDDL7C9Ocwg==
+X-CSE-MsgGUID: ZwNL6jx/SEK93Cxo9lbYyw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,211,1787036400"; 
-   d="scan'208";a="9385090"
+   d="scan'208";a="8800970"
 Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.148])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 08:09:13 -0800
-Date: Fri, 13 Nov 2026 18:09:11 +0200
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 08:09:48 -0800
+Date: Fri, 13 Nov 2026 18:09:45 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 Cc: Daniel Scally <djrscally@gmail.com>,
@@ -82,11 +82,11 @@ Cc: Daniel Scally <djrscally@gmail.com>,
 	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v2 01/10] lib: string_helpers: export and rename struct
- strarray
-Message-ID: <avc2J6x6SGceeSNc@ashevche-desk.local>
+Subject: Re: [PATCH v2 02/10] lib: string_helpers: implement a CLASS() for
+ string arrays
+Message-ID: <avc2SeHYGmAcG37O@ashevche-desk.local>
 References: <20261113-fwnode-for-each-prop-v2-0-4edc23d5cf50@oss.qualcomm.com>
- <20261113-fwnode-for-each-prop-v2-1-4edc23d5cf50@oss.qualcomm.com>
+ <20261113-fwnode-for-each-prop-v2-2-4edc23d5cf50@oss.qualcomm.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -98,15 +98,13 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261113-fwnode-for-each-prop-v2-1-4edc23d5cf50@oss.qualcomm.com>
+In-Reply-To: <20261113-fwnode-for-each-prop-v2-2-4edc23d5cf50@oss.qualcomm.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Nov 13, 2026 at 04:47:01PM +0100, Bartosz Golaszewski wrote:
-> Ahead of introducing a CLASS() for string arrays, make the existing
-> struct strarray public in linux/string_helpers.h. Rename it to kstrarray
-> to avoid any potential conflicts in the future and make it clear, it's a
-> kernel type.
+On Fri, Nov 13, 2026 at 04:47:02PM +0100, Bartosz Golaszewski wrote:
+> Provide a CLASS() for managed arrays of strings. It can be used for
+> automated release of temporary string arrays when they go out of scope.
 
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
