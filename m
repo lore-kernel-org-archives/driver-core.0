@@ -1,56 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.58
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794583964;
-	b=Ocq50E1H48V0Gp4+kDlWXknC2eQqoXC+LsHD7wXTpGwLLEmH6CyiF5BPy5j6knTkTIDj
-	 A+rhWIcCjJ/xC3eMZchJkSew18i1+Ct2BwkQ8U/BtIowAoQMsOMCeqQ3GGVizAr1yhe1k
-	 Hl/HOzDzKzctpVTbobI9LU64tXMl0hxWK4xB9YXO+Zr5o1OjNMb3aRUj8CrwgCaRBumYR
-	 yTKeBVLSr+OJvQqsHmqP8ZK2TGX8FhCHJhqFgIfSUSqsy+hjQYPvyindEj/mUZ4dKjGmS
-	 DBTN94TbBVmSPRZMPXhxqxC/sCnejvhlK6g7gpUcu1lwMmx0SEhP2KgJ5g7jlQYNEwQ==
+	t=1794584383;
+	b=QXGPryYDwGzMw6mhKNlYkTf1RKQ+XozhvPFxQw4fovFNV7ECXytkdwbyO8zMcSBsDyJt
+	 UM3J9D/mzIE1S896+5A3+arURCWDsCUU4rO6SuwgZzM5KscWZQp18u/WE/YxjnULq2+3t
+	 s4TTePk7jRSREorNVAtSXh85TRiTQTkS3496vVrQ0eFjHv/5ZxSiiokMgUqfs7VGkC52/
+	 EGBIZWiU2blndZfHYB3JCAfrEMTF/G5gGGQ2JTos6QpBRsR3fIiqLH6D4PTtFTM6AM2nR
+	 Sn+AdbeuFy1bjO367NkX85nUF5z27coGfCCm+PJArJIpWxfR3k1VUvRUgISQkNtWamQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794583964;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer;
-	bh=bvNkvOXezmjuj2NgjEjXOIyrbEQDPQ7zXLJoZzuvJso=;
-	b=ha77yeocV3vOQRuZnEbgmLs/3hcSFX+f7XUtEIjusahEEjYSQiR2mIOrvXwq+tyeIce8
-	 2KNs6ccQ4j1OzAfmcQAXerQCVFwoQs/YWXE113PCP8SoAwmMc/Om7rHEP62ASP7RKRT2K
-	 7JYEm26u5l9LPFDQx5rW6nbGaKl7brUoUfPzwEviKq0EOZdymsIPPJ0ENfZHp+Bilh2g4
-	 ynoldS1ZHtkLXW77VtPINgZcTe5G/0b9cktT7yzq8EfWPAkX0xSX4LxpCqz5L8dCw2CW1
-	 b2Uj9YVM4AVKQdvb/+C7UIgFQ1FNkwgUMS70xh/cAN+Ep5EyFMCEidK9ILR0wi4Eu6w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794584383;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=WTYbhOQb0nbXf5t2IZCat65pMPi3J4tXZO3ZqFrLRAI=;
+	b=1qpvsB1XOHrNPo5ox4dPdJ9QER0LLZKSL/uVsP2KdlrOcb8QCnBfZdLWJ46XEXdAjHXE
+	 b3dJoGEde6OdmVGQ01vZd6/I39SakLlac383zOh2tLhHXU2/bXtjB4/Xw9YzFoXX9oe2g
+	 I54Whgj/emQMduR9PMjj3l87Kz4P8Ca3+V3N5J7P1/jFZPDOckKicTZlbG6Xq/latz7AD
+	 n1c6lA381u/lgkOhaau5E9lQhebi0XZS+d8WouLDONtYhHUMuHNnr9rlTL5g0x/8ic3Dt
+	 mege9LIzcgeLZmxgIEzBYoasd91CEjELEVumxl6nQNCosqqCsOFcrXHqzsodD1ZoDeg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=AT5iCnu+;
-	arc=none smtp.remote-ip=95.215.58.58
-Received: from mta1.migadu.com (out-58.mta1.migadu.com [95.215.58.58])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mscDjltS;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D93860A2626
-	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 15:32:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D93860A2626
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8722606A323;
+	Fri, 13 Nov 2026 15:39:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=AT5iCnu+
-X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=gpudrF8e9c8S7xz2PdaClPQ2oeR8iHtL9/29e7yY5nY=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794583961; v=1; x=1795188761;
- b=AT5iCnu+EUFIex5E6ZgqZgAL7F13A2TiathRoRxPPgyAc7HkTnqzzw1bjrUgO9TocyFQ1w9W
- C1UTIl5q4YNrDbzAdp49awAbZ50kPd7HqZP5a4/G0DuaHloMmC0LFjU+GPwfnqY8xRMVqaVvzUd
- Iu+THOfJdvNuaoz1cTc6oJq8=
-X-Envelope-To: driver-core@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id 7cac1438b6c61d50;
-	Fri, 13 Nov 2026 15:32:41 +0000
-X-Mizu-Trace-ID: 7cac1438b6c61d50
-X-Migadu-Flow: FLOW_OUT
-From: Peng Fan <peng.fan@linux.dev>
-Date: Fri, 13 Nov 2026 23:31:58 +0800
-Subject: [PATCH v2 10/10] regmap: kunit: add test for
- regmap_bus::init_limits
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mscDjltS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98CA41F000C4;
+	Fri, 13 Nov 2026 15:39:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794584382;
+	bh=WTYbhOQb0nbXf5t2IZCat65pMPi3J4tXZO3ZqFrLRAI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mscDjltSDITSat8S9wUj+2TJnbQm+X07N/08IrqdSpooq7IEfs67cHVxETyHL5mZM
+	 JOFZgZtHpFjZ5dyXhzoWFPPh6mtfFxYp9vmVyiRttPN5hHZVOUC8pz+MzPuV8sjYMm
+	 uGmcB981N1rV9L+fZwkMetkWSxpLxmD6KRmNMY6dSLVdQNZZIVJdewD3PLmRedWF9V
+	 t7HAdAmo35nhEdhFABfph/jI3mVuRZHLOkCfAQT3pNSWhguk+K7TX4hPDwYxEHHDPA
+	 zR+gQrwhDs8Sd7gF1SCeoy9e8fyf9ngXwc7DeTjgvKVFo+ZQVMT3e3OuXggwLJXUF2
+	 iSyqXpUpzVLsQ==
+Date: Fri, 13 Nov 2026 16:39:34 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: linux-hardening@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, 
+	"Maciej W. Rozycki" <macro@orcam.me.uk>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Andreas Schwab <schwab@linux-m68k.org>, Andy Shevchenko <andy@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Daniel Scally <djrscally@gmail.com>, 
+	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Joe Perches <joe@perches.com>, Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Len Brown <lenb@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Linus Walleij <linusw@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Saravana Kannan <saravanak@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v5 7/7] string: Implement strstarts() with strprefix()
+Message-ID: <avcrlaWDlBVAHpnj@devuan>
+References: <cover.1794574496.git.alx@kernel.org>
+ <382a44f7c68672ecead2436d9f569ee23f383830.1794574496.git.alx@kernel.org>
+ <avciONW-b_WXoetv@ashevche-desk.local>
+ <avcj0YbmHRyhFW-Y@devuan>
+ <avcntwOjI2i4seyB@ashevche-desk.local>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -60,142 +72,199 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261113-regmap-improve-v2-10-5dfd6a89078f@nxp.com>
-References: <20261113-regmap-improve-v2-0-5dfd6a89078f@nxp.com>
-In-Reply-To: <20261113-regmap-improve-v2-0-5dfd6a89078f@nxp.com>
-To: Mark Brown <broonie@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Johan Hovold <johan@kernel.org>, 
- Lucas Tanure <tanureal@opensource.cirrus.com>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
- Peng Fan <peng.fan@nxp.com>
-X-Mailer: b4 0.14.3
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="onvsso5rgalquyac"
+Content-Disposition: inline
+In-Reply-To: <avcntwOjI2i4seyB@ashevche-desk.local>
 
-From: Peng Fan <peng.fan@nxp.com>
 
-Add coverage for the optional regmap_bus::init_limits() callback. The
-test bus lowers the raw I/O limits and relies on raw register defaults so
-that regcache_hw_init() reads from the device during map initialization.
-The readback must be split according to the limits set by the callback,
-which also verifies that __regmap_init() invokes the callback before
-regcache_init().
+--onvsso5rgalquyac
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: linux-hardening@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, 
+	"Maciej W. Rozycki" <macro@orcam.me.uk>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Andreas Schwab <schwab@linux-m68k.org>, Andy Shevchenko <andy@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Daniel Scally <djrscally@gmail.com>, 
+	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Joe Perches <joe@perches.com>, Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Len Brown <lenb@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Linus Walleij <linusw@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Saravana Kannan <saravanak@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v5 7/7] string: Implement strstarts() with strprefix()
+Message-ID: <avcrlaWDlBVAHpnj@devuan>
+References: <cover.1794574496.git.alx@kernel.org>
+ <382a44f7c68672ecead2436d9f569ee23f383830.1794574496.git.alx@kernel.org>
+ <avciONW-b_WXoetv@ashevche-desk.local>
+ <avcj0YbmHRyhFW-Y@devuan>
+ <avcntwOjI2i4seyB@ashevche-desk.local>
+MIME-Version: 1.0
+In-Reply-To: <avcntwOjI2i4seyB@ashevche-desk.local>
 
-Signed-off-by: Peng Fan <peng.fan@nxp.com>
----
- drivers/base/regmap/regmap-kunit.c | 89 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 89 insertions(+)
+Hi Andy,
 
-diff --git a/drivers/base/regmap/regmap-kunit.c b/drivers/base/regmap/regmap-kunit.c
-index c948219f46a3..f2fe2eef3403 100644
---- a/drivers/base/regmap/regmap-kunit.c
-+++ b/drivers/base/regmap/regmap-kunit.c
-@@ -2247,6 +2247,94 @@ static void raw_ranges(struct kunit *test)
- 	}
- }
- 
-+#define TEST_INIT_LIMITS_REGS 16
-+#define TEST_INIT_LIMITS_MAX_RAW 4
-+
-+struct test_init_limits_data {
-+	int num_reads;
-+	size_t read_sizes[TEST_INIT_LIMITS_REGS];
-+};
-+
-+static void test_init_limits_bus_init_limits(struct regmap *map,
-+					     const struct regmap_config *config)
-+{
-+	map->max_raw_read = TEST_INIT_LIMITS_MAX_RAW;
-+	map->max_raw_write = TEST_INIT_LIMITS_MAX_RAW;
-+}
-+
-+static int test_init_limits_bus_read(void *context, const void *reg_buf,
-+				     size_t reg_size, void *val_buf,
-+				     size_t val_size)
-+{
-+	struct test_init_limits_data *data = context;
-+
-+	if (data->num_reads < ARRAY_SIZE(data->read_sizes))
-+		data->read_sizes[data->num_reads] = val_size;
-+	data->num_reads++;
-+
-+	memset(val_buf, 0, val_size);
-+
-+	return 0;
-+}
-+
-+static int test_init_limits_bus_write(void *context, const void *data,
-+				      size_t count)
-+{
-+	return 0;
-+}
-+
-+static const struct regmap_bus test_init_limits_bus = {
-+	.read = test_init_limits_bus_read,
-+	.write = test_init_limits_bus_write,
-+	.init_limits = test_init_limits_bus_init_limits,
-+};
-+
-+static const struct regmap_config test_init_limits_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = TEST_INIT_LIMITS_REGS - 1,
-+	.cache_type = REGCACHE_FLAT,
-+	.num_reg_defaults_raw = TEST_INIT_LIMITS_REGS,
-+};
-+
-+static void test_init_limits(struct kunit *test)
-+{
-+	struct regmap_test_priv *priv = test->priv;
-+	struct test_init_limits_data *data;
-+	struct regmap *map;
-+	int i, ret;
-+
-+	data = kunit_kzalloc(test, sizeof(*data), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, data);
-+
-+	map = regmap_init(priv->dev, &test_init_limits_bus, data,
-+			  &test_init_limits_config);
-+	KUNIT_ASSERT_FALSE(test, IS_ERR(map));
-+	if (IS_ERR(map))
-+		return;
-+
-+	ret = kunit_add_action_or_reset(test, regmap_exit_action, map);
-+	KUNIT_ASSERT_EQ(test, 0, ret);
-+	if (ret)
-+		return;
-+
-+	KUNIT_EXPECT_EQ(test, (size_t)TEST_INIT_LIMITS_MAX_RAW,
-+			regmap_get_raw_read_max(map));
-+	KUNIT_EXPECT_EQ(test, (size_t)TEST_INIT_LIMITS_MAX_RAW,
-+			regmap_get_raw_write_max(map));
-+
-+	/*
-+	 * regcache_hw_init() reads raw defaults during map initialization,
-+	 * so the callback must already have set the limit which chunks the
-+	 * readback.
-+	 */
-+	KUNIT_ASSERT_EQ(test, TEST_INIT_LIMITS_REGS / TEST_INIT_LIMITS_MAX_RAW,
-+			data->num_reads);
-+	for (i = 0; i < data->num_reads; i++)
-+		KUNIT_EXPECT_EQ(test, (size_t)TEST_INIT_LIMITS_MAX_RAW,
-+				data->read_sizes[i]);
-+}
-+
- static struct kunit_case regmap_test_cases[] = {
- 	KUNIT_CASE_PARAM(basic_read_write, regcache_types_gen_params),
- 	KUNIT_CASE_PARAM(read_bypassed, real_cache_types_gen_params),
-@@ -2290,6 +2378,7 @@ static struct kunit_case regmap_test_cases[] = {
- 	KUNIT_CASE_PARAM(raw_noinc_write, raw_test_types_gen_params),
- 	KUNIT_CASE_PARAM(raw_sync, raw_test_cache_types_gen_params),
- 	KUNIT_CASE_PARAM(raw_ranges, raw_test_cache_types_gen_params),
-+	KUNIT_CASE(test_init_limits),
- 	{}
- };
- 
+> Date: 2026-11-13 17:07:35+0200
+> From: Andy Shevchenko <andriy.shevchenko@intel.com>
+>
+> On Fri, Nov 13, 2026 at 03:59:46PM +0100, Alejandro Colomar wrote:
+> > > On Fri, Nov 13, 2026 at 02:11:17PM +0100, Alejandro Colomar wrote:
+>=20
+> ...
+>=20
+> > > >  static inline bool strstarts(const char *str, const char *prefix)
+> > > >  {
+> > > > -	return strncmp(str, prefix, strlen(prefix)) =3D=3D 0;
+> > > > +	return strprefix(str, prefix);
+> > > >  }
+> > >=20
+> > > There is no sense to keep strstarts() at this point.
+> >=20
+> > I agree.  Actually, it seems my guess that strprefix() would be
+> > optimized out was wrong, because the kernel builds with
+> > -fno-delete-null-pointer-checks and other flags that prevent this
+> > optimization.
+> >=20
+> > > Can it be simply redefinition?
+> >=20
+> > I was thinking that we could just do a simple search and replace
+> > s/strstarts/strends/, prepending !! in some cases if needed.
+> >=20
+> > By 'redefinition', do you mean making strstarts() return a pointer
+> > instead of a bool?  A problem with strstarts() is again the function
+> > name: it doesn't seem to naturally fit with a function that returns a
+> > pointer to the position.  It also doesn't clarify whether it searches
+> > for a string, or for a list of characters (like for example strspn(3)).
+>=20
+> We have str_has_*() for that?
 
--- 
-2.56.0
+I don't fully understand.  str_has_prefix() --which is the only
+str_has_*() function, BTW-- is meant to be the same as strprefix(),
+except for using an offset instead of a pointer.
 
+-  strstarts():
+	It could be improved by returning a boolean-like pointer,
+	instead of a bool, but:
+
+	-  We may need to fix some callers, since some of them might
+	   need an explicit conversion with !!.  It'd be risky to change
+	   the implementation without first verifying that.
+
+	   To avoid that risk, I prefer adding a new API, and
+	   deprecating strstarts() for new code.  Over time, I could
+	   slowly migrate users from strstarts() to strprefix().
+
+	-  The name isn't ideal, since "starts" doesn't specify whether
+	   it looks for a string that starts with a given prefix, or if
+	   it looks for a string that starts with any of the given
+	   characters.
+
+	   That is, by the name, I wouldn't be able to know whether
+	   strstarts implements
+
+		bool strstarts(const char *s, const char *xxx)
+		{
+			return strspn(s, xxx);
+		}
+	   or
+		bool strstarts(const char *s, const char *xxx)
+		{
+			return strprefix(s, xxx);
+		}
+
+-  strends():
+	Same as with strstarts() but from the end.
+
+-  str_has_prefix():
+	It was an attempt at strprefix(), but with a problematic
+	approach.  It's frozen because of trace code.
+
+-  strprefix()/strsuffix():
+	I'd add them to slowly replace strstarts()/strends().
+
+>=20
+> > I prefer replacing strstarts()/strends() with strprefix()/strsuffix().
+> >=20
+> > But if you prefer changing strstarts() to return a pointer, I'm also
+> > okay-ish with it.  It's not a perfect name, but I can live with it.
+> >=20
+> > > However, after looking at the uses in the kernel, I prefer
+> > > to see the strprefix() be not implemented at all, just optimization a=
+gainst
+> > > strstarts()/strends() if required can be performed.
+> >=20
+> > I don't understand this last sentence.
+>=20
+> It's basically repeats the idea of having only one pair out of two.
+
+Ok.
+
+> With this series will be
+>=20
+> str_has_previx()
+> strstarts()
+> strends()
+> strprefix()
+> // potentially strsuffix()
+
+Yes.  I'd like to replace strstarts()/strends() with
+strprefix()/strsuffix(), but prefer to do that slowly, to avoid
+introducing bugs due to missing explicit conversions to bool.
+
+Should I add notes that the strstarts()/strends() APIs are deprecated?
+
+> To me seems too many for the similar task. I understand that trace user is
+> special one, but does it use strstarts()/strends()?
+
+I didn't find any uses:
+
+	$ git ls-files | grep kernel/trace/ | xargs grep strstarts
+	$ git ls-files | grep kernel/trace/ | xargs grep strends
+
+> Despite on naming I think we just good to have only str_has*() and one of
+> strprefix()/strsuffix(), strstarts()/strends().
+
+In the long term, I agree.  But I think the transition should be
+careful.  What do you think?
+
+
+Cheers,
+Alex
+
+>=20
+> --=20
+> With Best Regards,
+> Andy Shevchenko
+>=20
+>=20
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--onvsso5rgalquyac
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr3LywACgkQ64mZXMKQ
+wqnZ6A//bHweRCQEI+Ep4ar2zK96tVtAoU9xoCT9dHWvPjP+CjHCxG5XJbmBGN2d
+QJJE+ZfLf8/d4dCnpyQbnhnWEWyiCHUlCjmU8JIiI47kX0uAm4kXzc7717dW1Gz2
+VmOGBV6uB3XSxba7NYx7nQc4MDkF5FVpFSvEUXz5ePhWsnazwNx/fM5vTa56ICWL
+wWsEu2wVIvkn1HTrhIiKrnFX7OVinrYEeECsqdg/1lDkLDJGNWPP6920xp8243Eb
+fiewCQqdovnMJu2MZOcceXWrZZi2OSPgzDUGRa+zkpjfhN4h4nptR+RfWdTLRd4B
+7sjQQ0xgI8JlodC9d0IW4Hr4lM3v8GxQCa/cjA1XGWkvwZ7Yw3XNVMgHfgu0M2qS
+Rm4B3ApgQGHuRpUzVhesWg/BhxIQG4Clp/u3ZFwtIS7+l0f68oDpTCO/4RRifUSJ
+0n+f571JH44hP0a++YbcYioDI1Vs/zivRCGUPwq/dcDg6db4eMZyVXBNFxZr1ZG7
+pIe7+UhTlNptfDa1HDVXEE8fmwZYQbyeyYDpz46ApXZXyd5pWqn1nmm030ddVHOK
+aB1e0knvHo1ZYqJ6oCsAzTf5WT4Kh+gwjlWQigeKXdQUr3vmzHHs4T9AK8LrNUi9
+C7xA5/ing4t1Ay2Y+30vsER3sWWMMPIp3v9C+yLlopgRAqOdXEc=
+=Srfb
+-----END PGP SIGNATURE-----
+
+--onvsso5rgalquyac--
