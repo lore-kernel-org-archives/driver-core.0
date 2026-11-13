@@ -1,68 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.225.138
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794571559;
-	b=2IcOGyX7scSefHPowG5fs6H3f8PfZgpy0vOLy7omThSLya2JJ29Cr9kVyI6uFlJRcP/Z
-	 oashYN6RPWOuuWYcTtcq39m6T6hcXlp+XB07ixNma4O/rs/LxhYum3y1rXkzU4Eo4kr+Y
-	 UqALI2QH/qm47WIKX6J/3KO7siABEv0/tOeVSBM/l0fyKlLiuqZf3m86scR1up6CRZpeR
-	 qtkMHxWBJ3/CjMVFpl6L0w+d6oI3vrftktqLVM5duKbRRf8EMLXlW1Q6947K5NCHOoUl6
-	 AQ/XQNzatYv6KiPuMWRQhmu+dQLb4Wp9faTI1cEAsVw6j9CMUGGJz/c+XmJuDCQzqcQ==
+	t=1794573426;
+	b=F6cea580wLCdxbcqXxdBNIQpQSklKm/+pW9mcKN9pEP6pI99o8i61x+WPbJgn+BkouIW
+	 jALsii5RQdIFlsqcmeljpac3kEDNHi8M+wEi2KZwZekDiIZ+Y0lHSqgJeNMv9YlCE425X
+	 1vahIZQHLkKGPTx8iy+hqZRoXaHR0a1+omBWWHSJbqLijv6Y5OMxcsk5OqRtdYNPRSunT
+	 q4qfeW4lNd2RehNEdC6C71+PMO7N6yMy/Zoomk1ciZdyn5SQUdBGJDIPsDaPHAn1SXliZ
+	 XoRs3340z2SptGwAe/YWW7OlMhfUcBygq+ugGI/SFmx3II63LsppPrvDR6AD0bkg7fA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794571559;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=ew8hOC13o9wfy+m40ApTMAeA1rhG3tv6pgX/NAGeWFg=;
-	b=G6S5OznqkerFBM+M0+nL/r3MF7nWDNSftmWsDDuRg4R7uInfQRsw1zZXM4Lw/GbX/iJL
-	 OhEHy0vsujJrmF6Wj5MjeG0sKrhCKKRTjZTP8utFgwXzefN9YxW2EshRDUMCw+MhHeMSW
-	 3/+OWlAEfCs9IJAUrwiWze2nawXF+hfTix0lDEIsQ9Evu3OU0oipnj4es1zvNXsZnqy2E
-	 AqjlZQaqncJFJnUenE0dweGVgjeDEKfI+9WxYb9SS0s9EhSeTPskG7j6cT9BmY5WuNF+G
-	 4tpHM0co6XAszwDTvJcMFK5Yzxja82vMTpiIy6gQ7Igkjty14DVlqWmg67JviiWNLTQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794573426;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=87/Ge5NhXdmtGpcXCLUvnqWpWEAxiW5M6eWOW+m4zUs=;
+	b=apTApMPVdPCDSaf3YlUG5rBQFTS50ch3iQr2jJdQlhJgA3QU4fEqZBYr4ZMi/pw2pmS/
+	 DtOljT3iSVQ9DJC2VSrSybsFBCM2MXFLfFHe3qqQq9LUrhAuaFTyD3MWsneUE8yTjQM5N
+	 cV/B+uhkEC+9zn+aq1s3ux6Sf1pnd/5uW6ddHhTxjsN+B5K5XUJ23fBCFu23XRBS+mi4K
+	 VQ1GKZtUxN4G6l+fiSo/FlugyRi+8I2IuMF48Oy1mR50xoOsxUIGuca3P/J3TCB4NmO2b
+	 b7Uw59fQIqspdRR2cxix5WEikzXOyn/U04TAK3jT99mcPZo/TOHaPt+kv0Dbqr7cmBg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mu99j7RL;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=amutable.com;
+	spf=pass smtp.mailfrom=amutable.com;
+	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Tu9p6NGc;
+	arc=none smtp.remote-ip=74.125.225.138
+Received: from mail-wm2-f10.google.com (mail-wm2-f10.google.com [74.125.225.138])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEE6F606A88F;
-	Fri, 13 Nov 2026 12:05:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F29606A33D
+	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 12:37:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1F29606A33D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mu99j7RL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E9A61F000C4;
-	Fri, 13 Nov 2026 12:05:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794571559;
-	bh=ew8hOC13o9wfy+m40ApTMAeA1rhG3tv6pgX/NAGeWFg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Mu99j7RLydX3ZksQxHNiqiV8a9C3HGC7C1B9GQzP3i7C2+X8JW5Nsl3ld9KFTB67b
-	 rTQi6bipXdld3U/uSYywJut+ua83KWwKn6KOM6cBbQ9OazBf9YJBKXJOG9raq88INl
-	 6748FiobUagmQyYCWbJzCZjOYLV+iqHT4vmAdGQoY1QFh/4D3MvGnzABWwgyfZZ8nC
-	 qc/PYUysfEen/3hzq4svDwJ/RgFoGqU9AMuqKy2lrFD2S6tqSL9RYtMASWBjIQDY4d
-	 YydpyRu0sSvtrB/5rpTSYMdQ5Eh2XX5FTmVV3wKdx/zsKDlnmB+0OS7/K3AkwYAiXw
-	 nHkUQpXGCnGXw==
-Date: Fri, 13 Nov 2026 13:05:49 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, 
-	linux-hardening@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, 
-	"Maciej W. Rozycki" <macro@orcam.me.uk>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Andreas Schwab <schwab@linux-m68k.org>, Andy Shevchenko <andy@kernel.org>, 
-	Daniel Scally <djrscally@gmail.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Joe Perches <joe@perches.com>, Johan Hovold <johan@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Len Brown <lenb@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Linus Walleij <linusw@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Saravana Kannan <saravanak@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v4 0/6] Add strprefix() and fix a bug with it
-Message-ID: <avb862Pr0NKPVPQg@devuan>
-References: <cover.1794425425.git.alx@kernel.org>
- <avTIWshl9klX0obF@devuan>
- <avXYmk5sZKS0rm92@ashevche-desk.local>
- <vjuf6ritphyrfi2befwf4pwrujrl3pmjjkutr2ccsvta3jjcep@5mpgr3dc7263>
+	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Tu9p6NGc
+Received: by mail-wm2-f10.google.com with SMTP id 5b1f17b1804b1-4b886ebe069so3303845e9.1
+        for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 04:37:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794573423; x=1795178223; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=87/Ge5NhXdmtGpcXCLUvnqWpWEAxiW5M6eWOW+m4zUs=;
+        b=Tu9p6NGcOF4z0zLKEG8rFsAGxhnNNZ3YXRzgBjD+Zgvog4jzGewEr93mY+5QLqeJiY
+         k/b4eA3nyJFT5mUkf19NIQbfgFGdNlwzoP+Gk8+ZauW72nC0Fe02lc/nAN0lHw+3/Zzb
+         Q7cxGpm8N5h2I1opQc8PdtWBs8GH3ul5+o1cSuGLAsR9W7YSxaMm4TXumFn46mioHsGN
+         wsmOFjqXVBlSo4Tx9r1r3V6DBkSTtq0HaddZAyi28yE2e5UZUa2jqd57XSlB5HF9QRFc
+         DjugvFJHUM5nIyIm1TAdtnTGyuyV2W9USZt254Vrts4YGip+jRmUTEEn9h0DREuegwVs
+         rUHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794573423; x=1795178223;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=87/Ge5NhXdmtGpcXCLUvnqWpWEAxiW5M6eWOW+m4zUs=;
+        b=2CqoSNW1Na1FJxV6Oai6p+w/9DUKrGhEixwwpmaKYyQUp3us8lmULiVO0mCtSDzB1O
+         QYgnfP0jqrV7+KPVwxvDrEGrMChAOAAIEAlJOG/OnAa6gQ8SJtRUqLWVOOk79qHxxNIL
+         oWRD2yxVP3k96ynNCaYx3JYllu5jOPUfhUPpfUO6j/0DrOCcY4/RX8fpgAU1t4apk6vR
+         PfOTSBEwxY3MzSQELkE32uIi4AS5Jlm40Kq+AD0BprvAu/fG97TOEedhHjdJB7HcA0ZZ
+         9sqKCCh+iLv9porVn483rF6FHfDqVJf+wOy5vPalXESjsIpnPcIzB7BqUJ6UwtHy/QUG
+         GfAg==
+X-Forwarded-Encrypted: i=1; AL+hErF39yWjYpIa3963QJpCG67ztRgBuIIxWpr+UJoWlVntab2vJ/0f8DRq57Khy0FyJVSI996tbwK9FIxphg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/+JhiSqa2byq1aj0Nh6/8l35IptgEo4qYjdQRHZHsPhPU4Vz3a
+	sPlsw8XF9X2Oba0w6zSPdbbzQ3b+Fpbqhsf31DdduBnulRubIKetI8ipidfnsQknaSmw
+X-Gm-Gg: AYBFou2Qy9yisLMYN805QbwTmBfpexNqTzn7XaLO9BDf7qaK5NFyVZtfWl6KT6i25r+
+	gIF2R6R4LQcAIfRAsqERtnfYg52/9+6PrYBES344qqxy8/rw9o7DMqGp5p62KVDVUzY+Oc+129p
+	q5bcYmUjRTKzjI3LfJJw9UmOACdh1VkMLGIEXPRzVSRixZ2CxR68lmZ568JYm8UxHQEKf7dkNpr
+	oOt5DPxCyqI8tpNL1Ud8pRB9DSocFXex6qgeaqzIjnOokn79fohI8RN70he+diPsGIhAKRVqqN/
+	k16+HsgQGu3XjOacBubLtrN80m46l6trlw6SEPxyL0vm+GAVlKmfJwk2r+PFZuUG+uKUNbBk/qY
+	1ibF+IrDgVumNKaMrJL90rjv9bkT+/dV05Ho3QhWt4/serLqWhx/kCNGEGeceDGQcD7clPPK4NC
+	JY/B7KHzqCz7OT54acmw9rXpy1wrlV6aAHBIJfqeCo7Mj7fMQIE8ac+HJ3WvgjPs07pGNoclctG
+	+zD8NzQoKoMeLfAggBvcR3Zc/ZhJFtUQEkd7ImEzsrAQHa82wwDO05u2y1RJRG625wMxsQapg2+
+	C6Q/LwgjThVW4TOnAZiOtVfsZHHCXh7O1LsVlVtHt4UWvUnC6P0aKgYNysexSvfzzyfUwFI6dgq
+	N4xgtqbc7
+X-Received: by 2002:a05:600c:b86:b0:4b5:d95c:2378 with SMTP id 5b1f17b1804b1-4bb55ac4030mr49782945e9.34.1794573423157;
+        Fri, 13 Nov 2026 04:37:03 -0800 (PST)
+Received: from [10.0.0.233] (tmo-086-54.customers.d1-online.com. [80.187.86.54])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb55af2901sm57437255e9.13.2026.11.13.04.37.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 04:37:02 -0800 (PST)
+Message-ID: <f12140be54ffc4d1e8e4026f80c41c75cf5727e0.camel@amutable.com>
+Subject: Re: [PATCH RFC 39/41] usb: gadget: f_mass_storage: refuse files on
+ pseudo filesystems
+From: Alexander Mikhalitsyn <alex@amutable.com>
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
+ Bacik	 <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, 	driver-core@lists.linux.dev,
+ linux-mm@kvack.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org,
+ netdev@vger.kernel.org, 	fuse-devel@lists.linux.dev,
+ linux-efi@vger.kernel.org, 	xen-devel@lists.xenproject.org,
+ ocfs2-devel@lists.linux.dev, 	linux-s390@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
+ <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
+ linux-kselftest@vger.kernel.org
+Date: Fri, 13 Nov 2026 13:36:59 +0100
+In-Reply-To: <20261110-work-loop-pseudo-v1-39-4c998976c6c7@kernel.org>
+References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
+	 <20261110-work-loop-pseudo-v1-39-4c998976c6c7@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -72,87 +116,40 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="l2hgnnxajsc5hpxz"
-Content-Disposition: inline
-In-Reply-To: <vjuf6ritphyrfi2befwf4pwrujrl3pmjjkutr2ccsvta3jjcep@5mpgr3dc7263>
 
-
---l2hgnnxajsc5hpxz
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, 
-	linux-hardening@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, 
-	"Maciej W. Rozycki" <macro@orcam.me.uk>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Andreas Schwab <schwab@linux-m68k.org>, Andy Shevchenko <andy@kernel.org>, 
-	Daniel Scally <djrscally@gmail.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Joe Perches <joe@perches.com>, Johan Hovold <johan@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Len Brown <lenb@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Linus Walleij <linusw@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Saravana Kannan <saravanak@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v4 0/6] Add strprefix() and fix a bug with it
-Message-ID: <avb862Pr0NKPVPQg@devuan>
-References: <cover.1794425425.git.alx@kernel.org>
- <avTIWshl9klX0obF@devuan>
- <avXYmk5sZKS0rm92@ashevche-desk.local>
- <vjuf6ritphyrfi2befwf4pwrujrl3pmjjkutr2ccsvta3jjcep@5mpgr3dc7263>
-MIME-Version: 1.0
-In-Reply-To: <vjuf6ritphyrfi2befwf4pwrujrl3pmjjkutr2ccsvta3jjcep@5mpgr3dc7263>
-
-Hi Bart,
-
-> Date: 2026-11-13 10:25:00+0100
-> From: Bartosz Golaszewski <brgl@kernel.org>
->
-[...]
-> > Are you sure that it's okay to use asm/bug.h APIs in string.h?
-> > The include/linux/string.h along with the backed C implementations is r=
-eally
-> > special in the kernel. Hint: check which stages of kernel boot use it.
-> >
+On Tue, 2026-11-10 at 10:14 +0100, Christian Brauner wrote:
+> fsg_lun_open() takes any regular file as the backing file of a LUN.
+> The
+> file-storage kthread then reads and writes it with kernel_read() and
+> kernel_write() on behalf of the USB host. With a procfs or sysfs file
+> behind a LUN the host gets to read and write kernel interfaces with
+> kernel credentials. Refuse files on pseudo filesystems just like loop
+> does.
 >=20
-> Agreed. I'd just move the implementation into lib/string.c and not do a
-> static inline function here.
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Hmm, thanks!  I'll do that.
+Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 
-
-Have a lovely day!
-Alex
-
+> ---
+> =C2=A0drivers/usb/gadget/function/storage_common.c | 5 +++++
+> =C2=A01 file changed, 5 insertions(+)
 >=20
-> Bart
-
---=20
-<https://www.alejandro-colomar.es>
-
---l2hgnnxajsc5hpxz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr2/RMACgkQ64mZXMKQ
-wqmNSw/+NhDKyBjn0lq0zuI2m5yLY3P6tSCdyIBSR8OKvV5HIUio9mh8ljNal/ym
-Sz0hjW4t9OVFiCg4UARs3vPAujQq7jO/vSAa3C2PWQT46VE9RK8aNskYMmFWXuWd
-/DcT6X54849AYkHr7FP5+q+l8Q2HFMnXGV+Delvdb/82rKB04/wRMBbFefcJMi92
-Z9Ks9wf1Y0JsCjcLHYZIgXD0w3RhzLM33+Cq5jdJtVeTOiBSPLZYywEDeFEBwrJ+
-dPkGu2/yKZbN3db4knaI8n8NYmcAYrVehn2XaD0PcYigSCt4IryJjkodh54Z7BOL
-fsod+nYMQt6xTt4nE6+g2UgHFhAjxnIjsgr8Rd3josxeqnQJCheCcMUgNIiZR1SA
-GFo/CmMtE9IMtffygFSkSt86VQRpSIH49pkeSNwdb40izuxkLmahKBTfUW4tRiYm
-NQcO7je5MPGGnM3qSOZSq2EebLlpck0CohvFJvzAKJ7od11NiOIISgnFQ6DuUSqX
-zUUTaJt+q2Mt+DcHQj0RFxgWs8xUuacQhaItoGcljBZSM1t5GoamUxGzQqpT6Jp5
-0/Im57WXfZxwYbLBbm71EGkOdaNOfb/Gf3g+N34lBjCn7/bxd642ooo4FD2Rq61Q
-Y8jtSDFA9KFhFTV/Q2NPiBI48xDhzabFoQguGK28sPybiAZK4Uk=
-=BE9Y
------END PGP SIGNATURE-----
-
---l2hgnnxajsc5hpxz--
+> diff --git a/drivers/usb/gadget/function/storage_common.c
+> b/drivers/usb/gadget/function/storage_common.c
+> index 75831f2c7abe..83683ade20c2 100644
+> --- a/drivers/usb/gadget/function/storage_common.c
+> +++ b/drivers/usb/gadget/function/storage_common.c
+> @@ -211,6 +211,11 @@ int fsg_lun_open(struct fsg_lun *curlun, const
+> char *filename)
+> =C2=A0		goto out;
+> =C2=A0	}
+> =C2=A0
+> +	if (file_is_pseudo(filp)) {
+> +		LINFO(curlun, "file on a pseudo filesystem: %s\n",
+> filename);
+> +		goto out;
+> +	}
+> +
+> =C2=A0	/*
+> =C2=A0	 * If we can't read the file, it's no good.
+> =C2=A0	 * If we can't write the file, use it read-only.
