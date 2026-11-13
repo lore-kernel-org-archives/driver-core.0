@@ -1,55 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.77
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.81
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794583949;
-	b=VjiZ7RTwFbP7h+tesM5oj0yLMcPSCJrQ0HpTI4xoYC4Y9/hVvnE4SYNQSJRPG+OwNxaF
-	 hY6RvTLv5UwDV42mUgTt6D6XnjiVH5CdzvB/IYNb80ENV/XZ+REt2Ejw9oYLmS3fOyReO
-	 bQ3JJnGmWr5ktIo4L6rwoNYfq2AwNAyhFo1IcEpuh5Obd7LzUlOdgiZed+optIul3Lpuq
-	 ZG9VSNSi1HmFidcnGrupgAWUtep8Ivyllw2/CZqvxlGBaWZc+TOFyxsj9VxR6v5uH3MW9
-	 fhDMxM934v48PuMD74xBwCmUKOzhNPDG9MFPBp+vODp1UAeajinO4TisM9lqs0SgZew==
+	t=1794583953;
+	b=I9Pr06/o3GeZOImXZqlVbQeb6XWSCvvt4f3R9iZhmkEbRy1cT0nfy5IssRQ39WQmll55
+	 Lur0uYy+JLdRkeSBxVzvgxrdUrgcvpBASvwthfYyA6OdcTLMsOcJ7arDtHuZR2uze9JnZ
+	 RutlWgbuMvqnWVAJsKIJWtcePGmd1vHEUCPSkeHPMJ6GiqmrdJcxpaIUdYuqc9dhqxcFw
+	 r5pslkZXOv2CmuTPc3efIdF3KM34HD0aERPeBBkVXG0fbgCrMCII+fB6jtIOlaS+xMzjB
+	 r5EGY0/6Z4iFJW/Pj1nJyMfgpzioqIS7f9yDf4NnQVLXicpwmo1UF9kAbgNmr2WBKvg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794583949;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794583953;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc:X-Mailer;
-	bh=qGZOexHAsmLP7sOQKMVbtdoZtQ5oYYFvAfxYEJxkGvE=;
-	b=IEVIXc9kfwusGCeDoVcUi7sXArXKeyAkxEH+Tw6fUZbqQnZzaYOzeqM2Spu9xUCA0noz
-	 JxXxgWCkM+FGPBWeu20M5uOu4jwVV4EmmYeuRcNtPlXJ36HiQ7Pa9+4ImBPPeyEAkETDg
-	 Wyt0Zk6MSnw5LJMjhlAMMEtmeGkH6kiTp4MMxX5c10C73W2pWbWv/iL6b47FZlOyy7jA5
-	 JtCh+vOFvs/OqFuoC7PPpVNi5yD9oYi3dy3NlPH84I5xAsD9/7POu0lpO6jc4ADih5r1E
-	 iewycEGyscAdTTi/l08f+s9iIjU2bK/+o0JQDB9OQxtHTTzFwOXep51cYS0O7Hgnnqg==
+	bh=kbraa1Oo2k9WPuG5q/cG4uVfKcbAhsiQ3/8iHYpQje0=;
+	b=tCoRHS8WUtlNYJMuOas+0Tbgl9g0A3wzByWkrjeuWSl5GvPPUcZS4hNX0zQvDiX/nId9
+	 Jdn3ZW2OSBp3wxatjsCIRF0RBwG5hIfe5wmvyRDBCxLu0FAY/t/h8477j34ugQkMApaVk
+	 LQWhhGzGkzeS/q8wr+qKqwHow6CTBof4qS2BgxQ78Kmw2GiQEbhVP35EObmvNydhfE+wi
+	 qiIkvILl1yEdu9eoFXzXqeGMyXObLgBLqzhqA964VDhBHZCtOQvCm/8a40BDNJqj7yG+e
+	 Vm6Fr7dFn4oDc8MehyZJXL7StrXeu60FOUZF8Ymx5VFUPqIqJwd0OWTQY8iOKxm/nog==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=MqIDjjKG;
-	arc=none smtp.remote-ip=91.218.175.77
-Received: from mta0.migadu.com (out-77.mta0.migadu.com [91.218.175.77])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=xwsD37ln;
+	arc=none smtp.remote-ip=91.218.175.81
+Received: from mta0.migadu.com (out-81.mta0.migadu.com [91.218.175.81])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 883A7606A8BC
-	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 15:32:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 883A7606A8BC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF73B606A337
+	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 15:32:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CF73B606A337
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=MqIDjjKG
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=xwsD37ln
 X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=y85iK7U/g3/76IgKwKOS2Ane24vkf/ElHyE3uSBtt1g=;
+DKIM-Signature: a=rsa-sha256; bh=wigmDGIoLzGp/BFVFhke9A8S5TPOzYnAbLU2MuAeWHQ=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794583946; v=1; x=1795188746;
- b=MqIDjjKGp6dbMQcS1EBpvjkTJ/q6k3rVHh3CkjO3jLU0ols8TBmH1LqfLr5wvWXw76/kbHzC
- kSfiJYbNT4OPm1XiJslyIUq11gRQS892aEtZliFUMqafYxH5bR9ACqAFH9zPTrVP4AbBjMukrhu
- BdY5xj3Kd1a4LyRte5ol8c7o=
+ t=1794583951; v=1; x=1795188751;
+ b=xwsD37lnK31WiwkfqkUlWAABnIGvkBNBmbMNQ+PkbZ4QXXh15eGNw1U8ayV2HZxbQdoVdk/Y
+ AFkAZHl7RxDDtmFzxA3Q11t/TwN5Hdhn9bin7ZySumgoNWb1G4wugD2+j4GBXfcixns0eGootcJ
+ PB3uRvQ/Rj362dHPKWWDHXOQ=
 X-Envelope-To: driver-core@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id 15dd34a88933f3a7;
-	Fri, 13 Nov 2026 15:32:26 +0000
-X-Mizu-Trace-ID: 15dd34a88933f3a7
+Received: by smtp.migadu.com with ESMTPS id 9770b19fa137c42b;
+	Fri, 13 Nov 2026 15:32:30 +0000
+X-Mizu-Trace-ID: 9770b19fa137c42b
 X-Migadu-Flow: FLOW_OUT
 From: Peng Fan <peng.fan@linux.dev>
-Date: Fri, 13 Nov 2026 23:31:54 +0800
-Subject: [PATCH v2 06/10] regmap: factor out regmap_init_ranges()
+Date: Fri, 13 Nov 2026 23:31:55 +0800
+Subject: [PATCH v2 07/10] regmap: factor out format initialisation into
+ helpers
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -61,7 +62,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261113-regmap-improve-v2-6-5dfd6a89078f@nxp.com>
+Message-Id: <20261113-regmap-improve-v2-7-5dfd6a89078f@nxp.com>
 References: <20261113-regmap-improve-v2-0-5dfd6a89078f@nxp.com>
 In-Reply-To: <20261113-regmap-improve-v2-0-5dfd6a89078f@nxp.com>
 To: Mark Brown <broonie@kernel.org>, 
@@ -75,118 +76,222 @@ X-Mailer: b4 0.14.3
 
 From: Peng Fan <peng.fan@nxp.com>
 
-Move the register range validation and rbtree construction loop out of
-__regmap_init() into a dedicated regmap_init_ranges() helper. This is a
-mechanical code movement with no functional change apart from fixing the
-block comment style of an existing comment that checkpatch flags when it
-appears in the diff context.
+Extract the two large nested switch statements that select
+format_reg()/format_write() and format_val()/parse_val() into dedicated
+regmap_set_reg_format() and regmap_set_val_format() helpers. Wrap the
+entire format setup sequence - format selection, endianness cross-check,
+work buffer allocation and bus write callback selection - into a single
+regmap_init_format() function.
+
+The two callers (config->read/write path with NATIVE endian, and the
+bus->read/write path with bus-derived endian) now each call
+regmap_init_format() directly, which eliminates the forward
+"goto skip_format_initialization" and removes the label entirely.
+
+The implicit "ret = -EINVAL; /* Later error paths rely on this */"
+contract is replaced by explicit return codes in each helper.
+
+No functional change.
 
 Signed-off-by: Peng Fan <peng.fan@nxp.com>
 ---
- drivers/base/regmap/regmap.c | 192 +++++++++++++++++++++++--------------------
- 1 file changed, 101 insertions(+), 91 deletions(-)
+ drivers/base/regmap/regmap.c | 399 ++++++++++++++++++++++---------------------
+ 1 file changed, 200 insertions(+), 199 deletions(-)
 
 diff --git a/drivers/base/regmap/regmap.c b/drivers/base/regmap/regmap.c
-index aca63b0d03e0..eaf7555f9765 100644
+index eaf7555f9765..ae313a8e4ffe 100644
 --- a/drivers/base/regmap/regmap.c
 +++ b/drivers/base/regmap/regmap.c
-@@ -748,6 +748,104 @@ static int regmap_set_lock(struct regmap *map, const struct regmap_config *confi
+@@ -846,6 +846,197 @@ static int regmap_init_ranges(struct regmap *map, const struct regmap_config *co
  	return 0;
  }
  
-+/* Validate config->ranges and build the range rbtree. */
-+static int regmap_init_ranges(struct regmap *map, const struct regmap_config *config)
++/* Pick format_reg()/format_write() for the register width and endianness. */
++static int regmap_set_reg_format(struct regmap *map, const struct regmap_config *config,
++				 enum regmap_endian reg_endian)
 +{
-+	int i, j;
++	switch (config->reg_bits + map->reg_shift) {
++	case 2:
++		if (config->val_bits != 6)
++			return -EINVAL;
++		map->format.format_write = regmap_format_2_6_write;
++		return 0;
 +
-+	map->range_tree = RB_ROOT;
++	case 4:
++		if (config->val_bits != 12)
++			return -EINVAL;
++		map->format.format_write = regmap_format_4_12_write;
++		return 0;
 +
-+	for (i = 0; i < config->num_ranges; i++) {
-+		const struct regmap_range_cfg *range_cfg = &config->ranges[i];
-+		struct regmap_range_node *new;
++	case 7:
++		switch (config->val_bits) {
++		case 9:
++			map->format.format_write = regmap_format_7_9_write;
++			return 0;
++		case 17:
++			map->format.format_write = regmap_format_7_17_write;
++			return 0;
++		}
++		return -EINVAL;
 +
-+		/* Sanity check */
-+		if (range_cfg->range_max < range_cfg->range_min) {
-+			dev_err(map->dev, "Invalid range %d: %u < %u\n", i,
-+				range_cfg->range_max, range_cfg->range_min);
++	case 10:
++		if (config->val_bits != 14)
++			return -EINVAL;
++		map->format.format_write = regmap_format_10_14_write;
++		return 0;
++
++	case 12:
++		if (config->val_bits != 20)
++			return -EINVAL;
++		map->format.format_write = regmap_format_12_20_write;
++		return 0;
++
++	case 8:
++		map->format.format_reg = regmap_format_8;
++		return 0;
++
++	case 16:
++		switch (reg_endian) {
++		case REGMAP_ENDIAN_BIG:
++			map->format.format_reg = regmap_format_16_be;
++			return 0;
++		case REGMAP_ENDIAN_LITTLE:
++			map->format.format_reg = regmap_format_16_le;
++			return 0;
++		case REGMAP_ENDIAN_NATIVE:
++			map->format.format_reg = regmap_format_16_native;
++			return 0;
++		default:
 +			return -EINVAL;
 +		}
 +
-+		if (range_cfg->range_max > map->max_register) {
-+			dev_err(map->dev, "Invalid range %d: %u > %u\n", i,
-+				range_cfg->range_max, map->max_register);
++	case 24:
++		if (reg_endian != REGMAP_ENDIAN_BIG)
++			return -EINVAL;
++		map->format.format_reg = regmap_format_24_be;
++		return 0;
++
++	case 32:
++		switch (reg_endian) {
++		case REGMAP_ENDIAN_BIG:
++			map->format.format_reg = regmap_format_32_be;
++			return 0;
++		case REGMAP_ENDIAN_LITTLE:
++			map->format.format_reg = regmap_format_32_le;
++			return 0;
++		case REGMAP_ENDIAN_NATIVE:
++			map->format.format_reg = regmap_format_32_native;
++			return 0;
++		default:
 +			return -EINVAL;
 +		}
++	}
 +
-+		if (range_cfg->selector_reg > map->max_register) {
-+			dev_err(map->dev,
-+				"Invalid range %d: selector out of map\n", i);
++	return -EINVAL;
++}
++
++/* Pick format_val()/parse_val() for the value width and endianness. */
++static int regmap_set_val_format(struct regmap *map, const struct regmap_config *config,
++				 enum regmap_endian val_endian)
++{
++	if (val_endian == REGMAP_ENDIAN_NATIVE)
++		map->format.parse_inplace = regmap_parse_inplace_noop;
++
++	switch (config->val_bits) {
++	case 8:
++		map->format.format_val = regmap_format_8;
++		map->format.parse_val = regmap_parse_8;
++		map->format.parse_inplace = regmap_parse_inplace_noop;
++		return 0;
++	case 16:
++		switch (val_endian) {
++		case REGMAP_ENDIAN_BIG:
++			map->format.format_val = regmap_format_16_be;
++			map->format.parse_val = regmap_parse_16_be;
++			map->format.parse_inplace = regmap_parse_16_be_inplace;
++			return 0;
++		case REGMAP_ENDIAN_LITTLE:
++			map->format.format_val = regmap_format_16_le;
++			map->format.parse_val = regmap_parse_16_le;
++			map->format.parse_inplace = regmap_parse_16_le_inplace;
++			return 0;
++		case REGMAP_ENDIAN_NATIVE:
++			map->format.format_val = regmap_format_16_native;
++			map->format.parse_val = regmap_parse_16_native;
++			return 0;
++		default:
 +			return -EINVAL;
 +		}
-+
-+		if (range_cfg->window_len == 0) {
-+			dev_err(map->dev, "Invalid range %d: window_len 0\n",
-+				i);
++	case 24:
++		if (val_endian != REGMAP_ENDIAN_BIG)
++			return -EINVAL;
++		map->format.format_val = regmap_format_24_be;
++		map->format.parse_val = regmap_parse_24_be;
++		return 0;
++	case 32:
++		switch (val_endian) {
++		case REGMAP_ENDIAN_BIG:
++			map->format.format_val = regmap_format_32_be;
++			map->format.parse_val = regmap_parse_32_be;
++			map->format.parse_inplace = regmap_parse_32_be_inplace;
++			return 0;
++		case REGMAP_ENDIAN_LITTLE:
++			map->format.format_val = regmap_format_32_le;
++			map->format.parse_val = regmap_parse_32_le;
++			map->format.parse_inplace = regmap_parse_32_le_inplace;
++			return 0;
++		case REGMAP_ENDIAN_NATIVE:
++			map->format.format_val = regmap_format_32_native;
++			map->format.parse_val = regmap_parse_32_native;
++			return 0;
++		default:
 +			return -EINVAL;
 +		}
++	}
 +
-+		/*
-+		 * Make sure that this register range has no selector
-+		 * or data window within its boundary.
-+		 */
-+		for (j = 0; j < config->num_ranges; j++) {
-+			unsigned int sel_reg = config->ranges[j].selector_reg;
-+			unsigned int win_min = config->ranges[j].window_start;
-+			unsigned int win_max = win_min +
-+					       config->ranges[j].window_len - 1;
++	return 0;
++}
 +
-+			/* Allow data window inside its own virtual range */
-+			if (j == i)
-+				continue;
++/*
++ * Set up the format/parse functions, cross-validate endianness,
++ * allocate the work buffer and select the bus write path.
++ */
++static int regmap_init_format(struct regmap *map,
++			      const struct regmap_config *config,
++			      enum regmap_endian reg_endian,
++			      enum regmap_endian val_endian)
++{
++	int ret;
 +
-+			if (range_cfg->range_min <= sel_reg &&
-+			    sel_reg <= range_cfg->range_max) {
-+				dev_err(map->dev,
-+					"Range %d: selector for %d in window\n",
-+					i, j);
-+				return -EINVAL;
-+			}
++	ret = regmap_set_reg_format(map, config, reg_endian);
++	if (ret)
++		return ret;
 +
-+			if (!(win_max < range_cfg->range_min ||
-+			      win_min > range_cfg->range_max)) {
-+				dev_err(map->dev,
-+					"Range %d: window for %d in window\n",
-+					i, j);
-+				return -EINVAL;
-+			}
-+		}
++	ret = regmap_set_val_format(map, config, val_endian);
++	if (ret)
++		return ret;
 +
-+		new = kzalloc_obj(*new);
-+		if (new == NULL)
-+			return -ENOMEM;
-+
-+		new->map = map;
-+		new->name = range_cfg->name;
-+		new->range_min = range_cfg->range_min;
-+		new->range_max = range_cfg->range_max;
-+		new->selector_reg = range_cfg->selector_reg;
-+		new->selector_mask = range_cfg->selector_mask;
-+		new->selector_shift = range_cfg->selector_shift;
-+		new->window_start = range_cfg->window_start;
-+		new->window_len = range_cfg->window_len;
-+
-+		if (!_regmap_range_add(map, new)) {
-+			dev_err(map->dev, "Failed to add range %d\n", i);
-+			kfree(new);
++	if (map->format.format_write) {
++		if (reg_endian != REGMAP_ENDIAN_BIG ||
++		    val_endian != REGMAP_ENDIAN_BIG)
 +			return -EINVAL;
-+		}
++		map->use_single_write = true;
++	}
 +
-+		if (map->selector_work_buf == NULL) {
-+			map->selector_work_buf =
-+				kzalloc(map->format.buf_size, GFP_KERNEL);
-+			if (map->selector_work_buf == NULL)
-+				return -ENOMEM;
-+		}
++	if (!map->format.format_write &&
++	    !(map->format.format_reg && map->format.format_val))
++		return -EINVAL;
++
++	map->work_buf = kzalloc(map->format.buf_size, GFP_KERNEL);
++	if (map->work_buf == NULL)
++		return -ENOMEM;
++
++	if (map->format.format_write) {
++		map->defer_caching = false;
++		map->reg_write = _regmap_bus_formatted_write;
++	} else if (map->format.format_val) {
++		map->defer_caching = true;
++		map->reg_write = _regmap_bus_raw_write;
 +	}
 +
 +	return 0;
@@ -195,114 +300,257 @@ index aca63b0d03e0..eaf7555f9765 100644
  struct regmap *__regmap_init(struct device *dev,
  			     const struct regmap_bus *bus,
  			     void *bus_context,
-@@ -758,7 +856,6 @@ struct regmap *__regmap_init(struct device *dev,
+@@ -854,7 +1045,6 @@ struct regmap *__regmap_init(struct device *dev,
+ 			     const char *lock_name)
+ {
  	struct regmap *map;
- 	enum regmap_endian reg_endian, val_endian;
+-	enum regmap_endian reg_endian, val_endian;
  	bool fast_io;
--	int i, j;
  	int ret;
  
- 	if (!config) {
-@@ -1078,96 +1175,9 @@ struct regmap *__regmap_init(struct device *dev,
+@@ -879,8 +1069,6 @@ struct regmap *__regmap_init(struct device *dev,
+ 	if (ret)
+ 		goto err_name;
  
- skip_format_initialization:
+-	ret = -EINVAL; /* Later error paths rely on this */
+-
+ 	/*
+ 	 * When we write in fast-paths with regmap_bulk_write() don't allocate
+ 	 * scratch buffers with sleeping allocations.
+@@ -956,22 +1144,23 @@ struct regmap *__regmap_init(struct device *dev,
+ 		map->read = config->read;
+ 		map->write = config->write;
  
--	map->range_tree = RB_ROOT;
--	for (i = 0; i < config->num_ranges; i++) {
--		const struct regmap_range_cfg *range_cfg = &config->ranges[i];
--		struct regmap_range_node *new;
--
--		/* Sanity check */
--		if (range_cfg->range_max < range_cfg->range_min) {
--			dev_err(map->dev, "Invalid range %d: %u < %u\n", i,
--				range_cfg->range_max, range_cfg->range_min);
--			goto err_range;
--		}
--
--		if (range_cfg->range_max > map->max_register) {
--			dev_err(map->dev, "Invalid range %d: %u > %u\n", i,
--				range_cfg->range_max, map->max_register);
--			goto err_range;
--		}
--
--		if (range_cfg->selector_reg > map->max_register) {
--			dev_err(map->dev,
--				"Invalid range %d: selector out of map\n", i);
--			goto err_range;
--		}
--
--		if (range_cfg->window_len == 0) {
--			dev_err(map->dev, "Invalid range %d: window_len 0\n",
--				i);
--			goto err_range;
--		}
--
--		/* Make sure, that this register range has no selector
--		   or data window within its boundary */
--		for (j = 0; j < config->num_ranges; j++) {
--			unsigned int sel_reg = config->ranges[j].selector_reg;
--			unsigned int win_min = config->ranges[j].window_start;
--			unsigned int win_max = win_min +
--					       config->ranges[j].window_len - 1;
--
--			/* Allow data window inside its own virtual range */
--			if (j == i)
--				continue;
--
--			if (range_cfg->range_min <= sel_reg &&
--			    sel_reg <= range_cfg->range_max) {
--				dev_err(map->dev,
--					"Range %d: selector for %d in window\n",
--					i, j);
--				goto err_range;
--			}
--
--			if (!(win_max < range_cfg->range_min ||
--			      win_min > range_cfg->range_max)) {
--				dev_err(map->dev,
--					"Range %d: window for %d in window\n",
--					i, j);
--				goto err_range;
--			}
--		}
--
--		new = kzalloc_obj(*new);
--		if (new == NULL) {
--			ret = -ENOMEM;
--			goto err_range;
--		}
--
--		new->map = map;
--		new->name = range_cfg->name;
--		new->range_min = range_cfg->range_min;
--		new->range_max = range_cfg->range_max;
--		new->selector_reg = range_cfg->selector_reg;
--		new->selector_mask = range_cfg->selector_mask;
--		new->selector_shift = range_cfg->selector_shift;
--		new->window_start = range_cfg->window_start;
--		new->window_len = range_cfg->window_len;
--
--		if (!_regmap_range_add(map, new)) {
--			dev_err(map->dev, "Failed to add range %d\n", i);
--			kfree(new);
--			goto err_range;
--		}
--
--		if (map->selector_work_buf == NULL) {
--			map->selector_work_buf =
--				kzalloc(map->format.buf_size, GFP_KERNEL);
--			if (map->selector_work_buf == NULL) {
--				ret = -ENOMEM;
--				goto err_range;
--			}
--		}
+-		reg_endian = REGMAP_ENDIAN_NATIVE;
+-		val_endian = REGMAP_ENDIAN_NATIVE;
++		ret = regmap_init_format(map, config,
++					 REGMAP_ENDIAN_NATIVE,
++					 REGMAP_ENDIAN_NATIVE);
++		if (ret)
++			goto err_hwlock;
+ 	} else if (!bus) {
+ 		map->reg_read  = config->reg_read;
+ 		map->reg_write = config->reg_write;
+ 		map->reg_update_bits = config->reg_update_bits;
+ 
+ 		map->defer_caching = false;
+-		goto skip_format_initialization;
+ 	} else if (!bus->read || !bus->write) {
+ 		map->reg_read = _regmap_bus_reg_read;
+ 		map->reg_write = _regmap_bus_reg_write;
+ 		map->reg_update_bits = bus->reg_update_bits;
+ 
+ 		map->defer_caching = false;
+-		goto skip_format_initialization;
+ 	} else {
+ 		map->reg_read  = _regmap_bus_read;
+ 		map->reg_update_bits = bus->reg_update_bits;
+@@ -979,201 +1168,13 @@ struct regmap *__regmap_init(struct device *dev,
+ 		map->read = bus->read;
+ 		map->write = bus->write;
+ 
+-		reg_endian = regmap_get_reg_endian(bus, config);
+-		val_endian = regmap_get_val_endian(dev, bus, config);
 -	}
-+	ret = regmap_init_ranges(map, config);
-+	if (ret)
-+		goto err_range;
+-
+-	switch (config->reg_bits + map->reg_shift) {
+-	case 2:
+-		switch (config->val_bits) {
+-		case 6:
+-			map->format.format_write = regmap_format_2_6_write;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-
+-	case 4:
+-		switch (config->val_bits) {
+-		case 12:
+-			map->format.format_write = regmap_format_4_12_write;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-
+-	case 7:
+-		switch (config->val_bits) {
+-		case 9:
+-			map->format.format_write = regmap_format_7_9_write;
+-			break;
+-		case 17:
+-			map->format.format_write = regmap_format_7_17_write;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-
+-	case 10:
+-		switch (config->val_bits) {
+-		case 14:
+-			map->format.format_write = regmap_format_10_14_write;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-
+-	case 12:
+-		switch (config->val_bits) {
+-		case 20:
+-			map->format.format_write = regmap_format_12_20_write;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-
+-	case 8:
+-		map->format.format_reg = regmap_format_8;
+-		break;
+-
+-	case 16:
+-		switch (reg_endian) {
+-		case REGMAP_ENDIAN_BIG:
+-			map->format.format_reg = regmap_format_16_be;
+-			break;
+-		case REGMAP_ENDIAN_LITTLE:
+-			map->format.format_reg = regmap_format_16_le;
+-			break;
+-		case REGMAP_ENDIAN_NATIVE:
+-			map->format.format_reg = regmap_format_16_native;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-
+-	case 24:
+-		switch (reg_endian) {
+-		case REGMAP_ENDIAN_BIG:
+-			map->format.format_reg = regmap_format_24_be;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-
+-	case 32:
+-		switch (reg_endian) {
+-		case REGMAP_ENDIAN_BIG:
+-			map->format.format_reg = regmap_format_32_be;
+-			break;
+-		case REGMAP_ENDIAN_LITTLE:
+-			map->format.format_reg = regmap_format_32_le;
+-			break;
+-		case REGMAP_ENDIAN_NATIVE:
+-			map->format.format_reg = regmap_format_32_native;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-
+-	default:
+-		goto err_hwlock;
+-	}
+-
+-	if (val_endian == REGMAP_ENDIAN_NATIVE)
+-		map->format.parse_inplace = regmap_parse_inplace_noop;
+-
+-	switch (config->val_bits) {
+-	case 8:
+-		map->format.format_val = regmap_format_8;
+-		map->format.parse_val = regmap_parse_8;
+-		map->format.parse_inplace = regmap_parse_inplace_noop;
+-		break;
+-	case 16:
+-		switch (val_endian) {
+-		case REGMAP_ENDIAN_BIG:
+-			map->format.format_val = regmap_format_16_be;
+-			map->format.parse_val = regmap_parse_16_be;
+-			map->format.parse_inplace = regmap_parse_16_be_inplace;
+-			break;
+-		case REGMAP_ENDIAN_LITTLE:
+-			map->format.format_val = regmap_format_16_le;
+-			map->format.parse_val = regmap_parse_16_le;
+-			map->format.parse_inplace = regmap_parse_16_le_inplace;
+-			break;
+-		case REGMAP_ENDIAN_NATIVE:
+-			map->format.format_val = regmap_format_16_native;
+-			map->format.parse_val = regmap_parse_16_native;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-	case 24:
+-		switch (val_endian) {
+-		case REGMAP_ENDIAN_BIG:
+-			map->format.format_val = regmap_format_24_be;
+-			map->format.parse_val = regmap_parse_24_be;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-	case 32:
+-		switch (val_endian) {
+-		case REGMAP_ENDIAN_BIG:
+-			map->format.format_val = regmap_format_32_be;
+-			map->format.parse_val = regmap_parse_32_be;
+-			map->format.parse_inplace = regmap_parse_32_be_inplace;
+-			break;
+-		case REGMAP_ENDIAN_LITTLE:
+-			map->format.format_val = regmap_format_32_le;
+-			map->format.parse_val = regmap_parse_32_le;
+-			map->format.parse_inplace = regmap_parse_32_le_inplace;
+-			break;
+-		case REGMAP_ENDIAN_NATIVE:
+-			map->format.format_val = regmap_format_32_native;
+-			map->format.parse_val = regmap_parse_32_native;
+-			break;
+-		default:
+-			goto err_hwlock;
+-		}
+-		break;
+-	}
+-
+-	if (map->format.format_write) {
+-		if ((reg_endian != REGMAP_ENDIAN_BIG) ||
+-		    (val_endian != REGMAP_ENDIAN_BIG))
++		ret = regmap_init_format(map, config,
++					 regmap_get_reg_endian(bus, config),
++					 regmap_get_val_endian(dev, bus, config));
++		if (ret)
+ 			goto err_hwlock;
+-		map->use_single_write = true;
+-	}
+-
+-	if (!map->format.format_write &&
+-	    !(map->format.format_reg && map->format.format_val))
+-		goto err_hwlock;
+-
+-	map->work_buf = kzalloc(map->format.buf_size, GFP_KERNEL);
+-	if (map->work_buf == NULL) {
+-		ret = -ENOMEM;
+-		goto err_hwlock;
+-	}
+-
+-	if (map->format.format_write) {
+-		map->defer_caching = false;
+-		map->reg_write = _regmap_bus_formatted_write;
+-	} else if (map->format.format_val) {
+-		map->defer_caching = true;
+-		map->reg_write = _regmap_bus_raw_write;
+ 	}
  
- 	ret = regcache_init(map, config);
- 	if (ret != 0)
+-skip_format_initialization:
+ 
+ 	ret = regmap_init_ranges(map, config);
+ 	if (ret)
 
 -- 
 2.56.0
