@@ -1,67 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794561905;
-	b=iJI4vlkZeLh302QtVSf38EE0eE8J8jiJO90buECaQ4vPxyeIOwlYDyOMIWV8et1ycZI2
-	 jwspa9u/j+qKYOzyvraIcz+ZPezIy/JwVTYzHvdBJ7mJoGyFHPM/8D53BD5Zh5/NLx6ey
-	 wIn3nF4Sigyu3UgngiX5LJI9+F2pT3SrrA4GPjiCjkhEsPuuDY8qVp5ou7Btxm+iOLuB4
-	 zQPhj5XAGXCbubCDhqLghD0o52/qAiAtsmIoj/fda0xh6I8Y/toQHqaDLqqPxu0ymbxfy
-	 5eELKelh+Uk8f+5Bdg3kzHDwpCgKnBGCa5C99ku4TQnZSaIY5u9slUskmEriwm0IPFw==
+	t=1794563701;
+	b=KJLe0UYkSg06QXQEaPEocrnXT013aFK3iqAM+cb+uyoHpi4QNpVNJ+CJayR91d2IN8nr
+	 sS7IZyapdnHTa1To7xDjKEPvQQYZXYMYoLKvbtlCs/zAxUaTuBfiSrIMT6g20F4wnMK3f
+	 E4XiEJDcxGrNK1ju2DqZw2FZ6aL8oAirQLovTZzsct4a8L/75t1noYIBFloIfWxEg4r78
+	 P88M4fkceuKkjcg1ypdKBmciqe+lRNCtv0rM7VkEl7Ly8io9SisvNlrey3RXK1VDT2PWb
+	 OIgVtlKrKQNmgnytVC8nBS2jBNkqH4bCr2UYKEFeyK9nXKbOUNPcqi48dudTGvvxTEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794561905;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=Y8PJU2qTkV5zoqq3Y06nfgKl3m4JKwY+ZbQmM98l8qk=;
-	b=qIJp/Tmfc6c3R0nNuOFCqXDYHtCCw7OW8HmLZGrqgRIXbkfShhIkBgCpRDSpvbhEVbr2
-	 YLpPAhqEHxVWChjevQqnP1W9xmXreKicAk57SzJkAvsUdfzo5kxDIil8uuhpXuUZ/Iz7a
-	 3Sd9pcaI6iFdtTgHQoipsPHirAZCMoWIY6Z5Am4G0lziyYx9yr2sVpJ+cmwAggR1dG8dq
-	 zJN+lXLlYZLAVxz9336wT/EZaAyrhhbwIx6/LZQZYVKbIR9NE4D26mO3JCqTxnhR9pkFN
-	 8bw0SgYQomA8MPrQHwHghCqMep06uSaslPiRrQmB89400TMq+d7D4an1R1T70z0wlFA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794563701;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=G8DmFU4pJwAPCJlqHBF8SKasEEThxtJNlC1sg/CSkLw=;
+	b=mI/znB0jxi0jcCaDS9lb37rowOAGUu+eE5lLtBG3IyyL6/9I1JYUvE/fMYc9XjeD7FU5
+	 VPcqTd/biwtQxpT9AG8nJwy3YLKoQAKr9hHhQWjkGZoG87la/KbALo1pUU2XfMbB7cfnP
+	 iB7LUmcZDceOXmH5sfA7EWnCQ6q62Yd3zmtuDXTmpjK0x/sTr6i/Hq1SK/XObWDAw9Ew4
+	 JOPPyhtETaC34sazrhEuZneR5Y3hTOT5rkwOF3lkzr4ZXGmHpxme4p1xgO3LD13wAN9YV
+	 FVvBQ38Fh/Z5eec6gAgcOExFhNTsouQatKi1pVHnmZ9C60L/CUIxsnH3gVeJZCc5REA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="AQx/uk9B";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=amutable.com;
+	spf=pass smtp.mailfrom=amutable.com;
+	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b="Pp/iLDW+";
+	arc=none smtp.remote-ip=209.85.218.51
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 64CE5606A32D;
-	Fri, 13 Nov 2026 09:25:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8B860A2602
+	for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 09:55:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D8B860A2602
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AQx/uk9B
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id B9C311F000C4;
-	Fri, 13 Nov 2026 09:25:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794561904;
-	bh=Y8PJU2qTkV5zoqq3Y06nfgKl3m4JKwY+ZbQmM98l8qk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=AQx/uk9BsCIfMYnd4xxCoB60iMUfPLzBeCEIYDE/+8QvCUZUM95ANZo0nNT5vgVzy
-	 eNV+xpDniee1H7YpPAUmATBbLYBfyx/YRKlmVvcXlwef4rlg+zhPhpP5GGVC4FfRG8
-	 RqigJs+zVQrtE6tYsBdhrrveKzXMjrz6YRKyAvFJC2Qy4D2vrhjRWeVwLnxe/5GdjK
-	 I34gM427KiQiSIzu03rVpdr4FldvwcOORrAY5oZLnPN5i5DaW0Ni7OJufbif8oaxUe
-	 QNkOPYGLn8kdnhBRxX9iffDR/fJWYw5qIyTsnSAvSqQZvq+8NqukKT7sgNyW/3WoEX
-	 VQDTu4PFZMMTg==
-Date: Fri, 13 Nov 2026 10:25:00 +0100
-From: Bartosz Golaszewski <brgl@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Alejandro Colomar <alx@kernel.org>, linux-hardening@vger.kernel.org, 
-	Krzysztof Kozlowski <krzk@kernel.org>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Andreas Schwab <schwab@linux-m68k.org>, 
-	Andy Shevchenko <andy@kernel.org>, Daniel Scally <djrscally@gmail.com>, 
-	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Joe Perches <joe@perches.com>, Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Len Brown <lenb@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Linus Walleij <linusw@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Saravana Kannan <saravanak@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v4 0/6] Add strprefix() and fix a bug with it
-Message-ID: <vjuf6ritphyrfi2befwf4pwrujrl3pmjjkutr2ccsvta3jjcep@5mpgr3dc7263>
-References: <cover.1794425425.git.alx@kernel.org>
- <avTIWshl9klX0obF@devuan>
- <avXYmk5sZKS0rm92@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Pp/iLDW+
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c5083bc0e28so142296966b.0
+        for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 01:55:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794563698; x=1795168498; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=G8DmFU4pJwAPCJlqHBF8SKasEEThxtJNlC1sg/CSkLw=;
+        b=Pp/iLDW+KULLKBMDnLmVBWDK+QDaUtq+Niif6l1EqKwNsNYtPcwvnQTLzN0LEJUP6L
+         PGJDotaWKmardus4LLZNBqKDLeC5C760DHoSHYCBjeu9GOQ9nu0DUeM1r3TgFlXbdPcy
+         2b4QgvYrhndUcOdRAv48ft5UlYrCX20BkFPnU8mdn/J4gpAqRelBDEhKm+G47Wdc21Um
+         dB60lx8fBejOlfSgstrd6pVmDWmsrtkJd4EP1M/XlEbkcm3/IPBAsBPnQ62VuwbnBfxQ
+         oxHGU4ZPSKpSsjROdfa5xGV+prmKLZ0Q3cGRMHeCeMEfFndorbVIsFzp5VGEsLT7vky3
+         ANiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794563698; x=1795168498;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=G8DmFU4pJwAPCJlqHBF8SKasEEThxtJNlC1sg/CSkLw=;
+        b=jfkA+2SCWr4AaXC8mgoL2WNFebzmt7PjtYfA7moGKNy9HK/+DbZp8UsRI819i7WQlQ
+         YUEw0R7RndqnDid5MplsBcPrIAKFr4ANzJJ2W0226dXnir7VN917osM/NiRMCI0BVmrM
+         y+dE9OyhncBZnpDyTwJVnG2o5QXqqr0BzKdN79kB1fOJNbG+TCk3lgPUmvr8rWVjjgIN
+         ed6Zr++27XDr4w7Z5tnr6ecRYaasbFzCYRQhjoV7ret6+1wEPe3o0dytqpU4rEEt3K1g
+         tfuvBuI2raTmlo5OOVQLCqArEcchYjRIpIx4rVaQDViplgg98jd3eRF6tZlwTj4/3KtG
+         Uy2Q==
+X-Forwarded-Encrypted: i=1; AL+hErGyJlsbBxKqaK0aW848uwF8CfM1W9w53b9tAO5Z+ImeIl9mtEy4NPhWz2pEtFo3t85aJo+eIoTIzxj4eg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z81Y9bmu2TiVXYo5XEHO6Nfkk7nTAqw6NPeR2zTb+kutpjqSctd
+	3zPsjdTpjZ9H/9V7JuJA0t8KfbAwaqcBfqw8Gk4PUy0rogXMSwkYl8veJvIAVPSJwKSU
+X-Gm-Gg: AYBFou0NWxzdYEa+Kw1sz5wMi3DbE8pNsqMOCfRXG5Rzin1STcWBB1omMsu7fxJH8ZG
+	I/jPbL4H5Fil4XGIcgTOZmc4/zRVdpd669K3/zqvRL/nhX/zlwCZcXGYPzpgjJprFPuyWWbXg9C
+	7uQqNQMos1AXiMTynk7URssIbAHliEIfpIafN2uITHW3vL3XkIb2bFcXNpIiABpqBHDwaZZNcjc
+	8m9LvQGka07Vrd+QFJxAoVlxcq1G3Zo2VKH/rq3LVnI8BOTeFmYGyTvYOha1TsEbZBDrWoXW7in
+	5Aj39r0RKqBDamXOY/T5XIVUdXTRFreSDOeu4tICNcgw+wYvyBfBh5LfcYsTwhoYvYjl8zgVbu+
+	xQqiBMQi4zVmTp+/vGQGB8ujPWdv00+TvwZJGaETTrQPH17jcdQgoZHCyCrOLN6xqAIgnS9XjSJ
+	sr2wH1rXFV3QTwFk93PefgSPm783H1NMp50bS/WcqAwPiEylql5uCkh4kYeRzWDWKj98eVOSng4
+	f3/+il1SEmnnEU8HelHR1QbK0ULV9ehRf6gesWq2nUdVlBFoyEdOxWaxcpndpHOPVGlmS4P32An
+	DXckrWt7IwrcgEiWUyibLGFqMH1MIT6P1/g9DSXiLei9fCzrtKNxvdklIjYRwEM=
+X-Received: by 2002:a17:907:ea93:b0:c41:4c20:5a80 with SMTP id a640c23a62f3a-c50963bdb9bmr198299566b.44.1794563698514;
+        Fri, 13 Nov 2026 01:54:58 -0800 (PST)
+Received: from [10.0.0.233] (tmo-086-54.customers.d1-online.com. [80.187.86.54])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c50957c6c1fsm75151566b.0.2026.11.13.01.54.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 01:54:58 -0800 (PST)
+Message-ID: <b42c9f4d29a9cbea66929c95cc8f736f12703c72.camel@amutable.com>
+Subject: Re: [PATCH RFC 01/41] loop: refuse backing files that aren't open
+ for reading
+From: Alexander Mikhalitsyn <alex@amutable.com>
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
+ Bacik	 <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, 	driver-core@lists.linux.dev,
+ linux-mm@kvack.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org,
+ netdev@vger.kernel.org, 	fuse-devel@lists.linux.dev,
+ linux-efi@vger.kernel.org, 	xen-devel@lists.xenproject.org,
+ ocfs2-devel@lists.linux.dev, 	linux-s390@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
+ <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
+ linux-kselftest@vger.kernel.org, 	stable@vger.kernel.org
+Date: Fri, 13 Nov 2026 10:54:56 +0100
+In-Reply-To: <20261110-work-loop-pseudo-v1-1-4c998976c6c7@kernel.org>
+References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
+	 <20261110-work-loop-pseudo-v1-1-4c998976c6c7@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -71,50 +115,58 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <avXYmk5sZKS0rm92@ashevche-desk.local>
 
-On Thu, Nov 12, 2026 at 05:17:46PM +0200, Andy Shevchenko wrote:
-> On Wed, Nov 11, 2026 at 08:57:30PM +0100, Alejandro Colomar wrote:
-> 
-> ...
-> 
-> > > Testing
-> > > ~~~~~~~
-> > > 
-> > > I haven't changed the implementation of the function meaningfully, so
-> > > haven't re-run tests.  Since the changes since v2 are only about type
-> > > safety and diagnostics, I have built again with 'allmodconfig', just to
-> > > make sure it still compiles.
-> > 
-> > Ouch!  It seems I had built before adding WARN_ON_ONCE(), not after.
-> > I just saw a compiler error in a background terminal after hitting send.
-> > 
-> > 	$ make 
-> > 	  DESCEND objtool
-> > 	  CC      arch/x86/purgatory/sha256.o
-> > 	In file included from ./include/crypto/sha2.h:10,
-> > 			 from lib/crypto/sha256.c:13:
-> > 	./include/linux/string.h: In function ‘str_has_prefix’:
-> > 	./include/linux/string.h:619:9: error: implicit declaration of function ‘WARN_ON_ONCE’ [-Wimplicit-function-declaration]
-> > 	  619 |         WARN_ON_ONCE(len == 0);
-> > 	      |         ^~~~~~~~~~~~
-> > 	make[4]: *** [arch/x86/purgatory/Makefile:12: arch/x86/purgatory/sha256.o] Error 1
-> > 	make[3]: *** [scripts/Makefile.build:572: arch/x86/purgatory] Error 2
-> > 	make[2]: *** [scripts/Makefile.build:572: arch/x86] Error 2
-> > 	make[1]: *** [/srv/alx/src/linux/linux/master/Makefile:2244: .] Error 2
-> > 	make: *** [Makefile:248: __sub-make] Error 2
-> > 
-> > Will fix that for v5, and fully test again.
-> 
-> Are you sure that it's okay to use asm/bug.h APIs in string.h?
-> The include/linux/string.h along with the backed C implementations is really
-> special in the kernel. Hint: check which stages of kernel boot use it.
->
+On Tue, 2026-11-10 at 10:14 +0100, Christian Brauner wrote:
+> loop_configure() takes any file as long as it implements -
+> >read_iter().
+> Loop itself never checked whether the file was actually opened for
+> reading. Buffered I/O went through vfs_iter_read() which refuses
+> files
+> without FMODE_READ. Direct I/O has called ->read_iter() of the
+> backing
+> file directly ever since loop grew support for it.
+>=20
+> Since commit f2fed441c69b ("loop: stop using vfs_iter_{read,write}
+> for
+> buffered I/O") buffered I/O calls ->read_iter() directly as well.
+> That
+> commit was about O_DIRECT handling and the FMODE_READ check went away
+> as a side effect.
+>=20
+> So whoever can set up a loop device can read a file it was only
+> allowed
+> to open for writing. Open the file O_WRONLY, configure a loop device
+> with it and read the contents through the loop device.
+>=20
+> Refuse backing files that aren't open for reading. Loop always reads
+> from its backing file so a write-only backing file never made sense
+> in
+> the first place.
+>=20
+> Fixes: bc07c10a3603 ("block: loop: support DIO & AIO")
+> Fixes: f2fed441c69b ("loop: stop using vfs_iter_{read,write} for
+> buffered I/O")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Agreed. I'd just move the implementation into lib/string.c and not do a
-static inline function here.
+Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 
-Bart
+> ---
+> =C2=A0drivers/block/loop.c | 3 +++
+> =C2=A01 file changed, 3 insertions(+)
+>=20
+> diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+> index a3325ceab484..c96e35c3ef42 100644
+> --- a/drivers/block/loop.c
+> +++ b/drivers/block/loop.c
+> @@ -528,6 +528,9 @@ static void loop_assign_backing_file(struct
+> loop_device *lo, struct file *file)
+> =C2=A0
+> =C2=A0static int loop_check_backing_file(struct file *file)
+> =C2=A0{
+> +	if (!(file->f_mode & FMODE_READ))
+> +		return -EBADF;
+> +
+> =C2=A0	if (!file->f_op->read_iter)
+> =C2=A0		return -EINVAL;
+> =C2=A0
