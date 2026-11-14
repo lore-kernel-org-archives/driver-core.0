@@ -1,70 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794685770;
-	b=0cfBeR2ndFs2z/+qMe+rVj9rF3SuQOoJmDReXYBA6QlAPCsY2dr18TwLNUtwk3l2UoVd
-	 ZG+36Y3pVMNwZPSSoq7t3xJqFLmtrDiNon8A08ZiGPCWMjClqO2jA3Tcc/AAHLX2PAykL
-	 NnpTM7OHa15XQle7YThb2Kxv3NX5Yu4HIckI1diowJLVOMawREou4dfjXBTJb68bU0pvk
-	 F+nlqk6V1VkkM9CqqNRXstmzKTH449/teQQmODxjrkmB+QoEPJXxbxaozuG4VMyKb8pPL
-	 4++6a5LjIgdIQ4af7xs0wQSq4m6Jercx9Q4oZTUaNuzawmMxD9+tpsfgoY2Y5hdraig==
+	t=1794686757;
+	b=RKU6uFiY2ux13n2B2zt7VgV+owbJfgzVyK07LXIJaU/3tQjp+OX2OTYCdHS9xDU18PAK
+	 V7+4gpUG08Akn0DdNJdW3aAx+A2tSqRGAPgh/J3Tk++f3t2orhrrWWkhXlz+YBVIrAFq0
+	 vvYO9eZieEvifvAsZM/qA9zxyW3JmrRfKKnHHD7UL0ScbLOnt3vSHsuIw2Deinjk8Hkcr
+	 9FbUYF+LE/gmU0FgAJWbDKMJDM0Jatm+K8BUU7w52hzRTuAPulZexdGPfSADC+51Ol05m
+	 k6PcotYTtbxSeAdfLOXpuYphRx0oH9xzH/JSEOjlCbGEBjjZzRoLHSD/Sf4d41ApsHw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794685770;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=+i5vfUNEuREbfhD/vTTdKxtwJJjI4Spi6fBQPs8xNP4=;
-	b=GCLM/jg4kXOixLrudSNT0I/xB/13i/6D5lYpmAvOS8iibdL2HMGnIMVCFnGCINyu0+M1
-	 guLehEUMPaqR18EVKZj+lZoMZF0QYEv37QRGWFkLfvodY2QgIkKaQJlcM84KYoRhCW6+C
-	 nzmXna5xPS5HoCUZVbu66gDiTD3LiwnD7ofFWVNO1/1qGzLt/hTN1kSFxgKkeLt8bwr4S
-	 kbUM32anWkJ9fvujI4s90gX19LmxTVDRa0BBDAFpI3xFapfzuz8WZnma+sSmJu7V+p246
-	 oXeqsZXG3/ADh9fKFI9c4QUsOAsKrkbV89h0ufx/GgwoVHCRJQ+A75A58ObiEuz5NOw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794686757;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:In-Reply-To:References:MIME-Version:
+	 Content-Type:Content-Disposition:Message-ID:User-Agent;
+	bh=SncZUWGrBOxT9WurRufkDIe8hGFcWm37DANGybHY+fQ=;
+	b=DLUGqzWoy8HQevJlJVOGf+oI1Fp7zynPxBnZvQssrx+H5hxYzuq8q5sCrwFwL4d07xQS
+	 4O082W0sqWkEYoBkNdWTg+3IteP8yhIVa2bnBC9tt/xG28XFWFzjv7q2q8v0hfFYzjudT
+	 +qxfR6xWIQHHFtCOfOd19ldGbbmamIgPXXxdl9PBNyfPEVYH1lORBtwiFIGS0nQEKM56O
+	 7eAcM08oAqb6np47Ha6AD4IBUfepgeGr09XcwYPL2gnORorxwabH4IJoHWq878oaQRxh+
+	 B4iLzCqj8f2DUHPnOzFLM4lCw/1QEEozghL0V0eesFcDefxFzFWs9g/e9d8Ynidz+pA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=otY8nTnL;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=chrisdown.name;
+	spf=pass smtp.mailfrom=chrisdown.name;
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=PzooN50t;
+	arc=none smtp.remote-ip=209.85.210.176
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC78F606A329;
-	Sat, 14 Nov 2026 19:49:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19A0606A331
+	for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 20:05:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A19A0606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=otY8nTnL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECF551F000C4;
-	Sat, 14 Nov 2026 19:49:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794685770;
-	bh=+i5vfUNEuREbfhD/vTTdKxtwJJjI4Spi6fBQPs8xNP4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=otY8nTnLe/3TyqJ1DMc6IvhNSaTnS5QPd5VEtkyQ5ydGqleXpsM2+Uw6dnp/95UqD
-	 fSe5LewETi6VWlXb3scDtzRK9ws33bzAlzkAAiu9mPeJILDCdFzkzwJk58WqGybilI
-	 2llxmepWI3m8W5zfSrJk6lFBjtmmQ+HVneUVRDVhzy4BIQxEaDB2uCgyrlsIrsQk6F
-	 wqzf3+2VNsAh3cRUk08CnWb8Q6Ic1beRRXTF9iGgK36AA5rXVmHYC4fnsJwfPji3Af
-	 pVYUD1vkR5DpqKuEcZooGgjAvVSSkqwj/0jmsRQYcltRfuEblwZvRAqFfZM9REVL0L
-	 r6zygl3Aoq58g==
-Date: Sat, 14 Nov 2026 20:49:21 +0100
-From: Alejandro Colomar <alx+linux-hardening@kernel.org>
-To: Hauke Mehrtens <hauke@hauke-m.de>
-Cc: linux-mips@linux-mips.org, Ralf Baechle <ralf@linux-mips.org>, 
-	Joe Perches <joe@perches.com>, Alejandro Colomar <alx@kernel.org>, 
-	linux-hardening@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, 
-	"Maciej W. Rozycki" <macro@orcam.me.uk>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Andreas Schwab <schwab@linux-m68k.org>, Andy Shevchenko <andy@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Daniel Scally <djrscally@gmail.com>, 
-	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Len Brown <lenb@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Linus Walleij <linusw@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Saravana Kannan <saravanak@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: Off-by-one in arch/mips/bcm47xx/time.c (was: [PATCH v6 02/19]
- string: Add strprefix())
-Message-ID: <avi54hgKgovNHfKy@devuan>
-References: <cover.1794667407.git.alx@kernel.org>
- <0eaa4ce73a2b164fd49e3a9f71244a2e3f45b7bb.1794667407.git.alx@kernel.org>
- <c113f651d1ce1b2d42ab9d0c59ae5a0cd17ddb6a.camel@perches.com>
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=PzooN50t
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8b5e5e64494so1463751b3a.1
+        for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 12:05:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chrisdown.name; s=google; t=1794686756; x=1795291556; darn=lists.linux.dev;
+        h=user-agent:message-id:content-disposition:content-type:mime-version
+         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=SncZUWGrBOxT9WurRufkDIe8hGFcWm37DANGybHY+fQ=;
+        b=PzooN50tk6Jvo1qz/TShfwPqaa4BsD8Gg+GfDc5bzng12G37IHsCyHW+pKP6tifk2b
+         oNjoJBEHbYzEmeMNWndVLiCwfsU4HSoJbv52m1N+6sbHWEHQjOS48HDR4XQmwrbDuJvf
+         BAxSOEtWBW5hNocnz6dgI+fhoEkWkh91+mn7I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794686756; x=1795291556;
+        h=user-agent:message-id:content-disposition:content-type:mime-version
+         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SncZUWGrBOxT9WurRufkDIe8hGFcWm37DANGybHY+fQ=;
+        b=2SLSVzCXzi9k6vWLQKaz2Zhp0fWGN+/5k3N8FRGvPZorZv0yQPhDkETndS8sfOSVzQ
+         9hw0zv2Sn6vXMXbAoADac1OvnxcVSa7WX86Y8qiGkqIs+XJa6De0INSyAjV8BeyHEXUP
+         zFKC30VoXV7bTbbZCqGZCkHH1F8oqYcHUPv9PIuwFDxUEQ4n2dTs5eyZ8fUDugQkjXXQ
+         l8dyjNh3ypuN9YsNc1pfIQSLSVjPeGTml/B9i4SDZnNPAlZKDY+Vw77tM66B+0ZveshX
+         D76wSqHpIiq7Siv2fKFaEQTRz/SdBpYKdwc+n8TvY+hqMcyzixL9bZpLNcgxhxNp89cL
+         1+Tg==
+X-Forwarded-Encrypted: i=1; AL+hErFmC3oPE25Av0SoZR/G6V4v3BE7BF5YpnQZJpdFKVWt4krNoryOjr5LdQWsRtvmTWTaAihQcQu/y/gd8A==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/0srHohcgv0HJ9wBuH1RghSc7ncCglJcA+bIksfKiKuNGAyPh9
+	FJskyzSm2BXdAoz5vQWNR8mq0Qvvfzhy6fpQIYACuwP7ImAWF9gcjL0n1+qUVXG65kw=
+X-Gm-Gg: AYBFou0Pg1smVclwszACWFdYwP/UJKBagcD5PYJtI4iz03jP2w0/zcOqnui2tcF6uEJ
+	bdxyrKRVhxNiw4NabG//JzsDZtRNwvSU71KzE5S5z+7PFW7QVqHZGKbAXeKMmjfonkgmRdM0xK5
+	SKuABSqYrS6vBbZnqLgSxTIM48kv5FXaFmvUCgRq7WLrs84utiC9H7oQrI4LaUmfR56um66Bxkd
+	RjdqQigxtIriEes78OSg0XqUlvvubisu9IeeL9YsrIk/8iZ+3NMfduJDWnLWtKh5jR4yAdbcwPR
+	h+HFnueHzaDju1NZi2/JC6siMpmg8yDvuHWhNvjouXaV4vjxfnSXWIriSjLOjJVQMenReXbsVWa
+	x6AuDerrtHcGNH4miCqBHXiEfp3wHcGDub7MsTL3uHm9wF7zpK93FF0a6XuELnwTnRl+TfOEkQF
+	LcpkSx/ZZsrDhppnOThS63tIY8z2ApRyzUBO0uZLtVLAsXbDdm3XQq8M+gF7sDjg5IftPiIeTUn
+	CefmC2NYz/yP+tmzfD5qHLusQu2G2ndGaAzkemEQfSmejwTd+DjRd6m/VNF+wO3gfkq5nWNi5gP
+	hZv5mDWtP1UMLShw69Uov2EGMMwmNQBa+i+zTGMFwb5DVc/SEKMAlpHkc+PuK3h4CdnIL0A4G7V
+	IhQ4HiA21yU7im09SEiz/LYPR+Sns4ByrmNYNkbj8ViBXEVJaxPcBU5EMyih5aES1HsPOcOUSgQ
+	8wmVj7e94+5UmHlmLIzQwlGJKzdjOsDddcbNJMrthKm9fz9vrJVilymXbF
+X-Received: by 2002:a05:6a21:748b:b0:3e3:37ff:3795 with SMTP id adf61e73a8af0-3f7a4dbfbbfmr5517650637.7.1794686756009;
+        Sat, 14 Nov 2026 12:05:56 -0800 (PST)
+Received: from [172.22.0.2] ([64.16.22.130])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8bed12a8172sm2271197b3a.13.2026.11.14.12.05.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Nov 2026 12:05:54 -0800 (PST)
+Date: Sat, 14 Nov 2026 12:05:50 -0800
+From: Chris Down <chris@chrisdown.name>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>,
+	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>,
+	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org,
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
+	fuse-devel@lists.linux.dev, linux-efi@vger.kernel.org,
+	xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev,
+	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-usb@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
+	linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org,
+	stable@vger.kernel.org, Alexander Mikhalitsyn <alex@amutable.com>,
+	Breno Leitao <leitao@debian.org>, Casey Schaufler <casey@schaufler-ca.com>,
+	Chuck Lever <cel@kernel.org>, Sashiko <sashiko-bot@kernel.org>
+Subject: Re: [PATCH RFC v2 00/42] fs: don't use pseudo filesystem files as
+	storage
+In-Reply-To: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
+References: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -74,96 +111,27 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="psztgxc2iosdbtjc"
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <c113f651d1ce1b2d42ab9d0c59ae5a0cd17ddb6a.camel@perches.com>
+Message-ID: <20261114120550.0c9e73aa12a3072c@chrisdown.name>
+User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
 
+Hi Christian,
 
---psztgxc2iosdbtjc
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx+linux-hardening@kernel.org>
-To: Hauke Mehrtens <hauke@hauke-m.de>
-Cc: linux-mips@linux-mips.org, Ralf Baechle <ralf@linux-mips.org>, 
-	Joe Perches <joe@perches.com>, Alejandro Colomar <alx@kernel.org>, 
-	linux-hardening@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, 
-	"Maciej W. Rozycki" <macro@orcam.me.uk>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Andreas Schwab <schwab@linux-m68k.org>, Andy Shevchenko <andy@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Daniel Scally <djrscally@gmail.com>, 
-	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Len Brown <lenb@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Linus Walleij <linusw@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Saravana Kannan <saravanak@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: Off-by-one in arch/mips/bcm47xx/time.c (was: [PATCH v6 02/19]
- string: Add strprefix())
-Message-ID: <avi54hgKgovNHfKy@devuan>
-References: <cover.1794667407.git.alx@kernel.org>
- <0eaa4ce73a2b164fd49e3a9f71244a2e3f45b7bb.1794667407.git.alx@kernel.org>
- <c113f651d1ce1b2d42ab9d0c59ae5a0cd17ddb6a.camel@perches.com>
-MIME-Version: 1.0
-In-Reply-To: <c113f651d1ce1b2d42ab9d0c59ae5a0cd17ddb6a.camel@perches.com>
+Patches 1-11, 13-16, 18-26, 28, 31, 32, 34-37 and 39-42 look good to me,
+so for those please feel free to add:
 
-Hi Hauke,
+Reviewed-by: Chris Down <chris@chrisdown.name>
 
-> Date: 2026-11-14 07:53:25-0800
-> From: Joe Perches <joe@perches.com>
->
-[...]
-> And these are all candidates for converted uses to
-> whatever is the function name or steq:
->=20
-> $ git grep -P '[^w]strncmp\s*\(\s*[\w\.\-\>\s]*,\s*\"\w*"\s*,\s*\d+\s*\)'=
- -- '*.[ch]' | wc -l
-> 946
+I've also tested 5, 6, 34-37, 41 and 42. The selftests all pass with the
+series applied, and a uid 0 without capabilities can no longer change
+/sys/kernel/reboot/mode through a loop device. So for those, please also
+feel free to add:
 
-Looking at those, I've seen a bug in BCM47XX, introduced in 2224de9d152b
-(2013-10-29; "MIPS: BCM47XX: Fix clock detection for BCM5354 with 200MHz
- clock").
+Tested-by: Chris Down <chris@chrisdown.name>
 
-Look at this line of code:
+I've replied separately to 17 and 33.
 
-	$ grep strncmp arch/mips/bcm47xx/time.c
-			if (len >=3D 0 && !strncmp(buf, "200", 4))
+Thanks!
 
-That strncmp(3) call is wrong, as it's really behaving as strcmp(3),
-since the 4 is off-by-one.  I'd like to know what was the intention.
-Was it meant to be !strncmp(buf, "200", 3)?  Or was it meant to be just
-!strcmp(buf, "200")?
-
-
-Have a lovely night!
-Alex
-
---=20
-<https://www.alejandro-colomar.es>
-
---psztgxc2iosdbtjc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr4uzkACgkQ64mZXMKQ
-wqnPmxAAqT7UmP76O2Mq/J5Sa/uqqP5eSBhdUMsMoPaJ9FCc8DOJZJlQptoSNFP8
-WvoQpWn2WYGTI24yXj3+Ag5dUrCKcfBeGZqZBPpYsx7anZFcbWPwp40W9A3WgGme
-TkpkcAZwyrnWlwzrKJ9lKEOh25m6AJXXzntLr59yQB6JwzXTQMCcfgCyaJdw/xH4
-27jqSFHyq5DeFOHrhlXs289J9sfJJpluh5YiQhmmS2sk/lZJwRGEcpZ0y0FB+Lsx
-4UkarFSJsYbdZEF2Bmz3+oVNQFIEiYIslmPntRvaqvtOD85vFYJW4oKmp7yDw/QD
-4XZvO6a1EkYNFhN8/dGWjj5ju5/kk6TfXsbJJzlXsaXP2zH9gwAJlsHda6AAfKNs
-t9Cr+97aGMrnNGDucM6v2dUhEb7wu1I5FIeIEY2H+XdFX8zZXP5TiG10ji3Lo4KW
-96SkNumWGfOTvfSPuvG4uVMX6AP7Nl7/CLD6QwkLLvONwhXtsYsaokMHFD/Uiu3A
-DOSyfiYNoYTwL4MXm9rgQDKJr3pZqCHhl9JqnOVlbhTs4KjEV+yrPLGq9GyC4H2M
-i+T5SGijShofKVgxqnIDCMhQulRthbwhX/36331pru8maHR6bSXorDQiQwUXKPRN
-DW2Fm8RrdXVd+xdU0n7wBonsthXSFJ7adi1+lv7ZyKcUasBglv8=
-=jCr6
------END PGP SIGNATURE-----
-
---psztgxc2iosdbtjc--
+Chris
