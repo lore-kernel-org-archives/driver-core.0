@@ -1,123 +1,123 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.168.131
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794643089;
-	b=RiJh96mJ1bDqhEsGdL81uzLDotI7OYfWcmB8zzYcVlfLR1IkwSPulzTV6d4SByQ2mhMb
-	 YDQlR0TmbMGOUtSCsMc3eQaotOjifW3MBTQ3tL6YS7hXKIwwSxXtPa0PtLzbqqBJoRMUh
-	 zMfrd0JbVxTmWD9FJdWnkqJWM1YSmy++wMFgg167u9XpRM0RCq3t1trAK09hLpBtHDp7q
-	 pAnsRHtYPOlDrS7GmZV/frukDnotkJYHnPtlauCmsDJ2om6GDRf1eMhZAhUaicBUk4TAt
-	 tcS4K27a+uPhzAzQLmmO9zsx5eLuMIGwl3k1dKSm4mVlCfM1snuUs/I54TyIe/7EBIQ==
+	t=1794644342;
+	b=aGXlab/6wr5dAY2MSVnIrveLDRAJakthtsh5NAcBfuDbASvTmK4GxpsfIBAK1bPf9nmY
+	 Tiik7Rk6oe2iA6lMka2fPmAB4s0QnwrTOnkqoIrVqYqTYNw+k6WOKQh6EJGj8wTieYbR6
+	 tOXGSNIi6TQWdIEv1QtAqu+tkXwzmY/kSRtYv7i8AyBANOt1Qluf+wzgkCFVhYHohslzT
+	 3Iodj1ASyZzMUH7wWkri3ZuINJpJVlj9eEfWDG4hvJkioeI4o2DDLJZxqO7KVOzFgB6W5
+	 oeUQCkA0oPmc5yiApKlSIEO/J26WxwzzB0xZYixlhj03d8OIximTjmKUM7inwrqdYiA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794643089;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794644342;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:MIME-Version:
 	 References:In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:
-	 Cc:Content-Type:Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=NvR4HAZI4Lo8OnjwPJkf1d43cAiNZeVPyKEYxNFDU+E=;
-	b=4uOC/da5hjP2w2oY7FYQRFNFrPKKktFwqV2qyAxyMSRKjDoeITVs5NnaWumm7WOsfHtb
-	 sE/fZMm8mPMbvka6J6q/ewHRS477msEXGwQ2wDTAUfQcECi+Njl+a9SbD6j4Sig9rvgCO
-	 Jnk3a49qv5Ea+w1NKLyp8bHyXCIjNXqrEObD14RINlTN0nS836PHCaHWUUbjV3OZ5obfh
-	 ukiXrU1fdja8e0gOLLC3mzcgH59RHhR0ug7W/5SVIoNsFTza51gMsLPzcKqEMR8KDbQq9
-	 8IUEPk2nsq2jLRGUgHpt9sJ8VOUjNZJKg8kSmSYRr1TwORIGHnm2O6YtfTFQwd8k9kQ==
+	 Cc:Content-Type:Content-Transfer-Encoding:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
+	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=fKzcjFxqGvvYnRdzMZQCZdZZhZxsTy33VYOqVFlaCgI=;
+	b=I98KDZTu3J+oOeaohrFqAa0W//U0sO+KtlHu6JeSHGegn5Oe/itY7bnBgT/GJOMoUKGZ
+	 Ttek8PWsTmSRypUxV66qHJ9RQtQHk78/ijFF8lP9NncbHmFZkj7oM2SLUZcJxKGdJ0F8r
+	 CoLKgOyJDWzSTho5zoAfp+yLPRFeiDI7wzkdf6pyweMI5n2BP5WLPCAqaGOMVepnbngH+
+	 zAdnEBHeLG9QurJVhCcIzaIoYz10oVf9GGhy9EFUQ74+6+ldAmgXB9FlJN0wI4+TamQm3
+	 ih4TeznSrlvsUoz1MV++mGYkQ9OHlk65oMTtiC0dOId2mpnixBtSQTRjWPDSQ0qRlWQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=mDbj3AGu;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=AxVyxRGm;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=g2lsw4oS;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=MY21d4Oc;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD0A606A333
-	for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 07:58:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4FD0A606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AFE0606A32D
+	for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 08:19:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3AFE0606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=mDbj3AGu;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=AxVyxRGm
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AE61E1R3882084
-	for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 07:58:08 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=g2lsw4oS;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=MY21d4Oc
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AE61Cxf2224135
+	for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 08:19:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	NvR4HAZI4Lo8OnjwPJkf1d43cAiNZeVPyKEYxNFDU+E=; b=mDbj3AGu0zCqBixU
-	ed6/Z9VsJsU/6V05b8gXxPGWdS+KOHeBjEEPVZ+rp95A8EJdnQXf6kqhqn2hH2Xo
-	J79XEez7guii1GNtci361IDUFJKwRe5D3EKrZylXaKpxNegjecfFRuTbyF3jGxdj
-	QS7s9M+ZxZejdwzwDvD2JFAtMaw1SeyjCTw5XcnT22fMNGC/HlHXg1ufB0OQDQ13
-	GjlFPexOgwdPdeO8pf/1oaQcu1QrM8vOvVIXuSO9beR1C7uL/aua+TcjchX6P77H
-	72VZAb0UXUZIsYmTN5X+d5Goce8XgR2XPK0IZrJOesLcmNzvgQ4XtWaC/nlxSFeQ
-	e80VJA==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hxhmag89f-1
+	fKzcjFxqGvvYnRdzMZQCZdZZhZxsTy33VYOqVFlaCgI=; b=g2lsw4oS0C7kW4+U
+	opEiTfMF0LUYiQau3gh3GvXBGEhya76EPmzdl7rzJp0gn488egNSxOuQFZ5glSqH
+	iVDkJ4JP4V+sZKVC6Ip+y4dVBjFTPfl8iwMBn7XuQYnARE3Subi87vAo6RrFyHgp
+	/hgH+KTJFe8gxoWNmdLnD2WacWtj3a6qSMangdB3apVGNEMNojdYzz7piRjXIi0J
+	7txafB6pHCJrviHm8yq3DmB/V0EwZssYEvGd2WUR2m+XC5NihS8uSQY23N8U2GUv
+	GwskLP9+1tcdg/P3krNLXgTa+62rB/YVQbEmGxDxjePtM/GLS5uKn7Gc7GIi9Laa
+	C2PbYQ==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hxhmhg9pm-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 07:58:07 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3b07b06027eso2372756a91.0
-        for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 23:58:07 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794643087; cv=none;
+	for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 08:19:01 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2eced5a4cb9so14001715ad.2
+        for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 00:19:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794644341; cv=none;
         d=google.com; s=arc-20260327;
-        b=N3mWaR+bx5EA3v5PC0gGVYD0a4cCbLYfmwFe369cRj4xghxSS+r8vB/XGkexDUYPd3
-         icQyx1263RoCobo9aS0rc8VINT0fXuuETbhJN/sKutZl20Gvgj8VV9eLgOUTUdsf0aZQ
-         XqW6BGii8T51DxZ0dbKwdz1ZBqZnM/RUWc6BkJbAqh4bNP8yhsnuVTpXfGqGNXTUnJ19
-         K8I64huIDJ5OKgpl7VdyBiCIhNmYnHb0o1ttRcyYTsV9h3XKu/FY6jjTQYv2LzYLYq8j
-         OITJRoT8Hb5siWSUs/kAs/AAoEJZo91qMWv0pAJeAzMsjecZUW4TVNoXRPtTlCvjxo7d
-         UK0A==
+        b=Ya31XlbiWAo4Lvnej0boLOeSesvLEUq1NoNssQdcPIEePGiPrUFfoqe0aAjgYb6k7E
+         mFRVsCQwIcLwgHyhJzj7jzEJPnQB4jwGtweQDrgOXrln1/VIQ9FnACb+Nb0M4ETSCazp
+         p7OWZCczb1zlVzN52ox7YoDRxuhgtss1Aj2mlrKy485+YWbcosGy2SW05MnF5gNoGIvs
+         a14HfHev9LU3ckKZ0VCWdDp9WlFK473A8A541xkpnXUWGw9vmb8TTMqZkULLOZLIqdex
+         UpWfKyhxO56qi5NmmKvaU3kJ0eTUH23r+jQUkwzVcCF+w379Ekdfd3KLqjjo7Ie31pnE
+         Hp9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=NvR4HAZI4Lo8OnjwPJkf1d43cAiNZeVPyKEYxNFDU+E=;
-        fh=dF7cpX9gnlR6MfGGpc+M+n2duAgmu6jDCsX4DREGfyE=;
-        b=S3/E87QCvKuuCk6QqWL4TqWYVK4eDg7fKrYp0hvtw7JadFJpXsnT1q5WoUeaQsSEJj
-         xJKGRii1aT+IDokqjlykVbcqyjYJqWj+vE9KRO8qFa2/4EOxWajF8yPKXyy73omZLMVe
-         NSkU+eoX8v8ZJml/QSAHo8u5DoFwcIPtXef7KN1Od9NlGeqX4/K6hyu8y6Ia5q2Z9Mfs
-         igNROcsDrI3AB1X5A52NsMD6Ep2uT0iyR+/AV3cLJtHkGXyd2q17nzshNcoVImSGhCM5
-         Fvl6A23Qih2wgn6sKQq/XPoVexemPnBM3QVsFIrn2/CNRm1wzDbW2ry9VHeZQF7MNPYU
-         efqg==;
+        bh=fKzcjFxqGvvYnRdzMZQCZdZZhZxsTy33VYOqVFlaCgI=;
+        fh=nTQZAJzO+nJ/iIGBHQHt1dDBwM6nf7ERKvf3918iX8k=;
+        b=ZaPqFwpgBEGnvnoMjAw1i2YIiPGr5vlHddgOB/ZliBc7ZSNkRutVykvXoVY1qAM8N7
+         B78YsdNri2iMETAo/H3Zpma4UqEnjtcQhQo2AJ4u5fJSP1fPK+XOpVxrfEW+knQvdr9z
+         GNLDPpSMV2lM8d9l8xQCuqNM9M9c37emMakfuPROiG8NCOEyazH/H3QR2Y4MlsfTGZHp
+         IQivMlt8B3Pz/rWMIvFX1wgMRZct4Jg2MwpUmeGTPfRdON/IYBdAvxsPnzD4w597vi5q
+         ccB+gJp0lElTBNmo7vwlwszPvVOFOy3M5qyZjEqpPRuBFBPfWeNcGwCris43K/J4V2Kn
+         N/xQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794643087; x=1795247887; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1794644341; x=1795249141; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=NvR4HAZI4Lo8OnjwPJkf1d43cAiNZeVPyKEYxNFDU+E=;
-        b=AxVyxRGmLwbKp7tRjLkwgW2hoy8C4CHSpA2tBI8efjuLTNmBqNb7+8PoVUn6Zk2tdf
-         kTXxmz435EgpfvCXRzT4Sb9oAOSSDtweMznAp6txWvE7u8/GOyaau21ItoAjVpnUm5jZ
-         ff7aoFIbsAaiAr52ByaebrQAI96xu9S/nww1/hjv8g5NYMn54kMuvef0M4UuJeQ48/8u
-         pSj5IUz8FNioXZBfDVe491rRTCFFGskWT6VvdtL+W9Y3lm+R2OYbCLss+2VvcdAORXK1
-         9p2DOWJ9KpLgPBToZMJ7qCtRR65HcMn1L7EWQ34eocJlLJWbRYWJKmXg4M4L97DagMrj
-         Dl/Q==
+        bh=fKzcjFxqGvvYnRdzMZQCZdZZhZxsTy33VYOqVFlaCgI=;
+        b=MY21d4Oc9ZGRdkzGLALzfnq/DI4rCv++KqJjXvTIF7HqR9oXJYIWRLnV7lL+RGzjXa
+         JkrAmHPpffWICRCqJiGE6+bayKt5JJYoOOpY0568Jwe1+9qZ0/34hm4ByLnOoYyx4AEQ
+         OGSZaO4N0rjcaU2bSACkWo90vVtlj4yFuHk9L39qkH3LTCX+zqttFSPnQSLqsTj+0k1B
+         2sdRqBPSFg460+iru36Js8k4ZdrltuZmobTwysLZd2m4RwZB0TGMYFjBrhGYOLfFM+/T
+         /tVCRxWFmIDcrBcj6VKCkOZFftZSQo4OLeK0li90rKof+S2oB72aj0e5Jd0GEAUlw53p
+         4c0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794643087; x=1795247887;
+        d=1e100.net; s=20260707; t=1794644341; x=1795249141;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=NvR4HAZI4Lo8OnjwPJkf1d43cAiNZeVPyKEYxNFDU+E=;
-        b=DB8It2o0gKUTMSH2c1O8jyJtNoQCLVww7cAC9jlt6vC8GHY2HBTbSWgyI3mcxxyJYE
-         ML0UjiCNt4mfc44xN7wnzCA3QFmquz3ZzfsSdLj1K/Ufe9OKAakhw2t/wbpBgToOl57e
-         k8DETawCv6vU+/AkKL2kZIyvgQ6vPUiAUyW8ZIPQC2JpaysnA3Ly8d9Dlv3MPvzZDyAZ
-         lijhQGem4deoixo8GFTOIwUghRbaZ3WhcVmjbH0ACKS2UW5FilK9BltWQitZS29vkSmy
-         zg/9fBl3u47DdjoJAF3IERuTNONb+Kt6ORfMGMKhSWfVllsVz4+CMdZX5bXuLZE4DEe2
-         mxPQ==
-X-Forwarded-Encrypted: i=1; AL+hErGw/wiWGWex6GfVCAs+eXqj493+f0jW90Ah6I6EWGMMkR/kOd6TkCDF2D+/tjf60sBD6eNS30OUZECQQQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z99GI94HtqfwCAq5css50qu6r2Gl6RdKwlkCn+dwWhnnLticNGx
-	8VYMvm4HzMLrwMV8gSoHgyaQVRncP80AyaDSDipKnujSxwnf/KLesjL23kBbrVy69ORmdbefC40
-	A/xctmtrbLLiwDeNvVLROKTxRWZW/Y+EPpuc4haFPE8Hqi2G+V6j3+pFOvrP6DciXI9BgMY1InE
-	jbHYCpH2qcYMuaK0u3q4rGZMEzNK5GgCU46OzJow+H
-X-Gm-Gg: AYBFou1V9gj1581gjWXmg8DNwUN0pxsAspM/rV+ad2odRu7rWdoygCiMvEK5P9qQU1T
-	gUlWrLM0e6rsQQ+fAEcEB6QxfIVZxYjd7usxbvxZ/APD53QS+YJfeA66o0C3SJIbXCP23pe3Y/U
-	vhelfxJkqmI0R6NH3psCSgHQSeO10MaDAQ73kjqcx26D9HBG9+OmQTk4Rbig==
-X-Received: by 2002:a17:90b:3c8e:b0:3ac:9176:e83c with SMTP id 98e67ed59e1d1-3b1b09e5ee5mr4952052a91.12.1794643086750;
-        Fri, 13 Nov 2026 23:58:06 -0800 (PST)
-X-Received: by 2002:a17:90b:3c8e:b0:3ac:9176:e83c with SMTP id
- 98e67ed59e1d1-3b1b09e5ee5mr4952038a91.12.1794643086266; Fri, 13 Nov 2026
- 23:58:06 -0800 (PST)
+        bh=fKzcjFxqGvvYnRdzMZQCZdZZhZxsTy33VYOqVFlaCgI=;
+        b=js9kOWLZvwKayLw019T0gVXmAE8fTcZkUI9xJnhIloxzt7jSNwjWYb9AUyu5Ck2DYR
+         l++I0IXRFruCirB0nN02GOJ2CdAf9Bc+ZFSim0gZST6sxJVTitA2Zgtb35gJaztp9g00
+         hjlTAZuMdRHYXe405LbCiFxEEsbHLvjlKh8HGHNruEvcpiRd6S9+9k6XWeT3ugtjLstf
+         6HdjERyyYsMqTGAehySK9yCkf/4sV21m4qRKJGhBauDEcyMb4PlmC5CJDp4Ff8k6ABGW
+         COJjtkDFlZCytraBeDK0pVaO2QtIt475Hazn7q9km4npNiaLwVeYrCgjoBoKEAT5T2xm
+         LiTQ==
+X-Forwarded-Encrypted: i=1; AL+hErGPqEoKn7lWCNiQssrcbU0TSE5olbonGw5UJoMnXAXN07hj6/2Se/D9GqeMULAUcH/FvUvsQSKIfOjV0Q==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8UixIWmelBo6LnkJFa39WOnnv1NFrf13Y5c9xIBSHhzeQlZcmp
+	F0N7kZPtt35M4cdi2/6gMPxAplW8JH3oUqSHJBod4xQ2ISTbmgK6voeUOUdk9OUW9FwC5gFVBeC
+	KDEy2grLcn/zVissr423Bm3IBhkGUcajwesBrQiz47m8sxAhxZPqyHNh9wEbVQTamG3T6y/IIv/
+	MMer6q4CXLliiyhBsVpkVJ0Cz2OBvFTRjzkHwhS0QU
+X-Gm-Gg: AYBFou3L8DBpzmmrJ4S64W3zRYFgGl2ZFP4sa8bq1mIgxmCBPggb8TxXgH3rSontcMM
+	R1EK3XQZ4CX0AjzkIDCpyNwMI0VdaeDBDXgjQ8EwlBeWNXPVYSd6953Ji4FChJZr1h5wfnirtqI
+	IICpJGkJwEtorDnBFFGFuu26mxgDIG0U65T2lUVqFDGA3KS+No58/Z21LSOg==
+X-Received: by 2002:a17:902:e790:b0:2ed:379:1592 with SMTP id d9443c01a7336-2ee0dccfa1bmr52675145ad.26.1794644340583;
+        Sat, 14 Nov 2026 00:19:00 -0800 (PST)
+X-Received: by 2002:a17:902:e790:b0:2ed:379:1592 with SMTP id
+ d9443c01a7336-2ee0dccfa1bmr52675005ad.26.1794644339943; Sat, 14 Nov 2026
+ 00:18:59 -0800 (PST)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -127,103 +127,88 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <13032301.O9o76ZdvQC@rafael.j.wysocki>
-In-Reply-To: <13032301.O9o76ZdvQC@rafael.j.wysocki>
+References: <20261027140751.2465743-1-b-padhi@ti.com>
+In-Reply-To: <20261027140751.2465743-1-b-padhi@ti.com>
 From: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
-Date: Sat, 14 Nov 2026 08:57:55 +0100
-X-Gm-Features: AclHuK_pb1NVwWbh0QLiYOd4IdBJz6ttWXlwHm-S_h6PQMwai5uFseqDu76GcSM
-Message-ID: <CAPx+jO-GAkn2Xw1i_foav6q+9UyS58MyBJ72CmsdP-9ry2CfOg@mail.gmail.com>
-Subject: Re: [PATCH v1] PM: runtime: Update last_busy in rpm_resume() for
- active devices
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Linux PM <linux-pm@vger.kernel.org>,
-        Brian Norris <briannorris@chromium.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Linux Driver Core Development <driver-core@lists.linux.dev>
+Date: Sat, 14 Nov 2026 09:18:49 +0100
+X-Gm-Features: AclHuK8IXFCYeB3AWBk0BgMTxu3LSqf5mRE3cR_dlEjTborPRMXNscrVzwDLsE8
+Message-ID: <CAPx+jO_GHZopd+D_v5X1j3GO4ANxsR8eMsV9h8HGC9qdJO6b6A@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/2] Allow platform drivers to skip PM domain power-on
+ at probe
+To: Beleswar Padhi <b-padhi@ti.com>
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
+        johan@kernel.org, pavel@kernel.org, lenb@kernel.org, ulfh@kernel.org,
+        sid9.karanam@gmail.com, afd@ti.com, nm@ti.com, vigneshr@ti.com,
+        u-kumar1@ti.com, driver-core@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-ORIG-GUID: M5U-T9F9cIp1hRae9UYzeR3EicIzF4Is
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE0MDAzMSBTYWx0ZWRfX/Fl4gTpR6VLI
- dE4PUXXR2JI7IIXC13CKXMkrz9ybsK/FG+B8SL06A/4pM4M2cv1pUhPUB+RyuxZe5vxK+af5lXu
- nO7ek5sfiHIZNcJmkzSsqWgVVK2TvgdozY1wxAk49/BEvo7Zhq9n6oTXU9WsWv1x/OHoAUH/euO
- bJLkRB6wnxph+DAu2gALP/crN8jVBSX5Y5Chv74p/DIUwYMOh6K6qPXIbCQ7KUJT/2eqKvCVmX7
- wIlnZzYMbu/AQVcHW6S5z1UbN545yetlb0qW6/wSd7hE8kuI1Omj9Bah6+eiaX5S3vfCdK7SAcS
- ew6Js3VH+qT8UJskB3+NgdVAzfWZmZwc/R4rT9KfRWlNMZKREMfE+GSpuSRnscmA4ci6W1xoM2V
- +WaBtrnL5HQhrxjkBGDM52ukBKGHCCeCzf9NGd45beZZr668Ydbiy710rNk891Zh/cHFvmVCZX/
- fD6bcKyv1Um2YaXzaUw==
-X-Authority-Analysis: v=2.4 cv=NdhzRGD4 c=1 sm=1 tr=0 ts=6af8148f cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
+X-Proofpoint-GUID: MjWuuUtW1qnfUBv5Jg-IW35ImM6dPo6K
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE0MDAzMiBTYWx0ZWRfX1CTJMgvsMyVU
+ W/IFZIN9lvVCZbLm6zWt5qHoOqRMw/rTzcrlX6UsMSA5yY3S6qYlmDGQbrYt5Ll0twNS0Fz/LG+
+ 2zGyrvua00erZsbIgfQPXNKETIkE0Wo=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE0MDAzMiBTYWx0ZWRfXwk2BP7xveK9r
+ /eK3lXfh7VUccy+fclUm9nipgWQ7oZ6ftRysTYkHWZTaXO0f9LNJpbYyMLXZy64xq0m6h8F0MQf
+ vK8wJcaAGta8hflJ2YLmqGuIxZTsN6ECZtrnSzx86js+WfwK9EFzidl8mL3D0lQzFgPlHYqvJsr
+ qguj98ti/JR1fr/7TSRxcKklEBSHoajzANYeMnHlMz/nEkv6WF1yAmAmoK5dNklweO6VdbJR1nL
+ k6PD/DBsydHDN/6Lg+hQsh4K2NZzRMXK9N5yHD5p/MLCsSXkBB6mU5NAeqodphznwRatEnhBedW
+ KTZnpJs32FaE8DUqLaHzH96cXlDWBsg1VqiOb8BMCM3UUhXWPqM5OAf2ROFYGSU3IBS3r1+wpAW
+ hP86muO9VYJnitIotU/t91jmulYlyJQBxi6QXogyMhJMOBmV37ardTP7ce8gjL1XuSniis8Gwyu
+ wDGvttwy3H1w+RURL+w==
+X-Authority-Analysis: v=2.4 cv=e/2T2qp/ c=1 sm=1 tr=0 ts=6af81975 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
  a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=_glEPmIy2e8OvE2BGh3C:22 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=QyXUC8HyAAAA:8
- a=cm27Pg_UAAAA:8 a=gZt39-j6hBPzH54buqsA:9 a=QEXdDO2ut3YA:10
- a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-GUID: M5U-T9F9cIp1hRae9UYzeR3EicIzF4Is
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE0MDAzMSBTYWx0ZWRfX5L6kc1cg2hOA
- T/hlom16f8mGPljG6a7YcN5mkUDHH6ZNgTYPlo0hhugeMFGLVnit1ZaYK3ieHek3iC9XIPruUmd
- vh4bwPM51zwQoa66Xk9lh26poq9fX7A=
+ a=YMgV9FUhrdKAYTUUvYB2:22 a=VwQbUJbxAAAA:8 a=sozttTNsAAAA:8
+ a=Ht0MZJmIM3MH2Up-epYA:9 a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-ORIG-GUID: MjWuuUtW1qnfUBv5Jg-IW35ImM6dPo6K
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-14_02,2026-11-11_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 suspectscore=0 clxscore=1015 adultscore=0 lowpriorityscore=0
- spamscore=0 impostorscore=0 priorityscore=1501 bulkscore=0 malwarescore=0
+ suspectscore=0 adultscore=0 impostorscore=0 bulkscore=0 priorityscore=1501
+ malwarescore=0 spamscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611140031
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611140032
 
-On Fri, Nov 6, 2026 at 12:31=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.or=
-g> wrote:
+On Tue, Oct 27, 2026 at 3:08=E2=80=AFPM Beleswar Padhi <b-padhi@ti.com> wro=
+te:
 >
-> From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+> Some devices must be configured before their PM domain is powered on,
+> but on DT based platforms platform_probe() always powers it on first.
+> This series lets a platform driver opt out.
 >
-> Setting an autosuspend delay for a device can be expected to cause a
-> runtime suspend of the device after calling, say, pm_runtime_put() to
-> be deferred, so the time between the last successful attempt to resume
-> the device and its subsequent suspend is at least equal to the
-> autosuspend delay.
+> The user will be the TI K3 DSP/M4 remoteproc drivers which need to put
+> those remote cores in reset before powering on the pmdomain. A patch has
+> been posted to add "power-domains" DT property to these devices[0] which
+> is the motivation of this series as well.
 >
-> However, that expectation is only met after the device has been actually
-> resumed in rpm_resume() by invoking its runtime resume callback.  If the
-> runtime PM status of the device is already "active" when rpm_resume()
-> runs for it, the device's last_busy timestamp is not updated which may
-> allow a subsequent pm_runtime_put() invocation (or similar) to suspend
-> it right away.
+> [0]: https://lore.kernel.org/all/8cb23b44-027d-4d81-b342-7eaca0248f63@ti.=
+com/
 >
-> This is arguably inconsistent and confusing, so make rpm_resume() also
-> update the device's last_busy timestamp when it finds that the device is
-> already "active" and it is about to return 1 early.
+> Please provide your comments.
 >
-> Fixes: 56f487c78015 ("PM / Runtime: Update last_busy in rpm_resume")
-> Link: https://lore.kernel.org/linux-pm/CAJZ5v0jTX1FgeS9FCV=3D+V4uacSgLQBV=
-sSPnU27ybgUGg57GUOA@mail.gmail.com/
-> Reported-by: Brian Norris <briannorris@chromium.org>
-> Cc: All applicable <stable@vger.kernel.org>
-> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> Thanks,
+> Beleswar
+>
+> Beleswar Padhi (2):
+>   PM: domains: Honour PD_FLAG_ATTACH_POWER_ON for genpd
+>   driver core: platform: Allow drivers to skip PM domain power-on at
+>     probe
+>
+>  drivers/base/platform.c         | 7 +++++--
+>  drivers/base/power/common.c     | 5 +++--
+>  drivers/pmdomain/core.c         | 5 +++--
+>  include/linux/platform_device.h | 8 ++++++++
+>  include/linux/pm_domain.h       | 4 ++--
+>  5 files changed, 21 insertions(+), 8 deletions(-)
+>
+> --
+> 2.34.1
+>
 
-I guess I may be too late, but in any case, this makes perfect sense to me!
+This series looks good to me and solves the problem in a nice way.
 
-Reviewed-by: Ulf Hansson <ulfh@kernel.org>
+Please drop the RFC and make resubmission so I can pick it up.
 
-> ---
->  drivers/base/power/runtime.c |    6 ++++++
->  1 file changed, 6 insertions(+)
->
-> --- a/drivers/base/power/runtime.c
-> +++ b/drivers/base/power/runtime.c
-> @@ -819,6 +819,12 @@ static int rpm_resume(struct device *dev
->                 pm_runtime_deactivate_timer(dev);
->
->         if (dev->power.runtime_status =3D=3D RPM_ACTIVE) {
-> +               /*
-> +                * The attempt to resume the device means that it is need=
-ed for
-> +                * something, so update its last_busy timestamp as in the=
- case
-> +                * in which it actually resumes below.
-> +                */
-> +               pm_runtime_mark_last_busy(dev);
->                 retval =3D 1;
->                 goto out;
->         }
->
->
->
+Kind regards
+Uffe
