@@ -1,83 +1,84 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794640206;
-	b=Xo41B//5XboziHUBogC/CDa7OHPusTLmOG6t1z9oPDxuk8wmKwuHhYiHaUYNLYQby3Xl
-	 Z+gqI0QWL6lxvDa5X6FEQxWQIA5RTyqXHzWkqfZShA+FTpzHMfMosuO2QhoJPwhWNro8r
-	 gcCxhSrd5z+27hw1zYkuZbycfnpiltFs4/Ct3trgW9p6AeF1CJDiDiHOT605zu229v7ZU
-	 h+Vjiq5M4oTg3VM13gbdNuNoyp4OxyxXNKuDkqCWgMSy6gZxk3pp6n7LUBSI0u0SPa9ew
-	 pSGESzEdb691A2a/cJZ0co/CQFGIU7Mw+FNvbciWH+LKptCv4ZyhwaJY/fEA+1SZxCg==
+	t=1794640208;
+	b=3RphEurpx2VAQKR25HC1c1c0CAZs0Viw1FkuIXYoH5w2Z15hITrr9daWtPg1SOeKSz92
+	 SNxlNff+lOXRxVnLyl4xS6JYPPM4TDYC6J0BU0GJNPYdRlk34mpP6xSgQo3kfaCSyvfWP
+	 A/G+nmeMFKU5PbDSmrci15LyqhZyGqKTf3TWtnXJwyaV9RZpBIyPwNr798Qtc6qAC04mk
+	 GPtTgLymYjktnMr/iQdblx44VdzhUqrexKZ5Uqz40MZaFhzqn+Z01LDsp7vkwOHTU3nB7
+	 lmxPtP2mQsjV/Umy+mMsRXefZWmcFo/gVn0dxE+nWxnkHP+kAji1XV7p6ujlCInshKw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794640206;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794640208;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=oRfBKleHhU3BUp7ltu8uNKVynP2g/0Xp3jgnuf+J/Eo=;
-	b=f+p7+r+9v2ZlA/vybb15ItrtXcmBy3feXhCvLqoZyA4yKQliOcM7RJnPIdxtdzjth7OO
-	 5rAaTfs+OOy7wx+MBKYEbdq/GQBhRy+7GOtuaOCcFa2KqEdwVtPrVjoiBzxmwcpS9UXhf
-	 5flsOzWh7AQzCgtDR+lEy+NKKTVHl1TlVFtbjBIdXL/z8xd3f/zboe85sesSUiNuUu1Sr
-	 20Fmq85vk/dgHhKKD7E9JuhYvP7i+VVFPH+EEBzKYeADgBmm0Q2QRdCgn32lBmV6IK/12
-	 fWqLBJ9/na7w7WZcg16/TNXCq6NE8XdOt7tLXGkJQ7yb9fy84wf/GYZ9mIqP01xm+vA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=8m1rh8YCtMa/eK/x1h9nBhdh93CAkPykNk2YYLlQM4w=;
+	b=4nr5jRpOq5K/KKuwvpwqCpv4Lt9ppH1Eu4Ws8ooAjOS6HRRFyhFrVOlhHbtVZRv4gIGf
+	 t2PnLqDCfdeHUWosM5E6jrgN6ghDhcg8X2GP2QiB+fcuar3oTBxAeQi4ivS81X14PLoKs
+	 zD6eExIcFoFGBj8sHeXzn9YdCn/2me9EfDgBKq22zapk8QFRi5kOL+Y9MQvFxk6kgZpic
+	 X+BZg8UI8A5ZgfdiT+sC6an4ycm6w6G6deW1SPSUkN+X+E8Yls6jdvhOOKrPzJX7xDC0y
+	 T08N9WHQMWHbueVOvuvgS2J0V6cP3cmEABpAdBaNyoUvLkxKBGQPBh4nnh4bpCYz7GQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=gourry.net;
 	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=rfiQyacv;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=P1KGu7Wu;
 	arc=none smtp.remote-ip=209.85.222.169
 Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51AE1606A329
-	for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 07:10:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51AE1606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB3E606A880
+	for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 07:10:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DFB3E606A880
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=rfiQyacv
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-9495c633eb5so58036585a.1
-        for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 23:10:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=P1KGu7Wu
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-93f1e5d7450so262327485a.2
+        for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 23:10:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1794640204; x=1795245004; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=oRfBKleHhU3BUp7ltu8uNKVynP2g/0Xp3jgnuf+J/Eo=;
-        b=rfiQyacvp3EgNCXdwDeUxch62merHl04V1g5usq1KcZq+SM4p9bP9ccyiaW1aHwptw
-         ZxIYscBoJBo7JWiQaRLQf76iI9v5ZfNC9/NEvZCSaoLvWy+jPTaFVSOa4nTTY70QXDIO
-         iQ/079W+KGGvkau5+Pt11o6BsuPIIa8icR05xKeMjTtFqXh86/6m2hpzbySuR+G6L7hS
-         5odX+fe13dB1WDG3is5lsLgBqYeGJIOWwj25MMapRxelS2zMZnJTSPWBGbiHF169La3K
-         bVgMSx9jBmRmbyVxeIEpKBwOKhIE46SN0qmqhdzTPP169Ej2iPoZqXOA6kjd5XvL7jok
-         3QMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794640204; x=1795245004;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gourry.net; s=google; t=1794640207; x=1795245007; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=oRfBKleHhU3BUp7ltu8uNKVynP2g/0Xp3jgnuf+J/Eo=;
-        b=Dt3FWukVm9zZBh0voQWDmfmu/iCWQZh4sVkoDRbmPd2YoQi4QeqklP7HE5SKEsrt+c
-         8vXx5eiUQXIafu/5Q+0YRgYIEit/IVqk0AT1Lse9Jgpuh370aSJj1e8mlx9jjON4Sj/c
-         5AnarMvyQkqPaF9RJ7zNRcg7fEiNSLPTkL89cqO/ESCuwFfHIy0trPfkBC43IcnrJ+Vb
-         pDxlz4UrLM2orjyrZiaLGv7PpsCbRIly9VQg1aiEawwINzmMZqIYXNbW++kipgldeFR3
-         Ntzt7Jt6LVT+EC6qJxMF/F/2fGusUSY2hXADYJLsiuY31n2sC8zOg3kUtBOq9eq89J+B
-         vMUg==
-X-Forwarded-Encrypted: i=1; AL+hErG/Tt15z3W3o4aq7RZ8FQSdKuztvI8w1k7CXruF/G2WxC2inIT6aJHUw0KPYRSwxcZyV3KocJ3LmYMBwA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+ar0MCRe0G7P020uyNbvuQiiOANiUQsE96223BYdQCmlt2FYAI
-	+44sKb09i06Y49gGUbRkW4QocrxvNqMgacSpLNAiD32R53sON3dSa8RF0eArUOgehzw=
-X-Gm-Gg: AYBFou0RiWYk/ZnvhyWT9uplF24RWr2hfeExsVsqkRiTahYVnmkPfAg8fsUoxuFyxjG
-	FGZCtKGxDH3+a80bCxY+S776bdY+rnRxQQuyn0uquUKEYINx+sqx1E6dnj5M7qf7lw7yphuqyiq
-	2a3t2PbtEiuEr925rHBdMewtqHtYXtv33bqIdvJozyjze6VlTqftV3oYjVXO6tD++Z4ojHQKhbl
-	n2J/rQ8EFIofQJNhSX9a+m++S6Fw5x/CsJPj/QofapygCrym7vLEZMl3jFia6Ouey1pDbAweUAa
-	dqrHwJWSK57JrNCyXXzZsdNtLxyBFWhn4E0Hn1zrB7TBf1Q5pR6pfm0JL1izW6UXP0fMrA8Mw96
-	nKmpyqHvHp8jOPh7BHhOZXreVXx8CtbeQ0kFFwL07AygXOP0RUp/Orcw3erOLYapzHqNf2QPxdP
-	iO9jLOQY2L24lpXeeWqe+cD0k6kmMtKeWhlbnCZSVtMfZ2w3lfIJfpUMUP3p9Aa1JYEQfR559uT
-	N7dv5sVRSNR+Xb8Zsv2cLbcj+ZvirXBNyQsktUOfBMESeEagdbveM1YAbI50nMI3J97E5AeSktm
-	qWVRCRM69jGhEO5/PY4OGQLKeCpSJlYFmDcvYkBHp+ZpngKRxDldiSmnxr97iYC08JeRSeK4r6B
-	A497w5GbhuOpWs5TC
-X-Received: by 2002:a05:620a:8398:b0:93c:ba88:cd65 with SMTP id af79cd13be357-9494b9e13damr803141185a.7.1794640204107;
-        Fri, 13 Nov 2026 23:10:04 -0800 (PST)
+        bh=8m1rh8YCtMa/eK/x1h9nBhdh93CAkPykNk2YYLlQM4w=;
+        b=P1KGu7Wuvr6v2oBfj4o311JBLaA6bJBWLTGeoD7tgptsObosBN/jdmP7P5w40mI2qf
+         X1/N1YXnNnLErR31QfZtLDozOklLkSrmkA4PogYf/wckxtlyG/C5FL5bhODovIoK2QoY
+         dbp+vVRA2F7X3pqKNac2YPoDH41bpCPmj9bu3que3A0N89DSBDbK3lQbEdE24IT5iVyI
+         ACnCKepbmr0bid2xKcwJkaDF14LnhFemu5COpgzjRyFmrLiC2IdRJFggWbBU0CCyN+CM
+         Jba2t0FfHrjeWGKOwi2+qHZddBFiyvxDYdueeobPtFOrwXDo+6j+lU9gPPUwhdqshLiE
+         Ojtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794640207; x=1795245007;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=8m1rh8YCtMa/eK/x1h9nBhdh93CAkPykNk2YYLlQM4w=;
+        b=O+tFcEaERN8JwQsMSgUjG2vLInyr6YB8SnFTJXFPuRhRU3E0AwKMYKQV4l93xK1dZl
+         pH0knEHXmPK1Xall8rYGj1IL+MTsy2n4JxOuUvNjiLVA94AwADLNxgC3cxX0+jRap68g
+         r67U51w8b9KGk8EFRhe2pUIG9DFuQmoXsKrUwMtnW/dOVos0MVTaYE2CvMvXBIogRz0j
+         i9PccfxIjrdVq3KkPYxDrKYlx6k+QYR2kmNiLpuhNt+xeaZnvO/wza1ictD+Jh1/tE4M
+         NpFdeI+4xx4nmUR5ARt0cxlLAHCG57nDx4dSNmxh/wR280XyklFRlVPfaVoh9zjC20Kn
+         hL6Q==
+X-Forwarded-Encrypted: i=1; AL+hErHTFZVyFdiPMIQbdu5mGdUL5RQuT3G/rzEyIlf4E8JQoY4seLQZFHR5tZyJDUmPv85A4iBDWMtFGK2kqw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z++zta+on8WTdiF0ZZBva1waqFizFvT3o3Gttxj6sHT/NVyp55d
+	98wmwLsa0tD0o7e+Lbt6R77UI/qIHWp3VJq0kwxV89mS8mt1TdZ7BDV3IPa1DloXU3Q=
+X-Gm-Gg: AYBFou3dD3is36kawHdmdF/FlNwTL74xNvB6+6gpTwAgpI/n2x/7cRO3m5JnWtzhlfc
+	l4oqfjFBJSRWJAoQIGc5AQL1kS8YDEgLTK7HFD8OxT4MhHjtNfB29nL2ShuMbZiPNVu6sdWpSU/
+	vQEHCCRpxqaEGmvC4si3Tokw2u+yrm0oqfwtn4/7RbX9khfBTCrNUcKBN/MncbCRLppOXNIYiXE
+	ot4LIPkfb8OZlCyBr9KPpYYPYxDCqSWT9iL48mBAvMjksz8XRGsL/kyQW8Ur1Bk/ffr7T66pJKQ
+	ZmsMVccPGR66OP535j4LxBHdvnl6SLyZxWfpy0UcRDwxDJD54R1cykKI5qodnxi4WrKFlXGFMYB
+	m8KQ3F57PeO7I1vZs9oX17iskxz8Ay58G85gdZv8rynEFh7byQLrEgtCAu0pLfYm45MuOVLlhno
+	DgDrtZBOYXMncVEBwWmZsolKgOUDxnr9mzedj5uQz123f5ftZRhf6WbRRGzsjLn4Jr4uHUSBFaH
+	A8msxB6Fp79RO8rNO8GhrjGFux43w7Lgrm89XTcVb+Nb/pGxYsZpGBYpWml5QrJWcZ967tzb3yB
+	cJE7RJez7yTJiT3JPjpMFIc841mdeWcygbIn6Z26UAKQgAYCNKlCczFSxGclxbhuU2Ep3I+MN55
+	+nnaXdEm3buZWgik=
+X-Received: by 2002:a05:620a:6606:b0:93a:2d07:142f with SMTP id af79cd13be357-9494b9aec7amr802433485a.7.1794640206954;
+        Fri, 13 Nov 2026 23:10:06 -0800 (PST)
 Received: from gourry-fedora-PF4VCD3F (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23db3a99sm37730986d6.40.2026.11.13.23.10.02
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23db3a99sm37730986d6.40.2026.11.13.23.10.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 23:10:03 -0800 (PST)
+        Fri, 13 Nov 2026 23:10:06 -0800 (PST)
 From: "Gregory Price (Meta)" <gourry@gourry.net>
 To: linux-mm@kvack.org
 Cc: linux-kernel@vger.kernel.org,
@@ -138,10 +139,12 @@ Cc: linux-kernel@vger.kernel.org,
 	byungchul@sk.com,
 	apopple@nvidia.com,
 	rientjes@google.com
-Subject: [PATCH 00/22] mm: introduce N_MEMORY_COMMON
-Date: Sat, 14 Nov 2026 02:09:37 -0500
-Message-ID: <20261114070959.3490008-1-gourry@gourry.net>
+Subject: [PATCH 01/22] mm: add node-state-filtered zone and node iterators
+Date: Sat, 14 Nov 2026 02:09:38 -0500
+Message-ID: <20261114070959.3490008-2-gourry@gourry.net>
 X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261114070959.3490008-1-gourry@gourry.net>
+References: <20261114070959.3490008-1-gourry@gourry.net>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -153,136 +156,147 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is phase 1 of the Private NUMA node series.
+Add node-state-filter helper functions/macros so MM walkers can select
+their node eligibility explicitly.
 
-I will send v6 "Private Memory NUMA nodes" (phases 2 and 3) separately
-next week for further discussion - but I pulled this out ahead to make
-the core filtering mechanism easier to review.
+Add nodemask intersection and nodemask/state iterators using the bitmap
+intersection helpers, without allocating a temporary nodemask.
 
-The series is now broken up like so:
+Signed-off-by: Gregory Price (Meta) <gourry@gourry.net>
+---
+ include/linux/mmzone.h   | 46 ++++++++++++++++++++++++++++++++++++++++
+ include/linux/nodemask.h | 28 ++++++++++++++++++++----
+ 2 files changed, 70 insertions(+), 4 deletions(-)
 
-Phase 1: Introduce N_MEMORY_COMMON to define "general purpose" (common)
-         memory as a concept separate from a node having memory as a
-         topological feature (N_MEMORY).
-
-         This phase is a no-op for existing systems, but creates the
-         baseline for ensuring private node memory is default opted-out
-         of being touched by MM (much like ZONE_DEVICE).
-
-
-Phase 2: Introduce N_MEMORY_PRIVATE to define memory not part of the
-         general purpose pool. With this we can introduce a minimum set
-         of KUnit tests for the page allocator to demonstrate the
-         isolation mechanism.
-
-         At this point it will be possible for a driver to re-use the
-         buddy allocator to make uniform order-N allocations.
-
-
-Phase 3: Introduce feature bits (COMPACTION, RECLAIM, MEMPOLICY) which
-         is the minimum viable set to allow userland to manage a private
-         memory node via mbind() and migrate_pages().  
-
-         This enables management of HBM and Coherent GPU memory via
-         userland tools (numactl, cpuset) while protecting them from
-         incidental allocation (no fallbacks, only explicit placement).
-
-         The memory could even be hotplugged in ZONE_NORMAL and pinned.
-
-Actual cover letter for this portion
-====================================
-
-N_MEMORY has two meanings today:
-  1) this node has memory
-  2) ordinary allocations and MM services can use this node's memory
-
-The two are the same today. They stop being the same once a NUMA node
-with memory isn't part of the general allocation pool.
-
-This series adds N_MEMORY_COMMON for the second meaning and converts
-the relevant N_MEMORY users accordingly. N_MEMORY continues reporting
-memory topology - and some users (cpusets) still utilize it.
-
-At the end of this series, N_MEMORY == N_MEMORY_COMMON, so the series
-changes no behavior for existing systems. A later series will add memory
-outside N_MEMORY_COMMON without having to audit every N_MEMORY user again.
-
-Rather than add new hooks for page-table and pfn walkers, we consolidate
-existing ZONE_DEVICE checks (page/folio_is_zone_device()) into a general
-`page/folio_is_common_memory()` check.
-
-The series is laid out as:
-
-  1-3   helper functions to check node states and a folio's
-        membership to a common memory node.  N_MEMORY_COMMON itself, and
-        the `has_common_memory` sysfs ABI.
-  4     zonelists: the fallback lists hold common nodes, and a node's
-        __GFP_THISNODE list is built only for a common node
-  5-21  N_MEMORY->N_MEMORY_COMMON and zone_device -> common_memory
-        conversions. One component per patch.
-  22    removal of first_memory_node/next_memory_node, which no longer
-        have users after this series.
-
-Each conversion restricts or adjusts:
-  - an MM service (reclaim, compaction, KSM, collapse, etc)
-  - an allocation target to common memory
-  - accounting meant for ordinary allocations from common memory only
-
-has_common_memory lists the same nodes as has_memory until memory
-outside N_MEMORY_COMMON exists. It is added now so that userspace, such
-as libnuma, can start choosing allocation targets from it, and so that
-the meaning is fixed before anything makes the two lists differ.
-
-first/next_memory_node() is replaced by first/next_node_state().
-
-Gregory Price (Meta) (22):
-  mm: add node-state-filtered zone and node iterators
-  mm: publish and clear node memory states via helpers
-  mm: introduce the common-memory node state
-  mm/page_alloc: build zonelists from common memory
-  mm/mempolicy: keep interleave and tmpfs mount policies on common memory
-  mm: base hash distribution on common memory nodes
-  mm/memory_hotplug: migrate offlined pages to common memory
-  mm/memory-tiers: restrict demotion topology to common memory
-  mm/ksm: restrict merging to common memory
-  mm/khugepaged: restrict collapse to common memory
-  mm/mempolicy: don't NUMA-hint folios outside common memory
-  mm/damon: restrict DAMON-native folio operations to common memory
-  mm/hugetlb: restrict pool growth to common memory
-  mm/page_alloc: count common memory nodes for kswapd recovery
-  mm/oom_kill: compare OOM constraints against common memory
-  tty/sysrq: use common memory for the manual OOM zonelist
-  mm/vmscan: restrict reclaim to common memory
-  mm/compaction: restrict compaction to common memory
-  mm/migrate: restrict move_pages() destinations to common memory
-  PM: hibernate: size the image from common memory
-  mm/khugepaged: base the recommended min_free_kbytes on common memory
-  nodemask: remove the now-unused first_memory_node/next_memory_node
-
- Documentation/ABI/stable/sysfs-devices-node | 16 +++++++
- Documentation/mm/physical_memory.rst        |  8 +++-
- drivers/base/node.c                         |  2 +
- drivers/tty/sysrq.c                         |  3 +-
- include/linux/mmzone.h                      | 46 +++++++++++++++++++++
- include/linux/nodemask.h                    | 38 +++++++++++++----
- kernel/power/snapshot.c                     |  7 +++-
- mm/compaction.c                             | 14 +++----
- mm/damon/ops-common.c                       |  7 ++--
- mm/damon/vaddr.c                            |  2 +-
- mm/hugetlb.c                                | 44 +++++++++-----------
- mm/internal.h                               | 18 ++++++++
- mm/khugepaged.c                             | 12 ++++--
- mm/ksm.c                                    |  8 ++--
- mm/memory-tiers.c                           | 23 ++++++-----
- mm/memory_hotplug.c                         | 25 ++++++-----
- mm/mempolicy.c                              | 30 +++++++-------
- mm/migrate.c                                |  2 +-
- mm/mm_init.c                                | 16 ++++---
- mm/oom_kill.c                               |  7 ++--
- mm/page_alloc.c                             | 43 +++++++++++++------
- mm/vmscan.c                                 | 26 ++++++------
- 22 files changed, 266 insertions(+), 131 deletions(-)
-
+diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+index c161d563ce8fd..5ff190d870830 100644
+--- a/include/linux/mmzone.h
++++ b/include/linux/mmzone.h
+@@ -1845,6 +1845,13 @@ extern struct zone *next_zone(struct zone *zone);
+ 			; /* do nothing */		\
+ 		else
+ 
++/* Populated zones on nodes in @state. */
++#define for_each_populated_zone_state(zone, state)	\
++	for_each_populated_zone(zone)			\
++		if (!node_state(zone_to_nid(zone), state))	\
++			; /* do nothing */		\
++		else
++
+ static inline struct zone *zonelist_zone(struct zoneref *zoneref)
+ {
+ 	return zoneref->zone;
+@@ -1937,6 +1944,45 @@ static inline struct zoneref *first_zones_zonelist(struct zonelist *zonelist,
+ 			zone = zonelist_zone(z))
+ 
+ 
++static inline struct zoneref *
++next_zones_zonelist_state(struct zoneref *z, enum zone_type highest_zoneidx,
++			  const nodemask_t *nodes, enum node_states state)
++{
++	z = next_zones_zonelist(z, highest_zoneidx, nodes);
++	while (zonelist_zone(z) && !node_state(zonelist_node_idx(z), state))
++		z = next_zones_zonelist(++z, highest_zoneidx, nodes);
++	return z;
++}
++
++static inline struct zoneref *
++first_zones_zonelist_state(struct zonelist *zonelist,
++			   enum zone_type highest_zoneidx,
++			   const nodemask_t *nodes, enum node_states state)
++{
++	return next_zones_zonelist_state(zonelist->_zonerefs, highest_zoneidx,
++					 nodes, state);
++}
++
++/**
++ * for_each_zone_node_state - iterate zones in intersect(nodemask, node_state(state))
++ * @zone: The current zone in the iterator
++ * @z: The current pointer within zonelist->_zonerefs being iterated
++ * @zlist: The zonelist being iterated
++ * @highidx: The zone index of the highest zone to return
++ * @nodemask: Nodemask allowed by the allocator
++ * @state: The node state the zone's node must be in
++ *
++ * The state filter is part of the iteration rather than a trailing if, so that
++ * this expands to a single for statement: a macro ending in an unbraced if
++ * silently steals a following else from the caller.
++ */
++#define for_each_zone_node_state(zone, z, zlist, highidx, nodemask, state)	\
++	for (z = first_zones_zonelist_state(zlist, highidx, nodemask, state),	\
++		zone = zonelist_zone(z);					\
++		zone;								\
++		z = next_zones_zonelist_state(++z, highidx, nodemask, state),	\
++		zone = zonelist_zone(z))
++
+ /**
+  * for_each_zone_zonelist - helper macro to iterate over valid zones in a zonelist at or below a given zone index
+  * @zone: The current zone in the iterator
+diff --git a/include/linux/nodemask.h b/include/linux/nodemask.h
+index 607373bd83ee6..28a456c3f5964 100644
+--- a/include/linux/nodemask.h
++++ b/include/linux/nodemask.h
+@@ -386,6 +386,10 @@ static __always_inline void __nodes_fold(nodemask_t *dstp, const nodemask_t *ori
+ 	for ((node) = 0; (node) < 1 && !nodes_empty(mask); (node)++)
+ #endif /* MAX_NUMNODES */
+ 
++/* Iterate the nodes present in both masks without a temporary nodemask. */
++#define for_each_node_mask_and(node, mask1, mask2) \
++	for_each_and_bit(node, nodes_addr(mask1), nodes_addr(mask2), MAX_NUMNODES)
++
+ /*
+  * Bitmasks that are kept for all the nodes.
+  */
+@@ -411,6 +415,10 @@ enum node_states {
+ 
+ extern nodemask_t node_states[NR_NODE_STATES];
+ 
++/* Iterate the nodes in a mask that also belong to the specified state. */
++#define for_each_node_mask_state(node, mask, state) \
++	for_each_node_mask_and(node, mask, node_states[state])
++
+ #if MAX_NUMNODES > 1
+ static __always_inline int node_state(int node, enum node_states state)
+ {
+@@ -435,15 +443,21 @@ static __always_inline int num_node_state(enum node_states state)
+ #define for_each_node_state(__node, __state) \
+ 	for_each_node_mask((__node), node_states[__state])
+ 
+-#define first_online_node	first_node(node_states[N_ONLINE])
+-#define first_memory_node	first_node(node_states[N_MEMORY])
++#define first_node_state(state)	first_node(node_states[state])
++static __always_inline unsigned int next_node_state(int nid, enum node_states state)
++{
++	return next_node(nid, node_states[state]);
++}
++
++#define first_online_node	first_node_state(N_ONLINE)
++#define first_memory_node	first_node_state(N_MEMORY)
+ static __always_inline unsigned int next_online_node(int nid)
+ {
+-	return next_node(nid, node_states[N_ONLINE]);
++	return next_node_state(nid, N_ONLINE);
+ }
+ static __always_inline unsigned int next_memory_node(int nid)
+ {
+-	return next_node(nid, node_states[N_MEMORY]);
++	return next_node_state(nid, N_MEMORY);
+ }
+ 
+ static __always_inline void node_set_online(int nid)
+@@ -481,6 +495,12 @@ static __always_inline int num_node_state(enum node_states state)
+ #define for_each_node_state(node, __state) \
+ 	for ( (node) = 0; (node) == 0; (node) = 1)
+ 
++#define first_node_state(state)	0
++static __always_inline unsigned int next_node_state(int nid, enum node_states state)
++{
++	return MAX_NUMNODES;
++}
++
+ #define first_online_node	0
+ #define first_memory_node	0
+ #define next_online_node(nid)	(MAX_NUMNODES)
 -- 
 2.53.1-Meta
 
