@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794640230;
-	b=MgJ8qSrlgv24iDd6ji5kCQ4cDf7pc7UQkHtZCmsB32mO2ETXFQ8ofHGp5OCeH5xiSRhR
-	 4z7jG/RExyIht1aLDEEoiJAQ7D+90hhV6DbkWnf7T1b7dW4QoS1XIh192DY9Fh8tuNvAJ
-	 HzzI2tP6OrwMi7iyTer/liljWrTzHxYro+qOv3Sdap3rBPZaeXQQqRWdzD0+qwMYsspj2
-	 5LoG+L8XpKq5Dr2Z0h89osPR1iikA1eKe3GpJixtsidTBC63fgOUUnxZIgyrqrmrQj2AS
-	 9lhZWPttczYT6biAESMrbazltGIRB5A4v2zrxXsauhvjUWGYHsqTWZq7+1A04UwH6Aw==
+	t=1794640234;
+	b=l7SPeh+NzcDXGDsElC5eZVb9DBTg0T87RiiP82AJ3URTynt+m4qj7kIdOSW2Br2SEELm
+	 LEIxhoVWk+EuaJi+vrCrT9nsalkuZWWA15SFPV3lPLcZqZI4GHAF96nlftIv8EAQYV/lH
+	 x6YiwSmUBPlhVCFVaocSWnduNFrPu++dOibQTG2buubIJAGHa521J2D3tD2TrqVPMl6t4
+	 Yk9QpEVb8kvg6V/3mkKZXb7FAIe0sfO/x7YUfE33jwhu05LU68CME9T1zBJTMjrOYf0AK
+	 lGPO7z9UVqggJC2FBrn/usH2vy7xwsDM1FVvnf8ZvCzKL/lFZcyocy0293mKDnD048g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794640230;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794640234;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=WCui+DSNeboB03hP2f7maV0wOWIxjAUtx4hYmP2Ak68=;
-	b=FDEOx0vwYF/6IAzeAFBxJ9UwWB5fhkbtp91JcoDdsywm/ULANcW0AorlZ7MOwEMZ+wta
-	 50FsIFDcyl744z7krapPUmTOq3gufdArDu4EdJjyFbFWKqxNqdYWDFpoeguMpWQ9jKrgm
-	 1v54+mzaBF1IdG2hbr9il58tPMhdEEXoNAuVvxK9quCkPKWes7nm932koa7RmgXKJseMv
-	 SFUBtnMPCQeLfc+ZXSKlV4Ws9vIKnh4XdQ0piRHKvarX8fBX5pkVzFu7q+5849qJqiCjE
-	 EVsPs986uPir8XzR86vqsS7r2f09Il0rFou8YRwiEEdd1EL4Rf0bt89r4G0LIe+4ddw==
+	bh=5RFbW7qtEXFgFx3OLZ5ldAh4JcKSI5CeWW5dNwakgac=;
+	b=1UVr6IZLa1nAiTQ9UKm9Yw4d2wxY+frxkgcGnaSxFeNqdmrNXP0AMsYKm1JhGh0mvvzt
+	 oswL6zmYpiuc54FmKUEl64xW+x48inRNGFU8inwFHPYSuGLEn7WrrWpcttwjDgxCDiaxx
+	 9rDrRJMQorNwNFUf8dD45Tug9gBX+G9VC5vNIv/3gwBfnhvKx1VW/qvBRRtBWJFvsyJ0D
+	 L79buL1VL4oI6yj6ZHHREJFVTXMMvbdDZR44kCgDypv5sG26dlYyj1HwyNPBSQdJonorX
+	 MlyrAuGUK1xnT33Sybc3TKduhd0LHqelbH9TG2OAe7bNGgQQVJKdi1t4Wf6PFX2VfhQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=gourry.net;
 	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=r96HC8+h;
-	arc=none smtp.remote-ip=209.85.222.178
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=CPE9fRt3;
+	arc=none smtp.remote-ip=209.85.160.181
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A4660A6F61
-	for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 07:10:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 83A4660A6F61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C4860A6F7B
+	for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 07:10:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0C4860A6F7B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=r96HC8+h
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-949657a20d7so26130485a.1
-        for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 23:10:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=CPE9fRt3
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-5430f70c827so28734031cf.2
+        for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 23:10:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1794640229; x=1795245029; darn=lists.linux.dev;
+        d=gourry.net; s=google; t=1794640232; x=1795245032; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=WCui+DSNeboB03hP2f7maV0wOWIxjAUtx4hYmP2Ak68=;
-        b=r96HC8+hZdJqQGiMTPkKDYH8RsKClX8l3lVrUZvAf/mreC0VVSi5JpQcQ4aWCTj/ok
-         x9hNBnDEjyKNzlkZcdlVaGd4WsakPhxeUChGRpbY7PtmMXkyM/BI02G5zEfx5w2cc65P
-         QWXDCXVHmGmPPMK9IhV49jB5DX1QKFGD8DpdNCPb2APrtxZFYwlGtkf5PtY2ljeylb16
-         Fr6N/Lne8Rt72540KUJ5sk31XlU0S8/czimqashsTwfRFfVgaZJ97HWn77o1hCg5NPE1
-         HPz+lCgL4gdjrngQ6xer4AroQswwtrn0Z4jMlQ66sWHpyz+WN7C5s/HKconb4AUnFmJV
-         2hBw==
+        bh=5RFbW7qtEXFgFx3OLZ5ldAh4JcKSI5CeWW5dNwakgac=;
+        b=CPE9fRt3Th/9h41MELRzPqGEgQT14KdsGngeNCixNSbZPIcskYdcxUwVUUDHZ52ymd
+         vDcKBU92mTjSiVxO+R+8N88LjJHJ6ljD+xNspdFkHxqLYhN/FxqEyxc24GlhhGVUipKy
+         RYk3o14lSBPX2tskXZSc6RwDNdecQRVfIWj20aujTAP2Utda3h1/1Ou/UXgAUEgi02Gf
+         Jb83h1F6acTQgC203iVs9vLlUTOMIkYEK7CU7e7IPpKOlZBHeIeWjcZ3GziD5BsrZGAU
+         8tc1NabYWCEEQ3D+QR0h+/UmkDZINyh0FIJmz2ISjEUr/2ysE+hhFpVTd5WR3L7tIZ5X
+         WPyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794640229; x=1795245029;
+        d=1e100.net; s=20260707; t=1794640232; x=1795245032;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WCui+DSNeboB03hP2f7maV0wOWIxjAUtx4hYmP2Ak68=;
-        b=dpymwUxS3Jc6hHAow0U2mMRq0BbuEy6HRP6lFNtz2RMrtCqTOITdWfQgBWTT8j+Z9n
-         Za4ONDhN2i6hxNxldKCafMXozbWDKanPpTawejG+K1rBNClHjf803oBChwSyRbN0fWYu
-         XF8M5fi/Zvn2bGr+zBPHb6OHyxgybuASfbr1TPANQWTB81jN6eT8utUMWkq21diUts3v
-         KhlmETJd3tCg/ghvYkGrlrw7/U1oodFgsBU4TxUVxIcEA4gG+YL2dlUGFPe7VXnOF/p/
-         30lMZQ3xG+Js7gp4qxbnOsF+UqyKywUBHLFUg1rpQAsAc5pVRdyB5+uV1FgPlwpiNwq3
-         NzDg==
-X-Forwarded-Encrypted: i=1; AL+hErGjsrolFT8slpngL1G75Ma1zRSR5Xfcme1i6eSmWZg5hwYzO8syPS8nb5QrK5FCc/6+3haMTIh7V1ReZA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9f/Y0uRBz9FRWNK6/EcTLX26kA6Vel1oSTyw6zveII7qOc5GtQ
-	rmf4Tesy5GHMEVIc4M1IrXsYObSpJlaNAbqjVFp5F9uoeC2ZvUX68+tQUkBFGkhWMCY=
-X-Gm-Gg: AYBFou2N7vlMj4hOcxgDVPm2/qDNPJmvNWvQJu7u1gnM0LQmaZ5lO47HfIFMwyj7B7B
-	/s+4spIfDlISJqLMI9DTxULgqEDfeILOJoVr2rB+E4Kw2Ev/ACClpzA3XJ2it4/pEdqH2jcWlng
-	Ra7PTsL4NjF81leqeknsTgN+bSjey+MVjOj67ZK484PDT45ikyBlLUwdac4VF5dR3igSvWqRuV7
-	hubThcEBjtUPGUPhJYzVKjriPsNILHBdZ0ZmmUXooD9K1E+pM1Gf19R0hRPviDaPa0mQQ4BlZCd
-	q2C47sZVbB+ghxm62UgXHJZjWR+tJOh+q9tqXy/H4J7aefyDQiDbe1mkFBvDOId4TIVmWINUC+A
-	Ar/gYehrJmAlfQ/C5UHuN7O5zf2ISevj5gfCKdva1kUBcIGQpVjVCRyb6I38IX8ouPsLf+XV5hZ
-	UW8+K2e3SJYYpQyHecWQ9E+k16w8biugdLPZ5nI2mglqMRq9r6iBLD8TDno+n6RA01dtm+vjiiN
-	1ODjeMbx2tIXzmkynuhv0XrYh6mqNMItH4m0dIXRgBqYQLmtOcjuMt/7cvD+/cClGaL6647v7Ha
-	vFzG1fRHQ6avdJzDUMkReDS5xoBmppf0D5Njs4+t/GSxm1oxLfupCtW8nq/j52ohZ87OBK5ibBP
-	H7twQsby2rRWr4YU=
-X-Received: by 2002:a05:620a:4005:b0:940:e34a:aead with SMTP id af79cd13be357-9494b9488f8mr838653885a.5.1794640229507;
-        Fri, 13 Nov 2026 23:10:29 -0800 (PST)
+        bh=5RFbW7qtEXFgFx3OLZ5ldAh4JcKSI5CeWW5dNwakgac=;
+        b=OZWUE29ZCWCAxufVx6rharWIpDYTCXBRf1jdO+X/G7G1GxTH7bWUl6qErg6+nDqQWe
+         3pvnWe+LS3BpY9boqT9bkpktHJ+N0A0LllyE744uAPNnravREI7OzgVKm2wjzsQJuFmq
+         qApnTeb5TuZIvLghRe8/tf/lUGISXcgCfx9ZHiW7k2Gt8N3lOAb0aItkkcFsRrSE+MRW
+         vBeeLH/4PxURp6owp46Z5SKjpNeudaPYWrty+Fnvy9GXuIVfOZqZGl/aVqI9ctyOM4Os
+         /Pc2VW7hnf08GNwLmb+IJawSD5HMo0QMRghUjLlMNbCH3SzCpK/NGyzqlHzqMGv2awcq
+         HJxg==
+X-Forwarded-Encrypted: i=1; AL+hErH+j0GEN1nAl+SQOfvSFs6TK0NqaqD6vOn6wMg5Su8AVoRwYBTuj4tw9Y1FbL8SP8qjvjNRSas22LDWrw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9OcxPU1NKm1BtuPddpQqjbnynFYCgNKcwi8L9bXfArecn6+mKA
+	sgIyfxU/YcVObz7bUCoyS1tXxooBgtl2xckKKTbZhJ8rl5b55Z0sNuhznJIVdVwfRJc=
+X-Gm-Gg: AYBFou0+h6jJY03ZSs8oqUjQtG785wPhgPRFdURR30RS5QaxHEX1AfSu0dPYVxJaRQS
+	B6GdA1eoU6IwE4W9AnzU/IfmOM0SfbCBgR7kbkCHtoCshPLzxqhe6X3/2Rpuu1zand1WjtV/LzJ
+	9U3+8xYg51sEpWIyf3GqVCYTTFv6/uOVvxDaZEh8oqTTFOIOybVMRvRhyQHwBPRduh1c+4xTslB
+	Xibvo0wYNQuMlIwLU77KgRmjBvmAqQVJjOnsu7sj4jSmCNqmg/5CHxFQAtx6Mh4l2j0S1aIKaDU
+	pijNNFh+DwwZhHOgyNhubZL+waEAotbMO4EJgabh5l0j6A4NGKB942qzAe88tt6RZjcybYH78Mc
+	Wu9mzyKdA/MJ1xbeGlhdWg54QGa6PXEWsqA/JSqWL43icZMMedU2bBpfjipkU18tR2GGV3zMkkj
+	IqXQO+h5ljC677xxs2EmofwaIfkVAw5a/Ah/CiAfKr4gE6GreSfa2LGZysmNWljwqt+fzFUIL1+
+	pSUoOxWTRkU8rjwkDGgGx5PmQyEbWiccgFhpn281y5DmR84ifU4n9+mgm4p2Ht9bBdC6C0d1jh4
+	7wsX2desBVWlygyO9bxlAspPAKh14GmusNuzZArYljqybqFGQEFOVs4hZt8L6hcZgZoESNf0MM/
+	3e7H9OUNIkmChN4vXIL2sGQlullXPNl7vAeTZ
+X-Received: by 2002:a05:622a:58c:b0:535:a5fb:6459 with SMTP id d75a77b69052e-55ac8e98474mr80004781cf.68.1794640231712;
+        Fri, 13 Nov 2026 23:10:31 -0800 (PST)
 Received: from gourry-fedora-PF4VCD3F (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23db3a99sm37730986d6.40.2026.11.13.23.10.28
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23db3a99sm37730986d6.40.2026.11.13.23.10.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 23:10:29 -0800 (PST)
+        Fri, 13 Nov 2026 23:10:31 -0800 (PST)
 From: "Gregory Price (Meta)" <gourry@gourry.net>
 To: linux-mm@kvack.org
 Cc: linux-kernel@vger.kernel.org,
@@ -139,9 +139,9 @@ Cc: linux-kernel@vger.kernel.org,
 	byungchul@sk.com,
 	apopple@nvidia.com,
 	rientjes@google.com
-Subject: [PATCH 12/22] mm/damon: restrict DAMON-native folio operations to common memory
-Date: Sat, 14 Nov 2026 02:09:49 -0500
-Message-ID: <20261114070959.3490008-13-gourry@gourry.net>
+Subject: [PATCH 13/22] mm/hugetlb: restrict pool growth to common memory
+Date: Sat, 14 Nov 2026 02:09:50 -0500
+Message-ID: <20261114070959.3490008-14-gourry@gourry.net>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261114070959.3490008-1-gourry@gourry.net>
 References: <20261114070959.3490008-1-gourry@gourry.net>
@@ -156,68 +156,143 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-DAMON acquires folios to age them, check their accesses, and apply LRU
-operations and migration. Treat these as general-purpose MM services
-and restrict them to N_MEMORY_COMMON.
+Fresh HugeTLB pool folios come from ordinary allocations, which only
+N_MEMORY_COMMON nodes serve.
 
-Memory outside N_MEMORY_COMMON can still hold ordinary LRU folios, so
-it would pass the checks that keep ZONE_DEVICE memory out of these
-operations.
+Restrict HugeTLB allocations and pool-growth to N_MEMORY_COMMON nodes.
 
-Treat these folios like ZONE_DEVICE memory.
+Keep the original allowed mask for pool shrinking and demotion so
+existing pool folios can still be found on any online-memory node.
 
-DAMON cannot acquire such a folio, so it never ages one and virtual
-address monitoring reports it as accessed, and DAMOS cannot isolate
-one for migration.
-
-Reject migration destinations outside N_MEMORY_COMMON.
+The result of this change is that hugepage allocations will fail on
+nodes without N_MEMORY_COMMON.  This restriction can be loosened later
+when/if it grows a user.
 
 All memory is common at this point, so behavior is unchanged.
 
 Signed-off-by: Gregory Price (Meta) <gourry@gourry.net>
 ---
- mm/damon/ops-common.c | 7 ++++---
- mm/damon/vaddr.c      | 2 +-
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ mm/hugetlb.c | 44 ++++++++++++++++++++------------------------
+ 1 file changed, 20 insertions(+), 24 deletions(-)
 
-diff --git a/mm/damon/ops-common.c b/mm/damon/ops-common.c
-index b9571f53e538c..51b4b5d572e77 100644
---- a/mm/damon/ops-common.c
-+++ b/mm/damon/ops-common.c
-@@ -17,8 +17,9 @@
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index cb2de24affdc4..cc1468f68901b 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -3452,13 +3452,13 @@ static void __init hugetlb_hstate_alloc_pages_onenode(struct hstate *h, int nid)
+ 			gfp_t gfp_mask = htlb_alloc_mask(h) | __GFP_THISNODE;
  
- static bool damon_folio_acceptable(struct folio *folio, bool monitor)
- {
--	return folio_test_lru(folio) ||
--		(monitor && folio_test_hugetlb(folio));
-+	return folio_is_common_memory(folio) &&
-+		(folio_test_lru(folio) ||
-+		 (monitor && folio_test_hugetlb(folio)));
- }
+ 			folio = only_alloc_fresh_hugetlb_folio(h, gfp_mask, nid,
+-					&node_states[N_MEMORY], NULL);
++					&node_states[N_MEMORY_COMMON], NULL);
+ 			if (!folio && !list_empty(&folio_list) &&
+ 			    hugetlb_vmemmap_optimizable(h)) {
+ 				prep_and_add_allocated_folios(h, &folio_list);
+ 				INIT_LIST_HEAD(&folio_list);
+ 				folio = only_alloc_fresh_hugetlb_folio(h, gfp_mask, nid,
+-						&node_states[N_MEMORY], NULL);
++						&node_states[N_MEMORY_COMMON], NULL);
+ 			}
+ 			if (!folio)
+ 				break;
+@@ -3528,7 +3528,7 @@ static void __init hugetlb_pages_alloc_boot_node(unsigned long start, unsigned l
+ 			prep_and_add_allocated_folios(h, &folio_list);
+ 			INIT_LIST_HEAD(&folio_list);
+ 		}
+-		folio = alloc_pool_huge_folio(h, &node_states[N_MEMORY],
++		folio = alloc_pool_huge_folio(h, &node_states[N_MEMORY_COMMON],
+ 						&node_alloc_noretry, &next_node);
+ 		if (!folio)
+ 			break;
+@@ -3672,13 +3672,12 @@ static void __init hugetlb_init_hstates(void)
  
- /*
-@@ -498,7 +499,7 @@ unsigned long damon_migrate_pages(struct list_head *folio_list, int target_nid)
- 		return nr_migrated;
+ 	for_each_hstate(h) {
+ 		/*
+-		 * Always reset to first_memory_node here, even if
+-		 * next_nid_to_alloc was set before - we can't
+-		 * reference hugetlb_bootmem_nodes after init, and
+-		 * first_memory_node is right for all further allocations.
++		 * Always reset the allocation cursor here, even if it was set
++		 * before: hugetlb_bootmem_nodes cannot be referenced after init,
++		 * and further pool allocations use common memory.
+ 		 */
+-		h->next_nid_to_alloc = first_memory_node;
+-		h->next_nid_to_free = first_memory_node;
++		h->next_nid_to_alloc = first_node_state(N_MEMORY_COMMON);
++		h->next_nid_to_free = first_node_state(N_MEMORY_COMMON);
  
- 	if (target_nid < 0 || target_nid >= MAX_NUMNODES ||
--			!node_state(target_nid, N_MEMORY)) {
-+			!node_state(target_nid, N_MEMORY_COMMON)) {
- 		damon_putback_folio_list(folio_list);
- 		return nr_migrated;
+ 		/* oversize hugepages were init'ed in early boot */
+ 		if (!hstate_is_gigantic(h))
+@@ -3802,23 +3801,21 @@ static int set_max_huge_pages(struct hstate *h, unsigned long count, int nid,
+ 	unsigned long allocated;
+ 	struct folio *folio;
+ 	LIST_HEAD(page_list);
+-	NODEMASK_ALLOC(nodemask_t, node_alloc_noretry, GFP_KERNEL);
++	NODEMASK_ALLOC(struct nodemask_scratch, scratch, GFP_KERNEL);
+ 
+-	/*
+-	 * Bit mask controlling how hard we retry per-node allocations.
+-	 * If we can not allocate the bit mask, do not attempt to allocate
+-	 * the requested huge pages.
+-	 */
+-	if (node_alloc_noretry)
+-		nodes_clear(*node_alloc_noretry);
+-	else
++	/* Scratch masks for allocation eligibility and per-node retries. */
++	if (!scratch)
+ 		return -ENOMEM;
++	nodes_clear(scratch->mask2);
+ 
+ 	/*
+ 	 * resize_lock mutex prevents concurrent adjustments to number of
+ 	 * pages in hstate via the proc/sysfs interfaces.
+ 	 */
+ 	mutex_lock(&h->resize_lock);
++
++	/* Fresh pool pages come from the ordinary allocation domain. */
++	nodes_and(scratch->mask1, *nodes_allowed, node_states[N_MEMORY_COMMON]);
+ 	flush_free_hpage_work(h);
+ 	spin_lock_irq(&hugetlb_lock);
+ 
+@@ -3855,7 +3852,7 @@ static int set_max_huge_pages(struct hstate *h, unsigned long count, int nid,
+ 		if (count > persistent_huge_pages(h)) {
+ 			spin_unlock_irq(&hugetlb_lock);
+ 			mutex_unlock(&h->resize_lock);
+-			NODEMASK_FREE(node_alloc_noretry);
++			NODEMASK_FREE(scratch);
+ 			return -EINVAL;
+ 		}
+ 		/* Fall through to decrease pool */
+@@ -3873,7 +3870,7 @@ static int set_max_huge_pages(struct hstate *h, unsigned long count, int nid,
+ 	 * within all the constraints specified by the sysctls.
+ 	 */
+ 	while (h->surplus_huge_pages && count > persistent_huge_pages(h)) {
+-		if (!adjust_pool_surplus(h, nodes_allowed, -1))
++		if (!adjust_pool_surplus(h, &scratch->mask1, -1))
+ 			break;
  	}
-diff --git a/mm/damon/vaddr.c b/mm/damon/vaddr.c
-index 1e65e7651cd98..338876559140b 100644
---- a/mm/damon/vaddr.c
-+++ b/mm/damon/vaddr.c
-@@ -830,7 +830,7 @@ static void damos_va_migrate_dests_add(struct folio *folio,
- 	if (folio_nid(folio) == nid)
- 		return;
  
--	if (!folio_isolate_lru(folio))
-+	if (!folio_is_common_memory(folio) || !folio_isolate_lru(folio))
- 		return;
- 	node_stat_add_folio(folio, NR_ISOLATED_ANON +
- 			folio_is_file_lru(folio));
+@@ -3889,9 +3886,8 @@ static int set_max_huge_pages(struct hstate *h, unsigned long count, int nid,
+ 		/* yield cpu to avoid soft lockup */
+ 		cond_resched();
+ 
+-		folio = alloc_pool_huge_folio(h, nodes_allowed,
+-						node_alloc_noretry,
+-						&h->next_nid_to_alloc);
++		folio = alloc_pool_huge_folio(h, &scratch->mask1, &scratch->mask2,
++					      &h->next_nid_to_alloc);
+ 		if (!folio) {
+ 			prep_and_add_allocated_folios(h, &page_list);
+ 			spin_lock_irq(&hugetlb_lock);
+@@ -3978,7 +3974,7 @@ static int set_max_huge_pages(struct hstate *h, unsigned long count, int nid,
+ 	spin_unlock_irq(&hugetlb_lock);
+ 	mutex_unlock(&h->resize_lock);
+ 
+-	NODEMASK_FREE(node_alloc_noretry);
++	NODEMASK_FREE(scratch);
+ 
+ 	return 0;
+ }
 -- 
 2.53.1-Meta
 
