@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794640214;
-	b=eHCUem7obnl1LZiiCIxvCIwTYqAfpjzM22NX9DFR76GIYOVFt9LYMYZKMVjIu7GPvgxl
-	 PBzUR9QOREQMzdVjR5AJjWtzRKqB/eBaf58+nnaH4BfRF+C0lWr/xSEBTIF2PXqqx/D56
-	 CPKMulVfIPUyNvOvx+GPA7GYvhcqUGtvzAajqjU9dVR1cI7iqETScisLhxxSQyOC9Z2+z
-	 jEcpa2/ksdoluuf3uypI745tvQEJjhhlv68gatGBA00Ic7jr0bvgSiy81fwpUpaeUaE0K
-	 j/4DxnHj6F6+mMPhjAN9dXU+Gs6y9HNrAqBI8PDjFgPej9oXNa+31GffQ6GGrlYbHOw==
+	t=1794640216;
+	b=nKyzlmBuIgCoxysBEwtLBBqpL0URbrN2na5SNHk7MiTUu2CaOtXyNEyXzNnbBBpyizYA
+	 KQkr4jpNvu/0PvKB8eMUsxjiJA9zMLdAGXid0xUV4zq7fYfV7jTD71zfpcWlxf+dGu9xn
+	 BlQB2UjuxwwpYLBZjET5K2LIV2TzgiqxZSkJRzciOCm6SPVKZ+hA9zPVD8WxxCkYRhkQZ
+	 h32kFZ8ympuP4iAcSmO6R4U1Fm0VVUpcxbrbuP4wTSmLmVuGCUV8/5q7w9JCBBgm8vKSH
+	 E554retq7iO6q29MzVUuMzgFRoX59VgdWhPTRAAmqGZ/2bIQci76cptSGhdpshOm67g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794640214;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794640216;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=dol9r1sYlhR7CIgJNfl3WOVG5mT9B/6UaBUUhYtXcU8=;
-	b=utxQUFsZk9Chcw6de9/DjtF8zGBQKFNJP51w6XEjnaFufuQJKhahmckgnZFyl/ntLAVY
-	 Ajh6B5AfC+tkCtZEEJmNDz2GroIW+TtZv2ejthnQgFILNPUd9pl/oVH8pBjbwhA7sPV7/
-	 vF5ff1O5eyle9CaZgt245kafqu+oY64OUhk7KmkJZUtMh61y2h9WNAkfnbwLzQ1TfneM5
-	 hA2RNsXEk+eTLssbGYg1BftOBtvlf/DCM07is0dSsGhmzumQ6aJWTD+/HY9Z9/EwolmiA
-	 NTfPcuyHWbZld4reJH/jRUZrbQbPeeiKkn0L4sjUPK9ohGXPzabX+FJ725K66J+sO7A==
+	bh=l21X+DxpKDHlSbVBLdY73zXQHc1CePcjyPM6zZHy190=;
+	b=wRb75QP4M5QMB6HYRliJGXISqUBprkrG2GweVaYVWq0bR84Uq5TagABp/Hmp3D7l7m6G
+	 zHs6vjOno6ytVfu7/Q5+iz0FcqRA8GXOj8RmTD9IMbBmhW5Js9MVmxrlrmaguUG60h4ID
+	 Lte4pOsUZULNEojFYe4mdSAlUXVFVeM1obGUO5S4zqlEEQpnkfE32J6+mCoMwKEY7U5uN
+	 rt/0fxK+4Tq1mRt7TkN3Q0MG+iBhCgxvckTSUAXvz9vNPVkabIUCzoMH1ZYXF6ghdUEyi
+	 9YdRLRu5XvNjv7g5gKohhHAq5IJtLFSKUB77noS8Kqwbc+8hyA+1IgZkUYbPkSzMqFQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=gourry.net;
 	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=mxC+7WOi;
-	arc=none smtp.remote-ip=209.85.222.178
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=lipbRVcI;
+	arc=none smtp.remote-ip=209.85.219.51
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7E760A260B
-	for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 07:10:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF7E760A260B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D6660A262A
+	for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 07:10:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28D6660A262A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=mxC+7WOi
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-94962d80d34so26212985a.2
-        for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 23:10:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=lipbRVcI
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-91e8938fd01so29666646d6.3
+        for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 23:10:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1794640213; x=1795245013; darn=lists.linux.dev;
+        d=gourry.net; s=google; t=1794640215; x=1795245015; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=dol9r1sYlhR7CIgJNfl3WOVG5mT9B/6UaBUUhYtXcU8=;
-        b=mxC+7WOiFDhiDXXmLHu5ocKxtEpD82U3gSrosQQq+Udm2zjq18AYeQr/864Jsp/Ww/
-         BtQB9WXLFN+ih4jCSXPH1UmcCldLGEk5W7X6aEZW5aGvqpuaBKNX/LjelwNa5C99GwyC
-         7eaDQm67NdLYUGq0GqT5fCyCn5tTq4+Zo896esRqAZ/Y0goGw6FMVJ6ZJDN2eSWea8EY
-         TgF0Lfhxea37KL2LTPYke5+xT1A5beNT2/8uLZ6XIARTA0aTJ6sTBDuWCNlJAfD3CK4e
-         PhJlurHWs0+wDsBo0oV7BIaw8tf/hWngYxgk1Tc8oXH8uWUQoK0CYuJVUWmnGyoZj9dm
-         rIhA==
+        bh=l21X+DxpKDHlSbVBLdY73zXQHc1CePcjyPM6zZHy190=;
+        b=lipbRVcIqZ2K44yThx6PJdv5D9gbFYnS6vZbs7R1Yx3Eq8W+bcCGssiXhX8mjLd8nU
+         H1pNKjg6mLo1oHOF541obETCsSPpQz+va5E9bzRvnu1LLfdHwF7qpGGKzS6ysBH5x07N
+         HsSWL7t6OMB7wv8YWyrjK8n+1Ubng22j+qeEGR/2U+eInNN6UfUUNlznHVSeDORo49QJ
+         UUv06qvZqCbhJb6jjG9th01Bp0nixlHVx1Qd8olsZrMg+yBn8+6OhPnx4vzdhEr1Xq6h
+         z8KYbYXdaqJoBMJgmbLP1NI2CNcm3Bip0Cx3B3TkbnYZ0WmcpLXRDtdLLeEb8L/p0mbv
+         kwzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794640213; x=1795245013;
+        d=1e100.net; s=20260707; t=1794640215; x=1795245015;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dol9r1sYlhR7CIgJNfl3WOVG5mT9B/6UaBUUhYtXcU8=;
-        b=Lu0uSsCuZq9dFXCjFhifdMXSiyYV606KIZdOpgh3zcFwEUPqZ//wk0HAV5jLRG6Gfj
-         G5yUEO8rcwsTT+tb2qNuzM7EvS9pGHLKRCNKgl26x8abLn9V1Avj20DRkmumoeCsrG/2
-         z1UL4laDrs4i6xJGtV4oAfEXlOFDI7+LDAu2W52OZ9disPEsoQ0ZRskyRNiaedAzH/1E
-         Wz0WCqt0h0awgUgQ/j4fSK+sdkjUrZxWdVJec5mwRpiw30n/KyM8/zJ6p6hiTF+I1emD
-         wre/4BEcP5i+CDu5H4EZOrpt7Iu1W5t2hQwAHk+pmTRNDZsGGn6QfEwJgVREV1522V56
-         NldA==
-X-Forwarded-Encrypted: i=1; AL+hErF9bJdmR0+Qu6ACdUTvOYxtkajH2VbVXQlFOTLZBsu/vLys43+ksa9N4V0B10CjECtk/yommSpFw6MxSw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+a2O5nQudP9BqkIRZE7zQW4bqLg23LQ9FTIdhTYkMw8ZPkKYV4
-	owP8PWlDcZqHICRe0rkDnZo3gEiX1GBBvWCWubMY3yV30qXK8w1O37wpU91XGa6Z6cU=
-X-Gm-Gg: AYBFou2risLAbE6y2CHjETJn3+5iec2Qni3hXvHFM5FVLSsKJOya0Lq0NTCPv/6vMnI
-	lrCae3rJDl7Wa3XTQOYVPQshbiyWfsOUahnLk+ie4C8i3CwNOIqGpXzj7P4zBrUJK8aRIzz1qTx
-	qgqwiGZE7/yQggv3N1B7L8eEl/5O7O4yzWVFQwKztSnS9L2OPjNHIlL8BSIzWSrTpymA/eP/Vp9
-	TGKJHF+US+dnKm2iKNWKkbtLw1CS2llbU/adFmVxeZfLTekp7VLKw09aJY6Gw0SRgz13N3tl/gA
-	wYSesZOIsXpLGsjcmPVZBju46fnxhwdGtQdnRxAIGbtZulNtx/b6Cz8jJPzpFBMot1JvkOewz+P
-	yInPd0qW+qRp3dpXqEvJ/6cRQN2iawqLSWM+WcS9n8fL4lwVE0oOjDVpdRHWC1+3w7qT2W2588X
-	UaUogFLN4+9h6v+P5jKvHq2CAS0WCQLNdOzoy9cLCYaYzxkPob9zXnh/LQbiq/biPilWmYr2lHx
-	4OlLrU0SyF0AWjW4wG1/Ss1K8miUO1tgoiGmmma5tgF6Ri3DLryYYxktP/Vx2gvNn3VoyOEkAxH
-	EBMVTxa1ip6eNwlynFxDLzd/S9+jZ/87U37uesWV96LZshFPBM1CYS7JPKo8O9ogTNeAODHD774
-	pXx4NAsEswqnR0Wc=
-X-Received: by 2002:a05:620a:7087:b0:949:402b:f18e with SMTP id af79cd13be357-9494bc7e777mr835710585a.66.1794640213010;
-        Fri, 13 Nov 2026 23:10:13 -0800 (PST)
+        bh=l21X+DxpKDHlSbVBLdY73zXQHc1CePcjyPM6zZHy190=;
+        b=b1NETAlLC793qx4U11KT8QnelzyALWzog9NZySMG8wumS/tBYmzQazBjc3t/KfLa3T
+         lVCv5/KysmgNpeoBaf8QKoM1Pr9jslG9VnXQaaVFobxZQcxbZFGSuOx1fwy8VAfY+lX+
+         wtHHPjBYwpGDDoxU3nKtdRbyg70JQ2hWoT860UD38DRFPi9ZIbATGHCrlUfydbGIElxX
+         U5gkVXm0haxTe2sThb3cukQ8nGk8m2grYbr4WLMHuGFsYxxalpTHe/VfrUfiQMhX7prI
+         gP7YCI9IXZ6rNM+Lt4j+AMAktmAZ3bHKLIdP4EEHF+TgGkLRJCyu6/7DN0v/0wNN5bmW
+         iwJw==
+X-Forwarded-Encrypted: i=1; AL+hErHTLPSbsLMfn0gFUTfSnisFjSDb1GNHyaYFV0ZqvXFiQiSHEMdOhyDkEauWhu4gGxiTo0CovVFB6ayc5g==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/59POcQUwZzrjOSpoRyozqOPCv3vDC83fgeE+TVsz/opd6OOKg
+	XTE+NEDM8yBcvJ7jBViZ+3afPWqglmxaZuJckwC02u3rhFGf8gPaQ1Ltyk+WWitdbPs=
+X-Gm-Gg: AYBFou1i+EQT37eJf7LIE4lu0B0BX3QKWbpsL7AqfXK7t6JZWyY6xk7TjJtk7EuNSGY
+	ESjU3hXDAx8Kw84oOWpNBao/qbLLjM4jb4J56f4V+MAdbpGwSYEk4qTWLNebJ5Eo/a76E5mGHGT
+	FqbK7kAum6jKirx7V6Oyfm7ZmVdS1H4To69r4pkT71iR52kuYC8iDyqGy1roezTn9bKGZ6VDuiq
+	LwFdZc3svUZtHWaeWxQHwqMDmye4XNUoFx6zIqXSK0EKPOOuQjqUlW5wzUoiiuEHsq6uEAncxfV
+	vynoetPktg0fqw9xC8isyGUKJ+2SQVg66vOx4z1yuvurPs9UXUEXLOrXQerx6XNN9bb8TqBx6zp
+	DkY6l0LeC3JA/oJCI6+ffMSjoRpYnZaNCvZfXOiNX5bx5CPSllsRE1npwqb0GPKYmn70/0pSd1H
+	Y2ti8HXUlqWksxuxVdTctTCtgMd70xij6Amj+CNCvgqpu17OaIVbLg94X0jWSxzB7W3hjCfaR07
+	IA1M3KnxH2lCM36FuntGLSFt7Wq4Uqk2P7uO4ClPfTVQ77urQQOCHF9CYUKyfRmTPjBn0P8O64b
+	R3j5VfiN36AfD1LonXzFKLAPUfeHolDkV+McING0zVjKB73d/Q+FAWLnqffNCShLm65sE6h0usm
+	MXhJS01/8dkdGgY4=
+X-Received: by 2002:a05:6214:8581:20b0:91e:a16b:7f59 with SMTP id 6a1803df08f44-91f241f7044mr56496996d6.32.1794640215081;
+        Fri, 13 Nov 2026 23:10:15 -0800 (PST)
 Received: from gourry-fedora-PF4VCD3F (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23db3a99sm37730986d6.40.2026.11.13.23.10.11
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23db3a99sm37730986d6.40.2026.11.13.23.10.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 23:10:12 -0800 (PST)
+        Fri, 13 Nov 2026 23:10:14 -0800 (PST)
 From: "Gregory Price (Meta)" <gourry@gourry.net>
 To: linux-mm@kvack.org
 Cc: linux-kernel@vger.kernel.org,
@@ -139,9 +139,9 @@ Cc: linux-kernel@vger.kernel.org,
 	byungchul@sk.com,
 	apopple@nvidia.com,
 	rientjes@google.com
-Subject: [PATCH 04/22] mm/page_alloc: build zonelists from common memory
-Date: Sat, 14 Nov 2026 02:09:41 -0500
-Message-ID: <20261114070959.3490008-5-gourry@gourry.net>
+Subject: [PATCH 05/22] mm/mempolicy: keep interleave and tmpfs mount policies on common memory
+Date: Sat, 14 Nov 2026 02:09:42 -0500
+Message-ID: <20261114070959.3490008-6-gourry@gourry.net>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261114070959.3490008-1-gourry@gourry.net>
 References: <20261114070959.3490008-1-gourry@gourry.net>
@@ -156,70 +156,108 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Zonelists decide which nodes an allocation can reach.
+Use N_MEMORY_COMMON for boot mempolicy calculations and their per-node
+sysfs entries (weighted interleave weights). 
 
-The fallback lists hold every node in N_MEMORY, and a node's
-__GFP_THISNODE list holds its own zones whatever the node's state.
+Restrict the node set mpol_set_nodemask() applies to set_mempolicy()
+and mbind() masks to N_MEMORY_COMMON nodes.
 
-Ordinary allocations should reach only common (general purpose) memory.
+Later when an N_MEMORY node is omitted frmo the N_MEMORY_COMMON set,
+they will be stripped from mempolicy nodemasks as they're not eligible
+(similar to memoryless nodes today).
 
-Build the fallback zonelists from N_MEMORY_COMMON, and __GFP_THISNODE
-zonelists only for a common node.
-
-The build_local_zonelist() refactor lets use reuse the code to build
-a local-only zonelist for nodes outside the N_MEMORY_COMMON set later.
-
-Every node with memory is common, and a memoryless node has no zones to
-list, so the zonelists are unchanged.
+All memory is common at this point, no behavior change at this point.
 
 Signed-off-by: Gregory Price (Meta) <gourry@gourry.net>
 ---
- mm/page_alloc.c | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+ mm/mempolicy.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 6ffa972811462..580feeb608b7a 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -5906,17 +5906,14 @@ int find_next_best_node_in(int node, nodemask_t *used_node_mask,
- }
+diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+index b10c098e9c2a3..662ab420fe03c 100644
+--- a/mm/mempolicy.c
++++ b/mm/mempolicy.c
+@@ -213,10 +213,10 @@ static void reduce_interleave_weights(unsigned int *bw, u8 *new_iw)
+ 	int nid;
  
+ 	/*
+-	 * N_MEMORY can change while wi_state_lock is held. Remember the
+-	 * nodes contributing to sum_bw so all passes use the same set.
++	 * N_MEMORY_COMMON can change while wi_state_lock is held. Remember
++	 * the nodes contributing to sum_bw so all passes use the same set.
+ 	 */
+-	for_each_node_state(nid, N_MEMORY) {
++	for_each_node_state(nid, N_MEMORY_COMMON) {
+ 		node_set(nid, nodes);
+ 		sum_bw += bw[nid];
+ 	}
+@@ -439,9 +439,9 @@ static int mpol_set_nodemask(struct mempolicy *pol,
+ 	if (!pol || pol->mode == MPOL_LOCAL)
+ 		return 0;
  
--/*
-- * Build __GFP_THISNODE zonelists
-- */
--static void build_thisnode_zonelists(pg_data_t *pgdat)
-+/* Build a local-only zonelist when this node is eligible. */
-+static void build_local_zonelist(pg_data_t *pgdat, int zlidx, bool eligible)
- {
--	struct zoneref *zonerefs;
--	int nr_zones;
-+	struct zoneref *zonerefs =
-+		pgdat->node_zonelists[zlidx]._zonerefs;
+-	/* Check N_MEMORY */
++	/* Check N_MEMORY_COMMON */
+ 	nodes_and(nsc->mask1,
+-		  cpuset_current_mems_allowed, node_states[N_MEMORY]);
++		  cpuset_current_mems_allowed, node_states[N_MEMORY_COMMON]);
  
--	zonerefs = pgdat->node_zonelists[ZONELIST_NOFALLBACK]._zonerefs;
--	nr_zones = build_zonerefs_node(pgdat, zonerefs);
--	zonerefs += nr_zones;
-+	if (eligible)
-+		zonerefs += build_zonerefs_node(pgdat, zonerefs);
- 	zonerefs->zone = NULL;
- 	zonerefs->zone_idx = 0;
- }
-@@ -5960,8 +5957,12 @@ static void build_node_zonelist(pg_data_t *pgdat, const nodemask_t *candidates,
+ 	VM_BUG_ON(!nodes);
  
- static void build_zonelists(pg_data_t *pgdat)
- {
--	build_node_zonelist(pgdat, &node_states[N_MEMORY], ZONELIST_FALLBACK);
--	build_thisnode_zonelists(pgdat);
-+	int nid = pgdat->node_id;
-+
-+	build_node_zonelist(pgdat, &node_states[N_MEMORY_COMMON],
-+			    ZONELIST_FALLBACK);
-+	build_local_zonelist(pgdat, ZONELIST_NOFALLBACK,
-+			     node_state(nid, N_MEMORY_COMMON));
- }
+@@ -3400,11 +3400,11 @@ void __init numa_policy_init(void)
  
- #ifdef CONFIG_HAVE_MEMORYLESS_NODES
+ 	/*
+ 	 * Set interleaving policy for system init. Interleaving is only
+-	 * enabled across suitably sized nodes (default is >= 16MB), or
+-	 * fall back to the largest node if they're all smaller.
++	 * enabled across suitably sized common memory nodes (default is
++	 * >= 16MB), or fall back to the largest node if they're all smaller.
+ 	 */
+ 	nodes_clear(interleave_nodes);
+-	for_each_node_state(nid, N_MEMORY) {
++	for_each_node_state(nid, N_MEMORY_COMMON) {
+ 		unsigned long total_pages = node_present_pages(nid);
+ 
+ 		/* Preserve the largest node */
+@@ -3476,7 +3476,7 @@ int mpol_parse_str(char *str, struct mempolicy **mpol)
+ 		*nodelist++ = '\0';
+ 		if (nodelist_parse(nodelist, nodes))
+ 			goto out;
+-		if (!nodes_subset(nodes, node_states[N_MEMORY]))
++		if (!nodes_subset(nodes, node_states[N_MEMORY_COMMON]))
+ 			goto out;
+ 	} else
+ 		nodes_clear(nodes);
+@@ -3508,7 +3508,7 @@ int mpol_parse_str(char *str, struct mempolicy **mpol)
+ 		 * Default to online nodes with memory if no nodelist
+ 		 */
+ 		if (!nodelist)
+-			nodes = node_states[N_MEMORY];
++			nodes = node_states[N_MEMORY_COMMON];
+ 		break;
+ 	case MPOL_LOCAL:
+ 		/*
+@@ -3903,6 +3903,9 @@ static int wi_node_notifier(struct notifier_block *nb,
+ 
+ 	switch (action) {
+ 	case NODE_ADDED_FIRST_MEMORY:
++		/* Weighted interleave spans only common memory. */
++		if (!node_state(nid, N_MEMORY_COMMON))
++			break;
+ 		err = sysfs_wi_node_add(nid);
+ 		if (err)
+ 			pr_err("failed to add sysfs for node%d during hotplug: %d\n",
+@@ -3934,10 +3937,7 @@ static int __init add_weighted_interleave_group(struct kobject *mempolicy_kobj)
+ 	if (err)
+ 		goto err_put_kobj;
+ 
+-	for_each_online_node(nid) {
+-		if (!node_state(nid, N_MEMORY))
+-			continue;
+-
++	for_each_node_state(nid, N_MEMORY_COMMON) {
+ 		err = sysfs_wi_node_add(nid);
+ 		if (err) {
+ 			pr_err("failed to add sysfs for node%d during init: %d\n",
 -- 
 2.53.1-Meta
 
