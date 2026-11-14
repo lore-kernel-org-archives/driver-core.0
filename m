@@ -1,64 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794693291;
-	b=ivX6Xb5FAMgBdbwk7GUKEfiEY40kgWQA5ndwuMbevK5ubtsCCrUciHgZRgnepPMSNwZt
-	 s4tP4W+h9708MS43ZnA1HfhOje3vLSpldfcY0qFokow17EktIt6xLqAyzD4/qrRvTqTdf
-	 /CBC1+zBT29mQ1SojVCoZUGtUcKeW9GYvxQOU4v81ArUmuLqhiWPLerqk2dO97ybws80A
-	 kYkxi6DMcJY6qBQ/x3UGSOtbeAOoFbXsl5LFde0RrgB99NDLSXzOfi3cjRT1CDGu5LIMu
-	 sOb9z9aE2Qja7KAWlwKTbbJKy3LGz8efbo2iKqIlySkus0Hg4enB5tNYvnIjReXS9pQ==
+	t=1794694925;
+	b=uSK4asxOmVOTv6Bk/6XaFM1xo+bc1RpzT1zcyztbLTacUysz5iSCVOGHgj6kWDUsXraW
+	 mtBoR2j0MdnGJbt0Qvjd2Qw9qHXyZFl8qYrfKQn/HowCUovxMSNzPEbnodvY5EH2hXWo2
+	 b60oqds6HH2YPZ7tANaseThiF+EnNH6WbAObKwLrpUvYzsQACL9Wl5zHtrmyeV3dijID1
+	 oLB0w09zcxEc3X4ILZeVMKDgTs/AV1OYwLT0cBxUZOasBetwwK4q3Y8YZGKqJrpK8hGc5
+	 9ijdHKp9G943rCwg3GXr78shsK/2Rnl3ghpoAZxHMeXt0ax87B6rzXRiHaFqfQTCiBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794693291;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=MU5XNgGhJm4qGtdrFglh8iv5ciWWvcUh9TpKkyBJYjo=;
-	b=1mtuoLG3H58nd7ImEukPs54W/uWXxguugKyZ/zt4CqZxWTwx9UgLMbXLmEcGtfRm0VRz
-	 jnZBMK6xaRtm7sIIrd/DaV6nktGWC/yhC4EcTL4h7zXED/tC6O72+8mTSPkhTktRCPsys
-	 TS57uKsc/BE9pdtStD5SyjO50WUjJ2lbbl9q8GWEE8dLHDjRsPYlDtQUPN/7uI0Iysbde
-	 6mC5lCmeMfdyhWUcyyvnqMjXHWWYlmtDsDZkWKUUfq53LuCd7SOChXKyqBlPLXdSYkqY8
-	 /I+ypS9/tR07P/zYb+Vf/Y+kxJjCM04bih1zyEwoOFvn/CiNBmGc4H2lHLdY7j64ejw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794694925;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:In-Reply-To:References:MIME-Version:
+	 Content-Type:Content-Disposition:Message-ID:User-Agent;
+	bh=iWHBYSDDRbBFmboyivmyPuuxpV2Imqwe1ws4K2s/aOg=;
+	b=5AP4SZKhD7Quw3YZJn4wlZLhjq8Zlg5PquPvrw/YwB/xcyJN2V57hS5CBoVKHLTZL0yj
+	 IOq/NwLmUNhycVFwgKqs2IqMsFQIhBiovAEc9Wv4p3TE9IZlCdS4ze9PmeD91GsP3fgMw
+	 WuCkIZrOhtBhMkx0SLihQiH7uFomWRi/IQ5okcGRRTh4WyulJ50JxFVVIigyEPeMtqOnO
+	 svLNfxhZ873M+e183EKJNxSs07fpa6/pj7AEPoIOgADJnOtvo/c6B46V3jZJV48BEfD4M
+	 I/qBObx+prbC5MEm6I59AafLDpaPGyyAan1mwzNxeRDf4NikXCOK0ClgEokcT0P22LQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FIy92zB+;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=chrisdown.name;
+	spf=pass smtp.mailfrom=chrisdown.name;
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=ENxpmRKD;
+	arc=none smtp.remote-ip=74.125.82.178
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1EB606A323;
-	Sat, 14 Nov 2026 21:54:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86D1606A331
+	for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 22:22:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E86D1606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FIy92zB+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BCA71F000C4;
-	Sat, 14 Nov 2026 21:54:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794693290;
-	bh=MU5XNgGhJm4qGtdrFglh8iv5ciWWvcUh9TpKkyBJYjo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FIy92zB+Q6XXV11Bx9r1d6hblgiehsd1O2WYa4ANqHuoaMNzzpTo/kyfrrl5vWJqU
-	 ntQlUQLehZaQBgb5PHB5XgsgvcpzvDKacjzaPI1D0mhsgTUlE44bsX7wUuFZlbKEVy
-	 2bf9iGRkxrODGLkzXesChHlOpfKM10Ar21sYj0wFzavx9W02CRh/nVciBf1lbn33of
-	 RFNAI7U3T2zGoe8QK8NctZ4IPimWP2/h2Wjo3dajkFGo7hKnMdTyDdQrkd/NIOxJeq
-	 4KueXIk2XzkN6Oe+3U49dByhB2/gIMk6xuZPod2J7aymfou+3hjeBLx6QqpqyydE14
-	 fsnMkL8jCu8lw==
-Date: Sat, 14 Nov 2026 22:54:42 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Chris Down <chris@chrisdown.name>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
-	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, 
-	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, apparmor@lists.ubuntu.com, 
-	linux-nfs@vger.kernel.org, netdev@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev, 
-	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
-	Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org, 
-	Alexander Mikhalitsyn <alex@amutable.com>
-Subject: Re: [PATCH RFC v2 17/42] securityfs: use fc_init_pseudo()
-Message-ID: <20261114-wohnprojekt-rational-ersetzbar-b338c88cba70@brauner>
-References: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
- <20261114-work-loop-pseudo-v2-17-98639a2286fb@kernel.org>
- <20261114120555.cbfaf8ab8a92fb25@chrisdown.name>
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=ENxpmRKD
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-36f8cdd30beso2603662eec.1
+        for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 14:22:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chrisdown.name; s=google; t=1794694924; x=1795299724; darn=lists.linux.dev;
+        h=user-agent:message-id:content-disposition:content-type:mime-version
+         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=iWHBYSDDRbBFmboyivmyPuuxpV2Imqwe1ws4K2s/aOg=;
+        b=ENxpmRKDHSVqJ8SXTV6TD/W9SYEJkARM4Pw5yfTX+o2bJO6MiwDFM6YVWOM8tZQh/A
+         esDXVeOcdkLfppV3nsj6Tqa2xwHz6ZDVO4xmFar5xgbRYcDA33PKvn1PoR+1l+ayStgf
+         wy3tl5Ty8d0JsjJ42q6FRXT1QuqH5NGyPWpZ4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794694924; x=1795299724;
+        h=user-agent:message-id:content-disposition:content-type:mime-version
+         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=iWHBYSDDRbBFmboyivmyPuuxpV2Imqwe1ws4K2s/aOg=;
+        b=Mt6PhNKHn6lwMG1gvQgxJI2IHq2mKDz5pO7gMRCdokOn7JKDXjLUzdEQih01ubKvZ8
+         DAZFHNmZ91bUcznRZ4ewqZ2Ha2D/5S3CVGcevjyKyOc6K5A/TYITmT9puE6tWqsyoWyt
+         GEBcfnVKmhJ3rIaPNWqj58X0Le6JU8dO6EsnOK/IGy+V4bmwi6UxmbF9ErhdD8iqIJQC
+         StRpj/cufRN08hR2izdjX804+pJmFVVlThuh1GN7wTPfILUXCH3SzbcZ5kofOQd2z4Ai
+         sVsvBPap0L5JOo45sDVDK4HZ9E72+tjanheQ/UJXWocrrc2rP6FLFCIHUTpfQ2wrglYb
+         F2RA==
+X-Forwarded-Encrypted: i=1; AL+hErHQ/V9SdO8/VLcsSVLHyaF/vursspZgPGAGE3BGEwnjbSEDCe6sozJGsuh3xQOZHVeCrZ5XLKPu5jFCxg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9R5bCsPQuxGSVuxBuLZqdPCjVIO1zqdAONamk5H8MnmSeGyS5G
+	IwkimORuZbIPKIj5XjyciVydAlPPKorBwGTUFJGdmF97uJiYfMx0XyNfKsSxkNslD/o=
+X-Gm-Gg: AYBFou0e4re5rFmYKkAjrped3twJX3y/lDFwMUNMbKogxFW9bNoI2WiyFBYLGyDsMQ5
+	sOzynKfB7qm3H3vbI0JlhBsbe/DMPOBjiL3pNQAUUc5CkCajiQPRgKay/L925vjlJL5WdvMdOey
+	9hdgHqRP9SfJuUZhmgdNUVYhCYiyNrMHebVadIuNo3+60QoH02PJCOS92ih1+VAd8kPJnF8pNHh
+	n2ydtChnHEJ3/GsxE3V3r24NIWxyjBbRpk4snZnGFFfpy5KYxTpsQ0xEfNzqT7Ils6ZVEtbDkC/
+	gx+wtu4hfzjoaXnfAtYvbyFvACc9Lpz5q7Ic2PB/1zKHD0BvsKqnEkVjkPL7N7my1fRHDmZNyBA
+	H1tpi3C09npU+NkJtR/dC+j3RoIW6JOruHOrJ1YO8ctelmOGcW4Ip4k18K7yShDXcNjDiUPewaS
+	kukzI/iqTEyvZtbm0Jn4lkGP6wsow1UrQOupycOq/64Sn1upjVj9GbFT9qRM7C88FqVriATv7B+
+	450va7quWT6tk8hAopgPb2+wSkC+tzk4ceBy+hyN4tLy6dXEYe2f64KZSx7aWoOVLrdG+dq9ng3
+	s4rn2k6XH+Dfapv2GKdFhwL5sQh0fXIdEKaLB0IGWmOSaIFHlXuQUi0epymvq4tD4PYuMiFrOig
+	plroW1eqUjwrXGiwGzbvwMlBRWb1kiLK8Mmh2/U28/s3sxxGkD9Lv20qeTtBHoeFW03gDIKwH9R
+	xCsIAnF5v4OTGfNWOJkrV+4wofJOWK2dslOmyfkj9zEDEi8i75EY/XIWnX1BHlp323Gut65Elma
+	/c/nLfXh4M=
+X-Received: by 2002:a05:7301:4604:b0:376:703c:8819 with SMTP id 5a478bee46e88-379681c6998mr7125048eec.38.1794694923819;
+        Sat, 14 Nov 2026 14:22:03 -0800 (PST)
+Received: from [172.18.0.3] ([164.86.38.205])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-379569b8389sm33509247eec.25.2026.11.14.14.21.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Nov 2026 14:22:02 -0800 (PST)
+Date: Sat, 14 Nov 2026 14:21:37 -0800
+From: Chris Down <chris@chrisdown.name>
+To: Tejun Heo <tj@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+	Serge Hallyn <serge.hallyn@ubuntu.com>, driver-core@lists.linux.dev,
+	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH] kernfs: Build paths in linear time with respect to depth
+In-Reply-To: <91fa9a5de005245ed3c1bde305fc6778@kernel.org>
+References: <au_pnu4s141ylqHD@chrisdown.name>
+	<91fa9a5de005245ed3c1bde305fc6778@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -68,23 +100,75 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20261114120555.cbfaf8ab8a92fb25@chrisdown.name>
+Message-ID: <20261114142137.ecf5e6af6608b218@chrisdown.name>
+User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
 
-On Sat, Nov 14, 2026 at 12:05:55PM -0800, Chris Down wrote:
-> Not a big deal, but userspace can see that node too, as
-> /sys/kernel/security/apparmor/.null. Opening it by path works in current
-> kernels and fails with EACCES after this patch. Now, I don't know of
-> anything that does that, but selinuxfs gets SB_I_NODEV cleared again in
-> the next patch for the same kind of node, so I think we should do the
-> same thing here. If not, it would be good to have a line in the
-> changelog saying that opening it by path is meant to stop working.
+Hi Tejun,
 
-Yeah, seems fine. Though, afaict aa refuses every read and write on
-.null in aa_file_perm(). So this change only moves the EACCES from
-read()/write() to open(). But I guess open() failing might be an issue,
-idk.
+Thanks for taking a look!
 
-I really really dislike this device node abuse on for both lsms. It's
-sketchy as hell.
+Tejun Heo writes:
+>I don't think a 15,000 deep cgroup chain makes much sense as a use case.
+>A lot of other stuff in the controllers will break down at five-digit
+>depths, and quadratic isn't that expensive when the base number is
+>small. Did you see this overhead in more realistic scenarios?
+
+Agreed that nobody should be building anything like that on purpose, and
+at the depths people actually use there isn't much in it. Here's the
+median read of /proc/self/cgroup in a 4 CPU VM, with single character
+names:
+
+     depth    before    after
+     4        304ns     258ns
+     16       549ns     396ns
+     64       2.8us     1.0us
+     256      69us      4.2us
+     1024     2.5ms     20us
+     2046     12.0ms    43us
+
+What bothers me more is that whoever picks the depth isn't the one who is
+affected by it. cgroup.max.depth defaults to max, so anyone with a
+delegated subtree can make a deep chain. Every read of /proc/<pid>/cgroup
+for a task at the bottom of it then takes that long with css_set_lock held
+and IRQs off. It doesn't take five digits for that to become problematic,
+either. Here's the median fork() + exit on another CPU of the same VM
+while one task does that in a loop:
+
+     depth of reader    before    after
+     (no reader)        51us      52us
+     64                 56us      53us
+     256                363us     60us
+     1024               5.0ms     93us
+     2046               21.9ms    117us
+
+(In case you're wondering why 2046, that's about as deep as you can go
+without brushing up against PATH_MAX.)
+
+You're right that other things break down at depths like 15,000. Just
+creating that chain takes minutes. But that only slows down whoever
+creates it. This slows down fork and exit for everyone else.
+
+>Even if it is worth doing, the implementation looks too convoluted. Most
+>of the complication seems to come from supporting wrapping to keep the
+>head of an overlong path. The only callers that care about what the
+>buffer holds on overflow are debug outputs. How about changing the
+>contract so that on overflow the buffer keeps the tail end of the path
+>instead of the head, which is more useful anyway, and the function
+>returns -E2BIG rather than the length?
+
+Yeah, that's a lot nicer, thanks.
+
+The one caller I found which relies on the start of the path being kept is
+SEQ_printf_task_group_path() in sched/debug. Its fallback buffer appends
+"..." when the path fills it, which will now be on the wrong side. That
+code is moving to sched.h in tip at the moment, so I'll send the fix for
+it there separately, rather than have the two conflict in -next.
+
+Based on what you said, in v2 I'll also drop Fixes: and Cc: stable, since
+this is now a change in behaviour rather than only a speedup.
+
+Thanks!
+
+Chris
