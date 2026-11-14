@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794640237;
-	b=mNsnzaOabLl49fII1g1mF4RHIIWIdhurpsL+BoPUcqhtuHM4Oe845UNm7lD21jmCRI6N
-	 Ax8CKEwuX+egC8LIh4gjg+EQ2+hRc7ZwfheWkIvjhmxmONBVdoe/Ov2Gotdb0vDncWL2S
-	 U8RbvYu2JKBZ39yL2iP9sDswwVecpfU552i/2MaGkEcC6tRTB7AK2eEcRK9c02kkpwyDY
-	 QFBLv/OXeubyf5eZPQMBCPfqJ6ro68T4r4wEizZrh/VK2vpX28mHXQ4mteHapmCCmcEgG
-	 INBIzi8a+Vu00w+iz2opGdAeE09LiKGO/KYkyFxuvJuKpYr4XGw25AobPGXz9B+fRJA==
+	t=1794640241;
+	b=X9pKHddondpTpp8m43LIgdZ0SpQl5jZtOt7cOunGfYtflKVM8eU8ienWnlyWO7xoSnYu
+	 p8cQptIihQYffTO0iCWTwLWgV0AXKOi0xdGQKsW79fl0h/qM2YZ99vsld6nZufVZcmDk6
+	 PVJ4GX3MPYFHqk/RWAb3sZpkVFCto2nptr69NVA5ga00bv2u8VRBwQ741/LPQ2gwiNko9
+	 WJ1AN5J9mkKQCnoPZ+sdmlgFU2tgcCnwz8ia+PMZj7euuQsbTKw6bzF7KUhvmXXJJUlxV
+	 8T1Ntq7mI8yFMkdVb1vql8SouhYqvME1Qp4/wqZAoc0PKWdOssc/4scu3GHbZlEBmzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794640237;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794640241;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=kuOKXOl2seY2nuHPa7QaSgImf7rgxxNJypl2yP4/rNE=;
-	b=RUZawo9b32MNYtJ5ctZKOHGHPbk1PKAZx78f6nyrpRfKdlHfZwna5hfPfyEZu6LyBtsy
-	 9JssxqnFC+o/hwr3F/yQXpMWeKNbrKpA1Dj34BsRSON1H5iorYAKYd+EXQEJq7Np0b3UV
-	 MIJ9EWmevH8czz4l5haqWuSliJMwknQz7DWkvz55axEF3lC07gFs2YASaXSTKfyFsqP+M
-	 UABy7xh0glBGiNH9dwZo22jn0HDkXwGgLe8KTlJx1sPyXAN9Y6a8C+hHCQGvi3I/EZIfH
-	 KG3xwdURB846PVuT+BfLf5kd+Ki86C1U4VubWddMpFzOunw6WxvpLKM80F16YQb+Smw==
+	bh=TW0pg36vCDijleVRTyqZR6UjU0iehYYk3FdVNC+q6Cw=;
+	b=XHa8rfot7CxKW8TN7D68qL3792GkrZXTxD5I1WT3bBOrthKuA0N1VG8ny8+JBuKUjrDs
+	 tLpoc/cgidFXXV6WxUXEiwct5SMO7O/YhppKLJNYplV2DVczWA7nv2QautiwkMctMiRUy
+	 M/g5Y+j0Pz5DZ8f+FEZmNsAyQwhWaP9fH6majGnHjaM/Ubn5b+tWjo13PKQ7sWV5lH4Ij
+	 yXsi7XzYYsFaVXzuRTHU5xC7UjMtkEjl7jFmSMYZVDXR/PiW5wChSeKFNfNs3JIexUX1h
+	 U3dTflz14kHHFkrAi4vQ1yI8cZW6uG9IbIFQFbqH5dMN0O67p4pjbSMdX8eWCQWvkEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=gourry.net;
 	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b="b+D91/h7";
-	arc=none smtp.remote-ip=209.85.219.41
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=TE3JlMbU;
+	arc=none smtp.remote-ip=209.85.219.46
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8913B606B42B
-	for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 07:10:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8913B606B42B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8CD60A2616
+	for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 07:10:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC8CD60A2616
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=b+D91/h7
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-91ef011e338so29793446d6.1
-        for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 23:10:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=TE3JlMbU
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-91ec2d42231so30643086d6.2
+        for <driver-core@lists.linux.dev>; Fri, 13 Nov 2026 23:10:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1794640237; x=1795245037; darn=lists.linux.dev;
+        d=gourry.net; s=google; t=1794640239; x=1795245039; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=kuOKXOl2seY2nuHPa7QaSgImf7rgxxNJypl2yP4/rNE=;
-        b=b+D91/h7LQ8J5mgY9LDECAPVr3JuNIRCPNade4NZGZlQeSSbHsbdyVwlHZ26g35jeO
-         xtrdo0g71kElvFWZ/twef4EhQqcN5+zWQ414Jlw7Z/O7Nm7TKdrZlcV8GGQZ7Nntq36w
-         LNBMPCyP2l5V3BewhHt1JR6woFxL8n4oGmqZ+4hUb2ROaSAk7Erbc6CZwcHD46xiOd6G
-         h4G7QfSOrHY8lxGBto/fX6V/KueVnEk4iyezqXqcHy5qH7Az1CY4jC9TDWMmeuc+Y1yS
-         lh0uIjrKVrjIfKNKscJ0CE6l26ec+THzO0oqAlHByO1VIUXtNRoahWktul8QMFwmKHmg
-         seRg==
+        bh=TW0pg36vCDijleVRTyqZR6UjU0iehYYk3FdVNC+q6Cw=;
+        b=TE3JlMbUJAYnSFB6WBXsLcgEn+bQBWcYy8Gp4d8vKosGJUP+bCoeZ/l/dGVjt6wgSd
+         kX533FJOKHS5OsLyx5seillcVIu//3TunFSvKkeK4lUyDmWzMAmdJdSKnmFTu3RdkQAP
+         KFNEotulcnFRJe42Wcbmy6QKQC0Y7bKVC85IMnCpaPX63BL6U11GyD9wEMJQ8c3ZktFt
+         dI3yckXKQSxuMbWFmHJPAZj53+iBhddCkCwc/46yJ6+Cjhba8uziM91jLmgBgxCQ1dH+
+         /QC0okzFqSvJk+QXU5a/mt8+f7p0y8m2UHqy6EnZGi7mCjypPshjRZp3jALU0rQaz+/8
+         uEgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794640237; x=1795245037;
+        d=1e100.net; s=20260707; t=1794640239; x=1795245039;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kuOKXOl2seY2nuHPa7QaSgImf7rgxxNJypl2yP4/rNE=;
-        b=pIT1stYG2URL11uDojbZUDP4IYyTnCR5NrTU2c8+SyWDHiH0lBVsvqjxLo4tAgNkuZ
-         ptiohGLZjFcpZ4NOm2MT8Ox6/65eU17JrmUGCsyvizMEvdn7rigFJEphwqlIOCahzFBD
-         LkBG6Y5tFORRvk7g89soioO9vPtS9YwIj4q+nmTY4+4G5wpXmZmcom3cDA8OvxtfuymR
-         wC1D0H2ZTYXYNpxjZwN9lZlsgp4XSZ/xmL+GGuhTUBl32K2auo7ek/LKEj48D8boQinw
-         JlzISXSjYu1w8bcLIby6cZ1HcxgBZ4nt82mkeBneE+7azphMOwvvQT5A0+7PocHnw4wD
-         Simg==
-X-Forwarded-Encrypted: i=1; AL+hErHzvThRzWUtoK+FPUN4lLapCgO/7IFxoQVY5yKtkrTXLEt/CjKPzPaWIQghEsRXhB1wjKtTJribpsEspA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/LuiSzzQpse9jf5uYMaRhSA/1Pxr6yEPI/2z+wPPACJPcCW3zM
-	voBaXQdhwxpJJx8jNFCG6ukOx9DwFHSm9VPLPPZX0SqS0nRLqi76XdvHoFBBEc4hm1k=
-X-Gm-Gg: AYBFou12GW91auw3jDrFRkVcD9OQB49LmWxYKAXtj5UKp8ppv5LvjumBwes1+IpUf0F
-	ocH0W4d/Ifg0o43zkKQZeNNj1uRRMuTXof92rXU7uO0TD7xOiywCpzoPPEGoQWpebpCxEvXteqF
-	y0GVT72ty53VN5sXjo1PMXBUfMHC7DfPbDuDCEXtffL30H0hWkvMKZLedxLIJGzLz2HoNwoD2lT
-	3iXiaeoidD4mvcwMamox/VumBa5al4v47McqQmYRX2ofZMUl8OALC/0VQiKqOYyRsKwvgPS8zOh
-	MDIrVhJmKgYbqKeab9X/Vb/U/ifOllIkVAegFjYyyaTqEypb24QhthkP6klZpm7Cd2HjOqOTdVm
-	TzKHbXAHsB8ag+vr/QPbrxPDBXl/14ph5yyR5/OzngTi3j8ckzP66hiM9uZAAdjRRHMZQ9Lared
-	9BKtup5JRVKYMqvbPXVxs6u2gvzDpVv0CdKSdjncAxypzoz0571nhdx1bejUH1I2fJNf+Ugi5Pw
-	Jymr1y4rCbq9c6RLmRUiv+qWRbwkUYXYRQG2lstRR5AjB8g5Rx5kvtcFX8LAB2Qaf6iGylV0Mvh
-	nBP1Qlmllyf2zJw1qKYiHRAHk6k/l2WL1u0ifK7iMGNiqcSlOr9T1w9C1JxkcETmktL8uIxeW9r
-	y0IA7F55fdsLxBZk=
-X-Received: by 2002:a05:6214:3b85:b0:91c:15ce:66ce with SMTP id 6a1803df08f44-91f24194ac5mr80511276d6.11.1794640236685;
-        Fri, 13 Nov 2026 23:10:36 -0800 (PST)
+        bh=TW0pg36vCDijleVRTyqZR6UjU0iehYYk3FdVNC+q6Cw=;
+        b=SRgGf+fR+qUnlPZS99R3MFm91RvMU46wzVOYqrHZzloGO0shje414bs865YHU3q11s
+         LrDS8FUIcya8V4XkJK/oN/Dtaorfi58nQ3ZhfhJSci2K+jM+mezSggSogAT6z/9ZCmNX
+         rMRn4vwwgsc1Ynz0+b1V1egO4coLuKDHkMntq0VtjyvfnOLesi9ftKJz802eZG+bP04Q
+         lf1yTCoUB76DyCRtkPI9DHSY+16LEa0wHAbLPzTfs9LJkeQyj69+UFSborzQ0x8vcpwk
+         7fTykykx0LTv66WSfvk8wlqmca5T2K9ZtbOVXj+iSuJ35RRKZNtgdzspdHi7O8GSGAo4
+         WvoA==
+X-Forwarded-Encrypted: i=1; AL+hErFIazmdy3e6UHIGKd/byHtyOVJ/SPYEmBVlDIA9evpckC7kokuK/cU2uHE5+tgHNxUfGuMinapUArfxLg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+XWuIfYdFp6IG7pOORcUvfk3XWnRL+5y0SmJPl/7ny5oQDC1LQ
+	taP+dLHAaRWJMDWpHb1sJkJaVU3FquNOQKMzPE4k4Xnew1lArV5Uhg5cjhg1DDpNGGA=
+X-Gm-Gg: AYBFou0F2BTGk1IxHljljnH/DYuSzYa6Lw8K2H33v6yjPvOQGjiRq3912JORUo/pPsf
+	1ZEnf+mhgIujNSOSoPY9cT7CVJxW+G2wC+bhSnQHr+woJ4Y6ja8yWYXVP/VBpmBfpgIFQkThhn0
+	4fl/+rDo6NDAYO/VGeRDFviw0zy2ufPxXzV2NIWq2aHi5Lr67UckMKBBN0rSdaazlSZhY+jOJtQ
+	rYF0VcUM79sORNRAcLvKCHcF470zMDOzCE3avusSGQBo7MflSFF6zPqMYD/6ghKbbJJHwdiXOEH
+	fZE6fL9lEAQ6C7OmO+9y7c9YcrRgy3Bex4NSCTofZbxeblVkMVMzEFjUnesKp1ATM7iy3sZbLjz
+	ox40v20u5q8fzs5P4o/Euk6QDKQcQbYKYtxCoUpg1Mie+Up2b8G/yaaf7Qzt+leCFWDGlzQ9rtK
+	v9k+b6fFUMamRLTEytoTEeAXWHbNFYlxhCmW6v27CA3bPrlZqa+wpKNHNfIMIYgEE1+VJm32ePq
+	MewZdCXVOWNNGV0uGRkyKi2oAVaMrw9GzszfWwQ0WqRk/YiKxCSxr8izeCskb/vRairCP9mw4As
+	9vxNQA+nNpPavyAslNZz0bD65LjyRNNOSxSC+Fvbrdt3pWrOQra54AYvjZqNHM/velCOdg8H/7l
+	UNw+/zly3fKdlXagvM+RI8/lHHupGAKKoS/SQ
+X-Received: by 2002:a05:6214:1311:b0:91f:2208:b683 with SMTP id 6a1803df08f44-91f2428c6aemr76715686d6.55.1794640238785;
+        Fri, 13 Nov 2026 23:10:38 -0800 (PST)
 Received: from gourry-fedora-PF4VCD3F (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23db3a99sm37730986d6.40.2026.11.13.23.10.35
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23db3a99sm37730986d6.40.2026.11.13.23.10.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 23:10:36 -0800 (PST)
+        Fri, 13 Nov 2026 23:10:38 -0800 (PST)
 From: "Gregory Price (Meta)" <gourry@gourry.net>
 To: linux-mm@kvack.org
 Cc: linux-kernel@vger.kernel.org,
@@ -139,9 +139,9 @@ Cc: linux-kernel@vger.kernel.org,
 	byungchul@sk.com,
 	apopple@nvidia.com,
 	rientjes@google.com
-Subject: [PATCH 15/22] mm/oom_kill: compare OOM constraints against common memory
-Date: Sat, 14 Nov 2026 02:09:52 -0500
-Message-ID: <20261114070959.3490008-16-gourry@gourry.net>
+Subject: [PATCH 16/22] tty/sysrq: use common memory for the manual OOM zonelist
+Date: Sat, 14 Nov 2026 02:09:53 -0500
+Message-ID: <20261114070959.3490008-17-gourry@gourry.net>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261114070959.3490008-1-gourry@gourry.net>
 References: <20261114070959.3490008-1-gourry@gourry.net>
@@ -156,44 +156,34 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Ordinary allocations reach only common-memory zonelists. Compare policy
-and cpuset constraints against N_MEMORY_COMMON, so nodes outside it
-neither make an otherwise global policy appear constrained nor inflate
-the constrained capacity.
+SysRq-f constructs an OOM request with GFP_KERNEL and supplies a
+zonelist for allocation-constraint checks. The request represents an
+ordinary allocation, whose fallback domain contains common memory rather
+than every node that happens to have memory.
 
-All memory is common at this point, so behavior is unchanged.
+Select the zonelist from the first common-memory node instead of the
+first memory node. All memory nodes are common at this point, so
+behavior is unchanged.
 
 Signed-off-by: Gregory Price (Meta) <gourry@gourry.net>
 ---
- mm/oom_kill.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/tty/sysrq.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/mm/oom_kill.c b/mm/oom_kill.c
-index 5d48bd862c27b..1ec22bdad1fd4 100644
---- a/mm/oom_kill.c
-+++ b/mm/oom_kill.c
-@@ -274,9 +274,9 @@ static enum oom_constraint constrained_alloc(struct oom_control *oc)
- 	 * get_page_from_freelist().
- 	 */
- 	if (oc->nodemask &&
--	    !nodes_subset(node_states[N_MEMORY], *oc->nodemask)) {
-+	    !nodes_subset(node_states[N_MEMORY_COMMON], *oc->nodemask)) {
- 		oc->totalpages = total_swap_pages;
--		for_each_node_mask(nid, *oc->nodemask)
-+		for_each_node_mask_state(nid, *oc->nodemask, N_MEMORY_COMMON)
- 			oc->totalpages += node_present_pages(nid);
- 		return CONSTRAINT_MEMORY_POLICY;
- 	}
-@@ -289,7 +289,8 @@ static enum oom_constraint constrained_alloc(struct oom_control *oc)
- 
- 	if (cpuset_limited) {
- 		oc->totalpages = total_swap_pages;
--		for_each_node_mask(nid, cpuset_current_mems_allowed)
-+		for_each_node_mask_state(nid, cpuset_current_mems_allowed,
-+					 N_MEMORY_COMMON)
- 			oc->totalpages += node_present_pages(nid);
- 		return CONSTRAINT_CPUSET;
- 	}
+diff --git a/drivers/tty/sysrq.c b/drivers/tty/sysrq.c
+index f4571d05b4962..824f5836b47d7 100644
+--- a/drivers/tty/sysrq.c
++++ b/drivers/tty/sysrq.c
+@@ -386,7 +386,8 @@ static void moom_callback(struct work_struct *ignored)
+ {
+ 	const gfp_t gfp_mask = GFP_KERNEL;
+ 	struct oom_control oc = {
+-		.zonelist = node_zonelist(first_memory_node, gfp_mask),
++		.zonelist = node_zonelist(first_node_state(N_MEMORY_COMMON),
++					  gfp_mask),
+ 		.nodemask = NULL,
+ 		.memcg = NULL,
+ 		.gfp_mask = gfp_mask,
 -- 
 2.53.1-Meta
 
