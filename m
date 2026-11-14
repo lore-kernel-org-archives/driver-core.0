@@ -1,43 +1,43 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794670123;
-	b=ZxpE1pbZ31rg/3mLvnNGbdwHsgMEEVPqvrBvx+EX2jFQpdY7EhlSGOqI2m0wGN0YNQ5B
-	 Vxwabc4uxCr93DJNP74vnpYTP7oSC2JZdL30yekBjXP744VXKkrYCgup6Pzrfaj5iFLHw
-	 V6Jws+keWxEToij7UrQvh//ivT7wLnyCIvLsAjmYiFXv9SJ6wxUO1ccIVj7r22TZzEd3d
-	 AP52Xpfko5mPukawXLBr93QDCdL0PETWNISrvbAyamStBdJUgsBjvjgaJLrHAFD+w/Aww
-	 tRzC1iM9EQHhES+ay7Hpdmf90SCpUttyC0VFy6Om34BjqiAokOfxqDgb2ChN9mbXpnA==
+	t=1794671620;
+	b=bKZYkj8DTtqosHqiR5btNN+s8jkIv2Fm2Hvjf2m8QKTYV+Zq1XpjH8aYIYgrBCIVnikI
+	 Ipivdw1pPaYuKXIiyGXVmZSQMPDf2NIbU34oX+yef7ZFaWx2S8g4j5ApLVf3n+cr24tNj
+	 ZNYgPdqH9vczJ+vvKNi9mOm4NPVg3ESsYEEB12ZsfiALDm2952DWMwyzlmSJEnSfdW9kD
+	 NtmU8CyWGrH1VsSN5qyueu5aIidJqCM3SLYy0f854I57PTmpv+WWXlLlNo24afmZxYQ36
+	 kMVc7f0yytRSHoirQ0GTCaklgjl4eFpyGsjTEQ4RpRtt0kTAqw9e7YCvjF8TqR1VHcg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794670123;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794671620;
 	h=DMARC-Filter:Received:Received:Message-ID:Subject:From:To:Cc:Date:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version:X-Rspamd-Server:X-Rspamd-Queue-Id:
+	 User-Agent:MIME-Version:X-Rspamd-Queue-Id:X-Rspamd-Server:
 	 X-Stat-Signature:X-Spam-Status:X-Session-Marker:X-Session-ID:X-HE-Tag:
 	 X-HE-Meta;
-	bh=IdKF9ajWWE9SdG7ixSWGz+NY1Pz+dGrmBk+oq/+zmmk=;
-	b=JEvqf5L0TrdpK6oKbCxFZo8ZwXZx8LiCZpWMF506SnQb+cJngG4vA+33V2YRyIJ2xjOs
-	 CEJmLyT9UdhzG0W+7ZjnfoMh7bUXM5oTT1c/NWcZGhW37JRLzOOLP3hXtvATWJMBbqfn1
-	 6viVEAewcHp6lPxVudjNoOasWE4JT61+2YqNCJmBE5ZkKrxZv81jlilU3eH6t0ahN6/rQ
-	 N7cOkjGDxgam0D6UeTZoiD7bwFSrA/Ex1jbMvYlmi+jGFiS/iBhfjRiDpq7F6/Rw/e6ns
-	 8/0Cn9bBNoIkXYQkkiXy8RaRyRDtY0dOejVUi5hz6rs1lMXu05xojThBluNCrn4KO5A==
+	bh=eNWfi9GOiU1H0L6HIja6i+gawTbPJhBoUQGTRucnQ9U=;
+	b=p4SXmN2zZN2oFDwWySUJXf7ghTNdwZApNVsXDcn5Tsm0FXUJHu0hkUbkbVaUrSAo6W0l
+	 NBnbTBPHck/YKPVgiUIhp11VKx3tlhkN7qfUBwNuE9IpEiF6KUdGVnMOg8CZcKDOUzidq
+	 4CpDyVu1TxbO7iTltvT0Ejz2Ew8cgivyCcalYGsOBI6oLMJBPDmTt0T9eQFbf47jQcbQX
+	 EM2yMjYUPB67fhWaHKSTah72jsJ1pkwwgSYtNkACy8Imq5WUfXI/sk7eAecuaN3veHlZt
+	 6PoIQwmGanRBRJCFkRR6NLtm8m7a7TfKs/nYES3M34W5Yluls6lM5hLoiD357Krb95g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=perches.com;
 	spf=pass smtp.mailfrom=perches.com;
-	arc=none smtp.remote-ip=216.40.44.13
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+	arc=none smtp.remote-ip=216.40.44.15
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B01606A327
-	for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 15:28:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2B01606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2ECB606A32D
+	for <driver-core@lists.linux.dev>; Sat, 14 Nov 2026 15:53:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2ECB606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf16.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id 121F940469;
-	Sat, 14 Nov 2026 15:28:34 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf16.hostedemail.com (Postfix) with ESMTPA id 8B07B20013;
-	Sat, 14 Nov 2026 15:28:24 +0000 (UTC)
-Message-ID: <6de04b9cf2dfe9ff1dacdddc0a76752a714a991c.camel@perches.com>
+Received: from omf20.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay01.hostedemail.com (Postfix) with ESMTP id 826291C36F3;
+	Sat, 14 Nov 2026 15:53:35 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf20.hostedemail.com (Postfix) with ESMTPA id 1370B20026;
+	Sat, 14 Nov 2026 15:53:25 +0000 (UTC)
+Message-ID: <c113f651d1ce1b2d42ab9d0c59ae5a0cd17ddb6a.camel@perches.com>
 Subject: Re: [PATCH v6 02/19] string: Add strprefix()
 From: Joe Perches <joe@perches.com>
 To: Alejandro Colomar <alx@kernel.org>, linux-hardening@vger.kernel.org
@@ -59,7 +59,7 @@ Cc: Krzysztof Kozlowski <krzk@kernel.org>, "Maciej W. Rozycki"
 	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
 	linux-gpio@vger.kernel.org, Bartosz Golaszewski	
  <bartosz.golaszewski@oss.qualcomm.com>
-Date: Sat, 14 Nov 2026 07:28:23 -0800
+Date: Sat, 14 Nov 2026 07:53:25 -0800
 In-Reply-To: <0eaa4ce73a2b164fd49e3a9f71244a2e3f45b7bb.1794667407.git.alx@kernel.org>
 References: <cover.1794667407.git.alx@kernel.org>
 	 <0eaa4ce73a2b164fd49e3a9f71244a2e3f45b7bb.1794667407.git.alx@kernel.org>
@@ -75,20 +75,92 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: 8B07B20013
-X-Stat-Signature: sohy545iapzg9mu1uffsyoa96ixkgcx4
+X-Rspamd-Queue-Id: 1370B20026
+X-Rspamd-Server: rspamout08
+X-Stat-Signature: xnwnob8oq6t6i5c5p5cjbo3brg66pmci
 X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/rjNiB1xWIkYfGkbQxppcMa0euToSB66c=
-X-HE-Tag: 1794670104-923526
-X-HE-Meta: U2FsdGVkX1/dolkWhw1Shf589fZMJNjgtV6zXq9nJEZUGEms3SUQCnZ3JqNCATugLECoNt6e6CiZSlUe7PBglwX9X9k5wbCOnNkuelofH4gqgD4MNd64vrnjJM0h/3ZFZWMFzyt7HViBur4DTsc9/GSj9DziwhWvE3q7/gC572plZNKSWL+ra7Or84ucHZcBO5AFHaQg227mpSyQkj5V46Ar/3zrsUEUgnHkHbZ2q/xhn4WMeIOCE0G9F+qJEoRlm89zHC2xiBcZbOKVfOzOWLXLHRn5E5DFmKcbDFn61cT809DS8cRDvbOalFAg/ft4
+X-Session-ID: U2FsdGVkX1/iviamKIERabUGi7VyUJDz6YDYNMM0ODY=
+X-HE-Tag: 1794671605-49699
+X-HE-Meta: U2FsdGVkX1/PscWlXj8hrMl1UReSYw3dM2m3OiBWsvz3QyeKXfa9mr/+pRCD6ATTC2OKs3NQpXJcuoducTEvCc2emcwDrcObIvk4Gx48OMsXSH/TsUDdl72G/M2cyJ9H+vxXxdcdovXNA8lpy8Da9SXAmEmInPyI33xN5WLNIAjVXPHEOeBc4LBGkko3rT/TL6xeGVOpBt8xGl6OtBka7S8WaLAfXd3o/wEANc6uWX4CAiEYNiPEwlXB1mq3exRHaDvn8YQvxEYyO10MWg1d1u3mVBGGOj+4QV1Yzi8HjGXpUvmlkHqytcKlrbefNtuxfD2Q7nIFgS0mvSFf/tGEicSlADm5IA2G1s8rZ0z5vjQPUKspU/bztA==
 
 On Sat, 2026-11-14 at 16:22 +0100, Alejandro Colomar wrote:
 > As Bartosz reported, str_has_prefix() has a bug: it can't differentiate
 > between an empty prefix matching an empty string from a non-matching
 > prefix.  This is a fundamental design flaw in this API, and not
 > something that can be fixed.
+>=20
+> As always, this is a consequence of choosing sizes instead of pointers.
+> Sizes are often the wrong choice.  In this specific case, pointers are
+> more capable of differentiating these cases, as NULL is a special
+> sentinel value that doesn't need to overload a valid value.
+>=20
+> Let's implement strprefix(), a function that returns a pointer
+> right after the prefix if found, and a null pointer if not found.
+>=20
+> We'll slowly migrate existing code from str_has_prefix() to strprefix().
+>=20
+> Move the description from str_has_prefix(), and describe
+> str_has_prefix() by comparing it to strprefix().
+>=20
+> Closes: https://lore.kernel.org/linux-hardening/20261104-fwnode-for-each-=
+prop-v1-1-6e28fe1c72c4@oss.qualcomm.com/
+> Reported-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> Signed-off-by: Alejandro Colomar <alx@kernel.org>
+> ---
+>  include/linux/string.h   | 29 ++++++++++++++++++++++++-----
+>  lib/tests/string_kunit.c |  9 +++++++++
+>  2 files changed, 33 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/include/linux/string.h b/include/linux/string.h
+> index 9b3e578d9aca..14e825e902eb 100644
+> --- a/include/linux/string.h
+> +++ b/include/linux/string.h
+> @@ -557,16 +557,35 @@ void memcpy_and_pad(void *dest, size_t dest_len, co=
+nst void *src, size_t count,
+>  	       sizeof(*(obj)) - offsetof(typeof(*(obj)), member));	\
+>  })
+> =20
+> +/**
+> + * strprefix - string prefix
+> + * @s: The string to be tested
+> + * @prefix: The string to see if @s starts with
+> + *
+> + * A common way to test a prefix of a string is to do:
+> + *  strncmp(s, prefix, sizeof(prefix) - 1)
+> + *
+> + * But this can lead to bugs due to typos, or if prefix is a pointer
+> + * and not a constant.  Instead use strprefix().
+> + *
+> + * Returns:
+> + * *  @s + strlen(@prefix) if @s starts with @prefix
+> + * *  NULL if @s does not start with @prefix
+> + */
+> +__attribute__((nonnull(1, 2)))
 
-I still think this description is poor.
-It's neither a bug nor a flaw.
-It's a design choice.
+__nonnull_args(1, 2)
+
+A negative of this is that it implies the return should
+always be tested even though it can be known that the
+return is effectively bool.
+
+Also the block
+
+> + * A common way to test a prefix of a string is to do:
+> + *  strncmp(s, prefix, sizeof(prefix) - 1)
+
+IMO isn't useful and the description doesn't say what happens
+when prefix is an empty string (which IMO should match).
+
+And the name strprefix could be confused with a function
+that actually prefixes a string to another string.
+
+maybe strprefixed or str_is_prefixed ?
+
+And these are all candidates for converted uses to
+whatever is the function name or steq:
+
+$ git grep -P '[^w]strncmp\s*\(\s*[\w\.\-\>\s]*,\s*\"\w*"\s*,\s*\d+\s*\)' -=
+- '*.[ch]' | wc -l
+946
+
+[^w] because of prom_strncmp
