@@ -1,55 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794747675;
-	b=AkSrcROkpQ0mXPrGhrUChQpegDMHNR1/2SGSMMAQXBrj4VQQgkkFBs/lZ6dkx+2PHZIo
-	 FGaIi0HS4DJSlJl+UJB94H46/2a+YxPMfrCOqq+gmecrcXJlslBSgsi48xhbvjysg9nZ/
-	 skiXu2nT1c96LcxVZnGfR2gXoP8Alq20DpYV2mknOXYOLnvaLNJHC7b78VytaU9G5e0uz
-	 fmXTruAOlQnMRo1O7HHL9P07GVadM2NZ8cZbqUWUMHa3N96sZHDt49gAIkFNzGeX6RlgR
-	 Zbc2Ubvdc43W4dnNnqj6W85oAgSrLzfTrsxlv3RCjGlkHxOL7oK2nf2H2I5PF2FYHdw==
+	t=1794755863;
+	b=j0YbIeb1UmFspMGTvKqrg9HcYAf/rqqXw6uoRTv+peCavWSq8xvUDWlwgXNvWrf+Zm8c
+	 9pYJlcrKsKs3ITNBhtgN4LwUgjJyfMYPNzAALwnYugeytgWmOScyF0CvVxhr++GZYoSrF
+	 YfsFHLKeQCxk7wh7Jmorj7BiEv979GVDcHeqg1ert4PoXXVqPzHHtIBatO0rqoL49b277
+	 aCOH4X4dU9xAfXNZB5ULGLwogyZ1KaRw+n7zbdqR4wuvK+t2AhYmiR3g5d67n6Kc/hOWr
+	 IGg0A+6mp43TYz3CkOM6ZV5J30frzb5v4iaRoWP62vTYrne5tUZqGDiDzqEFlXFNYDQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794747675;
-	h=Received:DKIM-Signature:Content-Type:Date:Message-Id:Subject:Cc:To:
-	 From:Mime-Version:Content-Transfer-Encoding:X-Mailer:X-TUID;
-	bh=mM72r9bgeUhuALLlO0ST4vStkW2ccfAXLBKu9Hx1vwM=;
-	b=TRAt27UI3XsopKVkel18BW1isqA/GBLojjsPwyR+7w0RmVq2tBVNmiaJmiaEQwSK57p0
-	 59XlUtuQCk+2zrb7ooPsNObk72tOg/v6o220v+IZv7KT7/bB1+qGPs52if9341ihY3Ex6
-	 w8CZ2PKlR5M0PveM9DeCYd+CP6KbjkLvjY9ZL6TABo9zTmfRysp/4C+dZJnguWCAlsdth
-	 GZzV9JMGWt7mUSW7aUVO/TN7RfisirrWosAO54pb2VdR33/Z1rsHa/PrWXWpElX/nu0qn
-	 RG+u1YKBG7VvG9PCC6N2afgL7JXYCG0nGgfizJnowGoeqMekmE/R0+KPWkOYe8eZNzg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794755863;
+	h=Received:DKIM-Signature:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=O4i36jX6RyYdIwpo8ZrzTqJ+lhrYGLfk2Tf+zg6vut4=;
+	b=Za0+YSsCPF9SJp5j2yujz/85u0WfdRewpVFIh0TX23YHcONH7ZS+/UTfI1chBQXfUuW0
+	 JbmrKpLC2QFLkj9nv+hUNyxuKKhsZCBrmnNSq2vyOpelKqOXHQHiB0c+ccdPi6TsM9N8V
+	 S9eMs2gIQHeqOOUr4Lv5XvcKuy8lPe2YUGi8HWJU7FN4hW0abytK7l4bpnj1//v7KdI+S
+	 MVB0Ti2bE3olWrEeRSpy3HuVGzHeNxshUJE41WshFz8b3iRIgW4NxWkxSDHz0cGJT49eH
+	 XL357xP/AD/M6kLE40ejeFumrvIez0U7t0dJDBsxd7G82U8g90L+4CzhschidkPJBjw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f512kerf;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PDe9Do8h;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B3D606A31A;
-	Sun, 15 Nov 2026 13:01:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0198606A32C;
+	Sun, 15 Nov 2026 15:17:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f512kerf
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A92F31F000C4;
-	Sun, 15 Nov 2026 13:01:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PDe9Do8h
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72C251F000C4;
+	Sun, 15 Nov 2026 15:17:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794747675;
-	bh=mM72r9bgeUhuALLlO0ST4vStkW2ccfAXLBKu9Hx1vwM=;
-	h=Date:Subject:Cc:To:From;
-	b=f512kerfxMj1JK5TCR+RC1Ib3VJMr7m1iIf51mLVg5JO6jtKg2f/u4TEsygEiZlOn
-	 6+us36Z4gfpTne37zZYzgrleZzGolPPoquW5EkiCa/01sdfue5PrmMrXNiIS/9myjr
-	 aFd/BBdYllqWRKcyncxqnSdPCcKmSK3M/5d0nXJMQ0hOAMbp7bFSds3Ao4jUl96JPK
-	 ICkCKVS+UQUOFt4dz6uag5sV4Qbh9HIdANyH8hLFEqRIh2Zql4VKJVk7Fo9gE7obxJ
-	 3cAFum2JauGUul0hwnNtRNxBihKcTFDzDP9ocupTgdBKQ5i5+cPmcXq28jHQWqSCHe
-	 3D9K2RjlrVbgA==
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 15 Nov 2026 14:01:11 +0100
-Message-Id: <DMVSYA69PH77.2CG5RXFA0OOZQ@kernel.org>
-Subject: [GIT PULL] Driver core fixes for 7.4-rc3
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Johan Hovold" <johan@kernel.org>, "Saravana Kannan"
- <saravanak@kernel.org>, "Andrew Morton" <akpm@linux-foundation.org>,
- <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-To: "Linus Torvalds" <torvalds@linux-foundation.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
+	s=k20260515; t=1794755863;
+	bh=O4i36jX6RyYdIwpo8ZrzTqJ+lhrYGLfk2Tf+zg6vut4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=PDe9Do8hdPQygAIiib84ATkD85AgyCm5RV6VOK6mqOGSdjYPVyXm3YRHsST8G55Hh
+	 jiqIyoCdKpLoOpi/MeB17rnFhd3c/Ph2qIKY2/6HvPA58S1zAUyKLD/V4xIeqb+QOK
+	 v9infeSR8jbhQ/GuxAtQ5UzO1FsatlO0bMu8x3/v9P22BgoLAuVLTlJHg6dZE9rtpS
+	 33a8bVdWBfcQVN8BL4RY16BR2vtv4MPsssW/vreZbF7vOeHOfPFCK7/wqmWzKutERB
+	 sXJ5v7Q4rUYTBh1WEZsA4DZ0UsjRmVT/wOIl0pqGeduwaeiGh2PLLZQzTcGP8//0Gq
+	 U66Za3LmAojsg==
+Date: Sun, 15 Nov 2026 05:17:42 -1000
+Message-ID: <e4f172e286a51e9969b8a5cbf1a7da72@kernel.org>
+From: Tejun Heo <tj@kernel.org>
+To: Chris Down <chris@chrisdown.name>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Johannes Weiner <hannes@cmpxchg.org>, =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, Serge Hallyn <serge.hallyn@ubuntu.com>, driver-core@lists.linux.dev, cgroups@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH] kernfs: Build paths in linear time with respect to depth
+In-Reply-To: <20261114142137.ecf5e6af6608b218@chrisdown.name>
+References: <au_pnu4s141ylqHD@chrisdown.name> <91fa9a5de005245ed3c1bde305fc6778@kernel.org> <20261114142137.ecf5e6af6608b218@chrisdown.name>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -58,42 +56,29 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
-X-TUID: hFHoBW9FpV45
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-Hi Linus,
+Hello, Chris.
 
-Please pull this driver-core fix.
+On Sat, Nov 14, 2026 at 02:21:37PM -0800, Chris Down wrote:
+> What bothers me more is that whoever picks the depth isn't the one who is
+> affected by it. cgroup.max.depth defaults to max, so anyone with a
+> delegated subtree can make a deep chain. Every read of /proc/<pid>/cgroup
+> for a task at the bottom of it then takes that long with css_set_lock held
+> and IRQs off. It doesn't take five digits for that to become problematic,
+> either.
+...
 
-Thanks,
-Danilo
+I'd say three digits is already pretty extreme, and I think it's on the
+parent to set cgroup.max.depth when delegating a subtree. It's similar to
+e.g. memory.high. If the parent doesn't set it, a child can affect others
+that are unrelated to it.
 
-The following changes since commit 7475ea8b58616b33c04afb976cf0fbaad9dd63fb=
-:
+That said, I don't see any reason not to improve it.
 
-  Linux 7.4-rc2 (2026-11-08 16:22:20 -0800)
+Thanks.
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git=
- tags/driver-core-7.4-rc3
-
-for you to fetch changes up to f8623ce596492d2e96ca57eeec992938d3d79f00:
-
-  software node: only let the owner release a managed node (2026-11-09 16:4=
-2:51 +0100)
-
-----------------------------------------------------------------
-Driver core fixes for v7.4-rc3
-
-- Fix a use-after-free during device removal when a child device reuses
-  its parent's managed software node (affecting Xe)
-
-----------------------------------------------------------------
-Bartosz Golaszewski (1):
-      software node: only let the owner release a managed node
-
- drivers/base/swnode.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+--
+tejun
