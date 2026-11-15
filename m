@@ -1,63 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.203
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794781614;
-	b=Bx4dBxsl0XlpAQMBlyEaBPzf1AF8Hax3bOUsVZtadYM+Dv0phYfKdXH3yVG75u7talGi
-	 vhChMpVf6CBPgyxyQtJ3iksbSDUhhp5JneZx4Eo0yl9mGQqVxCDEYNzoKiN9fiT5hYDRO
-	 t+47GBy5xW/YBo+TGdWvJhDjI7o0AuHRyeDwEBzNPioSOTrPd2CbySwXKYsfB55UTQ7kh
-	 f2pVcUwhVw2r3SuuvWm47XjuTjGtJKl5YRLSPKfWJJQewzsNkjruEjrKurEggx789g5aA
-	 qRPF4gg6KQB4rmu+RHJvmKS+ePAgr7KbWXfJUmRR4Y/CqqEQTwzIlXe5gPuXOcFIFNg==
+	t=1794781772;
+	b=oajzxy7QiJ9iTz7qFsRJWNxqYi+Xt8F6hQ7RvulVQna+BgtTcJ8nRY8+0BFcnO6Nqwju
+	 sd0e2c9KOCVSo2QsdLhT0+B1XIXtcjbH6MUVF1afrUoKQ1gfYBfsrWG+CWdLXfs6n1v82
+	 +jCQ8YX90ea/gS+RHj8tSLWm/BBa2Os7+m2BZXyJiilM6k1zZjlAoBwbQZHkBEyXyNchK
+	 orBHym8CGsdTq+MT7PYNCN9gF0wUZAXpLDSnTIRCQjZdGtB4biyGBfLPspW7ebslWSTvt
+	 jP9/X3GRxiyeKM7CtJ2rxN0oLcpCD3mCJq0trlg5WwTNbGdGWhCGj7affnaHAC4GRDg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794781614;
-	h=DMARC-Filter:From:X-Lima-ML-UUID:DKIM-Signature:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=H70rAsqDd/+AoMBICHrr1CVS1yQL3pOatKeHtbn/fqc=;
-	b=y2X+kII4hr7yIVvUDvzLwU0C0cGmA1hSfb8ggUXgYGp7CLU/CxLznyQWKCPZ6B73swpq
-	 s3OmENyBgE7sV+5lNyBfIxPZbisMzRXW+vVx45wAmHKSQopOkFUrH6+NZFkU59d5bJ0jP
-	 5HkQIj4XLUSfD111nD1vrJgWskufXzEl92TCn0V7hPrqpHibltWqZClOtgtLhVmKaPkaO
-	 o+YyokUUMmSmpH9JAw5iOaEXRQaKDLPKJtZQbLiMDEekj/y52wV8vrA7/2HGp9WG5m6H3
-	 qkp/cP5VOuwscK+CLKB2eMwOWc9So+bf5eCyqA9+oTn229StmKy0jaDnC+TZ3av/d3A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794781772;
+	h=Received:DKIM-Signature:Received:Subject:From:In-Reply-To:References:
+	 X-PR-Tracked-List-Id:X-PR-Tracked-Message-Id:X-PR-Tracked-Remote:
+	 X-PR-Tracked-Commit-Id:X-PR-Merge-Tree:X-PR-Merge-Refname:
+	 X-PR-Merge-Commit-Id:Message-Id:Date:To:Cc;
+	bh=gMr8x9gc3sp4Q2OpeaIplM0+Fu2/2dfaK+mGTIxMP6U=;
+	b=T5BmiS9blaB+DYpxlf3AXfMLjysnpfZ3hz7SLRooh6pxH2h/fxdqKaQR0FkGegeWH6XQ
+	 3oYR1/J8YCdUR3mQBAgo7m52UbitmZlBdGObGk8cLgVajcasfSyHM3OsptPT1ir7TUF9G
+	 NXhjVxtniWm/SijjOk/kLilr58bP8+DzRjveyEyJ/CYOt8r+1Y1zFwREpm64qeqWuMl+r
+	 cJEEvd0AKBQRzZbhtZVBGxI6SJhBvf2t833JDVnNA+EtuFaRnkT2pcTj1MsE9P/NPbd5G
+	 FKLUk2cC1NIqVV4yIHkQuB+ZhbL6lBkofqHGV/zujt3KV+6GNn0Gn9wF0rS+nuUs61g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=matt3o12.de;
-	spf=pass smtp.mailfrom=matt3o12.de;
-	dkim=pass header.d=matt3o12.de header.i=@matt3o12.de header.a=rsa-sha256 header.s=securedbylima-20230709 header.b=F0afJlIh;
-	arc=none smtp.remote-ip=91.216.248.203
-Received: from mx1.mail-out.lima-city.de (mx1.mail-out.lima-city.de [91.216.248.203])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YyErgccL;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61554606A31F;
-	Sun, 15 Nov 2026 22:26:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61554606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matt3o12.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matt3o12.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084D1606A332;
+	Sun, 15 Nov 2026 22:29:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=matt3o12.de header.i=@matt3o12.de header.a=rsa-sha256 header.s=securedbylima-20230709 header.b=F0afJlIh
-From: Matteo Kloiber <kernel@matt3o12.de>
-X-Lima-ML-UUID: 0bbccc4b-eafb-4d59-b301-18d3d57f673f
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=matt3o12.de;
-	s=securedbylima-20230709; t=1794781605;
-	bh=H70rAsqDd/+AoMBICHrr1CVS1yQL3pOatKeHtbn/fqc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=F0afJlIh36LdOWU/yR723YEDCGdV7vz0vzPgGDfRb2aa4uiBcmenyF0IcEtp5sRBi
-	 hP1QWFqxQBm4NOreCKlfLKJZFYAu5fuELhKLHCpI7hqPTbjAN+fYPyT9bdesXVaSNM
-	 1LMJDLrUWczucqNKGMAr9rhtH+gPe8n3Pf82ISLQDmBo6GwCkyfC7q0xnyYSBlYrTM
-	 BmJnEx2gUnG3s7ZW48bKN3SgMPn5rZHhE4cK7VbUKgxVys6breT5FGsy2jhceCkL6t
-	 WZNsLdy8Z+TRCpX/TTRN1Ak5C/xJcVT0M3BGMRD7JBi2iKWIUDrfkS32nr2ec7mmcV
-	 +lgXl9GnwzYjw==
-To: acourbot@nvidia.com
-Cc: dakr@kernel.org,
-	nova-gpu@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	driver-core@lists.linux.dev,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] rust: scatterlist: honor the device's maximum segment size
-Date: Sun, 15 Nov 2026 23:26:33 +0100
-Message-ID: <20261115222633.393501-1-kernel@matt3o12.de>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <DMRGPTJ9CH1A.2M8LD751KZRIB@nvidia.com>
-References: <20260831233215.287881-1-kernel@matt3o12.de> <20260831233215.287881-3-kernel@matt3o12.de> <DMRGPTJ9CH1A.2M8LD751KZRIB@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YyErgccL
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81C6E1F000C6;
+	Sun, 15 Nov 2026 22:29:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794781771;
+	bh=gMr8x9gc3sp4Q2OpeaIplM0+Fu2/2dfaK+mGTIxMP6U=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=YyErgccLM+YOPVd4Lp4tZGcEtMCpdtOU8K0ZY42tRYKzTYqdo0sgdbAdyJ/XfyzTW
+	 xM3xBXP8G63LJFkNI5wJC7X5WGtfesUTAdPCgudsp9Ibmaxn5OuefLBeav9zSZNMnu
+	 vpr9X0mXfB5yg5QQbVZk8d+zuDKR6QbtLundNTk9bdfLUXtwKlLO8Zk3DorKORYkb1
+	 zIIQ4FMdINaCbUi4YlVg9R8oRI44tounvqLWOg/1+kuavvjRkabYRQlqF0Q3vd7JiE
+	 25iuQaljTu6KHOFcjZhuXBL4FVziX7mxNiWJAejwxffgNGoy9DskTnsRg1vTXBvemm
+	 XzZ6euL9mTswQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 773D9380823F;
+	Sun, 15 Nov 2026 22:29:31 +0000 (UTC)
+Subject: Re: [GIT PULL] Driver core fixes for 7.4-rc3
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <DMVSYA69PH77.2CG5RXFA0OOZQ@kernel.org>
+References: <DMVSYA69PH77.2CG5RXFA0OOZQ@kernel.org>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <DMVSYA69PH77.2CG5RXFA0OOZQ@kernel.org>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git tags/driver-core-7.4-rc3
+X-PR-Tracked-Commit-Id: f8623ce596492d2e96ca57eeec992938d3d79f00
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 7893d906220694e2c8a13dfb52ec85b853cbbf7b
+Message-Id: <179478176998.2784423.13283150015262548802.pr-tracker-bot@kernel.org>
+Date: Sun, 15 Nov 2026 22:29:29 +0000
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Johan Hovold <johan@kernel.org>, Saravana Kannan <saravanak@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -66,21 +67,16 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-On Tue Nov 10, 2026 at 7:35 PM JST, Alexandre Courbot wrote:
-> Hi Matteo,
->
-> Do you have plans to keep working on this and follow up on the feedback
-> received on this revision?
+The pull request you sent on Sun, 15 Nov 2026 14:01:11 +0100:
 
-Hi Alex,
+> git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git tags/driver-core-7.4-rc3
 
-Yes, I do. Sorry for not getting back to you sooner, I was unusual busy at
-work.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/7893d906220694e2c8a13dfb52ec85b853cbbf7b
 
-I've had a patch implementing the approach we discussed ready for quite
-a while now, but haven't found the time to review it properly myself.
-I plan to do that and send it out as an RFC by the end of this week.
+Thank you!
 
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
