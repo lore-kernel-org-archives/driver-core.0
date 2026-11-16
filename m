@@ -1,50 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794848912;
-	b=BUidNMiZ8a6gvNZBxI+7QAajTT3TqWKicOznMbt+tL/KjsQ9bL9uA/j5k8uR9kxWtR0B
-	 b4syBXFKynCvtp0VSSGFBPOJyXItoqR8n+ktijSF6JyWBXbMSuJx0rGRIwPyrr9oyxQYc
-	 apN8KLh8W58EcZLC/mb/d3t+ZHTnXQzcLEm9KFAdUf/myTGrcRAV7WtXRusd/Xt1L5wdm
-	 AOwII3eJ4pITM83c2gm3WDdia9SPY6ho71m5cLNoz4aDRytR0VzH/97yOz8K32IWRpExi
-	 jXfuG9BkAIoyS9FRMXFp1vPgjPBU45InQsCk4rjc9imh6LXMAYkFBwmSUU2g6BG7ipA==
+	t=1794849250;
+	b=TfTqPpcwVi+bwmcUVf/Qm1gYCBN/rRNpUPnCkanH8ctvOwWmwh+uJkxdiFoLiJoscgd3
+	 GYG7c8t/iaB8b0bD43l8meTfz3obT+4ggYAT+HpLG8m+w9ec57KR6QiRpDbOiezFCnzP4
+	 1pwSWOZo2cUR4OBbTwLB89eW5Ry811DyWQ8ptY1/RMroTobRX/eObnaRvahnw9R2MO1sC
+	 93Qnbg369lz2z5ZoZMrhklvAMM0hXzIbI41eXFzgIYMkOTMwIFH6DuA+9LlgbDG5oh0Xs
+	 kbrqnW8SmG5S4khf0ebPCpp1PgYzjbEKdtYm10dmYoaEXCxQG8jpe3Yz6bNKhi5Q1Uw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794848912;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:From:To:Cc:References:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=/riHJRVfpeFF3lEWpcDxMeiJkRBbWV257yieeWQx1Gc=;
-	b=2Xn4MtZgAsV0FLfswGVU+I0wskAC+Zk1pa8wjUd8l8jIhICyGU2x5y3Ozb7jY1moIlz6
-	 V6nXm7PXff5byF2YW/qlAUiSZOp8gmBhoapg36Of6kZWlCK9fed4TLSoH4yjlKeg1ON2/
-	 yzA+lAhbIQ9wIFdonXzC+l92gcJDovE4ZI2NOxh5q7TVO55HmX+MiMb7QwHEOlzGuJrQ7
-	 29WKQlBnGOUiX7nJewAwhXkHM8tkLt0cKEvZzlVNfJcRJR5BMnTEH19t8uj95XgN1pgo3
-	 xMZyc1U5s8UKNhvFTED8V9DMJODRfe1GWbCacEdT99KH9nVOm/z9Yu8uKcD7xD0qsrA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794849250;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=oD6xjLGP1p1QO/KyzSmaklpRQQCQt5kNwZ1vxWq45Wo=;
+	b=KmXccHYP6ofbS96gFvIyHhQqRQBW2HIVwRCZjtJ/9mrzNnXXc1DFTWtRuzSAPlP2/Zty
+	 Aqv/XRHIayPDpZCYhwwh8PGVPnuE+df/4OvyNf6AvJZ9g5nSDTdFqn96CGcf0HU3Q4MRN
+	 R4YY12PgGHHUgsiXt1pvJVRJltXmTsx1AAOSOHqQr8BnceqaRVHK/Tg26Q/m6UYmG60CJ
+	 Ktn+Mtujk00rGiGqP/hMK0sTIN4KQX2iQJ67gT7W1VEB9Dk2LPLj25O6vhft/VuJgWXAs
+	 jdYQeXTgsdqz0hS0rnQFYya5L6rjYsD7D7KL0jFRkSRTL5mhGJgiEd3TAXLGGcqTFJQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ideasonboard.com;
-	spf=pass smtp.mailfrom=ideasonboard.com;
-	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=ryP3PSsC;
-	arc=none smtp.remote-ip=213.167.242.64
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A672D606A329
-	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 17:08:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A672D606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=t766+NIJ;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1949D606A31C;
+	Mon, 16 Nov 2026 17:14:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1949D606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=ryP3PSsC
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3A62E4BB;
-	Mon, 16 Nov 2026 18:06:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1794848762;
-	bh=i1L4omYxVrpbv7tl1oB63F8nQWZdj/N4NtLRNEREMbM=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=ryP3PSsCUhv1pL6BZ3Q6bO5M7LHBGrxi/86py2Z6pPBDfsp1kTOXbi3twJQGrxSwR
-	 UcgywHSKLGWh32FcgShkpKDXIgINg1GsDBsSyLUZG0q0c12t6mVTd5T4FA14tsS2Zh
-	 t3hMpbS7wQaFQCOfNNcqK5foGeTdkMMuX3oOw7mU=
-Message-ID: <110c2c49-1b65-4c39-a122-c454bc7fea2e@ideasonboard.com>
-Date: Mon, 16 Nov 2026 19:08:25 +0200
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=t766+NIJ
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 114891476;
+	Mon, 16 Nov 2026 09:14:05 -0800 (PST)
+Received: from [10.2.212.23] (e121345-lin.cambridge.arm.com [10.2.212.23])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3AADC3F632;
+	Mon, 16 Nov 2026 09:14:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1794849248; bh=Y/LDVkPRdojFVdWdZuy7hYb3sZ13M4Qo5KKpMgZclts=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=t766+NIJWk5CeADE62+AhYQCjogseUG8qdQVHJYyj6KD3epFwb8pvhsiozOg7ow0G
+	 5dFAk4nz9rFqs7YbyhEGy+PpBCzFEWertlgn27JbNZYVynM8CKOlSXtLGr+b5sU4x6
+	 ZROeUlBRlr3SWPygTZwemQ1XL0y6Vhs3ScVuxo6U=
+Message-ID: <b4c2538f-8021-4abc-be2e-fcd1596f84ca@arm.com>
+Date: Mon, 16 Nov 2026 17:13:59 +0000
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -55,369 +54,193 @@ List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] pmdomain: core: Add genpd_dev_pm_attach_by_node()
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To: "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Len Brown <lenb@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>,
- Ulf Hansson <ulfh@kernel.org>
-Cc: Devarsh Thakkar <devarsht@ti.com>, linux-pm@vger.kernel.org,
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20261023-pm_attach_by_node-v1-1-4dbaccdf8b0e@ideasonboard.com>
- <af65c273-70c5-4926-96e7-ab1089503286@ideasonboard.com>
-Content-Language: en-US
-In-Reply-To: <af65c273-70c5-4926-96e7-ab1089503286@ideasonboard.com>
+Subject: Re: [PATCH v2 18/19] PCI: Replace untrusted state with device trust
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ "Joerg Roedel (AMD)" <joro@8bytes.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+ David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+ Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Nipun Gupta <nipun.gupta@amd.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>,
+ Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-input@vger.kernel.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, iommu@lists.linux.dev,
+ Jason Gunthorpe <jgg@ziepe.ca>
+References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
+ <20261109-device-trust-core-v2-18-3b12d9a9f861@nvidia.com>
+ <d0999161-3b27-4c3b-9d66-1d117c4836fd@arm.com> <20261110122237.GG8635@unreal>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20261110122237.GG8635@unreal>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi again,
-
-On 10/11/2026 15:58, Tomi Valkeinen wrote:
-> Hi,
+On 10/11/2026 12:22 pm, Leon Romanovsky wrote:
+> On Mon, Nov 09, 2026 at 01:53:02PM +0000, Robin Murphy wrote:
+>> On 09/11/2026 7:33 am, Leon Romanovsky wrote:
+>> [...]
+>>> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+>>> index b486b8bbd1fcd..8be2a246d4903 100644
+>>> --- a/drivers/iommu/iommu.c
+>>> +++ b/drivers/iommu/iommu.c
+>>> @@ -1879,7 +1879,7 @@ static int iommu_get_def_domain_type(struct iommu_group *group,
+>>>    static int iommu_get_default_domain_type(struct iommu_group *group,
+>>>    					 int target_type)
+>>>    {
+>>> -	struct device *untrusted = NULL;
+>>> +	struct device *restricted = NULL;
+>>>    	struct group_device *gdev;
+>>>    	int driver_type = 0;
+>>> @@ -1901,14 +1901,15 @@ static int iommu_get_default_domain_type(struct iommu_group *group,
+>>>    		driver_type = iommu_get_def_domain_type(group, gdev->dev,
+>>>    							driver_type);
+>>> -		if (dev_is_pci(gdev->dev) && to_pci_dev(gdev->dev)->untrusted) {
+>>> +		if (dev_is_pci(gdev->dev) &&
+>>> +		    pci_dev_default_is_restricted(to_pci_dev(gdev->dev))) {
+>>
+>> I think this should be the generic device_is_adversarial(gdev->dev) now - in
+>> fact probably all the dev_is_pci()/to_pci_dev() stanzas aren't conceptually
+>> PCI-specific, just an artefact of the current "untrusted" flag being so.
 > 
-> On 23/10/2026 21:16, Tomi Valkeinen wrote:
->> genpd_dev_pm_attach_by_id() and genpd_dev_pm_attach_by_name() attach a
->> virtual device to a PM domain listed in the OF node of the passed
->> device.
->>
->> Some hardware blocks are described in a child node of a main device.
->> They have no device of their own, but they do have a PM domain of their
->> own. Neither function can attach that domain, as both parse only the OF
->> node of the device.
->>
->> An example case is TI's display subsystem and its OLDI (LVDS)
->> transmitters:
->>
->> dss@30200000 {
->>      power-domains = <...>;
->>
->>      oldi-transmitters {
->>          oldi@0 {
->>              power-domains = <...>;
->>          };
->>
->>          oldi@1 {
->>              power-domains = <...>;
->>          };
->>      };
->> };
->>
->> The OLDI TX blocks are not part of the DSS IP, but they are not quite
->> real devices either as they don't have registers of their own, and are
->> instead controlled via DSS registers.
->>
->> Add genpd_dev_pm_attach_by_node(), which is similar to
->> genpd_dev_pm_attach_by_id() but instead of looking for the power-domains
->> from the passed device's DT node, the DT node is passed explicitly. Also
->> add a matching wrapper function dev_pm_domain_attach_by_node().
+> I wanted to do the same, but iommu_get_default_domain_type() may be called
+> before the PCI device's trust level has been set. At that point, we are
+> still in "disabled" mode, whereas device_is_adversarial() checks for
+> "adversarial" mode.
 > 
-> Ping, any thoughts on this?
-
-One more thing, if this change is ok, I'd like to somehow synchronize 
-merging this with the display side patches, as it's a compile time 
-dependency.
-
-The easiest, at least to me, would be to merge this (with an ack from 
-the relevant maintainers) along the display patches, via drm-misc-next.
-
-  Tomi
-
+> The below is from AI, I asked to present me the path for that:
+> --------------------------------------------------------------------------------
+> For a newly discovered PCI device with an available IOMMU and a new IOMMU group:
+> pci_scan_single_device()
+>    pci_device_add()
+>      device_add()
+>        bus_notify(dev, BUS_NOTIFY_ADD_DEVICE)
+>          blocking_notifier_call_chain()
+>            notifier_call_chain()
+>              iommu_bus_notifier()
+>                iommu_probe_device(dev)
+>                  __iommu_probe_device(dev, NULL)
+>                    iommu_setup_default_domain(group, 0)
+>                      iommu_get_default_domain_type(group, 0)
 > 
->   Tomi
+> For a device whose initial policy is adversary, its state during that call is:
+> dev->trust_policy          = DEVICE_TRUST_POLICY_ADVERSARY
+> dev->trust_level           = DEVICE_TRUST_DISABLED
+> dev->trust_committed_level = DEVICE_TRUST_DISABLED
+> dev->driver               = NULL
 > 
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->> This is a new try for managing the OLDI power domains. Previously I
->> tried using auxiliary device/driver for OLDIs, and handling the PDs the
->> normal way:
->>
->> https://lore.kernel.org/all/20260529-beagley-ai-display- 
->> v3-12-7fefdc5d1adf%40ideasonboard.com/
->>
->> Then I realized an issue, mentioned in
->> Documentation/driver-api/driver-model/driver.rst: "-EPROBE_DEFER must
->> not be returned if probe() has already created child devices".
->>
->> The PD virtual devices used in this patch's approach do not hit the
->> issue as they don't get a driver, so they are not probed. The tidss
->> driver's OLDI part can then use normal pm_runtime_get/put functions to
->> manage the OLDI PDs.
->> ---
->>   drivers/base/power/common.c | 27 +++++++++++++
->>   drivers/pmdomain/core.c     | 97 ++++++++++++++++++++++++++++++++ 
->> +------------
->>   include/linux/pm_domain.h   | 19 +++++++++
->>   3 files changed, 117 insertions(+), 26 deletions(-)
->>
->> diff --git a/drivers/base/power/common.c b/drivers/base/power/common.c
->> index 9bef9248a705..a873541f9350 100644
->> --- a/drivers/base/power/common.c
->> +++ b/drivers/base/power/common.c
->> @@ -171,6 +171,33 @@ struct device 
->> *dev_pm_domain_attach_by_name(struct device *dev,
->>   }
->>   EXPORT_SYMBOL_GPL(dev_pm_domain_attach_by_name);
->> +/**
->> + * dev_pm_domain_attach_by_node - Associate a device with a PM domain 
->> of a DT
->> + *                  node.
->> + * @dev: The device that uses the PM domain.
->> + * @np: The DT node with the PM domain.
->> + * @index: The index of the PM domain in @np.
->> + *
->> + * Like dev_pm_domain_attach_by_id(), but the PM domain is looked up
->> + * in @np instead of the OF node of @dev.
->> + *
->> + * Unlike dev_pm_domain_attach_by_id(), @dev may already be attached 
->> to a PM
->> + * domain of its own. The driver controls the power to the PM domain 
->> through
->> + * runtime PM of the returned virtual device, or through a device 
->> link to it.
->> + *
->> + * Returns the virtual created device when successfully attached to 
->> its PM
->> + * domain, NULL in case @np has no PM domain at @index, else an 
->> ERR_PTR().
->> + * Note that, to detach the returned virtual device, the driver shall 
->> call
->> + * dev_pm_domain_detach() on it, typically during the remove phase.
->> + */
->> +struct device *dev_pm_domain_attach_by_node(struct device *dev,
->> +                        struct device_node *np,
->> +                        unsigned int index)
->> +{
->> +    return genpd_dev_pm_attach_by_node(dev, np, index);
->> +}
->> +EXPORT_SYMBOL_GPL(dev_pm_domain_attach_by_node);
->> +
->>   /**
->>    * dev_pm_domain_attach_list - Associate a device with its PM domains.
->>    * @dev: The device used to lookup the PM domains for.
->> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
->> index 052ec478dfcc..327fbd40c854 100644
->> --- a/drivers/pmdomain/core.c
->> +++ b/drivers/pmdomain/core.c
->> @@ -3462,34 +3462,16 @@ int genpd_dev_pm_attach(struct device *dev)
->>   }
->>   EXPORT_SYMBOL_GPL(genpd_dev_pm_attach);
->> -/**
->> - * genpd_dev_pm_attach_by_id - Associate a device with one of its PM 
->> domains.
->> - * @dev: The device used to lookup the PM domain.
->> - * @index: The index of the PM domain.
->> - *
->> - * Parse device's OF node to find a PM domain specifier at the 
->> provided @index.
->> - * If such is found, creates a virtual device and attaches it to the 
->> retrieved
->> - * pm_domain ops. To deal with detaching of the virtual device, the - 
->> >detach()
->> - * callback in the struct dev_pm_domain are assigned to 
->> genpd_dev_pm_detach().
->> - *
->> - * Returns the created virtual device if successfully attached PM 
->> domain, NULL
->> - * when the device don't need a PM domain, else an ERR_PTR() in case of
->> - * failures. If a power-domain exists for the device, but cannot be 
->> found or
->> - * turned on, then ERR_PTR(-EPROBE_DEFER) is returned to ensure that 
->> the device
->> - * is not probed and to re-try again later.
->> - */
->> -struct device *genpd_dev_pm_attach_by_id(struct device *dev,
->> -                     unsigned int index)
->> +static struct device *genpd_dev_pm_attach_virt(struct device *dev,
->> +                           struct device_node *np,
->> +                           unsigned int index)
->>   {
->>       struct device *virt_dev;
->>       int num_domains;
->>       int ret;
->> -    if (!dev->of_node)
->> -        return NULL;
->> -
->>       /* Verify that the index is within a valid range. */
->> -    num_domains = of_count_phandle_with_args(dev->of_node, "power- 
->> domains",
->> +    num_domains = of_count_phandle_with_args(np, "power-domains",
->>                            "#power-domain-cells");
->>       if (num_domains < 0 || index >= num_domains)
->>           return NULL;
->> @@ -3502,10 +3484,14 @@ struct device 
->> *genpd_dev_pm_attach_by_id(struct device *dev,
->>       if (!virt_dev)
->>           return ERR_PTR(-ENOMEM);
->> -    dev_set_name(virt_dev, "genpd:%u:%s", index, dev_name(dev));
->> +    if (np == dev->of_node)
->> +        dev_set_name(virt_dev, "genpd:%u:%s", index, dev_name(dev));
->> +    else
->> +        dev_set_name(virt_dev, "genpd:%u:%s:%pOFP", index,
->> +                 dev_name(dev), np);
->>       virt_dev->bus = &genpd_bus_type;
->>       virt_dev->release = genpd_release_dev;
->> -    virt_dev->of_node = of_node_get(dev->of_node);
->> +    virt_dev->of_node = of_node_get(np);
->>       ret = device_register(virt_dev);
->>       if (ret) {
->> @@ -3513,8 +3499,13 @@ struct device *genpd_dev_pm_attach_by_id(struct 
->> device *dev,
->>           return ERR_PTR(ret);
->>       }
->> -    /* Try to attach the device to the PM domain at the specified 
->> index. */
->> -    ret = __genpd_dev_pm_attach(virt_dev, dev, index, num_domains, 
->> false);
->> +    /*
->> +     * Try to attach the device to the PM domain at the specified index.
->> +     * Pass 0 as the num_domains when np != dev->of_node, so that the 
->> dev's
->> +     * required OPPs are not used for the PD.
->> +     */
->> +    ret = __genpd_dev_pm_attach(virt_dev, dev, index,
->> +                    np == dev->of_node ? num_domains : 0, false);
->>       if (ret < 1) {
->>           device_unregister(virt_dev);
->>           return ret ? ERR_PTR(ret) : NULL;
->> @@ -3525,8 +3516,62 @@ struct device *genpd_dev_pm_attach_by_id(struct 
->> device *dev,
->>       return virt_dev;
->>   }
->> +
->> +/**
->> + * genpd_dev_pm_attach_by_id - Associate a device with one of its PM 
->> domains.
->> + * @dev: The device used to lookup the PM domain.
->> + * @index: The index of the PM domain.
->> + *
->> + * Parse device's OF node to find a PM domain specifier at the 
->> provided @index.
->> + * If such is found, creates a virtual device and attaches it to the 
->> retrieved
->> + * pm_domain ops. To deal with detaching of the virtual device, the - 
->> >detach()
->> + * callback in the struct dev_pm_domain are assigned to 
->> genpd_dev_pm_detach().
->> + *
->> + * Returns the created virtual device if successfully attached PM 
->> domain, NULL
->> + * when the device don't need a PM domain, else an ERR_PTR() in case of
->> + * failures. If a power-domain exists for the device, but cannot be 
->> found or
->> + * turned on, then ERR_PTR(-EPROBE_DEFER) is returned to ensure that 
->> the device
->> + * is not probed and to re-try again later.
->> + */
->> +struct device *genpd_dev_pm_attach_by_id(struct device *dev,
->> +                     unsigned int index)
->> +{
->> +    if (!dev->of_node)
->> +        return NULL;
->> +
->> +    return genpd_dev_pm_attach_virt(dev, dev->of_node, index);
->> +}
->>   EXPORT_SYMBOL_GPL(genpd_dev_pm_attach_by_id);
->> +/**
->> + * genpd_dev_pm_attach_by_node - Associate a device with a PM domain 
->> of a DT
->> + *                 node.
->> + * @dev: The device that uses the PM domain.
->> + * @np: The DT node with the PM domain.
->> + * @index: The index of the PM domain in @np.
->> + *
->> + * Like genpd_dev_pm_attach_by_id(), but the PM domain is looked up in
->> + * @np instead of the OF node of @dev.
->> + *
->> + * The virtual device is named after @dev and @np. The required OPPs 
->> of @dev are
->> + * not linked to the PM domain.
->> + *
->> + * Returns the created virtual device if successfully attached PM 
->> domain, NULL
->> + * when @np has no PM domain at @index, else an ERR_PTR() in case of 
->> failures.
->> + * If the PM domain exists, but cannot be found or turned on, then
->> + * ERR_PTR(-EPROBE_DEFER) is returned.
->> + */
->> +struct device *genpd_dev_pm_attach_by_node(struct device *dev,
->> +                       struct device_node *np,
->> +                       unsigned int index)
->> +{
->> +    if (!np)
->> +        return NULL;
->> +
->> +    return genpd_dev_pm_attach_virt(dev, np, index);
->> +}
->> +EXPORT_SYMBOL_GPL(genpd_dev_pm_attach_by_node);
->> +
->>   /**
->>    * genpd_dev_pm_attach_by_name - Associate a device with one of its 
->> PM domains.
->>    * @dev: The device used to lookup the PM domain.
->> diff --git a/include/linux/pm_domain.h b/include/linux/pm_domain.h
->> index f925614aebdb..c38c90d63c02 100644
->> --- a/include/linux/pm_domain.h
->> +++ b/include/linux/pm_domain.h
->> @@ -477,6 +477,9 @@ struct device *genpd_dev_pm_attach_by_id(struct 
->> device *dev,
->>                        unsigned int index);
->>   struct device *genpd_dev_pm_attach_by_name(struct device *dev,
->>                          const char *name);
->> +struct device *genpd_dev_pm_attach_by_node(struct device *dev,
->> +                       struct device_node *np,
->> +                       unsigned int index);
->>   #else /* !CONFIG_PM_GENERIC_DOMAINS_OF */
->>   static inline int of_genpd_add_provider_simple(struct device_node *np,
->>                       struct generic_pm_domain *genpd)
->> @@ -535,6 +538,13 @@ static inline struct device 
->> *genpd_dev_pm_attach_by_name(struct device *dev,
->>       return NULL;
->>   }
->> +static inline struct device *genpd_dev_pm_attach_by_node(struct 
->> device *dev,
->> +                             struct device_node *np,
->> +                             unsigned int index)
->> +{
->> +    return NULL;
->> +}
->> +
->>   static inline
->>   struct generic_pm_domain *of_genpd_remove_last(struct device_node *np)
->>   {
->> @@ -560,6 +570,9 @@ struct device *dev_pm_domain_attach_by_id(struct 
->> device *dev,
->>                         unsigned int index);
->>   struct device *dev_pm_domain_attach_by_name(struct device *dev,
->>                           const char *name);
->> +struct device *dev_pm_domain_attach_by_node(struct device *dev,
->> +                        struct device_node *np,
->> +                        unsigned int index);
->>   int dev_pm_domain_attach_list(struct device *dev,
->>                     const struct dev_pm_domain_attach_data *data,
->>                     struct dev_pm_domain_list **list);
->> @@ -586,6 +599,12 @@ static inline struct device 
->> *dev_pm_domain_attach_by_name(struct device *dev,
->>   {
->>       return NULL;
->>   }
->> +static inline struct device *dev_pm_domain_attach_by_node(struct 
->> device *dev,
->> +                              struct device_node *np,
->> +                              unsigned int index)
->> +{
->> +    return NULL;
->> +}
->>   static inline int dev_pm_domain_attach_list(struct device *dev,
->>                   const struct dev_pm_domain_attach_data *data,
->>                   struct dev_pm_domain_list **list)
->>
->> ---
->> base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
->> change-id: 20261023-pm_attach_by_node-13788662f3a1
->>
->> Best regards,
->> -- 
->> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>
+> device_is_adversarial(dev) = false
 > 
+> The active level changes later, during binding:
+> really_probe()
+>    device_trust_prepare()
+>      __device_trust_prepare()
+>        WRITE_ONCE(dev->trust_level, DEVICE_TRUST_ADVERSARY)
+>    dev->bus->dma_configure()
+>    call_driver_probe()
 
+OK, that seems less than ideal. Feels like it would be better if bus 
+code set the initial device state prior to device_add, so then it only 
+ever changes later as a result of an explicit attestation/acceptance 
+process. If the initial IOMMU probe still has to poke into bus-specific 
+code to avoid always making a worst-case assumption, doesn't that rather 
+defeat the point of having a generic abstraction?
+
+Even with the slightly dubious argument that this series only intends to 
+shuffle the existing PCI code around rather than fully introduce the 
+generic abstraction that it claims to, if the PCI behaviour is still 
+just based on propagating the internal "untrusted" flag plus the new 
+global override, both of which *are* known at add_device time into the 
+common trust state, then there seems little excuse for not doing that 
+up-front so that the new API *can* just work as expected.
+
+>>
+>>>    			/*
+>>> -			 * No ARM32 using systems will set untrusted, it cannot
+>>> -			 * work.
+>>> +			 * No ARM32 using systems select a restricted trust
+>>> +			 * policy; it cannot work.
+>>>    			 */
+>>>    			if (WARN_ON(IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)))
+>>>    				return -1;
+>>> -			untrusted = gdev->dev;
+>>> +			restricted = gdev->dev;
+>>>    		}
+>>>    	}
+>> [...]
+>>> @@ -616,6 +608,28 @@ static inline struct pci_dev *to_pci_dev(const struct device *dev)
+>>>    {
+>>>    	return container_of(dev, struct pci_dev, dev);
+>>>    }
+>>> +
+>>> +static inline bool
+>>> +pci_dev_default_is_restricted(const struct pci_dev *pdev)
+>>> +{
+>>> +	enum device_trust_policy policy = READ_ONCE(pdev->dev.trust_policy);
+>>> +
+>>> +	return policy == DEVICE_TRUST_POLICY_DISABLED ||
+>>> +	       policy == DEVICE_TRUST_POLICY_ADVERSARY;
+>>> +}
+>>
+>> Unless I've wildly misunderstood, I'm not sure this is right - if the user
+>> has set DEVICE_TRUST_POLICY_DISABLED to explicitly override the bus-default
+>> behaviour, but that leads to the IOMMU layer special-casing all PCI devices
+>> as adversarial and thus force-*enabling* all their trust-model restrictions,
+>> isn't that pretty much the complete opposite of what was asked for?
+> 
+> We have two levels: policy - that describes the default of all devices
+> for that bus. level - actual decision on how that device is going to be
+> operated.
+> 
+> "Disabled" prevents driver probing until the device is authorized,
+> "Adversary" permits probing and requests the available protections
+> for operating an untrusted device.
+> 
+> Both need conservative initial IOMMU setup: a disabled device may later
+> be authorized as adversary, and authorization does not rebuild its IOMMU
+> domain.
+
+Urgh, I can be absolutely certain I'm not the only one who is going to 
+be confused this way... I see "disabled" and instinctively take it to 
+mean disabling the device_trust *mechanism*, as the logical thing that 
+people will reach for in terms of "I don't care what this new thing is, 
+just get it out of my way and let my drivers work like they always used 
+to; I want to disable the new thing."
+
+ From there it then also makes perfect self-consistent sense that 
+"device_trust=full" would be the opposite end of the scale as in "Apply 
+the explicit trust model 'fully', to all devices regardless of their 
+bus-level default."
+
+Now I guess you could name it something like 
+"device.default_trust_level" to attempt to make it clearer that it 
+represents a value the value represents the "trust" *of* each individual 
+device itself, but TBH it's still liable to look backwards to many users 
+- similarly it's hard to guess that FOO_POLICY_DISABLED might mean 
+something entirely different from "don't enforce the policy for FOO.", 
+thus rather than try to contort the naming of everything, I'd still be 
+much more inclined to just flip the meanings to be more intuitive from 
+the outsider perspective.
+
+Say you upgrade your kernel and find your boot is broken because it now 
+flibbles, but at least there is a "flibble" parameter whose values are 
+"disabled", "wibble" and "frobble". Are you really going to spend time 
+straight off reading up on what flibbling is to understand what wibbles 
+and frobbles mean? Or is your instinct just going to be to try the 
+seemingly obvious way of disabling flibbling, and then getting 
+positively annoyed if that only makes it flibble harder?
+
+Robin.
