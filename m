@@ -1,102 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.100.106
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794833396;
-	b=U5l1yOtwcl+qaxxUa4Y22iiVczseilnDVeU+rQejp4W8MlL0hWthd8TP76aMqOdFFmIy
-	 c0z1pBOLbQLg3P/B9KoFqEXrK8+aClZ9zCBTP7m3Acv3DtJfWUWEgGgIKc1WHWw8qHvQZ
-	 jA1OwpGO0uJGiUfJNwroy5pUwOo/5ZOLZjMWWMychQOEhGrHyzELuou3fFJEV70Q2c23G
-	 oI0TAd3Nw9tQdJlSXB8lKssjyKjUH0mTEPjn2e9yfRSaC7VQ0FtpbQpq5Qs554c1TZ3UP
-	 oC/y0hwyqtI7vV4bRoQ4rLg1IKt2AzLNHN82A2sQNzqgFdlUbIZkR7j3dBz8WDoFrug==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794833396;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Cc:Subject:
-	 From:To:X-Mailer:References:In-Reply-To:X-ClientProxiedBy:
-	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=s9CuFVGuioBjFiuBaLBHOShLnK9MMCT2+Mhp35wCuLE=;
-	b=0Xi8BuRMO7C5N+Ah98E/QVKnJ812HXkNhkhBqBMLO5wvP43uhr0bMriltvA9yg0o1Jcw
-	 c4o4AyNoCFTVP3f2qvd5nZqoLNTrlt0U8lzrv1w5pcWCGnNh3Oj2Z12VuohPbWGWPs2SQ
-	 XPQl3wgQkrsGThSGHD9MI3noroaYCrI9RQKCVm7+8BcZ87onPO7QlKqyOj+RTbCZL07M4
-	 I1prTZn7C868QLQsugVbV68NZGrjzqnal9KS7zrLzQTa1fDX8WyWuKcia8pkb14hYef5u
-	 7ivrzNqZcJa7tWH5ixR9NyXkSZzW0zBzmc/ivsnLMCxPQFLx4qSUlhLrOsQzaI5UuPg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=garyguo.net;
-	spf=pass smtp.mailfrom=garyguo.net;
-	dkim=pass header.d=garyguo.net header.i=@garyguo.net header.a=rsa-sha256 header.s=selector1 header.b=aCDS0c6r;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.100.106
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021106.outbound.protection.outlook.com [52.101.100.106])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794834466;
+	b=ipgSp9YeOxYXWudd071+3Bp8WS2ZyBZzKVfsaBMWt2sf4PBAsqkbqW5zh5Pmspl9Tt2M
+	 rAOw9HBY/AEdxOk6CDUu0KNTHlJ58lJBmYb8O1/aKCepBzAiELtoHde1vHtslcsfqf1+M
+	 R60oaXHQLjttKjZK2Nfyjs76wNoXRfVgT/wdUjntYw38aKminwG28TcZeXQrogsxW8sD0
+	 c26WIh3LPMdigkcX64z0DvhKkCKdHt3qDSDh99RFHJnAa2ygD9jRizCgXa0hs3sftoe+E
+	 BTZrjkYDrfTzFmewbaZfjPH3mYKwkmXrd6VyYPn2wAHexus2/3EgoC4SM7zl3wHDs9Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794834466;
+	h=DMARC-Filter:Received:Received:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Rspamd-Pre-Result:X-Rspamd-Queue-Id:
+	 X-Rspamd-Pre-Result:X-Rspamd-Action:X-Rspamd-Server:X-Spam-Level:
+	 X-Spamd-Result:X-Spam-Flag:X-Spam-Score;
+	bh=/79yD/ePkhOWtFp46GUyu6ts/vcC2MmXQ7vdqbMevlI=;
+	b=ZEcukpSVaaYE7YOWIgUMuqOfSsj/4ny60FsYlXbVpIDr4WXn76vtq8u8SMTlLNnh689o
+	 /FkRcAsYXbs+iPdJ+MCy4ay5dwBVcBM/ZU0ri6XiM0VDH0RaXNDblH1qoiA4RjsG6EKPj
+	 6kkHFsg4i0NvVkYOVk1s7CY5Gwm8GtxOjJCBYh/4EHsLP2nMGLvdfrcTG+pi7ZLjpdEZD
+	 gQZ2X6FdvQIn8pEhagOhjtjopD3+Ki+bumAujC9TvJlXhl3c/bJgE0Dpo8AExMBKQKWQf
+	 ieePnmBKWZnsVbLDXcLscG08DhLoj4K76IIc+wI6uKgyIUSG3hqwSxF0oPRRpzht79A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E69B606A31C;
-	Mon, 16 Nov 2026 12:49:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3E69B606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=garyguo.net header.i=@garyguo.net header.a=rsa-sha256 header.s=selector1 header.b=aCDS0c6r
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mUkhAGjYG6EgwSt4AJg28LQQNUr65lKFnnKe4EKdbCXIyPinSLJRPrhr+6x1Ej2SSiLuNPBzyetbanfUGQcMaQJXKGWp0sw82QRyCGIuhsCs8IcmNXLifyXGCamkmhpwiFskkXQlp4EnstkjUslG5MFQ+FmKIrpKSe6LmFb9iQXoB+LcQXTmQzEjvf+hr2xVl6gR3zmaKtGUMfh5dfP6Mvh081jh5Z7l+pKZhVzOSw66h9QiB7BjU+ItAFlC3XntfnySL0DXHxNKgAeayvzFex4aE2PiIEoYKhB2vxmj4aOnzCjg8B1k4EjOpDu7yboYmpIn6iPHTKynO3PcWg7mSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s9CuFVGuioBjFiuBaLBHOShLnK9MMCT2+Mhp35wCuLE=;
- b=WBhySmVtZAqzw3HLdmMSZeYw+vHqnewHC5K20yN1ry3Pb3dvvZBpQo4fcr6/qRIlhjfEVZrKAe2CiXjB3BjmNrDavhte37uf9zb5HGyD7BqZVz9ir4AlnV6ST3wjYiYZTDR+RLJBnm9wiwCRx2jcw6XDyv2qxeO2Wk4xf5P7HZsrZe/KgcpSbvasYTveG+7nMCSWo+zdNokkox1fkn2TRmCfEgFFktheh5MipUKoFzy/krWHVu3W894QWZocEpF5CdTbQPQRI0zTonAOW2VXv2xMnjgeSSMSZSeHYuhGQj7P65t//R4SC3T/8gOCczWdvnz9//c6mcIW5fqAqVzhCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s9CuFVGuioBjFiuBaLBHOShLnK9MMCT2+Mhp35wCuLE=;
- b=aCDS0c6rOHtKF8XLDoXFTrQydd6nkgRn5GH3b1l3SGmVx9f8GP1QfuBqg0YsB/vl94wlhuW1yjzs0DUWS0W5XT2tZqZ1TA14YRJscewhTBlJg5L0iUwvbIVK4+UYKS5oz12Psj7uwbXwn0DpyXYCyZQ7c2r060/h0L2FYoxnLS4=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1cb::9)
- by LODP265MB503956.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ef::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Mon, 16 Nov
- 2026 12:49:52 +0000
-Received: from CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
- ([fe80::55f6:f98b:7fad:c6e3]) by CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
- ([fe80::55f6:f98b:7fad:c6e3%2]) with mapi id 15.21.0615.013; Mon, 16 Nov 2026
- 12:49:52 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 16 Nov 2026 12:49:51 +0000
-Message-Id: <DMWNC5DLYRO8.1WSI80QE8AOKH@garyguo.net>
-Cc: <aliceryhl@google.com>, <abdiel.janulgue@gmail.com>,
- <daniel.almeida@collabora.com>, <robin.murphy@arm.com>,
- <a.hindborg@kernel.org>, <ojeda@kernel.org>, <boqun@kernel.org>,
- <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
- <tmgross@umich.edu>, <tamird@kernel.org>, <work@onurozkan.dev>,
- <driver-core@lists.linux.dev>, <nova-gpu@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH 1/2] rust: scatterlist: tie owned tables to the device's
- bound lifetime
-From: "Gary Guo" <gary@garyguo.net>
-To: "Danilo Krummrich" <dakr@kernel.org>, "Alexandre Courbot"
- <acourbot@nvidia.com>
-X-Mailer: aerc 0.22.0
-References: <20261114234324.82387-1-dakr@kernel.org>
- <DMWC45NN5L9I.2NUG81ETBC84L@nvidia.com>
- <DMWN7AJF6SXX.1HN3UMDROET7F@kernel.org>
-In-Reply-To: <DMWN7AJF6SXX.1HN3UMDROET7F@kernel.org>
-X-ClientProxiedBy: LO4P123CA0095.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:191::10) To CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:400:1cb::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC330606A333;
+	Mon, 16 Nov 2026 13:07:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC330606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 19E8621DC4;
+	Mon, 16 Nov 2026 13:07:44 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DE2B51334C;
+	Mon, 16 Nov 2026 13:07:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id BvIgLh8A+2pNEgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 16 Nov 2026 13:07:43 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 6CC7424E06; Mon, 16 Nov 2026 14:07:43 +0100 (CET)
+Date: Mon, 16 Nov 2026 14:07:43 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
+	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, 
+	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, apparmor@lists.ubuntu.com, 
+	linux-nfs@vger.kernel.org, netdev@vger.kernel.org, fuse-devel@lists.linux.dev, 
+	linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev, 
+	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
+	Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC v3 35/44] fs: add file_check_backing()
+Message-ID: <fvmgoq6g3orrcbz5j7xoxrqkz4kc4jiopndjfar4cv45pj2y4g@bfgcucrsffnm>
+References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
+ <20261116-work-loop-pseudo-v3-35-8cbbea1cf34f@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -106,107 +79,166 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP265MB6051:EE_|LODP265MB503956:EE_
-X-MS-Office365-Filtering-Correlation-Id: 65652566-bdec-41ba-9e26-08df43e01b9c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|366016|7416014|376014|1800799024|10070799003|10067099003|56012099006|4143699003|261026140227099003|261028144727099003|261022105027099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	egAWxsYPUVODGxeFy4GPbFBe23wkBiMBWisJvg0Z9eE5Y0lwgpeqZiHef12DZ/5+MNRUaZKI2Eh6+xkT8Z+VT5t7mM4pbK9qnyGLv0mrBjz5iOI8faTFJuTfWxgYWzwDbHW6MIdqKVU0p/38Acng+JxqeCY+CzITYZfLuv7CkOrxG727L3k/xnU1sWsrpOugTvfYl2xzXaf4a+FNpcNS2jr1rKWcHRvqbfkGfJdQ5P8wSHnOWYAp6qzlAIKKDyE5hAtKWrcCc0Dh6Y8/gSODpfAzWdcV2d+6u82cgsXsNt6PgxG4LgLlxbRcApT5/tDBJl/A58TIXCntiB8wfdAaoQgUIEP5/0wt3DW5l6PbkLUCH+5cmJiX7dvkf+lfIUgCojgon0cHJ2j473UYJie5mhHOJPPrMt3oe0C+24OLTPs11IWZzrFAWc6kCelsnmABYjIvSI3gXmwK96ptW88D1UQ3849UrRuOLtC2Peh5mfX9ItKvwk4hlvN9wYzhHzN9JMRa6IBEvQCE8JknuYnhFOB32lMKs61yCqwJ8PwCI7loQZLpvF57Mltm6KujVJ3QDy+mbI4e1Rqe0wMJz1pFpp6rhGDr2diDUny0kB/DPmkGB/GxC+KwL1VyEGTm5/OiV0EcRPu3tSsQWUD1Kvt+aNYyUmetYEMWSYv1w8+8hx0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(7416014)(376014)(1800799024)(10070799003)(10067099003)(56012099006)(4143699003)(261026140227099003)(261028144727099003)(261022105027099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZDRnUVpRaWZLQ1lWV0N4N1NpOVFiOGpxaW5KaHJjMnBOeHJ3YXlFRmJEaWNT?=
- =?utf-8?B?Snh1TkkzR2JCVmNsSkZtc1d4T09EQWUvQ21PMVVoQ2tnRURDM3MvaTZOMmxK?=
- =?utf-8?B?QXQ5dzdlNTlGWWZYaUNrOTNJUC9wZnF5SmFIWVpiZmM0azdUOW1QMW8ybmRj?=
- =?utf-8?B?ZTNWTHBYV3hHdzJrUGVQZU9UYlpESjJNS2dWdmhEYStrRkk5Mm5yM01uYkFs?=
- =?utf-8?B?MXRKcFRzdjZiSDd6dVhXTno4SENpNUEySFd5WVRBNDEyT0I5YmhSNUlON1hL?=
- =?utf-8?B?RWw0NHMzd2VUVHdlMVhXYjg1WG9MeU9HR09yQit4T2drRktTTC9tRnFNOHNS?=
- =?utf-8?B?NVRZUkJESURkMHVXVE05YTUyTnhNRldOM29JcEVxYTdic2hiY1FjSUVmZUp5?=
- =?utf-8?B?VkptZHNJUkd2M2FJaFhuTXZIOVJGeDQ0anhKWUlXQTFhUEtacmZVRjBtTEEz?=
- =?utf-8?B?bEdxeFBTR0JwRmtOaDltL05CNzhHMk5TRUt0S2l3RWxEU0VuSWltRWFCVGpv?=
- =?utf-8?B?d2pBZldyQWptKzBmbXp4ZGlpSzVGNGNvZW00VkRtOUhnbksrWmMxbVFwZUgz?=
- =?utf-8?B?eHdDaGRqY0pucmFDVnNiK2NlQzNCRTd6OHdNRXlKY3A2NHdaQllRS203eStQ?=
- =?utf-8?B?S2JKTkdGYWwwTjZSMGc2NVJOQXpQemZhWlRuY1IzSVhEQyt1WHRKTllicDJD?=
- =?utf-8?B?MldBSFptdEZ4TC92dCszU0tSWThZVlg4akI0eHg0VkVVTFQxaVM0MkM0V0NS?=
- =?utf-8?B?anQ4Mzd4OHpITWlMSGR5ZFU1MThWTnFUYUc2NEFEVDZHSk15VzBSYktPZk1i?=
- =?utf-8?B?Qm5nUHN0MnBKcDFFVm9VUGR5cnQ2dmVCdFF6bDNZM2JDc3ZEcGZ4U1NUbmo4?=
- =?utf-8?B?TFJVWXgyWmN3MTlyVWJ3UEhRUFBCR1FXdng2cTJteFovUVlqVE12cGU1emJi?=
- =?utf-8?B?ZE4vSnNONE9iMzhuaVUzUDdSS3JWaXc0RlBYNkI1UzRmK1BqUTlJb29Pbmhh?=
- =?utf-8?B?aCtTNkFaYWxIQ2VlUGpEZ2o3NlB5TDVEUGtWQVFmWCszbTBtYUMxQzlrTE9V?=
- =?utf-8?B?dmRpQTk4dDRhZXlMQllBV3dQTzl4VTdjN3FEam9qNTFidlRGbDQ2VFBta3F5?=
- =?utf-8?B?bHlGb2NmeTZwcTFoeC8zV1V5K0xtZzhMUk9xck1oVWQ4WmNFMkNpbHUzZTBa?=
- =?utf-8?B?MmJKeTJ5TXg4SGQvcFMzZnVxcWxncWxCU2pEQVRNUnJCU211U0NtZXByQkdk?=
- =?utf-8?B?Q3FEUVA3alF3dVFwZXBYaWozbHpFWnltWVRXUkZWc1Z6K01SdE1va05UaDlE?=
- =?utf-8?B?SHZkYlJldno0TXp6OUd2ajJUeFFITlVpdHNlRUppVVdCR3c0RFIvY0EyQStF?=
- =?utf-8?B?MWlpVCtldjcyNG9UUjIydlFxUlNaRHd4YVQ2aVl6cXZ2VTVqcldyeGU4cC9u?=
- =?utf-8?B?b3JkRjRLN081SG9uTElwbVJSSUdlRC9WcjdGQnNWOW5BUW9WMW8zVnZ1VlNY?=
- =?utf-8?B?emVabC84UWViNkpMaHdIMEFpQkZoaDlGNjdhaVM3cW1xQWtldWpGVXFrdnB6?=
- =?utf-8?B?Z2NnbkpuMmpGaytMNy84T01zQzJ1cThPQThmZGlwdFpOZVFDREExdGdUMWZ3?=
- =?utf-8?B?aVdhRjVNNW1DS20zQXpMaVVjbHBjQXMwQ0Q3WUlJa0FHZUlKS2FzQ1NqN1Zl?=
- =?utf-8?B?MDhxQXBoR0JtSXNmQjRrbllGNkpycDZZVmdnSUhhMi9rdm1PdnBFVjJ0dzhz?=
- =?utf-8?B?RWdUVTdITWVNMnFtTStSK3YwQ0lBYWdnZGs4L0FjcDhrVGJ3TWg5UHNibElk?=
- =?utf-8?B?eXdVZGxwWW9hSjF2QnA1YUlEWmpHeVZwTjlsT0l3VWFTREZQTkUzWmVpSUFC?=
- =?utf-8?B?eEtCR1M0VU9OWUpPdHorbDBZSnhlck04aUJpdGxFeE80Yjc2K1VSNDlNRWZO?=
- =?utf-8?B?RkNIeHRPQitTUlFzbVBha21oL2trQ0J3aFVpTEJ2c2k3TDBYM2tRWUpidlIy?=
- =?utf-8?B?cGVNejgzRy94MzIxVXVzTTYxYlpLb3R4Y2FvOGE5UkFzRnA2Q0FFeWR5U2sx?=
- =?utf-8?B?eUNvcGJHUzdQaWtiZmZpejBRYnZScWRQTS9vcnM3OHZMVjNBVVJUVDJnbWVR?=
- =?utf-8?B?cUZWelBleVNQclJQRkdkMm5DRFkxZEdoVm44VjhNY25QaFBwTzc0Z3djc1dh?=
- =?utf-8?B?T0VCT3kyUWwrenpvb2lrWmlXRm14cWlUR2xORkhoMVdNT2dPZlJYSDRxMmVs?=
- =?utf-8?B?SFlrOHMrQy81aUV3TXFGUThPeEx6TVJ4MmRIR2pOSFJkM2ZtUkJWTm9ac2RT?=
- =?utf-8?B?cVgwRmxNWVZXR0FMd0hjblV0dUxtRVpxNy9YaUgxOFdzMVAvSDc5Zz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65652566-bdec-41ba-9e26-08df43e01b9c
-X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2026 12:49:52.6279
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RiKZL+NwaSJ54cNIbrCCHgEy8I7AVJGdFAFjJ5/REV/agGUixyfVT+AFPKV2DZQC3gOD9fvzq6/0DjBj07R7/w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LODP265MB503956
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261116-work-loop-pseudo-v3-35-8cbbea1cf34f@kernel.org>
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Queue-Id: 19E8621DC4
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -4.00
 
-On Mon Nov 16, 2026 at 12:43 PM GMT, Danilo Krummrich wrote:
-> On Mon Nov 16, 2026 at 5:02 AM CET, Alexandre Courbot wrote:
->>> @@ -81,7 +78,7 @@ pub(crate) fn new(
->>>                      let mut level0 =3D CoherentBox::<'_, [u64]>::zeroe=
-d_slice(
->>>                          dev,
->>>                          GSP_PAGE_SIZE / size_of::<u64>(),
->>> -                        GFP_KERNEL
->>> +                        GFP_KERNEL,
->>
->> Stray hunk? Maybe we can move it to patch 2 since it reformats that part
->> anyway.
->
-> I noticed this before sending too, but for some odd reason rustfmt insist=
-s on
-> this with this change.
->
-> When I noticed I was 'whatever', but now I got curious. It happens when
->
-> 	level2 <- {
-> 	    build_lvl(&data)
-> 	        .map(|l2| SGTable::new(dev, l2, DataDirection::ToDevice, GFP_KER=
-NEL))?
-> 	},
-> =09
-> is changed to
->
-> 	level2: {
-> 	    let l2 =3D build_lvl(data)?;
-> 	    SGTable::new(dev, l2, DataDirection::ToDevice, GFP_KERNEL)?
-> 	},
-> =09
-When you remove all `<-` rustfmt starts formatting macros again because it =
-sees
-the macro invocation being a valid Rust expression.
+On Mon 16-11-26 12:05:08, Christian Brauner wrote:
+> Loop, zloop, the nvme target, the scsi target, fuse passthrough, the usb
+> mass storage gadget, erofs and acct all take a file from userspace and
+> use it as storage. Currently, each of them has its own idea of what to
+> check before using a file like that:
+> 
+> - loop and the gadget check for a regular file or a block device, the
+>   nvme target, the scsi target and zloop take any file type
+> - loop checks the open mode, the gadget checks FMODE_CAN_READ, the nvme
+>   target, the scsi target and zloop only check for ->read_iter() and
+>   ->write_iter()
+> - apart from acct which refuses procfs and sysfs files none of them
+>   cares whether the file is a kernel interface
+> 
+> Add a helper that does all of it in one place. It only accepts regular
+> files and, if the caller passes S_IFBLK, block devices. It refuses files
+> on pseudo filesystems. And it checks that the file is open for what the
+> caller is going to do with it and implements ->read_iter() for reading
+> and ->write_iter() for writing.
+> 
+> O_PATH files are refused unless the caller passes FMODE_PATH. That is
+> for callers that only need the path of the file. fuse passthrough is
+> one of them and has accepted O_PATH file descriptors since commit
+> efad7153bf93 ("fuse: allow O_PATH fd for FUSE_DEV_IOC_BACKING_OPEN").
+> 
+> Block devices are fine even though bdevfs is a pseudo filesystem. A
+> block device that userspace hands in is a device node on devtmpfs or
+> some other filesystem. Files on bdevfs only come from
+> bdev_file_open_by_*() and never end up here.
+> 
+> The pseudo filesystem check looks at the inode that actually provides
+> the data via d_real_data_inode(). overlayfs accepts sysfs, cgroup2,
+> debugfs, tracefs, configfs and securityfs as lower layers and reads of
+> such an overlayfs file are served by the file on the pseudo filesystem.
+> Checking the overlayfs inode would miss that.
+> 
+> For an O_PATH file nothing might have looked up the data yet. overlayfs
+> only looks up the data of a metacopy file in a data-only layer when the
+> file is opened. d_real_data_inode() does the lookup then and if that
+> fails we return the error.
+> 
+> Note that the file type is taken from the inode of the file and not from
+> the host of ->f_mapping like loop and the gadget do it. A driver can
+> point ->f_mapping somewhere else in ->open(). It makes no difference for
+> block devices as both inodes are block devices.
+> 
+> No functional changes. Nothing calls the helper yet.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-I think you can also just remove the try_pin_init! here completely?
+Looks good to me. Feel free to add:
 
-Best,
-Gary
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  fs/read_write.c    | 53 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/fs.h |  2 ++
+>  2 files changed, 55 insertions(+)
+> 
+> diff --git a/fs/read_write.c b/fs/read_write.c
+> index 6767283108991..9f1e7bfcbd4f1 100644
+> --- a/fs/read_write.c
+> +++ b/fs/read_write.c
+> @@ -866,6 +866,59 @@ static ssize_t do_loop_readv_writev(struct file *filp, struct iov_iter *iter,
+>  	return ret;
+>  }
+>  
+> +/**
+> + * file_check_backing - check that the kernel can use a file as storage
+> + * @file: file that userspace handed in
+> + * @mode: FMODE_READ and/or FMODE_WRITE the kernel will do I/O with, or
+> + *        FMODE_PATH if only the path of @file is used
+> + * @type: S_IFBLK if a block device is fine as well, 0 otherwise
+> + *
+> + * Call this where a file from userspace is taken as a backing file. Only
+> + * regular files and, if @type is S_IFBLK, block devices are storage. Files
+> + * on pseudo filesystems are kernel interfaces and are refused. The file
+> + * must be open for @mode and implement ->read_iter() for reading and
+> + * ->write_iter() for writing. O_PATH files are only fine with FMODE_PATH.
+> + *
+> + * Return: 0 on success, -EBADF if @file isn't open for @mode, -EINVAL if it
+> + * can't be used as storage, or the error from looking up the data of @file
+> + * on a stacking filesystem.
+> + */
+> +int file_check_backing(const struct file *file, fmode_t mode, umode_t type)
+> +{
+> +	fmode_t io = mode & (FMODE_READ | FMODE_WRITE);
+> +	/* Drivers may point ->f_mapping at something else. */
+> +	umode_t fmt = file_inode(file)->i_mode & S_IFMT;
+> +	struct inode *real_inode;
+> +
+> +	/* O_PATH files are only fine for callers that just use the path. */
+> +	if ((file->f_mode & FMODE_PATH) && !(mode & FMODE_PATH))
+> +		return -EBADF;
+> +
+> +	if ((file->f_mode & io) != io)
+> +		return -EBADF;
+> +
+> +	if (fmt != S_IFREG && !(type == S_IFBLK && fmt == S_IFBLK))
+> +		return -EINVAL;
+> +
+> +	/* Look through stacking filesystems at the inode with the data. */
+> +	real_inode = d_real_data_inode(file->f_path.dentry);
+> +	if (IS_ERR(real_inode))
+> +		return PTR_ERR(real_inode);
+> +	if (real_inode->i_sb->s_iflags & SB_I_PSEUDO)
+> +		return -EINVAL;
+> +
+> +	if ((mode & FMODE_READ) &&
+> +	    (!(file->f_mode & FMODE_CAN_READ) || !file->f_op->read_iter))
+> +		return -EINVAL;
+> +
+> +	if ((mode & FMODE_WRITE) &&
+> +	    (!(file->f_mode & FMODE_CAN_WRITE) || !file->f_op->write_iter))
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(file_check_backing);
+> +
+>  ssize_t vfs_iocb_iter_read(struct file *file, struct kiocb *iocb,
+>  			   struct iov_iter *iter)
+>  {
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 99caef43ff3c4..b1c7ebafbadbe 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -2553,6 +2553,8 @@ static inline const struct inode *file_user_inode(const struct file *f)
+>  	return file_inode(f);
+>  }
+>  
+> +int file_check_backing(const struct file *file, fmode_t mode, umode_t type);
+> +
+>  static inline struct file *file_clone_open(struct file *file)
+>  {
+>  	return dentry_open(&file->f_path, file->f_flags, file->f_cred);
+> 
+> -- 
+> 2.53.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
