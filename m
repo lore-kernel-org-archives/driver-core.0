@@ -1,65 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794825533;
-	b=4J8SI4c13Gyj55PDMtV0tyft0ZM62B8nZeuVm9YGNM4CXkVL2TcZmrMEhzxXLh02ra9s
-	 ANmCf2aYicXbTwnnvwVpICa/CFVt2ciJEB+Toh+maR+0Ie65F9MZrihJhXIk0LfUwKKNn
-	 gKusbBYk3o6xddlbYp3G48cfT1SfgWvB6XtgRgKiejdCtWsDp7DJZy+OAmcYooXLPOBRX
-	 vs0F/lcqC5r8cFO8jtBgXS0EiwKk8ue91sXHN8VnaIdQR9gQcElkKDQTwBmfeM/fOrO3n
-	 /wOO46Xp4+hb8kn6FPaxmj3UBtIx5kjBlWlmi+v+yO8sZJ2cdjRpAOGZ4694RT1IGXQ==
+	t=1794826868;
+	b=ZrOa1lj7Vfhg5kVOfSm9oadfTKtzmlPk1HqdYipaXQM6kqfJWQO4F2jlItQj23FTJ7Zz
+	 SOT3+rnKJlbrAsvmegpJA3sGkQTebNO+Yi6SvPHPcx2pHain1w4o/6nQLzhN/haE2HnoH
+	 0Apzb37wx1xEM8HzwTCNoLGVpaReBCJ0v/Ys12KxC0wH2zusQWPTAN80K1xIMqASQIeTl
+	 EhkHUkhkN1SpvZyHsuojQVymUzvcu8IQlczO8TyiBDXSkrMakTwTPjo8gGyUENKUf38c/
+	 IWD0JxtaT6CPEIqpdA5WIMU2ux9s1WgYA93Hk0gpTMcXg+8dEQ9kphuVtdKJRIILMuw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794825533;
-	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=QRGsy4+/SMCADWAf/zPFn8gYvB9q7AQj208EjNSpYys=;
-	b=rjgRvuQ4jsdZz8Oq5fGaWoMqQ2Rs1djO87DMCEx+r4k8wpAAL6hXLKC7lx+LERkwh/9U
-	 DE9Zht5y82q3MPvgifFc81gZGjvsdV4TZrZ4VAKdOHsrEortB6HxNeWdMVdpyfS2sdmI3
-	 hwn5qQkqIKpjEuoUeTVtyiBc9EVTQy0Wc2kK2sXENCp3WHvvDjMW0IS6lqIm/pj5oLOF6
-	 zyKaPrlT1wkZghN2st12RXEnyp9p7bSCIC4EFzwkPs0CWWfspZIZPrRMUYDmO1mbPqV0k
-	 DLdHo0e51f7RM8iEIJKUJCU4vuCG8TE4jJ7u9C79JH4VImRfMk83t9o/tDW7NdEs53g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794826868;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=eim4R0oALlPhbXndhNtGDbbO6UebXkionbyh8Up2aOM=;
+	b=TEM2ZNHbuM+vIe4H1+PjLSN4iEMLVX0Tbger4h4nOEDTs7I7V3mXNB6bdXUZDAUwY6su
+	 UMH3LxDCuv6mcSEOiO4O9X0lqof5RyI8ET4jp6mekcHtLWR+NCXF05FCUOjDjeBvfRa2s
+	 zEmEKteiTRMett2unQCEyNeZT8KL5aLa5m0TQRdOaOPHE5KkD2Ane8QaJ0A36zIn7IsXz
+	 o0cZjsBK105pp6xpDYE38CLzCsZsTM2FFfz8+se06yWVIDPoh2RI+4uRQC7x+EBPJiRKg
+	 if7BE2ccg1d7PT3Tn6raQfANjcQ5oYz3syw+DX6WBgyVfHVpTW23VjrxOMlFJblf/bw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QQfUrpf7;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Cg+Kx9a7;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C372606A31C;
-	Mon, 16 Nov 2026 10:38:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3B9606A329
+	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 11:01:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EC3B9606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QQfUrpf7
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 064011F000C4;
-	Mon, 16 Nov 2026 10:38:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794825533;
-	bh=QRGsy4+/SMCADWAf/zPFn8gYvB9q7AQj208EjNSpYys=;
-	h=From:To:Cc:Subject:Date;
-	b=QQfUrpf7KW2E/D92ipRWpozh9+fpTADkzTrphMMvDryWKir8BBYX7qCBcSTW+rVWp
-	 kaiMYy+yIpMR9mIbgR8DRCVv4IfxgIpY1Y+DDiVQ4sUnbDSCz6tjaA1d+Onhwir9qo
-	 /Q+tqcUHmpQoSq+XiUjHclTSAe1wuvLKjNZH8JA1Dyr/Ixg6f7uZrEX2Y1DJLpc8hj
-	 acwpcyoYay/1LK2K4lE2p101sXkHiQcMF45jS/QCBCCBdK8I0xFJ28viJILxyd1PG1
-	 GTFR4ZJWHV71y/VTkngjWpzNoBl17cM2KdxBLWHBUvlKy/x8qoJlnKMNt0yMP+6wEy
-	 oYjrB4LIMrrWA==
-Received: from johan by xi.lan with local (Exim 4.100.1)
-	(envelope-from <johan@kernel.org>)
-	id 1xSu6s-000000035gU-2JU3;
-	Mon, 16 Nov 2026 11:38:50 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Johan Hovold <johan@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Cg+Kx9a7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794826868; x=1826362868;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KGVQ04RLKs8bI5V89Lbr81euoVhR1N+VdoRT/hJlFCU=;
+  b=Cg+Kx9a7jks0BnDfRyjIxmmAceIuQYnP4s08vY9kct4ySkpQ6dtwtbaO
+   Am6LpnFIKmN/iLgl2Gp/DWuOiEFopO+o6lMfGx4jNwzioKoGr1Eontytu
+   g3W8XpDT4bq5lpVH2RfoXaYziYNyUx+Hw6DPb6itOUi53O+GqZ3gVWGUq
+   XKLRYgXxemkcqWddzMlflGOmmgnhw8Mv3TSttEF/wt1uUEmXo1K0MECu1
+   kUjj9z+KQTZQCc3nXVY4rw9hqfXJi8a+Scq4S+oTIEVOMFx5oBRUiYA51
+   VzesxLYK6wmI0/zreLQSDFsIXw4QFGLmANhIsTwLKTFHtIKTN2QAtRcjA
+   Q==;
+X-CSE-ConnectionGUID: t3mMr9lVQuiVycf8ad83Ww==
+X-CSE-MsgGUID: pFG4cSOXR1iTVLmFNo/f3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3412139"
+X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
+   d="scan'208";a="3412139"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 03:01:07 -0800
+X-CSE-ConnectionGUID: umavc8asTIWzgqWjk4xFOQ==
+X-CSE-MsgGUID: +amdLsoJQGeQtAFweNlZAw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
+   d="scan'208";a="9709537"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.90])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 03:01:00 -0800
+Date: Mon, 16 Nov 2026 13:00:57 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Alejandro Colomar <alx+linux-hardening@kernel.org>
+Cc: Hauke Mehrtens <hauke@hauke-m.de>, linux-mips@linux-mips.org,
+	Ralf Baechle <ralf@linux-mips.org>, Joe Perches <joe@perches.com>,
+	Alejandro Colomar <alx@kernel.org>, linux-hardening@vger.kernel.org,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	"Maciej W. Rozycki" <macro@orcam.me.uk>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Andreas Schwab <schwab@linux-m68k.org>,
+	Andy Shevchenko <andy@kernel.org>,
 	Bartosz Golaszewski <brgl@kernel.org>,
-	linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] software node: fix node group deregistration kernel-doc
-Date: Mon, 16 Nov 2026 11:38:07 +0100
-Message-ID: <20261116103807.736778-1-johan@kernel.org>
-X-Mailer: git-send-email 2.56.1
+	Daniel Scally <djrscally@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Len Brown <lenb@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: Off-by-one in arch/mips/bcm47xx/time.c (was: [PATCH v6 02/19]
+ string: Add strprefix())
+Message-ID: <avriaVSTl4jL0OEo@ashevche-desk.local>
+References: <cover.1794667407.git.alx@kernel.org>
+ <0eaa4ce73a2b164fd49e3a9f71244a2e3f45b7bb.1794667407.git.alx@kernel.org>
+ <c113f651d1ce1b2d42ab9d0c59ae5a0cd17ddb6a.camel@perches.com>
+ <avi54hgKgovNHfKy@devuan>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -69,46 +109,40 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <avi54hgKgovNHfKy@devuan>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Child software nodes hold a reference to their parent via kobj->parent
-so there was never any need to deregister them in any particular order.
+On Sat, Nov 14, 2026 at 08:49:21PM +0100, Alejandro Colomar wrote:
 
-Drop the misleading kernel-doc comments which suggest that deregistering
-a parent node before a child could cause trouble.
+[...]
 
-Note that parent nodes still need to be registered before their children
-or registration will fail.
+> > And these are all candidates for converted uses to
+> > whatever is the function name or steq:
+> > 
+> > $ git grep -P '[^w]strncmp\s*\(\s*[\w\.\-\>\s]*,\s*\"\w*"\s*,\s*\d+\s*\)' -- '*.[ch]' | wc -l
+> > 946
+> 
+> Looking at those, I've seen a bug in BCM47XX, introduced in 2224de9d152b
+> (2013-10-29; "MIPS: BCM47XX: Fix clock detection for BCM5354 with 200MHz
+>  clock").
+> 
+> Look at this line of code:
+> 
+> 	$ grep strncmp arch/mips/bcm47xx/time.c
+> 			if (len >= 0 && !strncmp(buf, "200", 4))
+> 
+> That strncmp(3) call is wrong, as it's really behaving as strcmp(3),
+> since the 4 is off-by-one.  I'd like to know what was the intention.
+> Was it meant to be !strncmp(buf, "200", 3)?  Or was it meant to be just
+> !strcmp(buf, "200")?
 
-Fixes: fc002f0f23e2 ("media: software_node: unregister software_nodes in reverse order")
-Fixes: 0b8bf06f6719 ("device property: Sync descriptions of swnode array and group APIs")
-Cc: Daniel Scally <djrscally@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/base/swnode.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+When in doubts, preserve current behaviour over refactoring.
 
-diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
-index 8e12f518e13f..78e224539b02 100644
---- a/drivers/base/swnode.c
-+++ b/drivers/base/swnode.c
-@@ -954,14 +954,7 @@ EXPORT_SYMBOL_GPL(software_node_register_node_group);
-  * software_node_unregister_node_group - Unregister a group of software nodes
-  * @node_group: NULL terminated array of software node pointers to be unregistered
-  *
-- * Unregister multiple software nodes at once. If parent pointers are set up
-- * in any of the software nodes then the array **must** be ordered such that
-- * parents come before their children.
-- *
-- * NOTE: If you are uncertain whether the array is ordered such that
-- * parents will be unregistered before their children, it is wiser to
-- * remove the nodes individually, in the correct order (child before
-- * parent).
-+ * Unregister multiple software nodes at once.
-  */
- void software_node_unregister_node_group(const struct software_node * const *node_group)
- {
 -- 
-2.56.1
+With Best Regards,
+Andy Shevchenko
+
 
