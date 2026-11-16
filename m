@@ -1,124 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.168.131
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794854268;
-	b=cuZlMDeQpaNEe172cL3scrc/VrNsRjpGWfJMuE+MN5LP2yjvmeW8unfkS2lQKrlwdVEg
-	 qk1iae2qL09LPOCisZmjWVNfh/5fIp0VEvbPntjGe5v2Dxhc5gsf3NHdou3q/t4rH5JPP
-	 nWKenkXZ5F27NW0wA4kINSzgdML6XaKhOgZBLayzVK4kfbt7WHapxPnc4lzqsRzgVXWQT
-	 9wjdG4c/YrqAEmvz1LlYgs+MJXbg3GT4z2BogysgiLlq8FjC5HiCTSJjod8fkG0/yJWEa
-	 bS1O1bpLH/eUDP/Q/Go2kAtFZsPdTUX3LdyZfGBkGi+pAV0RZ33Z7+4Hk4m5tsb6gag==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794854268;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:MIME-Version:
-	 References:In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:
-	 Cc:Content-Type:Content-Transfer-Encoding:X-Proofpoint-Spam-Info:
-	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=Ly0wSpOqETq67pj9QgQqaNP7QubSpXxkzzUxAFz3ui8=;
-	b=ICSTACxYHIKkhaHYCThJ2VLPUQDncw9Oa+81bx3pH+kIlxX90dFPXvn7FAIYkUVQzl87
-	 CXv5SrTEvd47N939YrmjYxjD5UFxwZd9EEDJtnQSQMPrFyg1G9ypKJFt/UoZl5qfi/V1J
-	 QyzeLBCkseuIerMJYXDA56Ijk5xwDFCqDccl6Lg2cIElp0ZLylayRZ9pM4s+SMruPHICf
-	 2P/fwb3tuAXF+DoVQnfvnt5NjRZkA+uGzrss/TLrCsE/7J93LufZzu4ebPmQDdpMH3Q1E
-	 YsLBzBRzOwulHVsDGaftWjuLOMX7GtynLxWF2aqshRvbcQddyIW0ShlA1lYA1M+DUVg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=OqT3NYpP;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=ViP2ilN7;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AFC0606A32C
-	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 18:37:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3AFC0606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794854805;
+	b=hz4pOESS8reZBrM/lfW2KtAONQLAFy4QF0ao8R/JTChTcAwgPqxJrd/GBJUzyuTph9Gm
+	 WbYkQ/9j+vYmD3VjKXUmqejGtN64WoGvwsYskAXbG8IYc2gQSAOH5FQ04f7NoINHbL8W8
+	 y6MDhJPgDepll0ghzGkOh+nbW+q7xDLwM8BOQy7N3km9DLAk4YLuVK2GTcrtaoWRNDq9S
+	 0QMSi3k7D/lcAzPcug23yNu0dDlQYY8oBmcAYtfelBQJgxYGnwBTKBKEcg/aV3Wbd2Gh2
+	 Pt7lZvRLZm874dcv5lIoIJ+QmBUKU2LAtlpYddLAllLsDp5jiKeDEGNwnV96zKDcpmg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794854805;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
+	 X-Spam-Checker-Version;
+	bh=2YUoAQtat16PZh3hSCS4+DqmjjlkhuzhPF22RNobT8o=;
+	b=Zy/f/XKeI5mxEIgIYY/ag1iro1oTiGeSWulxyMxOog3DJ3ci2CqydoUVDi0brc4BwAGG
+	 uv0RGsSU0eZc54ORLwMbnG7EVB4+hjxUmu2IQrPywK70sP2qHa6LehgDNZdU06HJluM1J
+	 zbd+EoZ0vfFeb6Xv179K0wdAv+HwONLCfUMi+QSrhF/knS+sw/5VNvG5mBv9G1d5fjVNv
+	 mzrorvB+3H2pvHSb1S7iYzIghahuBLYIZVJcTWxmot9yFfhYMVjVj2VKyDE0V+sS4Kwh4
+	 9mCx0QlsylZqebdaFtguw/ziLvXYrB4es8Yxx63gcD0TJUCuKMddqKDvhWWTZucSFPg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b="ar/HfkpK";
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40AB4606A335;
+	Mon, 16 Nov 2026 18:46:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40AB4606A335
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=OqT3NYpP;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=ViP2ilN7
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AGGIFuU1110380
-	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 18:37:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Ly0wSpOqETq67pj9QgQqaNP7QubSpXxkzzUxAFz3ui8=; b=OqT3NYpPMSWyNkoC
-	T0jU1MWCwoayrXSsHrUPBONXfgqAYtHpimmXXc8u1ZVZdF548egHztbTNmT85olL
-	2T/sThe5L7xH4V5dFkizBXkH0f32jZ1egUeaMGiHqXqS2zfgpiCopGrOmPm5Bz7r
-	tlIWpaai/x4fvD0utZIEYuJVungkk8BPlrSPvchKJrplzwjYFkeoGUieZRQIBI9Q
-	40KsMkT4PGroZwzOQZlbI58vK2HMhcQojkLzDr40iZ+GEP0h7oD6rmwAC2mfpGUq
-	rtTuPNtRLW6i9e+1QoEzwxHF+XadsCGLPTluN0ttmkZGKyM/Oh1ZJvOKzvbEztlg
-	l5hrWw==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hyyqgj0vs-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 18:37:46 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-948d83322f6so641993385a.1
-        for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 10:37:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794854265; cv=none;
-        d=google.com; s=arc-20260327;
-        b=hr2x4vzPZXy+vK8/ks+1MkqCnozB6etBi+vCrVxl2ZHpCVIq/ZQObjM4pHJCGNSI/V
-         /4REgTj95qbCQAJc/kR3peuHFduxSauRHoitv8W6sMM0mq4x/fygRvfNcnJT4g/bC8nV
-         kk26gnDe4G/+0fX572oizwmd9OVgdQRv2OJREQOZ86htkCfvrGbNma+jnuoaoBuWL/eE
-         KbfWGI/JTAs6g1SqQVN4gBGwpI83llUsNgIimlNlG1BTkjJwXK+fJrrk9UzGe3ajiK2N
-         zFBnVHQuP2K/iFC5U8TnXY5trpQUVehKxMUxMkrBOQRUEtjTJdoDuDDnZeNDGJIvR/li
-         cmzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Ly0wSpOqETq67pj9QgQqaNP7QubSpXxkzzUxAFz3ui8=;
-        fh=PpVGX6g+p2vqNDkyJibt/NsBpQTHwJ5qMKujSIE06c4=;
-        b=V0hl0NTxOi+nilvUdcVfUIoGyhpimlM2wOvdcluhsBfRB0ZPDIVX3n/2RnHl9k2V4i
-         Z2HuOEkTJ0lOGQCjLa1nDc2cVrJVRt4rTVUPj/pQoIVdvWehA0KCmca5ybvXjDI6Bd3C
-         r2xk3AaS7thVKBIwXpoDz2Wd0moGvi54R1noYyQCXh5AWJ2EKoCi9TGKpwKlGEeT1sXp
-         3JjkiKHZRuVOYXMH8cMTXDdpm/cM/pcRa7++FUk9H5DArSIz7nAtYarE1rlEgCB6cWNp
-         bNfRBd9FC6ftmGiMJUMzibxqbBAmt6I9OELie+TbVqDEG0NTxt2uImNcXwblYrsRE1xn
-         YfSQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794854265; x=1795459065; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Ly0wSpOqETq67pj9QgQqaNP7QubSpXxkzzUxAFz3ui8=;
-        b=ViP2ilN7+zGyxDvPyT/A4J7xNEB2m56CpxZaS9icf22VCSsFw9NXjSU8j07PNXBcSo
-         1rqag3YHH+c+rA2yIs28NqnUkV2A8kbn27WazEzU8h4QwYEhdPmvCDpLxeRaNhVBQ+RU
-         hAnRXa9qJjRy197luCWynmSLvC6kyZEC06FiMomBO6fN7x/hceK8ia8E356+NWghFiHb
-         eiq+OCQE9ZP3Z6bHpTbMEvJ35i5rjfHkTwUY6sX0WGxl3BKWvvNdF9nnOJBANFIT9Ox7
-         RKXZvQZg9Xa0+9jpheWeYOZhyRUmFWJBoRULu4ryeNRygmu3ahCjSVs0ggWT3Y75SLUi
-         Mcrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794854265; x=1795459065;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Ly0wSpOqETq67pj9QgQqaNP7QubSpXxkzzUxAFz3ui8=;
-        b=iJUX4V8cdaXODmwTYqKjnVR4mSTsaaEcKyZ3gyRDgSWPeWwAsJ6g8TiWuQhgvXHld9
-         PGPCvUhRWEEOnLBRlrqBBk6/0rSvuUsa2dQeVZt/AExMnrpEKn6cF1CXAFhfyjFogJhf
-         p73S0Xii2y8R8m8hPUdiy25sT8HKMVAlj9zATY4HGMnsER8Fuhl+M+O4ynUYZ4Roe3lZ
-         0btBLSuTuBORaso7ncttIMbiDGKvppHn8UH85L+b75Tc05ItzKlyxIXjM72Oh8rSGuYQ
-         6+mIM4/rFt6kmcrzcHJ6KT6fClYW+jhdpL7wMSmEchZn/dYUg7oRGa5O6A+1VerQ7ndO
-         zu7g==
-X-Forwarded-Encrypted: i=1; AL+hErHeZO8J6/j3BXiXfzUYpwCZp9GGZNGcDtrWx2kEI5WIMatEbNjz9YEl8fxvloLxyIYY4dpIQIVhuMUdAg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8CezxU6bkyGf2ozdJuwCnjNSXi8h+cKX5Z7mY9sUoEcsOOjvQ1
-	hxpaIYEskPHNUBfx5SqiYjcOebu3JMfooSIMsXqsUE2k1Yif1EeyK0dpcahsUwDxv4yxNFfJzzK
-	LkfHPe0pevsEsYt4VXyrcX1+kJl0L74ZEw10Jx7USzIdfka/GhuMUMK8kfmKOn8ZF4u8nlGyiNb
-	tcI5UFv/AmTvTLF6Hsfp7yHDN/MavgFoDLbXpxq2BT
-X-Gm-Gg: AYBFou0aqqeNYqDEg/s7Fmmdzm/6c8GSAEkC+Eu3BuJjN8Ml7+sGAB037qhDx61uM9f
-	vI+lFZ63rfQIQ4XVLLRRLY+jaD5UUAJxpKmwoMUTZzMhEqUyQGGRq1N2iumBkPWNCgEs7EnrPwy
-	QJkv3oAVAfKQpbgrc9HEmgGyX7bppzdXLYC29rhjfDRbmBtSMEL9jXMuu/Hx9f02Bpm1TejYmL+
-	iAjaqJaeBnannsvjf/ytLxFgY1zM5atm83bUts1yvN51WIuYQ5dE/M3tWUQ7v2HG1FAYDesZAdR
-X-Received: by 2002:a05:620a:6910:b0:949:6476:91df with SMTP id af79cd13be357-94964769908mr1306133885a.27.1794854265111;
-        Mon, 16 Nov 2026 10:37:45 -0800 (PST)
-X-Received: by 2002:a05:620a:6910:b0:949:6476:91df with SMTP id
- af79cd13be357-94964769908mr1306128585a.27.1794854264515; Mon, 16 Nov 2026
- 10:37:44 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=ar/HfkpK
+Received: from [10.4.158.9] (unknown [4.194.122.136])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 7265820B7168;
+	Mon, 16 Nov 2026 10:46:22 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7265820B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1794854797;
+	bh=2YUoAQtat16PZh3hSCS4+DqmjjlkhuzhPF22RNobT8o=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ar/HfkpK8k1ZfyLEAMEdfVEdj4XWJ+1H1H5p4+N5kRMVF/qjNy+qJg4OAdqfB9iv6
+	 /GyMsdSGwvn/F858ycbweBk71Yc8fOyK+s49/97ZsaR0580NPH4BYdq2zfYt3tar5I
+	 jrG1L0wqQBpLEjYOex+EamkH/5FPwfT+dGzxHjes=
+Message-ID: <193e4130-9c2f-4a0f-b218-f5fcf0b3d508@linux.microsoft.com>
+Date: Mon, 16 Nov 2026 10:46:25 -0800
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -128,225 +53,443 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261102-pm-clk-resume-report-errors-v1-1-ba6e1dddd522@oss.qualcomm.com>
-In-Reply-To: <20261102-pm-clk-resume-report-errors-v1-1-ba6e1dddd522@oss.qualcomm.com>
-From: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Date: Mon, 16 Nov 2026 19:37:33 +0100
-X-Gm-Features: AclHuK-5A642jlfrsRiFikZwKptRymZe-s-kt3fOZysrAU132IAw9jKbio5jyXg
-Message-ID: <CAFEp6-3GKHmc4y_mTTVMO6iPdnpmxEmRokpki4uVGoBuXTj6Hg@mail.gmail.com>
-Subject: Re: [PATCH] PM: clk: Report clock enable failures from pm_clk_resume()
-To: Abel Vesa <abel.vesa@oss.qualcomm.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
-        Pavel Machek <pavel@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-        linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE2MDA3NCBTYWx0ZWRfX0y5eybE9sFZ6
- /tN+m919+uPePS75SjqVCqbpjiFdZ23FY8VWgAcoNwF91UxebyzZ3Q3WcsT4jT3FL6s1rOEmtiN
- 7q9NPrSitjhSqDIaWNuRz31oTaF7FhM=
-X-Authority-Analysis: v=2.4 cv=epRKXYpX c=1 sm=1 tr=0 ts=6afb4d7a cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8 a=-LQT69PtjwrO-PJxn2MA:9
- a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-ORIG-GUID: NfJSXdYGkPABFKQw10yGePdaXque8d4F
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE2MDA3NCBTYWx0ZWRfXyaBCi3c955By
- S0IY5T6yWsurqDG9ZdTR6w9zSbtcXkOL/n0I28wMIjFQ69zBAwhbCHHV8Ep9Ic/3+J7bTBUos/G
- Ga49yjlKbFCuzT5JTgv6y8dSl7JGB8Y6TRnfAZ0RN+l8Qz9MiUggkcNvq7NST8RpG+SFEPldb78
- GPrqg1E6iQV4EHWBF69v15Lthkx6T0X6mJaGsfVuGc5IUORmeOU/o5q+kDSEc9eDDPyhlP0xby6
- ABnJxzXl0xa+koGjPwTqmBWy3MBWrvGPge6JwhdsTqN3Pt/vs/vl+jFqnaPGXmuQyVrBDF8ANb5
- a+ckW7ysdQLOLUwgwVFFqKNc9fAKH9nm3iSE3dzQ2tpiiz8cBKnx0wytkQiChvIftA1aKK8qBQ1
- yUeq+9p/xo9GAnf+4NxubjDRnsX1glDniKRxGnC/J5mHdQdfigXAaSWhnN/Oz0jy7RIDauNZrzh
- N2ynu8Gxjd8Iokhmnhw==
-X-Proofpoint-GUID: NfJSXdYGkPABFKQw10yGePdaXque8d4F
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-16_05,2026-11-16_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 malwarescore=0 bulkscore=0 phishscore=0 adultscore=0
- priorityscore=1501 suspectscore=0 spamscore=0 clxscore=1015 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611160074
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 18/19] PCI: Replace untrusted state with device trust
+To: Leon Romanovsky <leon@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ "Joerg Roedel (AMD)" <joro@8bytes.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, David Woodhouse <dwmw2@infradead.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>, Johan Hovold <johan@kernel.org>,
+ Eric Dumazet <edumazet@kernel.org>, Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Nipun Gupta <nipun.gupta@amd.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>,
+ Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-input@vger.kernel.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, iommu@lists.linux.dev,
+ Jason Gunthorpe <jgg@ziepe.ca>
+References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
+ <20261109-device-trust-core-v2-18-3b12d9a9f861@nvidia.com>
+Content-Language: en-US
+From: Kameron Carr <kameroncarr@linux.microsoft.com>
+In-Reply-To: <20261109-device-trust-core-v2-18-3b12d9a9f861@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 2, 2026 at 11:23=E2=80=AFAM Abel Vesa <abel.vesa@oss.qualcomm.c=
-om> wrote:
->
-> pm_clk_resume() logs a clock that fails to start but always returns
-> success, so the runtime resume of a device using the PM clock helpers
-> succeeds without its clocks, and its driver goes on and accesses the
-> hardware.
->
-> This happens to the devices in the Qualcomm LPASS, whose clocks are
-> provided by the ADSP: after the ADSP is gone, like right after a
-> hibernation image is restored, a sound card opened by user space
-> resumes the LPASS LPI pin controller without clocks, and the access to
-> its registers then brings the whole machine down:
->
->   qcom-prm gprsvc:service:2:2: CMD timeout for [100100f] opcode
->   qcom-sm8550-lpass-lpi-pinctrl 6e80000.pinctrl: __pm_clk_enable: failed =
-to enable clk 00000000b90a5151, error -110
->
-> Stop at the first clock that fails to start, stop the ones started
-> before it, and return the error, so that the resume fails and the
-> device stays suspended with its clocks off.
->
-> The callers of pm_clk_resume() check what it returns, including genpd
-> and pm_clk_runtime_resume(), except the MMP2 audio clock controller,
-> which keeps ignoring it. A device with a clock that fails to start no
-> longer resumes though, even if it used to work without that clock.
->
-> Signed-off-by: Abel Vesa <abel.vesa@oss.qualcomm.com>
-
-Reviewed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
-
+On 11/8/2026 11:33 PM, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
+> 
+> Convert the PCI specific untrusted to use the common device trust
+> level. Adversarial means the same thing untrusted does.
+> 
+> PCI discovery keeps the logic that set untrusted: it looks for removable
+> PCI devices with arch_pci_dev_is_removable() and defaults them to an
+> adversarial policy. Treat a disabled policy the same way when choosing
+> the IOMMU domain. Do not record the ATS capability of such a device, as
+> pci_ats_supported() rejected untrusted ones. Let the Intel write-buffer
+> quirk apply, as it only adds flushing.
+> 
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 > ---
-> pm_clk_resume() always returns success, even when a clock fails to
-> start, so a device using the PM clock helpers resumes without its clocks
-> and its driver goes on accessing the hardware.
->
-> I hit this on the Qualcomm Hamoa CRD while working on hibernation: the LP=
-ASS
-> devices get their clocks from the ADSP, and when the ADSP is gone, like
-> right after a hibernation image is restored, a sound card opened by user
-> space resumes the LPASS LPI pin controller without clocks and the whole
-> machine resets on the first register access. With this patch, the
-> resume fails, the open fails, and the machine stays up until the ADSP is
-> restarted.
->
-> The LPASS macro drivers already check what pm_clk_resume() returns, but
-> never saw an error so far.
->
-> Prepared with help from an LLM-based assistant.
-> ---
->  drivers/base/power/clock_ops.c | 56 ++++++++++++++++++++++++++++++------=
-------
->  1 file changed, 40 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/base/power/clock_ops.c b/drivers/base/power/clock_op=
-s.c
-> index 3b8ba27802a8..a978eb3d5479 100644
-> --- a/drivers/base/power/clock_ops.c
-> +++ b/drivers/base/power/clock_ops.c
-> @@ -143,8 +143,10 @@ static void pm_clk_op_unlock(struct pm_subsys_data *=
-psd, unsigned long *flags)
->   * __pm_clk_enable - Enable a clock, reporting any errors
->   * @dev: The device for the given clock
->   * @ce: PM clock entry corresponding to the clock.
-> + *
-> + * Return: 0 on success or the error from enabling the clock.
->   */
-> -static inline void __pm_clk_enable(struct device *dev, struct pm_clock_e=
-ntry *ce)
-> +static inline int __pm_clk_enable(struct device *dev, struct pm_clock_en=
-try *ce)
+>  drivers/iommu/amd/iommu.c   |  3 +--
+>  drivers/iommu/dma-iommu.c   | 14 +++++---------
+>  drivers/iommu/intel/iommu.c | 17 +++++------------
+>  drivers/iommu/iommu.c       | 17 +++++++++--------
+>  drivers/pci/ats.c           |  4 ++--
+>  drivers/pci/pci.c           |  5 +++--
+>  drivers/pci/probe.c         | 22 +++++++++++-----------
+>  drivers/pci/quirks.c        |  7 ++++---
+>  include/linux/device.h      |  5 +++++
+>  include/linux/pci.h         | 30 ++++++++++++++++++++++--------
+>  10 files changed, 67 insertions(+), 57 deletions(-)
+> 
+> diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+> index 960e1dc05ec69..e358bbb1f2baa 100644
+> --- a/drivers/iommu/amd/iommu.c
+> +++ b/drivers/iommu/amd/iommu.c
+> @@ -3401,8 +3401,7 @@ static int amd_iommu_def_domain_type(struct device *dev)
+>  	if (!dev_is_pci(dev))
+>  		return 0;
+>  
+> -	/* Always use DMA domain for untrusted device */
+> -	if (to_pci_dev(dev)->untrusted)
+> +	if (pci_dev_default_is_restricted(to_pci_dev(dev)))
+>  		return IOMMU_DOMAIN_DMA;
+>  
+>  	/* Apply device specific quirks */
+> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> index 78742aeba932d..a48fb511bfe6f 100644
+> --- a/drivers/iommu/dma-iommu.c
+> +++ b/drivers/iommu/dma-iommu.c
+> @@ -589,16 +589,11 @@ static int iova_reserve_iommu_regions(struct device *dev,
+>  	return ret;
+>  }
+>  
+> -static bool dev_is_untrusted(struct device *dev)
+> -{
+> -	return dev_is_pci(dev) && to_pci_dev(dev)->untrusted;
+> -}
+> -
+>  static bool dev_use_swiotlb(struct device *dev, size_t size,
+>  			    enum dma_data_direction dir)
 >  {
->         int ret;
->
-> @@ -156,13 +158,29 @@ static inline void __pm_clk_enable(struct device *d=
-ev, struct pm_clock_entry *ce
->                 ret =3D clk_enable(ce->clk);
->                 break;
->         default:
-> -               return;
-> +               return 0;
->         }
->         if (!ret)
->                 ce->status =3D PCE_STATUS_ENABLED;
->         else
->                 dev_err(dev, "%s: failed to enable clk %p, error %d\n",
->                         __func__, ce->clk, ret);
+>  	return IS_ENABLED(CONFIG_SWIOTLB) &&
+> -		(dev_is_untrusted(dev) ||
+> +		(device_is_adversarial(dev) ||
+>  		 dma_kmalloc_needs_bounce(dev, size, dir));
+>  }
+>  
+> @@ -611,7 +606,7 @@ static bool dev_use_sg_swiotlb(struct device *dev, struct scatterlist *sg,
+>  	if (!IS_ENABLED(CONFIG_SWIOTLB))
+>  		return false;
+>  
+> -	if (dev_is_untrusted(dev))
+> +	if (device_is_adversarial(dev))
+>  		return true;
+>  
+>  	/*
+> @@ -1189,7 +1184,8 @@ static phys_addr_t iommu_dma_map_swiotlb(struct device *dev, phys_addr_t phys,
+>  	 * swiotlb_tbl_map_single() has initialized the bounce buffer proper to
+>  	 * the contents of the original memory buffer.
+>  	 */
+> -	if (phys != (phys_addr_t)DMA_MAPPING_ERROR && dev_is_untrusted(dev)) {
+> +	if (phys != (phys_addr_t)DMA_MAPPING_ERROR &&
+> +	    device_is_adversarial(dev)) {
+>  		size_t start, virt = (size_t)phys_to_virt(phys);
+>  
+>  		/* Pre-padding */
+> @@ -1790,7 +1786,7 @@ size_t iommu_dma_max_opt_mapping_size(void)
+>  
+>  size_t iommu_dma_max_mapping_size(struct device *dev)
+>  {
+> -	if (dev_is_untrusted(dev))
+> +	if (device_is_adversarial(dev))
+>  		return swiotlb_max_mapping_size(dev);
+>  
+>  	return SIZE_MAX;
+> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+> index 5a2e705a2f2e0..66942a91b992f 100644
+> --- a/drivers/iommu/intel/iommu.c
+> +++ b/drivers/iommu/intel/iommu.c
+> @@ -2624,8 +2624,8 @@ static void __init platform_optin_force_iommu(void)
+>  		return;
+>  
+>  	/*
+> -	 * If Intel-IOMMU is disabled by default, we will apply identity
+> -	 * map for all devices except those marked as being untrusted.
+> +	 * If Intel-IOMMU is disabled by default, an external device could
+> +	 * otherwise receive an identity map despite its adversarial policy.
+>  	 */
+>  	if (dmar_policy_off()) {
+>  		pr_info("Intel-IOMMU force enabled due to platform opt in\n");
+> @@ -3629,16 +3629,12 @@ static bool intel_iommu_is_attach_deferred(struct device *dev)
+>  	return translation_pre_enabled(info->iommu) && !info->domain;
+>  }
+>  
+> -/*
+> - * Check that the device does not live on an external facing PCI port that is
+> - * marked as untrusted. Such devices should not be able to apply quirks and
+> - * thus not be able to bypass the IOMMU restrictions.
+> - */
+> +/* Bypass quirks must not prevent later adversarial operation. */
+>  static bool risky_device(struct pci_dev *pdev)
+>  {
+> -	if (pdev->untrusted) {
+> +	if (pci_dev_default_is_restricted(pdev)) {
+>  		pci_info(pdev,
+> -			 "Skipping IOMMU quirk for dev [%04X:%04X] on untrusted PCI link\n",
+> +			 "Skipping IOMMU quirk due to trust policy [%04X:%04X]\n",
+>  			 pdev->vendor, pdev->device);
+>  		pci_info(pdev, "Please check with your BIOS/Platform vendor about this\n");
+>  		return true;
+> @@ -4124,9 +4120,6 @@ DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x163D, quirk_iommu_igfx);
+>  
+>  static void quirk_iommu_rwbf(struct pci_dev *dev)
+>  {
+> -	if (risky_device(dev))
+> -		return;
+> -
+>  	/*
+>  	 * Mobile 4 Series Chipset neglects to set RWBF capability,
+>  	 * but needs it. Same seems to hold for the desktop versions.
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index b486b8bbd1fcd..8be2a246d4903 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -1879,7 +1879,7 @@ static int iommu_get_def_domain_type(struct iommu_group *group,
+>  static int iommu_get_default_domain_type(struct iommu_group *group,
+>  					 int target_type)
+>  {
+> -	struct device *untrusted = NULL;
+> +	struct device *restricted = NULL;
+>  	struct group_device *gdev;
+>  	int driver_type = 0;
+>  
+> @@ -1901,14 +1901,15 @@ static int iommu_get_default_domain_type(struct iommu_group *group,
+>  		driver_type = iommu_get_def_domain_type(group, gdev->dev,
+>  							driver_type);
+>  
+> -		if (dev_is_pci(gdev->dev) && to_pci_dev(gdev->dev)->untrusted) {
+> +		if (dev_is_pci(gdev->dev) &&
+> +		    pci_dev_default_is_restricted(to_pci_dev(gdev->dev))) {
+>  			/*
+> -			 * No ARM32 using systems will set untrusted, it cannot
+> -			 * work.
+> +			 * No ARM32 using systems select a restricted trust
+> +			 * policy; it cannot work.
+>  			 */
+>  			if (WARN_ON(IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)))
+>  				return -1;
+> -			untrusted = gdev->dev;
+> +			restricted = gdev->dev;
+>  		}
+>  	}
+>  
+> @@ -1924,11 +1925,11 @@ static int iommu_get_default_domain_type(struct iommu_group *group,
+>  			driver_type = IOMMU_DOMAIN_IDENTITY;
+>  	}
+>  
+> -	if (untrusted) {
+> +	if (restricted) {
+>  		if (driver_type && driver_type != IOMMU_DOMAIN_DMA) {
+>  			dev_err_ratelimited(
+> -				untrusted,
+> -				"Device is not trusted, but driver is overriding group %u to %s, refusing to probe.\n",
+> +				restricted,
+> +				"Device trust policy restricts DMA, but driver is overriding group %u to %s, refusing to probe.\n",
+>  				group->id, iommu_domain_type_str(driver_type));
+>  			return -1;
+>  		}
+> diff --git a/drivers/pci/ats.c b/drivers/pci/ats.c
+> index 9cb23780093dd..c8c96acc26343 100644
+> --- a/drivers/pci/ats.c
+> +++ b/drivers/pci/ats.c
+> @@ -21,7 +21,7 @@ void pci_ats_init(struct pci_dev *dev)
+>  {
+>  	int pos;
+>  
+> -	if (pci_ats_disabled())
+> +	if (pci_ats_disabled() || pci_dev_default_is_restricted(dev))
+>  		return;
+>  
+>  	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ATS);
+> @@ -40,7 +40,7 @@ void pci_ats_init(struct pci_dev *dev)
+>   */
+>  bool pci_ats_supported(struct pci_dev *dev)
+>  {
+> -	if (!dev->ats_cap || dev->untrusted)
+> +	if (!dev->ats_cap)
+>  		return false;
+>  
+>  	if (dev->is_virtfn)
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index 7c6f2aba81443..b08adba03f96b 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -1016,8 +1016,9 @@ static void pci_std_enable_acs(struct pci_dev *dev, struct pci_acs *caps)
+>  	/* Upstream Forwarding */
+>  	caps->ctrl |= (dev->acs_capabilities & PCI_ACS_UF);
+>  
+> -	/* Enable Translation Blocking for external devices and noats */
+> -	if (pci_ats_disabled() || dev->external_facing || dev->untrusted)
+> +	/* Enable Translation Blocking when ATS is unavailable or restricted. */
+> +	if (pci_ats_disabled() || dev->external_facing ||
+> +	    !pci_dev_ats_permitted(dev))
+>  		caps->ctrl |= (dev->acs_capabilities & PCI_ACS_TB);
+>  }
+>  
+> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> index 5b6960bbb35bc..607569c31b5b9 100644
+> --- a/drivers/pci/probe.c
+> +++ b/drivers/pci/probe.c
+> @@ -1738,24 +1738,24 @@ static void set_pcie_cxl(struct pci_dev *dev)
+>  
+>  }
+>  
+> -static void set_pcie_untrusted(struct pci_dev *dev)
+> +static void pci_set_default_trust_policy(struct pci_dev *dev)
+>  {
+> -	struct pci_dev *parent = pci_upstream_bridge(dev);
+> +	struct pci_dev *parent = pci_physfn(dev);
 > +
-> +       return ret;
+> +	if (parent == dev)
+> +		parent = pci_upstream_bridge(dev);
+>  
+>  	if (!parent)
+>  		return;
+
+Hi Leon,
+
+The default policy here works for physical hierarchies, but there's no
+opportunity for a paravirtual host bridge to participate in the trust
+resolution when the host bridge driver itself knows the appropriate
+trust level for a device.
+
+Could we add an optional host bridge callback?
+
+    struct pci_host_bridge {
+        ...
+        int (*trust_resolve)(struct pci_host_bridge *bridge,
+                     struct pci_dev *dev,
+                     const struct device_driver *drv,
+                     enum device_trust_policy policy,
+                     enum device_trust_level *level);
+    };
+
+An implementation of trust_resolve() in pci_bus_type could default to
+calling the hook and fall back to the current default policy when the
+host bridge does not provide a callback.
+
+My scenario is pci-hyperv in a confidential VM with a paravisor. The
+paravisor is inside the guest's trust boundary and owns TDISP. It locks,
+attests and accepts the device, then answers a VMBus query describing
+which BAR ranges are private and whether the device's DMA may target
+private memory. Before a driver can bind pci-hyperv has to:
+
+  - query the paravisor,
+  - refuse to operate the device if the query failed or if the response
+    is invalid,
+  - decide whether the device may operate.
+
+The modular host bridge driver in this scenario needs a hook to be able
+to participate in trust resolution.
+
+I'm also looking for the right place to setup MMIO and configure DMA
+in my scenario. Let me know if you have guidance.
+
+--
+Regards,
+Kameron
+
+
+> -	/*
+> -	 * If the upstream bridge is untrusted we treat this device as
+> -	 * untrusted as well.
+> -	 */
+> -	if (parent->untrusted) {
+> -		dev->untrusted = true;
+> +
+> +	if (device_policy_is_adversarial(&parent->dev)) {
+> +		dev->dev.trust_policy = DEVICE_TRUST_POLICY_ADVERSARY;
+>  		return;
+>  	}
+>  
+>  	if (arch_pci_dev_is_removable(dev)) {
+> -		pci_dbg(dev, "marking as untrusted\n");
+> -		dev->untrusted = true;
+> +		pci_dbg(dev, "setting adversarial trust policy\n");
+> +		dev->dev.trust_policy = DEVICE_TRUST_POLICY_ADVERSARY;
+>  	}
+>  }
+>  
+> @@ -2082,7 +2082,7 @@ int pci_setup_device(struct pci_dev *dev)
+>  
+>  	set_pcie_cxl(dev);
+>  
+> -	set_pcie_untrusted(dev);
+> +	pci_set_default_trust_policy(dev);
+>  	device_trust_init(&dev->dev);
+>  
+>  	/* "Unknown power state" */
+> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+> index 7f1f47ea2ee41..9ed3e7660bab2 100644
+> --- a/drivers/pci/quirks.c
+> +++ b/drivers/pci/quirks.c
+> @@ -5525,8 +5525,8 @@ static void pci_quirk_enable_intel_rp_mpc_acs(struct pci_dev *dev)
+>   * Currently this quirk does the equivalent of
+>   * PCI_ACS_SV | PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_UF
+>   *
+> - * TODO: This quirk also needs to do equivalent of PCI_ACS_TB,
+> - * if dev->external_facing || dev->untrusted
+> + * TODO: This quirk also needs to do the equivalent of PCI_ACS_TB when the
+> + * device is external-facing or ATS is restricted by trust policy.
+>   */
+>  static int pci_quirk_enable_intel_pch_acs(struct pci_dev *dev)
+>  {
+> @@ -5567,7 +5567,8 @@ static int pci_quirk_enable_intel_spt_pch_acs(struct pci_dev *dev)
+>  	ctrl |= (cap & PCI_ACS_CR);
+>  	ctrl |= (cap & PCI_ACS_UF);
+>  
+> -	if (pci_ats_disabled() || dev->external_facing || dev->untrusted)
+> +	if (pci_ats_disabled() || dev->external_facing ||
+> +	    !pci_dev_ats_permitted(dev))
+>  		ctrl |= (cap & PCI_ACS_TB);
+>  
+>  	pci_write_config_dword(dev, pos + INTEL_SPT_ACS_CTRL, ctrl);
+> diff --git a/include/linux/device.h b/include/linux/device.h
+> index e3e7457cd50f4..770c3040fd2b9 100644
+> --- a/include/linux/device.h
+> +++ b/include/linux/device.h
+> @@ -933,6 +933,11 @@ static inline bool device_iommu_mapped(struct device *dev)
+>  	return (dev->iommu_group != NULL);
+>  }
+>  
+> +static inline bool device_policy_is_adversarial(const struct device *dev)
+> +{
+> +	return READ_ONCE(dev->trust_policy) == DEVICE_TRUST_POLICY_ADVERSARY;
 > +}
 > +
-> +static inline void __pm_clk_disable(struct pm_clock_entry *ce)
-> +{
-> +       if (ce->status !=3D PCE_STATUS_ENABLED)
-> +               return;
-> +
-> +       if (ce->enabled_when_prepared) {
-> +               clk_disable_unprepare(ce->clk);
-> +               ce->status =3D PCE_STATUS_ACQUIRED;
-> +       } else {
-> +               clk_disable(ce->clk);
-> +               ce->status =3D PCE_STATUS_PREPARED;
-> +       }
->  }
->
->  /**
-> @@ -483,17 +501,8 @@ int pm_clk_suspend(struct device *dev)
->         if (ret)
->                 return ret;
->
-> -       list_for_each_entry_reverse(ce, &psd->clock_list, node) {
-> -               if (ce->status =3D=3D PCE_STATUS_ENABLED) {
-> -                       if (ce->enabled_when_prepared) {
-> -                               clk_disable_unprepare(ce->clk);
-> -                               ce->status =3D PCE_STATUS_ACQUIRED;
-> -                       } else {
-> -                               clk_disable(ce->clk);
-> -                               ce->status =3D PCE_STATUS_PREPARED;
-> -                       }
-> -               }
-> -       }
-> +       list_for_each_entry_reverse(ce, &psd->clock_list, node)
-> +               __pm_clk_disable(ce);
->
->         pm_clk_op_unlock(psd, &flags);
->
-> @@ -504,6 +513,9 @@ EXPORT_SYMBOL_GPL(pm_clk_suspend);
->  /**
->   * pm_clk_resume - Enable clocks in a device's PM clock list.
->   * @dev: Device to enable the clocks for.
-> + *
-> + * Return: 0 on success or a negative error code. If a clock fails to st=
-art,
-> + * the clocks started before it are stopped again.
->   */
->  int pm_clk_resume(struct device *dev)
+>  static inline bool device_policy_is_disabled(const struct device *dev)
 >  {
-> @@ -521,12 +533,24 @@ int pm_clk_resume(struct device *dev)
->         if (ret)
->                 return ret;
->
-> -       list_for_each_entry(ce, &psd->clock_list, node)
-> -               __pm_clk_enable(dev, ce);
-> +       list_for_each_entry(ce, &psd->clock_list, node) {
-> +               ret =3D __pm_clk_enable(dev, ce);
-> +               if (ret)
-> +                       break;
-> +       }
-> +
-> +       /*
-> +        * A device whose clocks are not running cannot be accessed. Do n=
-ot
-> +        * pretend it resumed, and leave its clocks off as it stays suspe=
-nded.
-> +        */
-> +       if (ret) {
-> +               list_for_each_entry_continue_reverse(ce, &psd->clock_list=
-, node)
-> +                       __pm_clk_disable(ce);
-> +       }
->
->         pm_clk_op_unlock(psd, &flags);
->
-> -       return 0;
-> +       return ret;
+>  	return READ_ONCE(dev->trust_policy) == DEVICE_TRUST_POLICY_DISABLED;
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index aa3765a20a96c..087c63b177c85 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -490,14 +490,6 @@ struct pci_dev {
+>  	unsigned int	shpc_managed:1;		/* SHPC owned by shpchp */
+>  	unsigned int	is_thunderbolt:1;	/* Thunderbolt controller */
+>  	unsigned int	is_cxl:1;               /* Compute Express Link (CXL) */
+> -	/*
+> -	 * Devices marked being untrusted are the ones that can potentially
+> -	 * execute DMA attacks and similar. They are typically connected
+> -	 * through external ports such as Thunderbolt but not limited to
+> -	 * that. When an IOMMU is enabled they should be getting full
+> -	 * mappings to make sure they cannot access arbitrary memory.
+> -	 */
+> -	unsigned int	untrusted:1;
+>  	/*
+>  	 * Info from the platform, e.g., ACPI or device tree, may mark a
+>  	 * device as "external-facing".  An external-facing device is
+> @@ -616,6 +608,28 @@ static inline struct pci_dev *to_pci_dev(const struct device *dev)
+>  {
+>  	return container_of(dev, struct pci_dev, dev);
 >  }
->  EXPORT_SYMBOL_GPL(pm_clk_resume);
->
->
-> ---
-> base-commit: 7649ba73f9e7e1e04d0b46213e39c79ae09dd55c
-> change-id: 20261029-pm-clk-resume-report-errors-b5d538eb27de
->
-> Best regards,
-> --
->
-> Abel
->
->
+> +
+> +static inline bool
+> +pci_dev_default_is_restricted(const struct pci_dev *pdev)
+> +{
+> +	enum device_trust_policy policy = READ_ONCE(pdev->dev.trust_policy);
+> +
+> +	return policy == DEVICE_TRUST_POLICY_DISABLED ||
+> +	       policy == DEVICE_TRUST_POLICY_ADVERSARY;
+> +}
+> +
+> +static inline bool pci_dev_ats_permitted(const struct pci_dev *pdev)
+> +{
+> +	enum device_trust_level level = device_get_trust_level(&pdev->dev);
+> +	enum device_trust_policy policy = READ_ONCE(pdev->dev.trust_policy);
+> +
+> +	if (level == DEVICE_TRUST_DISABLED)
+> +		return policy != DEVICE_TRUST_POLICY_ADVERSARY &&
+> +		       policy != DEVICE_TRUST_POLICY_DISABLED;
+> +
+> +	return level == DEVICE_TRUST_FULL;
+> +}
+> +
+>  #define for_each_pci_dev(d) while ((d = pci_get_device(PCI_ANY_ID, PCI_ANY_ID, d)) != NULL)
+>  #define for_each_pci_dev_reverse(d) \
+>  	while ((d = pci_get_device_reverse(PCI_ANY_ID, PCI_ANY_ID, d)) != NULL)
+> 
