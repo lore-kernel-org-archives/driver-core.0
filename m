@@ -1,88 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794822184;
-	b=ml3wYMPs5kZTI/Goa6DzhmIOvapPacUcWietVST/tyMiCTeezUrSSTZRyMDs15aHVZBV
-	 qx9tz/N/uThK3845mA9IjaS2IKzUDVIiZtjdQcYZhixgdMlENUeayvumBdwbIt1o0wBhk
-	 ABlmAI2206aXdAsgLyArHXxNX5+TXUCnbzf15Ypmvfoe5wdDEdIeUQ20AYqh5VEZ8i23e
-	 N+p9+L6fzKsfAkLWtNInh7Lr194fUQKj7h1q3uV1x5tIT1UQiqNXYPJtA5VkPvtLGsXqx
-	 O833sbB6JFhzD5AS2Mf8BxTeF7jFFAUtAriXCoRO3cM57EcT5yUyQzChK0k6xo08h4Q==
+	t=1794822185;
+	b=HDdiyk7+apqf/49EHKlF9giOBkvnPx0KuStAeIUS18+jesyILKMaEBqhbXX/rLA31McR
+	 Ep9l/+409e6RBXxnITyPF9ApfLz+FAJMJWyPFgT4tF5JNZLyU7fxadPe7+FUkNigk+EWx
+	 /Xxf7zewQhwD3bG6kBwVkDn5siOVVD0NDEG2aDm084OuDLGxSsnM5rFx0YRZkZWrXGy1e
+	 5Oi/DopnweTC2LQoqnLcejIuIYcKyXB5LDx3Z8i5SGVSEp1rMt4+iCoKc3d3+ncRGy+oZ
+	 L8ZB4O+X3T8V9FDWQa0ZGkAH4W245Zjib2siu6sgVYMDIYQykPAxeARdO4/Q20VQhIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794822184;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794822185;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer;
-	bh=lUNaTCcdfWDc+F04yNeLpG4cAB0pfDKkmS9IxUIqTLw=;
-	b=vOZJpb50fV+DjvH0m6c41t1tkGtUfTcfgtW/wjxbL5hlctImhmupBDMwnv0ThOgK6wZH
-	 uC3Tv4qw230Tty/P5+vbI4UemW3+5i0S/WFGp1ctq6AiTusHGsNzRu3G/p2OuapJmKXB7
-	 1mwMzRkJf4N0PTQCeLfiFsAw93EnFnmyfP4Z2RGSU6hVCQDzUQHChrWT6pkCM2b+yc5dT
-	 /JLXb35/8JRYNovUcAiwNGgSoOAhZPvzcwpCYG5Cvzt9bWfQFeKF6BF5m1XCir0oyS7oX
-	 2q0rjRRHinBJtf7a3wqFAU+OLA5MncvD0QJRTm/tSeRi3a83hj1VCtIGBAi5wKgCTlQ==
+	bh=5LYozNRqhjODpZRRGreiBPLyhGDd9kX9S97BkRXIX68=;
+	b=xpESVa/L4V5xp0W2ZSsGmbSVxmoB0FWJtH18SRJClSOm5LryLBYiddjiQmg6pG0Yl+PC
+	 LfYKAd4vT448B6iHCUtBkHiP48txm7nb+JHc7b9AGwDE+thb3M3LoilV2KrGD9zQpKPpm
+	 oKfyy/iKiZjz9n+7Yap8j6EswFXjanTdVR+TBklQYY3I7UZ9vR5PhwpUr0QzbiTbX1yVM
+	 6Uys8NQl482Nhk94uT9RHKkhLcy5TG94cCV+rYJ+e4eCPLz8a39NtstLwyCYC2kEi5xoa
+	 BzBSP0HQVMvMxHWP/aA7V8aMrgmr3JdG9sOtjfBzqewLbzg7t2STEs5e8fNpfi6dU2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="OBo/isXY";
-	arc=none smtp.remote-ip=209.85.210.170
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OHgazOVX;
+	arc=none smtp.remote-ip=209.85.210.174
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E59606A337
-	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 09:43:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98E59606A337
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD24606A32F
+	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 09:43:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFD24606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OBo/isXY
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-8a070781f63so1096220b3a.1
-        for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 01:43:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OHgazOVX
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8b2f59de176so3692225b3a.2
+        for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 01:43:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794822183; x=1795426983; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794822184; x=1795426984; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=lUNaTCcdfWDc+F04yNeLpG4cAB0pfDKkmS9IxUIqTLw=;
-        b=OBo/isXYHxYjebyNIgjdyKsHtp64tML2KUfX6GCPgaejpIlGtgktgyQuVahQlhQiBq
-         b1G0eZRngM4/dquEX87tX6EGPfIh9vkY/GrCSWjXzhOk49GqFJ16gK+2aQtFSH61d0jZ
-         LG4DiuOo8iaA3veTulABPhy7ccxRrXpn85MLPEo6bGOrSHMtBm5c8tvBCczYxC2dBAzv
-         ZQTN0WQ9DF7j//9G4tBE42l7PVPcDI6nEF2eedKGVEIWwCf/r/JtkKri73JIJsRDiduc
-         ud1kyQDxQyATAZ0fvhRBO5fwXlkHWONX6nBKmlQEtKU/yWk/azXVFGnJ3bmSSrOMqT+0
-         mkSQ==
+        bh=5LYozNRqhjODpZRRGreiBPLyhGDd9kX9S97BkRXIX68=;
+        b=OHgazOVXW8UPtinL7Eg/9sbLxPfKKChmitXvEBLin+jUXZs4j3CDbDcwT7PcA0jFRh
+         XtQZXz2dLSXMkRlLNjkMdADR1eTxLGXwxwH2azbx5i0WX96demZzsjmOLJsTYkz9nygK
+         kJNVK4gWOA7SXdIuiIiO0gMlCZFO9lcb8EMkXr7xmr77HErWZkjGEf3g7Yedt9AzrCFk
+         srpJT1kS+8n9X7VDvNLotZKTFCyGKOpG9C1y1mUu6+eLG3IrEvNhXI/kOng5ziOccnkt
+         FwryLBapv2FAHM7PJ3cppKA7K8chE/yyH6XRE9oPxnPGtbgyDen7CHcU0At2em3vS+wk
+         QJAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794822183; x=1795426983;
+        d=1e100.net; s=20260707; t=1794822184; x=1795426984;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=lUNaTCcdfWDc+F04yNeLpG4cAB0pfDKkmS9IxUIqTLw=;
-        b=rQtOxNnQ2+P8PQ9I4Hs8xP9vCpTvWBMrZqurLkmmpWTmVHt4f3j92lxW5cSpcn/0f2
-         4okf9hFI3KkU823ucjos+o3kVI0qBqf+F6eFibgwDWr/Z1mpNyAyNYNKXxYcFc+pGC81
-         6jJ9DktYwM22UNMPPiDbKA0If2SxLpvcoHFEuCT9J8QlPMuJ7/9HmBukrZPXYGUVdaQ2
-         GPd+pI2ZZYb4mGZnmioRMD3Vs1rBt1Y8rULvGjxlr0CwZpXZ6oAflzTGyXY46J3XPS9x
-         vORCLtOMzO1Rx1pc1VkVeDfe2nZUtHTaSCrD8VPO4lfECBT6+JVCAhNEjYD+F37H+W+x
-         bwcg==
-X-Gm-Message-State: APuU4Z87Qw0p80xAsF5ux9xVHBgTRCpgQzbkhYp1geXPG1U4xEbgZCJp
-	RKW0DkK87/MT1Hs3GTfZ0Db8tDDcw4yyiFlduJRXioGuEVo7Lufa54tI
-X-Gm-Gg: AYBFou2F6DLXbcw18givVu4P4G823UvpoOCPCD8YUOwTbkb2fsAMv8ZBp4RPXZRP0f3
-	6hGErR6vJafiXA9YJXCs+KO41u5g9GyWg8EfJDe8c8bS3/O2y5GtTo9rEr3Vj6kmQ5GSOp9xK5J
-	xK6qdJtbFOAoxJVdu3fTfHpKGQE5TXLglZ6dhvnJoQiOaGpUUZMmszTqL5u/Fimr0OujJiA/OTQ
-	IDM9cMRYA6jw05/WKEgUxolwW+5yLuNJ2UJkx93SHRtr7zvjkX/CpTJbczTjyUoF3sQr7q0ifJi
-	Q++/rIcu84VkJOGxjt9aT6ghzN4NhaEiRGAgthofFG5b7caSIPkRVl4yG7/5e12V1vzvNTCwnfr
-	2KLFa8xHXpy7YIcY8L+yFvQMuF+LN8+Rlka0ky5rw3xi4MFg3+ZTxEhLpGJIkc+rv0xmUVSc0U9
-	PtlIG6xcS1pkdQBtD1/fMk5BbyXwB3Bw4/329VWrN9WurnXJEoFMl2AAJlrJFHv/Bemk2PHbHgv
-	RiP8VU9Lxmkjw2+y5Yok8m1X/0PxqPe7fn9iAf0t0kBkzY+gDmGv0ArZwZtqW9d17d/Dr0Jv5pO
-	sotMd287eIwgEQWn5G5r0LOShV1OXEnUcWKAG9XiCgaWXqwb6+FJciani1xltQSHpn4eJRFe8BW
-	0UKHiY4u0a0Yhq1eM3g==
-X-Received: by 2002:a05:6a00:4b52:b0:88d:20ff:15db with SMTP id d2e1a72fcca58-8beb7a26493mr9160303b3a.54.1794822182843;
-        Mon, 16 Nov 2026 01:43:02 -0800 (PST)
+        bh=5LYozNRqhjODpZRRGreiBPLyhGDd9kX9S97BkRXIX68=;
+        b=NSqZYHkck7+G2/0PhjxnAmrwHTxq1Z5OlvvUvtue5fNexnplP+HV/rkV6VZW+lcXsJ
+         A+7hoyPzxkcrqYEr9lOmjFQ9wESWtQZfUAqZkXKoPlRw2NblvtDNlyDSTgrG78hdIfxP
+         T/3FgobMO3pSyqkMiq54ztUa3vyuF7ISXO0KrXNu+jwOlD3iOgJ2wHpfk4UqnkFt5ZM5
+         /TpROvty6t1YSqy5BE4N4/AGVsq7XzWu/4QYUUPhruWiqAwy+kK1lVyBP54sTPBIRidC
+         M/kqWiDmDidUsJFoFDSusMpVtI8jAAXggHpWqmDc9pfTk5qdQa33Gs9UY3s7j1sU9vbS
+         a37Q==
+X-Gm-Message-State: APuU4Z8EZIcU3X9oVlRHM7LbOQLSgg4UqqXBOXPfOlYNHm0ZqKdq8I97
+	dlzAqR2sIJpV0KTskxqgqqA6mktYUJ2KeOEx9WMDxLWkx0ex4ysVS2/8
+X-Gm-Gg: AYBFou2aHNVgbzmzzoSlqOv6K4VdADNsGlqlcUJwXucuFYgL84uBSxeELytbmJC3SF2
+	F2fYvpNq5BeXC0VUPMosahSbv9eznhUylHfkJ7x+dpE437MilSGcC/Zwki7wJMC9j2xYje1WAI7
+	JUEaLbHB17kKitAdK4M+dkzRi1JgQTW3DAqVaeUaFBmckzFY+dsWPVh+mLb6uD7C6vN3u0HBfBZ
+	+7ThYz4fLuH7qXlmXXLvGfhOelAkCz/81GmK8B5nTjV9xWY4HW7+I/iJVu1k8//fwJEFgOP2/u/
+	jvS9LzWci/SU8ttNGCXwtVkp0lG/L5a1o55f494PN5275Pdu7ttRqOabxsWYaqANEuqfbJiwhvA
+	dwAxUMnyoU6hrsiwcT0kpvPgUwJszO7VEdG6Ld7c2R0davAe96fsnshKzNWwlwT792z76u7kZ2+
+	bD7n/4aAfmbgeqUL/N4M/1DwhXoulBOtdg/zb0/vzsPxAEQx1crv4GgaROP4v3KmHQ/A9z+fYW1
+	AR1yiCHGpRsKlRPvaCPZSAKoS/3w4botZw+01VjHp3VBN+qlk4eeySW9/y/tJdEzbY002blDhZb
+	JxudgxDm5foWZmub78nX+/6syI5WJMV2Cjb5/vOX8PuE/noe6eBpwFAPnf9lu9F5mzrCav2KfUa
+	+bbRmphdWO8Nt6mx9wQ==
+X-Received: by 2002:a05:6a00:4518:b0:8b4:b88a:c2d6 with SMTP id d2e1a72fcca58-8beb6d604a3mr8639338b3a.39.1794822184188;
+        Mon, 16 Nov 2026 01:43:04 -0800 (PST)
 Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:f133:af41:7614:f46c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8bed12a90fdsm3424231b3a.15.2026.11.16.01.43.01
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8bed12a90fdsm3424231b3a.15.2026.11.16.01.43.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 01:43:02 -0800 (PST)
+        Mon, 16 Nov 2026 01:43:03 -0800 (PST)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Date: Mon, 16 Nov 2026 01:42:53 -0800
-Subject: [PATCH 1/4] sysfs: check for SYSFS_GROUP_INVISIBLE using equality
- comparison
+Date: Mon, 16 Nov 2026 01:42:54 -0800
+Subject: [PATCH 2/4] sysfs: check group visibility upfront in
+ sysfs_group_change_owner()
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -94,7 +94,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-sysfs-group-invisible-v1-1-94cd173a7d9a@gmail.com>
+Message-Id: <20261116-sysfs-group-invisible-v1-2-94cd173a7d9a@gmail.com>
 References: <20261116-sysfs-group-invisible-v1-0-94cd173a7d9a@gmail.com>
 In-Reply-To: <20261116-sysfs-group-invisible-v1-0-94cd173a7d9a@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -104,71 +104,57 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.17-dev-6b8b8
 
-Unlike SYSFS_PREALLOC, which is a permission modifier bit OR'd with a
-file mode, SYSFS_GROUP_INVISIBLE is a standalone sentinel return value
-indicating that the entire attribute group should be hidden.
+For hidden named attribute groups, looking up the group subdirectory in
+sysfs_group_change_owner() fails with -ENOENT before attribute
+visibility is ever checked inside sysfs_group_attrs_change_owner(). In
+addition, checking SYSFS_GROUP_INVISIBLE inside
+sysfs_group_attrs_change_owner() still updates ownership on the
+kobject's own directory node for hidden unnamed groups, and breaking out
+of the regular attributes loop still falls through to binary attributes.
 
-Replace bitwise checks and flag masking of SYSFS_GROUP_INVISIBLE with
-direct equality comparisons so that any invalid combination of
-SYSFS_GROUP_INVISIBLE with permission bits is not silently accepted and
-instead triggers the invalid-permissions warning.
+Check group visibility upfront in sysfs_group_change_owner() using
+__first_visible() and return 0 immediately when SYSFS_GROUP_INVISIBLE is
+returned. Remove the now-redundant SYSFS_GROUP_INVISIBLE checks from
+sysfs_group_attrs_change_owner(), which has no other callers.
 
+Fixes: c7fbb8218b4a ("sysfs: check visibility before changing group attribute ownership")
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- fs/sysfs/group.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ fs/sysfs/group.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/fs/sysfs/group.c b/fs/sysfs/group.c
-index 4e1e4f18a166..cc03229f8a94 100644
+index cc03229f8a94..290e70034329 100644
 --- a/fs/sysfs/group.c
 +++ b/fs/sysfs/group.c
-@@ -69,8 +69,7 @@ static int create_files(struct kernfs_node *parent, struct kobject *kobj,
+@@ -520,8 +520,6 @@ static int sysfs_group_attrs_change_owner(struct kobject *kobj,
  					mode = grp->is_visible(kobj, *attr, i);
  				else
  					mode = grp->is_visible_const(kobj, *attr, i);
--				mode &= ~SYSFS_GROUP_INVISIBLE;
--				if (!mode)
-+				if (!mode || mode == SYSFS_GROUP_INVISIBLE)
- 					continue;
- 			}
- 
-@@ -100,8 +99,7 @@ static int create_files(struct kernfs_node *parent, struct kobject *kobj,
- 						(*bin_attr)->attr.name);
- 			if (grp->is_bin_visible) {
- 				mode = grp->is_bin_visible(kobj, *bin_attr, i);
--				mode &= ~SYSFS_GROUP_INVISIBLE;
--				if (!mode)
-+				if (!mode || mode == SYSFS_GROUP_INVISIBLE)
- 					continue;
- 			}
- 			if (grp->bin_size)
-@@ -151,7 +149,7 @@ static int internal_create_group(struct kobject *kobj, int update,
- 	if (grp->name) {
- 		umode_t mode = __first_visible(grp, kobj);
- 
--		if (mode & SYSFS_GROUP_INVISIBLE)
-+		if (mode == SYSFS_GROUP_INVISIBLE)
- 			mode = 0;
- 		else
- 			mode = S_IRWXU | S_IRUGO | S_IXUGO;
-@@ -522,7 +520,7 @@ static int sysfs_group_attrs_change_owner(struct kobject *kobj,
- 					mode = grp->is_visible(kobj, *attr, i);
- 				else
- 					mode = grp->is_visible_const(kobj, *attr, i);
--				if (mode & SYSFS_GROUP_INVISIBLE)
-+				if (mode == SYSFS_GROUP_INVISIBLE)
- 					break;
+-				if (mode == SYSFS_GROUP_INVISIBLE)
+-					break;
  				if (!mode)
  					continue;
-@@ -544,7 +542,7 @@ static int sysfs_group_attrs_change_owner(struct kobject *kobj,
+ 			}
+@@ -542,8 +540,6 @@ static int sysfs_group_attrs_change_owner(struct kobject *kobj,
  		for (i = 0, bin_attr = grp->bin_attrs; *bin_attr; i++, bin_attr++) {
  			if (grp->is_bin_visible) {
  				mode = grp->is_bin_visible(kobj, *bin_attr, i);
--				if (mode & SYSFS_GROUP_INVISIBLE)
-+				if (mode == SYSFS_GROUP_INVISIBLE)
- 					break;
+-				if (mode == SYSFS_GROUP_INVISIBLE)
+-					break;
  				if (!mode)
  					continue;
+ 			}
+@@ -585,6 +581,9 @@ int sysfs_group_change_owner(struct kobject *kobj,
+ 	if (!kobj->state_in_sysfs)
+ 		return -EINVAL;
+ 
++	if (__first_visible(grp, kobj) == SYSFS_GROUP_INVISIBLE)
++		return 0;
++
+ 	if (grp->name) {
+ 		grp_kn = kernfs_find_and_get(kobj->sd, grp->name);
+ 	} else {
 
 -- 
 2.56.0.679.gc527c65306-goog
