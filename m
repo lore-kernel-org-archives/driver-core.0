@@ -1,131 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794844785;
-	b=j13mVrXkxnBB2nHuI+ZesqHrlNdhW8ct84oSS0k1TVe29DdTYgEH7JGkMOlX0FZSXZ63
-	 x+gFZBu16NZHDKaR4DZkLmyabLIVbQs6cnevpmIODLnZxVODOKO9RHLNm7kqFcM8FNCv5
-	 7uwq+w3SmLPszQDZoiLxp7JYRraiHkZGjNlo01oH+A06w0dQxaRMB+ySiAvwhcmTfEc37
-	 l0qttP2opEv1mtLPu8MzQRPxFbhFTtrAezbvd//I4dur1Uv2fTYSL+88W/ZLoJfgmrIm/
-	 r0Go14GKQ17zDOWcGs6AiQk1m68twIB7dMz1898evVnJpt7PI4/Hlg4oPsBhqpYeqGQ==
+	t=1794848912;
+	b=BUidNMiZ8a6gvNZBxI+7QAajTT3TqWKicOznMbt+tL/KjsQ9bL9uA/j5k8uR9kxWtR0B
+	 b4syBXFKynCvtp0VSSGFBPOJyXItoqR8n+ktijSF6JyWBXbMSuJx0rGRIwPyrr9oyxQYc
+	 apN8KLh8W58EcZLC/mb/d3t+ZHTnXQzcLEm9KFAdUf/myTGrcRAV7WtXRusd/Xt1L5wdm
+	 AOwII3eJ4pITM83c2gm3WDdia9SPY6ho71m5cLNoz4aDRytR0VzH/97yOz8K32IWRpExi
+	 jXfuG9BkAIoyS9FRMXFp1vPgjPBU45InQsCk4rjc9imh6LXMAYkFBwmSUU2g6BG7ipA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794844785;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=8zt6BKnr5OMQnoN+jLF5J5ZxUIjEZ6DGHzLguvsf5vs=;
-	b=BlnKepB0V4TTcc8+rnnffV2LKx9JsoZvu+yThO++rcL4SAffCCnqvBeLYoBlW0BVBcSI
-	 u7dWYFsbHToRuxPqFswtgVEkkFqepmo1u6rswHUgI7sY9me7bQ284sz/snnbJgBGIXRBH
-	 FH9b8+IH1KM3F19SYscWRxt7Iaoqyq8gyaKobEgvLpC3AqCe28PlwBYDJ0qse6VxP0QwL
-	 JJ56ttcCxDW3WlclYjjHngL691UCWFdR+SvFaPS9z1vdI2v7Vz0m1AUWHKiGI2ycBdgxD
-	 StsiQWmHH+z8IC2A20jcP6owQV/cdp2sY0yB+Xw7n+fYgU9kepkMF4bj6xk1dAdk7OA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794848912;
+	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:From:To:Cc:References:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=/riHJRVfpeFF3lEWpcDxMeiJkRBbWV257yieeWQx1Gc=;
+	b=2Xn4MtZgAsV0FLfswGVU+I0wskAC+Zk1pa8wjUd8l8jIhICyGU2x5y3Ozb7jY1moIlz6
+	 V6nXm7PXff5byF2YW/qlAUiSZOp8gmBhoapg36Of6kZWlCK9fed4TLSoH4yjlKeg1ON2/
+	 yzA+lAhbIQ9wIFdonXzC+l92gcJDovE4ZI2NOxh5q7TVO55HmX+MiMb7QwHEOlzGuJrQ7
+	 29WKQlBnGOUiX7nJewAwhXkHM8tkLt0cKEvZzlVNfJcRJR5BMnTEH19t8uj95XgN1pgo3
+	 xMZyc1U5s8UKNhvFTED8V9DMJODRfe1GWbCacEdT99KH9nVOm/z9Yu8uKcD7xD0qsrA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=Kj3HZZm6;
-	arc=none smtp.remote-ip=209.85.219.47
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=ideasonboard.com;
+	spf=pass smtp.mailfrom=ideasonboard.com;
+	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=ryP3PSsC;
+	arc=none smtp.remote-ip=213.167.242.64
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055A8606A330
-	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 15:59:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 055A8606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A672D606A329
+	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 17:08:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A672D606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=Kj3HZZm6
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-91ea16d8072so36765176d6.2
-        for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 07:59:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1794844784; x=1795449584; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=8zt6BKnr5OMQnoN+jLF5J5ZxUIjEZ6DGHzLguvsf5vs=;
-        b=Kj3HZZm6VsiSY2VSh5xuqQ5FztNq0RICtlckv9INxNJSdQDs2r1hvpg0FORIpLcTKY
-         Y9Lv0SWDdO8tW+84wu7+VFeOUThglEPk2adIUO/kV+T6cbXdSlVtnme+Y5DtWxq6nOnt
-         rEahO7bRz4syTLL+2fDv8rPUfy6E3cZmaOIkI7NJNUhED5rcAf6WiU3JngRpezjBNISK
-         yb7S9WcYQLMGnDieKnbNGCmWNIQgDXcQYb37kRll3p0+5dBluY3ZwdMqWdnGwQEPoFuk
-         3JWfpf9cRBpOpi7cwYuKGNuu/b87V5MZ1PlxqDzAS21evghQTjRq0c8NdXcYlepTyNVY
-         7PZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794844784; x=1795449584;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8zt6BKnr5OMQnoN+jLF5J5ZxUIjEZ6DGHzLguvsf5vs=;
-        b=y/VqS+dU3k+W8DrdZC/SPr8+DzvoivM13ULZSlb6n5ilju01ekmgf0dtDQRZrLLHkr
-         TyA+kqIp8t8t7GLiZ+5DvCAw7OEJr+/DLtJGJ29Ms/VgQMXqJGA/S0Nj2WJoAQVNbZDI
-         hyvcpEEC3bFYc29PDKtCkMH8cqQoGyh+s+lRB73TEwkjwRZ0swluBjlFdrbdpNzifO/I
-         qsaqZX2sTSnP2g+3bz9qK84sR0TJjD9qrLVF1x4P0fEbkrOhPDQbYXmQ+VoIHdIse1U+
-         Sr+SgG0X3C2xCcm7hQCOeWlIZbfD03x4If0sblFZe1dy5B8s0tLU5Hn8n2RZUfNpZRuj
-         H5ZQ==
-X-Forwarded-Encrypted: i=1; AL+hErFe3QkZ51mDUclEswVwagttzLt954qqoYRnJhQz2gRg0UvGDHAwlP+snREt+Kz2ipUW8HR/yXfvC8fbKA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/x8YIW/mZmJnRrQ5+9QFXGCikbntHjQrWSCINjVIx3mactV1WX
-	8TLEM/7xOEoPhpNrmW4iaxwzuMTN8CwsI/BCgWbdab3ZlkkwaLy+c6PtdKOTNj/UAVo=
-X-Gm-Gg: AZFdTZeTgezfPjIyPN5rNVdRTC7hlGwaQcqpoKzphK0t7QON9DP4tpbZGpUaoJYd88B
-	SAuD5fwzoyP0lE5JV/H9rPOEjxk2io0Kg6R5X/gBaLdiMYrwTE67eGzPDBvuOZrgShDsJ0k9Lxe
-	FacyBbDHGslPKbWzABFmr+4I7hwlelLV6WMSwcWCju57h/plwnHqd3ocOEsE7QLMgvIbbaa+Eaw
-	9HsIyMQTMZcgf0s70yO+5k6K6mAd6OoZMV5xFKjE4SZMEfDQ/wfA/uhnWzbTG6dWks/jG4/K6hB
-	5m0y2oH/Fu+c4UXsuABfq1xYTnGHmCr8GziGgTtLZZIuYkinNi+/Go226DyaDBei7ArdzcXWeBP
-	hrTnmsTtPhvVzugOw1Vhbmex9RJZMgA32KF5HPcTlvTbaUdhx8aMOtUitbKUr79HOiwThgRtscU
-	qz9qkhNzhzEhE0m1Ai1mOLhkKcVlhRKa1Z/YdudNzKsZnw70zRM7+SYRNoGuw/UGzW6VxR//h8A
-	Q7+CnxnAOWXc00O3NbIMW9LbiZiIFzRu3NIwVG1fnN97bkdwzoVjbTbmzBmr7X7/wkMtsctL/6K
-	Nttoag==
-X-Received: by 2002:a05:6214:2467:b0:91c:7f1f:2c9e with SMTP id 6a1803df08f44-91f24209db6mr171122396d6.55.1794844783992;
-        Mon, 16 Nov 2026 07:59:43 -0800 (PST)
-Received: from ziepe.ca ([142.166.156.71])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23d93f10sm87735096d6.30.2026.11.16.07.59.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 07:59:43 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xSz7O-00000009eOI-3Mx3;
-	Mon, 16 Nov 2026 11:59:42 -0400
-Date: Mon, 16 Nov 2026 11:59:42 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
-Cc: Leon Romanovsky <leon@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev
-Subject: Re: [PATCH 17/17] PCI: Replace untrusted state with device trust
-Message-ID: <20261116155942.GA2299285@ziepe.ca>
-References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
- <20261105-device-trust-core-v1-17-1e536825b4eb@nvidia.com>
- <yq5amrr8yldi.fsf@kernel.org>
- <20261116132046.GI2532299@ziepe.ca>
- <yq5aa4n8ydsk.fsf@kernel.org>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=ryP3PSsC
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3A62E4BB;
+	Mon, 16 Nov 2026 18:06:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1794848762;
+	bh=i1L4omYxVrpbv7tl1oB63F8nQWZdj/N4NtLRNEREMbM=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=ryP3PSsCUhv1pL6BZ3Q6bO5M7LHBGrxi/86py2Z6pPBDfsp1kTOXbi3twJQGrxSwR
+	 UcgywHSKLGWh32FcgShkpKDXIgINg1GsDBsSyLUZG0q0c12t6mVTd5T4FA14tsS2Zh
+	 t3hMpbS7wQaFQCOfNNcqK5foGeTdkMMuX3oOw7mU=
+Message-ID: <110c2c49-1b65-4c39-a122-c454bc7fea2e@ideasonboard.com>
+Date: Mon, 16 Nov 2026 19:08:25 +0200
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -135,26 +54,370 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <yq5aa4n8ydsk.fsf@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] pmdomain: core: Add genpd_dev_pm_attach_by_node()
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Len Brown <lenb@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>,
+ Ulf Hansson <ulfh@kernel.org>
+Cc: Devarsh Thakkar <devarsht@ti.com>, linux-pm@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20261023-pm_attach_by_node-v1-1-4dbaccdf8b0e@ideasonboard.com>
+ <af65c273-70c5-4926-96e7-ab1089503286@ideasonboard.com>
+Content-Language: en-US
+In-Reply-To: <af65c273-70c5-4926-96e7-ab1089503286@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 16, 2026 at 09:22:11PM +0530, Aneesh Kumar K.V wrote:
-> > Once you turn on TDISP you effectively activate DMA, just like turning
-> > on the IOMMU.
+Hi again,
+
+On 10/11/2026 15:58, Tomi Valkeinen wrote:
+> Hi,
 > 
-> We considered two options for doing this:
+> On 23/10/2026 21:16, Tomi Valkeinen wrote:
+>> genpd_dev_pm_attach_by_id() and genpd_dev_pm_attach_by_name() attach a
+>> virtual device to a PM domain listed in the OF node of the passed
+>> device.
+>>
+>> Some hardware blocks are described in a child node of a main device.
+>> They have no device of their own, but they do have a PM domain of their
+>> own. Neither function can attach that domain, as both parse only the OF
+>> node of the device.
+>>
+>> An example case is TI's display subsystem and its OLDI (LVDS)
+>> transmitters:
+>>
+>> dss@30200000 {
+>>      power-domains = <...>;
+>>
+>>      oldi-transmitters {
+>>          oldi@0 {
+>>              power-domains = <...>;
+>>          };
+>>
+>>          oldi@1 {
+>>              power-domains = <...>;
+>>          };
+>>      };
+>> };
+>>
+>> The OLDI TX blocks are not part of the DSS IP, but they are not quite
+>> real devices either as they don't have registers of their own, and are
+>> instead controlled via DSS registers.
+>>
+>> Add genpd_dev_pm_attach_by_node(), which is similar to
+>> genpd_dev_pm_attach_by_id() but instead of looking for the power-domains
+>> from the passed device's DT node, the DT node is passed explicitly. Also
+>> add a matching wrapper function dev_pm_domain_attach_by_node().
 > 
-> 1. Via the ->accept() callback in pci_tsm_ops.
-> 2. Via pci_dma_configure(), based on a combination of device trust and device acceptance.
+> Ping, any thoughts on this?
+
+One more thing, if this change is ok, I'd like to somehow synchronize 
+merging this with the display side patches, as it's a compile time 
+dependency.
+
+The easiest, at least to me, would be to merge this (with an ack from 
+the relevant maintainers) along the display patches, via drm-misc-next.
+
+  Tomi
+
 > 
-> If I understand correctly, you are suggesting that we stick with the
-> former?
+>   Tomi
+> 
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>> This is a new try for managing the OLDI power domains. Previously I
+>> tried using auxiliary device/driver for OLDIs, and handling the PDs the
+>> normal way:
+>>
+>> https://lore.kernel.org/all/20260529-beagley-ai-display- 
+>> v3-12-7fefdc5d1adf%40ideasonboard.com/
+>>
+>> Then I realized an issue, mentioned in
+>> Documentation/driver-api/driver-model/driver.rst: "-EPROBE_DEFER must
+>> not be returned if probe() has already created child devices".
+>>
+>> The PD virtual devices used in this patch's approach do not hit the
+>> issue as they don't get a driver, so they are not probed. The tidss
+>> driver's OLDI part can then use normal pm_runtime_get/put functions to
+>> manage the OLDI PDs.
+>> ---
+>>   drivers/base/power/common.c | 27 +++++++++++++
+>>   drivers/pmdomain/core.c     | 97 ++++++++++++++++++++++++++++++++ 
+>> +------------
+>>   include/linux/pm_domain.h   | 19 +++++++++
+>>   3 files changed, 117 insertions(+), 26 deletions(-)
+>>
+>> diff --git a/drivers/base/power/common.c b/drivers/base/power/common.c
+>> index 9bef9248a705..a873541f9350 100644
+>> --- a/drivers/base/power/common.c
+>> +++ b/drivers/base/power/common.c
+>> @@ -171,6 +171,33 @@ struct device 
+>> *dev_pm_domain_attach_by_name(struct device *dev,
+>>   }
+>>   EXPORT_SYMBOL_GPL(dev_pm_domain_attach_by_name);
+>> +/**
+>> + * dev_pm_domain_attach_by_node - Associate a device with a PM domain 
+>> of a DT
+>> + *                  node.
+>> + * @dev: The device that uses the PM domain.
+>> + * @np: The DT node with the PM domain.
+>> + * @index: The index of the PM domain in @np.
+>> + *
+>> + * Like dev_pm_domain_attach_by_id(), but the PM domain is looked up
+>> + * in @np instead of the OF node of @dev.
+>> + *
+>> + * Unlike dev_pm_domain_attach_by_id(), @dev may already be attached 
+>> to a PM
+>> + * domain of its own. The driver controls the power to the PM domain 
+>> through
+>> + * runtime PM of the returned virtual device, or through a device 
+>> link to it.
+>> + *
+>> + * Returns the virtual created device when successfully attached to 
+>> its PM
+>> + * domain, NULL in case @np has no PM domain at @index, else an 
+>> ERR_PTR().
+>> + * Note that, to detach the returned virtual device, the driver shall 
+>> call
+>> + * dev_pm_domain_detach() on it, typically during the remove phase.
+>> + */
+>> +struct device *dev_pm_domain_attach_by_node(struct device *dev,
+>> +                        struct device_node *np,
+>> +                        unsigned int index)
+>> +{
+>> +    return genpd_dev_pm_attach_by_node(dev, np, index);
+>> +}
+>> +EXPORT_SYMBOL_GPL(dev_pm_domain_attach_by_node);
+>> +
+>>   /**
+>>    * dev_pm_domain_attach_list - Associate a device with its PM domains.
+>>    * @dev: The device used to lookup the PM domains for.
+>> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
+>> index 052ec478dfcc..327fbd40c854 100644
+>> --- a/drivers/pmdomain/core.c
+>> +++ b/drivers/pmdomain/core.c
+>> @@ -3462,34 +3462,16 @@ int genpd_dev_pm_attach(struct device *dev)
+>>   }
+>>   EXPORT_SYMBOL_GPL(genpd_dev_pm_attach);
+>> -/**
+>> - * genpd_dev_pm_attach_by_id - Associate a device with one of its PM 
+>> domains.
+>> - * @dev: The device used to lookup the PM domain.
+>> - * @index: The index of the PM domain.
+>> - *
+>> - * Parse device's OF node to find a PM domain specifier at the 
+>> provided @index.
+>> - * If such is found, creates a virtual device and attaches it to the 
+>> retrieved
+>> - * pm_domain ops. To deal with detaching of the virtual device, the - 
+>> >detach()
+>> - * callback in the struct dev_pm_domain are assigned to 
+>> genpd_dev_pm_detach().
+>> - *
+>> - * Returns the created virtual device if successfully attached PM 
+>> domain, NULL
+>> - * when the device don't need a PM domain, else an ERR_PTR() in case of
+>> - * failures. If a power-domain exists for the device, but cannot be 
+>> found or
+>> - * turned on, then ERR_PTR(-EPROBE_DEFER) is returned to ensure that 
+>> the device
+>> - * is not probed and to re-try again later.
+>> - */
+>> -struct device *genpd_dev_pm_attach_by_id(struct device *dev,
+>> -                     unsigned int index)
+>> +static struct device *genpd_dev_pm_attach_virt(struct device *dev,
+>> +                           struct device_node *np,
+>> +                           unsigned int index)
+>>   {
+>>       struct device *virt_dev;
+>>       int num_domains;
+>>       int ret;
+>> -    if (!dev->of_node)
+>> -        return NULL;
+>> -
+>>       /* Verify that the index is within a valid range. */
+>> -    num_domains = of_count_phandle_with_args(dev->of_node, "power- 
+>> domains",
+>> +    num_domains = of_count_phandle_with_args(np, "power-domains",
+>>                            "#power-domain-cells");
+>>       if (num_domains < 0 || index >= num_domains)
+>>           return NULL;
+>> @@ -3502,10 +3484,14 @@ struct device 
+>> *genpd_dev_pm_attach_by_id(struct device *dev,
+>>       if (!virt_dev)
+>>           return ERR_PTR(-ENOMEM);
+>> -    dev_set_name(virt_dev, "genpd:%u:%s", index, dev_name(dev));
+>> +    if (np == dev->of_node)
+>> +        dev_set_name(virt_dev, "genpd:%u:%s", index, dev_name(dev));
+>> +    else
+>> +        dev_set_name(virt_dev, "genpd:%u:%s:%pOFP", index,
+>> +                 dev_name(dev), np);
+>>       virt_dev->bus = &genpd_bus_type;
+>>       virt_dev->release = genpd_release_dev;
+>> -    virt_dev->of_node = of_node_get(dev->of_node);
+>> +    virt_dev->of_node = of_node_get(np);
+>>       ret = device_register(virt_dev);
+>>       if (ret) {
+>> @@ -3513,8 +3499,13 @@ struct device *genpd_dev_pm_attach_by_id(struct 
+>> device *dev,
+>>           return ERR_PTR(ret);
+>>       }
+>> -    /* Try to attach the device to the PM domain at the specified 
+>> index. */
+>> -    ret = __genpd_dev_pm_attach(virt_dev, dev, index, num_domains, 
+>> false);
+>> +    /*
+>> +     * Try to attach the device to the PM domain at the specified index.
+>> +     * Pass 0 as the num_domains when np != dev->of_node, so that the 
+>> dev's
+>> +     * required OPPs are not used for the PD.
+>> +     */
+>> +    ret = __genpd_dev_pm_attach(virt_dev, dev, index,
+>> +                    np == dev->of_node ? num_domains : 0, false);
+>>       if (ret < 1) {
+>>           device_unregister(virt_dev);
+>>           return ret ? ERR_PTR(ret) : NULL;
+>> @@ -3525,8 +3516,62 @@ struct device *genpd_dev_pm_attach_by_id(struct 
+>> device *dev,
+>>       return virt_dev;
+>>   }
+>> +
+>> +/**
+>> + * genpd_dev_pm_attach_by_id - Associate a device with one of its PM 
+>> domains.
+>> + * @dev: The device used to lookup the PM domain.
+>> + * @index: The index of the PM domain.
+>> + *
+>> + * Parse device's OF node to find a PM domain specifier at the 
+>> provided @index.
+>> + * If such is found, creates a virtual device and attaches it to the 
+>> retrieved
+>> + * pm_domain ops. To deal with detaching of the virtual device, the - 
+>> >detach()
+>> + * callback in the struct dev_pm_domain are assigned to 
+>> genpd_dev_pm_detach().
+>> + *
+>> + * Returns the created virtual device if successfully attached PM 
+>> domain, NULL
+>> + * when the device don't need a PM domain, else an ERR_PTR() in case of
+>> + * failures. If a power-domain exists for the device, but cannot be 
+>> found or
+>> + * turned on, then ERR_PTR(-EPROBE_DEFER) is returned to ensure that 
+>> the device
+>> + * is not probed and to re-try again later.
+>> + */
+>> +struct device *genpd_dev_pm_attach_by_id(struct device *dev,
+>> +                     unsigned int index)
+>> +{
+>> +    if (!dev->of_node)
+>> +        return NULL;
+>> +
+>> +    return genpd_dev_pm_attach_virt(dev, dev->of_node, index);
+>> +}
+>>   EXPORT_SYMBOL_GPL(genpd_dev_pm_attach_by_id);
+>> +/**
+>> + * genpd_dev_pm_attach_by_node - Associate a device with a PM domain 
+>> of a DT
+>> + *                 node.
+>> + * @dev: The device that uses the PM domain.
+>> + * @np: The DT node with the PM domain.
+>> + * @index: The index of the PM domain in @np.
+>> + *
+>> + * Like genpd_dev_pm_attach_by_id(), but the PM domain is looked up in
+>> + * @np instead of the OF node of @dev.
+>> + *
+>> + * The virtual device is named after @dev and @np. The required OPPs 
+>> of @dev are
+>> + * not linked to the PM domain.
+>> + *
+>> + * Returns the created virtual device if successfully attached PM 
+>> domain, NULL
+>> + * when @np has no PM domain at @index, else an ERR_PTR() in case of 
+>> failures.
+>> + * If the PM domain exists, but cannot be found or turned on, then
+>> + * ERR_PTR(-EPROBE_DEFER) is returned.
+>> + */
+>> +struct device *genpd_dev_pm_attach_by_node(struct device *dev,
+>> +                       struct device_node *np,
+>> +                       unsigned int index)
+>> +{
+>> +    if (!np)
+>> +        return NULL;
+>> +
+>> +    return genpd_dev_pm_attach_virt(dev, np, index);
+>> +}
+>> +EXPORT_SYMBOL_GPL(genpd_dev_pm_attach_by_node);
+>> +
+>>   /**
+>>    * genpd_dev_pm_attach_by_name - Associate a device with one of its 
+>> PM domains.
+>>    * @dev: The device used to lookup the PM domain.
+>> diff --git a/include/linux/pm_domain.h b/include/linux/pm_domain.h
+>> index f925614aebdb..c38c90d63c02 100644
+>> --- a/include/linux/pm_domain.h
+>> +++ b/include/linux/pm_domain.h
+>> @@ -477,6 +477,9 @@ struct device *genpd_dev_pm_attach_by_id(struct 
+>> device *dev,
+>>                        unsigned int index);
+>>   struct device *genpd_dev_pm_attach_by_name(struct device *dev,
+>>                          const char *name);
+>> +struct device *genpd_dev_pm_attach_by_node(struct device *dev,
+>> +                       struct device_node *np,
+>> +                       unsigned int index);
+>>   #else /* !CONFIG_PM_GENERIC_DOMAINS_OF */
+>>   static inline int of_genpd_add_provider_simple(struct device_node *np,
+>>                       struct generic_pm_domain *genpd)
+>> @@ -535,6 +538,13 @@ static inline struct device 
+>> *genpd_dev_pm_attach_by_name(struct device *dev,
+>>       return NULL;
+>>   }
+>> +static inline struct device *genpd_dev_pm_attach_by_node(struct 
+>> device *dev,
+>> +                             struct device_node *np,
+>> +                             unsigned int index)
+>> +{
+>> +    return NULL;
+>> +}
+>> +
+>>   static inline
+>>   struct generic_pm_domain *of_genpd_remove_last(struct device_node *np)
+>>   {
+>> @@ -560,6 +570,9 @@ struct device *dev_pm_domain_attach_by_id(struct 
+>> device *dev,
+>>                         unsigned int index);
+>>   struct device *dev_pm_domain_attach_by_name(struct device *dev,
+>>                           const char *name);
+>> +struct device *dev_pm_domain_attach_by_node(struct device *dev,
+>> +                        struct device_node *np,
+>> +                        unsigned int index);
+>>   int dev_pm_domain_attach_list(struct device *dev,
+>>                     const struct dev_pm_domain_attach_data *data,
+>>                     struct dev_pm_domain_list **list);
+>> @@ -586,6 +599,12 @@ static inline struct device 
+>> *dev_pm_domain_attach_by_name(struct device *dev,
+>>   {
+>>       return NULL;
+>>   }
+>> +static inline struct device *dev_pm_domain_attach_by_node(struct 
+>> device *dev,
+>> +                              struct device_node *np,
+>> +                              unsigned int index)
+>> +{
+>> +    return NULL;
+>> +}
+>>   static inline int dev_pm_domain_attach_list(struct device *dev,
+>>                   const struct dev_pm_domain_attach_data *data,
+>>                   struct dev_pm_domain_list **list)
+>>
+>> ---
+>> base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+>> change-id: 20261023-pm_attach_by_node-13788662f3a1
+>>
+>> Best regards,
+>> -- 
+>> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>
+> 
 
-It should still be done in #2, just with nothing to do with device
-trust.
-
-You can't run a TDISP run device at all if DMA_ENABLE is not done,
-there is no half step here so it has nothing to do with device trust.
-
-Jason
