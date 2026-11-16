@@ -1,65 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794851363;
-	b=jEv83v+esef4xRHECBvjhqzOi6BM4E2ZbqPJa5ATDJAPtisxO/f0k1xZwwRTk5QgNO2j
-	 XueuQtNeBe5/AK4SFVaTjbzllCsufffryEa/GAjTEhwsR7V+6IgVyOQLVe2cuBt6EuD7A
-	 N5Z2LoZfUAXb0/zdKzfJxcqkB4UX/Piy8KtUOc/1cvEGrEpJN7V8S5FEp6Chq69zNLYyV
-	 pzFJzjj2O7LnT5aUCRUDW/KtZjIvV4/eMyGKjs7UpShCa3tVh2D890rkatBP5BXvYjrdz
-	 s/ibKLwb3Hl/AtwkAjb2+X4cOfT7ihRwaqcmKVdZNZBBVzws+ohcei+6U916qeyPbSg==
+	t=1794853333;
+	b=DiHz5oS1DDjcnCdzmThPe7KBpiUv0QCQNSk0wc/9qaGe2FZOIIq6n4SNKEfI0v0tG+UP
+	 BH1uWaiM/EXbSbyBgVrLpc7g83nQo2+eyvttHvSQx1+NgeG3REV7JfqbmrCrk1lg1KUCJ
+	 LwozS5M8S8q95VeA1m+CNUqgrxFwAnmKsXL2qxfAH0+OLvYoJVAd8/B+AIKfFm3pIP6RD
+	 9p6j6Hq9WkgiBpQzT2LEdkLePFDzjLRtG42C4/XL4SfigQ+75wlduw5WZ9frXcTw/pXl9
+	 4+T4vg6QcPXq+9Ca8yDVqjXlpMP7oLonRsW0eJpSSIroS28gwMkZ2NjjeuSJktx6x+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794851363;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=ED8m1EUNyZbVy60KlCH1nfmXFCVOvYy5WXRoQrkl9dY=;
-	b=Pxsm24yvp3ZM3Dhn/NkZuYB3x8IkX6EE44h//EKUvXXYOz/mhraya2Na1NfwBLT0yOvb
-	 CkxqBew1/nBrRGzimV8O+JjKEJgJY9CxCuKXwhjwKB5AX5JpLJB1C4OPoTPRFFLX4s45M
-	 8WvC9GihuT0uhKchkHTFVDAEENqEH8k9DVZF31PmiQACZivX1JaVgleiDocJemK5XID9x
-	 b4lvUauuK1G1YFZdp7SXapEe7Y+7FUOy9XA0eAfv2b3L8x12ft9PVPSUqMFDxSxZDHfxP
-	 savIqIulMuur9cuqN0yW6YUr725mCXCZPEmdLC3CyfR8Hq8c9tpjrvmHVr6ujj6+W8g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794853333;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:From:Subject:Date:
+	 Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=Bx9BFmE1wLXw81GEy8xTvfh2DHQC7Qib0epoWWtsHZg=;
+	b=FTUd9D0ep1RfeKX/0PrEWK18rGlU5DGMvI0hGD+kcaUvtixOhJX4EEi26dvsXS8IFT5D
+	 FeUb5xxGDr8mz0o2oUrWdI5ldH5hnVBSJDqettF8bobUes7FK/+H7VjuZP4fE+0oX552S
+	 oo9Q/NQ2LcYnnqefLh5ld18+Qj8sefYtGmxN3ThJmnLhztZbG+29HkG2m1ORkvuBv9tSk
+	 MoKVGEpMuh0nszNpzxzmu1Toeb9dGPB2z72byWOe96tpTf2ZlZuChw7kbPNfmD7zFfQvG
+	 1UGIqXuaP25d6IKEC6OfAShBoCyU8h6Tarine6+OZE8KuYNSn5ONSR65Gmo5MzNBZRg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LWj9kUC8;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CACC6606A32F;
-	Mon, 16 Nov 2026 17:49:23 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=UlTR1XYG;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64091606A322
+	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 18:22:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64091606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LWj9kUC8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6A261F02813;
-	Mon, 16 Nov 2026 17:49:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794851363;
-	bh=ED8m1EUNyZbVy60KlCH1nfmXFCVOvYy5WXRoQrkl9dY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LWj9kUC8kQFC5SfD1vjbud2HBFDNnZqFBwsM7D7EkixcrkbHslvvXUPplnT67OEDa
-	 Ojxvc/9bBfh+7M7IgMwLe0/MW3vEZ7MNK475jdjW9gzIKFiwKQYtp2o3epkEHr1OUY
-	 ut8wZMtQ6WwDI4R/4NjZmngdKNKdP+t6PoX5HnYwVJTKEbOQrvDnGzw7NTHVCoa2iV
-	 Az2pSjHFx32LhMnzCRrFLDjD1DXtR7qLBdQXkQEuVAl0z7iuGlB/eKvhfmNtzTqNut
-	 eiuM63/QtPtS1+8sCvNSNotSJGDSOZKb/xcO1WCvyJtafHJlrptV+MYpMU1CW9c9N/
-	 f6aB01Y3d7oMw==
-Date: Mon, 16 Nov 2026 18:49:14 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
-	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, 
-	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, apparmor@lists.ubuntu.com, 
-	linux-nfs@vger.kernel.org, netdev@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev, 
-	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
-	linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC v3 33/44] ovl: refuse data-only layers on pseudo
- filesystems
-Message-ID: <20261116-kriterien-getoppt-kauern-5a0c1fba70cf@brauner>
-References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
- <20261116-work-loop-pseudo-v3-33-8cbbea1cf34f@kernel.org>
- <CAOQ4uxgPerkkG4ie0SyHVXaBD9VZN2wYfQpEAEi4hytn=ara3A@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=UlTR1XYG
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A07C41684;
+	Mon, 16 Nov 2026 10:22:08 -0800 (PST)
+Received: from e132581.arm.com (unknown [10.2.196.114])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 925C03F632;
+	Mon, 16 Nov 2026 10:22:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1794853331; bh=goJwv/swJu68Y9hAS2XUupq7PiPrjIfLYlStZrGMjm0=;
+	h=From:Subject:Date:To:Cc:From;
+	b=UlTR1XYGFmGx57WHb+xFLIaoTlc9SWjhRZzd27Td4eV42hOpsw40LqOrDG/7iSgtX
+	 TIy5sLSf7nHcRqzEqquUlPfxvS3l7C/ndYlKT1Bksy+6Ls6eVuiaC7x0rgmD9F2mZQ
+	 5O//L1uzfYhNyp1/14QAlVJM4YW73pn/rIJ954G4=
+From: Leo Yan <leo.yan@arm.com>
+Subject: [PATCH 0/8] ACPI: arm64: Support PMU on Heterogeneous Systems
+Date: Mon, 16 Nov 2026 18:21:27 +0000
+Message-Id: <20261116-acpi_arm_pmu_registration_hmp-v1-0-0371d4eca626@arm.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -69,74 +56,119 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxgPerkkG4ie0SyHVXaBD9VZN2wYfQpEAEi4hytn=ara3A@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKdJ+2oC/4WNwQqDMBBEf0X23JSsEKk99T+KhDRZdQ/RsLHSI
+ v57U+m9xzfMvNkgkzBluFYbCK2ceZ4K4KkCP7ppIMWhMNS6bhB1q5xPbJ1Em+LTCg2cF3FLWdk
+ xJtV40xrf63AJBMWRhHp+Hf57V3gs9Vnex92K3/RnRvxjXlFp9WiDN7rHQGRupXr2c4Ru3/cP5
+ yuevMgAAAA=
+X-Change-ID: 20261109-acpi_arm_pmu_registration_hmp-6c595cf0d8de
+To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Daniel Scally <djrscally@gmail.com>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Bartosz Golaszewski <brgl@kernel.org>, 
+ Saravana Kannan <saravanak@kernel.org>, Will Deacon <will@kernel.org>, 
+ Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ Hanjun Guo <guohanjun@huawei.com>, Jeremy Linton <jeremy.linton@arm.com>, 
+ Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Sudeep Holla <sudeep.holla@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Catalin Marinas <catalin.marinas@arm.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Mike Leach <mike.leach@arm.com>, James Clark <james.clark@linaro.org>, 
+ Anshuman Khandual <anshuman.khandual@arm.com>, Al Grant <al.grant@arm.com>, 
+ "Johnny.Fan" <johnny.fan@cixtech.com>, linux-acpi@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-perf-users@vger.kernel.org, Leo Yan <leo.yan@arm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794853327; l=3514;
+ i=leo.yan@arm.com; s=20250604; h=from:subject:message-id;
+ bh=goJwv/swJu68Y9hAS2XUupq7PiPrjIfLYlStZrGMjm0=;
+ b=56hWmS+3xC7LmrbBWUKHF9DrbRdWd6N36Fs78LtUwPpuAQFmSQns9f24Hao9oUvCm380XIMCE
+ jwOjkO90ZeDBQMKP870C1FH435FZioX3FoPWaALnB24SOlEKVFsakAy
+X-Developer-Key: i=leo.yan@arm.com; a=ed25519;
+ pk=k4BaDbvkCXzBFA7Nw184KHGP5thju8lKqJYIrOWxDhI=
 
-On Mon, Nov 16, 2026 at 06:37:16PM +0100, Amir Goldstein wrote:
-> On Mon, Nov 16, 2026 at 12:10 PM Christian Brauner <brauner@kernel.org> wrote:
-> >
-> > The data of a metacopy file can live in a data-only layer. overlayfs
-> > doesn't look that data up when it looks up the file. It only remembers
-> > the absolute redirect and looks up the data lazily the first time
-> > someone needs it. So until then nothing can tell which filesystem holds
-> > the data of such a file.
-> >
-> > But a data-only layer has no business being a pseudo filesystem in the
-> > first place. All it does is hold the data of metacopy files and the
-> > regular files of a pseudo filesystem are kernel interfaces, not storage.
-> > So let's refuse data-only layers on superblocks with SB_I_PSEUDO at
-> > mount time.
-> >
-> > Data-only layers can be added via the "::" separator in "lowerdir=" and
-> > via "datadir+" by path or by file descriptor. All of them end up at the
-> > end of ctx->lower. So a single check in ovl_get_lowerstack() covers all
-> > of them.
-> >
-> > Note that regular lower layers on pseudo filesystems are left alone.
-> > Stacking overlayfs on top of sysfs keeps working.
-> >
-> > Suggested-by: Amir Goldstein <amir73il@gmail.com>
-> > Link: https://lore.kernel.org/all/CAOQ4uxhGxpBtMZ5kfuzR1tQAewiecoX7UjXQRo91QjJHH9T_Yw@mail.gmail.com
-> > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> > ---
-> >  fs/overlayfs/super.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
-> > diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
-> > index 39d4d57dec230..719c2569dfeaf 100644
-> > --- a/fs/overlayfs/super.c
-> > +++ b/fs/overlayfs/super.c
-> > @@ -1237,6 +1237,14 @@ static struct ovl_entry *ovl_get_lowerstack(struct super_block *sb,
-> >         for (i = 0; i < ctx->nr; i++) {
-> >                 l = &ctx->lower[i];
-> >
-> > +               /* Pseudo filesystems don't hold data for metacopy files. */
-> > +               if (i >= ctx->nr - ctx->nr_data &&
-> > +                   (l->path.dentry->d_sb->s_iflags & SB_I_PSEUDO)) {
-> > +                       pr_err("filesystem on %s not supported as data-only layer\n",
-> > +                              l->name);
-> > +                       return ERR_PTR(-EINVAL);
-> > +               }
-> > +
-> 
-> How about we make this just a tad more restrictive:
-> 
->                 /* Pseudo filesystems don't belong in composefs setup */
->                 if (ctx->nr_data &&
->                     (l->path.dentry->d_sb->s_iflags & SB_I_PSEUDO)) {
->                         pr_err("filesystem on %s not supported along
-> with data-only layers\n",
->                                l->name);
->                         return ERR_PTR(-EINVAL);
->                 }
-> 
-> I could send this as followup patch, but since this version is simpler
-> there is no real reason to have the intermediate "only ban datadir" step.
-> 
-> Only the commit message needs a little more flexing to justify this.
+This series follows Johnny Fan's SPE/TRBE work [1], which requires
+ACPI-specific IRQ affinity handling in the drivers. It provides a common
+way to describe PPI affinity for devices created from the MADT.
 
-Just sent me the diff on top of the series and I can fold it with the
-commit message you want and slap your Co-developed-by and SoB on it,
-please?
+Register one platform device for each group of CPUs with the same MIDR.
+Associate a software node with each device to expose its CPU mask through
+platform_get_irq_affinity(). SPE and TRBE drivers can then obtain affinity
+without ACPI-specific handling or a processor-container companion.
+
+Grouping by MIDR allows CPU PMU events to follow tasks across compatible
+CPUs, including CPUs in different processor containers. SPE and TRBE
+require a shared GSI within each group. CPU PMUs can also use per-CPU SPIs
+and reuse the platform probe path used for DT. Move the common ACPI device
+registration to drivers/acpi/arm64/.
+
+This series has been tested on Orion O6, with four little Cortex-A520
+cores (CPUs 2-5) and eight big Cortex-A720 cores (CPUs 0-1 and 6-11).
+It exposes the following PMU devices:
+
+  # ls /sys/bus/event_source/devices/
+  arm_spe_0  armv8_pmuv3_0  armv8_pmuv3_1  breakpoint  cs_etm  kprobe  software  tracepoint  uprobe
+  # cat /sys/bus/event_source/devices/armv8_pmuv3_0/cpus
+  0-1,6-11
+  # cat /sys/bus/event_source/devices/armv8_pmuv3_1/cpus
+  2-5
+  # cat /sys/bus/event_source/devices/arm_spe_0/cpumask
+  0-1,6-11
+  # ls /sys/bus/event_source/devices/cs_etm/sinks/
+  trbe0  trbe1  trbe10  trbe11  trbe2  trbe3  trbe4  trbe5  trbe6  trbe7  trbe8  trbe9
+
+The CPU PMU masks match the MIDR groups: eight A720 CPUs and four A520
+CPUs. SPE uses the A720 mask, and TRBE exposes one sink per CPU.
+
+[1] https://lore.kernel.org/linux-arm-kernel/20261102084153.3975282-1-johnny.fan@cixtech.com/
+
+Signed-off-by: Leo Yan <leo.yan@arm.com>
+---
+Johnny.Fan (1):
+      perf/arm_pmu: Register ACPI SPE and TRBE devices with software nodes
+
+Leo Yan (7):
+      device property: Add firmware node IRQ affinity callbacks
+      device property: Add software-node IRQ affinity masks
+      perf/arm_pmu: Prepare ACPI registration for per-CPU interrupts
+      perf/arm_pmu: Register ACPI CPU PMUs as platform devices
+      perf/arm_pmu: Support ACPI devices in the platform probe
+      perf/arm_pmu: Use ACPI CPU affinity in IRQ handling
+      ACPI: arm64: Move PMU device registration to drivers/acpi/arm64/
+
+ MAINTAINERS                     |   1 +
+ arch/arm64/include/asm/acpi.h   |   3 +
+ drivers/acpi/arm64/Kconfig      |   4 +
+ drivers/acpi/arm64/Makefile     |   1 +
+ drivers/acpi/arm64/pmu.c        | 393 +++++++++++++++++++++++++++++++++++
+ drivers/acpi/property.c         |   8 +
+ drivers/base/platform.c         |   7 +-
+ drivers/base/property.c         |  15 ++
+ drivers/base/swnode.c           |  53 +++++
+ drivers/of/property.c           |   7 +
+ drivers/perf/Kconfig            |   4 -
+ drivers/perf/Makefile           |   1 -
+ drivers/perf/arm_pmu.c          |   3 +-
+ drivers/perf/arm_pmu_acpi.c     | 438 ----------------------------------------
+ drivers/perf/arm_pmu_platform.c |  62 +++++-
+ drivers/perf/arm_pmuv3.c        |   5 +-
+ include/linux/cpuhotplug.h      |   1 -
+ include/linux/fwnode.h          |   5 +
+ include/linux/perf/arm_pmu.h    |  12 +-
+ include/linux/property.h        |   6 +
+ 20 files changed, 552 insertions(+), 477 deletions(-)
+---
+base-commit: aebb7274476403040d582c61478df8f4a7bf9cd3
+change-id: 20261109-acpi_arm_pmu_registration_hmp-6c595cf0d8de
+
+Best regards,
+-- 
+Leo Yan <leo.yan@arm.com>
+
