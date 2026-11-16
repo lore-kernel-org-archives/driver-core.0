@@ -1,49 +1,119 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794827491;
-	b=UGpb723uDIekI2QPD9qgVd8mX+fL5tbVX2TRLVvd+nkapYScUECcS9vT7mMSGlNfLUtk
-	 gxalvvY1zYxpqr2IinzhjMbqR2l3g5qkQt00Oirg4bh+8oJxtteT8EuLbL49iLRKY4PIQ
-	 XG2ReMqrebgOTnaPvx08+0n4C7WuzE2RjjQ8D/Tqt8mMQrs0C7ziBpvKBx77AX/C0Jafv
-	 3Y29TclQ+q28Z94t1DGz8lohTUJLcYF2PjfKnFD974OI0VT0EMspwEr/rsBbGvULJIiFG
-	 rd4eN72qg4W/Sd6dNNYH4rJmARVzA5wKUlQAuwG73C2FhyDGAoMKYgqJGiiR7hlm5qw==
+	t=1794829984;
+	b=U6XlCp2ttvtXlH6yYsSt1fGJu/EFTblQ3dBnsvmCTXqWEzvenqq8FryoIOcnhiFZB4NH
+	 s9m7FHe4i2DiUmTvoXIEdN5TLCmFYyqgZhpEOGCG6OYchYNJYNSGB4oxjvmj0NsaNXwcX
+	 3TOQo6GNzb59iupcVw2TsYReoc1i9ovJ+XS4l+KzcAK+nclFPDxqRtppQe4ad4eCXtuh4
+	 W7Elr1g/nUGHvcSvTsp+IpPUU6yyEMylSLdOiZGLWtOGxTe/kyct5ieeSk4aO4SH30k0m
+	 55XViTH74lb4bFOleij9ry+3/YihwcW3iuJWp2hpbHjoqI9g8Inuw87nxyr3IHpa0Kg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794827491;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=RKxP/UpQkz5xJljH4vEDrWV/kZwY2XbTjgPlnbAeZQk=;
-	b=H4OpSsR1llouvQnDym2LnVrXUNiKXE4ZOikYKzOxpSJ+tDyYz/UG8PF/t2OkTnLJOFoL
-	 9Mr4PHNZNizO+sBwFI7J7OV1NidSnGwZAr+JmbdJyocEadjM7Wy/q2oeCMoeon9kdg/Ff
-	 UfKNMw6M0rXD6twoKXRhNCT44MPtJPTbcttAuB5Sjb5iuLyDBYbP0ennjebeeTlCrrSFV
-	 BPnXA5oS2o8jVWB95iq8lMAc1zmCVXlsoB0tj+B7I4JN82T7yeem4L32UUK3VZ7w2G9o8
-	 2XwdL9VYd1oMA1vKnwOSclhcIDmhh5DGNPcZezy4Jnho0zqN7GF1QRskvZZ14viP0kg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794829984;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=pO7ejxuisYFiK67OM4MpgvsVQ7/7ICx6J2Ag4S25/oU=;
+	b=gfM9K6Z7F9kGhNqGju6705j84saZVO6FCaMNSU5GywwMGWUbcKIDZOhQAVQRlQW8tS+L
+	 3Vr9x0AWzPr646uMCzOhklJJ5p3m4Lbnl1iUOAcDrJaAR4wHTCY9VZSau6pbe2KFcsSoz
+	 gZIpBryc1prz1KKkicN1qEYyIXrhKdXCwFVwee3tvF9Vub0htWvpeGhRrWbZTO0BX/qMJ
+	 ILlPYhCYJk0Kif+YclNa8o9GhyFt+Tgl7J8RNakx1s1N8T8EgqpO4HGuMmsB9iVt2h4VL
+	 OzO+DwQGoeZHH9ywCUTcaw8ZWvvxiJayig6FZw/Dy7C8kpHMyiXX+iY9PMBL0eN/T9A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vishe2xl;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uChhfGOs;
+	arc=none smtp.remote-ip=209.85.221.53
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8B806084AE2;
-	Mon, 16 Nov 2026 11:11:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792E3606A334
+	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 11:53:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 792E3606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vishe2xl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38F921F000C4;
-	Mon, 16 Nov 2026 11:11:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794827491;
-	bh=RKxP/UpQkz5xJljH4vEDrWV/kZwY2XbTjgPlnbAeZQk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Vishe2xl5+mP1e2nKdERotW37fGKJ0djegm6d97vwroHHOFJYgBcDgmNZ8nYBQfoF
-	 ZCtBprFLvj275k1lW5irl74PuBAYAQ5YRip4D5+v/LTXhWIKdNklu/tdgkugW9ZGet
-	 TOXBxc7FIsPyQI2VH1l+tV1Ir0AJY2nC0EtSKoBQJDQtm1+S86KjWtNo20x5ZUM44R
-	 uypJT4XxqIHMjxXcSCxNq5VAsqwoDt6/JN6NoQEQbfPq3qq4pHEmpBqi8BrmXPAIcs
-	 hEC3ORWXA8m6xnL7N5gvFsDNkmS9VGDE7gnCp7S05N1xM73BenhSyqcb613JLNpH81
-	 xo2SteDjFL4lw==
-From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 16 Nov 2026 12:05:17 +0100
-Subject: [PATCH RFC v3 44/44] selftests/filesystems: add backing file tests
- for pseudo files
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uChhfGOs
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48e3b22e971so1630702f8f.0
+        for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 03:53:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794829983; x=1795434783; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=pO7ejxuisYFiK67OM4MpgvsVQ7/7ICx6J2Ag4S25/oU=;
+        b=uChhfGOsLEWsbrt9Z2AtqDlnHfs68NpVfjV7K7oThBkdW0AmV/HPKHr5Kjr1o6hwSm
+         pOtzBbL/MgMQ6aU5RCcyhf4Etdn/ByqmE/CzzEw3yclksC1MCfN4AViztQE/5+qmUoux
+         P+MgEX12vCGyI2nA6p+vs/z8oi483QQW7rBD8MITOjdKtCS8RPpcvOWsYGdVB9YLWHwa
+         ykl5JVo41ftM2CBZnkGQ8zhLngaMvMAHw3j4G4QrEVoDF+qsqllSFKdNjrATgfYqt6g0
+         aXpiAmgcNO3FFKYIPgLBJQblU8/Uenz5bCCwoDVqlYftNw6k1e/5JuRU2rBHpTmHz1xH
+         Nwaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794829983; x=1795434783;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pO7ejxuisYFiK67OM4MpgvsVQ7/7ICx6J2Ag4S25/oU=;
+        b=1vkwtFnnKEVmpanovD7b1VZeJtkZqAeTvQwl7cDdNxI7ngpc3vHDHw7YM9WgqEjog8
+         6GU94MxIU/QV2GFJpD+QMRqNT27p6W4vSWCkG8dStfUpef0a/pup51E9mMgccU0tYPa/
+         yF0RveDvoGm2c6JVVN7zGOcCdX4apjxjVpZ7/2ekhkWoSoW24mGLAQqGx3TRkCn6qgFG
+         71fSFrT7WcAwNlLIohIKuXVyBOU0DZ/I5jY4He5Ewa695QWFZoW6Z06q/prGV6HEOY+2
+         LArtQ/mYJ3b6O9nl/0SLWfOWaOG0f+e164kkQeNvfD9COvQ9CpmuAbDg16dsstRkh3x7
+         4hkw==
+X-Forwarded-Encrypted: i=1; AL+hErEChETrGvTKuEFG1SCZx8JH1UyXxrZeZrUmepojKhUEh5qRIBbF8f7W3NeJa81OUB5Z5DEpwiqaShzm5g==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/vqMaQ4qvMdn1HnXs3tcvmRt6z9ITJ0GURzw7s/GQCslV2e/fE
+	ndF9fwjHLD/MYAnSxObWn2wbajRWtv79HZ4GMQy6FXC68RUF1AuE9nom
+X-Gm-Gg: AZFdTZcClGhJXuVfIAhNReBjuJD2knjwhzbXt9QYvK/KCPYpRM/qY3hFdSzFl7Menv2
+	UEGtGDeJZRRhcjmttOb97qTbB/0q9nHTBra/Vw8dnUYIS5+sLRrM2lEyr/1/W0MhcT8TSKzJBX/
+	jZWG0DT7ozP2E2F+NdBpiTaMJw5dmRPcb7xqFiymPq8E7PoSLFG4fUIWoEOQ/q737memfoXqP9F
+	4I5ZjvBmBXZ6r5bm963D2lZStPsf/4P8RGAowDhBee0A5ywZFx2LlwwFgxo1ntiC8m9TtimDb5L
+	L2eccfDtsglR0biVrlzOsN7qreqNig8jsNTWqYoeuLw83zC+lTH/budlXtc3ruPcmp9m6ijCWbY
+	ybHW6hIi94s9Lp5AKzQ9g6s7RHTSvmEmBL8SEMWQ1HwA05kAnjDHb5Esh1+4sayFDXRAkqK3Ovv
+	Dty58KYpRjNh5qQJ1XDyK90vgDRNdw92tVmd7FUPXVkfgm5oTtbm2U3/7ZXtZa9NngrU1ljWXcR
+	PGGlPFAybWZS5Vx59NXPkA62/iqFdTkvvmuH5F/5vErFUihdlwJnbzQBMT9jpP0pl57igxiW/dH
+	S5rmqNkDXBF42cDfAvmqnYW8pbq+VnF5sHxEwlt8SLQBLlcTygGMPQocEzB/eV3UnQ==
+X-Received: by 2002:a05:6000:2c01:b0:499:1c0d:4568 with SMTP id ffacd0b85a97d-49c741b14a0mr24577066f8f.48.1794829982872;
+        Mon, 16 Nov 2026 03:53:02 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5a32d336sm23686370f8f.0.2026.11.16.03.53.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 03:53:02 -0800 (PST)
+Date: Mon, 16 Nov 2026 11:53:00 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Alejandro Colomar <alx+linux-hardening@kernel.org>, Hauke Mehrtens
+ <hauke@hauke-m.de>, linux-mips@linux-mips.org, Ralf Baechle
+ <ralf@linux-mips.org>, Joe Perches <joe@perches.com>, Alejandro Colomar
+ <alx@kernel.org>, linux-hardening@vger.kernel.org, Krzysztof Kozlowski
+ <krzk@kernel.org>, "Maciej W. Rozycki" <macro@orcam.me.uk>, Geert
+ Uytterhoeven <geert@linux-m68k.org>, Andreas Schwab
+ <schwab@linux-m68k.org>, Andy Shevchenko <andy@kernel.org>, Bartosz
+ Golaszewski <brgl@kernel.org>, Daniel Scally <djrscally@gmail.com>, Danilo
+ Krummrich <dakr@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, Johan Hovold
+ <johan@kernel.org>, Kees Cook <kees@kernel.org>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Len Brown <lenb@kernel.org>, Linus
+ Torvalds <torvalds@linux-foundation.org>, Linus Walleij
+ <linusw@kernel.org>, Namhyung Kim <namhyung@kernel.org>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Saravana Kannan <saravanak@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Tom Zanussi <zanussi@kernel.org>,
+ linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Bartosz Golaszewski
+ <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: Off-by-one in arch/mips/bcm47xx/time.c (was: [PATCH v6 02/19]
+ string: Add strprefix())
+Message-ID: <20261116115300.544a33ec@pumpkin>
+In-Reply-To: <avriaVSTl4jL0OEo@ashevche-desk.local>
+References: <cover.1794667407.git.alx@kernel.org>
+	<0eaa4ce73a2b164fd49e3a9f71244a2e3f45b7bb.1794667407.git.alx@kernel.org>
+	<c113f651d1ce1b2d42ab9d0c59ae5a0cd17ddb6a.camel@perches.com>
+	<avi54hgKgovNHfKy@devuan>
+	<avriaVSTl4jL0OEo@ashevche-desk.local>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -53,1074 +123,39 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-work-loop-pseudo-v3-44-8cbbea1cf34f@kernel.org>
-References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
-In-Reply-To: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, 
- Josef Bacik <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, 
- target-devel@vger.kernel.org, driver-core@lists.linux.dev, 
- linux-mm@kvack.org, bpf@vger.kernel.org, 
- linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
- apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org, 
- netdev@vger.kernel.org, fuse-devel@lists.linux.dev, 
- linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, 
- ocfs2-devel@lists.linux.dev, linux-s390@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
- Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, 
- linux-kselftest@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, 
- Alexander Mikhalitsyn <alex@amutable.com>, 
- Chris Down <chris@chrisdown.name>
-X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=29449; i=brauner@kernel.org;
- h=from:subject:message-id; bh=oq2nX7cnvKbrQdiqwbkiqkU/ssRz5Jb0SyrsJfTagu4=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9ejxx8t5TPw6dkLmp+sHlufUkUzeFRfvUF3J6H5NQ/
- CepvuqlXEcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBE4gsZ/mmG1Ebdf5nNYZGy
- pyObIXpqRM83Xblth/L/v+i5MyvbfCHDPxXZff4CLqwNu36mG29mb8l81v8xfKe8Zc+DPwYhr7Z
- +ZwAA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Add tests that files on pseudo filesystems can't be used as storage:
+On Mon, 16 Nov 2026 13:00:57 +0200
+Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
 
-- a procfs file attached read-only to a loop device
-- sysfs files attached read-only and read-write to a loop device
-- a sysfs file behind a lower-only overlayfs attached to a loop device
-- a symlink and a magic link to a sysfs file attached to a loop device
-- a procfs file as the backing file of an nvme target namespace
-- a procfs file as the backing file and as the protection file of a
-  fileio device of the scsi target
-- a procfs file as a zloop zone file
-- a sysfs file as the backing file of a usb mass storage gadget LUN
-- a sysfs file as the source of a file-backed erofs mount
-- a sysfs file as fuse passthrough backing file, by O_PATH and by
-  regular file descriptor
-- an O_PATH file descriptor of an overlayfs metacopy file whose data
-  can't be found as fuse passthrough backing file
+> On Sat, Nov 14, 2026 at 08:49:21PM +0100, Alejandro Colomar wrote:
+> 
+> [...]
+> 
+> > > And these are all candidates for converted uses to
+> > > whatever is the function name or steq:
+> > > 
+> > > $ git grep -P '[^w]strncmp\s*\(\s*[\w\.\-\>\s]*,\s*\"\w*"\s*,\s*\d+\s*\)' -- '*.[ch]' | wc -l
+> > > 946  
+> > 
+> > Looking at those, I've seen a bug in BCM47XX, introduced in 2224de9d152b
+> > (2013-10-29; "MIPS: BCM47XX: Fix clock detection for BCM5354 with 200MHz
+> >  clock").
+> > 
+> > Look at this line of code:
+> > 
+> > 	$ grep strncmp arch/mips/bcm47xx/time.c
+> > 			if (len >= 0 && !strncmp(buf, "200", 4))
+> > 
+> > That strncmp(3) call is wrong, as it's really behaving as strcmp(3),
+> > since the 4 is off-by-one.  I'd like to know what was the intention.
+> > Was it meant to be !strncmp(buf, "200", 3)?  Or was it meant to be just
+> > !strcmp(buf, "200")?  
+> 
+> When in doubts, preserve current behaviour over refactoring.
+> 
 
-Add tests that FIFOs and character devices can't be used as storage by
-loop, the nvme target, the fileio backend and zloop either.
+That entire function is strange...
 
-And make sure that a memfd and another loop device still work as loop
-backing files, that a regular file and a block device still work for
-the nvme target and the fileio backend, that a regular file still works
-as fuse passthrough backing file, that reads and writes of a fuse file
-still reach its backing file when that was registered by O_PATH and by
-regular file descriptor and that loop refuses a backing file that isn't
-open for reading.
-
-The nvme target test uses buffered_io as asked for in [1]. Most pseudo
-files can't be opened with O_DIRECT and the test would pass without
-ever reaching the check.
-
-[1]: https://lore.kernel.org/r/71f76e5e-ce24-4a71-863a-169ad262c510@gmail.com
-
-Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
-Reviewed-by: Chris Down <chris@chrisdown.name>
-Tested-by: Chris Down <chris@chrisdown.name>
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- tools/testing/selftests/filesystems/.gitignore     |   1 +
- tools/testing/selftests/filesystems/Makefile       |   2 +-
- tools/testing/selftests/filesystems/config         |  16 +
- .../selftests/filesystems/pseudo_backing_test.c    | 936 +++++++++++++++++++++
- 4 files changed, 954 insertions(+), 1 deletion(-)
-
-diff --git a/tools/testing/selftests/filesystems/.gitignore b/tools/testing/selftests/filesystems/.gitignore
-index cf79000e4092a..8df38eabb1252 100644
---- a/tools/testing/selftests/filesystems/.gitignore
-+++ b/tools/testing/selftests/filesystems/.gitignore
-@@ -7,3 +7,4 @@ kernfs_test
- idmapped_tmpfile
- ustat_test
- rw_hint_test
-+pseudo_backing_test
-diff --git a/tools/testing/selftests/filesystems/Makefile b/tools/testing/selftests/filesystems/Makefile
-index fbd5c27505ef5..0ebb9005bcd28 100644
---- a/tools/testing/selftests/filesystems/Makefile
-+++ b/tools/testing/selftests/filesystems/Makefile
-@@ -2,7 +2,7 @@
- 
- CFLAGS += $(KHDR_INCLUDES)
- TEST_GEN_PROGS := devpts_pts anon_inode_test kernfs_test fclog ustat_test rw_hint_test
--TEST_GEN_PROGS += idmapped_tmpfile
-+TEST_GEN_PROGS += idmapped_tmpfile pseudo_backing_test
- TEST_GEN_PROGS_EXTENDED := dnotify_test
- 
- include ../lib.mk
-diff --git a/tools/testing/selftests/filesystems/config b/tools/testing/selftests/filesystems/config
-index 9f45bc493a30a..90f6f71cb4d9d 100644
---- a/tools/testing/selftests/filesystems/config
-+++ b/tools/testing/selftests/filesystems/config
-@@ -6,3 +6,19 @@ CONFIG_NET=y
- CONFIG_NET_NS=y
- CONFIG_INET=y
- CONFIG_SYSFS=y
-+CONFIG_BLK_DEV_LOOP=y
-+CONFIG_OVERLAY_FS=y
-+CONFIG_TMPFS=y
-+CONFIG_CONFIGFS_FS=y
-+CONFIG_USB_GADGET=y
-+CONFIG_USB_CONFIGFS=y
-+CONFIG_USB_CONFIGFS_MASS_STORAGE=y
-+CONFIG_EROFS_FS=y
-+CONFIG_EROFS_FS_BACKED_BY_FILE=y
-+CONFIG_NVME_TARGET=y
-+CONFIG_TARGET_CORE=y
-+CONFIG_TCM_FILEIO=y
-+CONFIG_BLK_DEV_ZONED=y
-+CONFIG_BLK_DEV_ZONED_LOOP=y
-+CONFIG_FUSE_FS=y
-+CONFIG_FUSE_PASSTHROUGH=y
-diff --git a/tools/testing/selftests/filesystems/pseudo_backing_test.c b/tools/testing/selftests/filesystems/pseudo_backing_test.c
-new file mode 100644
-index 0000000000000..f45bb014a3744
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/pseudo_backing_test.c
-@@ -0,0 +1,936 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
-+
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <limits.h>
-+#include <sched.h>
-+#include <signal.h>
-+#include <stdbool.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <linux/fuse.h>
-+#include <linux/loop.h>
-+#include <linux/magic.h>
-+#include <sys/ioctl.h>
-+#include <sys/mman.h>
-+#include <sys/mount.h>
-+#include <sys/prctl.h>
-+#include <sys/stat.h>
-+#include <sys/uio.h>
-+#include <sys/vfs.h>
-+#include <sys/wait.h>
-+#include <sys/xattr.h>
-+
-+#include "kselftest_harness.h"
-+#include "wrappers.h"
-+
-+/*
-+ * Put @fd behind a free loop device. The device is set up with
-+ * LO_FLAGS_AUTOCLEAR and goes away again when it is closed here.
-+ */
-+static int loop_attach(int fd, bool rw, char *dev, size_t len)
-+{
-+	struct loop_config cfg = {};
-+	int ctl, nr, lfd, ret = 0;
-+
-+	ctl = open("/dev/loop-control", O_RDWR | O_CLOEXEC);
-+	if (ctl < 0)
-+		return -errno;
-+	nr = ioctl(ctl, LOOP_CTL_GET_FREE);
-+	if (nr < 0)
-+		ret = -errno;
-+	close(ctl);
-+	if (ret)
-+		return ret;
-+
-+	snprintf(dev, len, "/dev/loop%d", nr);
-+	lfd = open(dev, (rw ? O_RDWR : O_RDONLY) | O_CLOEXEC);
-+	if (lfd < 0)
-+		return -errno;
-+
-+	cfg.fd = fd;
-+	cfg.info.lo_flags = LO_FLAGS_AUTOCLEAR;
-+	if (!rw)
-+		cfg.info.lo_flags |= LO_FLAGS_READ_ONLY;
-+	if (ioctl(lfd, LOOP_CONFIGURE, &cfg)) {
-+		ret = -errno;
-+		close(lfd);
-+	} else {
-+		ret = lfd;
-+	}
-+	return ret;
-+}
-+
-+static int attach_path(const char *path, bool rw)
-+{
-+	char dev[PATH_MAX];
-+	int fd, ret;
-+
-+	fd = open(path, (rw ? O_RDWR : O_RDONLY) | O_CLOEXEC);
-+	if (fd < 0)
-+		return -errno;
-+	ret = loop_attach(fd, rw, dev, sizeof(dev));
-+	close(fd);
-+	if (ret >= 0) {
-+		close(ret);
-+		ret = 0;
-+	}
-+	return ret;
-+}
-+
-+static bool can_use_loop(void)
-+{
-+	return geteuid() == 0 && access("/dev/loop-control", R_OK | W_OK) == 0;
-+}
-+
-+/* A pseudo file that can be opened for reading and writing. */
-+#define PSEUDO_FILE "/proc/sys/kernel/hostname"
-+
-+static int write_string(const char *path, const char *buf)
-+{
-+	int fd, ret = 0;
-+
-+	fd = open(path, O_WRONLY | O_CLOEXEC);
-+	if (fd < 0)
-+		return -errno;
-+	if (write(fd, buf, strlen(buf)) < 0)
-+		ret = -errno;
-+	close(fd);
-+	return ret;
-+}
-+
-+static int create_file(const char *path)
-+{
-+	int fd, ret = 0;
-+
-+	fd = open(path, O_RDWR | O_CREAT | O_CLOEXEC, 0600);
-+	if (fd < 0)
-+		return -errno;
-+	if (ftruncate(fd, 1 << 20))
-+		ret = -errno;
-+	close(fd);
-+	return ret;
-+}
-+
-+/* Loop device on top of a memfd. It goes away when the fd is closed. */
-+static int create_loop_device(char *dev, size_t len)
-+{
-+	int fd, lfd;
-+
-+	fd = memfd_create("pseudo_backing_test", MFD_CLOEXEC);
-+	if (fd < 0)
-+		return -errno;
-+	if (ftruncate(fd, 1 << 20)) {
-+		lfd = -errno;
-+		close(fd);
-+		return lfd;
-+	}
-+	lfd = loop_attach(fd, true, dev, len);
-+	close(fd);
-+	return lfd;
-+}
-+
-+/* Private tmpfs on /tmp for files, links and FIFOs. */
-+static int setup_tmp(void)
-+{
-+	if (unshare(CLONE_NEWNS))
-+		return -errno;
-+	if (mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL))
-+		return -errno;
-+	if (mount("tmpfs", "/tmp", "tmpfs", 0, NULL))
-+		return -errno;
-+	return 0;
-+}
-+
-+TEST(memfd_backing_file)
-+{
-+	char dev[PATH_MAX];
-+	int fd, lfd;
-+
-+	if (!can_use_loop())
-+		SKIP(return, "loop devices unavailable");
-+
-+	fd = memfd_create("pseudo_backing_test", MFD_CLOEXEC);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(ftruncate(fd, 1 << 20), 0);
-+
-+	lfd = loop_attach(fd, true, dev, sizeof(dev));
-+	ASSERT_GE(lfd, 0);
-+	EXPECT_EQ(close(lfd), 0);
-+	EXPECT_EQ(close(fd), 0);
-+}
-+
-+TEST(loop_device_backing_file)
-+{
-+	char dev[PATH_MAX], dev2[PATH_MAX];
-+	int fd, lfd, bfd, lfd2;
-+
-+	if (!can_use_loop())
-+		SKIP(return, "loop devices unavailable");
-+
-+	fd = memfd_create("pseudo_backing_test", MFD_CLOEXEC);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(ftruncate(fd, 1 << 20), 0);
-+	lfd = loop_attach(fd, true, dev, sizeof(dev));
-+	ASSERT_GE(lfd, 0);
-+
-+	/* A block device stays fine as a backing file. */
-+	bfd = open(dev, O_RDWR | O_CLOEXEC);
-+	ASSERT_GE(bfd, 0);
-+	lfd2 = loop_attach(bfd, true, dev2, sizeof(dev2));
-+	ASSERT_GE(lfd2, 0);
-+
-+	EXPECT_EQ(close(lfd2), 0);
-+	EXPECT_EQ(close(bfd), 0);
-+	EXPECT_EQ(close(lfd), 0);
-+	EXPECT_EQ(close(fd), 0);
-+}
-+
-+TEST(write_only_backing_file)
-+{
-+	char dev[PATH_MAX], path[PATH_MAX];
-+	int fd, wfd, lfd;
-+
-+	if (!can_use_loop())
-+		SKIP(return, "loop devices unavailable");
-+
-+	fd = memfd_create("pseudo_backing_test", MFD_CLOEXEC);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(ftruncate(fd, 1 << 20), 0);
-+
-+	/* Loop reads from its backing file so it must be open for reading. */
-+	snprintf(path, sizeof(path), "/proc/self/fd/%d", fd);
-+	wfd = open(path, O_WRONLY | O_CLOEXEC);
-+	ASSERT_GE(wfd, 0);
-+
-+	lfd = loop_attach(wfd, true, dev, sizeof(dev));
-+	if (lfd >= 0)
-+		close(lfd);
-+	EXPECT_EQ(lfd, -EBADF);
-+	EXPECT_EQ(close(wfd), 0);
-+	EXPECT_EQ(close(fd), 0);
-+}
-+
-+TEST(procfs_backing_file)
-+{
-+	if (!can_use_loop())
-+		SKIP(return, "loop devices unavailable");
-+
-+	ASSERT_EQ(attach_path("/proc/cpuinfo", false), -EINVAL);
-+}
-+
-+TEST(sysfs_backing_file)
-+{
-+	if (!can_use_loop())
-+		SKIP(return, "loop devices unavailable");
-+
-+	ASSERT_EQ(attach_path("/sys/kernel/warn_count", false), -EINVAL);
-+
-+	if (access("/sys/kernel/reboot/mode", F_OK))
-+		SKIP(return, "no /sys/kernel/reboot/mode");
-+	ASSERT_EQ(attach_path("/sys/kernel/reboot/mode", true), -EINVAL);
-+}
-+
-+TEST(overlayfs_on_sysfs_backing_file)
-+{
-+	if (!can_use_loop())
-+		SKIP(return, "loop devices unavailable");
-+
-+	ASSERT_EQ(unshare(CLONE_NEWNS), 0);
-+	ASSERT_EQ(mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL), 0);
-+	ASSERT_EQ(mount("tmpfs", "/tmp", "tmpfs", 0, NULL), 0);
-+	ASSERT_EQ(mkdir("/tmp/empty", 0755), 0);
-+	ASSERT_EQ(mkdir("/tmp/merged", 0755), 0);
-+
-+	/* A lower-only overlayfs serves reads from sysfs. */
-+	if (mount("overlay", "/tmp/merged", "overlay", MS_RDONLY,
-+		  "lowerdir=/sys/kernel:/tmp/empty"))
-+		SKIP(return, "no overlayfs on top of sysfs: %s", strerror(errno));
-+
-+	ASSERT_EQ(attach_path("/tmp/merged/warn_count", false), -EINVAL);
-+}
-+
-+TEST(link_to_sysfs_backing_file)
-+{
-+	char path[PATH_MAX];
-+	int fd;
-+
-+	if (!can_use_loop())
-+		SKIP(return, "loop devices unavailable");
-+
-+	ASSERT_EQ(setup_tmp(), 0);
-+
-+	/* Links are followed before the file is checked. */
-+	ASSERT_EQ(symlink("/sys/kernel/warn_count", "/tmp/link"), 0);
-+	EXPECT_EQ(attach_path("/tmp/link", false), -EINVAL);
-+
-+	fd = open("/sys/kernel/warn_count", O_RDONLY | O_CLOEXEC);
-+	ASSERT_GE(fd, 0);
-+	snprintf(path, sizeof(path), "/proc/self/fd/%d", fd);
-+	EXPECT_EQ(attach_path(path, false), -EINVAL);
-+	EXPECT_EQ(close(fd), 0);
-+}
-+
-+TEST(special_file_backing_file)
-+{
-+	if (!can_use_loop())
-+		SKIP(return, "loop devices unavailable");
-+
-+	ASSERT_EQ(setup_tmp(), 0);
-+	ASSERT_EQ(mkfifo("/tmp/fifo", 0600), 0);
-+
-+	/* Only regular files and block devices are storage. */
-+	EXPECT_EQ(attach_path("/tmp/fifo", true), -EINVAL);
-+	EXPECT_EQ(attach_path("/dev/null", true), -EINVAL);
-+}
-+
-+#define CONFIGFS_DIR "/sys/kernel/config"
-+#define GADGET_DIR CONFIGFS_DIR "/usb_gadget/pseudo_backing_test"
-+#define MASS_STORAGE_DIR GADGET_DIR "/functions/mass_storage.0"
-+
-+TEST(usb_mass_storage_backing_file)
-+{
-+	const char *path = "/sys/kernel/warn_count";
-+	struct statfs sfs;
-+	ssize_t ret;
-+	int fd, err;
-+
-+	if (geteuid())
-+		SKIP(return, "needs root");
-+
-+	/* Mounting configfs on top of itself fails with EBUSY. */
-+	if (statfs(CONFIGFS_DIR, &sfs) || sfs.f_type != CONFIGFS_MAGIC) {
-+		ASSERT_EQ(unshare(CLONE_NEWNS), 0);
-+		ASSERT_EQ(mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL), 0);
-+		if (mount("configfs", CONFIGFS_DIR, "configfs", 0, NULL))
-+			SKIP(return, "no configfs: %s", strerror(errno));
-+	}
-+
-+	if (mkdir(GADGET_DIR, 0755))
-+		SKIP(return, "no usb gadget configfs: %s", strerror(errno));
-+	if (mkdir(MASS_STORAGE_DIR, 0755)) {
-+		err = errno;
-+		rmdir(GADGET_DIR);
-+		SKIP(return, "no usb mass storage function: %s", strerror(err));
-+	}
-+
-+	/* Writing the path opens the LUN's backing file right away. */
-+	fd = open(MASS_STORAGE_DIR "/lun.0/file", O_WRONLY | O_CLOEXEC);
-+	EXPECT_GE(fd, 0);
-+	if (fd >= 0) {
-+		ret = write(fd, path, strlen(path));
-+		err = errno;
-+		EXPECT_EQ(ret, -1);
-+		EXPECT_EQ(err, EINVAL);
-+		EXPECT_EQ(close(fd), 0);
-+	}
-+
-+	EXPECT_EQ(rmdir(MASS_STORAGE_DIR), 0);
-+	EXPECT_EQ(rmdir(GADGET_DIR), 0);
-+}
-+
-+/* Mounting configfs on top of itself fails with EBUSY. */
-+static int setup_configfs(void)
-+{
-+	struct statfs sfs;
-+
-+	if (!statfs(CONFIGFS_DIR, &sfs) && sfs.f_type == CONFIGFS_MAGIC)
-+		return 0;
-+	if (mount("configfs", CONFIGFS_DIR, "configfs", 0, NULL))
-+		return -errno;
-+	return 0;
-+}
-+
-+#define NVMET_SUBSYS_DIR CONFIGFS_DIR "/nvmet/subsystems/pseudo_backing_test"
-+#define NVMET_NS_DIR NVMET_SUBSYS_DIR "/namespaces/1"
-+
-+static int nvmet_enable(const char *path)
-+{
-+	int ret;
-+
-+	ret = write_string(NVMET_NS_DIR "/device_path", path);
-+	if (ret)
-+		return ret;
-+	ret = write_string(NVMET_NS_DIR "/enable", "1");
-+	if (!ret)
-+		ret = write_string(NVMET_NS_DIR "/enable", "0");
-+	return ret;
-+}
-+
-+TEST(nvmet_backing_file)
-+{
-+	char dev[PATH_MAX];
-+	int lfd;
-+
-+	if (!can_use_loop())
-+		SKIP(return, "loop devices unavailable");
-+
-+	ASSERT_EQ(setup_tmp(), 0);
-+	if (setup_configfs())
-+		SKIP(return, "no configfs");
-+	if (mkdir(NVMET_SUBSYS_DIR, 0755))
-+		SKIP(return, "no nvme target: %s", strerror(errno));
-+	EXPECT_EQ(mkdir(NVMET_NS_DIR, 0755), 0);
-+
-+	/* With direct I/O most pseudo files already fail to open. */
-+	EXPECT_EQ(write_string(NVMET_NS_DIR "/buffered_io", "1"), 0);
-+
-+	EXPECT_EQ(create_file("/tmp/file"), 0);
-+	EXPECT_EQ(mkfifo("/tmp/fifo", 0600), 0);
-+
-+	lfd = create_loop_device(dev, sizeof(dev));
-+	EXPECT_GE(lfd, 0);
-+
-+	/* With buffered_io the file backend handles block devices as well. */
-+	EXPECT_EQ(nvmet_enable("/tmp/file"), 0);
-+	if (lfd >= 0)
-+		EXPECT_EQ(nvmet_enable(dev), 0);
-+	EXPECT_EQ(nvmet_enable(PSEUDO_FILE), -EINVAL);
-+	EXPECT_EQ(nvmet_enable("/tmp/fifo"), -EINVAL);
-+	EXPECT_EQ(nvmet_enable("/dev/null"), -EINVAL);
-+
-+	if (lfd >= 0)
-+		EXPECT_EQ(close(lfd), 0);
-+	EXPECT_EQ(rmdir(NVMET_NS_DIR), 0);
-+	EXPECT_EQ(rmdir(NVMET_SUBSYS_DIR), 0);
-+}
-+
-+#define FILEIO_HBA_DIR CONFIGFS_DIR "/target/core/fileio_4711"
-+#define FILEIO_DEV_DIR FILEIO_HBA_DIR "/pseudo_backing_test"
-+#define FILEIO_PROT_TYPE FILEIO_DEV_DIR "/attrib/pi_prot_type"
-+
-+static int fileio_create(const char *path)
-+{
-+	char buf[PATH_MAX];
-+	int ret;
-+
-+	if (mkdir(FILEIO_DEV_DIR, 0755))
-+		return -errno;
-+	snprintf(buf, sizeof(buf), "fd_dev_name=%s,fd_dev_size=1048576", path);
-+	ret = write_string(FILEIO_DEV_DIR "/control", buf);
-+	if (!ret)
-+		ret = write_string(FILEIO_DEV_DIR "/enable", "1");
-+	if (ret)
-+		rmdir(FILEIO_DEV_DIR);
-+	return ret;
-+}
-+
-+static int fileio_enable(const char *path)
-+{
-+	int ret;
-+
-+	ret = fileio_create(path);
-+	if (!ret)
-+		rmdir(FILEIO_DEV_DIR);
-+	return ret;
-+}
-+
-+TEST(fileio_backing_file)
-+{
-+	char dev[PATH_MAX];
-+	int lfd;
-+
-+	if (!can_use_loop())
-+		SKIP(return, "loop devices unavailable");
-+
-+	ASSERT_EQ(setup_tmp(), 0);
-+	if (setup_configfs())
-+		SKIP(return, "no configfs");
-+	if (mkdir(FILEIO_HBA_DIR, 0755))
-+		SKIP(return, "no fileio backend: %s", strerror(errno));
-+
-+	EXPECT_EQ(create_file("/tmp/file"), 0);
-+	EXPECT_EQ(mkfifo("/tmp/fifo", 0600), 0);
-+
-+	lfd = create_loop_device(dev, sizeof(dev));
-+	EXPECT_GE(lfd, 0);
-+
-+	EXPECT_EQ(fileio_enable("/tmp/file"), 0);
-+	if (lfd >= 0)
-+		EXPECT_EQ(fileio_enable(dev), 0);
-+	EXPECT_EQ(fileio_enable(PSEUDO_FILE), -EINVAL);
-+	EXPECT_EQ(fileio_enable("/tmp/fifo"), -EINVAL);
-+	EXPECT_EQ(fileio_enable("/dev/null"), -EINVAL);
-+
-+	if (lfd >= 0)
-+		EXPECT_EQ(close(lfd), 0);
-+	EXPECT_EQ(rmdir(FILEIO_HBA_DIR), 0);
-+}
-+
-+TEST(fileio_protection_file)
-+{
-+	int ret;
-+
-+	if (geteuid())
-+		SKIP(return, "needs root");
-+
-+	ASSERT_EQ(setup_tmp(), 0);
-+	if (setup_configfs())
-+		SKIP(return, "no configfs");
-+	if (mkdir(FILEIO_HBA_DIR, 0755))
-+		SKIP(return, "no fileio backend: %s", strerror(errno));
-+
-+	EXPECT_EQ(create_file("/tmp/file"), 0);
-+	ret = fileio_create("/tmp/file");
-+	EXPECT_EQ(ret, 0);
-+	if (!ret) {
-+		/* Turning on DIF opens the protection file. */
-+		EXPECT_EQ(symlink(PSEUDO_FILE, "/tmp/file.protection"), 0);
-+		EXPECT_EQ(write_string(FILEIO_PROT_TYPE, "1"), -EINVAL);
-+		EXPECT_EQ(unlink("/tmp/file.protection"), 0);
-+
-+		EXPECT_EQ(mkfifo("/tmp/file.protection", 0600), 0);
-+		EXPECT_EQ(write_string(FILEIO_PROT_TYPE, "1"), -EINVAL);
-+		EXPECT_EQ(unlink("/tmp/file.protection"), 0);
-+
-+		EXPECT_EQ(write_string(FILEIO_PROT_TYPE, "1"), 0);
-+		EXPECT_EQ(write_string(FILEIO_PROT_TYPE, "0"), 0);
-+		EXPECT_EQ(rmdir(FILEIO_DEV_DIR), 0);
-+	}
-+
-+	EXPECT_EQ(rmdir(FILEIO_HBA_DIR), 0);
-+}
-+
-+#define ZLOOP_CTL "/dev/zloop-control"
-+
-+/* One conventional and two sequential zones in /tmp/@id. */
-+static int zloop_add(int id)
-+{
-+	char buf[128];
-+	int ret;
-+
-+	snprintf(buf, sizeof(buf),
-+		 "add id=%d,base_dir=/tmp,capacity_mb=12,zone_size_mb=4,conv_zones=1,buffered_io",
-+		 id);
-+	ret = write_string(ZLOOP_CTL, buf);
-+	if (!ret) {
-+		snprintf(buf, sizeof(buf), "remove id=%d", id);
-+		ret = write_string(ZLOOP_CTL, buf);
-+	}
-+	return ret;
-+}
-+
-+TEST(zloop_zone_file)
-+{
-+	if (geteuid())
-+		SKIP(return, "needs root");
-+	if (access(ZLOOP_CTL, W_OK))
-+		SKIP(return, "no zloop");
-+
-+	ASSERT_EQ(setup_tmp(), 0);
-+
-+	ASSERT_EQ(mkdir("/tmp/4711", 0755), 0);
-+	EXPECT_EQ(zloop_add(4711), 0);
-+
-+	/* Zone files that already exist are used as they are. */
-+	ASSERT_EQ(mkdir("/tmp/4712", 0755), 0);
-+	ASSERT_EQ(symlink(PSEUDO_FILE, "/tmp/4712/seq-000001"), 0);
-+	EXPECT_EQ(zloop_add(4712), -EINVAL);
-+
-+	ASSERT_EQ(mkdir("/tmp/4713", 0755), 0);
-+	ASSERT_EQ(mkfifo("/tmp/4713/seq-000001", 0600), 0);
-+	EXPECT_EQ(zloop_add(4713), -EINVAL);
-+}
-+
-+TEST(erofs_backing_file)
-+{
-+	bool refused = false;
-+	char buf[256];
-+	int fsfd, ret, err;
-+	ssize_t n;
-+
-+	if (geteuid())
-+		SKIP(return, "needs root");
-+
-+	fsfd = sys_fsopen("erofs", FSOPEN_CLOEXEC);
-+	if (fsfd < 0)
-+		SKIP(return, "no erofs: %s", strerror(errno));
-+
-+	ASSERT_EQ(sys_fsconfig(fsfd, FSCONFIG_SET_STRING, "source",
-+			       "/sys/kernel/warn_count", 0), 0);
-+	ret = sys_fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
-+	err = errno;
-+	if (ret && err == ENOTBLK) {
-+		close(fsfd);
-+		SKIP(return, "no file-backed erofs mounts");
-+	}
-+	ASSERT_EQ(ret, -1);
-+	ASSERT_EQ(err, EINVAL);
-+
-+	/*
-+	 * Something that isn't an erofs image fails with EINVAL as well so
-+	 * check that the source itself was refused.
-+	 */
-+	while ((n = read(fsfd, buf, sizeof(buf) - 1)) > 0) {
-+		buf[n] = '\0';
-+		if (strstr(buf, "backing file"))
-+			refused = true;
-+	}
-+	EXPECT_TRUE(refused);
-+	EXPECT_EQ(close(fsfd), 0);
-+}
-+
-+#define FUSE_DIR "/tmp/fuse"
-+
-+/*
-+ * Mount a fuse filesystem that only answers FUSE_INIT and asks for
-+ * passthrough. Backing files are registered on the returned fd.
-+ */
-+static int fuse_mount_passthrough(void)
-+{
-+	static char buf[FUSE_MIN_READ_BUFFER * 2];
-+	struct fuse_in_header *ih = (void *)buf;
-+	struct fuse_init_in *ii = (void *)(buf + sizeof(*ih));
-+	struct {
-+		struct fuse_out_header oh;
-+		struct fuse_init_out io;
-+	} out = {};
-+	char opts[128];
-+	ssize_t n;
-+	int fd, ret;
-+
-+	if (mkdir(FUSE_DIR, 0755))
-+		return -errno;
-+	fd = open("/dev/fuse", O_RDWR | O_CLOEXEC);
-+	if (fd < 0)
-+		return -errno;
-+	snprintf(opts, sizeof(opts),
-+		 "fd=%d,rootmode=40000,user_id=0,group_id=0", fd);
-+	if (mount("pseudo_backing_test", FUSE_DIR, "fuse", 0, opts))
-+		goto out_err;
-+
-+	n = read(fd, buf, sizeof(buf));
-+	if (n < 0)
-+		goto out_err;
-+	if (n < (ssize_t)(sizeof(*ih) + sizeof(*ii)) ||
-+	    ih->opcode != FUSE_INIT) {
-+		close(fd);
-+		return -EPROTO;
-+	}
-+
-+	out.oh.len = sizeof(out);
-+	out.oh.unique = ih->unique;
-+	out.io.major = FUSE_KERNEL_VERSION;
-+	out.io.minor = ii->minor;
-+	out.io.flags = FUSE_INIT_EXT;
-+	out.io.flags2 = FUSE_PASSTHROUGH >> 32;
-+	out.io.max_write = 4096;
-+	out.io.max_stack_depth = 2;
-+	if (write(fd, &out, sizeof(out)) != sizeof(out))
-+		goto out_err;
-+	return fd;
-+
-+out_err:
-+	ret = -errno;
-+	close(fd);
-+	return ret;
-+}
-+
-+/* Register @path as passthrough backing file and drop it again. */
-+static int fuse_backing_path(int fuse_fd, const char *path, int flags)
-+{
-+	struct fuse_backing_map map = {};
-+	int id, ret = 0;
-+
-+	map.fd = open(path, flags | O_CLOEXEC);
-+	if (map.fd < 0)
-+		return -errno;
-+	id = ioctl(fuse_fd, FUSE_DEV_IOC_BACKING_OPEN, &map);
-+	if (id < 0)
-+		ret = -errno;
-+	else
-+		ioctl(fuse_fd, FUSE_DEV_IOC_BACKING_CLOSE, &id);
-+	close(map.fd);
-+	return ret;
-+}
-+
-+TEST(fuse_passthrough_backing_file)
-+{
-+	int fuse_fd, ret;
-+
-+	if (geteuid())
-+		SKIP(return, "needs root");
-+
-+	ASSERT_EQ(setup_tmp(), 0);
-+	fuse_fd = fuse_mount_passthrough();
-+	if (fuse_fd < 0)
-+		SKIP(return, "no fuse: %s", strerror(-fuse_fd));
-+
-+	/* Only the path of the backing file is used so O_PATH is fine. */
-+	ASSERT_EQ(create_file("/tmp/file"), 0);
-+	ret = fuse_backing_path(fuse_fd, "/tmp/file", O_PATH);
-+	if (ret == -EPERM)
-+		SKIP(return, "no fuse passthrough");
-+	EXPECT_EQ(ret, 0);
-+	EXPECT_EQ(fuse_backing_path(fuse_fd, "/tmp/file", O_RDWR), 0);
-+
-+	EXPECT_EQ(fuse_backing_path(fuse_fd, "/sys/kernel/warn_count", O_PATH),
-+		  -EINVAL);
-+	EXPECT_EQ(fuse_backing_path(fuse_fd, "/sys/kernel/warn_count", O_RDONLY),
-+		  -EINVAL);
-+	EXPECT_EQ(close(fuse_fd), 0);
-+}
-+
-+TEST(fuse_passthrough_overlayfs_metacopy_file)
-+{
-+	int fuse_fd, ret;
-+
-+	if (geteuid())
-+		SKIP(return, "needs root");
-+
-+	ASSERT_EQ(setup_tmp(), 0);
-+	ASSERT_EQ(mkdir("/tmp/lower", 0755), 0);
-+	ASSERT_EQ(mkdir("/tmp/data", 0755), 0);
-+	ASSERT_EQ(mkdir("/tmp/merged", 0755), 0);
-+
-+	/*
-+	 * A metacopy file whose data lives in a data-only layer. overlayfs
-+	 * only looks up the data when the file is opened. It isn't there.
-+	 */
-+	ASSERT_EQ(create_file("/tmp/lower/file"), 0);
-+	ASSERT_EQ(setxattr("/tmp/lower/file", "trusted.overlay.metacopy",
-+			   "", 0, 0), 0);
-+	ASSERT_EQ(setxattr("/tmp/lower/file", "trusted.overlay.redirect",
-+			   "/missing", strlen("/missing"), 0), 0);
-+	if (mount("overlay", "/tmp/merged", "overlay", 0,
-+		  "lowerdir=/tmp/lower::/tmp/data"))
-+		SKIP(return, "no overlayfs data-only layers: %s",
-+		     strerror(errno));
-+
-+	fuse_fd = fuse_mount_passthrough();
-+	if (fuse_fd < 0)
-+		SKIP(return, "no fuse: %s", strerror(-fuse_fd));
-+
-+	ASSERT_EQ(create_file("/tmp/file"), 0);
-+	ret = fuse_backing_path(fuse_fd, "/tmp/file", O_PATH);
-+	if (ret == -EPERM)
-+		SKIP(return, "no fuse passthrough");
-+	ASSERT_EQ(ret, 0);
-+
-+	/* Nothing opened the O_PATH file so the data is looked up now. */
-+	EXPECT_EQ(fuse_backing_path(fuse_fd, "/tmp/merged/file", O_PATH),
-+		  -ENOENT);
-+	EXPECT_EQ(open("/tmp/merged/file", O_RDONLY | O_CLOEXEC), -1);
-+	EXPECT_EQ(errno, ENOENT);
-+	EXPECT_EQ(close(fuse_fd), 0);
-+}
-+
-+#define FUSE_NR_FILES 2
-+#define FUSE_DATA "pseudo_backing_test"
-+
-+/* Regular files in the root directory and their backing ids. */
-+struct fuse_server {
-+	int fd;
-+	const char *names[FUSE_NR_FILES];
-+	int backing_ids[FUSE_NR_FILES];
-+};
-+
-+static int fuse_backing_open(int fuse_fd, int fd)
-+{
-+	struct fuse_backing_map map = { .fd = fd };
-+	int id;
-+
-+	id = ioctl(fuse_fd, FUSE_DEV_IOC_BACKING_OPEN, &map);
-+	return id < 0 ? -errno : id;
-+}
-+
-+static void fuse_reply(int fd, uint64_t unique, int error, const void *arg,
-+		       size_t len)
-+{
-+	struct fuse_out_header oh = {
-+		.len = sizeof(oh) + len,
-+		.error = error,
-+		.unique = unique,
-+	};
-+	struct iovec iov[] = {
-+		{ .iov_base = &oh, .iov_len = sizeof(oh) },
-+		{ .iov_base = (void *)arg, .iov_len = len },
-+	};
-+
-+	/* ENOENT means the request was interrupted. */
-+	if (writev(fd, iov, len ? 2 : 1) < 0 && errno != ENOENT)
-+		_exit(EXIT_FAILURE);
-+}
-+
-+static void fuse_fill_attr(struct fuse_attr *attr, uint64_t nodeid)
-+{
-+	memset(attr, 0, sizeof(*attr));
-+	attr->ino = nodeid;
-+	attr->nlink = 1;
-+	if (nodeid == FUSE_ROOT_ID) {
-+		attr->mode = S_IFDIR | 0755;
-+	} else {
-+		attr->mode = S_IFREG | 0644;
-+		attr->size = strlen(FUSE_DATA);
-+	}
-+}
-+
-+/* File @i of the root directory is node FUSE_ROOT_ID + 1 + @i. */
-+static int fuse_file_index(uint64_t nodeid)
-+{
-+	uint64_t i = nodeid - FUSE_ROOT_ID - 1;
-+
-+	if (nodeid <= FUSE_ROOT_ID || i >= FUSE_NR_FILES)
-+		return -1;
-+	return i;
-+}
-+
-+/* Answer just enough requests to open, read and write the files. */
-+static void fuse_serve(const struct fuse_server *srv)
-+{
-+	static char buf[FUSE_MIN_READ_BUFFER * 2];
-+	struct fuse_in_header *ih = (void *)buf;
-+	const char *name = buf + sizeof(*ih);
-+	struct fuse_entry_out entry;
-+	struct fuse_attr_out attr;
-+	struct fuse_open_out oo;
-+	ssize_t n;
-+	int i;
-+
-+	for (;;) {
-+		n = read(srv->fd, buf, sizeof(buf));
-+		if (n < 0 && (errno == EINTR || errno == ENOENT))
-+			continue;
-+		if (n < (ssize_t)sizeof(*ih))
-+			_exit(EXIT_SUCCESS);
-+
-+		switch (ih->opcode) {
-+		case FUSE_LOOKUP:
-+			for (i = 0; i < FUSE_NR_FILES; i++) {
-+				if (!strcmp(name, srv->names[i]))
-+					break;
-+			}
-+			if (ih->nodeid != FUSE_ROOT_ID || i == FUSE_NR_FILES) {
-+				fuse_reply(srv->fd, ih->unique, -ENOENT, NULL, 0);
-+				break;
-+			}
-+			memset(&entry, 0, sizeof(entry));
-+			entry.nodeid = FUSE_ROOT_ID + 1 + i;
-+			entry.entry_valid = 3600;
-+			entry.attr_valid = 3600;
-+			fuse_fill_attr(&entry.attr, entry.nodeid);
-+			fuse_reply(srv->fd, ih->unique, 0, &entry, sizeof(entry));
-+			break;
-+		case FUSE_GETATTR:
-+			memset(&attr, 0, sizeof(attr));
-+			attr.attr_valid = 3600;
-+			fuse_fill_attr(&attr.attr, ih->nodeid);
-+			fuse_reply(srv->fd, ih->unique, 0, &attr, sizeof(attr));
-+			break;
-+		case FUSE_OPEN:
-+			i = fuse_file_index(ih->nodeid);
-+			if (i < 0) {
-+				fuse_reply(srv->fd, ih->unique, -ENOENT, NULL, 0);
-+				break;
-+			}
-+			memset(&oo, 0, sizeof(oo));
-+			oo.fh = ih->nodeid;
-+			oo.open_flags = FOPEN_PASSTHROUGH;
-+			oo.backing_id = srv->backing_ids[i];
-+			fuse_reply(srv->fd, ih->unique, 0, &oo, sizeof(oo));
-+			break;
-+		case FUSE_FLUSH:
-+		case FUSE_RELEASE:
-+			fuse_reply(srv->fd, ih->unique, 0, NULL, 0);
-+			break;
-+		case FUSE_FORGET:
-+		case FUSE_BATCH_FORGET:
-+			break;
-+		default:
-+			fuse_reply(srv->fd, ih->unique, -ENOSYS, NULL, 0);
-+			break;
-+		}
-+	}
-+}
-+
-+static pid_t fuse_server_start(const struct fuse_server *srv)
-+{
-+	pid_t pid;
-+
-+	pid = fork();
-+	if (pid == 0) {
-+		prctl(PR_SET_PDEATHSIG, SIGKILL);
-+		fuse_serve(srv);
-+	}
-+	return pid;
-+}
-+
-+static void fuse_server_stop(pid_t pid)
-+{
-+	kill(pid, SIGKILL);
-+	waitpid(pid, NULL, 0);
-+}
-+
-+TEST(fuse_passthrough_io)
-+{
-+	struct fuse_server srv = { .names = { "opath", "fd" } };
-+	const char *backing[FUSE_NR_FILES] = { "/tmp/opath", "/tmp/fd" };
-+	const int flags[FUSE_NR_FILES] = { O_PATH, O_RDWR };
-+	ssize_t len = strlen(FUSE_DATA);
-+	char path[PATH_MAX], buf[sizeof(FUSE_DATA)];
-+	int bfd[FUSE_NR_FILES], fd, i;
-+	pid_t pid;
-+
-+	if (geteuid())
-+		SKIP(return, "needs root");
-+
-+	ASSERT_EQ(setup_tmp(), 0);
-+	srv.fd = fuse_mount_passthrough();
-+	if (srv.fd < 0)
-+		SKIP(return, "no fuse: %s", strerror(-srv.fd));
-+
-+	for (i = 0; i < FUSE_NR_FILES; i++) {
-+		bfd[i] = open(backing[i], O_RDWR | O_CREAT | O_CLOEXEC, 0600);
-+		ASSERT_GE(bfd[i], 0);
-+		ASSERT_EQ(pwrite(bfd[i], FUSE_DATA, len, 0), len);
-+
-+		fd = open(backing[i], flags[i] | O_CLOEXEC);
-+		ASSERT_GE(fd, 0);
-+		srv.backing_ids[i] = fuse_backing_open(srv.fd, fd);
-+		EXPECT_EQ(close(fd), 0);
-+		if (srv.backing_ids[i] == -EPERM)
-+			SKIP(return, "no fuse passthrough");
-+		ASSERT_GT(srv.backing_ids[i], 0);
-+	}
-+
-+	pid = fuse_server_start(&srv);
-+	ASSERT_GE(pid, 0);
-+
-+	/* Reads and writes of the fuse file go to the backing file. */
-+	for (i = 0; i < FUSE_NR_FILES; i++) {
-+		snprintf(path, sizeof(path), FUSE_DIR "/%s", srv.names[i]);
-+
-+		fd = open(path, O_RDONLY | O_CLOEXEC);
-+		ASSERT_GE(fd, 0);
-+		memset(buf, 0, sizeof(buf));
-+		EXPECT_EQ(pread(fd, buf, len, 0), len);
-+		EXPECT_STREQ(buf, FUSE_DATA);
-+		EXPECT_EQ(close(fd), 0);
-+
-+		fd = open(path, O_WRONLY | O_CLOEXEC);
-+		ASSERT_GE(fd, 0);
-+		EXPECT_EQ(pwrite(fd, "PSEUDO", 6, 0), 6);
-+		EXPECT_EQ(close(fd), 0);
-+
-+		fd = open(path, O_RDWR | O_CLOEXEC);
-+		ASSERT_GE(fd, 0);
-+		EXPECT_EQ(pwrite(fd, "BACKING", 7, 7), 7);
-+		memset(buf, 0, sizeof(buf));
-+		EXPECT_EQ(pread(fd, buf, len, 0), len);
-+		EXPECT_STREQ(buf, "PSEUDO_BACKING_test");
-+		EXPECT_EQ(close(fd), 0);
-+
-+		memset(buf, 0, sizeof(buf));
-+		EXPECT_EQ(pread(bfd[i], buf, len, 0), len);
-+		EXPECT_STREQ(buf, "PSEUDO_BACKING_test");
-+		EXPECT_EQ(close(bfd[i]), 0);
-+	}
-+
-+	fuse_server_stop(pid);
-+	EXPECT_EQ(close(srv.fd), 0);
-+}
-+
-+TEST_HARNESS_MAIN
-
--- 
-2.53.0
-
+David
