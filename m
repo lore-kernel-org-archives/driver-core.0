@@ -1,87 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794822188;
-	b=rR+TORVB7PhS5141Pakf9R6YRbWBawDJF9kYKm+M3oVV68PNPTn+QRkzFG9wjCeKJFD9
-	 sNrS9RTvQDC3+mlitB8cSw7Z9MPl6OUBmUkYPm23akVsbqTCMNxpFEIVsWvrrHqZgEIIx
-	 9B9gXyQJNXLoWg80pFhEva7icyeT265hcCDZUabR0z83P9LYOqXM2qZs7kbR16mCKdL2p
-	 of7qDViS6l8PoIoKFCI9woNTqpN6xO8FAVIlmh89KxKFZHyOXtXSIRJIId56DVH4jnlkf
-	 cX1827acjPob07pEs0zLnwYhhA7hTvPDRoypMcFDsomvRjaLCV7eJ3vGQ2/rfoWeeZA==
+	t=1794822741;
+	b=iR6OQY6J9rouRdDLgLzhA8amFmFRGRUOiOHoVWsiAIXASpOfztZj2B+CCEZV0bDWuAmj
+	 WDZ0K0ZA+m3qc2ZUb6Cx2nziELGhDkBZ+LODdopuTDYTOjSDhR6pH+QD4O1paupqcDLe8
+	 skuvzpCCCpHSuvsz5iWedhGTG5llIcb8FVhTAN5H54YD/sKDtMYo15q28zHWj+P6DAzj1
+	 0LQ5jI2emmiQexlHRfV/vJIkH1uUPMrgya/4PagZLMRv1RAxCNDDQ40SV9x/Hb66y8wkr
+	 Zkac0dJYy5FYkQirMjJaNWuYhAtE8pb3C3ceZGntQGpTgEPXTDPYHw0zm23pC10eTGg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794822188;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
-	 References:In-Reply-To:To:Cc:X-Mailer;
-	bh=vmKj9J6/J/x0oEsZvbHBsUQKkmVzTWMXODXbHwKBqy8=;
-	b=kxGHEeJ7gIMn6jWKE32KFWDujsrs/M2SpkfYr4fMytmEnesGWkbhkcCv6IzJKiWzBeKF
-	 W3pDsVdf8QppRc6vELBSI+SoUKyJGkY+QF7fF5NB6gyepOMMi35MGH5jBmak4wj7RlrV1
-	 bgx9KGCFs1mFav3iLniG05euL3DV1/SMxDNX4uAmJJQmBzWlCfJFT8+aNf0p/OEOSiRk1
-	 zrgvlLavGmrAZH8yrfxFEIl+FrsKw0xyLX6fOPLe6+HpP4dPCLJVy9dJQrRsbQsgy18Kw
-	 EyMzvSelISby8D4bm8TOwvLeUFyb8sYg+C44g+ipw70aCf42mlNFXxpy0K7gF0CwQXA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794822741;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:
+	 Organization:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=my3HxYvSDU/yPH2PpyhhY24GsqtDovmZmnlnlFtVCJI=;
+	b=wKry3cCaB0aJGBd28EGrWhrtTjcM0JFhSTEj5yUiNvg71M6ewHiII0pHgU43rLXTJp+U
+	 dCBrY1Q12BrL4kE9eEDqCm3bsLL5Q0mo10NHtpcmiTjJp2bWAXYse8nhKw3DgMMJpSmb8
+	 IHG6htlsDQ02B99GOH4rDvJ60RKx6YPkRO2hYTlajd96OYVukHAfKAkZsW6atqcL3IY4r
+	 q19EnNkEHiqTc3PI7aoj/zOvbx0FG9MxAnSigJUsb6M0IwvF5TXRHwEHHpMMzBHyF8dEO
+	 j7bq65t08Fauq0nXTgNLwHSlUZ4MtbYI1GIjGwCTuD/wMSVFusokBpqPxV7zj+6RFvw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BPZb7Gyy;
-	arc=none smtp.remote-ip=209.85.210.177
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=B3DsTelo;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A9C606A882
-	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 09:43:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87A9C606A882
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03330606A33B
+	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 09:52:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03330606A33B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BPZb7Gyy
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-8b5a6f2f27fso1262985b3a.3
-        for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 01:43:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794822187; x=1795426987; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vmKj9J6/J/x0oEsZvbHBsUQKkmVzTWMXODXbHwKBqy8=;
-        b=BPZb7Gyytj3c2sRcYNPZA2eFFQK+/VDGTfYdK3LzNslrbOv02z0QPS18OXvLHMqf2o
-         qn3skTeb0F16S/PBAJpgkT9YjK1ZSYpb1dYhpZV968Xx8uxAiGav91oqI1tcUPFqK5ai
-         eIKJcaiV/jEQthCPo/mM0alRbyTLrOWDTASu5Xpp7zID+wymLM20LASXW9g8Ptv5lswu
-         zHkzPTsErhtVQJ/hLwTWLoEAYBmMyGf53FcUoTZw4BIqmhH7uLJuFNUKxX2lrgybigbT
-         HaJOee93bvtdsSaoCr0SpniphVgs6P1r5JiW5fH22LantPz20CHoPKJr7TMZiLOXSRKa
-         EAxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794822187; x=1795426987;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vmKj9J6/J/x0oEsZvbHBsUQKkmVzTWMXODXbHwKBqy8=;
-        b=fHKrqjg154Mx4JaXH6e2LWU0Hi7Dqm9lhO4r0VKs3Pes1+5qJ5/D4QTCGOQXeyWjL0
-         h4q2CpWc+8lg0kPtaiUb6CqwjGQMa6udaMQmmHI0IEeeQlqR5E15ZvdVu2Q2x4cabFSg
-         3VQ58/F/cPkkTOgnvTLcetr1z0txbFaCbVIy3AuCS9PvPMRT0O7QC1HfFsmf5+XBIZFz
-         HYKpJB+Jz9pair2lJlfVBk5qL07jtv9apv60jkoi90Ap7gMInaTEr4COrBKvDwwkfT1i
-         0MLm5Pwbc4rXzyE7f62YsIP9wCEJ/npjgShiAO9MjD1rkmMCw+sug7V/GMKs3iRIdAao
-         LFCg==
-X-Gm-Message-State: APuU4Z8XM7zOY1kk8XvCaEFe5fGu3GAe1kHTZhnKeO+KWXQ7JUojB4h1
-	8VvLaAegUbj9Eavm8WexcGD1Wo8fzOD/8KYue5YXqbXU024VmVTKkXjo
-X-Gm-Gg: AYBFou0oWlGc0ZaVobBw1+EvkX6jCvFyCjCWc+FU2JDIJ9UlAsMsDVESP/xLNx6LunO
-	0QBTfH4KKWKxN8NaB9LtLxF5SMpjOu+AychZ+gHCMiFljqmJKED+kaZUc62cyzoXdQPXtcwHYvO
-	JeP9gKT/aCFlvIAmX1GpF524Cey6nzfRSS+ev0Xi/PeSm9tYfsRYujES7sVOz8UaRszw+6d818K
-	jR0etbecDVrtC41VfTMcD78T2Y4wTh6RthVUguPEzoTzG2Yxe3ErlzD9mkPwZc19SYgE3ZTkU5t
-	i0Ey0Tg8ARuwTaUg02GnxmSHYiFkV9MLfiA5t4X6MKTADSashBIn1AHdSKjY4jqhf16BMa8nxTk
-	Eojy3nNavL2CIZEcxjTFOZfqR+MIDevvj8YodDIuFDXKHQr90w0vNHKW4A586a+LigIqCM6ALeM
-	gIVk3EHzZVncPIERXjNiCm7C1rbqaUKmupJU2T/vKoCOGa3ycjd+GsXiNNKaWbiS770j7BPWT+w
-	SkAQij56RIuAwYGd8fIUh7x1/FmZDCyefW7pZOQvGzcX1JMHzjmbXN1VxKPeNegvnyXiVeogvKw
-	pp8rueTpoGRNYT5QiAoBLctWFkALdQzVgwZpepwAIJeLudb8k3XwYJXE9cRKeqX6ThwMCHGSC0E
-	1ckcCPNQyIPyC5KKghA==
-X-Received: by 2002:a05:6a00:1989:b0:89e:b12e:7eda with SMTP id d2e1a72fcca58-8beb21cd892mr8957701b3a.7.1794822186847;
-        Mon, 16 Nov 2026 01:43:06 -0800 (PST)
-Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:f133:af41:7614:f46c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8bed12a90fdsm3424231b3a.15.2026.11.16.01.43.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 01:43:06 -0800 (PST)
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Date: Mon, 16 Nov 2026 01:42:56 -0800
-Subject: [PATCH 4/4] sysfs: simplify error handling in create_files()
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=B3DsTelo
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794822741; x=1826358741;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CKwXvtFiw2YfhixQweSZGyQfnQaxAi/mrgRb3VZGJu8=;
+  b=B3DsTeloTtedE10LrRgGN/7W+5Ry1/1uGvh39+sqMExyqy9jd9WdsGWk
+   azz/fHEAls59udq7r70iPLLfPb5Xqbvj2cq/N9ZzqaBFQrnB6cecCeiOc
+   PK8v5IPmtUNP2sl62MQlnvCujC1TRrpGVgE3K9DLaVSofnSztVl4m3TMY
+   hfmkULIEgyQ60t1b5XxYkMLGSJe1PNEESX5FY/Wrm1an2RxIwg4FSxhMR
+   9DNFnCVy78+0E/hcI4MmUskcLScjME4QInjVEmN2O+8yg6JuEHx5vUswo
+   bLsdpyycVldwOWaa5WnXU+vlbl5PrfQVzFldOlxmz3MYuX6VZaQA+VFd6
+   w==;
+X-CSE-ConnectionGUID: CuvqF5BfTd2CcEByfPA86Q==
+X-CSE-MsgGUID: SA0tKhBXTUaI9/8idj7FKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3447592"
+X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
+   d="scan'208";a="3447592"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 01:52:21 -0800
+X-CSE-ConnectionGUID: c805QEd4TWqPznKBs9CPiA==
+X-CSE-MsgGUID: /nrRhD/GTGO8oAqEdcrC8Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
+   d="scan'208";a="10037323"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.87])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 01:52:14 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id A87F4121B5D;
+	Mon, 16 Nov 2026 11:52:17 +0200 (EET)
+Date: Mon, 16 Nov 2026 11:52:17 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: linux-hardening@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+	"Maciej W. Rozycki" <macro@orcam.me.uk>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Andreas Schwab <schwab@linux-m68k.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Joe Perches <joe@perches.com>, Johan Hovold <johan@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Len Brown <lenb@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH v6 04/19] device property: Fix fwnode_name_eq() for empty
+ node names
+Message-ID: <avrSUUM3HMgxTNpl@kekkonen.localdomain>
+References: <cover.1794667407.git.alx@kernel.org>
+ <7fc1321995f1aec9d7b92c6a89047cc9fb28c52a.1794667407.git.alx@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -91,82 +108,31 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-sysfs-group-invisible-v1-4-94cd173a7d9a@gmail.com>
-References: <20261116-sysfs-group-invisible-v1-0-94cd173a7d9a@gmail.com>
-In-Reply-To: <20261116-sysfs-group-invisible-v1-0-94cd173a7d9a@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Johan Hovold <johan@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
- Fernando Fernandez Mancera <fmancera@suse.de>
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.17-dev-6b8b8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7fc1321995f1aec9d7b92c6a89047cc9fb28c52a.1794667407.git.alx@kernel.org>
 
-Both attribute creation loops in create_files() duplicate the same error
-cleanup pattern by breaking out of the loop and checking the error
-status afterward to remove created files.
+Hi Alejandro,
 
-Consolidate error cleanup into a single exit path that removes the
-group's files and returns the error, returning 0 directly on success.
+On Sat, Nov 14, 2026 at 04:22:16PM +0100, Alejandro Colomar wrote:
+> str_has_prefix() returns the prefix length on match and 0 on mismatch,
+> so the mistmatch case can't be told from "empty prefix matched an empty
+> string".
+> 
+> For instance: the OF root node's name as returned by
+> fwnode_get_name() is "" and will return 0 for any name matched against
+> it and since len is 0 too, fwnode_name_eq() will return true.
+> 
+> Let's use strprefix() instead, which also makes this function simpler.
+> 
+> Fixes: a9c8c738066b7 ("device property: Add fwnode_name_eq()")
+> Closes: https://lore.kernel.org/linux-hardening/20261104-fwnode-for-each-prop-v1-1-6e28fe1c72c4@oss.qualcomm.com/
+> Reported-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> Signed-off-by: Alejandro Colomar <alx@kernel.org>
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- fs/sysfs/group.c | 22 ++++++++++------------
- 1 file changed, 10 insertions(+), 12 deletions(-)
-
-diff --git a/fs/sysfs/group.c b/fs/sysfs/group.c
-index 699c2f9e8926..b90ba546dcda 100644
---- a/fs/sysfs/group.c
-+++ b/fs/sysfs/group.c
-@@ -51,10 +51,10 @@ static int create_files(struct kernfs_node *parent, struct kobject *kobj,
- {
- 	struct attribute *const *attr;
- 	const struct bin_attribute *const *bin_attr;
--	int error = 0, i;
-+	int error, i;
- 
- 	if (grp->attrs) {
--		for (i = 0, attr = grp->attrs; *attr && !error; i++, attr++) {
-+		for (i = 0, attr = grp->attrs; *attr; i++, attr++) {
- 			umode_t mode = (*attr)->mode;
- 
- 			/*
-@@ -81,11 +81,7 @@ static int create_files(struct kernfs_node *parent, struct kobject *kobj,
- 			error = sysfs_add_file_mode_ns(parent, *attr, mode, uid,
- 						       gid, NULL);
- 			if (unlikely(error))
--				break;
--		}
--		if (error) {
--			remove_files(parent, grp);
--			goto exit;
-+				goto err_remove_files;
- 		}
- 	}
- 
-@@ -113,13 +109,15 @@ static int create_files(struct kernfs_node *parent, struct kobject *kobj,
- 			error = sysfs_add_bin_file_mode_ns(parent, *bin_attr,
- 							   mode, size, uid, gid,
- 							   NULL);
--			if (error)
--				break;
-+			if (unlikely(error))
-+				goto err_remove_files;
- 		}
--		if (error)
--			remove_files(parent, grp);
- 	}
--exit:
-+
-+	return 0;
-+
-+err_remove_files:
-+	remove_files(parent, grp);
- 	return error;
- }
- 
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
 -- 
-2.56.0.679.gc527c65306-goog
+Regards,
 
+Sakari Ailus
