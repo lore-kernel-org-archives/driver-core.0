@@ -1,99 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.208.8
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794801789;
-	b=V2MO/5Zj3v99Suv/vED1wvCteeG+tnblbw0MhJnLjcXr58PTqiMe3f2dXTRI0tcojAyg
-	 i6FnxnAqkdOf4BG+IoWWsG+ILhCR5v7EaHQG89RFy9hJ7cmjSIlrlu43g59rKGkr9UTUU
-	 QkIYqDbzSJZ980k1OAxl32Ye6LdSz7uxA+zYNQKxfKFH1IiitNUQJ9bjuBrslmrAebbie
-	 UARonCpn1jCXN12Ukb9J3WkPcrtMFjgf+lSwUhkDH73sWdaO0mDqpLMh6eq3U7+AgOJhb
-	 bYQPLeiRegGJeRF02OnpOg5U/Bc/A5pv1wxFjnxdRXFlO1EEBbO11nX3BiXb86JOzng==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794801789;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:To:Cc:Subject:
-	 From:References:In-Reply-To:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:
-	 X-MS-Exchange-AntiSpam-MessageData-1:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=txdxShazMCeZ+97jCCVZjbVKT3ItALb5i0Swrs2NoTY=;
-	b=HIPsCuMATSJQKnqR/o88zQnv1CQa6soLwHgtHp1D45Fmr04L3o0qJ/vShHDoSTrrElC1
-	 n3bXjlvt5gTON7JIhein2qwiEoMpvc8nxqnlQ3YuZRY/EIGldM3f3VN5QzhBY2aOH5oh0
-	 y5q0ZKmPRTNP2z2u01DiOoYSONCJGvntj76cjIZbruCXJYWJF8TPqma8+f5BQZnwX9a10
-	 jzw2Ya45+Jvx/HIS1xq+a1AgeNORbG+9rIXLwQa6xAQabviBNwnqsacUsQ4V0y2ZQduwo
-	 KbdT29dr4Rma4Ja0ljRvK5+TqDjxcAI9je6AibQI1Cvo6yOlEz8KRpGlXysZwfQUA7g==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=SFyQGTX1;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.208.8
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011008.outbound.protection.outlook.com [40.107.208.8])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794808710;
+	b=c1RNT5NSJhYcu8ZpQGV0lValn1glG2QBbAtmFJCrlJBnW29fPQDXzNsvU8ZNE71C3nCE
+	 8F21qRpjuJso0floab3y0xvdf4J+K8PqEgjE8rPDekZMcHnQXDG2QdSW3G3PahufpJ3Ht
+	 xgYje20RO89A5ihz2W3zctcg9q8Kzmm6Z6x8OcK+cUN3RldzQcLoiP3PdBHF5ysf7v33E
+	 4BGw0vrtcqoBZacNE9LqDPpBQm2dhNJJP+Z5wwHF10ypuYHGXF75DmAy/9YtEQxA5ung6
+	 O6liXq3UkUGrAM2Fk28NVQMEifM4QqUuTBCRAAGQGbjg/FqNrfvXBBMaTCS8If5hHcg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794808710;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=Qtjxe/UkLfMtfJgLawV+AiEqNNAopf39+TFUQLWRVLY=;
+	b=sq5f5XlZoxzUEuDjB+RyzvyY+Krc5a5F1YKClXSGyYD8YkIfeErrdRcftNWsg3yG+KAU
+	 wDKdTEduyuq7qqfZClaNBAUr9wvBj1A6U+jpdbfElrmyrGLmghsdPCpG5WkJxD8qAqVsr
+	 pT+JZYUiOicdLVJu/mdhjUf01JKj4sFOVFl3FTSfyNhUosmHuTV3UL9QWsjMaNpMTyZpL
+	 rh+eawPXvRhC8N+Ng8o+aSzdkhSt4u6urIJnDme4upsWsoNBmsYQ+kg75TY4/VP8dWpjw
+	 8Z9rP+XUTWl5Q0MFr1ClacwWPgaxN6NdiPo0r5YNPYVq9VNBTSpLIUAaXukx3AbihgA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NkRIot3E;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DAD606A323;
-	Mon, 16 Nov 2026 04:03:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04DAD606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A19D606A32F
+	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 05:58:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=SFyQGTX1
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ISBOX894efrK2z6cPPpCJDeoetFIzzoOD44Ta9Lhe9GvKWaO7BKU21pxriOPyMEu8gfvAdjxnmo073gEBR8WrXm3wMOvScFmr5I88bRTR+q1zWfBQKpd55seZkFW0T1jdikT/cCTlpNzNxmxsu0CKJvaVD9XtkeIODZ2SluaxMUqNagMW9zSxBtkLhzqea2P8/Idv3rOxXXKZG+4ZtGDwWgZBKni0Sjb1tNB7wtYLesPtwAWadZsu2uN1ghVfxV2xf7d0hD28fPzvhDZbaUaHwLL5hZ6vhycfjiHMKr4t07IR3fK0tmoSMXhvXyW8vXMOc9MnBCswitUbL76PxoEtQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=txdxShazMCeZ+97jCCVZjbVKT3ItALb5i0Swrs2NoTY=;
- b=MH6vsf8gxXrb7sqIN50HpuWgxR/XQ4UYANvv8wdBA5d2T7T07RaTtdKKALLWRSDi9Tw2iFLEAjtAdHZdi7iA11xpTF1/gvphtV4MM1D3j3iqAB+18JHh9uSVXCEqeuVshrF8X+acG/21glttv490Mp/QcFDSyLPaq7BkFPnqcPnzfyB5EESgEmLTk1uwr0XqCExbae08OpP6pOB6Yqz6svhUjs5ewvLqJUcRBSadnd6znxE/KfsjorAZwK3dSVng1wOGS/tcvKGvN4gnBMnDqfpgLJURajZXv3VTPz9fVWr34htmgyZR8N9SGiB3R+jNRAdmE0wTYCvFFyW98UACpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=txdxShazMCeZ+97jCCVZjbVKT3ItALb5i0Swrs2NoTY=;
- b=SFyQGTX1wispHDvlOJvizpWRTJKUAkzletKSfWLCtqqESEL4X3eEL/X0ogyZxZWmRvUhubnG9TeFMSPYCw8zTNdi+kc016SKg4+eI9Ed85BZTgAH7yZ19IK2rtKPEjJwV3JeK10Ej4u1l+fqoJyr8CAWpj5CBwnHYBKUkwJhWCJqAaBXTBnn1xk576JqnmmjKTs2Y4QWywcRNdcpc6BCyoh+QVKgYzgwtN+xUVL95Ic8b+xYgMXJ4Hg/CVkOLVtu4xdzt1tbu0lWJkJ3t3Ue5PUlb2xIz2+mdvr/e8ZCheh+oLVP06yYyTOBIihUHJT6QWMB9+7KjcRxP0Q301XjDw==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH7PR12MB6858.namprd12.prod.outlook.com (2603:10b6:510:1b4::20)
- by CHBPR12MB497579.namprd12.prod.outlook.com (2603:10b6:610:33d::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Mon, 16 Nov
- 2026 04:03:03 +0000
-Received: from PH7PR12MB6858.namprd12.prod.outlook.com
- ([fe80::a550:dbcf:2fcf:463d]) by PH7PR12MB6858.namprd12.prod.outlook.com
- ([fe80::a550:dbcf:2fcf:463d%6]) with mapi id 15.21.0615.012; Mon, 16 Nov 2026
- 04:03:03 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 16 Nov 2026 13:02:13 +0900
-Message-Id: <DMWC45NN5L9I.2NUG81ETBC84L@nvidia.com>
-To: "Danilo Krummrich" <dakr@kernel.org>
-Cc: <aliceryhl@google.com>, <abdiel.janulgue@gmail.com>,
- <daniel.almeida@collabora.com>, <robin.murphy@arm.com>,
- <a.hindborg@kernel.org>, <ojeda@kernel.org>, <boqun@kernel.org>,
- <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
- <tmgross@umich.edu>, <tamird@kernel.org>, <work@onurozkan.dev>,
- <driver-core@lists.linux.dev>, <nova-gpu@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH 1/2] rust: scatterlist: tie owned tables to the device's
- bound lifetime
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-References: <20261114234324.82387-1-dakr@kernel.org>
-In-Reply-To: <20261114234324.82387-1-dakr@kernel.org>
-X-ClientProxiedBy: OS7PR01CA0302.jpnprd01.prod.outlook.com
- (2603:1096:604:26f::12) To MW4PR12MB6873.namprd12.prod.outlook.com
- (2603:10b6:303:20c::17)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NkRIot3E
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 430BD1F000CD
+	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 05:58:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794808710;
+	bh=Qtjxe/UkLfMtfJgLawV+AiEqNNAopf39+TFUQLWRVLY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=NkRIot3E/qWwu1CwaGVWtl8JrHrQEzwk73mAjwkGenfeXOeLlAkS4uJkFbojGWqBS
+	 tnysZQBg7zogpJCz+vWbFtmXYS1R6HekG6vyke7+nI2F0ve5j0QooBv22/039TVoWQ
+	 3A93oSmtM8SJCrrHGYSWfFPRMqWIITpyA6ZT1nkaj0lnKhXOHaoJDHHfzFglbbfVuo
+	 m+IqdJ7ZjVmZiWBIfY4y6o62zDVeTKojcpdaSIJTApxBB2f3q2a8/jFOalPA5Iwf9m
+	 lrZpAUzGZPkhFe0lKdnE/7FYvPeNO1tzVL4pHRAgD4aLK3qgH/7lXIqKnE9+OpnDo4
+	 UExrJ35QRXK8A==
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6b2237b596cso6907893a12.0
+        for <driver-core@lists.linux.dev>; Sun, 15 Nov 2026 21:58:30 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErHKE0Uj3j3efjJDe7kYjZbJW141ri6sqiEhScoCx1jM4P9QVDGyUqld2B4iiy/tbSeQOFAkVXtBcjbWDw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+I41bl+IGVDUl8kOXZpD/GVCsqK8rElTyS7e5mMB34hIgiju5f
+	N5hcSeEJOTKTs1mNdgR1+Moq3is7ZX6gEBxoudmUOxcd9LKsR8LzDFwTniAurPzargHpUUfaJ8W
+	CJyCNYAFhsy4gI2vAzI5yPOYnfo2fK1o=
+X-Received: by 2002:a05:6402:438f:b0:6b5:5ee4:c9d8 with SMTP id
+ 4fb4d7f45d1cf-6b7c0c8232bmr7182338a12.32.1794808709070; Sun, 15 Nov 2026
+ 21:58:29 -0800 (PST)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -103,330 +59,310 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB6858:EE_|CHBPR12MB497579:EE_
-X-MS-Office365-Filtering-Correlation-Id: 231770a1-dcb3-44e1-b1f8-08df439671bf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|10070799003|1800799024|366016|376014|7416014|261028144727099003|261102123227099003|261022075727099003|261022105027099003|261021121427099003|261026121527099003|261026140227099003|11063799006|56012099006|10067099003|18002099003|22082099003|6133799003|261009223027099003;
-X-Microsoft-Antispam-Message-Info:
-	RP4jQLtU/l8vi12lskFLG6OO7DBwICyM5gQvydc4KHyFJ63elyDoF6U9+tMYwMWK04N0wiZNrvaHLN3PbC0J5Nn/AmtzucgnkXupuIV62reKkIQuXu2m/JrGF3lO6Ako32d6ZZ4YH5v9HgY+H3g828c5H4/UzPtBhRubz0AMefZfZf0dhgtGnMr7Jwv9gO0dT28+NAKKJvsUjKirhEsQ/YXziJdZgTohp5atSQLpEK/pURwNzdb58g7tCjpNbnrl81g8spueDy6EjpWiLYBz0ATVFA3TAb3YDOLqT9hYpFqIj83AblIlLjHCwg9Z3xfjlDlz22EGGwHJd9CP4ZS93zVxa0TbZYvR+3mhSdWX8TDoK+wHClpV6JmbQ2n/EEAznjtlQlyCu8qsoFKuCkSIRTzTis0fnUvfnyZZtsPEjwujnuO2SM6TLVkX7zOtHktH0EZh0ZSDkXvX+Vf9TLF30az7kDmEsXvhNFJTovyHnqd3O2niQMUi1HmZTSF0pp3vmzGmRfmwvf7Tv0o8ja+li8/2u/T2ZUFE5d3oaKuHj5CJDiEaKlyg1rauXV241Mc0K74Pja31uFMZ2GzrO7YCv+8A5OoNYoZw3QxcXtUpe3OOvVxViAgMZRuSTYjp5Zmo6vtiuzoT6hG+0DsZDKMuVX7fPVSx9TSnV5bPqDlVI0c=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB6858.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(10070799003)(1800799024)(366016)(376014)(7416014)(261028144727099003)(261102123227099003)(261022075727099003)(261022105027099003)(261021121427099003)(261026121527099003)(261026140227099003)(11063799006)(56012099006)(10067099003)(18002099003)(22082099003)(6133799003)(261009223027099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?V0FGWmI0U2NkL3cwQ2dyL3B3MTNDSGg0d2xwM21abGoyK09JWUNSSHNvZGVU?=
- =?utf-8?B?ZmNZdXdIVUEzbHdGdUl6WnpQTnA5MzV0eDRReUNaMVBzRlZoRWlSRzVNSFhF?=
- =?utf-8?B?Wi9iWUgyY21pQm11dWs5UG52TjhCRTNaYVhQRnhEVGlzM3hRRk1tanVkMTAz?=
- =?utf-8?B?RmJHQkU1NEwrUXZYM1hwVTBUV1YxNjZYd0c3alZXd2JwL1dCN3pxTDgveGU3?=
- =?utf-8?B?elBWL1RndGEzc2thdFY4UXRibG8vVEVwZzI0UHdnZ3R5Rld6TzZSOFlFbDFn?=
- =?utf-8?B?b0JXRmViSDdFVFEycGNlVkFCZHFTaUpCUmk4dnd5RUNkdkNtYWlGQnFtWHR0?=
- =?utf-8?B?bEdwYlVmM2dhRGprRXFYUDYvZ1M1bVJYbTNja2FzTnUvQ0NDbTVGd2NKbUx0?=
- =?utf-8?B?eEgrOFFMeFA1K2tJVENNbWZoNGpmK2tGZDBIKzZUZTBid2RuMzVXRjF4azZL?=
- =?utf-8?B?VXg5a3p4R2ZuRE9SZitJTldJanFQdlpKN1hkdUVvckZ3V1RDR3VXU0xUWjBl?=
- =?utf-8?B?YjlRYzJ5YzJCZGtsWHp1ZmJFOERtdEJYMXljUEgyKzM2TlZ5c3FWYlBZcGNG?=
- =?utf-8?B?ZzU0ZVJVQzgzcUFHUkVublVzcngreDN0REdNeFdFdW45NFIzZU94TXQvRUxF?=
- =?utf-8?B?SHpOU2xPTi8wOUFSdkIvbm1qY1NYYzRaa2I1enl0ck56aThNcnhTVnIwWHpW?=
- =?utf-8?B?cjZobXhCZVo2WFBEdDJtMHROMVZxMDZtVUJsSlRXS2NzdkQ1OTZ2b3g0WG8v?=
- =?utf-8?B?bjZvbmtPalN1S1NtcnVRUlF2U0VHYmM0emY0RURMWkltNmp0S0tqRTkyaEtG?=
- =?utf-8?B?bVUybmJWVDZCcTJmQjBtWkxsM1JaNEwyaktSSlhKeU1iTDB3cTJKOHVScWtG?=
- =?utf-8?B?ZjMzVjBPRGhOU1B3ZmowaTR5TGlCZGlGazlqSkwrWnNnM20waGJyNWVXejVp?=
- =?utf-8?B?SlJNamlyRzhsUjZCZllqUUVFR0R6emlOOFQyUlZmZ2hUbTB3bWdqUjJwcFN2?=
- =?utf-8?B?cWNRZC8yMFk2YmlwKzFPV2RYUGlWMSs4MGRLbTBnSEhkQTBqOWVDYzFjbkps?=
- =?utf-8?B?SFJHVjhRRGtLMThncnQ1VWgyMVdKRkNXdmhMS2xGaUJCakNWMFdDSnFNYmFF?=
- =?utf-8?B?ZVdLdEFGUmE3eHRmRUlNcm9taHo1a1FYVnhJYS84SUJVbW4rS2JkdmxzWnNY?=
- =?utf-8?B?NVdFVjBDaElCdVRMd3YzR2R1S2JPMzIrVjRvR1VGUytCaTJVMEN5ZmdoZkw3?=
- =?utf-8?B?M2E2U2xtb2p5T0ZyNFYwZlJvbm5FQVp0YVZ5R0tvc0lvck9TZmdDN3lSWk14?=
- =?utf-8?B?clVjZzlsTDRkL2daTzg5WEVUazlPa2c2WFpDRFd5NUEzdFVwNlJHMHBxL0lL?=
- =?utf-8?B?em1iRktLcnRSVmQ2dzVubStuN0s1aFUwaXN4bDM1dlQrOGhEQXZHUVdzZEpY?=
- =?utf-8?B?YnU2MVFZak1JK2RWemZqczB5ZUlteVVLMTB0OG05U1d6OHJ0YTIrZWJrczZW?=
- =?utf-8?B?Q1F6bWdLN2Y5dkhkOWlzT0NZN2M4dkpvbmV2SU4zYThvdHJSeEJVZGcrL3FB?=
- =?utf-8?B?ekJWNGxBNWQ4bHRjVk1KZm9ReHd6b3l4SWIzVVR6S0wwT3dlSjZPY0cxVHVH?=
- =?utf-8?B?SnVKMjdQalhYSyt0U09HVXc3MEF1QUM2MlR4Z0ZyVk5HQlcxQkxmbzlOb2JI?=
- =?utf-8?B?SGFzN0dLRmU0WFBHZDNyRjdtRzJzK1EzOWtEdkxZL2o1WWVRWWJjMGRWVmI3?=
- =?utf-8?B?Wk03OVh1bEIwWi9xQUF6TXhHKy9CRGFDckJRU2VFclVaOTRKQmVGbVZCT0Zx?=
- =?utf-8?B?UGU3UXNpRmhiR0crNjU2d1FETVI5bllzRkNmVUp4eGhZdHViSkM4RTl5T1pO?=
- =?utf-8?B?RDhITDBMMW80VHhZVnhxbXlUVE5Ib29aRHNINVhnZ2ZrVTgvczZJZnozTy9H?=
- =?utf-8?B?OUJkRkw2cGtpVFd3U3Z0U0dRb21sZ2p3eFJDeVdLWmZHZDcvMjhCZXV3Vlh6?=
- =?utf-8?B?MmlkVGE2b3lKRHMrNVJnRFo2NDFlSzBMa2pmbzNBekJ5MSs3OEtER2ZLeFFt?=
- =?utf-8?B?QjhoMUZGSDBtMnVjWWt4ek1CamhOQUY3Wm1HWDBhbys5bWhGdXRkZHVRQUdy?=
- =?utf-8?B?bGY2RE1jelNOOFYxSUtlQUQ2SlNZVDduVTZ2TlQyY0I0SGFlekpxYkhRdFo1?=
- =?utf-8?B?aVVHZ0x0YkhyaS9SR0ZJeWFvYVh3R0c3ZG1wUlNGczd3TTIrK3NzZGZ4WGZD?=
- =?utf-8?B?TEJnN2lXczgzNmJsdDFZdHZzeTk3eGorcDk3cmZRaDFZcVJrWVhuZXFEWGV0?=
- =?utf-8?B?d2tlaEh1emJDYnNWOEJZL3RMdTN1Q3VNVWwwK1QrOU14TUh4U0V0aTU3MHIw?=
- =?utf-8?Q?liW6oClAy/a6O3EUcsj0VDhpNnWAIZSu4fz0I9xa/3+Bm?=
-X-MS-Exchange-AntiSpam-MessageData-1: Ow3QwEemCjjKjw==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 231770a1-dcb3-44e1-b1f8-08df439671bf
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB6873.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2026 04:03:02.9372
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0yn+nY2MFtzuMLs/PukL6VgqUnnae/LRT4/jj61R/HXdAAoS1UzILOt890OoFF32ZwMQ+U65djScMfC9+UGAJw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CHBPR12MB497579
+References: <20260928-driver-core-v1-1-0846bb8e0f32@nxp.com>
+In-Reply-To: <20260928-driver-core-v1-1-0846bb8e0f32@nxp.com>
+From: Saravana Kannan <saravanak@kernel.org>
+Date: Sun, 15 Nov 2026 21:58:17 -0800
+X-Gmail-Original-Message-ID: <CACRMN=fuqk67Z+OSEhTUnFK-owMyU7iV-Fk=AQexpnz4_mqR9A@mail.gmail.com>
+X-Gm-Features: AclHuK-zpUdb2F46bithlUxQxaDMREUiER_9wRVuxeroYiWCzxmoBbULZP0FN9w
+Message-ID: <CACRMN=fuqk67Z+OSEhTUnFK-owMyU7iV-Fk=AQexpnz4_mqR9A@mail.gmail.com>
+Subject: Re: [PATCH] driver core: hand off fwnode ownership when shared fwnode
+ owner is rejected
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Sudeep Holla <sudeep.holla@kernel.org>, Hans de Goede <johannes.goede@oss.qualcomm.com>, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	imx@lists.linux.dev, Peng Fan <peng.fan@nxp.com>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun Nov 15, 2026 at 8:42 AM JST, Danilo Krummrich wrote:
-<...>
-> diff --git a/drivers/gpu/nova-core/firmware/radix3.rs b/drivers/gpu/nova-=
-core/firmware/radix3.rs
-> index 94235bd1209d..a3e43fc8ec86 100644
-> --- a/drivers/gpu/nova-core/firmware/radix3.rs
-> +++ b/drivers/gpu/nova-core/firmware/radix3.rs
-> @@ -35,14 +35,11 @@
->  #[pin_data]
->  pub(crate) struct Radix3<'a> {
->      /// The mapped data.
-> -    #[pin]
-> -    data: SGTable<Owned<VVec<u8>>>,
-> +    data: SGTable<Owned<'a, VVec<u8>>>,
->      /// Level 2: one entry per page of `data`.
-> -    #[pin]
-> -    level2: SGTable<Owned<VVec<u8>>>,
-> +    level2: SGTable<Owned<'a, VVec<u8>>>,
->      /// Level 1: one entry per page of `level2`.
-> -    #[pin]
-> -    level1: SGTable<Owned<VVec<u8>>>,
-> +    level1: SGTable<Owned<'a, VVec<u8>>>,
->      /// Level 0: one page, whose single entry is the DMA address of the =
-first `level1` page.
->      level0: Coherent<'a, [u64]>,
->      /// Length of `data`, in bytes.
-> @@ -59,14 +56,14 @@ pub(crate) fn new(
-> =20
->          pin_init::pin_init_scope(move || {
->              Ok(try_pin_init!(Self {
-> -                data <- SGTable::new(dev, data, DataDirection::ToDevice,=
- GFP_KERNEL),
-> -                level2 <- {
-> -                    build_lvl(&data)
-> -                        .map(|l2| SGTable::new(dev, l2, DataDirection::T=
-oDevice, GFP_KERNEL))?
-> +                data: SGTable::new(dev, data, DataDirection::ToDevice, G=
-FP_KERNEL)?,
-> +                level2: {
-> +                    let l2 =3D build_lvl(data)?;
-> +                    SGTable::new(dev, l2, DataDirection::ToDevice, GFP_K=
-ERNEL)?
->                  },
-> -                level1 <- {
-> -                    build_lvl(&level2)
-> -                        .map(|l1| SGTable::new(dev, l1, DataDirection::T=
-oDevice, GFP_KERNEL))?
-> +                level1: {
-> +                    let l1 =3D build_lvl(level2)?;
-> +                    SGTable::new(dev, l1, DataDirection::ToDevice, GFP_K=
-ERNEL)?
->                  },
->                  level0: {
->                      // Allocate the level 0 page table as a device-visib=
-le DMA object, and map the
-> @@ -81,7 +78,7 @@ pub(crate) fn new(
->                      let mut level0 =3D CoherentBox::<'_, [u64]>::zeroed_=
-slice(
->                          dev,
->                          GSP_PAGE_SIZE / size_of::<u64>(),
-> -                        GFP_KERNEL
-> +                        GFP_KERNEL,
+I'd like to reject this patch. More details below.
 
-Stray hunk? Maybe we can move it to patch 2 since it reformats that part
-anyway.
+On Mon, Sep 28, 2026 at 4:51=E2=80=AFAM Peng Fan (OSS) <peng.fan@oss.nxp.co=
+m> wrote:
+>
+> From: Peng Fan <peng.fan@nxp.com>
+>
+> When multiple devices share the same fwnode (e.g. the SCMI bus creates
+> both "pinctrl" and "pinctrl-imx" devices for SCMI_PROTOCOL_PINCTRL), only
+> the first device registered becomes the fwnode owner (fwnode->dev, set in
+> device_add()). If that owner never binds -- for example its driver return=
+s
+> -ENODEV because it is blocklisted on this SoC,
 
->                      )?;
->                      level0[0] =3D level1_entry_addr.to_le();
-> =20
-> @@ -105,7 +102,7 @@ pub(crate) fn size(&self) -> usize {
-> =20
->  /// Returns the size of the level that maps `sg_table`: one `u64` entry =
-per [`GSP_PAGE_SIZE`]
->  /// page of each DMA-mapped region, rounded up to whole pages.
-> -fn lvl_size(sg_table: &SGTable<Owned<VVec<u8>>>) -> usize {
-> +fn lvl_size(sg_table: &SGTable<Owned<'_, VVec<u8>>>) -> usize {
->      let entries: usize =3D sg_table
->          .iter()
->          .map(|sg_entry| usize::from_safe_cast(sg_entry.dma_len()).div_ce=
-il(GSP_PAGE_SIZE))
-> @@ -122,7 +119,7 @@ fn lvl_size(sg_table: &SGTable<Owned<VVec<u8>>>) -> u=
-size {
->  ///
->  /// - `ENOMEM` if the level cannot be allocated.
->  /// - `EINVAL` if `sg_table` yields more entries than [`lvl_size`] sized=
- the level for.
-> -fn build_lvl(sg_table: &SGTable<Owned<VVec<u8>>>) -> Result<VVec<u8>> {
-> +fn build_lvl(sg_table: &SGTable<Owned<'_, VVec<u8>>>) -> Result<VVec<u8>=
-> {
->      let mut dst =3D VVec::<u8>::zeroed(lvl_size(sg_table), GFP_KERNEL).m=
-ap_err(|_| ENOMEM)?;
->      let mut entries =3D dst.chunks_exact_mut(size_of::<u64>());
-> =20
-> diff --git a/rust/kernel/scatterlist.rs b/rust/kernel/scatterlist.rs
-> index 6379a8748117..93f431d7f548 100644
-> --- a/rust/kernel/scatterlist.rs
-> +++ b/rust/kernel/scatterlist.rs
-> @@ -19,7 +19,8 @@
->  //! The main entry point is the [`SGTable`] type, which represents a com=
-plete scatter-gather table.
->  //! It can be either:
->  //!
-> -//! - An owned table ([`SGTable<Owned<P>>`]), created from a Rust memory=
- buffer (e.g., [`VVec`]).
-> +//! - An owned table ([`SGTable<Owned<'a, P>>`]), created from a Rust me=
-mory buffer (e.g.,
-> +//!   [`VVec`]) and tied to the [`Device<Bound>`] lifetime.
->  //!   This type manages the allocation of the `struct sg_table`, the DMA=
- mapping of the buffer, and
->  //!   the automatic cleanup of all resources.
->  //! - A borrowed reference (&[`SGTable`]), which provides safe, read-onl=
-y access to a table that was
-> @@ -33,15 +34,13 @@
->      alloc::allocator::VmallocPageIter,
->      bindings,
->      device::{Bound, Device},
-> -    devres::Devres,
->      dma,
->      error,
->      page,
->      prelude::*,
-> -    sync::aref::ARef,
->      types::Opaque, //
->  };
-> -use core::{ops::Deref, ptr::NonNull};
-> +use core::ops::Deref;
-> =20
->  /// A single entry in a scatter-gather list.
->  ///
-> @@ -123,9 +122,7 @@ unsafe impl Sync for Borrowed {}
->  ///
->  /// All [`SGTable`] variants can be iterated over the individual [`SGEnt=
-ry`]s.
->  #[repr(transparent)]
-> -#[pin_data]
->  pub struct SGTable<T: private::Sealed =3D Borrowed> {
-> -    #[pin]
->      inner: T,
+If it's blocklisted, why is the driver registering itself to match
+that device? Register a different match list during driver
+registration if you realize you are running on a particular SoC?
+Saying your driver supports a device and then not probing it when
+requested is not right. Honestly, this is the simplest fix.
+
+> or because its driver is
+> not compiled in at all -- then driver_bound() is never called for it, so
+> fwnode_links_purge_suppliers() and fw_devlink_pickup_dangling_consumers()
+> are never run for the fwnode. The child fwnode supplier links (pin group
+> nodes such as lpi2c3grp, uart5grp, ...) stay unsatisfied and every
+> consumer of those child nodes defers probe forever.
+
+For the not compiled in part, after a timeout, fw_devlink unblocks all
+probes. You can even set it to a very small number using
+CONFIG_DRIVER_DEFERRED_PROBE_TIMEOUT too. So it should never block for
+the scenario of the driver not being compiled in or ever loaded.
+
+> On i.MX95 this manifests as a complete boot failure: the generic "pinctrl=
+"
+> SCMI device claims fwnode ownership but its driver returns -ENODEV, while
+> the vendor "pinctrl-imx" device binds successfully. Because
+> dev->fwnode->dev still points at the rejected "pinctrl" device,
+> driver_bound() of "pinctrl-imx" skips the supplier purge and dangling
+> consumer pickup, so all I2C buses, SPI, UART, MMC, USB and PCIe
+> controllers wait forever for their pinctrl suppliers.
+>
+> Fix this in two places:
+>
+> 1. In really_probe() failure path: when the driver definitively rejects
+>    a device (-ENODEV / -ENXIO),
+
+This is just arbitrary. Why not do this for all the error returns
+other than -EPROBE_DEFER and -ENOMEM? This might work for your case,
+but I don't think you can make a sweeping call for all drivers.
+
+> fw_devlink_release_shared_fwnode() is
+>    called. If the rejected device is the fwnode owner, it either
+>    transfers ownership to an already-bound sibling (and runs the
+>    purge/pickup on its behalf) or clears ownership so the next sibling
+>    to bind can re-acquire it.
+>
+> 2. In device_links_driver_bound(): re-acquire the fwnode when it is
+>    unowned (!fwnode->dev) or when the current owner has no driver at
+>    all (!fwnode->dev->driver, meaning the driver was never compiled in
+>    or loaded as a module). This covers the case where probe rejection
+>    never happens because no driver ever matches.
+>
+> fwnode->dev is not serialized by a lock; instead every writer only ever
+> touches a fwnode->dev it already owns (=3D=3D dev, as device_del() does w=
+hen
+> it clears ownership) or one that is currently unowned (=3D=3D NULL, as
+> device_add() does when it claims ownership). This patch follows the same
+> discipline: fw_devlink_release_shared_fwnode() only writes fwnode->dev
+> when this device is the current owner; device_links_driver_bound() only
+> claims fwnode->dev when it is NULL or when the current owner has no
+> driver (and therefore cannot be in the process of binding).
+>
+> Fixes: f9aa460672c9 ("driver core: Refactor fw_devlink feature")
+> Cc: stable@vger.kernel.org
+> Assisted-by: LLM
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
+> This issue is triggered by
+> aac4e67d6eb9 ("firmware: arm_scmi: Always create devices for standard pro=
+tocols")
+> in linux-next next-20260925.
+>
+> But I think this is a fix to
+> f9aa460672c9 ("driver core: Refactor fw_devlink feature")
+>
+> Detailed information could be found in patch commit log.
+> ---
+>  drivers/base/base.h |  1 +
+>  drivers/base/core.c | 63 +++++++++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  drivers/base/dd.c   |  9 ++++++++
+>  3 files changed, 73 insertions(+)
+>
+> diff --git a/drivers/base/base.h b/drivers/base/base.h
+> index a5b7abc10ff0..36d34aa328c5 100644
+> --- a/drivers/base/base.h
+> +++ b/drivers/base/base.h
+> @@ -292,6 +292,7 @@ void device_links_unbind_consumers(struct device *dev=
+);
+>  bool device_link_flag_is_sync_state_only(u32 flags);
+>  void fw_devlink_drivers_done(void);
+>  void fw_devlink_probing_done(void);
+> +void fw_devlink_release_shared_fwnode(struct device *dev);
+>
+>  #define dev_for_each_link_to_supplier(__link, __dev)   \
+>         list_for_each_entry_srcu(__link, &(__dev)->links.suppliers, c_nod=
+e, \
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index 5daa88fa724a..e76153d5f124 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -1376,6 +1376,20 @@ void device_links_driver_bound(struct device *dev)
+>         struct device_link *link, *ln;
+>         LIST_HEAD(sync_list);
+>
+> +       /*
+> +        * Multiple devices may share the same fwnode (e.g. the SCMI bus
+> +        * creates several devices per protocol node).  The first one
+> +        * registered owns the fwnode; if that owner's driver is rejected
+> +        * it relinquishes ownership (fwnode->dev =3D=3D NULL, see
+> +        * fw_devlink_release_shared_fwnode()).  If the owning device has
+> +        * no driver at all (driver never compiled / loaded as module), i=
+t
+> +        * will never bind, so it is safe to take over.  Re-acquire the
+> +        * fwnode here so the purge/pickup still happens.
+> +        */
+> +       if (dev->fwnode && (!dev->fwnode->dev ||
+> +           (dev->fwnode->dev !=3D dev && !dev->fwnode->dev->driver)))
+> +               dev->fwnode->dev =3D dev;
+> +
+>         /*
+>          * If a device binds successfully, it's expected to have created =
+all
+>          * the device links it needs to or make new device links as it ne=
+eds
+> @@ -1390,6 +1404,7 @@ void device_links_driver_bound(struct device *dev)
+>          * consumers to defer probe indefinitely waiting for a device for=
+ the
+>          * child firmware node.
+>          */
+> +
+
+Did you add a blank line for no reason? Or am I missing something?
+
+>         if (dev->fwnode && dev->fwnode->dev =3D=3D dev) {
+>                 fwnode_links_purge_suppliers(dev->fwnode);
+>                 fw_devlink_pickup_dangling_consumers(dev);
+> @@ -1474,6 +1489,54 @@ void device_links_driver_bound(struct device *dev)
+>         device_links_flush_sync_list(&sync_list, dev);
 >  }
-> =20
-> @@ -177,63 +174,41 @@ pub fn iter(&self) -> SGTableIter<'_> {
->  ///
->  /// # Invariants
->  ///
-> -/// - `sgt` is a valid pointer to a `struct sg_table` for the entire lif=
-etime of the
-> -///   [`DmaMappedSgt`].
->  /// - `sgt` is always DMA mapped.
-> -struct DmaMappedSgt {
-> -    sgt: NonNull<bindings::sg_table>,
-> -    dev: ARef<Device>,
-> +struct DmaMappedSgt<'a> {
-> +    dev: &'a Device<Bound>,
-> +    sgt: RawSGTable,
+>
+> +static int fwnode_shared_bound_match(struct device *dev, const void *dat=
+a)
+> +{
+> +       const struct device *rejected =3D data;
+> +
+> +       return dev !=3D rejected && dev->fwnode =3D=3D rejected->fwnode &=
+&
+> +              device_is_bound(dev);
+> +}
+> +
+> +/**
+> + * fw_devlink_release_shared_fwnode - Hand off a shared fwnode on probe =
+reject.
+> + * @dev: Device whose driver just definitively rejected it (-ENODEV/-ENX=
+IO).
+> + *
+> + * Several devices can share one fwnode (e.g. the SCMI bus creates both =
+a
+> + * "pinctrl" and a "pinctrl-imx" device for one protocol node). Only the=
+ first
+> + * one registered owns the fwnode (fwnode->dev). If that owner's driver =
+rejects
+> + * the device, driver_bound() never runs for it, so the dangling consume=
+rs of
+> + * the fwnode's child nodes are never picked up and defer probe forever.
+> + *
+> + * When the rejected device is the fwnode owner, relinquish ownership so=
+ those
+> + * consumers can be resolved by a sibling that does bind:
+> + *
+> + *  - If a sibling has already bound, transfer ownership to it and run t=
+he
+> + *    purge/pickup the owner could not do.
+> + *  - Otherwise clear ownership so the next sibling to bind re-acquires =
+it in
+> + *    device_links_driver_bound() and runs the purge/pickup there.
+> + *
+> + * fwnode->dev is not lock-serialized; this only ever writes it when @de=
+v is
+> + * the current owner (fwnode->dev =3D=3D dev), the same ownership-gated =
+rule
+> + * device_del() uses when it clears fwnode->dev on the owner.
+> + */
+> +void fw_devlink_release_shared_fwnode(struct device *dev)
+> +{
+> +       struct device *sibling;
+> +
+> +       if (!dev->fwnode || dev->fwnode->dev !=3D dev)
+> +               return;
+> +
+> +       sibling =3D bus_find_device(dev->bus, NULL, dev, fwnode_shared_bo=
+und_match);
+> +       if (sibling) {
+> +               dev->fwnode->dev =3D sibling;
+> +               fwnode_links_purge_suppliers(dev->fwnode);
+> +               fw_devlink_pickup_dangling_consumers(sibling);
+> +               put_device(sibling);
+> +       } else {
+> +               dev->fwnode->dev =3D NULL;
+> +       }
 
-The `RawSGTable` documentation still mentions `Owned`. We could adapt it
-or (maybe better) just drop that sentence.
+This is not even correct. If you don't have a sibling that's bound,
+you are just clearing the fwnode->dev and leaving a bunch of device
+links stuck to the old device. And in the case there is a sibling
+device, you are assuming all the consumers are only pointing to the
+child devices. If a consumer was pointing to this device, then you are
+just deleting the device link and not moving it to the sibling.
 
->      dir: dma::DataDirection,
->  }
-> =20
-> -// SAFETY: `DmaMappedSgt` can be sent to any task.
-> -unsafe impl Send for DmaMappedSgt {}
-> -
-> -// SAFETY: `DmaMappedSgt` has no interior mutability and can be accessed=
- concurrently.
-> -unsafe impl Sync for DmaMappedSgt {}
-> -
-> -impl DmaMappedSgt {
-> -    /// # Safety
-> -    ///
-> -    /// - `sgt` must be a valid pointer to a `struct sg_table` for the e=
-ntire lifetime of the
-> -    ///   returned [`DmaMappedSgt`].
-> -    /// - The caller must guarantee that `sgt` remains DMA mapped for th=
-e entire lifetime of
-> -    ///   [`DmaMappedSgt`].
-> -    unsafe fn new(
-> -        sgt: NonNull<bindings::sg_table>,
-> -        dev: &Device<Bound>,
-> -        dir: dma::DataDirection,
-> -    ) -> Result<Self> {
-> +impl<'a> DmaMappedSgt<'a> {
-> +    /// Takes ownership of `sgt` and maps it for DMA.
-> +    fn new(dev: &'a Device<Bound>, sgt: RawSGTable, dir: dma::DataDirect=
-ion) -> Result<Self> {
->          // SAFETY:
->          // - `dev.as_raw()` is a valid pointer to a `struct device`, whi=
-ch is guaranteed to be
->          //   bound to a driver for the duration of this call.
-> -        // - `sgt` is a valid pointer to a `struct sg_table`.
-> +        // - `sgt.as_raw()` is a valid pointer to a `struct sg_table`.
->          error::to_result(unsafe {
-> -            bindings::dma_map_sgtable(dev.as_raw(), sgt.as_ptr(), dir.in=
-to(), 0)
-> +            bindings::dma_map_sgtable(dev.as_raw(), sgt.as_raw(), dir.in=
-to(), 0)
->          })?;
-> =20
-> -        // INVARIANT: By the safety requirements of this function it is =
-guaranteed that `sgt` is
-> -        // valid for the entire lifetime of this object instance.
-> -        Ok(Self {
-> -            sgt,
-> -            dev: dev.into(),
-> -            dir,
-> -        })
-> +        // INVARIANT: `sgt` was successfully DMA mapped and is owned by =
-this object until drop.
-> +        Ok(Self { dev, sgt, dir })
->      }
->  }
-> =20
-> -impl Drop for DmaMappedSgt {
-> +impl Drop for DmaMappedSgt<'_> {
->      #[inline]
->      fn drop(&mut self) {
->          // SAFETY:
->          // - `self.dev.as_raw()` is a pointer to a valid `struct device`=
-.
->          // - `self.dev` is the same device the mapping has been created =
-for in `Self::new()`.
-> -        // - `self.sgt.as_ptr()` is a valid pointer to a `struct sg_tabl=
-e` by the type invariants
-> -        //   of `Self`.
-> +        // - `self.sgt.as_raw()` is a valid pointer to a `struct sg_tabl=
-e` for the lifetime of
-> +        //   `self`.
->          // - `self.dir` is the same `dma::DataDirection` the mapping has=
- been created with in
->          //   `Self::new()`.
->          unsafe {
-> -            bindings::dma_unmap_sgtable(self.dev.as_raw(), self.sgt.as_p=
-tr(), self.dir.into(), 0)
-> +            bindings::dma_unmap_sgtable(self.dev.as_raw(), self.sgt.as_r=
-aw(), self.dir.into(), 0)
->          };
->      }
->  }
-> @@ -308,38 +283,27 @@ fn drop(&mut self) {
->  ///
->  /// - The backing memory pages.
->  /// - The `struct sg_table` allocation (`sgt`).
+This patch is just a hodge podge of ideas that happen to fix it for
+the imx case, but not really a sound/principled design.
 
-`sgt` is removed by this patch.
+This patch also makes a lot of assumptions that I'm not comfortable
+with. Please try the simpler fix I suggested above. Essentially, edit
+drivers/pinctrl/pinctrl-scmi.c so it doesn't always register the
+driver. Register it only if it's not one of those blocked machines.
 
-<...>
-> diff --git a/samples/rust/rust_dma.rs b/samples/rust/rust_dma.rs
-> index ffb693544673..844e137cddc8 100644
-> --- a/samples/rust/rust_dma.rs
-> +++ b/samples/rust/rust_dma.rs
-> @@ -35,8 +35,7 @@
->  struct DmaSampleData<'bound> {
->      pdev: &'bound pci::Device<Bound>,
->      ca: Coherent<'bound, [MyStruct]>,
-> -    #[pin]
-> -    sgt: SGTable<Owned<VVec<u8>>>,
-> +    sgt: SGTable<Owned<'bound, VVec<u8>>>,
+If we really want a systemic solution to the "two device point to one
+fwnode" problem, then we have a couple of options:
 
-Since there is no more `pin` in `DmaSampleData`, can we also remove its
-`pinned_drop` attribute?
+1. Have the bus code that's adding the two devices to make one of them
+to be ignored for fw_devlink.
+2. For any fwnode with multiple devices, give up enforcing fw_devlink
+for that node and all its descendants.
+3. Have the bus code that's adding the two devices to go through all
+the fwnode_links and mark which link is for which device.
+
+(1) is simplest and an opt-in.
+(2) will affect a lot of current cases where the first added device is
+the right one and has no problem (eg: PCI)
+(3) will work well if the bus can actually tell the devices and their
+consumers apart, but will also increase the memory usage a bit (need
+to store a dev pointer or cookie for every fwnode link)
+
+Neither of these are great options, but they are better than some
+partial heuristics that can't be easily applied for all systems and
+depend on timing.
+
+-Saravana
+
+> +}
+> +
+>  /**
+>   * __device_links_no_driver - Update links of a device without a driver.
+>   * @dev: Device without a drvier.
+> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+> index f6525a7ee8c5..e19cfc91ebe1 100644
+> --- a/drivers/base/dd.c
+> +++ b/drivers/base/dd.c
+> @@ -762,6 +762,15 @@ static int really_probe(struct device *dev, const st=
+ruct device_driver *drv)
+>  dev_groups_failed:
+>         device_remove(dev);
+>  probe_failed:
+> +       /*
+> +        * -ENODEV/-ENXIO mean the driver definitively rejected this devi=
+ce
+> +        * (errors are returned as positive values at this label). If it =
+owns a
+> +        * fwnode shared with sibling devices (e.g. SCMI creates several =
+devices
+> +        * per protocol node), hand the fwnode off so its dangling child
+> +        * consumers can be resolved by a sibling instead of deferring fo=
+rever.
+> +        */
+> +       if (ret =3D=3D ENODEV || ret =3D=3D ENXIO)
+> +               fw_devlink_release_shared_fwnode(dev);
+>         driver_sysfs_remove(dev);
+>  sysfs_failed:
+>         bus_notify(dev, BUS_NOTIFY_DRIVER_NOT_BOUND);
+>
+> ---
+> base-commit: f5f84daefcd92d7a630066635ecea1433ed5eac7
+> change-id: 20260928-driver-core-f1d9e991edb2
+>
+> Best regards,
+> --
+> Peng Fan <peng.fan@nxp.com>
+>
