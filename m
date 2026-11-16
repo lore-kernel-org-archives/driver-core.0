@@ -1,55 +1,90 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794842570;
-	b=I3xbTQInMT3QVSDLtgEqdsBwFQFRL48vN/Ow7Ru2VsPVLisAnMM4byVLz+42pyKbr8l1
-	 t6regANJqP2BlU/JLK2Xo8sLQCCdkVAQ2ZL2KLCRYIOJAzae8wATIU3+MEqPYRlj6owA9
-	 wtB+/HIh2pdyxnN0tkGMfmVxMcdy75iyym1H6azqnnZmZPQQJSTyANLhpPltHxmvinLrX
-	 WVzARxt1Q2ogD8rW+2hGNBzY9L0WngHAvIIm//jyH1ezGTVEBcX8XSMZolh2Pwg+pXuco
-	 4Vqa5g6FOP6tKI01rveBDAPwXXWoDOGZS4tbyhvHGBEgeKb/Fn82qNJqCkhH02d89Qw==
+	t=1794844349;
+	b=rhcY1zE8CSWH1jaNMcNwEPN1I8vk2VrMHXHBYcJg5p/wzoAvfQwWjZSHmWTmj9NM3R9v
+	 tYkh39G5vLCTfs/q/s8RaZSkLAPdU74t1hbd5ZmKaogVq/gOGtYu1Ua2OyP+ZAwDbE8rN
+	 HBdorplwXh8crIRaEW51GtgZkg4csim81PIURQwF9OO4RbeT41o65OG3HVAJI9UWg6Dtv
+	 wiJIc24PqaFonJdq8U4+z5Fqze1O+bnk2qgs4yewrd5V1IGsvotPtyHxY6R9z9AGufk1p
+	 ua6/7pcEWt1TSCwkBHRTF2+FbIrCCo36U0oiFydq/SNw0IkcUJrUPF7jaQZO11VGfHQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794842570;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=AFA1cIRKffIxRkyTuIqcB5wi2vdgP455jPVg0Gxp6JM=;
-	b=hZcTcaKvSYcyW3u1uDckO9cmdWUpccuOdi/hYRNUGNF+UxBuiMRXb3jQWJmrHQi4/83S
-	 cA9zz30v7Ec+heik8fOn0h8r4ix0UwUgig3YW6aacQGzJsk8Zezl41or+r3bx7dSGUm1S
-	 TR7mb9Ow2tqgpr/hB5KYXEDZ2iVz1NyV6RrXBxgnTYkkjYl8vlNmtuTe0vwCk5xJohzTI
-	 KM4vmLG5V0CSyVqXxcOvu/bimd6HCCfWKFJJ3WDMJNZ4L0Btu6KRDSlYjMFutNqp6FXQD
-	 rkwsEklEWmcMDuaG02FwEEgKRbDZ0mw0tFh8KW0ZL57JxRUcKPYJXdIkId55TXOpqvA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794844349;
+	h=Received:DKIM-Signature:X-Mailer:From:To:Cc:Subject:In-Reply-To:
+	 References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=nMJerJcoZ1Adnfr1+PAoZtyg0oa83iJzpuYf4Q3jisk=;
+	b=fABsnlHXQk8e4METhwNMhBff3k4luca2UiAXEj+2UN/MqTrhaV+2W9WXEzSsS2GzZ4qW
+	 XXafhpTacetKjdGLuQQWGKhVZnr3t6/ivX9F6CR4pUKin94amNQsoLQWTt1b+lZ9UyGS+
+	 w83x1RrDwoVD1PLCifJFMq8XnIJhuKy7BJw0RTiTGsNwJVt8HNuO961PQNIUX6AGacrzR
+	 nRr55dfeSc2D0lt/vma0RREIIfqtVx30Mrj6V3R27FZqfc+N2ptiftYTI9FrF2KCYKq4T
+	 7N3Ohw93cdc/gwNgFDA0nQGo+YA/rggpI2O+TJG1IfMwbezWtvHqvP7spDHQxKESeJA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Jtg5ZyoG;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Cqf/PBWs";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4751606A336
-	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 15:22:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C198606A31C;
+	Mon, 16 Nov 2026 15:52:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Jtg5ZyoG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 740E91F000D4
-	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 15:22:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cqf/PBWs
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CD2F1F000CA;
+	Mon, 16 Nov 2026 15:52:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794842570;
-	bh=AFA1cIRKffIxRkyTuIqcB5wi2vdgP455jPVg0Gxp6JM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Jtg5ZyoGIn328AVg8XzqwK13hFEIiEy+XwbHeyHaRrb1NrcBUVWuyQH1fmKYlf9ZU
-	 0YxhYl8yNFloEB5b6HRbL83Iwyx6rWjv9P4NqVweROQvlWJ56zh53MbZjbHcYQdLyN
-	 R6kN4kT4csMGldvM2BlZ8XGrRqMpkJT07CmkdDkjXYRebAnlSS5t3vifLjEPnKixAL
-	 b+rx9dGAd9+y4EqueNtFndTgShfDDfIQpCryI0GhGD9HLPwnW53yL4OVOaXJDvZH4t
-	 zcOmEIU3Eh3obx4jS5Ks50YG/UAE5UKQ/eN4s0TAIkOoLSr/FwWinmCcdVYO+qkhPj
-	 ddaIZzbdGK/Zg==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5be416e603cso2616842e87.2
-        for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 07:22:50 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErEKz8OvbZcpUlUhKUs7RmXy0sxU1Az0CqUpe80oijBcWGcR1y7kK1BGnoeZXGZ0af73KYZjyJhSHOPCWA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/eJ9BkgW4PtslT9ZpblaclY64J9zUpuDc5aeS6m8oIepshDMx7
-	lO0OtywJ43jXt6YvLZOnw6lrFGQ8FAsbUDa512UACsNuvwbcMReKrtBKkaQWNWBLEzlC3SOWwia
-	HUyHD7pNTEWXV45abIZtQae3A8969JFs=
-X-Received: by 2002:a05:6512:1391:b0:5c1:5bd3:c960 with SMTP id
- 2adb3069b0e04-5c170b5d89cmr3774298e87.55.1794842568821; Mon, 16 Nov 2026
- 07:22:48 -0800 (PST)
+	s=k20260515; t=1794844348;
+	bh=nMJerJcoZ1Adnfr1+PAoZtyg0oa83iJzpuYf4Q3jisk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=Cqf/PBWsD5IxBgQxvgBiY9kTywVx12SlTwTmXTT8ukWkQsTUR+izYk5U8YFXU36Ny
+	 VuKt687MkawSeh2PId4bqFbRWi9sMgwfnI/JSJjTIU/6KxVcy/AK8qf7rn+hv6trfk
+	 Ee1pyTLlidS19SxOPSpjOIH4gugO1s5gd0mmAVUM5KUUf9dnwJ+bAvl3mUcDP9cXGz
+	 X00xd/pchyAyodSkPV0qGH695K9NxXc1WkmuaQ+sFB/uhm3L44RMtQbd4LJlTnKyog
+	 9tmHrt1kljrQB9N0o1IIRZoyH9U1+vjGQIjU/c8DxKA/xTbNd2EoCf0s7ezT62PTkl
+	 Ppm6trUfqKBRQ==
+X-Mailer: emacs 31.1 (via feedmail 11-beta-1 I)
+From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Leon Romanovsky <leon@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev
+Subject: Re: [PATCH 17/17] PCI: Replace untrusted state with device trust
+In-Reply-To: <20261116132046.GI2532299@ziepe.ca>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-17-1e536825b4eb@nvidia.com>
+ <yq5amrr8yldi.fsf@kernel.org> <20261116132046.GI2532299@ziepe.ca>
+Date: Mon, 16 Nov 2026 21:22:11 +0530
+Message-ID: <yq5aa4n8ydsk.fsf@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -59,69 +94,52 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110085125.2535508-1-johan@kernel.org> <20261110085125.2535508-9-johan@kernel.org>
- <CAJZ5v0g+X0etuZSoTrFr2OXgF9o0q+LLLTcQSfvo0A3dib9M4Q@mail.gmail.com> <avsZN96lgaW5IHdh@hovoldconsulting.com>
-In-Reply-To: <avsZN96lgaW5IHdh@hovoldconsulting.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Mon, 16 Nov 2026 16:22:36 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0jVUzMaLR3dhO=t4HCN5XcUhY_uki7VO=ksr5PXVmY5oA@mail.gmail.com>
-X-Gm-Features: AclHuK8DKN9QEQiR10PdUj9dDcBzh4gS6OuZIwlhscI2PjROsX8tIWktLN53RT8
-Message-ID: <CAJZ5v0jVUzMaLR3dhO=t4HCN5XcUhY_uki7VO=ksr5PXVmY5oA@mail.gmail.com>
-Subject: Re: [PATCH v2 8/8] device property: fix fwnode_get_next_child_node() comments
-To: Johan Hovold <johan@kernel.org>
-Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Andi Shyti <andi.shyti@kernel.org>, driver-core@lists.linux.dev, 
-	linux-acpi@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Xu Yang <xu.yang_2@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Mon, Nov 16, 2026 at 3:54=E2=80=AFPM Johan Hovold <johan@kernel.org> wro=
-te:
->
-> On Fri, Nov 13, 2026 at 06:49:54PM +0100, Rafael J. Wysocki wrote:
-> > On Tue, Nov 10, 2026 at 9:52=E2=80=AFAM Johan Hovold <johan@kernel.org>=
- wrote:
-> > >
-> > > The parent pointer in fwnode_get_next_child_node() may not point to a
-> > > primary firmware node so update the comments to reflect that.
->
-> > > @@ -822,12 +822,12 @@ fwnode_get_next_child_node(const struct fwnode_=
-handle *fwnode,
-> > >         if (IS_ERR_OR_NULL(parent))
-> > >                 return NULL;
-> > >
-> > > -       /* Try to find a child in primary fwnode */
-> > > +       /* Try to find a child in parent */
-> >
-> > I'm not sure if this comment is still useful after the change, so
-> > maybe drop it altogether?
->
-> Sounds good.
->
-> > >         next =3D fwnode_call_ptr_op(parent, get_next_child_node, chil=
-d);
-> > >         if (next)
-> > >                 return next;
-> > >
-> > > -       /* When no more children in primary, continue with secondary =
-*/
-> > > +       /* When no more children in parent, continue with any seconda=
-ry */
-> >
-> > What about
-> >
-> >   /* Direct children exhausted, go to secondary */
->
-> That works, but I think I prefer not rewriting the comment completely,
-> and having "any" in there to indicate that we may already be scanning a
-> secondary node (in which case parent->secondary is -ENODEV).
->
-> So something like:
->
->         /* When no more children, continue with any secondary node */
+Jason Gunthorpe <jgg@ziepe.ca> writes:
 
-OK
+> On Mon, Nov 16, 2026 at 06:38:25PM +0530, Aneesh Kumar K.V wrote:
+>> > +static inline bool
+>> > +pci_dev_default_is_restricted(const struct pci_dev *pdev)
+>> > +{
+>> > +	enum device_trust_policy policy = READ_ONCE(pdev->dev.trust_policy);
+>> > +
+>> > +	return policy == DEVICE_TRUST_POLICY_DISABLED ||
+>> > +	       policy == DEVICE_TRUST_POLICY_ADVERSARY;
+>> > +}
+>> > +
+>> 
+>> Could you clarify how this series will work alongside device acceptance
+>> and private-memory access?
+>> 
+>> In particular, what should callers of device_cc_accepted() use under
+>> this model?
+>
+> Who is calling device_cc_accepted? I thought we were keeping that
+> internal to the DMA PI?
+>
+>> My understanding is that trust describes the operating
+>> policy, not TDISP acceptance or DMA access to private memory.
+>
+> Right.
+>
+>> Therefore,
+>> neither FULL nor ADVERSARY alone indicates whether a device can access
+>> private memory?
+>
+> Right.
+>
+> Once you turn on TDISP you effectively activate DMA, just like turning
+> on the IOMMU.
+>
+
+
+We considered two options for doing this:
+
+1. Via the ->accept() callback in pci_tsm_ops.
+2. Via pci_dma_configure(), based on a combination of device trust and device acceptance.
+
+If I understand correctly, you are suggesting that we stick with the
+former?
+
+-aneesh
