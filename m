@@ -1,16 +1,16 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.208.8
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794801788;
-	b=nXrLJWr5BgXjK0Xjzki5qDTlMBr119CYgNM8T92suBnmF3Z+y1hD1U3bfv3qxjRDm/P0
-	 /5NNrOk5WW36XK5nbL9OdqeFnkgR4WhE6xPdF3HzTQrK9OHDHmBWjJiZz3ivUmETLLNJC
-	 PasLRt2z4V7bUzNPbDFi5BBG06TKWUnxmfA8Jbf8a9HLAKZrLkHKeIcpr8KQ6d+t5KhEI
-	 ANAxoEPbo4qMqiiPLyFAKO7c+s5sHw93BZgZo5DzD5bToCD63nKyde9Tf0tOLx0BCGXZk
-	 4ueNqHUNxhB1OK7DCsjIiwa2Zt+O5lFhW2WVpsUQnPboDUAu0foo6srTv4muwkRPFNw==
+	t=1794801789;
+	b=V2MO/5Zj3v99Suv/vED1wvCteeG+tnblbw0MhJnLjcXr58PTqiMe3f2dXTRI0tcojAyg
+	 i6FnxnAqkdOf4BG+IoWWsG+ILhCR5v7EaHQG89RFy9hJ7cmjSIlrlu43g59rKGkr9UTUU
+	 QkIYqDbzSJZ980k1OAxl32Ye6LdSz7uxA+zYNQKxfKFH1IiitNUQJ9bjuBrslmrAebbie
+	 UARonCpn1jCXN12Ukb9J3WkPcrtMFjgf+lSwUhkDH73sWdaO0mDqpLMh6eq3U7+AgOJhb
+	 bYQPLeiRegGJeRF02OnpOg5U/Bc/A5pv1wxFjnxdRXFlO1EEBbO11nX3BiXb86JOzng==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794801788;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794801789;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Cc:Subject:
-	 From:To:References:In-Reply-To:X-ClientProxiedBy:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:To:Cc:Subject:
+	 From:References:In-Reply-To:X-ClientProxiedBy:MIME-Version:
 	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
 	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
 	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
@@ -25,43 +25,43 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=WZrQ38fdMDsUYFmexY5tQnjrAvWJEY8F9g41tFfSjtQ=;
-	b=fbKgKhcSiNWrMisyofhpIhHzyCz/CZQ+h76AAVYPAfYTrL2TSsN26YAzxoV3Y2pjm/4m
-	 xyl5Y4rAhXpoIxnw19ifOXoO4a87AGSiKOb7IIT1XUMcHXTCjdItY3zmtuRCqc4UQsbNg
-	 uuaFlcMks0GMAhOBeb3Gu4qjGPmSzTlyhwrWSVBpQVe4v6uQ6JhWD54bP6TBuvXAHfrPx
-	 dPHj1QAzrBVpLV8bj0gWqxstpq438cVlp2Rjh11rdvHZsr89xn895K2X3g3Z1O2jzzeQv
-	 wH1oblKUL0OsB4gBx+mnyzlsvNG+7TZSfjwET4xPFvTxZBddQMZw2v6D/55LpNBKDKg==
+	bh=txdxShazMCeZ+97jCCVZjbVKT3ItALb5i0Swrs2NoTY=;
+	b=HIPsCuMATSJQKnqR/o88zQnv1CQa6soLwHgtHp1D45Fmr04L3o0qJ/vShHDoSTrrElC1
+	 n3bXjlvt5gTON7JIhein2qwiEoMpvc8nxqnlQ3YuZRY/EIGldM3f3VN5QzhBY2aOH5oh0
+	 y5q0ZKmPRTNP2z2u01DiOoYSONCJGvntj76cjIZbruCXJYWJF8TPqma8+f5BQZnwX9a10
+	 jzw2Ya45+Jvx/HIS1xq+a1AgeNORbG+9rIXLwQa6xAQabviBNwnqsacUsQ4V0y2ZQduwo
+	 KbdT29dr4Rma4Ja0ljRvK5+TqDjxcAI9je6AibQI1Cvo6yOlEz8KRpGlXysZwfQUA7g==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=nvidia.com;
 	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=P6Hkw2DP;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=SFyQGTX1;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.208.8
 Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011008.outbound.protection.outlook.com [40.107.208.8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540A9606A31C;
-	Mon, 16 Nov 2026 04:03:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 540A9606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DAD606A323;
+	Mon, 16 Nov 2026 04:03:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04DAD606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=P6Hkw2DP
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=SFyQGTX1
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RbjH5zW1tlP5FeNsa29dIucIG8OiHgO3wVkWQzIkunOKki8CKKRiuM+nsaFiOut4qiYb7K20auNFBLcym0ehEbPpAm0y3lo9kuVgvRfagjtUMGejY8DfgjuhgQQ8KaCZ9cLfPeeT+uBoEruAGzI2tNwu6N4LYlxY9WYyPqZELRFtWabVhoOn0jUpSOYDVWKFrZJLfHy9VIPWpQO2mf4FqnOb0gJbKojLGli6E1s4n96NpQZ8VOH5WCAm+gHCzarCyFGiknXbxUMlGN+wQ9aIIN9j4JrLivwKFTV2kqMzesmuyQNGzK2MiL4VXC7d3h5LBTFiq56ncjJ4LUUWAMRB/Q==
+ b=ISBOX894efrK2z6cPPpCJDeoetFIzzoOD44Ta9Lhe9GvKWaO7BKU21pxriOPyMEu8gfvAdjxnmo073gEBR8WrXm3wMOvScFmr5I88bRTR+q1zWfBQKpd55seZkFW0T1jdikT/cCTlpNzNxmxsu0CKJvaVD9XtkeIODZ2SluaxMUqNagMW9zSxBtkLhzqea2P8/Idv3rOxXXKZG+4ZtGDwWgZBKni0Sjb1tNB7wtYLesPtwAWadZsu2uN1ghVfxV2xf7d0hD28fPzvhDZbaUaHwLL5hZ6vhycfjiHMKr4t07IR3fK0tmoSMXhvXyW8vXMOc9MnBCswitUbL76PxoEtQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WZrQ38fdMDsUYFmexY5tQnjrAvWJEY8F9g41tFfSjtQ=;
- b=P2di5pkA1cV8ajzMg5WOHpUnq8rxMr/2WpI6ddS4xWv+3N3EPug8WKI8couZQLMTocD8xHOri9YqG00tc95i/gXcKSnEWjESU6DUNo6376Y0wAvdBzj/EyNzG8XMSqS3sKnP/FnspemxUzr2kdreTy7SzdEXhxeeRDkN7xdALbVcp/uJ0TnOuA8X2q0jReOJXsvj1sT0Ou9xvVjGoNDFHHTAsllfyf/iFvMCGf9+cCnCWSpBbskUjQZnSKWKJleMiIn1Ot7xbgc6wpJsVrezVgxYVip+ptor3tR4CgLSmplt5gaWVJAtoE5FhzLR8LVvfsKSKUa9NE/O+q2yvOJ/dw==
+ bh=txdxShazMCeZ+97jCCVZjbVKT3ItALb5i0Swrs2NoTY=;
+ b=MH6vsf8gxXrb7sqIN50HpuWgxR/XQ4UYANvv8wdBA5d2T7T07RaTtdKKALLWRSDi9Tw2iFLEAjtAdHZdi7iA11xpTF1/gvphtV4MM1D3j3iqAB+18JHh9uSVXCEqeuVshrF8X+acG/21glttv490Mp/QcFDSyLPaq7BkFPnqcPnzfyB5EESgEmLTk1uwr0XqCExbae08OpP6pOB6Yqz6svhUjs5ewvLqJUcRBSadnd6znxE/KfsjorAZwK3dSVng1wOGS/tcvKGvN4gnBMnDqfpgLJURajZXv3VTPz9fVWr34htmgyZR8N9SGiB3R+jNRAdmE0wTYCvFFyW98UACpw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WZrQ38fdMDsUYFmexY5tQnjrAvWJEY8F9g41tFfSjtQ=;
- b=P6Hkw2DPoNY7CyUoBbmCHMuLepbyeEYavUdsFFnFmJmVCp2klUXbMX9BryJGAvCRraCTEQJWyU2sFVOgmM7+ji5DbEP7g74p+3/vuSJuuxbn+wihn9+Czwhy1zqewyAF+TvQ5fACKoeQmx/k4lY/BknPI+KQuqjloA7TDZPxXmIMlYUfXu+WMVk1ZLbRT+yi0vG3uzWXkP/glS2ktOKSg09UGGAtS6mT8fwq5wYXvixhQSFF54LIzGcDtdVB5i95SzphSl80k2iscQj7c+K84s9zv3XQlVBaVZGZyX9bKixChYunXCA8iZ/yfdGAuLGs3mDOhJRpqhA4/uZub08PsA==
+ bh=txdxShazMCeZ+97jCCVZjbVKT3ItALb5i0Swrs2NoTY=;
+ b=SFyQGTX1wispHDvlOJvizpWRTJKUAkzletKSfWLCtqqESEL4X3eEL/X0ogyZxZWmRvUhubnG9TeFMSPYCw8zTNdi+kc016SKg4+eI9Ed85BZTgAH7yZ19IK2rtKPEjJwV3JeK10Ej4u1l+fqoJyr8CAWpj5CBwnHYBKUkwJhWCJqAaBXTBnn1xk576JqnmmjKTs2Y4QWywcRNdcpc6BCyoh+QVKgYzgwtN+xUVL95Ic8b+xYgMXJ4Hg/CVkOLVtu4xdzt1tbu0lWJkJ3t3Ue5PUlb2xIz2+mdvr/e8ZCheh+oLVP06yYyTOBIihUHJT6QWMB9+7KjcRxP0Q301XjDw==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from PH7PR12MB6858.namprd12.prod.outlook.com (2603:10b6:510:1b4::20)
@@ -75,8 +75,9 @@ Received: from PH7PR12MB6858.namprd12.prod.outlook.com
  04:03:03 +0000
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 16 Nov 2026 13:02:11 +0900
-Message-Id: <DMWC44MU9W7N.3TBNH0HCKK065@nvidia.com>
+Date: Mon, 16 Nov 2026 13:02:13 +0900
+Message-Id: <DMWC45NN5L9I.2NUG81ETBC84L@nvidia.com>
+To: "Danilo Krummrich" <dakr@kernel.org>
 Cc: <aliceryhl@google.com>, <abdiel.janulgue@gmail.com>,
  <daniel.almeida@collabora.com>, <robin.murphy@arm.com>,
  <a.hindborg@kernel.org>, <ojeda@kernel.org>, <boqun@kernel.org>,
@@ -85,15 +86,13 @@ Cc: <aliceryhl@google.com>, <abdiel.janulgue@gmail.com>,
  <driver-core@lists.linux.dev>, <nova-gpu@lists.linux.dev>,
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
  <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH 2/2] gpu: nova-core: remove unnecessary firmware
- pin-init
+Subject: Re: [PATCH 1/2] rust: scatterlist: tie owned tables to the device's
+ bound lifetime
 From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Danilo Krummrich" <dakr@kernel.org>
 References: <20261114234324.82387-1-dakr@kernel.org>
- <20261114234324.82387-2-dakr@kernel.org>
-In-Reply-To: <20261114234324.82387-2-dakr@kernel.org>
-X-ClientProxiedBy: OS7PR01CA0226.jpnprd01.prod.outlook.com
- (2603:1096:604:25d::12) To MW4PR12MB6873.namprd12.prod.outlook.com
+In-Reply-To: <20261114234324.82387-1-dakr@kernel.org>
+X-ClientProxiedBy: OS7PR01CA0302.jpnprd01.prod.outlook.com
+ (2603:1096:604:26f::12) To MW4PR12MB6873.namprd12.prod.outlook.com
  (2603:10b6:303:20c::17)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -106,157 +105,328 @@ Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH7PR12MB6858:EE_|CHBPR12MB497579:EE_
-X-MS-Office365-Filtering-Correlation-Id: eb9b7462-8b18-4d89-b35c-08df439671bf
+X-MS-Office365-Filtering-Correlation-Id: 231770a1-dcb3-44e1-b1f8-08df439671bf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|10070799003|1800799024|366016|376014|7416014|261102123227099003|261022075727099003|261022115727099003|261021123027099003|261021121427099003|11063799006|4143699003|56012099006|10067099003|18002099003|22082099003|261009223027099003;
+	BCL:0;ARA:13230040|23010399003|10070799003|1800799024|366016|376014|7416014|261028144727099003|261102123227099003|261022075727099003|261022105027099003|261021121427099003|261026121527099003|261026140227099003|11063799006|56012099006|10067099003|18002099003|22082099003|6133799003|261009223027099003;
 X-Microsoft-Antispam-Message-Info:
-	nYoO7563OhO9w0qUnmx1Ztj30QoUllkIyXRkmdQedDnDHuqc/684Oie1VbeHwDraVj3Ri14xpoOxH2CIT4RKJYkn+fG3YzcnDDRDWr6rRCsHkicFVJSmPqVsKC1juN9CBMF/q0jofPHz3xajtAnb2sneZh1qqdAdNzWv3zfS8AkZPkVD7AdpfLxgAo4QK/K/CBrZkxgUjpp4g3PSVm3OejQo95hKUbdlUeoi8H3YMBFFjTCw06yFNLK4+YIr9e8Awe8M79Y9ih1HKf1ox47CnvmSdeqeK+n7gCGfNT0NSu9Iom7GLvFu2uZPOzErpgemE1f3+gbEkTzL08veZgMXf1JmTJm1QLWX08GatqKJsZkliO6TaCoQ4oMk6vbn5bn31kO+RIqiCCLtgSEnPdnBSShhEjNiVev8KImCIkC+pqIO8VpDFfgVVEkEBmjDeTFnTDtSuX4QYV513K+Sgh7uFEQZHuwE5uZTb83zBhwpDqcMcx4cVWjYxekgPmly10J4oZt/wy2LrkG6s8wK8QpBRlZQOi6dM57lfm7WfroSF/jnCuTXiVliiIJNS51A8chJHimV9oyISo0AdmnoVIW7Tiolw9kO9ydBfS0XtL7DxGGmstq0aeW9+JF5DoEEvblJYmrzE59PFXzXVvFJ8tctATljLzos2Godjs2tfDlfViA=
+	RP4jQLtU/l8vi12lskFLG6OO7DBwICyM5gQvydc4KHyFJ63elyDoF6U9+tMYwMWK04N0wiZNrvaHLN3PbC0J5Nn/AmtzucgnkXupuIV62reKkIQuXu2m/JrGF3lO6Ako32d6ZZ4YH5v9HgY+H3g828c5H4/UzPtBhRubz0AMefZfZf0dhgtGnMr7Jwv9gO0dT28+NAKKJvsUjKirhEsQ/YXziJdZgTohp5atSQLpEK/pURwNzdb58g7tCjpNbnrl81g8spueDy6EjpWiLYBz0ATVFA3TAb3YDOLqT9hYpFqIj83AblIlLjHCwg9Z3xfjlDlz22EGGwHJd9CP4ZS93zVxa0TbZYvR+3mhSdWX8TDoK+wHClpV6JmbQ2n/EEAznjtlQlyCu8qsoFKuCkSIRTzTis0fnUvfnyZZtsPEjwujnuO2SM6TLVkX7zOtHktH0EZh0ZSDkXvX+Vf9TLF30az7kDmEsXvhNFJTovyHnqd3O2niQMUi1HmZTSF0pp3vmzGmRfmwvf7Tv0o8ja+li8/2u/T2ZUFE5d3oaKuHj5CJDiEaKlyg1rauXV241Mc0K74Pja31uFMZ2GzrO7YCv+8A5OoNYoZw3QxcXtUpe3OOvVxViAgMZRuSTYjp5Zmo6vtiuzoT6hG+0DsZDKMuVX7fPVSx9TSnV5bPqDlVI0c=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB6858.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(10070799003)(1800799024)(366016)(376014)(7416014)(261102123227099003)(261022075727099003)(261022115727099003)(261021123027099003)(261021121427099003)(11063799006)(4143699003)(56012099006)(10067099003)(18002099003)(22082099003)(261009223027099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB6858.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(10070799003)(1800799024)(366016)(376014)(7416014)(261028144727099003)(261102123227099003)(261022075727099003)(261022105027099003)(261021121427099003)(261026121527099003)(261026140227099003)(11063799006)(56012099006)(10067099003)(18002099003)(22082099003)(6133799003)(261009223027099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RXNMOFlmcXBTTWhmYkhBTUFldVZwZ2d6U1laMG0zaWJqNXQ3dWFocnNGeFZS?=
- =?utf-8?B?ZWFOd3Q1TlBrYmY2b2RzeVVUVC9uVm1RZDg4bCtUK1dWU1p1WXMvN2dQMWxT?=
- =?utf-8?B?TmQzbzQrb2pLZ2ZvSmhaVmJRbU1XRjI5dm44WjVZMjVKRUtzOXBETXZNWTVu?=
- =?utf-8?B?YlpKT2JOb0ZWRjRmS1BrTkRiWjQvcGlIRXRhOXB4cnhNZjgrQTVpSStINnk2?=
- =?utf-8?B?MFlhbUVqamw2NW9NQ214WG5MckJBVG5TMXd4M1VvWmpzdFpYYzlZYXZxZ0la?=
- =?utf-8?B?a1B5ZitXc1lDN2ZmSmhwRFZ6aStTa0lVSk5JOEZsd1pZRWF1MXpDUGJ6dzBJ?=
- =?utf-8?B?MXpiUytlZ2JrVkRlYWtMTUJISHI3a1pKdjFIN3FtYm9xckdMK3RBdEsxMUZI?=
- =?utf-8?B?S2Q3ZFE2bnFtK3dTcU81a0xTZUQxTUY2Vy9YZExIRkQ0NWV4TU5Ea3JSMDhS?=
- =?utf-8?B?cDkvcU9vTUNVWU5sNnNXWUIycGFzenlyLytUQm91WjdIWUx6NXFEUkZWR2pq?=
- =?utf-8?B?TDZmREE1SnN4Y2YrQmZLSWsvR1ZRY216K0srQ01PMkFwNXovYXFVd2w1cVF1?=
- =?utf-8?B?c0JhdVhSR21FbjVCcEt0QmVCVUM1eWhRWnJwTUdrZVk5T3J4NHFKdDE4V0F2?=
- =?utf-8?B?ZUdPeHhCNXZFTkVYRC9sczlMUGRYZGNFcHRyRS9wWmJydkRLUjE1SkV4V1E0?=
- =?utf-8?B?alphZmFKQys4cTZDeVA2UlcxaE1KR0dXTkp1QVNBSEhuRnl2THR2RW41QjMx?=
- =?utf-8?B?ZjdjUWxPQmZ3QThZYXZzU3FTT3JqY2V2ck5XaGFZR3k4VmNhMktTM2RvQlk0?=
- =?utf-8?B?SzlyRGplbzlLVUhERE0vSk1qK01CVnpOSFRzZ21IYlRlVElBU0s2Qm9YLzFQ?=
- =?utf-8?B?Q0ZIRHJKbGRrNkdVZXdvUUpXTTVrZzBhbzdDN3VZTzcwVGhyNmtORFlKZ0F5?=
- =?utf-8?B?WnpXOTBoaWZBQVhEVFI0WVRZZzRBbnRYazJWTHQvaCsycDUvTjVWTjlMdVZ3?=
- =?utf-8?B?TFVDMWllSE1hUGhtcTFKOXVYZWZxSXhzNnA4SkxQR08zdlZhZUhNeTZJKzNi?=
- =?utf-8?B?TldCc1VydDg1SW9uK1dLL3VJdHFZUSsrK0NEQ0tobXNLOWxtVnhTZU92WmlT?=
- =?utf-8?B?MWNiSG8weUNPYXRiallkMXBYRVdYRkplWXB3VGc5L0hFZlAyUlNIZlZ0d3Ey?=
- =?utf-8?B?eW1NNUkvVTIydzJWZzRCZU1VNFc2L2l6TUt0ajdTNVZhRUM0dXZDS3ljN1ZM?=
- =?utf-8?B?RythaGNUcGJIOWtyWHVuSHpZd3dGbkxVQUlvRmpvdndMbklIUEY5Mm9UdStt?=
- =?utf-8?B?dEg3bW4vekJFWmZtZnNpQ3hyUFErUndYdlpJK0hnem9iWDRQWkFOdGtHVjd3?=
- =?utf-8?B?VExJbHlCSGFza1JNUHVXR1ZhbTNFNDZEZXl2WDkwQytEMmN0Ty9sbjdQVGxp?=
- =?utf-8?B?RWEwT29Pa1dnY2VtL1Y1RDR5aEs3bExNbnY0WHp5N3lvc2ZxNXEwTU1LVzNn?=
- =?utf-8?B?NUwyZXBXWHRqRXFyYkVoRFhBSjk2cGRrM2VqRmJCdG5iNzRXcnlUL1NoZ3hI?=
- =?utf-8?B?QlpzR1hSaVdjYWtPZmYxUWFjRG43RE8wSisrQlRWaTVldVlDbDhRYy9VeUFi?=
- =?utf-8?B?L3YxUnZkV1o0SFZXNU4zRXZCcDNRSmEza3Z2MnZHSTdYVmxJQ3ZIdDVJeTkx?=
- =?utf-8?B?R0t6MGZFQk1FWE9HNU9JZGNOUm5MMG9hN0thWjdaaTZQZWVjdTZ2RHlraWVx?=
- =?utf-8?B?elJjaHBNZldIdFJjNU5HRWlwUUgrVHZjdFg4bWQwTkdZcXRmd0pVTC9qT2hZ?=
- =?utf-8?B?YVNGSjZNRlhCQW5GaTYyTGtDZUVoZFNkMXl5TUpzQ3ZHeFFwWUx3MHEwUTFn?=
- =?utf-8?B?V0dtZ2J6OFJYdUU0alhoME9sb1BCUTVNMlNBTUFQVkMyUGxvTWhwZUFDOEtK?=
- =?utf-8?B?aFhPbmZoTW1taWRsMk1DVkg5NFNGUE4xR2FaRDlOQS90Q0kwL3p2Z3VFVGx0?=
- =?utf-8?B?c0M3RlBqdHBXZHBKRk5nTUh0eVFqNzM1bTlmV3FVb2k3dzk4bUhFKzNJRTJ4?=
- =?utf-8?B?cEpYTUFscWtmRHFRVkgzNTJIZVZUT1U3WEI1V29heWVPYlVWZHdYcTRHOXZJ?=
- =?utf-8?B?NHZtcGxXcnArdGQrMGpjVStLallVd2JydS9tU0VnUWJ6VWRNVzUyQjhBM1FZ?=
- =?utf-8?B?UjBMakxDSXJJazRiaDZDYXJvakVQa1BoeE83bjRDamtROVMxRnVJMHpGQ1d0?=
- =?utf-8?B?blVxWDlpWFNoRHlLdW9lL3BrV0ZWcThkZlVOc0NabXFpTTBzb2tEMkk5djlz?=
- =?utf-8?B?UVA0ZkFmeitVK1poZDZuUzgxWGZWeHI1SjlSLzVHZ0Y5bk9BUUpNcXhjNGhm?=
- =?utf-8?Q?arjoyBlosFX/F5RQYKcBVqwKsLPwz1ISQR34ghxgiAnCz?=
-X-MS-Exchange-AntiSpam-MessageData-1: DKivWvTQJdP57A==
+	=?utf-8?B?V0FGWmI0U2NkL3cwQ2dyL3B3MTNDSGg0d2xwM21abGoyK09JWUNSSHNvZGVU?=
+ =?utf-8?B?ZmNZdXdIVUEzbHdGdUl6WnpQTnA5MzV0eDRReUNaMVBzRlZoRWlSRzVNSFhF?=
+ =?utf-8?B?Wi9iWUgyY21pQm11dWs5UG52TjhCRTNaYVhQRnhEVGlzM3hRRk1tanVkMTAz?=
+ =?utf-8?B?RmJHQkU1NEwrUXZYM1hwVTBUV1YxNjZYd0c3alZXd2JwL1dCN3pxTDgveGU3?=
+ =?utf-8?B?elBWL1RndGEzc2thdFY4UXRibG8vVEVwZzI0UHdnZ3R5Rld6TzZSOFlFbDFn?=
+ =?utf-8?B?b0JXRmViSDdFVFEycGNlVkFCZHFTaUpCUmk4dnd5RUNkdkNtYWlGQnFtWHR0?=
+ =?utf-8?B?bEdwYlVmM2dhRGprRXFYUDYvZ1M1bVJYbTNja2FzTnUvQ0NDbTVGd2NKbUx0?=
+ =?utf-8?B?eEgrOFFMeFA1K2tJVENNbWZoNGpmK2tGZDBIKzZUZTBid2RuMzVXRjF4azZL?=
+ =?utf-8?B?VXg5a3p4R2ZuRE9SZitJTldJanFQdlpKN1hkdUVvckZ3V1RDR3VXU0xUWjBl?=
+ =?utf-8?B?YjlRYzJ5YzJCZGtsWHp1ZmJFOERtdEJYMXljUEgyKzM2TlZ5c3FWYlBZcGNG?=
+ =?utf-8?B?ZzU0ZVJVQzgzcUFHUkVublVzcngreDN0REdNeFdFdW45NFIzZU94TXQvRUxF?=
+ =?utf-8?B?SHpOU2xPTi8wOUFSdkIvbm1qY1NYYzRaa2I1enl0ck56aThNcnhTVnIwWHpW?=
+ =?utf-8?B?cjZobXhCZVo2WFBEdDJtMHROMVZxMDZtVUJsSlRXS2NzdkQ1OTZ2b3g0WG8v?=
+ =?utf-8?B?bjZvbmtPalN1S1NtcnVRUlF2U0VHYmM0emY0RURMWkltNmp0S0tqRTkyaEtG?=
+ =?utf-8?B?bVUybmJWVDZCcTJmQjBtWkxsM1JaNEwyaktSSlhKeU1iTDB3cTJKOHVScWtG?=
+ =?utf-8?B?ZjMzVjBPRGhOU1B3ZmowaTR5TGlCZGlGazlqSkwrWnNnM20waGJyNWVXejVp?=
+ =?utf-8?B?SlJNamlyRzhsUjZCZllqUUVFR0R6emlOOFQyUlZmZ2hUbTB3bWdqUjJwcFN2?=
+ =?utf-8?B?cWNRZC8yMFk2YmlwKzFPV2RYUGlWMSs4MGRLbTBnSEhkQTBqOWVDYzFjbkps?=
+ =?utf-8?B?SFJHVjhRRGtLMThncnQ1VWgyMVdKRkNXdmhMS2xGaUJCakNWMFdDSnFNYmFF?=
+ =?utf-8?B?ZVdLdEFGUmE3eHRmRUlNcm9taHo1a1FYVnhJYS84SUJVbW4rS2JkdmxzWnNY?=
+ =?utf-8?B?NVdFVjBDaElCdVRMd3YzR2R1S2JPMzIrVjRvR1VGUytCaTJVMEN5ZmdoZkw3?=
+ =?utf-8?B?M2E2U2xtb2p5T0ZyNFYwZlJvbm5FQVp0YVZ5R0tvc0lvck9TZmdDN3lSWk14?=
+ =?utf-8?B?clVjZzlsTDRkL2daTzg5WEVUazlPa2c2WFpDRFd5NUEzdFVwNlJHMHBxL0lL?=
+ =?utf-8?B?em1iRktLcnRSVmQ2dzVubStuN0s1aFUwaXN4bDM1dlQrOGhEQXZHUVdzZEpY?=
+ =?utf-8?B?YnU2MVFZak1JK2RWemZqczB5ZUlteVVLMTB0OG05U1d6OHJ0YTIrZWJrczZW?=
+ =?utf-8?B?Q1F6bWdLN2Y5dkhkOWlzT0NZN2M4dkpvbmV2SU4zYThvdHJSeEJVZGcrL3FB?=
+ =?utf-8?B?ekJWNGxBNWQ4bHRjVk1KZm9ReHd6b3l4SWIzVVR6S0wwT3dlSjZPY0cxVHVH?=
+ =?utf-8?B?SnVKMjdQalhYSyt0U09HVXc3MEF1QUM2MlR4Z0ZyVk5HQlcxQkxmbzlOb2JI?=
+ =?utf-8?B?SGFzN0dLRmU0WFBHZDNyRjdtRzJzK1EzOWtEdkxZL2o1WWVRWWJjMGRWVmI3?=
+ =?utf-8?B?Wk03OVh1bEIwWi9xQUF6TXhHKy9CRGFDckJRU2VFclVaOTRKQmVGbVZCT0Zx?=
+ =?utf-8?B?UGU3UXNpRmhiR0crNjU2d1FETVI5bllzRkNmVUp4eGhZdHViSkM4RTl5T1pO?=
+ =?utf-8?B?RDhITDBMMW80VHhZVnhxbXlUVE5Ib29aRHNINVhnZ2ZrVTgvczZJZnozTy9H?=
+ =?utf-8?B?OUJkRkw2cGtpVFd3U3Z0U0dRb21sZ2p3eFJDeVdLWmZHZDcvMjhCZXV3Vlh6?=
+ =?utf-8?B?MmlkVGE2b3lKRHMrNVJnRFo2NDFlSzBMa2pmbzNBekJ5MSs3OEtER2ZLeFFt?=
+ =?utf-8?B?QjhoMUZGSDBtMnVjWWt4ek1CamhOQUY3Wm1HWDBhbys5bWhGdXRkZHVRQUdy?=
+ =?utf-8?B?bGY2RE1jelNOOFYxSUtlQUQ2SlNZVDduVTZ2TlQyY0I0SGFlekpxYkhRdFo1?=
+ =?utf-8?B?aVVHZ0x0YkhyaS9SR0ZJeWFvYVh3R0c3ZG1wUlNGczd3TTIrK3NzZGZ4WGZD?=
+ =?utf-8?B?TEJnN2lXczgzNmJsdDFZdHZzeTk3eGorcDk3cmZRaDFZcVJrWVhuZXFEWGV0?=
+ =?utf-8?B?d2tlaEh1emJDYnNWOEJZL3RMdTN1Q3VNVWwwK1QrOU14TUh4U0V0aTU3MHIw?=
+ =?utf-8?Q?liW6oClAy/a6O3EUcsj0VDhpNnWAIZSu4fz0I9xa/3+Bm?=
+X-MS-Exchange-AntiSpam-MessageData-1: Ow3QwEemCjjKjw==
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb9b7462-8b18-4d89-b35c-08df439671bf
+X-MS-Exchange-CrossTenant-Network-Message-Id: 231770a1-dcb3-44e1-b1f8-08df439671bf
 X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB6873.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2026 04:03:02.9066
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2026 04:03:02.9372
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gEhj76cTyvRhgTTERPdGvWljnUXhqfVdO0TRtBB0Pw+gqUhHCU2aDxMM6+HQkGWT6VYDvyaZCCB1HTXeOY3bFA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0yn+nY2MFtzuMLs/PukL6VgqUnnae/LRT4/jj61R/HXdAAoS1UzILOt890OoFF32ZwMQ+U65djScMfC9+UGAJw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CHBPR12MB497579
 
 On Sun Nov 15, 2026 at 8:42 AM JST, Danilo Krummrich wrote:
-> Now that SGTable no longer requires pinning, remove the pin-init
-> machinery from Radix3 and GspFirmware.
->
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
->  drivers/gpu/nova-core/firmware/gsp.rs    | 43 +++++--------
->  drivers/gpu/nova-core/firmware/radix3.rs | 82 +++++++++++-------------
->  drivers/gpu/nova-core/gsp/boot.rs        |  2 +-
->  3 files changed, 56 insertions(+), 71 deletions(-)
->
-> diff --git a/drivers/gpu/nova-core/firmware/gsp.rs b/drivers/gpu/nova-cor=
-e/firmware/gsp.rs
-> index 341a8b19aa38..ff92a12b2994 100644
-> --- a/drivers/gpu/nova-core/firmware/gsp.rs
-> +++ b/drivers/gpu/nova-core/firmware/gsp.rs
-> @@ -25,10 +25,8 @@
->  };
-> =20
->  /// The GSP firmware image, its signatures, and the GSP bootloader.
-> -#[pin_data]
->  pub(crate) struct GspFirmware<'a> {
->      /// The firmware image and the radix3 table that maps it.
-> -    #[pin]
->      radix3: Radix3<'a>,
->      /// Device-mapped GSP signatures matching the GPU's [`Chipset`].
->      pub(crate) signatures: Coherent<'a, [u8]>,
-> @@ -39,34 +37,27 @@ pub(crate) struct GspFirmware<'a> {
->  impl<'a> GspFirmware<'a> {
->      /// Loads the GSP firmware binaries, map them into `dev`'s address-s=
-pace, and creates the page
->      /// tables expected by the GSP bootloader to load it.
-> -    pub(crate) fn new(
-> -        dev: &'a device::Device<device::Bound>,
-> -        chipset: Chipset,
-> -    ) -> impl PinInit<Self, Error> + 'a {
-> -        pin_init::pin_init_scope(move || {
-> -            let firmware =3D request_tlv(dev, chipset, "gsp")?;
-> -            let tlv =3D Tlv::new(firmware.data())?;
-> -            dev_dbg!(dev, "loaded gsp firmware v{}\n", tlv.get_string(b"=
-VERS")?);
-> +    pub(crate) fn new(dev: &'a device::Device<device::Bound>, chipset: C=
-hipset) -> Result<Self> {
-
-`GspFirmware` is 312 bytes, that's not enormous but that's also not
-small... Shall we keep returning an `impl Pininit`?
-
+<...>
 > diff --git a/drivers/gpu/nova-core/firmware/radix3.rs b/drivers/gpu/nova-=
 core/firmware/radix3.rs
-> index a3e43fc8ec86..2c8787d5930d 100644
+> index 94235bd1209d..a3e43fc8ec86 100644
 > --- a/drivers/gpu/nova-core/firmware/radix3.rs
 > +++ b/drivers/gpu/nova-core/firmware/radix3.rs
-> @@ -32,60 +32,54 @@
->  };
-> =20
->  /// A radix3 page table and the data it maps.
-> -#[pin_data]
+> @@ -35,14 +35,11 @@
+>  #[pin_data]
 >  pub(crate) struct Radix3<'a> {
 >      /// The mapped data.
-> -    data: SGTable<Owned<'a, VVec<u8>>>,
-> -    /// Level 2: one entry per page of `data`.
-> -    level2: SGTable<Owned<'a, VVec<u8>>>,
-> -    /// Level 1: one entry per page of `level2`.
-> -    level1: SGTable<Owned<'a, VVec<u8>>>,
-> -    /// Level 0: one page, whose single entry is the DMA address of the =
+> -    #[pin]
+> -    data: SGTable<Owned<VVec<u8>>>,
+> +    data: SGTable<Owned<'a, VVec<u8>>>,
+>      /// Level 2: one entry per page of `data`.
+> -    #[pin]
+> -    level2: SGTable<Owned<VVec<u8>>>,
+> +    level2: SGTable<Owned<'a, VVec<u8>>>,
+>      /// Level 1: one entry per page of `level2`.
+> -    #[pin]
+> -    level1: SGTable<Owned<VVec<u8>>>,
+> +    level1: SGTable<Owned<'a, VVec<u8>>>,
+>      /// Level 0: one page, whose single entry is the DMA address of the =
 first `level1` page.
-> +    _data: SGTable<Owned<'a, VVec<u8>>>,
-> +    /// Level 2: one entry per page of `_data`.
-> +    _level2: SGTable<Owned<'a, VVec<u8>>>,
-> +    /// Level 1: one entry per page of `_level2`.
-> +    _level1: SGTable<Owned<'a, VVec<u8>>>,
-> +    /// Level 0: one page, whose single entry is the DMA address of the =
-first `_level1` page.
 >      level0: Coherent<'a, [u64]>,
-> -    /// Length of `data`, in bytes.
-> +    /// Length of `_data`, in bytes.
->      size: usize,
+>      /// Length of `data`, in bytes.
+> @@ -59,14 +56,14 @@ pub(crate) fn new(
+> =20
+>          pin_init::pin_init_scope(move || {
+>              Ok(try_pin_init!(Self {
+> -                data <- SGTable::new(dev, data, DataDirection::ToDevice,=
+ GFP_KERNEL),
+> -                level2 <- {
+> -                    build_lvl(&data)
+> -                        .map(|l2| SGTable::new(dev, l2, DataDirection::T=
+oDevice, GFP_KERNEL))?
+> +                data: SGTable::new(dev, data, DataDirection::ToDevice, G=
+FP_KERNEL)?,
+> +                level2: {
+> +                    let l2 =3D build_lvl(data)?;
+> +                    SGTable::new(dev, l2, DataDirection::ToDevice, GFP_K=
+ERNEL)?
+>                  },
+> -                level1 <- {
+> -                    build_lvl(&level2)
+> -                        .map(|l1| SGTable::new(dev, l1, DataDirection::T=
+oDevice, GFP_KERNEL))?
+> +                level1: {
+> +                    let l1 =3D build_lvl(level2)?;
+> +                    SGTable::new(dev, l1, DataDirection::ToDevice, GFP_K=
+ERNEL)?
+>                  },
+>                  level0: {
+>                      // Allocate the level 0 page table as a device-visib=
+le DMA object, and map the
+> @@ -81,7 +78,7 @@ pub(crate) fn new(
+>                      let mut level0 =3D CoherentBox::<'_, [u64]>::zeroed_=
+slice(
+>                          dev,
+>                          GSP_PAGE_SIZE / size_of::<u64>(),
+> -                        GFP_KERNEL
+> +                        GFP_KERNEL,
+
+Stray hunk? Maybe we can move it to patch 2 since it reformats that part
+anyway.
+
+>                      )?;
+>                      level0[0] =3D level1_entry_addr.to_le();
+> =20
+> @@ -105,7 +102,7 @@ pub(crate) fn size(&self) -> usize {
+> =20
+>  /// Returns the size of the level that maps `sg_table`: one `u64` entry =
+per [`GSP_PAGE_SIZE`]
+>  /// page of each DMA-mapped region, rounded up to whole pages.
+> -fn lvl_size(sg_table: &SGTable<Owned<VVec<u8>>>) -> usize {
+> +fn lvl_size(sg_table: &SGTable<Owned<'_, VVec<u8>>>) -> usize {
+>      let entries: usize =3D sg_table
+>          .iter()
+>          .map(|sg_entry| usize::from_safe_cast(sg_entry.dma_len()).div_ce=
+il(GSP_PAGE_SIZE))
+> @@ -122,7 +119,7 @@ fn lvl_size(sg_table: &SGTable<Owned<VVec<u8>>>) -> u=
+size {
+>  ///
+>  /// - `ENOMEM` if the level cannot be allocated.
+>  /// - `EINVAL` if `sg_table` yields more entries than [`lvl_size`] sized=
+ the level for.
+> -fn build_lvl(sg_table: &SGTable<Owned<VVec<u8>>>) -> Result<VVec<u8>> {
+> +fn build_lvl(sg_table: &SGTable<Owned<'_, VVec<u8>>>) -> Result<VVec<u8>=
+> {
+>      let mut dst =3D VVec::<u8>::zeroed(lvl_size(sg_table), GFP_KERNEL).m=
+ap_err(|_| ENOMEM)?;
+>      let mut entries =3D dst.chunks_exact_mut(size_of::<u64>());
+> =20
+> diff --git a/rust/kernel/scatterlist.rs b/rust/kernel/scatterlist.rs
+> index 6379a8748117..93f431d7f548 100644
+> --- a/rust/kernel/scatterlist.rs
+> +++ b/rust/kernel/scatterlist.rs
+> @@ -19,7 +19,8 @@
+>  //! The main entry point is the [`SGTable`] type, which represents a com=
+plete scatter-gather table.
+>  //! It can be either:
+>  //!
+> -//! - An owned table ([`SGTable<Owned<P>>`]), created from a Rust memory=
+ buffer (e.g., [`VVec`]).
+> +//! - An owned table ([`SGTable<Owned<'a, P>>`]), created from a Rust me=
+mory buffer (e.g.,
+> +//!   [`VVec`]) and tied to the [`Device<Bound>`] lifetime.
+>  //!   This type manages the allocation of the `struct sg_table`, the DMA=
+ mapping of the buffer, and
+>  //!   the automatic cleanup of all resources.
+>  //! - A borrowed reference (&[`SGTable`]), which provides safe, read-onl=
+y access to a table that was
+> @@ -33,15 +34,13 @@
+>      alloc::allocator::VmallocPageIter,
+>      bindings,
+>      device::{Bound, Device},
+> -    devres::Devres,
+>      dma,
+>      error,
+>      page,
+>      prelude::*,
+> -    sync::aref::ARef,
+>      types::Opaque, //
+>  };
+> -use core::{ops::Deref, ptr::NonNull};
+> +use core::ops::Deref;
+> =20
+>  /// A single entry in a scatter-gather list.
+>  ///
+> @@ -123,9 +122,7 @@ unsafe impl Sync for Borrowed {}
+>  ///
+>  /// All [`SGTable`] variants can be iterated over the individual [`SGEnt=
+ry`]s.
+>  #[repr(transparent)]
+> -#[pin_data]
+>  pub struct SGTable<T: private::Sealed =3D Borrowed> {
+> -    #[pin]
+>      inner: T,
 >  }
 > =20
->  impl<'a> Radix3<'a> {
->      /// Builds a radix3 page table over `data`, mapped for `dev` to read=
-. May sleep.
-> -    pub(crate) fn new(
-> -        dev: &'a device::Device<device::Bound>,
-> -        data: VVec<u8>,
-> -    ) -> impl PinInit<Self, Error> + 'a {
-> +    pub(crate) fn new(dev: &'a device::Device<device::Bound>, data: VVec=
-<u8>) -> Result<Self> {
+> @@ -177,63 +174,41 @@ pub fn iter(&self) -> SGTableIter<'_> {
+>  ///
+>  /// # Invariants
+>  ///
+> -/// - `sgt` is a valid pointer to a `struct sg_table` for the entire lif=
+etime of the
+> -///   [`DmaMappedSgt`].
+>  /// - `sgt` is always DMA mapped.
+> -struct DmaMappedSgt {
+> -    sgt: NonNull<bindings::sg_table>,
+> -    dev: ARef<Device>,
+> +struct DmaMappedSgt<'a> {
+> +    dev: &'a Device<Bound>,
+> +    sgt: RawSGTable,
 
-Similar comment as `Radix3` is 216 bytes.
+The `RawSGTable` documentation still mentions `Owned`. We could adapt it
+or (maybe better) just drop that sentence.
+
+>      dir: dma::DataDirection,
+>  }
+> =20
+> -// SAFETY: `DmaMappedSgt` can be sent to any task.
+> -unsafe impl Send for DmaMappedSgt {}
+> -
+> -// SAFETY: `DmaMappedSgt` has no interior mutability and can be accessed=
+ concurrently.
+> -unsafe impl Sync for DmaMappedSgt {}
+> -
+> -impl DmaMappedSgt {
+> -    /// # Safety
+> -    ///
+> -    /// - `sgt` must be a valid pointer to a `struct sg_table` for the e=
+ntire lifetime of the
+> -    ///   returned [`DmaMappedSgt`].
+> -    /// - The caller must guarantee that `sgt` remains DMA mapped for th=
+e entire lifetime of
+> -    ///   [`DmaMappedSgt`].
+> -    unsafe fn new(
+> -        sgt: NonNull<bindings::sg_table>,
+> -        dev: &Device<Bound>,
+> -        dir: dma::DataDirection,
+> -    ) -> Result<Self> {
+> +impl<'a> DmaMappedSgt<'a> {
+> +    /// Takes ownership of `sgt` and maps it for DMA.
+> +    fn new(dev: &'a Device<Bound>, sgt: RawSGTable, dir: dma::DataDirect=
+ion) -> Result<Self> {
+>          // SAFETY:
+>          // - `dev.as_raw()` is a valid pointer to a `struct device`, whi=
+ch is guaranteed to be
+>          //   bound to a driver for the duration of this call.
+> -        // - `sgt` is a valid pointer to a `struct sg_table`.
+> +        // - `sgt.as_raw()` is a valid pointer to a `struct sg_table`.
+>          error::to_result(unsafe {
+> -            bindings::dma_map_sgtable(dev.as_raw(), sgt.as_ptr(), dir.in=
+to(), 0)
+> +            bindings::dma_map_sgtable(dev.as_raw(), sgt.as_raw(), dir.in=
+to(), 0)
+>          })?;
+> =20
+> -        // INVARIANT: By the safety requirements of this function it is =
+guaranteed that `sgt` is
+> -        // valid for the entire lifetime of this object instance.
+> -        Ok(Self {
+> -            sgt,
+> -            dev: dev.into(),
+> -            dir,
+> -        })
+> +        // INVARIANT: `sgt` was successfully DMA mapped and is owned by =
+this object until drop.
+> +        Ok(Self { dev, sgt, dir })
+>      }
+>  }
+> =20
+> -impl Drop for DmaMappedSgt {
+> +impl Drop for DmaMappedSgt<'_> {
+>      #[inline]
+>      fn drop(&mut self) {
+>          // SAFETY:
+>          // - `self.dev.as_raw()` is a pointer to a valid `struct device`=
+.
+>          // - `self.dev` is the same device the mapping has been created =
+for in `Self::new()`.
+> -        // - `self.sgt.as_ptr()` is a valid pointer to a `struct sg_tabl=
+e` by the type invariants
+> -        //   of `Self`.
+> +        // - `self.sgt.as_raw()` is a valid pointer to a `struct sg_tabl=
+e` for the lifetime of
+> +        //   `self`.
+>          // - `self.dir` is the same `dma::DataDirection` the mapping has=
+ been created with in
+>          //   `Self::new()`.
+>          unsafe {
+> -            bindings::dma_unmap_sgtable(self.dev.as_raw(), self.sgt.as_p=
+tr(), self.dir.into(), 0)
+> +            bindings::dma_unmap_sgtable(self.dev.as_raw(), self.sgt.as_r=
+aw(), self.dir.into(), 0)
+>          };
+>      }
+>  }
+> @@ -308,38 +283,27 @@ fn drop(&mut self) {
+>  ///
+>  /// - The backing memory pages.
+>  /// - The `struct sg_table` allocation (`sgt`).
+
+`sgt` is removed by this patch.
+
+<...>
+> diff --git a/samples/rust/rust_dma.rs b/samples/rust/rust_dma.rs
+> index ffb693544673..844e137cddc8 100644
+> --- a/samples/rust/rust_dma.rs
+> +++ b/samples/rust/rust_dma.rs
+> @@ -35,8 +35,7 @@
+>  struct DmaSampleData<'bound> {
+>      pdev: &'bound pci::Device<Bound>,
+>      ca: Coherent<'bound, [MyStruct]>,
+> -    #[pin]
+> -    sgt: SGTable<Owned<VVec<u8>>>,
+> +    sgt: SGTable<Owned<'bound, VVec<u8>>>,
+
+Since there is no more `pin` in `DmaSampleData`, can we also remove its
+`pinned_drop` attribute?
