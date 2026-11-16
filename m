@@ -1,51 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794853362;
-	b=ZgVlYxxfHSF0IElY4AkQ4LiY8+4ay8TS5YZgVG9OWkqWbOqi4pF9xCEs+Sdo9agYO6JW
-	 +PxII/zHIuWs4fNacn0ZZhGZY9gp8fWccuYfoUL21ikmd2tOwb64zJgqZDxGFLfcZz964
-	 CQ4/OZ9G+N3wfVr+h4izvFGOwdBqGcwDz56Taj6UT4MUjd+thlndr9DvJt9/Pb47x3OUn
-	 ODPpgUF2ycCbj4hDZhks7Qa3P2GMy9TWmTW13RgxzQQhuDwBPDU+5J9MeEg73tTYs934w
-	 Udc3G6k54HfrKqgrPNKgZ+BGeuZwQ2fE02DAEI/LTcl1k1mvr4GpW7Abaywf0Av3IRg==
+	t=1794853367;
+	b=QRRyfd/e2sU5RL18Sv7M879ZlcuLvIIN1OgSUX9TPAoqVWqyDjzzgpDBfP5pd3rQZzV2
+	 Hjmx/x2g0ed0fazVRrecCqIUpi4xQIaS64iFMi7T8RGXyg6FnXLdwreGY/v0T5ONRS0vf
+	 4Agtlp+2h6fQYGKImV1vEbbKgmBLfw3xcbgI4/7E/IkvaDOeqg8LvgJWrfY5tJvf31rX/
+	 UDWnK+IqT8bWgHFzOpNddmnX9ZCDC8ahMBC+74njdRKfeHF7HmQqxt70yXvToRoTIYGZ0
+	 saVxSDdd2wntZUMAdfgK/w/UJFpgzD4IVW+OCtFIADiPPBeTD4avpjEUcdQ+kLpeEjQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794853362;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794853367;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=MX516asZLotbLhllB8W9jB+EmEboHMXF1gW4MK6gyTM=;
-	b=P7g+1ctqLvAPmhe9P7NIhpZUF2cIQeSX6aWvIqPU4EykosGUjgTu9thV5H8B6iMf5t4r
-	 Ob61OXDDTUPni/9G4wnkKLZrruK0tKIjEPOjI7/swBBTx3LUMtobP4z1AHGKF31O7+wOF
-	 bhfLvkKJCZXAs54pLIsMB3SmKDKwx5p6HZe7CUX5kNIFC1po1GZsBWcWlfPh/eKLVBgen
-	 uWpz3j/ewvVuT25f1l5G0DPrsxN7k6cYKya8iYGxKwvxP0fSJNWkhFwT+FHAW6+2DnX7J
-	 pPzS6Aao7XOBBsdvPxQBYRfrhdUffn1A5MvcOKQmjuOzDdN72N4xS7TKpKwsxuM5wAQ==
+	bh=bqJvB6enP/okPPxSerhwa6fogTBDV5fNQyKcgjywQTM=;
+	b=ZCzoptj7PdEWjCKcFSG+c+vRzBuE+9utb0nfJQsz+vG4Zp9MEHNHIVQeozVdHhqj3ggI
+	 gv3eKseICyVmWotoK/JWYcpWj/Jo6LszXA/XSU6vJTIpnOhimnGSRl4NTxBKaSjQMUJlR
+	 SAlyH2d2oc0eZV10xeJHTsKY0JRo4vqBlsuQ6SqYkbc3+aO3N6VzDS7DknvyrbO0pLdLP
+	 kRUDXoB8XMmrM/ThfKVJfeT4mDFNlE2aXo5aWC0XRJOf7llVhn7mHgfjf7amMtYSo3a7j
+	 GYAXSwQz0Ko7gK4HSRw1nQ62FPyI5ght+U/YrHMvojyMDw1EwbwGQ3UJesIwxpAxkjg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=arm.com;
 	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=IehhGFFR;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=vJjzGIwh;
 	arc=none smtp.remote-ip=217.140.110.172
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22914606A8A6
-	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 18:22:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22914606A8A6
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90183606A8B0
+	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 18:22:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 90183606A8B0
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=IehhGFFR
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=vJjzGIwh
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B6DE81684;
-	Mon, 16 Nov 2026 10:22:38 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0B63F1684;
+	Mon, 16 Nov 2026 10:22:43 -0800 (PST)
 Received: from e132581.arm.com (unknown [10.2.196.114])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AB0F03F632;
-	Mon, 16 Nov 2026 10:22:37 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F247C3F632;
+	Mon, 16 Nov 2026 10:22:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1794853361; bh=gUpqEz9OvDKZWLPWRmE1Gxn/RE/2b19+TI+H5Oxsn84=;
+	t=1794853366; bh=3HQbqbNQTpF6lOh0eDAnhrgV5w1oEbiu/SzFYvPoCoQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=IehhGFFRluRP7ZVSSFLLDk5CJYgdk7sdEcD50M1AtdfL0Tn94XPx+7Y95SNgSnw1l
-	 iK/GQg9628FUyq2gSzjKMFtsOISmVl43pxHKoKBZxRXIkr7tzMXO05YRYAP53CkQr1
-	 ktG/VHtZnpymQL7x8bgHiCgwSxyR3goXN2EpthzE=
+	b=vJjzGIwhpoGP+617+yXgzDJiFrNJCUg8COsq6eqpx7JRpW6wo53CMiGuWRAHhQQR7
+	 VtywxfvpEAkxZAwI7M9ljvphkHEfNAritXEXLAelFAf4kAm7r+qY0z6YlkSS6GskKZ
+	 OZJ9KBKWXxiwyUEcLbjbhPe8zs5erqg9i1StmMdQ=
 From: Leo Yan <leo.yan@arm.com>
-Date: Mon, 16 Nov 2026 18:21:34 +0000
-Subject: [PATCH 7/8] perf/arm_pmu: Use ACPI CPU affinity in IRQ handling
+Date: Mon, 16 Nov 2026 18:21:35 +0000
+Subject: [PATCH 8/8] ACPI: arm64: Move PMU device registration to
+ drivers/acpi/arm64/
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -57,7 +58,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-acpi_arm_pmu_registration_hmp-v1-7-0371d4eca626@arm.com>
+Message-Id: <20261116-acpi_arm_pmu_registration_hmp-v1-8-0371d4eca626@arm.com>
 References: <20261116-acpi_arm_pmu_registration_hmp-v1-0-0371d4eca626@arm.com>
 In-Reply-To: <20261116-acpi_arm_pmu_registration_hmp-v1-0-0371d4eca626@arm.com>
 To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
@@ -83,129 +84,103 @@ Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-perf-users@vger.kernel.org, Leo Yan <leo.yan@arm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794853327; l=4351;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794853327; l=3632;
  i=leo.yan@arm.com; s=20250604; h=from:subject:message-id;
- bh=gUpqEz9OvDKZWLPWRmE1Gxn/RE/2b19+TI+H5Oxsn84=;
- b=MyzTW48CaRwFfJwrqEnPzGWLcEA7lX8Ew4HGvMsd+Cotu+EbxMKFa4lJeFLba6A7DQgElfBcO
- mGkTS6M91YEDUyEzCJaRWLbFoRtrPOnF79lOzGRfbBF5quYfqpcY/pX
+ bh=3HQbqbNQTpF6lOh0eDAnhrgV5w1oEbiu/SzFYvPoCoQ=;
+ b=X1LNld2n0QV0BE/yEJT3EFjRd/pSftFLxS6q+LckxMovIMspt6ojlw4avaXkuq6s/KkLjpzCC
+ We8c6U5F43KAt6ZSBQrXO1VU2Z3enb4zhQKneze/7rbzX+WkYWT6n+A
 X-Developer-Key: i=leo.yan@arm.com; a=ed25519;
  pk=k4BaDbvkCXzBFA7Nw184KHGP5thju8lKqJYIrOWxDhI=
 
-Read each IRQ resource's CPU mask through platform_get_irq_affinity().
-For ACPI SPIs, select the CPU from that resource's singleton mask.
+The ACPI PMU code now registers platform devices for the CPU PMU, SPE
+and TRBE. Move it to drivers/acpi/arm64/pmu.c with the other Arm ACPI
+device enumeration code.
 
-Add pmu_get_irq_affinity() for counting-only PMUs, which have no IRQ
-resource to query. Fall back to cpu_possible_mask when firmware provides
-no affinity mask.
+Move its Kconfig entry alongside it and rename the hidden ARM_PMU_ACPI
+symbol to ACPI_PMU. Drop the ARM_PMU dependency: enumeration does not
+use the CPU PMU framework, and each device type is guarded by its driver
+configuration. This allows SPE and TRBE enumeration with ARM_PMU disabled.
 
-Select DT handling from the device's OF node. Preserve the DT SPI
-interrupt-affinity phandle order and the single-PPI path.
-
-The common platform probe initializes the per-CPU PMU pointers and
-supported CPU mask before requesting interrupts. Use that mask in
-armpmu_request_irq() and remove the cpu_possible_mask fallback needed
-by the former ACPI pre-probe IRQ setup.
+Keep the default-y setting, update the build guard and retain PMU
+maintainer coverage for the new path.
 
 Signed-off-by: Leo Yan <leo.yan@arm.com>
 ---
- drivers/perf/arm_pmu.c          |  3 +--
- drivers/perf/arm_pmu_platform.c | 29 ++++++++++++++++++++---------
- 2 files changed, 21 insertions(+), 11 deletions(-)
+ MAINTAINERS                                       | 1 +
+ drivers/acpi/arm64/Kconfig                        | 4 ++++
+ drivers/acpi/arm64/Makefile                       | 1 +
+ drivers/{perf/arm_pmu_acpi.c => acpi/arm64/pmu.c} | 0
+ drivers/perf/Kconfig                              | 4 ----
+ drivers/perf/Makefile                             | 1 -
+ 6 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/perf/arm_pmu.c b/drivers/perf/arm_pmu.c
-index 11506956538925fbc72e1d114d511eb3b76f8687..67d1791ab49fe7714983fe30e4ea351dc2ea9ac5 100644
---- a/drivers/perf/arm_pmu.c
-+++ b/drivers/perf/arm_pmu.c
-@@ -631,8 +631,7 @@ int armpmu_request_irq(struct arm_pmu * __percpu *pcpu_armpmu, int irq, int cpu)
- {
- 	int err = 0;
- 	struct arm_pmu **armpmu = per_cpu_ptr(pcpu_armpmu, cpu);
--	const struct cpumask *affinity = *armpmu ? &(*armpmu)->supported_cpus :
--						   cpu_possible_mask; /* ACPI */
-+	const struct cpumask *affinity = &(*armpmu)->supported_cpus;
- 	const irq_handler_t handler = armpmu_dispatch_irq;
- 	const struct pmu_irq_ops *irq_ops;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ccbcdc0799b9fb8cc2b4dc139906e1584e096c46..f12a37cf20e13583c949b6fa7d9f5eb08e260566 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2445,6 +2445,7 @@ F:	arch/arm*/include/asm/hw_breakpoint.h
+ F:	arch/arm*/include/asm/perf_event.h
+ F:	arch/arm*/kernel/hw_breakpoint.c
+ F:	arch/arm*/kernel/perf_*
++F:	drivers/acpi/arm64/pmu.c
+ F:	drivers/perf/
+ F:	include/linux/perf/arm_pmu*.h
  
-diff --git a/drivers/perf/arm_pmu_platform.c b/drivers/perf/arm_pmu_platform.c
-index 397fdb148dc9b6be083e654e091ecc6a95c4905b..5ca211798b60ae3e0b9459aba2170f9c84d8f9c7 100644
---- a/drivers/perf/arm_pmu_platform.c
-+++ b/drivers/perf/arm_pmu_platform.c
-@@ -20,6 +20,7 @@
- #include <linux/perf/arm_pmu.h>
- #include <linux/platform_device.h>
- #include <linux/printk.h>
-+#include <linux/property.h>
- #include <linux/slab.h>
- #include <linux/smp.h>
- #include <linux/string.h>
-@@ -63,11 +64,24 @@ static bool pmu_has_irq_affinity(struct device_node *node)
- 	return of_property_present(node, "interrupt-affinity");
- }
+diff --git a/drivers/acpi/arm64/Kconfig b/drivers/acpi/arm64/Kconfig
+index f2fd79f22e7d836b07401eb055725b2632ba624c..b4dd7f4d257e005b32d34012169ac595dcdee468 100644
+--- a/drivers/acpi/arm64/Kconfig
++++ b/drivers/acpi/arm64/Kconfig
+@@ -24,3 +24,7 @@ config ACPI_APMT
  
--static int pmu_parse_irq_affinity(struct device *dev, int i)
-+static const struct cpumask *pmu_get_irq_affinity(struct device *dev)
-+{
-+	const struct cpumask *affinity;
+ config ACPI_MPAM
+ 	bool
 +
-+	affinity = fwnode_irq_get_affinity(dev_fwnode(dev), 0);
-+	return affinity ?: cpu_possible_mask;
-+}
-+
-+static int pmu_parse_irq_affinity(struct device *dev, int i,
-+				  const struct cpumask *affinity)
- {
- 	struct device_node *dn;
- 	int cpu;
++config ACPI_PMU
++	depends on ACPI
++	def_bool y
+diff --git a/drivers/acpi/arm64/Makefile b/drivers/acpi/arm64/Makefile
+index 9390b57cb56481c547ebb896c58cf3e37a980827..f09e4506954d897caa44481a83f81ca65cfb7d96 100644
+--- a/drivers/acpi/arm64/Makefile
++++ b/drivers/acpi/arm64/Makefile
+@@ -5,6 +5,7 @@ obj-$(CONFIG_ACPI_FFH)		+= ffh.o
+ obj-$(CONFIG_ACPI_GTDT) 	+= gtdt.o
+ obj-$(CONFIG_ACPI_IORT) 	+= iort.o
+ obj-$(CONFIG_ACPI_MPAM) 	+= mpam.o
++obj-$(CONFIG_ACPI_PMU)		+= pmu.o
+ obj-$(CONFIG_ACPI_PROCESSOR_IDLE) += cpuidle.o
+ obj-$(CONFIG_ARM_AMBA)		+= amba.o
+ obj-y				+= dma.o init.o
+diff --git a/drivers/perf/arm_pmu_acpi.c b/drivers/acpi/arm64/pmu.c
+similarity index 100%
+rename from drivers/perf/arm_pmu_acpi.c
+rename to drivers/acpi/arm64/pmu.c
+diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
+index 245e7bb763b9947afc0330689b15d1b73d567f25..e9d61d5dbd1f174cc3862cf7f7823896df9d07d6 100644
+--- a/drivers/perf/Kconfig
++++ b/drivers/perf/Kconfig
+@@ -129,10 +129,6 @@ config ANDES_CUSTOM_PMU
  
-+	/* ACPI software nodes provide a singleton CPU mask for each SPI */
-+	if (!dev->of_node)
-+		return cpumask_first(affinity);
-+
- 	/*
- 	 * If we don't have an interrupt-affinity property, we guess irq
- 	 * affinity matches our logical CPU order, as we used to assume.
-@@ -104,14 +118,10 @@ static int pmu_parse_irqs(struct arm_pmu *pmu)
- 	if (num_irqs < 0)
- 		return dev_err_probe(dev, num_irqs, "unable to count PMU IRQs\n");
+ 	  If you don't know what to do here, say "Y".
  
--	/*
--	 * In this case we have no idea which CPUs are covered by the PMU.
--	 * To match our prior behaviour, we assume all CPUs in this case.
--	 */
- 	if (num_irqs == 0) {
- 		dev_warn(dev, "no irqs for PMU, sampling events not supported\n");
- 		pmu->pmu.capabilities |= PERF_PMU_CAP_NO_INTERRUPT;
--		cpumask_setall(&pmu->supported_cpus);
-+		cpumask_copy(&pmu->supported_cpus, pmu_get_irq_affinity(dev));
- 		return 0;
- 	}
- 
-@@ -124,13 +134,14 @@ static int pmu_parse_irqs(struct arm_pmu *pmu)
- 			return pmu_parse_percpu_irq(pmu, irq, affinity);
- 	}
- 
--	if (nr_cpu_ids != 1 && !pmu_has_irq_affinity(dev->of_node))
-+	if (dev->of_node && nr_cpu_ids != 1 && !pmu_has_irq_affinity(dev->of_node))
- 		dev_warn(dev, "no interrupt-affinity property, guessing.\n");
- 
- 	for (i = 0; i < num_irqs; i++) {
-+		const struct cpumask *affinity;
- 		int cpu, irq;
- 
--		irq = platform_get_irq(pdev, i);
-+		irq = platform_get_irq_affinity(pdev, i, &affinity);
- 		if (WARN_ON(irq <= 0))
- 			continue;
- 
-@@ -139,7 +150,7 @@ static int pmu_parse_irqs(struct arm_pmu *pmu)
- 			return -EINVAL;
- 		}
- 
--		cpu = pmu_parse_irq_affinity(dev, i);
-+		cpu = pmu_parse_irq_affinity(dev, i, affinity);
- 		if (cpu < 0)
- 			return cpu;
- 		if (cpu >= nr_cpu_ids)
+-config ARM_PMU_ACPI
+-	depends on ARM_PMU && ACPI
+-	def_bool y
+-
+ config ARM_SMMU_V3_PMU
+ 	 tristate "ARM SMMUv3 Performance Monitors Extension"
+ 	 depends on ARM64 || (COMPILE_TEST && 64BIT)
+diff --git a/drivers/perf/Makefile b/drivers/perf/Makefile
+index eb8a022dad9a7a78433d42e9424c632d187debea..ddbae5f627ad8bcbe9d7e6c29293429562d85037 100644
+--- a/drivers/perf/Makefile
++++ b/drivers/perf/Makefile
+@@ -5,7 +5,6 @@ obj-$(CONFIG_ARM_CMN) += arm-cmn.o
+ obj-$(CONFIG_ARM_DSU_PMU) += arm_dsu_pmu.o
+ obj-$(CONFIG_ARM_NI) += arm-ni.o
+ obj-$(CONFIG_ARM_PMU) += arm_pmu.o arm_pmu_platform.o
+-obj-$(CONFIG_ARM_PMU_ACPI) += arm_pmu_acpi.o
+ obj-$(CONFIG_ARM_PMUV3) += arm_pmuv3.o
+ obj-$(CONFIG_ARM_V6_PMU) += arm_v6_pmu.o
+ obj-$(CONFIG_ARM_V7_PMU) += arm_v7_pmu.o
 
 -- 
 2.34.1
