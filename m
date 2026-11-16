@@ -1,49 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794821788;
-	b=gKNOt0M7uEXYsryfvPtkBxDsfi/sWCCv9qwbYTmYDH6zYAhdSbJ8mMOqidVJLnXL1uje
-	 +PGF/yohN7A71PCcIFsKbTYrhhh4pJyfuLMAM4dbMdFT7hKsxOu1MTsgwTtdibJqBIvhp
-	 31EymkJugb+ajxcXmDLrWD7v47R9OZ5ydN+ovA0yE4FVJHNjIcdxrJ8mGkAmdlc54XEwW
-	 wT2HD81R7c/FKCMN7CzxBc6U00JWCwxQ5S4EuV6TswRHKj6rjywwW7+LyvUprg1/46bM5
-	 HapYPWyYfjBCN6rHMNdpuanDh78OG5jRpm3CgLnI0+mJk93XCvsUxymiepUPMf/Fwqg==
+	t=1794822182;
+	b=eCPyX2iVgykRLXK6IEu9j/UmouX8E7KZQiDHBEBbrkiQHRAMK/fM3M3nzziWECuB6j+w
+	 3dMz8tvZKSsQ1wVm3KJgrtVNYMbuloNUdNQ8gzbsIZXtSadCVPOa1ED8n26TRVUm8SHXT
+	 m7lbIY0ujvawsjmIzCLL3fqld9zuMml+WwMXlxb1635uK5Ab0jyB1Xy2S1RHYxLfUgDEv
+	 3gwF0haVWbfIsftOrWSiuvhBbIdDuRdkAgpMrxZPqEUkb+VGevsPhceL273dfXRIxRuew
+	 bUu2SF6QxlvTm+DhWRtjkV+O+aMRv4yd64hz8d94dm/PxMopXPd3ewyNNyrkTXuX/uQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794821788;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=v+dOvc9dn3hYj8u7Wj++d+L6cCx689kHLz2GM22BnKY=;
-	b=ak1LiVHEVM0nJEwxleL0F+xYxdp44Ll5C4MwnSl344m/qoxwUUxfqxcK4bxE829JRO9i
-	 vQh9U1MLXWV6HHKieI4EVeK8hOux7YfuxmkqkBGKBcyALSvN9kGCWd16Ds1h5BdMRc3M6
-	 WVMXOYosmJTS9cOY+dLWrerx/MZpOkv82fxwOejf4XBP2MyotT3gMMQMNGl3oGKI6mpgX
-	 riph8uwSKnBa+Ng8nWEDlFd+3GY9g5VF0tf/023z92NwiK/BPc5WT3D2scl//R/uGPaL1
-	 VMpKnRhGbUqzFL1sO5SgeeARNmV0mu3CNRq/CY9SqRFg6+RvQB0w/F/68puELvAHAXQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794822182;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Subject:Date:
+	 Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
+	bh=P08dLrh12a79aELYRdwJhJM6sHf6xDuxFDQdAiXSC4A=;
+	b=T5FrFYAEUQR0sz4bFzPPRnujhYpI1waxCm5oEBauqHfW7z234sEhYDpDzkZ/JR7MxQ4p
+	 sd0Xf3cj3stXk8RxqnmwRBA9CStf6PMguyqJRVsqFVMcxTVqJ6x/Br10c1ubID3OMU+1H
+	 JKrpDwgtXTiN0nekh8+4+ByAjOgsmrkXjCglfpRdF20TmfWCIoaX+aW0O/cM5MjOTmShb
+	 F9SXdFfdOe7hvrCJ5udl6XT1ZyuOFVgvrcZbsxq0NCL+5IW8RsYHGSbMAsSM3jF51bu50
+	 VFBt7C0DEeoMSyUhNgYcR9FxwoBgsJqSw2NwTiJ1GUia0RhHEysO5jwP5l686J+m91g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eU3hwyMG;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dzaV0tuJ;
+	arc=none smtp.remote-ip=209.85.210.175
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE57606A32C;
-	Mon, 16 Nov 2026 09:36:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39136606A329
+	for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 09:43:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 39136606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eU3hwyMG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27D331F000CC;
-	Mon, 16 Nov 2026 09:36:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794821787;
-	bh=v+dOvc9dn3hYj8u7Wj++d+L6cCx689kHLz2GM22BnKY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=eU3hwyMGw2HG5OX49oXQTJ/CFo6iXgoR6pT+ImSgiwkmU/pvLPrRVJ65+R1HYONGk
-	 CsjsinyNhFg64Nq6s80iDIvBb3zZmzpw3dkYDPz0hOEMeRQCSZl9ROsSJPQrouvEsJ
-	 fVUHXwp8u0exFKHjE4qkqAKDI2OEBd9EsRXi88+fa1IkAS+w2EqS3L59qUq0TfGH94
-	 4FBlfj1V4Bqd9JqlBoJu5C5mhfBhHEsxu8R79bDfQc+4rTpmRJFpZag96FjbpBUAn3
-	 zHWa6tPXuJDrGKbtekBYgNfIeXaHyIeaTqDkcf+sNr45zmJ2Y3nJ7sQRTFyl/rFMFV
-	 qJvxQIHjty1lw==
-From: Joshua Crofts <crofts@kernel.org>
-Date: Mon, 16 Nov 2026 10:36:10 +0100
-Subject: [PATCH v2 2/2] PM: runtime: add debugfs entry for
- pm_runtime_summary
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dzaV0tuJ
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-8a0880a46e7so1321321b3a.1
+        for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 01:43:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794822181; x=1795426981; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=P08dLrh12a79aELYRdwJhJM6sHf6xDuxFDQdAiXSC4A=;
+        b=dzaV0tuJtrfls8Fl3nKWxxVOGlQkHThjaFcg7q/oE442gPwLGQfO0Cd0UKDKXrVLTP
+         mFqxPthqSEttql3hvfAkxfXhsRyr5uLKQXL2zyxOjXwMa3p2LwoZwgNV5aljvaRGDAtZ
+         pT+IaIQ5Wg4i3ELUPQbbuOc3qoNzpjOl0n31T3bGhtGeZ1u6ONKpFb7K0fAQVk+TwrBP
+         ldK+AIdk+yGyffJqsuh0TFTuNm/+aCeCCizqJBPoTOkNBA7bPwAxDNPiM+PO6sPef+U0
+         g8vG4wCh5UFoEoDf8Xtuai3pHwP9QNRmzP2Q4fjG0VIogYpfRpwvz96hQmBzDdR1I+IA
+         6PHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794822181; x=1795426981;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=P08dLrh12a79aELYRdwJhJM6sHf6xDuxFDQdAiXSC4A=;
+        b=DJRcU8ainRRN84WQm/GoM7Bqgp1GpSctVncZ8sQNyF4eIqikrrtejJGxXBNx0nDTYs
+         JedGg0NkflP9osqE8AXrSLHeRZvLFjT0Uaz3TspTVzGK7kSTvgeUMWWdsELf/8WGURG1
+         mybavUZ4XP1c6COIl0mI8Ixu/sokszMZPe46AQnytA6yKf87ueNG6j3UFvtlBxEfPQJl
+         nzgPIsyj6VKV7i61MQDt14NyScaSpcWQ7naAa/oeBe4uODqKD7B4uabxQ4yKCBaH3+wg
+         nTJdorVv58/X/Of/GMvL9IxSWtgYijIlnCmRPAO165Rs+RHThGencY28l4uN6gLFUbtR
+         mzOA==
+X-Gm-Message-State: APuU4Z8nryjoj8pPFAYlpnJCBLCP+qOreOTElEe/SnrEH53qqUOsPy1V
+	P0WVZZnx6S7fyCXBL7jN6hk+uExdt8pDuD6TUJdjeuFKzltteKxRe3Yj
+X-Gm-Gg: AYBFou0LjIt8OHabFlrd0OCiKJ6S5ez9z1KRYV36WIFo5VleQfyBAhGE1+ROB6bR4PP
+	Kg4eVea/elMG1tsGM/USE3bUGrlaOvOPSFPWkkkWg4QMQo/pbi1KwaQt/FRHah/PR39F1wRIRDy
+	0gSj9DPSBiWzCbccU0SBvECEKOtXqoH8CgCpYgaBAk7Z0GCnqmMS1GfCEPIbbyX/+N5rme9Ycux
+	wEZxdi3+9KqMmlPHdRDGxFoCtHvgZ+4DY7w1n2VdLMljBuKjq+oKr6+YP8KFQZmd7MIOyAywPzH
+	FEePgZnRR5SpMZJhcJpJt3SRhbglKM0zcyi5XARaKFDRhKhm0NIT7yeM3Bzusb0dx94yiD6Y76D
+	rsgpVJv0zvAiE7yK1Q7V9x4LMSHtjVm4vB/Dscho/WzQxnpqvYfvmTz3MOY5PfyGqle+yjVheg/
+	QbO2eIuOqB4JgjRsft+C4hvoy6EMwv/aWl1d4VtH1fNkNQ6uyYpLSQcxMOyge+fZvLcARg2Luyd
+	l29V05q47XLV4K/jPhQifZK5qx44rZ4kSV1WEvuXFdf2i6i/Wghc1913fh0Ip51Z0vy2qlnPqeg
+	/2Eq44YW2S80E15VJ1q8pxOSbYaT583SzcinBpy2NI9tAtvuhntoPtoBtY3fQZoLHN15H1xP3sK
+	Crszb3V7d0O8Ph00BmA==
+X-Received: by 2002:a05:6a00:802:b0:8a0:6417:8f9b with SMTP id d2e1a72fcca58-8bd62be6f46mr8425231b3a.32.1794822181479;
+        Mon, 16 Nov 2026 01:43:01 -0800 (PST)
+Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:f133:af41:7614:f46c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8bed12a90fdsm3424231b3a.15.2026.11.16.01.43.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 01:43:00 -0800 (PST)
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: [PATCH 0/4] sysfs: support SYSFS_GROUP_INVISIBLE for unnamed
+ groups and ownership updates
+Date: Mon, 16 Nov 2026 01:42:52 -0800
+Message-Id: <20261116-sysfs-group-invisible-v1-0-94cd173a7d9a@gmail.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -55,135 +94,60 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-pm-runtime-summary-v2-2-a3d8654baf8f@kernel.org>
-References: <20261116-pm-runtime-summary-v2-0-a3d8654baf8f@kernel.org>
-In-Reply-To: <20261116-pm-runtime-summary-v2-0-a3d8654baf8f@kernel.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, 
- Samuel Wu <wusamuel@google.com>
-Cc: linux-pm@vger.kernel.org, driver-core@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Joshua Crofts <crofts@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794821782; l=3443;
- i=crofts@kernel.org; s=20260422; h=from:subject:message-id;
- bh=RvVdIGb/q240aMI54DmTbpCTBKxm5m2wFxt3Wkvg338=;
- b=lILjJryARVxIzeFS2wSSCVu/gcgNXwmFBSBVXtF+pwaSFyWR994A+5i3hG3r5bTRc1Ydj7Rah
- 0tZHb+k5xlrDXXRrOk7AekzZKWtBYqmUklCZX4VMxFNa6zENfgMLfOI
-X-Developer-Key: i=crofts@kernel.org; a=ed25519;
- pk=Xd+UVoRPiiI0K3LHQ2XIcXmO0jvVuFTv9eTx3lgBphI=
+X-B4-Tracking: v=1; b=H4sIABzQ+moC/yXMTQqDMBBA4avIrDuQxD/oVaSLRCc6UqJkalHEu
+ xt1+S3e20EoMgm8sx0i/Vl4Cgn6lUE72NATcpcMRplKa12ibOIF+zgtM3K4AvclLIrcWVMr3yk
+ LqZ0jeV7vb/N5LIsbqf1dMziOE7UC9GF5AAAA
+X-Change-ID: 20261115-sysfs-group-invisible-443ba270fd0a
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Johan Hovold <johan@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+ Fernando Fernandez Mancera <fmancera@suse.de>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.17-dev-6b8b8
 
-Add a debugfs entry for showing the runtime statistics for devices with
-PM runtime enabled.
+DEFINE_SYSFS_GROUP_VISIBLE() and DEFINE_SIMPLE_SYSFS_GROUP_VISIBLE()
+evaluate the group visibility callback only for the first attribute and
+return SYSFS_GROUP_INVISIBLE when the entire group should be hidden.
+While internal_create_group() checks for this return value before
+creating or updating a named group's subdirectory, it skips that check
+for unnamed attribute groups and proceeds directly to create_files(). As
+a result, returning SYSFS_GROUP_INVISIBLE for an unnamed group only
+skips the first attribute while still creating all remaining regular and
+binary attributes, and leaves them behind on sysfs_update_group().
 
-Signed-off-by: Joshua Crofts <crofts@kernel.org>
+In addition, sysfs_group_change_owner() checks SYSFS_GROUP_INVISIBLE too
+late inside sysfs_group_attrs_change_owner(), failing with -ENOENT when
+looking up the nonexistent subdirectory of a hidden named group and
+falling through to binary attributes when breaking out of the regular
+attributes loop. Furthermore, SYSFS_GROUP_INVISIBLE is currently tested
+and masked with bitwise operations even though it is a standalone
+sentinel value rather than a permission bit.
+
+Switch SYSFS_GROUP_INVISIBLE checks to equality comparisons, and check
+group visibility upfront in both sysfs_group_change_owner() and
+internal_create_group() for named and unnamed groups alike. Drop the
+now-redundant SYSFS_GROUP_INVISIBLE checks from create_files() so that
+returning it for attributes after the first one triggers the
+invalid-permissions warning, and simplify error cleanup in
+create_files().
+
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/base/power/runtime.c | 86 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 86 insertions(+)
+Dmitry Torokhov (4):
+      sysfs: check for SYSFS_GROUP_INVISIBLE using equality comparison
+      sysfs: check group visibility upfront in sysfs_group_change_owner()
+      sysfs: support SYSFS_GROUP_INVISIBLE for unnamed attribute groups
+      sysfs: simplify error handling in create_files()
 
-diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
-index 3085318e9c32fce892def5a901aae300f473ea2d..2012c49882092fdfbe57b8d8d6e997328de207cf 100644
---- a/drivers/base/power/runtime.c
-+++ b/drivers/base/power/runtime.c
-@@ -14,6 +14,8 @@
- #include <linux/pm_runtime.h>
- #include <linux/pm_wakeirq.h>
- #include <linux/rculist.h>
-+#include <linux/debugfs.h>
-+#include <linux/seq_file.h>
- #include <trace/events/rpm.h>
- 
- #include "../base.h"
-@@ -2197,3 +2199,87 @@ bool pm_runtime_need_not_resume(struct device *dev)
- }
- 
- #endif /* CONFIG_PM_SLEEP */
-+
-+#if defined(CONFIG_DEBUG_FS) && defined(CONFIG_PM_SLEEP)
-+static void rpm_summary_show_dev(struct device *dev, void *data)
-+{
-+	struct seq_file *s = data;
-+	unsigned long flags;
-+	u64 active_time, suspended_time;
-+	u64 last_sleep, min_sleep, max_sleep;
-+	u64 resumes, suspends;
-+	const char *status_str;
-+	bool enabled;
-+
-+	spin_lock_irqsave(&dev->power.lock, flags);
-+
-+	enabled = pm_runtime_enabled(dev);
-+	if (!enabled && !dev->power.resume_count && !dev->power.suspend_count) {
-+		spin_unlock_irqrestore(&dev->power.lock, flags);
-+		return;
-+	}
-+
-+	update_pm_runtime_accounting(dev);
-+
-+	switch (dev->power.runtime_status) {
-+	case RPM_ACTIVE:
-+		status_str = "active";
-+		break;
-+	case RPM_SUSPENDED:
-+		status_str = "suspended";
-+		break;
-+	case RPM_SUSPENDING:
-+		status_str = "suspending";
-+		break;
-+	case RPM_RESUMING:
-+		status_str = "resuming";
-+		break;
-+	default:
-+		status_str = "unknown";
-+		break;
-+	}
-+
-+	active_time = dev->power.active_time;
-+	suspended_time = dev->power.suspended_time;
-+	resumes = dev->power.resume_count;
-+	suspends = dev->power.suspend_count;
-+	last_sleep = dev->power.last_suspended_time;
-+	min_sleep = dev->power.min_suspended_time;
-+	max_sleep = dev->power.max_suspended_time;
-+
-+	spin_unlock_irqrestore(&dev->power.lock, flags);
-+
-+	do_div(active_time, NSEC_PER_MSEC);
-+	do_div(suspended_time, NSEC_PER_MSEC);
-+	do_div(last_sleep, NSEC_PER_MSEC);
-+	do_div(min_sleep, NSEC_PER_MSEC);
-+	do_div(max_sleep, NSEC_PER_MSEC);
-+
-+	seq_printf(s, "%-32s %-12s %8llu %8llu %12llu %12llu %10llu %10llu %10llu\n",
-+		   dev_name(dev), enabled ? status_str : "disabled",
-+		   resumes, suspends, active_time, suspended_time,
-+		   last_sleep, min_sleep, max_sleep);
-+}
-+
-+static int pm_runtime_summary_show(struct seq_file *s, void *unused)
-+{
-+	seq_printf(s, "%-32s %-12s %8s %8s %12s %12s %10s %10s %10s\n",
-+		   "Device", "Status", "Resumes", "Suspends",
-+		   "Active(ms)", "Suspend(ms)", "Last(ms)", "Min(ms)", "Max(ms)");
-+	seq_puts(s, "--------------------------------------------------------------------------------------------------------------------------\n");
-+
-+	dpm_for_each_dev(s, rpm_summary_show_dev);
-+
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(pm_runtime_summary);
-+
-+static int __init pm_runtime_debugfs_init(void)
-+{
-+	debugfs_create_file("pm_runtime_summary", 0444, NULL, NULL,
-+			    &pm_runtime_summary_fops);
-+
-+	return 0;
-+}
-+late_initcall(pm_runtime_debugfs_init);
-+#endif /* defined(CONFIG_DEBUG_FS) && defined(CONFIG_PM_SLEEP) */
+ fs/sysfs/group.c      | 93 ++++++++++++++++++++++++++++-----------------------
+ include/linux/sysfs.h | 52 ++++++++++++++++------------
+ 2 files changed, 81 insertions(+), 64 deletions(-)
+---
+base-commit: 84abb955b1015477aa11a96e2f3ac1b938b77f48
+change-id: 20261115-sysfs-group-invisible-443ba270fd0a
+
+Thanks.
 
 -- 
-2.47.3
+Dmitry
 
