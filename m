@@ -1,13 +1,13 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.2
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794882477;
-	b=gfkcm5ZVButHVhV0Ah1KU2Dbt7jAoWQn5Z9XBannjTLHMxke8sU9zuEvUJkGPlGammuC
-	 jTqEwOX+yI++1Ooj/9zByUnCFzRdoJXK1hnAf6FkTnCKn4jFe8S/qQE0HtzfCbxZZsuCz
-	 sXysTdYqU8CP6ZoTXfHHTsuKowRjttr2WSAB2T3ZZivVkdAPV49H6OT2ho3lHfh75Fz1n
-	 SkUBmhP3mdj93DZZvxFDUySCg1LjfXHNCMlAHrBkMyRn7qUjbZZQp8fH36NBbGtRYeC/V
-	 7G9mwclt6p++MapnhLonEMlNHUkPHfloCe2uHGQkZpZymhHHvXAFIVvQSGOY8Km0OMg==
+	t=1794882478;
+	b=qVqmLAuS4IRkTQ6LY21X3rGcswfClTLQDnjSNHdi29mKWaDDN9X7PeV32tEk8aOwWJwC
+	 ub3kMCgv0V9fo9pMZBV0/9asVItyOi9Z23d1rvpfdwsverjOWTIyj/7vMrI6K9oyMOC8V
+	 jd2rIK8WvkbNba1wQhdFyDH4gVAtFbimIvsf1dzZOxScWjDpWbUMZzLeG8L+oAYhTEk+C
+	 Dst/HwUsvNSmzbGj4ONc8DHcowmB5oW3IRfGsf3L5mpE5JZfA3k1dVaAmtdPUOC0ajc6u
+	 GGWhZ87THHeyk2ZQF0EOZLPqdq+JmA+S9DtoFoei90WKKpHWLccOZ3sS14G+8JMiTnQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794882477;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794882478;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:MIME-Version:
@@ -24,54 +24,54 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=ukql6M0dlSxuh1hG1jBYQ8+R6/OJD3Lqf0iG87sJ7DQ=;
-	b=Cj2MiEP89pBqVZ1elX5iI1f2xuaTQ63W5A/oBhRNU/AQr2yo2ztF9koHaXizje2CflMO
-	 ajMjkOj36FBftMp0C6mQV3FLFqAVnC4NzX2FZCdJGqV4OJqoILpGtJFm1B+/fTq0JJFZc
-	 kOq8Gga2i5gkHCRVK9op8xNc4KGsf7s/vnF8WfOQEfppVTfoGrDCZpZr29sThTNRX9/r5
-	 2t1aPIGu73o+C4tqUG2kyJ7ZFheodB84ww6U82cd1de9BKhWIGDzAB0TPuWKoMeOhZmtC
-	 UfkZqzpvU5ksMnJLutHGpXG3GztQ4SNmyn2+JfHeEPFiF0iXk9UH07oBODS/akiF9Nw==
+	bh=r3kul3P1xiKdo7LMfDMCQNQcYEiIF3xkxq4AF4doox8=;
+	b=BfhpHcyx/7VVZia9rVqC+B1PlxL2V3sVN+HRUecuCYtGiDi52vohIbfxJK8B7dKhncaw
+	 iONrkTWTkYqX+yeqwu122NjDeV8tEYwyEEQu8eiM8sBo4G7VbKAkn8imqBOjkDdHQZ1xz
+	 06jPsO8q+tzP0rmy/JuxC3/dyjzzUhTNXr7OpBZS+vy3m5guUg1+1kEWs7VLyy0/temUQ
+	 8D2av41A3JmyQanWUTJmZoXa2ddCITX1ArwN4D3mZW/LdaHwE3zgQ3+CrOAJ/K4YVILUM
+	 dXRye9reygqwcwoZDMZVOMbk2o92Jl185khDFlqQrJJiftHpiRjnRmJALNqhJNfsPjQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=nvidia.com;
 	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b="Q/WseBS/";
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=hvh4pqFu;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.2
 Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011002.outbound.protection.outlook.com [52.101.52.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F08606A31C
-	for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 02:27:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21F08606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4C5606A31C
+	for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 02:27:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DA4C5606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=Q/WseBS/
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=hvh4pqFu
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=khtPwaflQDqTq7a04rYUBtusFNwJUSCemMhnWLvrwoHdO0Ad0cDpx/GrD7DHQ9b1nsR5p48k3ZzI0tJ7MlkAKw2dqacrUaqU0hcV9TixCTVqeHRUU/030jIPdrpSwN35kpB2l0akgMWtrmb501E5U2kfGnY6MvDkSgMkZl/PDqctnO9wReH2IziaQNIZia9gN/dl2bcKwYkOfRQ4CsIQrBiRmH2Ydtnl0F05ZDaASeBcONu6PDRWvPkZZTqRXn/ORISGD3dQps24Vhr6o1LQg36dBuZIE0JwTrQvNjJx5pzhbBI7wcZQ5aTSs/lwiqZEVzHhtMS6gsm938zBlYXV3g==
+ b=vM5JNmbF0dNU5QX27B8Hbn36oboXaCkVzP5CWq0f9a49EDOr9tym1MY+ietGzNXBMgMtg/MqkIj5y4Af6KDz+G2GgFmhCaVOHS/p0G9L26vzRQZ7ZUKfSFBvpVa7BUTOH7a9o/EGw1tp/BtV+rqZjc/NLshsLWC3CcqE26o15MN2n82Zgd3WMBg3TUj2CjdBb84KiHRpbBREvHHtIpW/tx5ZXbAjUir8SKU0VQr5LQ1uro7fauOkHHb8ZlGAy3sUYI64A6QsuktNj2u1+4NZvQf6TxcseTOO3Qp7Lw0rrF9OLxGBq1aKe/vdrKTrh0TRw43jDbF9LH/HCWTv5uZyvw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ukql6M0dlSxuh1hG1jBYQ8+R6/OJD3Lqf0iG87sJ7DQ=;
- b=Ojn4jyIhWgXSDc8pOORfnIKmrQzWPOEB9lu5+rbFPJ5DyUsQuBVGHfB6GyoApHFNb/8yMG3yiVmSQdBIVJiW0+u3YcoICgsrgVLU6c7NBebMIcM6XTvJBRH8HlFf5D8DMGdgpWf7GgDY+3IQ1R1DJaf1uUCndhGLXJp0zwkaAscVmWtVT5hKpIJxbz4YtdE3N22ydVwLQz4LbH0S+h4JJZCRx7zz1dWKkiqYL6uEuZdnsH44oGRaV02WNZcO54rRlePXLWTDkOoxtaeGlaGPoYGfgMRbV2ZPHHe1MtsUyd5kVFFPLQ9u9vGd6FDP2LGbqLhA/p+dWwn+rqeRiPax6w==
+ bh=r3kul3P1xiKdo7LMfDMCQNQcYEiIF3xkxq4AF4doox8=;
+ b=KE875Ds9jdSyKVlKqRZOka6fYofoc6APFyDwzka9dHxMbinJVpQsIhbtfrHAPLZylLcTcL0AosDcR2ImQeCZ5Gvd83tpld0F9TXIgj/AVRO5RXiJFkPGBm7B1bX+fUz/svQl73lkKnKgiHJFkrELL6k4OT8TlS7NjlpmT9aFB73g6lTAmvTKFct8fZ+NX5yB1SGJ3hakNbKwyTpswJcFkoUtstvn13BvQu5EXqvPm7ALd8oYLIAU7xRLDwVt2TE/N4plpP4IlU9rDRW45cD1yrofwbLNvbxzQQUVhh5XrJgdkkBaUyzcdlfWKJTBTDDioZffa3mDvBQBsoNDa6F0sA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ukql6M0dlSxuh1hG1jBYQ8+R6/OJD3Lqf0iG87sJ7DQ=;
- b=Q/WseBS/jTxMatd4Mm76vsDZdA3qjZlP9V6ATAPSBchKXZjuMXqFyBmZVEAqJhgiR5PYyAgDTYu8Ndj9wM0l74pJnp/ZAm4C35cpOXt6CVHWfI9t3YLGS+yjJzlw3jI4HG9EyXu1FgXK1JT1mBhUsd6GIRaYoOA/X4EOV7PVz0apPzrgAVBrvi2cNCTzi+K4+z4S1A899zm3/SyzmqFsUo5Njd+GASYwHG7JMx6PnT78N4ldTjaGn9WLwdrDhIlsEefc246OxVvyb0rwiWKSuspPc7bS/unjlZL4C6c4dteSG9KIKpI7sMFZ9yNQiSmovLafO+2XaM4WqePcIjCdDw==
+ bh=r3kul3P1xiKdo7LMfDMCQNQcYEiIF3xkxq4AF4doox8=;
+ b=hvh4pqFurGFYmI4eFI4kYHjO+wpy+OwCM7ddXovkM192HGkKm0kFHyi3tP3mDEWFE1SOFLJwiSdFVHgWj8hVJiieUnmiDkwSiT9j120wIlU4EG+6G3e22XrltEpnYB7QyWJ1brJRWJdeSfMkLC1SpBt+fFLPt+0FXLRrgg2TI44UZValxcUBWahCD4Hs5LQ0BLwKPA416wboo97gL+gXHfryzLaMZBTuqZeHlD7MDaGpbWJpEStVLy9DiprlMBGaiyVK8Yt4ryln70Soe2Y5YJdBiIlq+MM7bw11S9EqfawURmTmo66gQhKC2sxVJAU4LpeaTeSApYQe9bt4ArR6oQ==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
  by CY5PR12MB9056.namprd12.prod.outlook.com (2603:10b6:930:34::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Tue, 17 Nov
- 2026 02:25:49 +0000
+ 2026 02:25:51 +0000
 Received: from LV3PR12MB9356.namprd12.prod.outlook.com
  ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
  ([fe80::1c36:31b4:c420:6286%4]) with mapi id 15.21.0615.012; Tue, 17 Nov 2026
- 02:25:49 +0000
+ 02:25:51 +0000
 From: Yury Norov <ynorov@nvidia.com>
 To: Peter Zijlstra <peterz@infradead.org>,
 	Ingo Molnar <mingo@redhat.com>,
@@ -113,16 +113,16 @@ Cc: Yury Norov <ynorov@nvidia.com>,
 	linux-doc@vger.kernel.org,
 	driver-core@lists.linux.dev,
 	linux-pm@vger.kernel.org
-Subject: [PATCH RFC 2/3] sched: decouple preferred CPU policies from steal-time accounting
-Date: Mon, 16 Nov 2026 21:25:40 -0500
-Message-ID: <20261117022542.863028-3-ynorov@nvidia.com>
+Subject: [PATCH RFC 3/3] docs: sched: describe thermal control with preferred CPUs
+Date: Mon, 16 Nov 2026 21:25:41 -0500
+Message-ID: <20261117022542.863028-4-ynorov@nvidia.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261117022542.863028-1-ynorov@nvidia.com>
 References: <20261117022542.863028-1-ynorov@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: BN1PR14CA0015.namprd14.prod.outlook.com
- (2603:10b6:408:e3::20) To LV3PR12MB9356.namprd12.prod.outlook.com
+X-ClientProxiedBy: BN9PR03CA0297.namprd03.prod.outlook.com
+ (2603:10b6:408:f5::32) To LV3PR12MB9356.namprd12.prod.outlook.com
  (2603:10b6:408:20c::21)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -135,107 +135,211 @@ Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|CY5PR12MB9056:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7ec76e1d-a420-4234-40cd-08df445217ce
+X-MS-Office365-Filtering-Correlation-Id: 8f3418e1-5ce5-4730-5454-08df44521941
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|10070799003|366016|376014|7416014|1800799024|18002099003|261009223027099003|22082099003|11063799006|56012099006|261028144727099003|261026121527099003|261021121427099003|261022075727099003|261026140227099003|261022105027099003|261021123027099003|261102123227099003|10067099003;
+	BCL:0;ARA:13230040|23010399003|10070799003|366016|376014|7416014|1800799024|18002099003|6133799003|261009223027099003|22082099003|5023799004|11063799006|56012099006|261028144727099003|261026121527099003|261021121427099003|261022075727099003|261026140227099003|261022105027099003|261021123027099003|261102123227099003|10067099003;
 X-Microsoft-Antispam-Message-Info:
-	8tGS0wLiUn4TeX81L3WQa93phcZ0FNqpbPrOkWdtgFSxeqxuXJX+OQMkCWRl03wzxVj8JkN+1xg+qpE+2XOjsILSJe5kxjFOz0Dw+kONny9PBc9OMy1BqqcOLY/epEAN2t+CsnYyP4T5Lu3fV+3eZBL6z3NrJ7Sb8ZtLnT14ShZeKJfLZ5WH7Py2diR4qRKzJabvceugUiGEdjjunt2NOzKV3TTns6WUT7hNCpsG1ROjzrhWznFkVk39Ydhsz9EDCbwilZRP7HbxWsTexODRbbcDxCU4ZmQwvfr+qrDz43zp/2QXqT2ymI0ha2VVUH+MF0EHBP0A0yXHRWik2Q365nB8jeEy3ErTH2CBGXP00oZ9BDr/JexqwIaL04t3HPSbTr3C8Oaj1Mk7r++I1J8EPbFiRSdDdFtYliHit0N+DYovHvMqnh6fa/kvkeuwFEbK4p1KcypTh7rpZQfALqIPfoUOK5TMfZqqy97d3JccpQJYDT/Kn+00alflpmxHDCxIABH+NI/OTVV+H7d8EaNkvo6dwHG3xYeHZStvlJLZPhZZTOPIqzssu0ue1uf+zMHnG4Ra3RUdsqRfvecjxEc1kHegQ8nBFxJ7j8xFyaE2a+GoY/fJpP23XoAfwBKKS6Vth62OzLHG2uIYYVGRq7+w4tR93jFYfUgQUYwOdrdFFxA=
+	YkyrUv8hf601CvTkXhQuUemNtN7TXS4yXksNG+MikTnC020awiYFjwFYPh0kdpm1GDzz1/IpdAolbg+W/JhjnDi7a/03NENGSMzTkJ2pPS46m810QRxSj3dFnDFDK8jBNybBI+A+OHP0d9zfcxTFZ0SCyT1NgURMKQQtH/55rCn6c3rc8i1V7Zv5+qgSfHJ4RMhHOwvfkps2jbViA2xw5uIgk0alSSOJ3fRDl279EC58tyTd/yFsvwlRzQV/9W1Gy8AYOb4oLQzImgvZuCI3rXHHH35NJgtzcTuFV1Iel282G1kiw+o1y84Ikhbea2s+VnVhzlqLd6phxggZAEsI4ZJhdt0kpUZ6wxhP/VeP8V1lDL4RR6G10zeaTCWNkYr8yYiVw/KkEm641Wh1r6V01FSN1H6Ru205J0LiZvm11fipBGK/B9/ZN36agPacD6rDhKxYPDuD/wN18LSPEOULtcs24lUSB3rrpVewv6NEEHL6hxuGe0Jw6hMaWRVPtXngh0/vBVWLCAUVwGMjpzBvORown3lGABXO75jUA6o4IyBjKlUKUJlqtuIf3sA/VXayps5KTygOHPA1bU8eTkFDsnfkDsT0+pbWlNAyow/Tu92Su2/sWWJjRJM/92nwLhSKqNxsBQUm8E06XhS+at+r7jbKijCH8c6EFj85LquA1WQ=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(10070799003)(366016)(376014)(7416014)(1800799024)(18002099003)(261009223027099003)(22082099003)(11063799006)(56012099006)(261028144727099003)(261026121527099003)(261021121427099003)(261022075727099003)(261026140227099003)(261022105027099003)(261021123027099003)(261102123227099003)(10067099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(10070799003)(366016)(376014)(7416014)(1800799024)(18002099003)(6133799003)(261009223027099003)(22082099003)(5023799004)(11063799006)(56012099006)(261028144727099003)(261026121527099003)(261021121427099003)(261022075727099003)(261026140227099003)(261022105027099003)(261021123027099003)(261102123227099003)(10067099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?pzPzHwmtssgL0vphULopKtPIhY/8N2UeMjzR9YhiiGpOHDuWaR0w8HJ1DgER?=
- =?us-ascii?Q?Z3nLK8LvM2OY9Zg7exa9DIvCz/ofLwTm+lGzuT1wqtaVByJR2OI6jXEmwjqy?=
- =?us-ascii?Q?KexdKMdmBLJB2cVOddf6LGzwTLwsuSrQV7a/DlrLms1h0P0L6FsI+3iYakzL?=
- =?us-ascii?Q?H3F04sV5/BSDFzNeODDUGY54mLrn8VoNRTFesQsWCzysMHMhHU1zvrIDY9BU?=
- =?us-ascii?Q?pnncTqmzBzYL5728f13sjqh7F0kjE+v37JYuzZ14HieDSi7rHQZW6C4RUe0Z?=
- =?us-ascii?Q?GSJT2K/VgAXNAkqtwTgmzeJziu5AJizyt5NFxNMLMjDowStncHPLk7w2c8c4?=
- =?us-ascii?Q?J8KNaqv5A30+5AgzWGSYjLgEGnyc7cu4rcW6Q2c9WYlVQ8dSvJsLyrge0skU?=
- =?us-ascii?Q?CtxqZJeuyCHeDUrC/6J9LFk48VF621uWu9f/O+3DwdO/0yFMWPs6F8KlQds7?=
- =?us-ascii?Q?L82sN8pO4R++ZSh5fNmlZV9kq/GNB02bofJzCYUC1uJrISOxCLGhL0cRMP35?=
- =?us-ascii?Q?bjfYjl+CxWbMe78hZdt56McgYgK18gsc7CKyTNAFwTJ35/s1wR21Hx9gYD6Z?=
- =?us-ascii?Q?aRCBgeo7x+WKnSsq5Iar+BqOyy6IrJr+2WCLfBTJ1DQTsT8NgGdSQmAe15gh?=
- =?us-ascii?Q?bGaSdqYfvqc/BQJLXjvsbVCZVcLL3aOkrxQCknzgMkdYGClN3OQy1IkK56NC?=
- =?us-ascii?Q?Q06LXyxMALa2z/mTbQTRciGMICJK3eashrvXn/Bkt+pt7VgSr+gLtftOqlR5?=
- =?us-ascii?Q?2Q4VHzahvqtBx/qs/lXRzdZh9hc3x3LNNafK7Rq87gYJ0E5e6DvSZ/di4eLA?=
- =?us-ascii?Q?3Ok3JUUFeeVUUwGdheP64x02h/aFzFrT+Idfr9leAlAB0hwZ27uY1GE28Tpk?=
- =?us-ascii?Q?uLqyBkpNhSVShKo/+n8qsd/mVfovfl9E9hpIEjuEPDVbkfi/SdbfdLMyioYl?=
- =?us-ascii?Q?ei9C370K1D0+MUzYI2wIT3uAcMLjsDjBbeUW1GFBXdw3l1oY+2bTQL2AYUFD?=
- =?us-ascii?Q?adKZm/pEwEqqva6bt0IbutcGhnVlFmpBPh0h8EZZzYGzWhAIRurSBaB16WFe?=
- =?us-ascii?Q?k0B4eyUzLN946gui7FA1NODVyAOSHTem4jjNwjTO7URwGDPwKP1p87cQwn/6?=
- =?us-ascii?Q?XRnu3ychFjzLOLzsYjUQDymRy72wl7FWwrcrPe1vW5+T8eVvvLbkvl+Ojwbb?=
- =?us-ascii?Q?+YinLK0CVDt/xoemhxlnaVg31q5Y9b5IS3gMl3qp9JtRz7iy781oEzVEiEGK?=
- =?us-ascii?Q?lielxO3b11jHm2d0jO3nMFSSSCRUNCSj3oTBKA/St4A4gx2VOTwfxwVmH0L9?=
- =?us-ascii?Q?2xWI7/Gqt4XF0wvBp2j4zeMDPizOsEH/+iwCRQ8wq2vqW0LUeScDUUE/zsMY?=
- =?us-ascii?Q?I6D+HjuEaP9anGIncjodtnJwOQTv1eLBBtxxhvM/k+8VEi02ovcG+Tz2o/Lu?=
- =?us-ascii?Q?UNK4Rn0SNQgIRqvJp6KwTpXkmNZnF7VH66/j0n3c9GJBmOm2mRhlfpY+gAG0?=
- =?us-ascii?Q?G6Jy9qLIIKlq2JsNTbxRgldiupIuLRaJY/65ce13EkMlJLdigkaBkyZCjFtp?=
- =?us-ascii?Q?jbriKz76clW3Uj7ErLrSeEot6zUs9Nr0JOAQZ0ABOttNvcuftFyBfVbBdJDW?=
- =?us-ascii?Q?jO034CcdEkduA5JWHrnlgS54C8gXf61UkNyP59yLb7wfSYOQCZD5Rp8H8Ol6?=
- =?us-ascii?Q?+hk+kVJGFc2T01Wq9ArtmZHBH/ZYO5xGbJHflYFYuXkErvJOisp7fSz1RMl1?=
- =?us-ascii?Q?Zz/4QBmqA1bvesk2fCuNHxntgnVHCYQeZ7/HL10IG2pN3icBgEKK?=
+	=?us-ascii?Q?sel8iLVc92RlYuv8LHvbjyxTbZRRoxogawP9jgR9WtwGPDiKE+A6GgGzbeaE?=
+ =?us-ascii?Q?qsCXlkeKMKn1biiGMFWXdsmYzbor2Ba+07aO2R2k0ApiXeo1XZh5OL5Nki/5?=
+ =?us-ascii?Q?Kk1OK1upPPxptLLqZMbfeQDw7C8lZn2+pZEiHFO9H7yOQ3yM1Y5G+4gwGSoE?=
+ =?us-ascii?Q?V/xAWw9JSBEXUYlgTNB+SCmvA4f0f2Uu5tQzUzKqxuiq3ZD3a3puGKadL7ac?=
+ =?us-ascii?Q?fQIE8g3uGXYpInAWbx5jd8j0tS6zavVjEKzN+8KaFcdwDSCz4YUDG/E+Z5NI?=
+ =?us-ascii?Q?7CSufCBoSBN8l8husXKL6CpdUFoi+Kp5uksEoJAmOO6VBMUBlEC7yOlcy4Yt?=
+ =?us-ascii?Q?mWKWq0Jn6D7pZ92la90ZYrhKdQL3rw90SsemGC9lc5rBl6D+dg/g4RbDVB5Q?=
+ =?us-ascii?Q?m3bcAUyFZvVWjryDkt4ba2at9xGnbQ3jb+ImuKueqQJ5qpoDfbD31/m5nnbX?=
+ =?us-ascii?Q?LXLuDDpOfEVrq7ViPt6vsia3+B78t+0LrA5ejyIo8Q2MNrsgymWLRAHp58H9?=
+ =?us-ascii?Q?BtjPNMs7nrZeVA5yhWQdKV/TuiRQ7DXxEdGPTbbg/TVn9STXgDlcdy8xG+VG?=
+ =?us-ascii?Q?S9btCYrpOgiQMjVf0IMP3gLhvagefAmfVWlJKQQ3V9JSTcHGSExvPIFiZ5cg?=
+ =?us-ascii?Q?1zqzfYukGxQv/tpd+9jM8ZUIUZzqcfU0OQi6HoY2Iw/BUoKeI5wa+GKGfS40?=
+ =?us-ascii?Q?f1hJtvgks0rLX6zFwhgb8jfYJHqM6QWREMxobTXdS9kiucKZPFjiGOWz0ZN/?=
+ =?us-ascii?Q?1NVByHoCaJMwxsBcyn/ZMS+JK8T5KwK+1rmD3el08+ue429L5n0pi/2nc5go?=
+ =?us-ascii?Q?OIvnjc9wB/cN7pdVWBdg/9m6xiPa6av7h8glVqn49HyvNTQg/oS6u8qrEbaH?=
+ =?us-ascii?Q?wJ8LyDiS41huy9Peer3deVKEm3A27nJX0wHjBth7DqoczUnEC1+WFnybo/cQ?=
+ =?us-ascii?Q?zaVlbeq6ARemfKwqM2vKpFw4vpzJj+hxaOBXAWov/mqmh3e4q9aDSsQ19xfy?=
+ =?us-ascii?Q?zJrIbVHRzZQGdBFr09Ayf+3D3sfoUphuhHuQywx/hKYp8b0aPjNfZmb0z9aS?=
+ =?us-ascii?Q?rlnh26myqXQ6sZ1b3chDKAkownblKUBEbeR9rfbfU4ZMbAHUkREHUOQ8ljSR?=
+ =?us-ascii?Q?kxr/qMal4eigpbOXU1PVwhNArRhzTelJoOzGo7nDJKkHUQwsLAmdnF57uLad?=
+ =?us-ascii?Q?D4Lx6gsXG2D+1o7eKIZ4xgT9BnC6ZR1zev8DpvT8d6KpmBox2O7o3HyJ8DJp?=
+ =?us-ascii?Q?AIYbHzhHQtFdMr91JoXHK0hxc38pAICH5U80VjkDvbesJyLAR0gu1EA0Ts+Q?=
+ =?us-ascii?Q?5iQgMt6sCxQmmGQJXHVdzizneuZ3Us4BI2VfVucAPX2pws6+w64DAtGbogxu?=
+ =?us-ascii?Q?eIWue/bKQB9h5gphs+uQxcBB1KefYFPuVpnmLrrvh269/vvOsbf9MW5dnGmI?=
+ =?us-ascii?Q?GQf1RPD6zweTnDmjgIZfG3VxPYUg/SAS23EL40z1llihn0UQ+ewBJclb5TBU?=
+ =?us-ascii?Q?be/j9J8+pRiR87LB6S01dt1+IrkZDc1tFxL3hD+6C6zg1iJXkGNWzK3Mxklw?=
+ =?us-ascii?Q?j4Qsd5mAwCqeYLwz9PfvGaghwdUj+3HwXU/h5GrP+Q1lpnlfJokap42o3D4R?=
+ =?us-ascii?Q?y1WuSQw+MRH5+M4kWtX4Uf6MjY4mmENQtl80SPEBoXt0J6sAggPam2Vf3rh7?=
+ =?us-ascii?Q?h9CroZFOfH+McOwcHJlNjj4ckCWoFRuQ8S+NcaCNEe6ePkusYmeA8qCnceHO?=
+ =?us-ascii?Q?ndsWwSUUtmMosfGNa/Rnv93oKyaKT8ul6TaJKCjlpewWKaeDZjf4?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7ec76e1d-a420-4234-40cd-08df445217ce
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8f3418e1-5ce5-4730-5454-08df44521941
 X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2026 02:25:49.0672
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2026 02:25:51.3624
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iEHcSzA5EA/PF8BjlZTrAp3kr6ZOBOXNINF36DqRVP/XMpLzNLizrMau+hpXB028bmb/Sxzfpnn2cMSa39U5bw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1zcNQ6sPl9NpxqaFC3fPFq24c3KqloKf8banPJWxy3knsWJsRKJAMqR64uOM4Hea3vwayohQ5iFb8wt3Jivwaw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB9056
 
-Scheduling on preferred subset of active CPUs is useful beyond the
-paravirtualization scope.
+Document a thermald policy that keeps CPU0 preferred, marks CPU1
+non-preferred at 80 C, and restores its preferred status below 75 C.
 
-For example, thermald can trim preferred list of CPUs as temperature
-rises and restore them on cooling, allowing fair tasks to concentrate
-on fewer CPUs without changing their affinity or taking CPUs offline.
+Some Qualcomm-based Android devices, including the Nexus 6P, have used
+temperature-driven CPU offlining. Preferred CPU selection offers a weaker
+alternative that preserves task affinities and avoids CPU hotplug
+transitions. If pinned tasks or tasks outside the fair scheduling class
+prevent a CPU from becoming idle, a userspace thermal policy can use
+stronger controls, such as CPU offlining.
+
+Tested with thermald 2.5.11 in an eight-vCPU virtme/KVM guest on an
+Intel Core Ultra 7 268V. Each vCPU is pinned to a separate host CPU.
+Thermald uses the relayed host package temperature to control preferred
+CPUs, with staggered trips at 46-58 C and 2 C hysteresis. CPU0 remains
+preferred throughout.
+
+No host thermal throttling occurred during the test. Guest events, with
+sampled package temperatures and preferred CPU masks are logged as
+follows.
+
+Elapsed  Event                      Package temp  Preferred CPUs
+     0s  Start eight busy loops             42 C  0-7
+     1s  CPU1-6 non-preferred               57 C  0,7
+     2s  CPU6 preferred                     52 C  0,6-7
+    13s  CPU6 non-preferred                 56 C  0,7
+    30s  CPU7 non-preferred                 58 C  0
+    90s  Stop workload                      56 C  0
+    90s  CPU4-7 preferred                   49 C  0,4-7
+    93s  CPU3 preferred                     47 C  0,3-7
+   102s  CPU2 preferred                     45 C  0,2-7
+   106s  CPU2-3 non-preferred               50 C  0,4-7
+   107s  CPU2-3 preferred                   45 C  0,2-7
 
 Signed-off-by: Yury Norov <ynorov@nvidia.com>
 ---
- Documentation/ABI/testing/sysfs-devices-system-cpu | 11 ++++-------
- kernel/Kconfig.preempt                             |  2 +-
- 2 files changed, 5 insertions(+), 8 deletions(-)
+ Documentation/scheduler/index.rst             |  1 +
+ .../scheduler/preferred-cpu-thermal.rst       | 94 +++++++++++++++++++
+ 2 files changed, 95 insertions(+)
+ create mode 100644 Documentation/scheduler/preferred-cpu-thermal.rst
 
-diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
-index 3bf89c7c4b91..828c5173c3b4 100644
---- a/Documentation/ABI/testing/sysfs-devices-system-cpu
-+++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
-@@ -821,13 +821,10 @@ What:		/sys/devices/system/cpu/preferred
- Date:		Sep 2026
- Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
- Description:
--		(RO) the list of preferred CPUs applicable in
--		paravirtualized environments.
--
--		The steal governor driver dynamically adjusts this mask
--		based on observed steal time. Scheduling tasks on
--		CPUs outside of this list may lead to performance
--		degradations due to underlying physical CPU contention.
-+		(RO) the list of CPUs preferred for fair tasks placement.
-+		Fair tasks whose allowed CPUs contain no preferred CPU can
-+		still run on active non-preferred CPUs. Other scheduling
-+		classes are unaffected.
+diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
+index 791178ac8bec..25d1590d8217 100644
+--- a/Documentation/scheduler/index.rst
++++ b/Documentation/scheduler/index.rst
+@@ -24,6 +24,7 @@ Scheduler
+     sched-ext
+     sched-debug
+     sched-paravirt
++    preferred-cpu-thermal
+     sched-preemption
  
- 		See Documentation/ABI/testing/sysfs-devices-system-cpu-preferred
- 		and  Documentation/scheduler/sched-paravirt.rst for more details.
-diff --git a/kernel/Kconfig.preempt b/kernel/Kconfig.preempt
-index 0cbc697202dd..9736c6e291d8 100644
---- a/kernel/Kconfig.preempt
-+++ b/kernel/Kconfig.preempt
-@@ -197,7 +197,7 @@ config SCHED_CLASS_EXT
- 
- config PREFERRED_CPU
- 	bool "Preferred CPU scheduling"
--	depends on SMP && HAVE_CPUTIME_STEAL
-+	depends on SMP
- 	help
- 	  Hint the fair scheduler to favor a subset of active CPUs.
- 	  Non-preferred CPUs remain online and can still run tasks
+     text_files
+diff --git a/Documentation/scheduler/preferred-cpu-thermal.rst b/Documentation/scheduler/preferred-cpu-thermal.rst
+new file mode 100644
+index 000000000000..da6d019e42e4
+--- /dev/null
++++ b/Documentation/scheduler/preferred-cpu-thermal.rst
+@@ -0,0 +1,94 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Thermal control with preferred CPUs
++===================================
++
++Preferred CPU selection can be driven by thermal signal. A userspace thermal
++policy can reduce the preferred CPU set to concentrate fair tasks on fewer
++CPUs, allowing other CPUs to become idle. This approach may be preferred over
++offlining CPUs because it preserves task affinities and avoids CPU hotplug
++transitions.
++
++The following thermald configuration illustrates this on a system with two
++online CPUs. CPU0 stays preferred. When the package temperature reaches 80 C,
++CPU1 becomes non-preferred. Once the temperature falls below 75 C, CPU1
++becomes preferred again.
++
++Save the configuration as ``/etc/thermald/thermal-conf-preferred.xml``.
++Replace the sensor path with the package temperature sensor on the target
++system: the example assumes ``thermal_zone0/type`` is ``x86_pkg_temp``.
++Temperature and hysteresis values are in millidegrees Celsius::
++
++    <?xml version="1.0"?>
++    <ThermalConfiguration>
++      <Platform>
++        <Name>Preferred CPU thermal policy</Name>
++        <ProductName>*</ProductName>
++        <Preference>QUIET</Preference>
++        <ThermalSensors>
++          <ThermalSensor>
++            <Type>package-temperature</Type>
++            <Path>/sys/class/thermal/thermal_zone0/temp</Path>
++            <AsyncCapable>0</AsyncCapable>
++          </ThermalSensor>
++        </ThermalSensors>
++        <ThermalZones>
++          <ThermalZone>
++            <Type>preferred-cpu-zone</Type>
++            <TripPoints>
++              <TripPoint>
++                <SensorType>package-temperature</SensorType>
++                <Temperature>80000</Temperature>
++                <Hyst>5000</Hyst>
++                <type>passive</type>
++                <ControlType>PARALLEL</ControlType>
++                <CoolingDevice>
++                  <type>preferred-cpu1</type>
++                  <TargetState>0</TargetState>
++                </CoolingDevice>
++              </TripPoint>
++            </TripPoints>
++          </ThermalZone>
++        </ThermalZones>
++        <CoolingDevices>
++          <CoolingDevice>
++            <Type>preferred-cpu0</Type>
++            <Path>/sys/devices/system/cpu/cpu0/preferred</Path>
++            <MinState>1</MinState>
++            <MaxState>1</MaxState>
++            <ReadBack>1</ReadBack>
++          </CoolingDevice>
++          <CoolingDevice>
++            <Type>preferred-cpu1</Type>
++            <Path>/sys/devices/system/cpu/cpu1/preferred</Path>
++            <MinState>1</MinState>
++            <MaxState>0</MaxState>
++            <ReadBack>1</ReadBack>
++          </CoolingDevice>
++        </CoolingDevices>
++      </Platform>
++    </ThermalConfiguration>
++
++CPU0 is declared with both states set to 1 and has no associated trip.
++Start with CPU0 preferred; thermald leaves its preferred status unchanged,
++so at least one CPU remains preferred.
++
++CPU1's cooling states are deliberately reversed: ``MinState=1`` is the
++normal preferred state, and ``MaxState=0`` is the cooling state.
++``TargetState=0`` explicitly clears CPU1's preferred status when the trip
++is active. When the trip clears, thermald restores ``MinState=1``.
++
++Usage.
++
++Stop any existing thermald service, then run this example as root::
++
++    thermald --no-daemon --ignore-default-control --poll-interval=1 \
++        --config-file=/etc/thermald/thermal-conf-preferred.xml
++
++On SMT systems, control all siblings of a core together when the goal is to
++idle a whole core. CPU hotplug can change the preferred mask independently
++of thermald.
++
++See :ref:`sched-paravirt` for scheduling behavior and
++``Documentation/ABI/testing/sysfs-devices-system-cpu-preferred`` for the
++sysfs interface and hotplug rules.
 -- 
 2.53.0
 
