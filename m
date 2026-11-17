@@ -1,86 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.220
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794907290;
-	b=DIa63TuDjWfOBIDhUKJkYSlugyBPiC/v65Ehe8WL7cUdhgNj9JgMJyEA+jXJ3YpXJTva
-	 XYSYm1uhwiBnqwh+JMfWo19aAEMsGbywTog4G0I7LbW5+TXvHCwP+QkFnLX/fRNYP8rjT
-	 XWz5SSgazizZFJXDyW4nUEHnvK1QD5CfavO0NaxURdeWop82nHCqTBmTJdCeJMpLTllzI
-	 Wg8aB6WlbJio6T/HR42T3bHqZ5rvXG6cWb8xNe9x9Q4LWZp6ZGfGnCZbODIbpZvd8TYG6
-	 qpf/YmPBFoa3b05Ue095XcQTVfkDWHkHLfrj+K8yXDt3UXAefdGckt281hHgwcbzVZQ==
+	t=1794907752;
+	b=eojwMAl3hqt//FiGXKlsSoFWZKO2v78Zb6RSF88hx5I7hR5aYwgYdAWKlUNtuOrRIahb
+	 bTlFZtAWhuQun+SvrBjmcKwWWbDFd/HSxxUparcXcaXXaYEwZUoRcIbsytso/IdO9sdW9
+	 WDDFkz8dls+d4MaN2ZnTPYNziX8sFtyas4TqGWlwoT/w4CTR2O+5dRu/1WvZSUhxGpRmu
+	 bd1a5uFdIEfrleUwiyRzrwuPFCESoD37kR8gPyZbyC/skw55XK8H0ZE5tPHdKbIM6EV9J
+	 hqJLh+O7nsff/g9zwhB7DU5PgsKK10I31bDQviLL6kY+FJPNq1rZZDUAwZNjZmZhq3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794907290;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Subject:To:CC:
-	 References:From:Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-	 Content-Type:Content-Language:Content-Transfer-Encoding:
-	 X-Originating-IP:X-ClientProxiedBy;
-	bh=NelY0F3SQaoHpZaa48RfVKojhT0mMWhbxVhRpg0tfCU=;
-	b=xlPUDh08QB7MqaqKwm5z/7ixNMaDn/Bo7Re5jWLZorYNR6R6yIAuY7v176oGAWTIpbEt
-	 JlAKJlh9rDCTHntkrMAx6hxx3yqxuhr/reynFwKhXsaTjAgeTjXSVUfcyoF++qroHty2E
-	 /eIYHxifZcA8P2b2AtJbc/KgmenXDMAW8fqWQrvJ24QHPW2KCv6B6ybYTkG7So1iWWkzS
-	 W5HBFVGIzqfIL/anDFu6iMx+b+JK8bgyANDvOBJZUQqTj80VOU0W87mCEHLOy5svzpPnH
-	 4/zhnfZF8oXdb7fmMsStB1l7QekiNG10tWeAkLHWisuamli4wHBGjGnV1MjXJC1eT8A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794907752;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=dF5MViTg8YOEEudif96/pwRP0E0s9rCachj6JTmLUVQ=;
+	b=CevLYhPTUO/bSuyBb1s0JRuNMrXi+QPX6KhLeScLW+iCQgdYCi0atek0GihgXmOoQO7W
+	 M9n8zeVT5QerBOejPoupg8AsttvwKK+0odxKXrpK5YWFocSGYwj/kplbl/47JBSYilvlG
+	 ryLbF4lSNzCW2J7QYSFqEE1ZxRk3cnfZxT6a3pqfKd+fvhhAzVajIvzAcdJTroQb3FQJ6
+	 2Em9ESf+Em5vMgjGP1YD2tX9UpZ580nG392RoQNE0j4cuqZGyQr4jte61VWbq/atcQUXL
+	 ix3PMDODOk6Guo7qHTRBf+vcC9adM+xWvVk5XEMxxmS24KtRyAoV+8TKATel+SgMrVA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=wcMqPt0Q;
-	arc=none smtp.remote-ip=113.46.200.220
-Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF3D606A338
-	for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 09:21:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5FF3D606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=msinmYKc;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AE46606A323
+	for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 09:29:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AE46606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=wcMqPt0Q
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=NelY0F3SQaoHpZaa48RfVKojhT0mMWhbxVhRpg0tfCU=;
-	b=wcMqPt0QhszyRzva4g7wZmx964J1LB82GE/yeVL9LyN+DZ3q7eziWeveRgCFaAaPBdYeCBQiX
-	9FaWQ1vHk5u3RT5eFgJLnfpdsyXTk+FiUTHQg8fFnGbdIKoRqYmksHh6O0iFhakPsKKPB35Ps5S
-	cmyonBF0d5EmEbjEKCpSmik=
-Received: from mail.maildlp.com (unknown [172.19.162.140])
-	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4jTK2j3ctZz12LD4;
-	Tue, 17 Nov 2026 17:20:29 +0800 (CST)
-Received: from whupemk100004.china.huawei.com (unknown [7.152.185.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 503DB203AB;
-	Tue, 17 Nov 2026 17:21:22 +0800 (CST)
-Received: from [10.173.125.21] (10.173.125.21) by
- whupemk100004.china.huawei.com (7.152.185.74) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Tue, 17 Nov 2026 17:21:18 +0800
-Subject: Re: [PATCH v6 3/7] mm/memory-failure: add hwpoison_boot_page() to
- flag an inherited frame
-To: Breno Leitao <leitao@debian.org>
-CC: <linux-efi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <linux-cxl@vger.kernel.org>,
-	<driver-core@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
-	<rmikey@meta.com>, <riel@surriel.com>, <harry@kernel.org>,
-	<kernel-team@meta.com>, Ard Biesheuvel <ardb@kernel.org>, Ilias Apalodimas
-	<ilias.apalodimas@linaro.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
-	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
-	<hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand
-	<david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett"
-	<liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
-	<rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
-	<mhocko@suse.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, Oscar Salvador
-	<osalvador@suse.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael
- J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Catalin
- Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Mark
- Rutland <mark.rutland@arm.com>, <kas@kernel.org>,
-	<kexec@lists.infradead.org>, Brendan Jackman <brendan.jackman@linux.dev>,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	<shakeel.butt@linux.dev>
-References: <20261016-hwpoison-kho-v6-0-f304255147da@debian.org>
- <20261016-hwpoison-kho-v6-3-f304255147da@debian.org>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <869891e5-3f4f-e404-1068-53e6ff169805@huawei.com>
-Date: Tue, 17 Nov 2026 17:21:17 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=msinmYKc
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9C4DE339;
+	Tue, 17 Nov 2026 01:29:07 -0800 (PST)
+Received: from localhost (unknown [10.2.196.114])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2934E3F673;
+	Tue, 17 Nov 2026 01:29:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1794907750; bh=kYJCY4Q16lrxSHjHkE75I7AzcqNZxfjGXDBq1dW4/kA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=msinmYKcP7h/+3CgM+h7kdrK5GrIERhYbL2MsSCCh1EfKnt2NPt+3ozymW9Fx2nYe
+	 iv+ISEGOMpbrbvls5z4OD/fBZ9jT03+KQ7sDkm5g44QFKIvp3D85WWc0SnEgvw/yyd
+	 2MoU69TEdUGgBjY+MbRsUB7Qo6QPuOg9X0UHLyXE=
+Date: Tue, 17 Nov 2026 09:29:08 +0000
+From: Leo Yan <leo.yan@arm.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Will Deacon <will@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Hanjun Guo <guohanjun@huawei.com>,
+	Jeremy Linton <jeremy.linton@arm.com>,
+	Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@arm.com>,
+	James Clark <james.clark@linaro.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Al Grant <al.grant@arm.com>, "Johnny.Fan" <johnny.fan@cixtech.com>,
+	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH 1/8] device property: Add firmware node IRQ affinity
+ callbacks
+Message-ID: <20261117092908.GU9176@e132581.arm.com>
+References: <20261116-acpi_arm_pmu_registration_hmp-v1-0-0371d4eca626@arm.com>
+ <20261116-acpi_arm_pmu_registration_hmp-v1-1-0371d4eca626@arm.com>
+ <avwFYMdr7g4r6Z9y@ashevche-desk.local>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -90,97 +86,73 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-In-Reply-To: <20261016-hwpoison-kho-v6-3-f304255147da@debian.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- whupemk100004.china.huawei.com (7.152.185.74)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <avwFYMdr7g4r6Z9y@ashevche-desk.local>
 
-On 2026/10/16 20:15, Breno Leitao wrote:
-> A kernel that kexecs inherits the frames its predecessor found
-> hardware-poisoned. It has to carry them as PG_hwpoison in its own memmap,
-> so that everything that already understands the flag covers them,
-> including the kexec segment placement check.
+On Tue, Nov 17, 2026 at 09:42:24AM +0200, Andy Shevchenko wrote:
+> On Mon, Nov 16, 2026 at 06:21:28PM +0000, Leo Yan wrote:
+> > Platform IRQ affinity lookup currently selects the OF or ACPI helper
+> > directly. Add fwnode_irq_get_affinity() and an irq_get_affinity operation
+> > implemented by both firmware types.
+> > 
+> > Use the new helper for platform devices, preserving the existing fallback
+> > to cpu_possible_mask when affinity information is unavailable.
 > 
-> Add a helper that sets the flag and counts the frame in
-> num_poisoned_pages. It runs while the memmap is initialised, before
-> memory_dev_init() has run. memblk_nr_poison_inc() divides by
-> sections_per_block, which memory_dev_init() sets, so the helper
-> increments num_poisoned_pages itself instead of calling
-> num_poisoned_pages_inc().
+> From this commit message it's unclear why we do that. Is it any helpful in the
+> future? If yes, for what?
+
+This refactoring lets platform devices backed by swnode provide IRQ
+affinity through the common fwnode interface. Patch 02 provides swnode's
+IRQ affinity callback.
+
+I will reply your comments in patch 02 for why we need swnode to
+store IRQ affinity.
+
+> ...
 > 
-> An inherited frame is a hardware failure like any other, so the helper
-> sets hw_memory_failure. Without it, unpoison_memory() accepts the frame,
-> clears the flag and drops the last reference, which frees a frame that
-> is still bad.
+> > static const struct cpumask *get_irq_affinity(struct platform_device *dev,
 > 
-> The helper also counts the frame as managed, as a frame that fails at
-> run time stays counted. Memory offlining subtracts every frame of the
-> block that is not PageOffline, so a frame that was never counted leaves
-> the managed page count too low after an offline.
+> >  {
+> >  	const struct cpumask *mask = NULL;
+> >  #ifndef CONFIG_SPARC
 > 
-> The per-node memory failure statistics are not updated. This kernel
-> handled no failure, it only inherited one.
+> > -	struct fwnode_handle *fwnode = dev_fwnode(&dev->dev);
+> > -
 > 
-
-Thanks for your patches. :) Some questions below.
-
-> Signed-off-by: Breno Leitao <leitao@debian.org>
-> ---
->  mm/internal.h       | 5 +++++
->  mm/memory-failure.c | 8 ++++++++
->  2 files changed, 13 insertions(+)
+> Might be unneeded churn — you can leave these two lines being untouched.
 > 
-> diff --git a/mm/internal.h b/mm/internal.h
-> index da14c56fb24e11..4bd3bbce86e0ad 100644
-> --- a/mm/internal.h
-> +++ b/mm/internal.h
-> @@ -1169,6 +1169,7 @@ void SetPageHWPoisonTakenOff(struct page *page);
->  void ClearPageHWPoisonTakenOff(struct page *page);
->  bool take_page_off_buddy(struct page *page);
->  bool put_page_back_buddy(struct page *page);
-> +void __init hwpoison_boot_page(struct page *page);
->  struct task_struct *task_early_kill(struct task_struct *tsk, int force_early);
->  void add_to_kill_ksm(struct task_struct *tsk, const struct page *p,
->  		     struct vm_area_struct *vma, struct list_head *to_kill,
-> @@ -1181,6 +1182,10 @@ static inline int unmap_poisoned_folio(struct folio *folio, unsigned long pfn, b
->  {
->  	return -EBUSY;
->  }
-> +
-> +static inline void hwpoison_boot_page(struct page *page)
-> +{
-> +}
->  #endif
->  
->  extern unsigned long  __must_check vm_mmap_pgoff(struct file *, unsigned long,
-> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-> index a2ca8df501caee..d0d6b184ee469f 100644
-> --- a/mm/memory-failure.c
-> +++ b/mm/memory-failure.c
-> @@ -96,6 +96,14 @@ void num_poisoned_pages_sub(unsigned long pfn, long i)
->  		memblk_nr_poison_sub(pfn, i);
->  }
->  
-> +void __init hwpoison_boot_page(struct page *page)
+> > -	if (is_of_node(fwnode))
+> > -		mask = of_irq_get_affinity(to_of_node(fwnode), num);
+> > -	else if (is_acpi_device_node(fwnode))
+> > -		mask = acpi_irq_get_affinity(ACPI_HANDLE_FWNODE(fwnode), num);
+> 
+> > +	mask = fwnode_irq_get_affinity(dev_fwnode(&dev->dev), num);
+> 
+> 	mask = fwnode_irq_get_affinity(fwnode, num);
+> 
+> >  #endif
+> 
+> >  	return mask ?: cpu_possible_mask;
+> 
+> But I understand the point as we have only a single user left. So I am not
+> objecting the proposed approach, just pointed out on an alternative.
 
-Should we add some debug aids to let users know the origin of these hwpoisoned pages?
+I'll keep the local fwnode variable as you suggest.
 
-> +{
-> +	SetPageHWPoison(page);
+> ...
+> 
+> > +++ b/include/linux/fwnode.h
+> 
+> >  struct fwnode_operations;
+> >  struct device;
+> > +struct cpumask;
+> 
+> Yes, it's a bit disordered, can you place the new one before the 'device'
+> to follow alphabetical order?
 
-Should we try to hold an extra page refcnt, as memory_failure does?
+Will do.
 
-> +	atomic_long_inc(&num_poisoned_pages);
-> +	hw_memory_failure = true;
-> +	adjust_managed_page_count(page, 1);
-
-Is what adjust_managed_page_count does inconsistent with what the hwpoison_boot_page
-function describes? Should it be factored out?
-Also, is adjust_managed_page_count time-consuming? Should we consider batching the calls
-to reduce the impact on system boot latency? Maybe I'm overthinking it...
-
-Thanks.
-.
-
+Thanks,
+Leo
