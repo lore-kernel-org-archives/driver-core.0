@@ -1,105 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794911673;
-	b=yesZqVQ67SCvZzJvGD69Ax7Do+G0lOPmGzxyRGS0xJEiL6Kcc3j1pUa9qUChcbFcNW4b
-	 5a4QY5nmYHlqXwCdn74y1O2n6Rs0YH0uG/NlNyKtDUIg0taTWrPBIr5f8TU29/dal/inz
-	 GCHNALwiFRAQBZBSwj38nXgStOb2xAPuJao44L9e6oaxH3YOqxQYtgHgn+AdTkNI3ralb
-	 SNQP/21yzyL192eNZLch2GXvXRa3ByREXto7Y6BLnUPc3DS42yvAmXl5IZ1w09HyNFu+b
-	 pEXQKzDeF2DFdceVGebdW+KMjmjZjazkShYxdQF5MRYNFvqq4NBeiXc6vaOBTeGEbAQ==
+	t=1794912399;
+	b=pCBNospL9ZA9O2m1R9b84NNAg/5dWMgcJtwQoe8LYs5H7rW6iDccDVhfsRf+jLqI9s7G
+	 CjD9LwrmLtVnYK9r8R388rb+staUuQ0k5dkZCpmdb25xdsUtTqSUZSB20teNty6P7sQjv
+	 g/iWlASDmVvxP14xueFSBTGWuKBPP6CNNbD6lO9sWL8BZoM2fH6Nowac8LSGQimOo43Ei
+	 Y1ssbD+pRA2s2PoXhx3HQwwGbuDLj/oKhWbO1fOBK6mKZhQg59iNYR1IMaY/Vgjayz8ha
+	 IyOuHsg+uKYyxrdu6i61J7rkfzi1uqnnabqN3Qd8JEQdZ0Lsfp3+YxN1a9CkP3Yr+Gw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794911673;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=BmiLk7Woyt+5HnggThSiC1LBGvT5JbyN4EymqDd4Y40=;
-	b=5DCn3CmoMirXBK9uOLBfSWBDY7jHwXqufLVgTjppV1sOeimDJqmnPOcjTN+P/JVobfgb
-	 C/+1VrP3QS0bPgPCTnL2KAHrZSTEGKju8zfV+3Eto5coRlNd/bAjLxf9Xe5niC96gG61L
-	 ZQDxw+vrHm2cp2EyL4q5jUj7HnEeaHnzF2CWSHrMmvUFKLnPu0Wn29cltoxMMK+2LCi/0
-	 Bbuc7/gjStvWC8qFL6TnXZRqSISgxyzNqD5UEeMfcddVlQ97tNfHMUuJO+hJp27/KYslo
-	 zHmOdXrAyQWFtVT9AGFf5tblsPnHH7RznK+s2xQrsHOdWumT9ESD34WB32/WIfhE7Ug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794912399;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=aDis8V/KVsikzKIBvDsHdyEbmMntZyFSoT1LoqQ4Fuc=;
+	b=myeK7cVsYhtPEsZVVstrEaqErzkuaM3KTQQW969eG3UXBFfmCqB+bHXnPVA4T8ycC78J
+	 QWh/Bt+NOVEF0UbH7zScT1P5O7BuYFe/rDxd7SBBpV+nDVcz4nTo7kWfzTPrLS0nnCK4W
+	 hG/AJDHMqo+24qfirHFqp9yBnK9a1UJV5GMICV2wQMEpa1p12BSdFjs1iIEfARR4BAPZD
+	 HDgHRsg1NsDGFsLTv/S+6fZ8hAnwQ0X+m85705dAykSM9SSZa2Chc3HzcCfU8Bw3JNpB0
+	 GLSlBWF1sZ/LzGYZbTCevBqs/wLXOHKbUakbbpk1rlucDuTw23wSEnIypx7bI4W7fOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linaro.org;
-	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=z6wY9VQb;
-	arc=none smtp.remote-ip=74.125.82.41
-Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WOe5qFt4;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90BA606A329
-	for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 10:34:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D90BA606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 724D4606A31C;
+	Tue, 17 Nov 2026 10:46:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=z6wY9VQb
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-1b24f4b15c4so209041c88.1
-        for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 02:34:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1794911670; x=1795516470; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=BmiLk7Woyt+5HnggThSiC1LBGvT5JbyN4EymqDd4Y40=;
-        b=z6wY9VQb9tStXEiH1QFbesFMr3wGuML/0/URcnE+UX+oLQvDgGGtmrhtXp5h7funMx
-         emnmsUlmcXpT4zldRo1DeW9bR61YafPdPMwgsejbFIwtApkQqfeOY/+lpNFllXdEns3y
-         igdOSpJkSWXX5gwQlMVK7v7YZfnGkm8tfE+IA1f+mCWwfdx9SdI8c0/cVl5/KFRMQRIG
-         bVLMZwCnnw0MRZ3wUJF51n272nzt/X8rvLI0NQznqWVNSnq6vKDG6xuGRDLRliEqpCyf
-         ey6Qu4Fxska/IFzl6cSFMWoYOVa9coJE8Ov8OpSOQmDCf/7BchAgtTShouidH6Gpwc0U
-         Ec8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794911670; x=1795516470;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BmiLk7Woyt+5HnggThSiC1LBGvT5JbyN4EymqDd4Y40=;
-        b=tuualdrdwQTVRLJJKgUTjKF1N8QBYvCxUaxVu9lPK0qfhZmUVTcoOc+iBc+bz/Bf78
-         ohcEL4yg4d3cZRFD44Ak9WsExFqAG5FphVEAlPmfCa3zzk6068xqZ5c3/pvPulW0BFyH
-         qfKCPA6BVU3g6FAEDz/qThYmIYNeSn+vcLrXIXVITOlYjdjWXl0RTws463MwKcXUPcff
-         I9viDxh9DlKq6jkj9Y/3UpHki6u099maxY6JR/e2KTREcyQ8yBIFM64zc7sthFbu8CDp
-         i8DbQAGIbr+M6kcptLdXOkXb4looGOEBnkfZurE5mz7bAkYQbtPrj/iy1wWIEGml0Trt
-         t/iQ==
-X-Forwarded-Encrypted: i=1; AL+hErFXcjQ5sx/WZcKkzH4dmm1EmkXk8QUsgpx5j+OL3+9DSFBK2FQoVI40GT2PpwiCoCyPo6Q1PmRuhl8rLg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8MRwvUEZ893iQcoBy5SmJ7eY+0ydOfqhD+1lwldUOdbRZnbWGC
-	zHaGcQ0Ag4ZLOOgWsSi+HKA0JovenfyCv3b5bjMKUTvCMlUlGNfRQhOqxoZeH0H9YHg=
-X-Gm-Gg: AYBFou2lMbPAZjONZ0TjeQUDCL35aUC6P3yPsIOFK8c/WrAQfyuEcCiYV+QE0D1S1qP
-	Q6njkM8IRH8N6apUAkfnF357SI076I47XIbuHH6OggDOoKz7kvU8r6f0QpiGG//Yty+bzQT7WLi
-	VzIsfIx3zXXrUfUbUZTrzZJJfzIi21DmQ53OGnjQcH1ep3/OIDXoVVQfNWdqdkDUa/1WbGM4BC1
-	QcKNkwgpBhMgdCvmEuLEOcl56iegsWCB/V2s8RZyd+/ItqzHRBnMfcOTaYvj3ywYkibygI+eXDa
-	v8cUZBFw4r1SHCI9dJOVEvJKqVWSo8AJOkxV/3QazJE3fiLt+4qpBiW4o7J7vKeLddmsL52TJiM
-	M9J9zBg6Zmpp7AG5noxI1ZbCb7FA9z66VG9ntqbcuHsg8ZMsWXjBMOo3WsUDUNJPdiNrqn2qJLJ
-	NSrTYULHHk3sFxfRsGCAtkJGkHC4dP1HhszcolN9vTPKc+xYDCFE8Gju5zzzzq955NGO8xL5riu
-	8DTFw+cszBXa5jq2SWPAuxx2PHE6XoQ8Q1Y7yiWdqurrljM/aYeMq0HFKYW9HS+mUgyhHo30ueb
-	lTfbBjnamUa6hJ/sgdzGsbDxIjBmeQ==
-X-Received: by 2002:a05:7022:b052:10b0:1b1:f02b:2317 with SMTP id a92af1059eb24-1b53a4758b9mr1979699c88.22.1794911669662;
-        Tue, 17 Nov 2026 02:34:29 -0800 (PST)
-Received: from localhost ([122.172.83.36])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5031b2519sm36212362c88.13.2026.11.17.02.34.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 02:34:28 -0800 (PST)
-Date: Tue, 17 Nov 2026 16:04:26 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Ananthu C V <ananthu.cv@oss.qualcomm.com>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jie Zhan <zhanjie9@hisilicon.com>,
-	Pierre Gondois <pierre.gondois@arm.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-pm@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Oleg Keri <okerixx@gmail.com>
-Subject: Re: [PATCH v3 2/2] cpufreq: fix policy max not returning to
- non-boost freq on boost disable
-Message-ID: <avwtsmp7Mqacbbtl@vireshk-B250M-D3H>
-References: <20260929-schedutil-boost-frequency-handling-v3-0-68de169498c7@oss.qualcomm.com>
- <20260929-schedutil-boost-frequency-handling-v3-2-68de169498c7@oss.qualcomm.com>
- <auhMD2-5FD4BqImG@vireshk-B250M-D3H>
- <avRiWsxCEAuBouBZ@hu-anancv-blr.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WOe5qFt4
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id D78C81F000C4;
+	Tue, 17 Nov 2026 10:46:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794912399;
+	bh=aDis8V/KVsikzKIBvDsHdyEbmMntZyFSoT1LoqQ4Fuc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WOe5qFt42uJK8YgtDTJm9LvnLmTNo5JoA40/u2CH6DON1DkzUCnp4kE0O3f0IFz/0
+	 zwmkh6pGNADvmDdQrPaAmnN8cwWQu25o9j3QkVDpgGw9U9jSqsP0pcXqwYxKJejF5H
+	 4hRJaIEIBiIZZElQaeI1oxrKcDf8y01CIqVwMw1T24IzfsZheIDdAHnq6zONExyQaC
+	 k80IoiicFea6bbhKr0QxPTSTtLAxFg42XfJipF1MEBQBX+nVOEK7uEDe1GwPuCyhQj
+	 N4M5wyRu4VTfVXtFXnOqQLore6NUBjKxH+tXFk+UD2fm/U2flpQZ2EqYDHQHA51QBh
+	 7fFiQnZC7iJcw==
+Date: Tue, 17 Nov 2026 11:46:35 +0100
+From: Bartosz Golaszewski <brgl@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Johan Hovold <johan@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
+	Len Brown <lenb@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v2 10/10] gpio: shared: generalize most code to firmware
+ nodes
+Message-ID: <ofjnhfxx32khew77khya2whrfg336qvfsxwq25gz2psckhducv@cnfhpk2uobg4>
+References: <20261113-fwnode-for-each-prop-v2-0-4edc23d5cf50@oss.qualcomm.com>
+ <20261113-fwnode-for-each-prop-v2-10-4edc23d5cf50@oss.qualcomm.com>
+ <avc4g9cbAOEElzRX@ashevche-desk.local>
+ <riqrrdjxaygsphy2mxe5xbsrokjtw6kyrneiyzsh7kld4qnrwf@iaa73bchswrz>
+ <avwrKmg3uyvP19pq@ashevche-desk.local>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -111,59 +72,60 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <avRiWsxCEAuBouBZ@hu-anancv-blr.qualcomm.com>
+In-Reply-To: <avwrKmg3uyvP19pq@ashevche-desk.local>
 
-On 11-11-26, 18:10, Ananthu C V wrote:
-> diff --git a/drivers/cpufreq/freq_table.c b/drivers/cpufreq/freq_table.c
-> index ea994647abc8..5b364d8da4f9 100644
-> --- a/drivers/cpufreq/freq_table.c
-> +++ b/drivers/cpufreq/freq_table.c
-> @@ -49,15 +49,16 @@ int cpufreq_frequency_table_cpuinfo(struct cpufreq_policy *policy)
->                         max_freq = freq;
->         }
+On Tue, Nov 17, 2026 at 12:23:38PM +0200, Andy Shevchenko wrote:
+> On Tue, Nov 17, 2026 at 10:50:38AM +0100, Bartosz Golaszewski wrote:
+> > On Fri, Nov 13, 2026 at 06:19:15PM +0200, Andy Shevchenko wrote:
+> > > On Fri, Nov 13, 2026 at 04:47:10PM +0100, Bartosz Golaszewski wrote:
 > 
-> -       policy->cpuinfo.min_freq = min_freq;
-> +       policy->min = policy->cpuinfo.min_freq = min_freq;
-> +       policy->max = max_freq;
->         /*
->          * If the driver has set its own cpuinfo.max_freq above max_freq, leave
->          * it as is.
->          */
->         if (policy->cpuinfo.max_freq < max_freq)
-> -               policy->cpuinfo.max_freq = max_freq;
-> +               policy->max = policy->cpuinfo.max_freq = max_freq;
+> ...
 > 
-> -       if (min_freq == ~0)
-> +       if (policy->min == ~0)
->                 return -EINVAL;
->         else
->                 return 0;
+> > > > -static int gpio_shared_of_scan(void)
+> > > > +static __maybe_unused int gpio_shared_fwnode_traverse(struct fwnode_handle *curr)
+> > > >  {
+> > > > -	if (of_root)
+> > > > -		return gpio_shared_of_traverse(of_root);
+> > > > +	int ret;
+> > > > +
+> > > > +	if (gpio_shared_fwnode_ignore(curr))
+> > > > +		return 0;
+> > > > +
+> > > > +	ret = gpio_shared_fwnode_scan_properties(curr);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	fwnode_for_each_child_node_scoped(curr, child) {
+> > > > +		ret = gpio_shared_fwnode_traverse(child);
+> > > > +		if (ret)
+> > > > +			return ret;
+> > > > +	}
+> > > >  
+> > > >  	return 0;
+> > > >  }
+> > > > -#else
+> > > > +
+> > > >  static int gpio_shared_of_scan(void)
+> > > >  {
+> > > > +#if IS_ENABLED(CONFIG_OF)
+> > > > +	if (of_root)
+> > > > +		return gpio_shared_fwnode_traverse(of_fwnode_handle(of_root));
+> > > > +#endif
+> > > > +
+> > > >  	return 0;
+> > > >  }
+> > > > -#endif /* CONFIG_OF */
+> > > 
+> > > Hmm... What do you exactly get from the compiler without this uglyfication?
+> > 
+> > The alternative is an empty stub for gpio_shared_of_scan() and keeping
+> > CONFIG_OF around most of the code in that file. I think it looks better
+> > this way.
 > 
-> I am pretty sure we can maintain the policy->min status quo and only touch the
-> policy->max updation; which from a passing glance simply seems inconsequential.
-> Potential side effects, if any, aside, this would at least fix the issue at
-> hand, which is the frequency getting stuck on a higher value without being able
-> to come down. What do you think about this?
+> My question basically was what will go wrong if you drop that #if completely?
+>
 
-So a change like this also fixes the issue ?
+Kernel will not link with !CONFIG_OF as of_root is defined and exported in
+drivers/of/base.c.
 
-@@ -49,15 +49,16 @@ int cpufreq_frequency_table_cpuinfo(struct cpufreq_policy *policy)
-                        max_freq = freq;
-        }
-
-        policy->cpuinfo.min_freq = min_freq;
-+       policy->max = max_freq;
-        /*
-         * If the driver has set its own cpuinfo.max_freq above max_freq, leave
-         * it as is.
-         */
-        if (policy->cpuinfo.max_freq < max_freq)
--               policy->cpuinfo.max_freq = max_freq;
-+               policy->max = policy->cpuinfo.max_freq = max_freq;
-
-Also, can you please explain the issue again in detail. I am not very
-sure how you are reaching to this issue over current mainline (without
-the first patch).
-
--- 
-viresh
+Bart
