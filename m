@@ -1,61 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.203
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.89.141.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794932329;
-	b=hIEEB+uWJRV0WnE6AdiC/NPq7LokxasvDL3LtcypThzYVXLWyapiVWDZTqePXuswxTek
-	 aNlgkh7YjhYXkoZfHqcEpXahYl6u9ztvwyqvQ7hLpep8NM2AO7nzcNRcQ2153QslLRrwH
-	 yzX7X0/VQRClYEjRgqzN8OI2TL3fXE1Htl+b/EO9cwGyZxoHLtSn7HBx6IPQRq8DIfEh0
-	 X+mzpgfyzRYDqMP3TD5kvV3eMVET1HKXj3CIMTZUmN5KFTCSZloJzUjyGm6kxBGBvzTnE
-	 6pkevRiiWTk8U4mMBfI7+aFN8fwbtrxW/5FbubFmKRg/dgBS4+kiyX/89HmFInEmI2g==
+	t=1794940308;
+	b=sRzOi9MCHueqMjYvnJ50wjfd3NUFtiH0gRyTBi02uByy09fmz2YE4NvEZ0+ZJHj38itV
+	 4svhvdV39xn5quGkko5mdRAkdfH25lClNmtEaLLQ0K8cZ6+b1FVmoqSwGttmzL4Ypx4rO
+	 iwsoqRcIjTV3abgGB8u3MZsIwECMsJYan79A6uYejY17gHAfyP5/hcETvJnAzuSmTWRMf
+	 Nm/7FL8vd9yl+ByRG4kbodju6wrJ5ac5hzLoS0bxN+uYUZvaEE/7u2WPapsLNSBOnxxT6
+	 diYFE6GiuJZ2uESyXwTX5YCnRwK2URF4+U5vzbd+pZfE3h83ufpe2NV+Wm6lPz1uiGA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794932329;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=3A0NUBGw7hohi3d+XmCUqawXBiw6IIJ0lPqUY++p0+I=;
-	b=bBVBHzSLKDJdvvJQNoxo840o85NumBAG/xysb2rnMwLsHQ/ADS3+aZ1UAkDsVWfko8I8
-	 fVB8hXbJEj8zt0J90Bhm7FxD3EBY9PT2cQBUuBFIs3oOacfpQ6RVbPbWC3bbu+lzPogKk
-	 B1CovDUXxOU2FFxrxHqpFb++NgMtx6zuSe0kcb6/pxqFBbuDALpDid3vIhWSWMV/3aCxM
-	 4yiNARuCPugbM7iRU3vHqdf09HCSOj1B+4SxFv+fY71APd/2Mz0G47XDS9ITwhSeB7k1s
-	 x02sOH9TG1zpJtIpEY3LntfS1lMLXV4EfTiXQqMVD2ksxKgM9UsCu8l7m0pnIOAJbYA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794940308;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:Sender;
+	bh=tMKIL4Tw6+P8nxVMgy3ZxNBt370rRgm0QxvRZlxxhD0=;
+	b=EClkbosfKAeJf6HCAeKJoO17u1/4G2wsuTm2saFNIgbt9QwRPG30uFhEMFmcDubN+TgA
+	 uxFTZmDW8EQjPkHJk4ZfsrzkLhk6wApLINr0kTJxe2dBockrPONqsJy11dnNmYPR057MA
+	 rumi48mj2G5fIWRHdCrqjea5FlJs8buaQXIcIjt7QThVSF5zmC4y+NLbKmApYKVQoLr71
+	 r3AGzNbXKA6N2lpz7V1qPnqLC0dDpPiKhNNkH2Nlf+zlgS8msCCa6Vloz+Vme4q6qEdf+
+	 CLmVw5C2b3qd99KioHX+na6IrcN52Ew/coMz6OtMKATryctc7YQ/AS/Dxv5Y98e0ZyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=OOI+2EWK;
-	arc=none smtp.remote-ip=95.215.58.203
-Received: from mta1.migadu.com (out-203.mta1.migadu.com [95.215.58.203])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=zeniv.linux.org.uk;
+	spf=none smtp.mailfrom=ftp.linux.org.uk;
+	dkim=pass header.d=linux.org.uk header.i=@linux.org.uk header.a=rsa-sha256 header.s=zeniv-20220401 header.b=TDuWQEHo;
+	arc=none smtp.remote-ip=62.89.141.173
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E326606A330
-	for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 16:18:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E326606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F302606A336;
+	Tue, 17 Nov 2026 18:31:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F302606A336
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=OOI+2EWK
-X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=gCLLdRe+FkKRAkuLVQBRU3B7vt5eEHfwO4DkA22HIfs=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794932326; v=1; x=1795537126;
- b=OOI+2EWKim8AbWMZboQLxvF90sW4R9i9QQWG+wG61svuA+0uqRpinMtRoVQpHd0YOJCwjVC9
- O+VyK4GkvlU+0E7cXdXFC1wH7wKGIrdd/6PS/JDY3x1zcTqV1ttGkF16KYhNhGMXhgdlmEo6rFv
- Q8617wogRM7JqI4QgsSbnIio=
-X-Envelope-To: driver-core@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id e2c3b1bd99078875;
-	Tue, 17 Nov 2026 16:18:46 +0000
-X-Mizu-Trace-ID: e2c3b1bd99078875
-X-Migadu-Flow: FLOW_OUT
-From: Peng Fan <peng.fan@linux.dev>
-To: broonie@kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	peng.fan@nxp.com,
-	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH] regmap: fix reinit cache failure handling
-Date: Wed, 18 Nov 2026 00:18:15 +0800
-Message-ID: <20261117161815.1576684-1-peng.fan@linux.dev>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.a=rsa-sha256 header.s=zeniv-20220401 header.b=TDuWQEHo
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=tMKIL4Tw6+P8nxVMgy3ZxNBt370rRgm0QxvRZlxxhD0=; b=TDuWQEHovmiau7VCBkXgVGRkK3
+	qNI48Oggv+Q9HlViFP5Rd1pkrId3BRYTeyBJkobYwVJZE7XOYZzoqC602DkJXl7YWtyNs8fQ4bQ1L
+	M6cPQgYfkx0upaukkTT3E34ETIPOyT4fFspAnBM5n9bcLPULu0wWsA834gK6NUjfnXpbq3TAM82xS
+	uV7aZps0RQ5OTIfQqNdoCCC7QUluccfpo2tdFmSFByN7VFcTvuonxWf4PQHfxLS9lo3t3ghaFn1DA
+	JcC+4RHlrKT/uuMSV2ANjxnXiR7J0vGVyq2V03OYSPpBUGVE9s0IewlWxIKgY9gMLtnLB721HnM7Q
+	+Sab7DYQ==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xTNxL-00000002J6d-49Dd;
+	Tue, 17 Nov 2026 18:31:00 +0000
+Date: Tue, 17 Nov 2026 18:30:59 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Cai Xinchen <caixinchen1@huawei.com>
+Cc: mic@digikod.net, gnoack@google.com, paul@paul-moore.com,
+	brauner@kernel.org, jack@suse.cz, amir73il@gmail.com,
+	andrii@kernel.org, apparmor@lists.ubuntu.com, ast@kernel.org,
+	axboe@kernel.dk, bpf@vger.kernel.org, casey@schaufler-ca.com,
+	cel@kernel.org, cem@kernel.org, chenxiaosong@chenxiaosong.com,
+	code@tyhicks.com, corbet@lwn.net, Dai.Ngo@oracle.com,
+	dakr@kernel.org, daniel@iogearbox.net, dhowells@redhat.com,
+	dlemoal@kernel.org, dmitry.kasatkin@gmail.com,
+	driver-core@lists.linux.dev, dsterba@suse.com,
+	ecryptfs@vger.kernel.org, eddyz87@gmail.com, emil@etsalapatis.com,
+	eric.snowberg@oracle.com, exfat@lists.linux.dev,
+	georgia.garcia@canonical.com, gregkh@linuxfoundation.org,
+	hch@lst.de, hirofumi@mail.parknet.co.jp, hyc.lee@gmail.com,
+	ihor.solodrai@linux.dev, jlayton@kernel.org, jmorris@namei.org,
+	johan@kernel.org, john.fastabend@gmail.com,
+	john.johansen@canonical.com, jolsa@kernel.org, kpsingh@kernel.org,
+	linkinjeon@kernel.org, linux-api@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-nfs@vger.kernel.org, linux-security-module@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-unionfs@vger.kernel.org,
+	linux-xfs@vger.kernel.org, liubaolin12138@163.com,
+	martin.lau@linux.dev, mason@kernel.org,
+	mathieu.desnoyers@efficios.com, matt@bobrowski.net,
+	memxor@gmail.com, mhiramat@kernel.org, miklos@szeredi.hu,
+	neil@brown.name, netfs@lists.linux.dev, ntfs@lists.linux.dev,
+	okorniev@redhat.com, omosnacek@gmail.com,
+	penguin-kernel@i-love.sakura.ne.jp, rafael@kernel.org,
+	rdunlap@infradead.org, roberto.sassu@huawei.com,
+	rostedt@goodmis.org, selinux@vger.kernel.org,
+	senozhatsky@chromium.org, serge@hallyn.com, sj1557.seo@samsung.com,
+	skhan@linuxfoundation.org, song@kernel.org,
+	stephen.smalley.work@gmail.com, takedakn@nttdata.co.jp,
+	tom@talpey.com, yonghong.song@linux.dev, yuezhang.mo@sony.com,
+	zohar@linux.ibm.com, utilityemal77@gmail.com, lujialin4@huawei.com
+Subject: Re: [PATCH -next -v4 01/17] fs: pass struct path to notify_change()
+Message-ID: <20261117183059.GP989762@ZenIV>
+References: <20261117150542.1169451-1-caixinchen1@huawei.com>
+ <20261117150542.1169451-2-caixinchen1@huawei.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -65,131 +99,63 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261117150542.1169451-2-caixinchen1@huawei.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-From: Peng Fan <peng.fan@nxp.com>
+On Tue, Nov 17, 2026 at 11:05:26PM +0800, Cai Xinchen wrote:
 
-regmap_reinit_cache() tears down the existing cache and then updates the
-map configuration. regcache_exit() frees reg_defaults_raw when cache_free
-is set but does not clear cache_free or the pointer, and neither
-regmap_set_name() nor regcache_init() resets map->cache_type on failure.
+> +notify_change() and do_truncate() now take a const struct path * instead
+> +of a struct dentry *.  They use path->dentry, so callers that only have a
+> +dentry must provide a struct path.  struct iattr has a new ia_path member,
+> +which notify_change() sets for the duration of the call; it must not be
+> +stored beyond that.  Filesystems that forward a change to another inode
+> +can use notify_change_target() to update the target dentry while keeping
+> +the caller-supplied path in ia_path.
 
-If the reinitialisation then fails, a later regmap_exit() calls
-regcache_exit() again. It frees reg_defaults_raw a second time and runs
-cache_ops->exit() on the already torn-down cache. A stale cache_ops can
-also make regmap_volatile() treat registers as cacheable on a map that
-has no cache.
+That needs a bit along the lines of "path MUST be consistent - don't combine
+a dentry from one filesystem with mount of another".  All in-kernel callers
+might have appropriate struct mount references on hand, but for out-of-tree
+code that might be not true and we'd better be upfront about the headache
+we are inflicting.
 
-Clear cache_free and reg_defaults_raw in regcache_hw_exit(), and mark the
-map as having no cache when regmap_reinit_cache() fails after tearing down
-the old one. Assign the new cache type only after regmap_set_name() has
-succeeded so the failure paths cannot leave a type without cache ops.
+I'm not sure we really want to provide those mount references, TBH - it does
+add a constraint not just on out-of-tree callers, but upon the future uses
+in the kernel.  If NTFS is the only reason... ugh.
 
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://sashiko.dev/#/bug/linux-5693609c-7965-4f36-ae8f-30c610e10a33
-Fixes: bf315173359b ("regmap: Allow drivers to reinitialise the register cache at runtime")
-Signed-off-by: Peng Fan <peng.fan@nxp.com>
----
+> diff --git a/drivers/base/devtmpfs.c b/drivers/base/devtmpfs.c
+> index 11c70888f38b..410906a66ee9 100644
+> --- a/drivers/base/devtmpfs.c
+> +++ b/drivers/base/devtmpfs.c
+> @@ -284,13 +284,14 @@ static int handle_create(const char *nodename, umode_t mode, kuid_t uid,
+>  			dev->devt, NULL);
+>  	if (!err) {
+>  		struct iattr newattrs;
+> +		struct path attr_path = { .mnt = path.mnt, .dentry = dentry };
+>  
+>  		newattrs.ia_mode = mode;
+>  		newattrs.ia_uid = uid;
+>  		newattrs.ia_gid = gid;
+>  		newattrs.ia_valid = ATTR_MODE|ATTR_UID|ATTR_GID;
+>  		inode_lock(d_inode(dentry));
+> -		notify_change(&nop_mnt_idmap, dentry, &newattrs, NULL);
+> +		notify_change(&nop_mnt_idmap, &attr_path, &newattrs, NULL);
 
-V1:
- Separate from https://lore.kernel.org/all/20261113-regmap-improve-v2-1-5dfd6a89078f@nxp.com/
+BTW, why not something like
 
- drivers/base/regmap/regcache.c | 10 ++++++++--
- drivers/base/regmap/regmap.c   | 14 +++++++++++---
- 2 files changed, 19 insertions(+), 5 deletions(-)
+		notify_change(&nop_mnt_idmap,
+			      &(struct path){.mnt = path.mnt, .dentry = dentry},
+			      &newattrs, NULL);
+instead of that named local?  Same question for other places like that...
 
-diff --git a/drivers/base/regmap/regcache.c b/drivers/base/regmap/regcache.c
-index 1447967ff00b..5b36ac48e394 100644
---- a/drivers/base/regmap/regcache.c
-+++ b/drivers/base/regmap/regcache.c
-@@ -122,8 +122,11 @@ static int regcache_hw_init(struct regmap *map, int count)
- 
- static void regcache_hw_exit(struct regmap *map)
- {
--	if (map->cache_free)
-+	if (map->cache_free) {
- 		kfree(map->reg_defaults_raw);
-+		map->reg_defaults_raw = NULL;
-+		map->cache_free = false;
-+	}
- }
- 
- static int regcache_locked_op(struct regmap *map,
-@@ -276,18 +279,20 @@ int regcache_init(struct regmap *map, const struct regmap_config *config)
- 	}
- err_free_reg_defaults:
- 	kfree(map->reg_defaults);
-+	map->reg_defaults = NULL;
- 
- 	return ret;
- }
- 
- void regcache_exit(struct regmap *map)
- {
-+	regcache_hw_exit(map);
-+
- 	if (map->cache_type == REGCACHE_NONE)
- 		return;
- 
- 	BUG_ON(!map->cache_ops);
- 
--	regcache_hw_exit(map);
- 	if (map->cache_ops->exit) {
- 		dev_dbg(map->dev, "Destroying %s cache\n",
- 			map->cache_ops->name);
-@@ -296,6 +301,7 @@ void regcache_exit(struct regmap *map)
- 
- 	kfree(map->reg_defaults);
- 	map->reg_defaults = NULL;
-+	map->cache_dirty = false;
- }
- 
- /**
-diff --git a/drivers/base/regmap/regmap.c b/drivers/base/regmap/regmap.c
-index 7bb90d8aed3d..57de64241eb7 100644
---- a/drivers/base/regmap/regmap.c
-+++ b/drivers/base/regmap/regmap.c
-@@ -1452,6 +1452,7 @@ int regmap_reinit_cache(struct regmap *map, const struct regmap_config *config)
- 
- 	regmap_debugfs_exit(map);
- 	regcache_exit(map);
-+	map->cache_ops = NULL;
- 
- 	map->max_register = config->max_register;
- 	map->max_register_is_set = map->max_register ?: config->max_register_is_0;
-@@ -1462,22 +1463,29 @@ int regmap_reinit_cache(struct regmap *map, const struct regmap_config *config)
- 	map->writeable_noinc_reg = config->writeable_noinc_reg;
- 	map->readable_noinc_reg = config->readable_noinc_reg;
- 	map->reg_default_cb = config->reg_default_cb;
--	map->cache_type = config->cache_type;
- 
- 	ret = regmap_set_name(map, config);
- 	if (ret)
--		return ret;
-+		goto err_none;
- 
- 	map->cache_bypass = false;
- 	map->cache_only = false;
- 
-+	map->cache_type = config->cache_type;
- 	ret = regcache_init(map, config);
- 	if (ret)
--		return ret;
-+		goto err_none;
- 
- 	regmap_debugfs_init(map);
- 
- 	return 0;
-+
-+err_none:
-+	map->cache_ops = NULL;
-+	map->cache_type = REGCACHE_NONE;
-+	map->cache_bypass = true;
-+	map->cache_only = false;
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(regmap_reinit_cache);
- 
--- 
-2.56.0
+> +int notify_change_target(const struct mnt_idmap *idmap,
+> +			 const struct path *path, struct dentry *target,
+> +			 struct iattr *attr,
+> +			 struct delegated_inode *delegated_inode)
+> +{
+> +	if (WARN_ON_ONCE(!target))
+> +		return -EINVAL;
+> +	return do_notify_change(path, idmap, target, attr, delegated_inode);
+> +}
 
