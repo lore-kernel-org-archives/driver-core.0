@@ -1,66 +1,67 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794912399;
-	b=pCBNospL9ZA9O2m1R9b84NNAg/5dWMgcJtwQoe8LYs5H7rW6iDccDVhfsRf+jLqI9s7G
-	 CjD9LwrmLtVnYK9r8R388rb+staUuQ0k5dkZCpmdb25xdsUtTqSUZSB20teNty6P7sQjv
-	 g/iWlASDmVvxP14xueFSBTGWuKBPP6CNNbD6lO9sWL8BZoM2fH6Nowac8LSGQimOo43Ei
-	 Y1ssbD+pRA2s2PoXhx3HQwwGbuDLj/oKhWbO1fOBK6mKZhQg59iNYR1IMaY/Vgjayz8ha
-	 IyOuHsg+uKYyxrdu6i61J7rkfzi1uqnnabqN3Qd8JEQdZ0Lsfp3+YxN1a9CkP3Yr+Gw==
+	t=1794917405;
+	b=lXbvW7fUq5I6VQ6tix+CJlKp/HY0TA2Xa4obrIZ+02Jme3YOnGRvktG/NInfSOusluqC
+	 CelO4eTNUlUNxM/nNve5r/pdctfr8jtg8MxCGf8hFZUY5x8VfpBeiqJvfodATYjQxKdCU
+	 FrnhAXU77P55xq/VTNFpAfa8X+NfPC87Rtn9GutAsuA5qfiS/9iY1RhcPZ//4bBcxQqtr
+	 NDSh9ZNZO2mpj3fWiDvF0qJNTK9V/QjEmYkYP/RJEmuCZdlaY2RO94zJxzwMTX9ijSOFa
+	 LBUyJw+6RGAnpJ7Ubt4gXGdlH+f3PBK1KDzp92QmOI6GzBeU6qGQr0iXpwhhUXbdyIg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794912399;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794917405;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=aDis8V/KVsikzKIBvDsHdyEbmMntZyFSoT1LoqQ4Fuc=;
-	b=myeK7cVsYhtPEsZVVstrEaqErzkuaM3KTQQW969eG3UXBFfmCqB+bHXnPVA4T8ycC78J
-	 QWh/Bt+NOVEF0UbH7zScT1P5O7BuYFe/rDxd7SBBpV+nDVcz4nTo7kWfzTPrLS0nnCK4W
-	 hG/AJDHMqo+24qfirHFqp9yBnK9a1UJV5GMICV2wQMEpa1p12BSdFjs1iIEfARR4BAPZD
-	 HDgHRsg1NsDGFsLTv/S+6fZ8hAnwQ0X+m85705dAykSM9SSZa2Chc3HzcCfU8Bw3JNpB0
-	 GLSlBWF1sZ/LzGYZbTCevBqs/wLXOHKbUakbbpk1rlucDuTw23wSEnIypx7bI4W7fOw==
+	bh=z23KUivcgsPQdbsSbdcK9l9mI4AN6C05hWnHHj+0i8s=;
+	b=5kgxD1NeBlvB6KMTq2rXkVRZsJbDn4LSfb+LHvd8pSWmtonyfY+bpRwkSeGiWMWNPm1d
+	 40d0PbqHIPmsssSCfgnOB9JZzpHgSHmrZ4SAdN8YXoVvD9PDfgpovJMDHkfizhru/R5O+
+	 zEoAzjQu/YBbsevfXXmXF6YJ0fvgziFqBs4xbwMEGSi5irdhJUB8Y0lDihg1YErS+0DtY
+	 Lu/UrkI5t759cFEICgeXGdWeTVgo+303lcm3vd1cex0ay9QRMjaay7sTinPT7npkXkgIm
+	 g+HlTkvQvtBo7SXdRd0LA9/hdISlBCgiL5wEBrgbj4tiBOlDjV5xzFp8WJg1N25VHXw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WOe5qFt4;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f84GBbx3;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 724D4606A31C;
-	Tue, 17 Nov 2026 10:46:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A298D606A31C;
+	Tue, 17 Nov 2026 12:10:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WOe5qFt4
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id D78C81F000C4;
-	Tue, 17 Nov 2026 10:46:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f84GBbx3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 379C31F000C6;
+	Tue, 17 Nov 2026 12:10:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794912399;
-	bh=aDis8V/KVsikzKIBvDsHdyEbmMntZyFSoT1LoqQ4Fuc=;
+	s=k20260515; t=1794917405;
+	bh=z23KUivcgsPQdbsSbdcK9l9mI4AN6C05hWnHHj+0i8s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WOe5qFt42uJK8YgtDTJm9LvnLmTNo5JoA40/u2CH6DON1DkzUCnp4kE0O3f0IFz/0
-	 zwmkh6pGNADvmDdQrPaAmnN8cwWQu25o9j3QkVDpgGw9U9jSqsP0pcXqwYxKJejF5H
-	 4hRJaIEIBiIZZElQaeI1oxrKcDf8y01CIqVwMw1T24IzfsZheIDdAHnq6zONExyQaC
-	 k80IoiicFea6bbhKr0QxPTSTtLAxFg42XfJipF1MEBQBX+nVOEK7uEDe1GwPuCyhQj
-	 N4M5wyRu4VTfVXtFXnOqQLore6NUBjKxH+tXFk+UD2fm/U2flpQZ2EqYDHQHA51QBh
-	 7fFiQnZC7iJcw==
-Date: Tue, 17 Nov 2026 11:46:35 +0100
-From: Bartosz Golaszewski <brgl@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Johan Hovold <johan@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
-	Len Brown <lenb@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, Linus Walleij <linusw@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v2 10/10] gpio: shared: generalize most code to firmware
- nodes
-Message-ID: <ofjnhfxx32khew77khya2whrfg336qvfsxwq25gz2psckhducv@cnfhpk2uobg4>
-References: <20261113-fwnode-for-each-prop-v2-0-4edc23d5cf50@oss.qualcomm.com>
- <20261113-fwnode-for-each-prop-v2-10-4edc23d5cf50@oss.qualcomm.com>
- <avc4g9cbAOEElzRX@ashevche-desk.local>
- <riqrrdjxaygsphy2mxe5xbsrokjtw6kyrneiyzsh7kld4qnrwf@iaa73bchswrz>
- <avwrKmg3uyvP19pq@ashevche-desk.local>
+	b=f84GBbx3MvXsoiFV4Ab0bKtjj1R6VPH/xR0oaGsFWFwlKLP9N2cgR+ROtnh+V5acF
+	 EWXaZM89jnxscfUCsQZydqsGilgF+QXVyXKSNNsqlP6SLsPITGvtBca1Bask0U1xcU
+	 UkEACo2J7VxwjW1VocqgCnya0SPgg/eLtPlleGQYNAda33X9XqLmMDBe+DOFC7e/7M
+	 n0kk4emJdBmM3i0S09CNdjQbcPHKLvW5XpPA2q/rMAMT53ZVTalPfBsk+RONOqklDU
+	 vb7d1/HEE6uFDFX9pIVCDOTYIwfdR4rKKgvt2fbnYS4JeD64/LmFWK1KeSTJJEkprE
+	 RQ6ofso9fHDxw==
+Received: from johan by xi.lan with local (Exim 4.100.1)
+	(envelope-from <johan@kernel.org>)
+	id 1xTI0g-00000004A4M-2IOB;
+	Tue, 17 Nov 2026 13:10:02 +0100
+Date: Tue, 17 Nov 2026 13:10:02 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] software node: make swnodes hold their own references on
+ parents
+Message-ID: <avxEGiacULc2eciv@hovoldconsulting.com>
+References: <20261106-swnode-kobject-parent-ref-v1-1-77dbd7213dd0@oss.qualcomm.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -72,60 +73,66 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <avwrKmg3uyvP19pq@ashevche-desk.local>
+In-Reply-To: <20261106-swnode-kobject-parent-ref-v1-1-77dbd7213dd0@oss.qualcomm.com>
 
-On Tue, Nov 17, 2026 at 12:23:38PM +0200, Andy Shevchenko wrote:
-> On Tue, Nov 17, 2026 at 10:50:38AM +0100, Bartosz Golaszewski wrote:
-> > On Fri, Nov 13, 2026 at 06:19:15PM +0200, Andy Shevchenko wrote:
-> > > On Fri, Nov 13, 2026 at 04:47:10PM +0100, Bartosz Golaszewski wrote:
+On Fri, Nov 06, 2026 at 12:13:28PM +0100, Bartosz Golaszewski wrote:
+> In swnode_register(), swnode->parent is assigned before calling
+> kobject_init_and_add(), which normally acquires a reference on
+> parent->kobj via kobject_add_internal() that is held until after
+> software_node_release() completes. However, if kobject_init_and_add()
+> fails before acquiring the parent reference or drops it on error in
+> kobject_add_internal(), swnode->kobj holds no reference on parent->kobj
+> while swnode->parent remains set.
 > 
-> ...
+> With CONFIG_DEBUG_KOBJECT_RELEASE enabled, the random delay in
+> kobject_delayed_cleanup() may create a situation where - when
+> unregistering the child node and then the parent - the parent object
+> gets released before the child who's left with a dangling pointer.
 > 
-> > > > -static int gpio_shared_of_scan(void)
-> > > > +static __maybe_unused int gpio_shared_fwnode_traverse(struct fwnode_handle *curr)
-> > > >  {
-> > > > -	if (of_root)
-> > > > -		return gpio_shared_of_traverse(of_root);
-> > > > +	int ret;
-> > > > +
-> > > > +	if (gpio_shared_fwnode_ignore(curr))
-> > > > +		return 0;
-> > > > +
-> > > > +	ret = gpio_shared_fwnode_scan_properties(curr);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	fwnode_for_each_child_node_scoped(curr, child) {
-> > > > +		ret = gpio_shared_fwnode_traverse(child);
-> > > > +		if (ret)
-> > > > +			return ret;
-> > > > +	}
-> > > >  
-> > > >  	return 0;
-> > > >  }
-> > > > -#else
-> > > > +
-> > > >  static int gpio_shared_of_scan(void)
-> > > >  {
-> > > > +#if IS_ENABLED(CONFIG_OF)
-> > > > +	if (of_root)
-> > > > +		return gpio_shared_fwnode_traverse(of_fwnode_handle(of_root));
-> > > > +#endif
-> > > > +
-> > > >  	return 0;
-> > > >  }
-> > > > -#endif /* CONFIG_OF */
-> > > 
-> > > Hmm... What do you exactly get from the compiler without this uglyfication?
-> > 
-> > The alternative is an empty stub for gpio_shared_of_scan() and keeping
-> > CONFIG_OF around most of the code in that file. I think it looks better
-> > this way.
+> Acquire a refernce to the parent swnode when registering the child and
+> drop it on child's release.
 > 
-> My question basically was what will go wrong if you drop that #if completely?
->
+> Cc: stable@vger.kernel.org
+> Fixes: 59abd83672f7 ("drivers: base: Introducing software nodes to the firmware node framework")
+> Closes: https://sashiko.dev/#/bug/linux-82933c14-d212-49f1-bd2f-d4ab1e16fed7
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
+>  drivers/base/swnode.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+> index 84a77ffa3dc4bbcca62bbe67c3390693500b01ea..986dcb933d2c9274e9000968f115d7fccc2d103f 100644
+> --- a/drivers/base/swnode.c
+> +++ b/drivers/base/swnode.c
+> @@ -843,11 +843,12 @@ static void software_node_free(const struct software_node *node)
+>  static void software_node_release(struct kobject *kobj)
+>  {
+>  	struct swnode *swnode = kobj_to_swnode(kobj);
+> +	struct swnode *parent = swnode->parent;
+>  
+>  	fwnode_links_purge(&swnode->fwnode);
+>  
+> -	if (swnode->parent) {
+> -		ida_free(&swnode->parent->child_ids, swnode->id);
+> +	if (parent) {
+> +		ida_free(&parent->child_ids, swnode->id);
+>  		list_del(&swnode->entry);
 
-Kernel will not link with !CONFIG_OF as of_root is defined and exported in
-drivers/of/base.c.
+Why not simply
 
-Bart
+		swnode_put(swnode->parent);
+
+here?
+
+>  	} else {
+>  		ida_free(&swnode_root_ids, swnode->id);
+> @@ -858,6 +859,9 @@ static void software_node_release(struct kobject *kobj)
+>  
+>  	ida_destroy(&swnode->child_ids);
+>  	kfree(swnode);
+> +
+> +	if (parent)
+> +		swnode_put(parent);
+>  }
+
+Johan
