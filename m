@@ -1,94 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794911027;
-	b=Fc7o7eH++gGsRWb5xD/yUorQ6mbyE/B9+GKt+5IYv4K50vyO9a9/649VNbCbyUmIU2Kh
-	 LGmTVjzGDzuiDJ8IiXVYEe/KbLzke17ugK2VeUua6Mr4oTX86FrMyLrw6kKf87WOen4Ns
-	 3QW63EFoMrnQD1xBVE35/ycSh21OAh1ueDIZpU6JqBX7eElM483NApMtAgqQx8uPDznVE
-	 p0OoTXx3rjaWTncoL0Th3QtydypyFgT/lm8COO6POr/6ggG1N6ZAjVimbjwPIFrjhJuyq
-	 WZhy3JbTFZPhzSQ7v6fhAikbGoU/gx7HDeHABHsad1ryngWDlhdw425+UMn+5JLharQ==
+	t=1794911673;
+	b=yesZqVQ67SCvZzJvGD69Ax7Do+G0lOPmGzxyRGS0xJEiL6Kcc3j1pUa9qUChcbFcNW4b
+	 5a4QY5nmYHlqXwCdn74y1O2n6Rs0YH0uG/NlNyKtDUIg0taTWrPBIr5f8TU29/dal/inz
+	 GCHNALwiFRAQBZBSwj38nXgStOb2xAPuJao44L9e6oaxH3YOqxQYtgHgn+AdTkNI3ralb
+	 SNQP/21yzyL192eNZLch2GXvXRa3ByREXto7Y6BLnUPc3DS42yvAmXl5IZ1w09HyNFu+b
+	 pEXQKzDeF2DFdceVGebdW+KMjmjZjazkShYxdQF5MRYNFvqq4NBeiXc6vaOBTeGEbAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794911027;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=VymKjGyAJ2q2GfXg59+jpmA7NxuGTz8C+f/PCqXEurU=;
-	b=yMxVr0aU/XbSb8+GTOF2g+eDCpMKcV3JKTZ3VzDfCAQxepdIIbHWRqnG6M1Nt8Kg9P8j
-	 GsTiOQWgtCy2dnP1ric8B8Fx8yJ7t7jRkIYFYMy2o6NMJ6mTEVcdIZH60GWr53MEG0S1I
-	 GEoTvW9+QDvX/cKcJ5O5y1Ryy6+B/Tpz7E6NPzlQAwLtDnLVLigDIsBIqdT08PUhwSCDL
-	 bxOqjNMoAenAFxjlEXV6LulNE0Tx+Y4adOoxVIV8EElcEqA5zeIdXqTbD/fqQCYGDMVPM
-	 VzEkR5KiiNi0+2mkmpKYVFQZJRxGpnlqy1n2FmP8wgR3s+NSEMbvZ2Fx4v4X6kxS97Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794911673;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=BmiLk7Woyt+5HnggThSiC1LBGvT5JbyN4EymqDd4Y40=;
+	b=5DCn3CmoMirXBK9uOLBfSWBDY7jHwXqufLVgTjppV1sOeimDJqmnPOcjTN+P/JVobfgb
+	 C/+1VrP3QS0bPgPCTnL2KAHrZSTEGKju8zfV+3Eto5coRlNd/bAjLxf9Xe5niC96gG61L
+	 ZQDxw+vrHm2cp2EyL4q5jUj7HnEeaHnzF2CWSHrMmvUFKLnPu0Wn29cltoxMMK+2LCi/0
+	 Bbuc7/gjStvWC8qFL6TnXZRqSISgxyzNqD5UEeMfcddVlQ97tNfHMUuJO+hJp27/KYslo
+	 zHmOdXrAyQWFtVT9AGFf5tblsPnHH7RznK+s2xQrsHOdWumT9ESD34WB32/WIfhE7Ug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Z3wSleuz;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=linaro.org;
+	spf=pass smtp.mailfrom=linaro.org;
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=z6wY9VQb;
+	arc=none smtp.remote-ip=74.125.82.41
+Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB47C606A31C
-	for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 10:23:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB47C606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90BA606A329
+	for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 10:34:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D90BA606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Z3wSleuz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794911027; x=1826447027;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=g2/a/v/77F7SZjM2iQWCePueXVd22kk+1HO6GSj35yQ=;
-  b=Z3wSleuzSaYZRZ91kreHBHCV/tn1nxTLfEqQ0hCZ6rWdAWUXlvNXlLTm
-   ZwlBQdb/2UewJ/Ne7zLvrKDpI7fdE4dl1bFDaDYfsrXWC3MTaIF+QVWy0
-   hMs8EraWuY2iLxG/eOom2XV+5CE1w9laTWoaw6aW9HXfieX9YxdzPrF47
-   H9Wy8Mb4xIxxTiSP8Hiy5YnKMweFmgkBxDwrH8A5z4Uxr8vVaT0LjflIY
-   ++YO9qF3V352JHEarNfAzwVw8FCu0DNyH+nlzZNYHZugHdx3+bjJ5cY4S
-   9IX1y+8cnexzZpaHl+3m85J2ipT6RKoQj+1ScQgGul9IVZLG2GECOBBz3
-   A==;
-X-CSE-ConnectionGUID: ZsG7V9w+TJ6d8Hjh5eM75g==
-X-CSE-MsgGUID: /c+aA2ueTmaGeiPqsbutlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3698089"
-X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3698089"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 02:23:46 -0800
-X-CSE-ConnectionGUID: MCFlTQPTSiG2kSjVPlvirA==
-X-CSE-MsgGUID: KbmW/sXKTm+5ZspZvPHxvQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="9934710"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.254])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 02:23:40 -0800
-Date: Tue, 17 Nov 2026 12:23:38 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=z6wY9VQb
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-1b24f4b15c4so209041c88.1
+        for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 02:34:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1794911670; x=1795516470; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=BmiLk7Woyt+5HnggThSiC1LBGvT5JbyN4EymqDd4Y40=;
+        b=z6wY9VQb9tStXEiH1QFbesFMr3wGuML/0/URcnE+UX+oLQvDgGGtmrhtXp5h7funMx
+         emnmsUlmcXpT4zldRo1DeW9bR61YafPdPMwgsejbFIwtApkQqfeOY/+lpNFllXdEns3y
+         igdOSpJkSWXX5gwQlMVK7v7YZfnGkm8tfE+IA1f+mCWwfdx9SdI8c0/cVl5/KFRMQRIG
+         bVLMZwCnnw0MRZ3wUJF51n272nzt/X8rvLI0NQznqWVNSnq6vKDG6xuGRDLRliEqpCyf
+         ey6Qu4Fxska/IFzl6cSFMWoYOVa9coJE8Ov8OpSOQmDCf/7BchAgtTShouidH6Gpwc0U
+         Ec8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794911670; x=1795516470;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BmiLk7Woyt+5HnggThSiC1LBGvT5JbyN4EymqDd4Y40=;
+        b=tuualdrdwQTVRLJJKgUTjKF1N8QBYvCxUaxVu9lPK0qfhZmUVTcoOc+iBc+bz/Bf78
+         ohcEL4yg4d3cZRFD44Ak9WsExFqAG5FphVEAlPmfCa3zzk6068xqZ5c3/pvPulW0BFyH
+         qfKCPA6BVU3g6FAEDz/qThYmIYNeSn+vcLrXIXVITOlYjdjWXl0RTws463MwKcXUPcff
+         I9viDxh9DlKq6jkj9Y/3UpHki6u099maxY6JR/e2KTREcyQ8yBIFM64zc7sthFbu8CDp
+         i8DbQAGIbr+M6kcptLdXOkXb4looGOEBnkfZurE5mz7bAkYQbtPrj/iy1wWIEGml0Trt
+         t/iQ==
+X-Forwarded-Encrypted: i=1; AL+hErFXcjQ5sx/WZcKkzH4dmm1EmkXk8QUsgpx5j+OL3+9DSFBK2FQoVI40GT2PpwiCoCyPo6Q1PmRuhl8rLg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8MRwvUEZ893iQcoBy5SmJ7eY+0ydOfqhD+1lwldUOdbRZnbWGC
+	zHaGcQ0Ag4ZLOOgWsSi+HKA0JovenfyCv3b5bjMKUTvCMlUlGNfRQhOqxoZeH0H9YHg=
+X-Gm-Gg: AYBFou2lMbPAZjONZ0TjeQUDCL35aUC6P3yPsIOFK8c/WrAQfyuEcCiYV+QE0D1S1qP
+	Q6njkM8IRH8N6apUAkfnF357SI076I47XIbuHH6OggDOoKz7kvU8r6f0QpiGG//Yty+bzQT7WLi
+	VzIsfIx3zXXrUfUbUZTrzZJJfzIi21DmQ53OGnjQcH1ep3/OIDXoVVQfNWdqdkDUa/1WbGM4BC1
+	QcKNkwgpBhMgdCvmEuLEOcl56iegsWCB/V2s8RZyd+/ItqzHRBnMfcOTaYvj3ywYkibygI+eXDa
+	v8cUZBFw4r1SHCI9dJOVEvJKqVWSo8AJOkxV/3QazJE3fiLt+4qpBiW4o7J7vKeLddmsL52TJiM
+	M9J9zBg6Zmpp7AG5noxI1ZbCb7FA9z66VG9ntqbcuHsg8ZMsWXjBMOo3WsUDUNJPdiNrqn2qJLJ
+	NSrTYULHHk3sFxfRsGCAtkJGkHC4dP1HhszcolN9vTPKc+xYDCFE8Gju5zzzzq955NGO8xL5riu
+	8DTFw+cszBXa5jq2SWPAuxx2PHE6XoQ8Q1Y7yiWdqurrljM/aYeMq0HFKYW9HS+mUgyhHo30ueb
+	lTfbBjnamUa6hJ/sgdzGsbDxIjBmeQ==
+X-Received: by 2002:a05:7022:b052:10b0:1b1:f02b:2317 with SMTP id a92af1059eb24-1b53a4758b9mr1979699c88.22.1794911669662;
+        Tue, 17 Nov 2026 02:34:29 -0800 (PST)
+Received: from localhost ([122.172.83.36])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5031b2519sm36212362c88.13.2026.11.17.02.34.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2026 02:34:28 -0800 (PST)
+Date: Tue, 17 Nov 2026 16:04:26 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Ananthu C V <ananthu.cv@oss.qualcomm.com>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>,
-	Len Brown <lenb@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v2 10/10] gpio: shared: generalize most code to firmware
- nodes
-Message-ID: <avwrKmg3uyvP19pq@ashevche-desk.local>
-References: <20261113-fwnode-for-each-prop-v2-0-4edc23d5cf50@oss.qualcomm.com>
- <20261113-fwnode-for-each-prop-v2-10-4edc23d5cf50@oss.qualcomm.com>
- <avc4g9cbAOEElzRX@ashevche-desk.local>
- <riqrrdjxaygsphy2mxe5xbsrokjtw6kyrneiyzsh7kld4qnrwf@iaa73bchswrz>
+	Danilo Krummrich <dakr@kernel.org>,
+	Jie Zhan <zhanjie9@hisilicon.com>,
+	Pierre Gondois <pierre.gondois@arm.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-pm@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Oleg Keri <okerixx@gmail.com>
+Subject: Re: [PATCH v3 2/2] cpufreq: fix policy max not returning to
+ non-boost freq on boost disable
+Message-ID: <avwtsmp7Mqacbbtl@vireshk-B250M-D3H>
+References: <20260929-schedutil-boost-frequency-handling-v3-0-68de169498c7@oss.qualcomm.com>
+ <20260929-schedutil-boost-frequency-handling-v3-2-68de169498c7@oss.qualcomm.com>
+ <auhMD2-5FD4BqImG@vireshk-B250M-D3H>
+ <avRiWsxCEAuBouBZ@hu-anancv-blr.qualcomm.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -100,61 +111,59 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <riqrrdjxaygsphy2mxe5xbsrokjtw6kyrneiyzsh7kld4qnrwf@iaa73bchswrz>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <avRiWsxCEAuBouBZ@hu-anancv-blr.qualcomm.com>
 
-On Tue, Nov 17, 2026 at 10:50:38AM +0100, Bartosz Golaszewski wrote:
-> On Fri, Nov 13, 2026 at 06:19:15PM +0200, Andy Shevchenko wrote:
-> > On Fri, Nov 13, 2026 at 04:47:10PM +0100, Bartosz Golaszewski wrote:
-
-...
-
-> > > -static int gpio_shared_of_scan(void)
-> > > +static __maybe_unused int gpio_shared_fwnode_traverse(struct fwnode_handle *curr)
-> > >  {
-> > > -	if (of_root)
-> > > -		return gpio_shared_of_traverse(of_root);
-> > > +	int ret;
-> > > +
-> > > +	if (gpio_shared_fwnode_ignore(curr))
-> > > +		return 0;
-> > > +
-> > > +	ret = gpio_shared_fwnode_scan_properties(curr);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	fwnode_for_each_child_node_scoped(curr, child) {
-> > > +		ret = gpio_shared_fwnode_traverse(child);
-> > > +		if (ret)
-> > > +			return ret;
-> > > +	}
-> > >  
-> > >  	return 0;
-> > >  }
-> > > -#else
-> > > +
-> > >  static int gpio_shared_of_scan(void)
-> > >  {
-> > > +#if IS_ENABLED(CONFIG_OF)
-> > > +	if (of_root)
-> > > +		return gpio_shared_fwnode_traverse(of_fwnode_handle(of_root));
-> > > +#endif
-> > > +
-> > >  	return 0;
-> > >  }
-> > > -#endif /* CONFIG_OF */
-> > 
-> > Hmm... What do you exactly get from the compiler without this uglyfication?
+On 11-11-26, 18:10, Ananthu C V wrote:
+> diff --git a/drivers/cpufreq/freq_table.c b/drivers/cpufreq/freq_table.c
+> index ea994647abc8..5b364d8da4f9 100644
+> --- a/drivers/cpufreq/freq_table.c
+> +++ b/drivers/cpufreq/freq_table.c
+> @@ -49,15 +49,16 @@ int cpufreq_frequency_table_cpuinfo(struct cpufreq_policy *policy)
+>                         max_freq = freq;
+>         }
 > 
-> The alternative is an empty stub for gpio_shared_of_scan() and keeping
-> CONFIG_OF around most of the code in that file. I think it looks better
-> this way.
+> -       policy->cpuinfo.min_freq = min_freq;
+> +       policy->min = policy->cpuinfo.min_freq = min_freq;
+> +       policy->max = max_freq;
+>         /*
+>          * If the driver has set its own cpuinfo.max_freq above max_freq, leave
+>          * it as is.
+>          */
+>         if (policy->cpuinfo.max_freq < max_freq)
+> -               policy->cpuinfo.max_freq = max_freq;
+> +               policy->max = policy->cpuinfo.max_freq = max_freq;
+> 
+> -       if (min_freq == ~0)
+> +       if (policy->min == ~0)
+>                 return -EINVAL;
+>         else
+>                 return 0;
+> 
+> I am pretty sure we can maintain the policy->min status quo and only touch the
+> policy->max updation; which from a passing glance simply seems inconsequential.
+> Potential side effects, if any, aside, this would at least fix the issue at
+> hand, which is the frequency getting stuck on a higher value without being able
+> to come down. What do you think about this?
 
-My question basically was what will go wrong if you drop that #if completely?
+So a change like this also fixes the issue ?
+
+@@ -49,15 +49,16 @@ int cpufreq_frequency_table_cpuinfo(struct cpufreq_policy *policy)
+                        max_freq = freq;
+        }
+
+        policy->cpuinfo.min_freq = min_freq;
++       policy->max = max_freq;
+        /*
+         * If the driver has set its own cpuinfo.max_freq above max_freq, leave
+         * it as is.
+         */
+        if (policy->cpuinfo.max_freq < max_freq)
+-               policy->cpuinfo.max_freq = max_freq;
++               policy->max = policy->cpuinfo.max_freq = max_freq;
+
+Also, can you please explain the issue again in detail. I am not very
+sure how you are reaching to this issue over current mainline (without
+the first patch).
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+viresh
