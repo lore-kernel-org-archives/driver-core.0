@@ -1,76 +1,130 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794866093;
-	b=puYWYaTjNuEBrFAwhMFczKKoi/2GFx0QQffVhQP4qzsyByR3ofvcf2rswGjTGwW80Dbn
-	 aCFPUt67Lk2zKq4kkSI3l0MTqpVZttb3635l4v4aTHWXNWpxPCF+k6+ArOe7K13PNqjWs
-	 2rTViremWEel6ZC38vjOmrq4/EFybG146hSemFEJGn44VZ5tJ3l0t0G85ACOBHGWBKHwe
-	 mf7RVTvW1LCVRlr3o4Lv2F57T9G443w7S5/B73J3pVYWGiPpjlOxMtTwdXINxN+lVUtnj
-	 4O8+v4oF23k7GfXEA+qjV+xK6ovvIsaflPSSojo9vS1a5ZZ9OH9hrdI3eONh51QZZFg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794866093;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-ZohoMailClient;
-	bh=UUuGY8A1jPzFzjbtIeOfv8dCf2A++5qQ+XzU4f4OM2g=;
-	b=TGYAK7kYFrswPWJ2y1dONHV8ebgGC79omHIGh30Uu1xegZyonYIhwhm33pNMztZYPZnK
-	 J8Fcxqzbv+da5iyce6nmBmihTHg8STvrptSvwFd5YOF9VdSYxbKAbQVe0QMuAOInacur3
-	 fGR78f6k1QsmcD3mdzB0w67QRCTEX0SVemPzOpHmGuZ9lBSYMvhZBDxI75iVy+RmK312T
-	 B0mdHp7513ovk+6sc09NZAAkCXZtcS8XQBCKIrOFlu4gPjS8R3+lnGNXRsM3v/nzzmDWL
-	 FY+247TcNwPuQIjkjmrLPzD18HOtwkr7YOjF0056puVG90idXiX/R9CoWE0v7A3WO/g==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=collabora.com;
-	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=VrGBTM93;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
-Received: from sender6-op-o11.zoho.com (sender6-op-o11.zoho.com [165.173.180.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.169
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794873921;
+	b=ncsO1ds+DmiSiuotwVLfAEh7GMQT4D4+qxKWFnS3S/16seNO7+aCRX9TgHjj9qbsuIOb
+	 3XaXfsB19dZOqKKuhuru7u4C3SnAxv208Z0ZmuXCxMvNb4hKhrqY/LDDNd9FLSJZOi/Z4
+	 5BXORZNIr7upK+feWjZkX99bJh75cil/l6UZXFOVlgBLAlRLacxB+wIBfx7R1ez+49J8n
+	 keGwYmSGNNUC5Ey0S9cl015TNq/N5A+OphfwuRs3bJ8SQEncsVAXkDFFcrZaKB2RD9Aw+
+	 Uy6R4ermEyVheUa1q7WWx0UPlWA8JvvQZF69u/Cw/raCZhCjbYiYGjV1aU0jHusFMlw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794873921;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=eMx+CTkXv1VoOtSvi+6D1nYsmWu0vpvPd8N8huVVt6c=;
+	b=SsOT2YGGAEXbuD58BMefGAnAAfQpoGJVTYmGcOUhXnpYvc6HnugWhikBpQYxuTRw/dCJ
+	 Z7y/ORinxi4l2iN+YIIIs2c/JSn/hLmOrXhp5FPEZ1jLxOrL6yyH5iX1gV4NdblixRXwI
+	 igfSorsnVyXbYSWUWDrozcQFvtxnapyuvqNDsJhK2ilnw50/xgm91gI7R0kVVjmX4UYv1
+	 CFT6VhLVpil/VrvzF/A3vQn1G30CbMqwZrY+fQ6bZVDj4oH9LQUXocRdikDkk3zajiLum
+	 //FLMxkVcqEz3yeg7FblBxgTwXWYx3bAuilGxk9FsNtdYzMDZXTqnsb8TIIH4cGD4XA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=Zj78psXz;
+	arc=none smtp.remote-ip=209.85.222.169
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23762606A322;
-	Mon, 16 Nov 2026 21:54:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 23762606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BE7606A331
+	for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 00:05:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29BE7606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=VrGBTM93
-ARC-Seal: i=1; a=rsa-sha256; t=1794866087; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=YsNI1MpHjiXdt5833k585f4WEp7eebiebYc9NHeyLzBffa5FQfKqrYZJBos3EcABuVOc0DsRDWj2Os9RXCEnuYO/c+Ms5USOXrCyF0dOKSMB3shrWXIE6b8fwg/T/Q3nU6hzkPwhpBXLoWVNg6UvP8/ufInrebjbSjhzbEmE31E=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1794866087; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=UUuGY8A1jPzFzjbtIeOfv8dCf2A++5qQ+XzU4f4OM2g=; 
-	b=H3X0m22pWeHao5BvMGRIrWzK1f1wpR4oxQyhllJGijQJaIqoGtPq8Qk0v63DyJvcW9z7+rqVsVd6Fn+tt3yQhEsE4jyxY9IDbP6NdYSdlq5aTSLyt9So/HGHmxJh+XDcW8OCwH3bZE5fOzvyrQ99/3gIB/0/VmDMY3JFzX34Jko=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
-	dmarc=pass header.from=<detlev.casanova@collabora.com>
-DKIM-Signature: a=rsa-sha256; b=VrGBTM93kL31b6tdXuYgwYqMKn7XWfYGmZHIr+R1W7Tv7QkO5b6K97fqikwT5ELeoEuG7VYD6Iw9fiPe2c5tjlnrp9xHBU8R5vZUoG9cBAOcd3/kWlnY16ZVKSG0815E8QD8tKk7BAZXrwTWFuw2IskxS30JPLII31dix/fCwYc=; c=relaxed/relaxed; s=zohomail; d=collabora.com; v=1; bh=UUuGY8A1jPzFzjbtIeOfv8dCf2A++5qQ+XzU4f4OM2g=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
-Received: by smtp.zohomail.com with SMTPS id 1794866084138197.18938672995478;
-	Mon, 16 Nov 2026 13:54:44 -0800 (PST)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Tamir Duberstein <tamird@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>,
- Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- Daniel Almeida <daniel.almeida@collabora.com>
-Cc: iommu@lists.linux.dev, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: Re: [PATCH 4/6] rust: iommu: add Domain::attach()
-Date: Mon, 16 Nov 2026 16:54:41 -0500
-Message-ID: <mT5CXvCzTcmD0ecGNGQ1Hg@collabora.com>
-In-Reply-To: <20261112-b4-iommu-domain-v1-4-c29e86788dda@collabora.com>
-References:
- <20261112-b4-iommu-domain-v1-0-c29e86788dda@collabora.com>
- <20261112-b4-iommu-domain-v1-4-c29e86788dda@collabora.com>
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=Zj78psXz
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-94937a33cfbso433827985a.0
+        for <driver-core@lists.linux.dev>; Mon, 16 Nov 2026 16:05:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1794873920; x=1795478720; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=eMx+CTkXv1VoOtSvi+6D1nYsmWu0vpvPd8N8huVVt6c=;
+        b=Zj78psXz04qLq58LGKt198o3T4FAbqXZ/y89h3KR7fpGQ1hU6rGoOTe18Apzc+22ga
+         DvMiwwoc9EwC0HgoznHV3HqUwEUvtiWc14KwgNjs9kCTPQua55iCuYSRcsZea9HZcUvi
+         kFgXcmNVL2d15KoP+coMdUQs5hqI9ACZvQoesIzcE6ygVQJnyZ6/DXeTqoppU9qxe+OX
+         CnzPdPwMJbLc9vEbkgeNBMxuwA9KQTsu0R/F+fFGa9jddkYkosqmrDclej3+Z2FtUA1S
+         bhlDW7JakK/pjai56NYfUbcLMz3qOmBfauRPnApgeZ5iibvGKctCvJAToTRAAZjbVnRD
+         zW+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794873920; x=1795478720;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eMx+CTkXv1VoOtSvi+6D1nYsmWu0vpvPd8N8huVVt6c=;
+        b=o2edF4xDQ1S3aNNg48adFMd5lJWPkfp6Xs9wVPGzJ5NQ/ksL8hiLhpU9ALzDWb2v1n
+         n7PvuvTJdKXyEDpKpTlCvhqGnOVnuapmOLbWi9Qcax6QRZ48spuo551BycwwNoXnDpjt
+         0JvcIWCn0du227JNhqxpEMuh65TH7r4bzgzVC7SGTA7sbVlTV4ZsGx/usOrgpPomuxe+
+         XFru6hQYBj34YRcsXC0IBYl1a18QhyXQqoiWlhvrxF57j+OSRxSJWTJrDPlQVWZnBqH5
+         I3EOdfQzhiAwgIQd2ERRi/g0WaDSQr2PaeO72+hvLyrR/WKWy3ZxMX6bAZUlgRgdVYCW
+         vcIw==
+X-Forwarded-Encrypted: i=1; AL+hErGdedGGxkOP3sa6YkyKb8yCq1JBl7gAo1GXBMjZY3dBSG0OZcRu4Ap5Vvt16fpSVl5orMfL0Wzla7JTBQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9hno04UViDBdE4Ic6ccJ4kQWsh29ohdO1F/PSevBS3Qlr4+gXH
+	1SkZdw7cVp52Znlnj/NounaJqJcVl01eptSrfwAt49R6nOuHAUZrl5AD21+/VwtEYwY=
+X-Gm-Gg: AYBFou0UpMcv3n8Kt7QaFX++g9UB0mQKLK4yawPKh1KB+m8Dny95vzImat8DxAkTTm5
+	1hnhs6dI3+TsSdAyFb+34nJYJvi2SHLUdQwZJUhiAYMUH321zRxGzif1lyj5CuZz8Ddvv+5e4JW
+	1o+psZCZmmY8IhPKULVTb4aDtCHwvb4iZpWi54Ltyd93iLxqSvYsIhdRF6sOA0NuVsShCiw2dHw
+	2uxMdlWANNBy2WRPTouF0nY4HcPw9xEcjRCw5F9xsNBSyvPigPOMX9IsdwvKmkZj/Sw5DfXRsBO
+	k8R2e6bqb6b3ITN/hDO/mBoHjif68w59L1Qqqbkg7PLeE/9oJI8sOY7hmIexkEfWZo7a/xFzGPI
+	9y7v+DRiMPn7fMtMLhGuFrYaqIfWuhuoxxDcL5tMx98sndZyvDa2sXtLwuDf4rnK9G3MyoFfYZz
+	iy9BLxiYAU8kXXjFv6uMisQwi6S8Cj/OKEhLDFOGXC3BrReHdowXutuk8W51/gzWRGyWJCkbaXD
+	8S//76WwMKVo0x/NawXdQNAbGqD0ivIzA0klKdE0sx9CdrXFuoPg4Fwp+vJCx1xp5bJjeF+CNEm
+	WT0U2g==
+X-Received: by 2002:a05:620a:aa0b:b0:949:7473:b1a5 with SMTP id af79cd13be357-9497473c077mr807892285a.55.1794873920005;
+        Mon, 16 Nov 2026 16:05:20 -0800 (PST)
+Received: from ziepe.ca ([142.166.156.71])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9494c8b889csm969866585a.32.2026.11.16.16.05.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 16:05:10 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xT6h7-0000000Apgy-1pGN;
+	Mon, 16 Nov 2026 20:05:05 -0400
+Date: Mon, 16 Nov 2026 20:05:05 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Leon Romanovsky <leon@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev
+Subject: Re: [PATCH v2 18/19] PCI: Replace untrusted state with device trust
+Message-ID: <20261117000505.GA2488304@ziepe.ca>
+References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
+ <20261109-device-trust-core-v2-18-3b12d9a9f861@nvidia.com>
+ <d0999161-3b27-4c3b-9d66-1d117c4836fd@arm.com>
+ <20261110122237.GG8635@unreal>
+ <b4c2538f-8021-4abc-be2e-fcd1596f84ca@arm.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -80,129 +134,53 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b4c2538f-8021-4abc-be2e-fcd1596f84ca@arm.com>
 
-Hi !
+On Mon, Nov 16, 2026 at 05:13:59PM +0000, Robin Murphy wrote:
+> Even with the slightly dubious argument that this series only intends to
+> shuffle the existing PCI code around rather than fully introduce the generic
+> abstraction that it claims to, if the PCI behaviour is still just based on
+> propagating the internal "untrusted" flag plus the new global override, both
+> of which *are* known at add_device time into the common trust state, then
+> there seems little excuse for not doing that up-front so that the new API
+> *can* just work as expected.
 
-On Thursday, 12 November 2026 12:00:11 EST Daniel Almeida wrote:
-> The upcoming rkvenc driver will use IOMMU domains to isolate different
-> sessions.
+The desired iommu flow is to start out as blocking and create the
+default domain only right before driver binding when we have the
+correct trust level.
+
+If we try to do that without this series then we have to do it all the
+time, which I'm really scared will break some embedded thing that
+expects scanout to work or something like that. My hope was this
+becomes opt-in based on the new command line stuff in this series.
+
+On the other hand this series works properly on systems without an
+iommu, which is pretty much all CC VMs today.
+
+There are probably around 15 series to complete all of this PCI device
+attestation. Without everything it isn't really usable, IMHO. I'm not
+that worried about the series ordering.
+> > We have two levels: policy - that describes the default of all devices
+> > for that bus. level - actual decision on how that device is going to be
+> > operated.
+> > 
+> > "Disabled" prevents driver probing until the device is authorized,
+> > "Adversary" permits probing and requests the available protections
+> > for operating an untrusted device.
+> > 
+> > Both need conservative initial IOMMU setup: a disabled device may later
+> > be authorized as adversary, and authorization does not rebuild its IOMMU
+> > domain.
 > 
-> Add Domain::attach(), which attaches the domain to a device and returns
-> an Attachment that detaches it on drop. Devices that share their IOMMU
-> group with other devices are not supported.
+> Urgh, I can be absolutely certain I'm not the only one who is going to be
+> confused this way... I see "disabled" and instinctively take it to mean
+> disabling the device_trust *mechanism*, as the logical thing that people
+> will reach for in terms of "I don't care what this new thing is, just get it
+> out of my way and let my drivers work like they always used to; I want to
+> disable the new thing."
 
-Same wording issue here, and in the patch.
-Even though this will work for our encoder usage (devices <->domain mappings 
-will be 1:1), this doesn't match what the iommu driver does, which can attach 
-multiple devices to a single iommu_domain.
+Maybe "isolated" is a better word?
 
-Detlev.
-
-> attach() is unsafe. The caller must be the device's driver, and the
-> device must stop using the domain before the Attachment is dropped.
-> The Attachment must not be leaked, since the domain could then be
-> freed while it is still attached.
-> 
-> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
-> ---
->  rust/kernel/iommu/domain.rs | 57
-> +++++++++++++++++++++++++++++++++++++++++++-- 1 file changed, 55
-> insertions(+), 2 deletions(-)
-> 
-> diff --git a/rust/kernel/iommu/domain.rs b/rust/kernel/iommu/domain.rs
-> index 2e66becde156..2a5b66f2a5d9 100644
-> --- a/rust/kernel/iommu/domain.rs
-> +++ b/rust/kernel/iommu/domain.rs
-> @@ -19,7 +19,10 @@
->          Bound,
->          Device, //
->      },
-> -    error::from_err_ptr,
-> +    error::{
-> +        from_err_ptr,
-> +        to_result, //
-> +    },
->      prelude::*, //
->  };
-> 
-> @@ -44,6 +47,11 @@ pub struct Domain<'a> {
->  // SAFETY: A `struct iommu_domain` is not tied to the thread that allocated
-> it. unsafe impl<'a> Send for Domain<'a> {}
-> 
-> +// SAFETY: `&Domain` allows the following from several threads at once:
-> +// - Attaching and detaching the domain. `iommu_attach_device()` and
-> `iommu_detach_device()` may +//   be called concurrently for the same
-> domain.
-> +unsafe impl<'a> Sync for Domain<'a> {}
-> +
->  impl<'a> Domain<'a> {
->      /// Allocates a paging domain for `dev`.
->      ///
-> @@ -70,11 +78,56 @@ pub unsafe fn new(dev: &'a Device<Bound>) ->
-> Result<Self> { _dev: PhantomData,
->          })
->      }
-> +
-> +    /// Attaches the domain to `dev`.
-> +    ///
-> +    /// This may sleep.
-> +    ///
-> +    /// # Safety
-> +    ///
-> +    /// - The caller must be the driver bound to `dev`.
-> +    /// - The caller must ensure that `dev` stops using the domain before
-> the returned +    ///   [`Attachment`] is dropped.
-> +    /// - The caller must not `mem::forget()` the returned [`Attachment`]
-> or otherwise prevent its +    ///   [`Drop`] implementation from running.
-> +    pub unsafe fn attach<'d>(&'d self, dev: &'d Device<Bound>) ->
-> Result<Attachment<'d>> { +        // SAFETY: By the type invariant,
-> `self.ptr` is a valid domain, and `dev` is a valid +        // device. The
-> caller is the driver bound to `dev`.
-> +        to_result(unsafe { bindings::iommu_attach_device(self.ptr.as_ptr(),
-> dev.as_raw()) })?; +
-> +        // INVARIANT: The domain is attached to `dev`.
-> +        Ok(Attachment { domain: self, dev })
-> +    }
->  }
-> 
->  impl<'a> Drop for Domain<'a> {
->      fn drop(&mut self) {
-> -        // SAFETY: By the type invariant, `self.ptr` is a domain owned by
-> `self`. +        // SAFETY: By the type invariant, `self.ptr` is a domain
-> owned by `self`. Every +        // `Attachment` borrows `self`, and the
-> caller of `attach()` promised not to leak it, so +        // the domain is
-> attached to no device.
->          unsafe { bindings::iommu_domain_free(self.ptr.as_ptr()) };
->      }
->  }
-> +
-> +/// A [`Domain`] attached to a device.
-> +///
-> +/// An attachment cannot outlive the domain or the binding of the device it
-> is attached to. +/// Dropping it detaches the domain from the device, which
-> may sleep. +///
-> +/// # Invariants
-> +///
-> +/// `domain` is attached to `dev`.
-> +#[must_use = "the domain is detached when the attachment is dropped"]
-> +pub struct Attachment<'d> {
-> +    domain: &'d Domain<'d>,
-> +    dev: &'d Device<Bound>,
-> +}
-> +
-> +impl<'d> Drop for Attachment<'d> {
-> +    fn drop(&mut self) {
-> +        // SAFETY: By the type invariant, `self.domain` is attached to
-> `self.dev`. The caller of +        // `Domain::attach()` is the driver
-> bound to `self.dev`, and promised that the device +        // stopped using
-> the domain.
-> +        unsafe { bindings::iommu_detach_device(self.domain.ptr.as_ptr(),
-> self.dev.as_raw()) }; +    }
-> +}
-
-
-
-
+Jason
