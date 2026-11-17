@@ -1,113 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.54
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794946859;
-	b=5aaiHf8TRroo6qhZKo2wax260gjamzRDDx+q6vI6O7vhl/55GtUR+GHEc0epxNtjmcL5
-	 owfn3sN8oF/tJFQXLghWgYIPvOSAjAutFdb2yPJDb96FO+iS260WnwID5ZsIACPrKnWxH
-	 yJ5THBfqGGrMn4BqUi/taSXjfSqV1V0p0Je7uLeyWNm/MJW5nmjJh3dVmGBaYOqzmTW00
-	 eB3a/XUECHAfzusfMV0m24o+5TU7uJCkrNVJUpewfcZ/u5nuXHegmtTp9mqGK5FIkff1T
-	 S0iZutcxDndC7MGRCmYr0CfoLIf3RbAAYohhzWC8PZ2GaWH2JMCOPlZdP6DqWGVy9wA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794946859;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.176
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794947162;
+	b=MfV5xErYU0e3hw6OnT1jRu7C4c5gtG4L4mTDDQYLr7pbXY/TfAxD4UvgO1FSzzvLt6Az
+	 F/uqdqBP6m9WwvgQKzQE8GAbKDEs0MyFJ5/ZA4nwWTNadHLS8M+bJDRj3Klk5uDEK5xSc
+	 BcdAbPa8AKw44sfO15kZND8TQglMJ5KrR5jBX9VEw1wRegTOBlKOQ3YsQMGXp871AvKE2
+	 t4DEeA/Y6I+uithdwpUtlFPKzlqB6vLptoIv2aQdCr/d5Mrmt48x5SrnF52EBETdrvLua
+	 g9Cz5FpITxkJ3lfTW5A+TLREhW29Nj+Cn8fRTV4bjyzi0iDfgfiY8fIvuBYL+6YSuSg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794947162;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=wJnPRAtsIC+/lFKvaSJITyDCcMmwBTIjrSEQdzWYjus=;
-	b=yn3OIKCjGIwwHCyNKb1glO8Vdzm+uJwNGroCFb8ALvuTG6mJoheGMLae3O1b29p427Qf
-	 HqAvjWmr/hcChUMyxpzwFpfQkQw1t7c12m7Bx8SXsOis0dMDdMU5O1dcGk4axO0AybSmd
-	 NSkuqhnm8TtoqnjBqpuLj73D6MyGB/zggCTQZn19/DgcOx66UnnfhFCkg9RVFj/Io4hPe
-	 zYhqVwKAj4DkKUYYMohwcc+eFfojNMbXnH9cJhICEvsYepMkcxuL9xKtVStxt18e4L2fp
-	 vzc7L1W/+gCjbzjHQzha0eSQw0M9V35VhMeW/mkjV+wmah53Z3pKhkgOdVvCUC1T32A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=iwmZCCph;
-	arc=none smtp.remote-ip=209.85.219.54
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=ZCWHnnwEVxO1omjU149A2BWvg6ai6vFpainl1qSCuX0=;
+	b=cAkHM1Aqo7Xh0Yr6RXy9zSZK65HEABj7XnhHLWlOBP9RfhKQGrL/rmdMAEm9Az8Jfq0I
+	 Hk+VTUPTZo40dsFvIYCOL+K2NDM80kQKyozayUIZ8lZEY3NJQHa/ev2bagc8qAbW0E9j1
+	 Ae+ps+ZHrvTQHNdXURz13mIIb2hITpS2+x4xZUfQiF/eXLsG0nfLML0xSXK+haVyURZAi
+	 4gsw2s2sdUalk7TVUw+Ol2o3E2HjIdnJ1Wbs2aGNpyVagza8DaxTzEDlOdvyX39QTDilL
+	 aDR92CrgOuSaq2ZRzv0tyeDdYF0xDXls4kOJyPVE+KqILq8d7sUj4HQdrIfQTRZZKSw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=IJBjEaMu;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.176
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD87B606A32C
-	for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 20:20:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD87B606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831C6606A31C
+	for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 20:26:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 831C6606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=iwmZCCph
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-91e8938fd01so976566d6.3
-        for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 12:20:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=IJBjEaMu
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-533202fe429so55791cf.0
+        for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 12:26:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794947161; cv=none;
+        d=google.com; s=arc-20260327;
+        b=PJ05efAvtAiVrfnYlBH76b7OxNOGTWfdIpXtDkWrmjZEi/fkd8/XbV5u0LSGYoQ26z
+         ODe/4B5lXZznhTm8yaK9YXPxg6UYQovs1KgGGwgX2nAl3wCZlMqhcy69lJfwTGnf8I5d
+         b5lmZsswg2w90qSq9OeFj+eARuHN7EYPqGaaLafHGR12+j66YBzQ/lQrIFGRL6onvwxu
+         GLvjysgHBMp7XczMAA5SrwrI+K/KBh7gzWjMJiUhpe1GyxCmmS/2MhJuxMKRns9uZRYj
+         jnpqPaWjr/qgr9NaDdVnBffV2dXzDDV9AUTaff05zKDuvJjCXfDbXf8bnIFqEY5MuhG2
+         ogEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ZCWHnnwEVxO1omjU149A2BWvg6ai6vFpainl1qSCuX0=;
+        fh=3bW8Bhk/Qax1hVqF44X3zov6zm9u39RBazAW0AJSATQ=;
+        b=EjYuPZTbz4uAL2+g0LH/+N2ip4NhpiEWGS4L04tKq+ZlgruTYaVOj+XP5nm888X6ab
+         vun+I2n/3XDaH25xa3QsoU5pPdF2jwSCZLuRY/QamCiqClFLe7Ase2XnkmbMkNsOfeX+
+         P3dKKQ2rp5qFX5vJcUkUszY7ZfItAD399N9FSqiWs7UupJq3gDm3uCjEydeGAnFJGm+L
+         AF3K9nOgc0w/Vihm9EysibLByr87yNJ9nORp8lePilwT1IldOKSSpSe175AaM/E8cc7j
+         cHT1rBMPCC20zt6N4FxLUqAzKPY2neBp8U1eK1wJAFxXALINN2ZK1y9KF2vMzfkM6wP+
+         Up4Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1794946858; x=1795551658; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=google.com; s=20260707; t=1794947161; x=1795551961; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=wJnPRAtsIC+/lFKvaSJITyDCcMmwBTIjrSEQdzWYjus=;
-        b=iwmZCCphdPD1x9NpKAGRAkLHGnlZn3QfyJv3qfvp9XPhhRSewqxyZI7v73r3RSgDwH
-         WoCzvgoEyD66b82fUx5PV0mYDGtZsqMB2x08McWwSU0bVPqDCdkvt7gmhwsn2ZkLJcsd
-         JhisddqNJ1wjNCqZR5B3+1OENinsuBPGUZJtwHsfJ3TuNMs/WtwZ/bFXeiOcVEyEAaTF
-         t60LXKwXWB06ooE+0kMS6+Fj9THBJm8GS/SWf4hOryW4k9HUoyjOfltj9X5R7uYCcy6w
-         6vLWNZQ9NufRM7LscjCTN5MzdlmcbwtG6NSy4iFk7XiQscs8jvj99KZFGuuf4mwcq0dS
-         2EqA==
+        bh=ZCWHnnwEVxO1omjU149A2BWvg6ai6vFpainl1qSCuX0=;
+        b=IJBjEaMumlPnXbq+9oKevAek9R3yLyh1qdklQtHp2eZ7v8STBeBZRVoWoI1FEa+rJv
+         DxoeFdckc/711iVgqogeI1Bv/u7O5Qvv7HqDIO/9sEzc1OEBHwpUPzE3LULDUozxb4Zu
+         rIsWOPgHkv2m92XQ0fVpQS3fCxWg+h8PJV/rfJAvdTfSdC9WiKC12LUxiGrEZFxNcOif
+         z/zfY7w8hpeEk78FuA/5lWBLeGSBkK6Kjv6LcUPjtrriPmaeaRBgV9YNQ6Gl0MYKhDIE
+         m/nUiJ6lcRjvAUGk8wysiSuXEWu66CIxqK0rN8oiPse/jrjl1bTaCNUNSygTU41j294Y
+         wQXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794946858; x=1795551658;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1794947161; x=1795551961;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=wJnPRAtsIC+/lFKvaSJITyDCcMmwBTIjrSEQdzWYjus=;
-        b=Y/3XCbPihhm/2CBGSRx2aEbvJsaMTqH8p+MFe5ucjb4wr9mAfwtotUYkkDF/mEKof/
-         dXyFyhoRNsbl7S9Jf/OTP1dBN5rJbfiBzV5xINMLtgCZwaW6Iio6vnzoCKnCMr91jFgB
-         3II/5mktZKzJFEZWodXUn5cKCrVITiQnwyesYS7rWyJFoYvDH5bk/dDmckgC03DEYP0S
-         d/nS33ZfazR9mVNjfdcV3iTMzKsQAHFV/DM7dGemgpdRa/hqQ+aAckr4ttXWP+C/ZKsS
-         jktKJiWNy328XUfst4KIDozWs9Oj8xUgxeg247ETyARqRerEPRP77G/7pnXRLBnf8vEH
-         Vr2g==
-X-Forwarded-Encrypted: i=1; AL+hErE5APcuZ0eKUnr0IHrZ8e0YGzb1VYHhljiPHntEbAf4fAcPBCGKyBf7UQ7tgsdv7wY1L8MMOT4gzaCQyA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+OvUU+gn/05/X4PbACKktGCHJ7DLnLGBZI1+fqtnQJ2ACf1zgL
-	z4GPkzoxxRBTSvTyr2qAdRImmUgBrlTUuajtHwhim1dxVjyO5Im/DRz4hxLkV9DkDow=
-X-Gm-Gg: AZFdTZf4pk2/8uItdWfVrBfyDtn0FAFRWX2Itk7deLwtNVrRR4CHw85JpcrzYfZP5Dc
-	58mRarVhXihHrIQ4Oo0RHX4vTDCWN5QRR7KZSznGTFfEfdtP5YhKZ58uJt/Dgi1aFbDCYWMh2YK
-	OzoMTXmr65Wggty0H7OLW46U5ZptAoEq6Sw5aAvrQLdHwyGxBzeY4ftgFnf6KknNJZIKGv02Pgl
-	UjkdczwjRADMcTv3uP9/gEaLU7XiMzPeg/TsT90gt5QdWJ/ldJ3U33UUlqBornxBQU8I7ql7ZMA
-	/Ho2b1t8svHkxt69IXwc9F3JpX5AqiFQd2JzySd9g5o5lTxoc9TBy1zSOKwlQtBnwQAQvYpQd1z
-	lfBLIzstOc40qUUQLFtTBJW6ck1WvJO5ufrox62TAQKwh9BWelw8mB5JP9d7ouX+GYXR1EU/DAn
-	DEC03DAnB3xCwEwzqCtybW7v7YNVGF4co2HTP/lrBL03jRh2cBNDFyazf/0QsDk+wSMEQRJEvvD
-	zju2mhQsHoL+HH6pJiJfFnrm3lsxnkjiOvTHe95RMa25I6HCfHoygHyDvCHCSS4X1r9sU/iAXQ4
-	spIWgg==
-X-Received: by 2002:a05:6214:3018:b0:91e:97a9:cf02 with SMTP id 6a1803df08f44-92114d84a69mr5475416d6.11.1794946857364;
-        Tue, 17 Nov 2026 12:20:57 -0800 (PST)
-Received: from ziepe.ca ([142.166.156.71])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-92114d70c72sm2569566d6.33.2026.11.17.12.20.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 12:20:56 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xTPfj-0000000DL2h-3OIS;
-	Tue, 17 Nov 2026 16:20:55 -0400
-Date: Tue, 17 Nov 2026 16:20:55 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Daniel Almeida <daniel.almeida@collabora.com>
-Cc: "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>, iommu@lists.linux.dev,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: Re: [PATCH 0/6] rust: iommu: add a paging domain abstraction
-Message-ID: <20261117202055.GA3115493@ziepe.ca>
-References: <20261112-b4-iommu-domain-v1-0-c29e86788dda@collabora.com>
- <20261116193821.GC2452510@ziepe.ca>
- <3EB4C2ED-B699-4532-A562-68B78F6E29C6@collabora.com>
+        bh=ZCWHnnwEVxO1omjU149A2BWvg6ai6vFpainl1qSCuX0=;
+        b=fjnJlKKjEElJ8U+IBa07UOXReoA0nNx8izlEG5maWSXP4+LXThIrNOKQce9tjNyf5E
+         i+Q2YbmsR6ZvtWiINs3bSIJ5OUQMA4FYaAEbucdQPnuFZakLAsYoYMvKM7Bomxsm4W+2
+         1F7fjSPehcZ78Mw1s+vgAIaTEkLZYB7Ub0qJR53ZEbkFfV/suDVDcIpBuD3MDMDZLGGa
+         KsU/tbHyEHCnUt5bwPyoX0J/Q1tOe8INdQCLGMikNLn+Dm6yX0sn0HgM5+YuhU6gSfP5
+         Pka7NVG/4z3BzxS1k/aS0ABPBjhqMHWQDqijgWD2zhiWM74C9uu+J0ItAKRhaj8Gi6wQ
+         Lvyw==
+X-Forwarded-Encrypted: i=1; AL+hErFD5ueAcPcL4U5UroJEaE85D+TNMtpnZISvcZxWqxcErSp1efeAiDB7ri/CJrEeoG+m+adQqll1lxRpHA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9ypvdxySfC/SlXJqiYAOsrkrkGkNkk9Iqd4mxsMAdleOzHEO5Z
+	xtcLDuICvHLtNcpPIEhd8QX5gFX1RVAV2DJEppZjcTWMqI7DcwHhxfR7TZDy9NpTm/eS4R0UR0y
+	Wi9eXpjo5PY9K2hDOw5a25NVGUcvRYB+7g+8bqUDh
+X-Gm-Gg: AYBFou3lYpsb54q4SnpWNLSXgex2kEsxzOCQe6fDl7VKpa0Q7m6C166jmt8xRGdeBxM
+	hguRAk/ImELT6ptTHVgRB64rB49HPDJwiHjAtSEXkZmCk60fp0fqJqEdZ9xhmBcz16pFykujbBL
+	M7aLv7GIs11Fw1X28E5XyckwRKvF7Kw4b1ZNAWi2lOYbUDJMsuGmgXlKcATEhHyuQonTw15dWic
+	0aOne7WH4NI4pg+4F6YeURTm3vpuiqEJz6uBf6s+LYTsuCQ8I5hJ+xuMsDGsQVgXw20ENLiGCYo
+	j5BVlNmndxyKMrKWKPypR/WvVCe0oE6NvwK20ekvUDHJAeieNh3M34FFnM+y9iJYU5FF2hkLTDf
+	KKytocvkuuCZVClJ+YDwCgrk5gqSBziVU3sX3LOrixULK0Hm5GEDLOGOiE898n4I1xEcB+P4BPm
+	p8F8aaQ9ailHg=
+X-Received: by 2002:a05:622a:4c11:b0:536:6ae9:f55f with SMTP id
+ d75a77b69052e-55d5c25ac0cmr168991cf.7.1794947160746; Tue, 17 Nov 2026
+ 12:26:00 -0800 (PST)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -117,87 +105,76 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3EB4C2ED-B699-4532-A562-68B78F6E29C6@collabora.com>
+References: <20261108223913.3624571-1-irogers@google.com> <20261108223913.3624571-3-irogers@google.com>
+In-Reply-To: <20261108223913.3624571-3-irogers@google.com>
+From: Ian Rogers <irogers@google.com>
+Date: Tue, 17 Nov 2026 12:25:49 -0800
+X-Gm-Features: Aa3M54rgKc4_PudcaM6yszp5Mdw4isGgsPgTnvL2ClaE7ml053-JZnxk-RQJF-U
+Message-ID: <CAP-5=fUQvqpny1CrYVUqg9SQo6VpOuUqfOK403BxK_vWCDU30w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/9] powerpc/secvar: Add missing kobject release
+ callback to secvar_ktype
+To: Madhavan Srinivasan <maddy@linux.ibm.com>, Nayna Jain <nayna@linux.ibm.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Piggin <npiggin@gmail.com>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
+	Shrikanth Hegde <sshegde@linux.ibm.com>
+Cc: Srish Srinivasan <ssrish@linux.ibm.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, driver-core@lists.linux.dev, 
+	LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 17, 2026 at 05:09:11PM -0300, Daniel Almeida wrote:
-> Hi Jason,
-> 
-> > On 16 Nov 2026, at 16:38, Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > 
-> > On Thu, Nov 12, 2026 at 02:00:07PM -0300, Daniel Almeida wrote:
-> >> This series adds a Rust abstraction for IOMMU paging domains. A driver
-> >> can allocate a domain, attach it to its device, map pages into it, and
-> >> install a handler for its faults.
-> >> 
-> >> This will be used by the upcoming rkvenc driver that my colleagues
-> >> Detlev Casanova, Nicolas Dufresne and I are working on. More details on
-> >> this driver can be found by watching Nicolas Dufresne's talk at LPC 2026
-> >> [0].
-> >> 
-> >> As part of the security model, each client will have its own IOMMU
-> >> domain. This is needed as the submission model will let userspace set
-> >> most of the encoder's registers directly, so the kernel cannot check
-> >> every memory access that a job makes the encoder do. With a single
-> >> domain, one client could make the encoder read or write the memory of
-> >> another client.
-> > 
-> > How do you plan to get the paging domain in the first place?
-> 
-> We plan to alloc a paging domain when a video encoder session is created. Then
-> we call iommu_attach_device() before a job runs, and detach back to the default
-> domain after it finishes so the next job can attach its own session's domain.
-> This is so each session is isolated from each other.
+On Sun, Nov 8, 2026 at 2:39=E2=80=AFPM Ian Rogers <irogers@google.com> wrot=
+e:
+>
+> In add_var(), a struct kobject is dynamically allocated with
+> kzalloc_obj() and initialized with secvar_ktype. If kobject_add() or
+> sysfs_create_file() fails, kobject_put(kobj) is called to clean up.
+> However, secvar_ktype does not define a .release callback, which results
+> in a memory leak of kobj (and a pr_debug warning in kobject_cleanup()
+> when CONFIG_DEBUG_KOBJECT_RELEASE is enabled).
+>
+> Provide a secvar_release() callback that calls kfree(kobj).
+>
+> Fixes: bd5d9c743d38 ("powerpc: expose secure variables to userspace via s=
+ysfs")
+> Signed-off-by: Ian Rogers <irogers@google.com>
 
-If you do that you can't use the DMA API at all in your driver as you
-have to set 'driver_managed = true'. Is it OK? If it is why not just
-use VFIO?
+Gentle ping on this patch (moving PowerPC maintainers to To: in case
+this got buried in Cc:).
 
-Or are you planning DT horrors to get yourself a DT created "DMA
-struct" ?
+Danilo offered to take the full 9-patch kobj_type::release __must_init
+series through the driver-core tree with subsystem ACKs, and this is
+one of the last two patches awaiting an Acked-by. Does this look okay
+to go via driver-core?
 
-> > Using paging domains directly is very complicated, I'm not excite d to
-> > see DRM trying to do this at all. IMHO there are many unanswered
-> > questions how it could even do this safely.
-> 
-> In a very simplified way, this is not unlike how GPU drivers currently work. In
-> fact, from a cursory look, this seems to be how rocket (the NPU driver) works
-> too. Since we are merely porting the same ideas to video codec hardware, I am a bit
-> surprised by your discontentment.
+Thanks,
+Ian
 
-In my experiance any place I see DRM touching the iommu it is
-immediately suspect. We keep uncovering horrors that people buried in
-there. Yes, you can point to some DRM places doing something like
-this, with a convoluted struct device scheme and DT hacks to make it
-functional, no you should not copy it and certainly not entomb it in
-rust. :(
-
-> In any case, we need this isolation due to the submission model used.
-> Most Vulkan drivers know their hardware pretty well, so a level of abstraction
-> on top of it like V4L2 is unnecessary. Therefore, in order to achieve a leaner
-> kernel driver, userspace programs most of the encoder's registers directly, so
-> the kernel cannot validate every address a job makes the encoder access.
-
-Sure, but you haven't explained what the iommu gets attached to (ie
-where does the SID come from), how cache flushing works, who programs
-the mappings, who is managing page pinning, etc.
-
-Are you sure you shouldn't be using iommufd for this, tied into your
-driver? It was intended for exactly this use case, to allow drivers to
-delegate their translation to userspace. Though that doesn't relly
-solve the questions about what it is even being attached to..
-
-> The fault handler is used in the same way it is used in GPU drivers: to kill
-> sessions if they fault. This way the driver can simply refuse further work from
-> a misbehaving client, for example. It is also the natural place to enqueue a
-> reset if the codec hardware is frozen as a result of the fault.
-
-IIRC no GPU driver does that, they hook the obsolete fault handler not
-supported in new iommu drivers not the new PRI based one... IDK we
-have even wired this up to work this way.
-
-It is nicer if the HW can tell you it faulted rather than expect the
-iommu to do it.
-
-Jason
+> ---
+>  arch/powerpc/kernel/secvar-sysfs.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/arch/powerpc/kernel/secvar-sysfs.c b/arch/powerpc/kernel/sec=
+var-sysfs.c
+> index 395399bbab2c..f3f6ac25ea78 100644
+> --- a/arch/powerpc/kernel/secvar-sysfs.c
+> +++ b/arch/powerpc/kernel/secvar-sysfs.c
+> @@ -126,7 +126,13 @@ static const struct attribute_group secvar_attr_grou=
+p =3D {
+>  };
+>  __ATTRIBUTE_GROUPS(secvar_attr);
+>
+> +static void secvar_release(struct kobject *kobj)
+> +{
+> +       kfree(kobj);
+> +}
+> +
+>  static const struct kobj_type secvar_ktype =3D {
+> +       .release        =3D secvar_release,
+>         .sysfs_ops      =3D &kobj_sysfs_ops,
+>         .default_groups =3D secvar_attr_groups,
+>  };
+> --
+> 2.56.0.455.g6c5a503b38-goog
+>
