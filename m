@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794929158;
-	b=mSDN1OUEx7oqTxd4GmRIuJGnl6uObFKzRxaNklky6FLsCSKGX8eTe+NsqtcrUU0kPUMS
-	 5IhHJhsU7L5gAV9/77zRhfpBmR1gIwbMG58zZuBiWt937cRT4Y01QdRRd4FPVa/fveoPf
-	 HAJZ3rlX1SPlQAOBCZxjb3DCVGgzFLsh/TxuxWSgh0GFzZb3QlTI3BuTAf9Ob6fIhhhKe
-	 Jkn2cTlS21yNMODKIKkwVAvLu58Hike5ZWyphCS0pW2wFjkoz6ov3M1w1aAFqPbO/uaqj
-	 KM2qM9iB9dCiMZqYJGVfsU4DxYmm01t0rvlwbFxbDS30bVDMAmhlP0KCSIaETlnAW0w==
+	t=1794929185;
+	b=k0ALqz3xWfEpR6RDBHQVf8Khyc28WF4e8+Gwh10r2riGOLKBFAEAstmIjQfxFIjedJlD
+	 VYcNMjkrCEnwXuesu0nDe79iVM8FGFBpDK63jPanSb2Q+44imBznlqGM67YqugY7LZtUj
+	 98rxF0cfzWOUrEJ0mH6yurMI3vgY4XUE1BnvKv2UDt1HQ0fKvFcFcOoA5mJTX0g1KsX4g
+	 t6ViMsX5jhJHodDmRQN6lN9S8BetbF9YbDu67bNH0+rERjw5qdaVvJ+npkC4TyEIpCtMr
+	 1ru2CQveh8PipczbXJ4z4k0RqGI27dqRvAoT4QWB4DDZa6O7Z7sewOLbu532yZudKPQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794929158;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794929185;
 	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
 	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
 	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=KBdVW29HVJ4wR0PbCoFLY5q8sXCExkR+hunNaQ0mJo8=;
-	b=Tc9rBl91zE4W1bXeXzrdrIk+zC/epJvlX8heK+C7f/Jw7e0Sz7XMQ2+/j/vDK3ltZ4zr
-	 STzq1GHcG24ilCGYB83A+kBq2qqot7h57wr9ktIru3eINcbiokYdg05mxJG3OPn94UTW9
-	 tyJHFQIsGPE31FsiCMC9PW+GfD4FmFiEsvpMqjS3PsiJQTAi/MCTTCAbDQjATE1S1lR+B
-	 ggoEsdGpSUXfvQab+nh9ZoH3FUTHU6vOI+yaDF00Qo0c+nmb+NJcnCQWns/ggEehAsFA2
-	 jiYnLNHXXr2FAzHoz9gLuUYsZ4tGsB9QJZA+QyQU+qL7dDdou0PFQqY0xSZh41Akm+A==
+	bh=++06PQJflKig+6hQln7vv+bAUJFdci8/kWBunR+qCrE=;
+	b=5X5IVToHw4s+vutOmY/rEaDC6AngID+yzA7dSS44DmO8qc5oKeCKl67/g6ey/wVny8yD
+	 zXAo0ZWDFz01P6RytW3JzYInsP7MTsXzv0TJKGQmQfxLs/GsI6TfHAHVRQc5Mtyv+7dSm
+	 q4ZbH5uiDfbYvIeXz0eXJXCvmTJerSXcCgwrEqeFzlHQECmkLSqmhNRNduypY5+KwIRgx
+	 HM6AHsV42T8nus37xwDp87tBejEMG1eAgSkh4+KhbNZTjdB7Pz3YP56wW37iaEaqTHBIR
+	 BTGUz2DQepLL4kXlkgyJMnUc3FCzC2+l1wXIi+iGEQJ/fQccqYQMNt45Z+zEWZK1xJw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CnIRjXwR;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="fDiYjYi/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E25606A32C
-	for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 15:25:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03386606A334
+	for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 15:26:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CnIRjXwR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0CBB1F000CC
-	for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 15:25:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fDiYjYi/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D387E1F000D1
+	for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 15:26:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794929157;
-	bh=KBdVW29HVJ4wR0PbCoFLY5q8sXCExkR+hunNaQ0mJo8=;
+	s=k20260515; t=1794929184;
+	bh=++06PQJflKig+6hQln7vv+bAUJFdci8/kWBunR+qCrE=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=CnIRjXwRpNVUgqYvQWE4WOgRijmCokWzHFBLSjBGVSNTb8cHLqhJGaC8kBn8ZRi7A
-	 6cXpGyWmj2XAp0X/TQi1kD2I1ZHD8R1y5slWiBHHHLk/iqBzmZedeXzjKPuTsYikWt
-	 /9PaMJGaJhRf3y9xLHljY7HtWOOu1/T/xuvn6/Q+sWpu9ORWo4ncMpsl69W9HNloAV
-	 XUe2L6gt4MR/hgoMamFRE8FEJ+SshFmoi3dnkuTE9wAXTjKDNe/WF5x8dc4RZAR8OW
-	 0TvSt473tr+zU0I2BCYNcfkNbaMPkGq9KC7zrb4IM2uaXQ2erNsn8G0F2oZYU0TjOj
-	 ZGPCzjAqwnpcg==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5be53e5fce1so4751451e87.1
-        for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 07:25:57 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFWWd/YpgRjfZowLyTQ3kyvRcm+a5QC8UGXuA/8CSyXcSMayU+CwYbQsULxIOgFwlVLJR48gv8AiHLAOw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+iBusXoSMNDY5aCJe8zbhvDx6Bq5MvvDLBAWlE9yRm/nfYMUNR
-	SU9rvUatp6mSQFS+cAFrTKx7gBUoskjUL0vNX7G4y/ThtGDWDfC4WWjaAlA9m9zw/VY4ozFw4gs
-	i3tBqMpFGd8g0b/Ql+gOVFfsxcJtHWcw=
-X-Received: by 2002:a05:6512:3c9b:b0:5bf:d54c:1fb6 with SMTP id
- 2adb3069b0e04-5c170b669a5mr5364150e87.44.1794929156283; Tue, 17 Nov 2026
- 07:25:56 -0800 (PST)
+	b=fDiYjYi/FXrZfOf7lvpYHSAFwq4OjV9SzMBCOyo2K4WmqTSeimz6j1Tx1tIRCxepQ
+	 mCvUm3tXyn40runumrRvF5U9+SaLcr25EIDkyei+b2NJxIFhpeGYX9ceM3xFsDDiuM
+	 7mkq8Cu0w4nk/tuIJo923Gb81kHrTArg2fHdcNQsgp+y6dXaw1bi0yLGiQJGlWu2l0
+	 /brXR7qNzzzlZW3+dgjUFFYxQ0gwhi/v2hm2o1+KioIgw3wVwQ8HXZcaNS6DVGJQnf
+	 lQ3Lu8TQ8C8rb6wG22bN5RgxCEqYQUyUTK0szeg1V23W7N7QrYYocAn3taegaCuWyQ
+	 RFcMQv7Ci0NQg==
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5c08539c827so3750719e87.2
+        for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 07:26:24 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErGaVFJdM+UeqzZXQumljgJfDvhN8c5xiCzxJTvQzOi3Tir8yeTsMtUkh/5q6w+3CaoZ2VBQ/yhsy6h1ag==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+sHHQRlA0TyqSaFU57ffb5VEItR37+ot0fQ1ml0OZE0Mxu0egk
+	KQtKXR8y3HeWX9oOGifx9XfMkHgWKNE+1AfAQUZqvb2TU0xxHa5O1X1/0E8z3adN0/bR0FOSmfO
+	gm0qjIA91bk0Txz4KoTGDC1U2qQwYkH4=
+X-Received: by 2002:ac2:4bd3:0:b0:5c1:4f8a:8f5 with SMTP id
+ 2adb3069b0e04-5c170771fbamr6263013e87.25.1794929183274; Tue, 17 Nov 2026
+ 07:26:23 -0800 (PST)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -59,15 +59,14 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261117101336.980216-1-johan@kernel.org> <20261117101336.980216-8-johan@kernel.org>
-In-Reply-To: <20261117101336.980216-8-johan@kernel.org>
+References: <20261117101336.980216-1-johan@kernel.org> <20261117101336.980216-9-johan@kernel.org>
+In-Reply-To: <20261117101336.980216-9-johan@kernel.org>
 From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Tue, 17 Nov 2026 16:25:44 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0j2DAPFBPA206VmWEiyUub7yuXFQeAvUtg95J=DwmKTDw@mail.gmail.com>
-X-Gm-Features: AclHuK-hF4u064HXJHyD_Ul8WiKkjgi6nackBFOWJTHQRR2q8VH5bYUJg9XjRV0
-Message-ID: <CAJZ5v0j2DAPFBPA206VmWEiyUub7yuXFQeAvUtg95J=DwmKTDw@mail.gmail.com>
-Subject: Re: [PATCH v3 7/8] software node: fix software_node_notify() primary
- node comment
+Date: Tue, 17 Nov 2026 16:26:08 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0ipadLX1yUwi6Ei4o8+b9YtsyXsprXfA-8xDaE5uY4+7A@mail.gmail.com>
+X-Gm-Features: AclHuK9P-eL5qUVo7UHG-qeLLKO9_Qsiw7_oDS5I9OT8qh0o6GqsYRVlxAXrvE4
+Message-ID: <CAJZ5v0ipadLX1yUwi6Ei4o8+b9YtsyXsprXfA-8xDaE5uY4+7A@mail.gmail.com>
+Subject: Re: [PATCH v3 8/8] device property: fix fwnode_get_next_child_node() comments
 To: Johan Hovold <johan@kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
 	Danilo Krummrich <dakr@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
@@ -76,23 +75,21 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael
 	Andi Shyti <andi.shyti@kernel.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
 	driver-core@lists.linux.dev, linux-acpi@vger.kernel.org, 
 	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+	Xu Yang <xu.yang_2@nxp.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Tue, Nov 17, 2026 at 11:13=E2=80=AFAM Johan Hovold <johan@kernel.org> wr=
 ote:
 >
-> The firmware node pointer in struct device may point to either a primary
-> or a secondary firmware node and driver core sets the dev pointer of
-> that node when registering devices.
+> The parent pointer in fwnode_get_next_child_node() may not point to a
+> primary firmware node so update the comments to reflect that.
 >
-> Fix the comments in software_node_notify() and
-> software_node_notify_remove() which incorrectly suggest that driver
-> core only sets the dev pointer of primary firmware nodes.
+> While at it, fix an indefinite article in an earlier comment.
 >
-> Fixes: 37e586675993 ("software node: add fw_devlink support")
-> Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> Fixes: 190069255582 ("device property: fix infinite loop in fwnode_for_ea=
+ch_child_node()")
+> Cc: Xu Yang <xu.yang_2@nxp.com>
 > Signed-off-by: Johan Hovold <johan@kernel.org>
 
 LGTM
@@ -100,45 +97,41 @@ LGTM
 Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
 
 > ---
->  drivers/base/swnode.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+>  drivers/base/property.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 >
-> diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
-> index 95283d8bda26..78e224539b02 100644
-> --- a/drivers/base/swnode.c
-> +++ b/drivers/base/swnode.c
-> @@ -1162,8 +1162,8 @@ void software_node_notify(struct device *dev)
->                 return;
->
->         /*
-> -        * When the software node is the device's secondary firmware node=
-,
-> -        * the core only records the owning device on the primary fwnode
-> +        * When a device has both a primary and a secondary firmware node=
- the
-> +        * core only records the owning device in the primary node
->          * (see device_add()). fw_devlink resolves a supplier device thro=
-ugh
->          * fwnode->dev, so without this a consumer referencing the softwa=
-re
->          * node could never find the supplier device and would defer fore=
-ver.
-> @@ -1198,9 +1198,8 @@ void software_node_notify_remove(struct device *dev=
-)
->         sysfs_remove_link(&dev->kobj, "software_node");
+> diff --git a/drivers/base/property.c b/drivers/base/property.c
+> index 51109794d727..bfc424a193b8 100644
+> --- a/drivers/base/property.c
+> +++ b/drivers/base/property.c
+> @@ -810,7 +810,7 @@ fwnode_get_next_child_node(const struct fwnode_handle=
+ *fwnode,
 >
 >         /*
-> -        * Drop the device pointer mirrored onto a secondary software nod=
-e in
-> -        * software_node_notify(). For a primary software node the core o=
-wns
-> -        * fwnode->dev and clears it in device_del().
-> +        * Clear any device pointer set in a secondary software node in
-> +        * software_node_notify().
+>          * If this function is in a loop and the previous iteration retur=
+ned
+> -        * an child from fwnode->secondary, then we need to use the secon=
+dary
+> +        * a child from fwnode->secondary, then we need to use the second=
+ary
+>          * as parent rather than @fwnode.
 >          */
->         if (!device_match_fwnode(dev, &swnode->fwnode) && swnode->fwnode.=
-dev =3D=3D dev)
->                 swnode->fwnode.dev =3D NULL;
+>         if (child) {
+> @@ -822,12 +822,11 @@ fwnode_get_next_child_node(const struct fwnode_hand=
+le *fwnode,
+>         if (IS_ERR_OR_NULL(parent))
+>                 return NULL;
+>
+> -       /* Try to find a child in primary fwnode */
+>         next =3D fwnode_call_ptr_op(parent, get_next_child_node, child);
+>         if (next)
+>                 return next;
+>
+> -       /* When no more children in primary, continue with secondary */
+> +       /* When no more children, continue with any secondary node */
+>         return fwnode_get_next_child_node(parent->secondary, NULL);
+>  }
+>  EXPORT_SYMBOL_GPL(fwnode_get_next_child_node);
 > --
 > 2.56.1
 >
