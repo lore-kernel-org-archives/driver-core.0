@@ -1,169 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.2.5
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795016707;
-	b=lCa9gAs5O8UoN4i8Lwb5sKYOATRa/OwJQ1llFqxBamoBgppWsojKt3hcy4j3s+QUxpoK
-	 DLmNqzF4qsrNgKrJA9UDRMRFl6bolz73cPkqdoVqkxWPe47UFs/9KH/SegnqUDBmROM56
-	 b4VsLaFRVY3y0/2I4stt5l0xj512u6P90xE+kYX40hUW8mluYRGUltcEu/NJGTZX8O/lc
-	 9NUukWMt5r43j/fm6Axfm4xhgQ6y1dcCRuV4QZBsPd80iT4aAXvCQSEt7uG6xJqHEe+2S
-	 7J3HtOoK9xi6lwoNl4lj8Fqkd31l52YOpE3y5glzWBqWCxAxnsqXdT1bosy7yfvtEPg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795016707;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
-	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
-	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:
-	 x-ms-exchange-slblob-mailprops:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:
-	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=lD8odh8aF3cXYF3pgON8co8fFrP86LksfskYjN4caBE=;
-	b=TfAg7qeOPWWqm0PjuMlNPY7WPP7zc6vkU1pWValPbL5R2tPw5krtRiwPdlYEoygWBVA5
-	 yDFigMjrve58t3uCaziRnZz/MJq6wQ2Zbkpo4yM/p9Ee8I7HgbzqnxSIHVzHSvNkHnQhK
-	 TMtQLJbk109Sgj7j4B87+KI6ogsG+Xy9879UTVyku5htauxqLBtw2/vD37nFAuMT9U6+w
-	 JzdtSlUOHnwPC062AxfR3Tgb/2PYUiHwOhUZC6l0AKnoP9/OHGZgQq+B/8IutCLro+BPw
-	 3wsuu5o4UeCZ9WA29KaL5mVb5pH8GSq2PpfKFaNUwiQ/BitghLnWQ9VrbRfGx9ZxSWQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=outlook.com;
-	spf=pass smtp.mailfrom=outlook.com;
-	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=Li7Qr2PU;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.2.5
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazolkn19010005.outbound.protection.outlook.com [52.103.2.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.176
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795017082;
+	b=rBZBjn7Ja7F8Dvdw0HZeEneyS8IpiO1nJuVmNR95kb48fsWUPmQ9uj59sNrkQMNJzHHV
+	 1DL5mV988VU2kQj0rsadaXaDvgyXSbtq8/VImYgB+pJe1oBw8oFJRqnQ6W0gaHcHi3Crt
+	 KduiGWz+Qhc1hscfH7lud2EtM2wuosab4m8lNMnxU7WqTN8WTXmVjonbTFUylabajAwt9
+	 9mboWD6ttewoY/56cODVqQcjtWyaXsDirbJO9IRQc1s1Zqy0+z8ptk8JfRWUiIbtyoGQh
+	 uD4UDwM2if5wuYRtTa7GYuJOFn1429X8CJsnD8aZS8uRrkEYYOTl9dh1UxugID0vjhQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795017082;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=rtu+dm+kZUdeiLu+ztbJ6g6Gzpa+7bPUZ/F65mvaYZ4=;
+	b=WC43Lcq+88lNK/W1Snp0fXcd8zrI2wzZsgKbyLX4ovEVYrchJPGxoeLxYAngIsqGmu94
+	 K5LrHj9THwoy1mrxNa78GfrS/bjXozUXRLphRjO6t4hXz4yGstZ58FkIAWU+NYgs1/vcf
+	 KAszBCbyjgqnK2V6BSNnRl/thNS2MKN1sZXGcTysRlgnSc/RueR94gT1qdzwt6Gah+VX5
+	 zjYG3d7kpDS6NYL/U4eZwPESx9K2HGN3OJ/zdmht+3/lp9g7RIA7+mx1+kJ+Cbz7uAK84
+	 mxjVn//ZVz3dLJZxCUumlYiT8RR3QPoW+DizezzmCDMwsWii8NQtu908nXYSYbwHdRg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b="nk1drAx/";
+	arc=none smtp.remote-ip=209.85.222.176
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92CB3606A33B
-	for <driver-core@lists.linux.dev>; Wed, 18 Nov 2026 15:45:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92CB3606A33B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0BF60A2603
+	for <driver-core@lists.linux.dev>; Wed, 18 Nov 2026 15:51:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0E0BF60A2603
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=Li7Qr2PU
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EHtfiFleFkiPAGgbvNLhQDzI5aja9BNE4iVFqml99PuVdoTHerUGjdHRoyCa91/bQnFLNFeTGOJif+BOpj90CMpud1sEc4PjS2xOI2aHfMpfRnyJ4c/EH6y0k40pWnNESXJjERgOHUKoy9N1Lm1x8U/2avNiZW4LzlMZNiT2CjOZattvu4ClwxGLrPlWWMNQjJZMD56NXeFZHVi/9Dnw+uThFshBcwcBqxf20/m5FqRh2bz/n7jaaIYsineARMarAXOrVCCmW6/JPwivRXMuIz1mea8S8QTi0EkI8VAyepZr09Wguv4o4UvMkwUUSReqvQDMgbqXCFrFqfwNTIEIIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lD8odh8aF3cXYF3pgON8co8fFrP86LksfskYjN4caBE=;
- b=bJ0ebI1yOtVo0dS2O7zgbMPbmjy+K4Dc9+MdUemKyyIjdBhzikkKAKqfGVAVsKN/KHZ3a1qs3fPiJTzjzt2voJNhqj0wQgiGID11sBqiJPLX7dbmLkPtYM/PvyhaSktJGmqIxk3/X779HblFWWeb2fJRrmASizMyAXfUTNlytQS4Y5UEP+13tFl3QzYvbR/F3eAhalx7mEAJELJSbvUgV8GnUkpU2j+2Y/8c+JG0/sHDe7oOaYRFy7JXz3p1k+OqW3+h8uqcyNJSAlNWFQLLZjZDlbNzTczpAfLFbAGID+QmME/TtiVTwyZSFH9cEh/JMyf6kz8GA2cO93Ic68zWdg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lD8odh8aF3cXYF3pgON8co8fFrP86LksfskYjN4caBE=;
- b=Li7Qr2PUe9vyLHWao+K35LY6KDMyR/uI5B+iCBLMNlAoT7Yf8wRll8LIs2lyXF6UW8yELaLIZmgpHUgF92qX/LWeC+XUzWWYgaGka9V9b2opkN9rivQ3cxxzIDFNpZOVT1vIjKM73JC2f+aEi/dY+nqxunKt1yRv+Mk6WtJYvCVRfSI1owEjd9bLrkxoUg56QssEZifIIFLIDdF7Qij4CW0LJKvNeWjxGQ7xal33eLdez+TCaNU6vsfKyZ16YSx5mplj1fh6n3RwCdBpcIAYxE9PLvQmyWui4pKdWmkDcEnd+p2beCrAUsBUTPSH+5+G9ilKLUFeEJhAnvdm3nME4w==
-Received: from MN2PR02MB6863.namprd02.prod.outlook.com (2603:10b6:208:1d7::20)
- by DS6PR02MB673688.namprd02.prod.outlook.com (2603:10b6:8:4a4::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Wed, 18 Nov
- 2026 15:45:04 +0000
-Received: from MN2PR02MB6863.namprd02.prod.outlook.com
- ([fe80::da67:fd0f:d96d:ac53]) by MN2PR02MB6863.namprd02.prod.outlook.com
- ([fe80::da67:fd0f:d96d:ac53%4]) with mapi id 15.21.0615.013; Wed, 18 Nov 2026
- 15:45:03 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet
-	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
-	<rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Danilo
- Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, Steven Rostedt
-	<rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, Mathieu
- Desnoyers <mathieu.desnoyers@efficios.com>, David Lechner
-	<dlechner@baylibre.com>, Armin Wolf <W_Armin@gmx.de>, Thierry Reding
-	<thierry.reding@kernel.org>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Karl Mehltretter <kmehltretter@gmail.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>, "Borislav Petkov (AMD)"
-	<bp@alien8.de>, Dapeng Mi <dapeng1.mi@linux.intel.com>, Marco Elver
-	<elver@google.com>, Ethan Nelson-Moore <enelsonmoore@gmail.com>, Jeff Layton
-	<jlayton@kernel.org>, Bradley Morgan <brads@mainlining.org>, Andrew Morton
-	<akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, Pnina Feder
-	<pnina.feder@mobileye.com>, Mete Durlu <meted@linux.ibm.com>, Aaron Tomlin
-	<atomlin@atomlin.com>, Rio <rioo.tsukatsukii@gmail.com>, Feng Tang
-	<feng.tang@linux.alibaba.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "driver-core@lists.linux.dev"
-	<driver-core@lists.linux.dev>, "linux-trace-kernel@vger.kernel.org"
-	<linux-trace-kernel@vger.kernel.org>, Mark Brown <broonie@kernel.org>, Bjorn
- Helgaas <bhelgaas@google.com>, Alex Williamson <alex@shazbot.org>
-Subject: RE: [PATCH] driver core: Disable driver overriding by default
-Thread-Topic: [PATCH] driver core: Disable driver overriding by default
-Thread-Index: AQHEXwvVVha5onTuKtkCiJmDQ1XVv7dld0xQgAArsQCAAIZ2sA==
-Date: Wed, 18 Nov 2026 15:45:03 +0000
-Message-ID:
- <MN2PR02MB68630EC3F041DCF581083594D47A2@MN2PR02MB6863.namprd02.prod.outlook.com>
-References: <20261116110853.3418077-2-u.kleine-koenig@baylibre.com>
- <MN2PR02MB6863F6E744D2651D2520A238D47A2@MN2PR02MB6863.namprd02.prod.outlook.com>
- <av1UwuDq9JJkEYkN@monoceros>
-In-Reply-To: <av1UwuDq9JJkEYkN@monoceros>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN2PR02MB6863:EE_|DS6PR02MB673688:EE_
-x-ms-office365-filtering-correlation-id: e75a5f39-f703-41f6-e376-08df458ae972
-x-ms-exchange-slblob-mailprops:
- znQPCv1HvwUXBahuwteIkQeW30lJPuxOJYKhcnIzaA/RgPdtqr6HAWINzU+dtEffFuStHupksY6q+6NFU1R6zuiYmNqGPT/uMEtH1W0+6ZLKBDfbJhPHY+yx05E0XriIPl1Zg48OVSbvjuh8zs2TJZc4Sx3wgFSQQP8tcTEimM/YeBt2SsR3/RH2ojqS583RBbw5hwrYBcCI70vvcpdlMpkC0Eh0u0l8Qig3piI9xawMQt60AuoNRAWFzVMiAiivtjfal2mOUsCja2hfrRVpDHM9ne9eLJ0pRSQGfDTb6/YV0QU3zpd1EAvbiTmfzxtN2ieHomE22Vuhqo7GxXuAOVkDDZJ3ZLUmahMD6PW4YOHnRks911xmV7SVZvb7L+x8s98hpSry4aKAWpGlhkvB749qwgw6nl9/CyGT0ebGyM8+yvwZZszVGOxXUxqoBu4dlfdZUlk6HIrgpfWqrrdpNAxebdHFvTr4/hEhByntbqIPTVuqLxAKq40o7GVYfGeWTkE3+VnBbma5CkrNIb7zwPNsIF5ve6VnmHSVDpKLsUM7xqauKYYiHLFzp8gXxDPJQtQVXqNrOf71jjpa/AEKuj7Z+GTO/sNRWWFVAgCpYN2Pr+hguB5xFika3jRzMciEDW7T8k2G0+1lUJQbl4gHTUYi/NzsNBMx/eOZ6BhPoq5GvSuaBkWgwi83wq9YJsfyYF1rbULTz2QajxhJfXvroX0UW5oEHBBLRBOeTmnzSYrRKqTWSJsOrVba6ztMHy9stZATa+46Ujg=
-x-microsoft-antispam:
- BCL:0;ARA:14566002|15080799012|12121999013|13091999003|24021099003|37011999003|8060799015|51005399006|8062599012|55001999006|31061999003|19110799012|25010399006|40105399003|102099032|440099028|3412199025;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?0l/+6iidOQrFwAMfgjT8Dwr9GQz9w2RFJRh58KVRnw4nbwcw80b2EBu5Z3?=
- =?iso-8859-1?Q?ixqWOmspPDI7EPv6ZgNlnLjaTEmGuriFkHJI+5TTVp4UDNgVs87Edi1aWC?=
- =?iso-8859-1?Q?9LDoaBkBBNnGI/N70tihMsIjWcFv2LEcaG+3edIVCdYZhqJuS9Lcb2FPIn?=
- =?iso-8859-1?Q?goZ0hk7xp9ve2rtHe6CAK/1cH4Lalva+Guj9BN4D4T8gWytuTG0g9ktIub?=
- =?iso-8859-1?Q?6dEmxmAg3PAKb3k6f5F9ZHNovdM71ecF7ck74sMgNRuo/MWhZfO/QoEfUZ?=
- =?iso-8859-1?Q?utegPjKs07706yOHplo33KoOGaUVsAn3UK0y6/k101zU6WfV4w2eBQzcl4?=
- =?iso-8859-1?Q?S1Oc9MG4ZTzKYGYu/Ap63TmoBJOk525IghwjTCgR7e+51EaJIpBmA+Uvs3?=
- =?iso-8859-1?Q?/sHuBYGz8tP56FAH5QqRB3RyzFuYT4cizn+5EosusvAPh6yt4qtwSg4OMs?=
- =?iso-8859-1?Q?RLWOOT4gW5kOzjvm4paf15Lgtxq2Vghp9nmZS1DkJLMt0X4dGbWKEywlPk?=
- =?iso-8859-1?Q?f+eJVaUmf0lxn9bwPXBO0ocxo/CKB2Q9dEbzmLOZhihd7aGEEo10HtMMPC?=
- =?iso-8859-1?Q?dz2TS8azxmXB6VBo59yq8XHBYCMOYb/sBiSWKSsj2fJs8UKEzJBR1Yl9ta?=
- =?iso-8859-1?Q?ITVrS8fUODunnk8rD36HzFQrQ8WerKV/ZOUJwPmQZFvDNs95knhadWnhE8?=
- =?iso-8859-1?Q?McwcY+Djv1cF+LFwURW3HHxovQqs35MBp+K3MP1CfAQnlmI0Q/maomNv8z?=
- =?iso-8859-1?Q?ocWsDI1Ztj4CheJ9NO2TDJeEe5RKGCCwuVdUm2OiBOH5aJXvPWJZGop9Hj?=
- =?iso-8859-1?Q?gsL8keP9ew8EowSiMBo1Le9MT8y2ICm+bfp3u7gesloXoznk1z2Lkr75CJ?=
- =?iso-8859-1?Q?z6xyqhE1/2NJXRE1r+Iu5ksSXUYtEeLBJxmmIc8QvHleriWPc6f7LVmZXd?=
- =?iso-8859-1?Q?3hvqT6a2F8EGts9zNnYGS35joBmAZLJlJ6QNDMsgLDBYzFlgvZOxHqyUQc?=
- =?iso-8859-1?Q?xbik3gf6SSXmDsTvIlQHT/WGvorruimmkv16VTalT2BDCsAJ/1tgrqh+vs?=
- =?iso-8859-1?Q?ZlW8i0m6R4W2zY2kvKMDyWsY/B9BUvZnC/BEbOM22IbA?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?DPwDQ4GZsNAvN77v/kDbg5yj7fev8mKOWBFMkFTztlRjG8mcr61AB5pE37?=
- =?iso-8859-1?Q?jMaB/eactY2TmTf5e2nVdvFrbhEsptg6vkKKrsojY4CLDPQlQEF91OlK5I?=
- =?iso-8859-1?Q?9qasbKt5LNvMS/CeYur4D4Lix0cGIaKh62BzOdXcKy0/KE14T6CM1M5rIP?=
- =?iso-8859-1?Q?2g6NqNNcNKuxPP+fSynDEWi4lxJHa55Np4ClnVinHQxxHTjEZki1jZhMzJ?=
- =?iso-8859-1?Q?V38aXyxj2xWrPeRuQPdU8ahByL9OBf17+EQ+OAr0p6Wshkm3SDH2Tw+q9n?=
- =?iso-8859-1?Q?Zciqqd/P7SrW8xB4FwdHlEVMXmVlSucHP/ib+pgLKLBtQq+UtioHFJ5O3S?=
- =?iso-8859-1?Q?1fyeoWjJnV9nHC2K00pPqQSHqVcerSIWTEpIpJonXnSF7HlIh7FBnassgs?=
- =?iso-8859-1?Q?4cc+TU4l9hcLuokUAm/MrnNYB6MXGpHvW5JAqWtWV4iFLaFvomzC7CTwS6?=
- =?iso-8859-1?Q?g0xIAEp47pUDe3VMQS2xZPywWAAJLUEXRHSaSIgKBu7ty+u6tWU8yn63xw?=
- =?iso-8859-1?Q?McR+DtD6CZgeUm6L/u3d0HZYz9P59pvaXUH0nCl4mlW0oVGt9LcLCSxfaS?=
- =?iso-8859-1?Q?MqA3xRki1n43nNNzi2pagFmfmPrA9xf3RFoHJxd20FLbIz2pyWre3cOGIn?=
- =?iso-8859-1?Q?K5/8CzmF+jNzauWawAHdG5tlpFog5x94cRmZZzAEk5wVmbeb9su6TbUFKb?=
- =?iso-8859-1?Q?ivKpOdsBmTuRFX7OsUyA2vYjphN/VItcE82sZYEXIzo2o7UqsvLo1/OvBa?=
- =?iso-8859-1?Q?FSQ8G+JuzfFuL7FOCWrE08gr/mDfvB403QdBkJLHDQsYh1ZO2KF7PRtchq?=
- =?iso-8859-1?Q?XNoJ4Pff5m8UWQWiTJci5Nc+IafVN75zv2a2NzzU8OF6WUk7/+NbOJ1Gl+?=
- =?iso-8859-1?Q?Sbgz/8/nqc/MfdhieY6H84+WNiNxjmMj169wAIOUFm0WVVZOKlqJ+PcNIe?=
- =?iso-8859-1?Q?EmpwLWEtxEH28ofuz5FyV14BSKisM+7bpXkZiJ40kovTBsJ0V8Sihe+LCq?=
- =?iso-8859-1?Q?Bi99nomli3RwdwrpVxoK1pmo6G/cOnDewNrBoByNgfFB3z/s8MVF/d36fY?=
- =?iso-8859-1?Q?dVBnEqh3R1C1L2X/x48iVfJ8A9/GTjpAWwp+hBhg5QyJTK6gbPoAIwoVbi?=
- =?iso-8859-1?Q?LheBuDI/CZ+lIFwpgz5FDMRPfsODGM6ei2Fg7oFyzYUTnDjULsvyKyOhwE?=
- =?iso-8859-1?Q?ETfN7UXt2/TH29mmJEGztM+sS5C8RI46d14vhNOI3eLh+XKc1dNjcEUO/E?=
- =?iso-8859-1?Q?dVLr6APzJHEACFl1zjD+FjIb9gVJTy/n7H0rrOu4cEYqaq/H5rF1Q7doG9?=
- =?iso-8859-1?Q?3WvO4AELZ45uoakYKqAthliz20M1c2xizEy7tDLgpLXX87dYZ/b5AUqJ1j?=
- =?iso-8859-1?Q?s4U6YeqU61rsIDP6gaLfQqCJa6a8MwHq1JFzNHljKY3GnpC6QmUsk=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=nk1drAx/
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-94961ed97bcso138586285a.1
+        for <driver-core@lists.linux.dev>; Wed, 18 Nov 2026 07:51:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1795017081; x=1795621881; darn=lists.linux.dev;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=rtu+dm+kZUdeiLu+ztbJ6g6Gzpa+7bPUZ/F65mvaYZ4=;
+        b=nk1drAx/FkoeeOOf5cO6WSDy/W52HpDkTui7c7weLjLdXZgwhbuqmocFgaoxHoJFTn
+         jTYkPHuMAbVwaWU6WTM2TC0WaC0GRp1rLBMvCMIQryDbcdXJY/h034M5Qddoi376BC8s
+         H3kVArOPR0HP2/AQZco0NMae+ZH1ad5w+VPynTOVRRhTIQloayuVPMuQbJufy9CR9Rw8
+         KpM7cHnfhi2ifp2+MeeoVuFW5EXsvIlN0xR8hpWHr1FmsBmhNchSWNidqNUYFCzsVIkG
+         fhq5wiRZRJSsxlcltX5yptL3EGxpsk9CBgpNGFlo4A5JT7++qZBR3wigvolR9aRyy/6O
+         qwHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795017081; x=1795621881;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rtu+dm+kZUdeiLu+ztbJ6g6Gzpa+7bPUZ/F65mvaYZ4=;
+        b=0pePyVJ9WcF6sjGaj3S7WvyZsZYKERLQXn9F7PSwmXeWm0+SKZmzLxyMlDU4+MvEmP
+         e4rR4Q4AQP9dGmOb+n5w/c/IB0z0BHCHpm+91GQj8noUZXHZE7Kg3hdXGJq+MS4oGRJy
+         5c/XYVrBSND36IqxiQnZExPlTQyn83yIssd6RAX5kH89Gd85PgDQ19em3mttqMcyD6C+
+         3amU44LLPGs30LeSC/xeOueODjcqMwimXGbOx7SEwx+KxUkFqMuSCp/gPSmvQUgEFNHE
+         nUDvCqKDRIGEOFs7bitT71DS5FwKuPe9EmYrvdB5gfrqt1r+n45mEb3t28a5Wq845RT7
+         6mOA==
+X-Forwarded-Encrypted: i=1; AL+hErHoMBK2ZZ5n7mqQP32Rg+LhJiEDoo9x1l6TvZbLHZ1/vSa0AXXsg4Zyqt3fntbKDPI5Ic35xJBRTXcB4g==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9gRiApJcnbCHD0yQKRzp0/nDzhCgg8REjaUezAmkybWe9ahWCa
+	JM8JUl0ygXdoaAA8tQrtpS4V0wfOtcqiNJAIWkohfub4NC4zE14eM/tM+B3OaMPdRkc=
+X-Gm-Gg: AYBFou0I1V5mJk8VOsmNrRXaSt1NMWt5o2EGLncyDUqKn+A+FcU8TlfZl1xFv7Xx+6z
+	ssuZZgIe8R4EfBQcdq39j7c/y7Ir7i/NxYLR3U60uqC/yWMhugXROS/c4vLA/G+P1K4a0leri8b
+	8AWcw5/IgpAQ2dLsddjTPuHLq2EoWz9qExv+mP4GENSDMq3schCg1oBrJqLv7wk0XOe1k+BTUoV
+	lEqelAFED23czJGYeP1BiT/Z3/eOeozp2s3plwaL4u+joMD5gUi4CWVOiXPNGSq6PAMBjleK9PN
+	JxZdjnWKTjso5X3281XxPVXa4NvkSzyGSeZBmv+ebTtTb4qYBkkBGPPoFFKPV+AsKD4u/C0rVmA
+	/Q1AtG5H0Injy/slQ7zeA6z/n/2R4L4fXQnunbDWxiaQstiLfkE4ZfoCRwGJ9Z/vJHGGluLzMVd
+	k9eNNe1vIXF21W32fegcCd3iAsm8Zpy+B9+uuq1OQeakS0fmYXTW5S8U52iv+ljpm7vQ+KWBB88
+	MS1eXqjUNAuA2fSpBZre7+ZS/Kit2B2DKW1b2M4Z1xwVNjlIAhInlMRTH9OrxpEkJ399zBlHFYd
+	Bo2pGNBOXvvLVrVDO/nfHdhtHhA1RuGshQqcLNeOaOjBSnCA+UIrHmCqWhP4zVd0lax9ueTX8Aq
+	OhfCdX+M=
+X-Received: by 2002:a05:620a:8086:b0:93f:2938:48ba with SMTP id af79cd13be357-949997ac21amr514417285a.55.1795017080864;
+        Wed, 18 Nov 2026 07:51:20 -0800 (PST)
+Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9499b454facsm210842185a.5.2026.11.18.07.51.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 07:51:20 -0800 (PST)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -173,89 +89,79 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR02MB6863.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: e75a5f39-f703-41f6-e376-08df458ae972
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2026 15:45:03.3768
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS6PR02MB673688
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 03/22] mm: introduce the common-memory node state
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: Richard Cheng <icheng@nvidia.com>
+Cc: "Gregory Price (Meta)" <gourry@gourry.net>, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, kernel-team@meta.com, 
+ linux-doc@vger.kernel.org, driver-core@lists.linux.dev, 
+ linux-serial@vger.kernel.org, linux-pm@vger.kernel.org, 
+ damon@lists.linux.dev, linux-cxl@vger.kernel.org, akpm@linux-foundation.org, 
+ david@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, 
+ surenb@google.com, mhocko@suse.com, corbet@lwn.net, 
+ skhan@linuxfoundation.org, rdunlap@infradead.org, 
+ gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
+ johan@kernel.org, jirislaby@kernel.org, kasong@tencent.com, 
+ qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+ axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, 
+ baoquan.he@linux.dev, baolin.wang@linux.alibaba.com, yury.norov@gmail.com, 
+ linux@rasmusvillemoes.dk, pavel@kernel.org, lenb@kernel.org, 
+ hannes@cmpxchg.org, brendan.jackman@linux.dev, ziy@nvidia.com, 
+ sj@kernel.org, muchun.song@linux.dev, osalvador@suse.de, 
+ nico.pache@linux.dev, ryan.roberts@arm.com, dev.jain@arm.com, 
+ lance.yang@linux.dev, usama.arif@linux.dev, kas@kernel.org, 
+ xu.xin@linux.dev, chengming.zhou@linux.dev, joshua.hahnjy@gmail.com, 
+ rakie.kim@sk.com, ying.huang@linux.alibaba.com, matthew.brost@intel.com, 
+ byungchul@sk.com, apopple@nvidia.com, rientjes@google.com
+In-Reply-To: <av2_8Z2sdM_9zUEL@MWDK4CY14F>
+References: <20261114070959.3490008-1-gourry@gourry.net>
+ <20261114070959.3490008-4-gourry@gourry.net> <av2_8Z2sdM_9zUEL@MWDK4CY14F>
+Date: Wed, 18 Nov 2026 10:51:19 -0500
+Message-Id: <179501707902.1206716.2408532904937875068.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-From: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com> Sent: Tuesday, Nove=
-mber 17, 2026 11:44 PM
->=20
-> On Wed, Nov 18, 2026 at 05:51:29AM +0000, Michael Kelley wrote:
-> > From: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com> Sent: Monday, N=
-ovember 16, 2026 3:09 AM
-
-[snip]
-
-> > > +/**
-> > > + * device_match_driver_override() - Match a driver against the devic=
-e's driver_override.
-> > > + * @dev: device to check
-> > > + * @drv: driver to match against
-> > > + *
-> > > + * Returns > 0 if a driver override is set and matches the given dri=
-ver, 0 if a
-> > > + * driver override is set but does not match, or < 0 if a driver ove=
-rride is not
-> > > + * set at all.
+On 2026-11-18 23:24 +0800, Richard Cheng wrote:
+> On Sat, Nov 14, 2026 at 02:09:40AM +0800, Gregory Price (Meta) wrote:
+> > N_MEMORY is overloaded with two meanings:
+> >   1) a node has memory.
+> >   2) a node's memory is reachable via ordinary allocation or
+> >      an arbitrary MM service may use that memory.
+> > 
+> > Allow N_MEMORY to mean #1, and introduce N_MEMORY_COMMON to mean #2.
+> > 
+> > N_MEMORY_COMMON nodes contain "common memory" capable of being managed
+> > arbitrarily by the kernel MM based solely on zone membership. Following
+> > commits convert relevant N_MEMORY users to N_MEMORY_COMMON.
+> > 
+> > Add folio_is_common_memory() and page_is_common_memory() for MM services
+> > that walk folios. Following commits convert folio_is_zone_device() and
+> > page_is_zone_device() callers accordingly.
+> > 
+> > Expose the state via `has_common_memory` so userspace can identify
+> > the memory available to ordinary allocations and common MM services.
+> > 
+> > Add has_memory to the docs while we're here.
+> > 
+> > Every node with memory is common, so N_MEMORY_COMMON equals N_MEMORY
+> > and there is no behavioral change.
 > >
-> > Additionally, returns < 0 if a matching override exists but is disallow=
-ed.
->=20
-> Yeah, that comment is just taken unmodified from the old location of
-> device_match_driver_override(). Indeed needs adaption.
->=20
-> > > + */
-> > > +int device_match_driver_override(struct device *dev,
-> > > +				 const struct device_driver *drv)
-> > > +{
-> > > +	guard(spinlock)(&dev->driver_override.lock);
-> > > +	if (dev->driver_override.name) {
-> > > +		int ret =3D !strcmp(dev->driver_override.name, drv->name);
-> > > +
-> > > +		if (ret > 0 && !drv->support_driver_override) {
-> >
-> > Using "ret > 0" seems a bit odd since the value is essentially Boolean.
-> > Suggest using just "ret".
->=20
-> ok
->=20
-> > > +			if (allow_driver_override) {
-> > > +				add_taint_module(drv->owner,
-> > > +						 TAINT_DRIVER_OVERRIDE, LOCKDEP_STILL_OK);
-> > > +			} else {
-> > > +				/*
-> > > +				 * If you hit this warning and you need to
-> > > +				 * quickly workaround this check, boot with
-> > > +				 * allow_driver_override=3D1 on the kernel
-> > > +				 * commandline. The right fix is to set the
-> > > +				 * driver's .support_driver_override property.
-> > > +				 */
-> > > +				dev_warn(dev, "Suppressed driver override binding to %s.\n", drv=
-->name);
-> >
-> > Maybe "Disallowed" instead of "Suppressed" in the message? Even better,
-> > could the name of the device be provided? For example,
-> >
-> > "Disallowed bind of driver %s to device %s using driver override"
->=20
-> dev_warn() emits the device name.
+> 
+> This sentense kind of blurred me, you state that N_MEMORY_COMMON is meant
+> to isolate the concept of #2 from N_MEMORY, I expect something
+> making clear distinction between common memory and private memory ?
+> 
 
-Oh, right. Ignore my comment about the device name. I just tried it
-with a Hyper-V VMBus synthetic device, and here's the output, which
-is fine:
+Sorry, basically as of this set:
+  node_state[N_MEMORY] == node_state[N_MEMORY_COMMON]
 
-[   80.105203] vmbus 0f749bd1-5637-4279-91f1-bde768dd030f: Suppressed drive=
-r override binding to uio_hv_generic.
+Later, we'll introduce N_MEMORY_PRIVATE and the sets become disjoint.
 
-VMBus device names are full GUIDs, which isn't super handy, but it
-is what it is. :-(
+I realize posting this series in isolation was a mistake now, and I am
+going to post the entire v6 of private nodes with the reworks you
+suggested instead.
 
-Michael
+-- 
+~Gregory
+
