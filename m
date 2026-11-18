@@ -1,79 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795041027;
-	b=CxWpz8Wq7AZE/uad2K0/x7MgPXDTQl+9TF7eTkfniAeF+3FHc8whja75RzjAD2+v7d9u
-	 Cd9gdwc9ZCSC1GKOdjzmmnc/mhYGG29OT8uAknSh9p7LQVEI5PJi4t3IH6S2jAnFKt0pQ
-	 sYyDjn51xPA/0cj3pBhlgnyi/rigznNJmKPgDzIYyz4VRtBqBeCc0xLPovyLm/qMR6X1o
-	 U9Gu76jS/iF3EftSjtAs+4JlopRJfU7S5ia8ZncQkGOFOOFZdntxVEVZGUfk5fVng7Rhj
-	 aV9n021kP87b+UukaVAksXMXNisMHWlKXA2EFE0HylvmY2ZUAwM/+EJOyyPPN1k1MDg==
+	t=1795041955;
+	b=Nqrg1eDl7TV0N9T9+Ofg98rxgzThbmoWja+9UTBENOUlVpovoPZKcfcEkgwtI2i3K90S
+	 n9NY6KkkFGmLnyT+q+/u5tdeE+L/XNKXFZw8/A/ljYixqx88VkyhoiEa9iSLGI5Ikbi+W
+	 QZ8OIimDE9327TZ9wdslD+x+5OzcV8LwO1rcVx0Q97PgdhSpilPcgVTWolKF9u/atDR8D
+	 i7eujbrQypmkFMzFG0XlC/IZ3NX0NLhh2vodTKHBgpCDXPJX7oXBLvtZ6KqaZjev3Lszp
+	 28IeEjRommdJkIXlOdwHac8p2j6wdyFmD4qWnJrpsQMlFJrYU1Lao/2Nd5Np309qSGg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795041027;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=QLyyB3TY8HIBfI0UehSTXegv4s6HQrd5kKMzx3nu9Aw=;
-	b=gML3zRNa/Uh/4MCIFHhhoB9vbRPBmvEghig12Adymb0svA6oFc/lH66HQeXUet9TS2LE
-	 osUiu8H2FIHZg8JW/MYGiYYa0EDu7M9g9qBK5Y08jwrNQ35H9lgkkArghM/W6iDgB+gEc
-	 pCMIXrS5KKaEQAAct/+xxI1sY5Q+11Dm/NwLsPMoz1QP21/OBYmz1stVjAkL77YxXI0K+
-	 iDT1pCAp2gr/wn7+pYQ9hFOs0xGVzgpYFHRp043ee9PEAfievrpkbc4oN7s5m5MjtT95x
-	 r/HnLq1aTHDQrbCw4p0KlYdzghdfbUIWrfJL4YSlGFrLjaovBClGwoD1ZWnZ/XPdIYw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795041955;
+	h=Received:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
+	 Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
+	 In-Reply-To;
+	bh=BYk/c0gsLCrf5jVqJaRR5xbeOm4kW9crjwwPAlxYeHQ=;
+	b=5lURVk5uebIs9w5T7vc5K1RjUemdvW6LPUQKdALVLnv1+uCcsRxXPymoEtqaHLxE8BrI
+	 JEx95uAlRE8Ct3bIa8dzrnNx4/LOvrorAhoWQB5WSsel3gBAyEm9GJLWdoIldndVMkBzS
+	 kb+m6GtatjR1vv44v950Naes5mjaXyF/gTyuM8VkYfnUxyadXYrPhU3dKeeOMj09/E2l9
+	 ch0uEXbgUGJspL7iG9mHlknlllloUoeUWdS5a4W8ai7Rvfpdia2g6FJxz6cdcjyuwU8tq
+	 Wc6y8UHwwMi2Uiw/0I5wvZFoNeToBKdZzmL9dyW7sqdaA0W4LQDVbfAeLUw0G7Vc8wA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=D2cShabd;
-	arc=none smtp.remote-ip=192.198.163.9
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OT4R3ech;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9C7606A333
-	for <driver-core@lists.linux.dev>; Wed, 18 Nov 2026 22:30:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE9C7606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F172A606A320;
+	Wed, 18 Nov 2026 22:45:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=D2cShabd
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795041027; x=1826577027;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4zGIZsdmuPzvRgSJ4qawFG5d4oixYPrNtASyWnLjLpc=;
-  b=D2cShabdWapoR4hi3ThMjAydwTC7p4NT59CLR8aJBeCazd0cvEEMeib9
-   SWfE4QNpqjcQRX6NU8ns/87sL/Ych6ZamgjK8XRRBnuvu+l03Y5IAYSKn
-   DQz5J6yhTSmRIPwSCO1Q51bz3/FtmFRQCKCDppHjW1eGNgxF2Nfv5hlfJ
-   XOBn3IS0yhoPJJRkFTUEaLxshXR1LCKP2iL3xtMT7sDROAO23HAx63bsI
-   pk/e/iMHWfAasA+AVvMjeH0NmmRhNhf+eg4EH4ByiW+bsigzgt6hx3Elp
-   Dl5RCcvEMTxWzmcXvocprLS6XtWog3v2H95LKps9LsXGCLfWNfwDhv32a
-   Q==;
-X-CSE-ConnectionGUID: E1BAANObSeu6Tr8XsFnnYQ==
-X-CSE-MsgGUID: kiYQYLulS5uJP59wvLj79g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3758835"
-X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="3758835"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 14:30:26 -0800
-X-CSE-ConnectionGUID: b8LnhNXSTvaKsoDPcsocAA==
-X-CSE-MsgGUID: 6fQ3npixTQWzEj2o4eUH4Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="10655814"
-Received: from dut4463arlhx.fm.intel.com ([10.105.10.189])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 14:30:26 -0800
-From: Stuart Summers <stuart.summers@intel.com>
-To: 
-Cc: driver-core@lists.linux.dev,
-	bartosz.golaszewski@oss.qualcomm.com,
-	balasubramani.vivekanandan@intel.com,
-	intel-xe@lists.freedesktop.org,
-	heikki.krogerus@linux.intel.com,
-	dakr@kernel.org,
-	andriy.shevchenko@linux.intel.com,
-	Stuart Summers <stuart.summers@intel.com>
-Subject: [PATCH 0/1]  Add a shared software node test case to driver core
-Date: Wed, 18 Nov 2026 22:30:22 +0000
-Message-ID: <20261118223023.19653-3-stuart.summers@intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OT4R3ech
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C2331F000C4;
+	Wed, 18 Nov 2026 22:45:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795041954;
+	bh=BYk/c0gsLCrf5jVqJaRR5xbeOm4kW9crjwwPAlxYeHQ=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=OT4R3echz20YrVaDz2cGiE48b9X9zbzL9vkrT+mAkViLCRjJgi7IfPWvL5ItLyaoc
+	 /hHi40GLVuT1bfxoSz6NWJRxulAw9mp+uboI7Jc9PjHuAeUIdpyH9WaHaxa+VFjjs1
+	 RnsPa/PNx4Kr7sE9wmF2mQlH60p6iYJiNCOAyfAuYeD5fKAgUD3HANf4J8TGJS1mUO
+	 YOJWm7GQJvwMbcAs/zf1iIpXjswNwRwGlm2Q3cg3pt3y/7KdS6tyU6JwxQlOKWEqvc
+	 JZTnJqvu2adHU+OxVkB6RuaQGOIFgBia/l7Ad58h7Q5u/UgoxMpzrXih0Ins4QTJwq
+	 CbJscQixm7CpQ==
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -82,24 +48,59 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 18 Nov 2026 23:45:49 +0100
+Message-Id: <DMYP9JMEAF53.13MHUJHT7J420@kernel.org>
+Subject: Re: [PATCH 1/2] rust: scatterlist: tie owned tables to the device's
+ bound lifetime
+Cc: <aliceryhl@google.com>, <abdiel.janulgue@gmail.com>,
+ <daniel.almeida@collabora.com>, <robin.murphy@arm.com>,
+ <a.hindborg@kernel.org>, <ojeda@kernel.org>, <boqun@kernel.org>,
+ <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
+ <tmgross@umich.edu>, <tamird@kernel.org>, <work@onurozkan.dev>,
+ <driver-core@lists.linux.dev>, <nova-gpu@lists.linux.dev>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>
+To: "Alexandre Courbot" <acourbot@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20261114234324.82387-1-dakr@kernel.org>
+ <DMWC45NN5L9I.2NUG81ETBC84L@nvidia.com>
+In-Reply-To: <DMWC45NN5L9I.2NUG81ETBC84L@nvidia.com>
 
-Original patch was posted here:
-https://patchwork.freedesktop.org/series/177785/
+On Mon Nov 16, 2026 at 5:02 AM CET, Alexandre Courbot wrote:
+> The `RawSGTable` documentation still mentions `Owned`. We could adapt it
+> or (maybe better) just drop that sentence.
 
-This is just a resubmit with a fixed up commit message and this
-cover letter.
+[...]
 
-After dropping that assisted-by tag, just a quick note that I did
-use claude opus in the development here.
+> `sgt` is removed by this patch.
 
-Stuart Summers (1):
-  driver core: platform: tests: add a shared software node test case
+diff --git a/rust/kernel/scatterlist.rs b/rust/kernel/scatterlist.rs
+index 93f431d7f548..22d039f3fdb1 100644
+--- a/rust/kernel/scatterlist.rs
++++ b/rust/kernel/scatterlist.rs
+@@ -214,9 +214,6 @@ fn drop(&mut self) {
+ }
 
- drivers/base/test/platform-device-test.c | 57 ++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
+ /// A transparent wrapper around a `struct sg_table`.
+-///
+-/// While we could also create the `struct sg_table` in the constructor of=
+ [`Owned`], we can't tear
+-/// down the `struct sg_table` in [`Owned::drop`]; the drop order in [`Own=
+ed`] matters.
+ #[repr(transparent)]
+ struct RawSGTable(Opaque<bindings::sg_table>);
 
--- 
-2.43.0
-
+@@ -282,7 +279,6 @@ fn drop(&mut self) {
+ /// A [`SGTable<Owned>`] signifies that the [`SGTable`] owns all associate=
+d resources:
+ ///
+ /// - The backing memory pages.
+-/// - The `struct sg_table` allocation (`sgt`).
+ /// - The DMA mapping, released before the table and backing pages are fre=
+ed.
+ ///
+ /// Users interact with this type through the [`SGTable`] handle and do no=
+t need to manage
