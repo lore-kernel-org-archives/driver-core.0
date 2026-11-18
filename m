@@ -1,58 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.223
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794992392;
-	b=JXy403yiG8898b7iJ1fH1V5kvWhc5tMknIxUC695rlkm+76tFbbjNFgfvkuMAQgbEIh3
-	 gs9OdujiZPp0cvSsjIwkdOhrCxb4fflwNX/h38CbR4l24kOEIOdfmc89r+/9ZwpNPk3vT
-	 hVLjGZxhRcaueQtXCEMIRtVQuEZ69ah9IISNgn1hJXWx918PIs0lZ83a9AGYh83XQaGW5
-	 bAHvyHaMc5DsRWiDvMhbQz0LUdltzn4rb3Z6RqAQbrGaEirakO5Ux+hc+kayBWdCU2rp6
-	 YU8QCOK6rAUIfyOte4pda9AB52YMRt5iSybIPaQZU/SLBgJVPGN5cDTxdBs29PVhzxg==
+	t=1794992716;
+	b=0izVbU2JFKUFYhyv1Dr9eEWZmxm9oel7intRWMWsORdncbSIoLrLx7gzQSGCPMn2REMy
+	 w9z/DCPFdTuTju/hP0/O4WMZJfcDIibG4SIlr+aUsvHJAmuHEkzeUWM61+hJTtY1W90Qv
+	 Cencb7FhnaQuP5nVP4H50OPpd/Z/3KA/7f5Hciv+xfIhnUulPJcd80S/8CagDRcMmytFe
+	 ALurUN5eWZ9Gxts+pmwAtkndGGR983OAHevxA7ja3JkCXa40qohSDhowLAg6ofnWmnhFI
+	 MbvOpZKTt95W4lk7E6OFWapdd0TYmz/i2Y7ufz5EnACizepjMKWxxQsTZtRSpN9J7RQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794992392;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-	bh=zDjwPIFBALJRu9G1JpFQxNCh37Ku2FGitfdnf5CWttU=;
-	b=Ay2QeI7qD8mTrhZyiDxMrK12Bhf4txO5xD+CQ9OtVfYkSp5iIUJe6hCP8AogyEZwYjg6
-	 iX3HDPqk0vInKF8Rg4n8TC+m9X3qw6HsvJGxByKIABH80RNVqkw+lTzyYQz8wq45uMqiT
-	 nrvW4rqoIFyYf/+XYUVFreoc9yplrGz63b8rSxJjW+PQO8e578F4Nvsu1SLKfpXgWroM/
-	 b0Jl5yerRvQzVEQxncQ0wjPN3EM9ScDdws9oxjoC4Dxiy/BeLGcu/Z2n+16ljBp9P9Lrn
-	 WdXGawnFsffntkNC43Msyc+eHG6ZV0oeoqfaEP8M9RKCNUpsYPqkXxre/Rl+4tcE1Fw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794992716;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=374ri7+4MeVZtf5um2Y1DNiMy9roud5hxc7+KcS4KyA=;
+	b=ZOeT8b//w+kheTb6DaP5OLd5VoImkkiqT77adcDc9NLzhyCRcynct96cOeGbMYlhynbi
+	 YNVuaaK2PopQ0pGrYk7vfpFRaJbhXWzxDK5KU5Pla7p+8zJr/StMLDo844muH4bYHEfXo
+	 Vhx4XV0M+QDg6FM5B1uU8MY7s/KzXsBXbnlEqyXt8YRHXHqRZbAORz8y8cydrS1foBgRH
+	 ToUoS/GarKEJtoLbzKLSFS3w4FsA/Cjn4huK7DK4Xr+5mLBj+91fA5P9blKVh/jnFOO0H
+	 yQltTuWlRcZhoL75+Yd++TiZihoej5chgkRs9ZdrO+d1/QgQ5J9Bi7cggMarCoKgSIw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=YG0f5s+2;
-	arc=none smtp.remote-ip=113.46.200.223
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MtmMx8sj;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5533A606A31C;
-	Wed, 18 Nov 2026 08:59:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5533A606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A9B606A31C
+	for <driver-core@lists.linux.dev>; Wed, 18 Nov 2026 09:05:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33A9B606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=YG0f5s+2
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=zDjwPIFBALJRu9G1JpFQxNCh37Ku2FGitfdnf5CWttU=;
-	b=YG0f5s+2kvHrKlKCN7CB4HY4p0LT+CaaaGw+BSvo7+/ssB/SQ9sM0FXb1MTh9BFkL9Mv7Wn3S
-	BNOqmdVJd6x1gk7TjCfNf3D3ZpPYsdFv+Yf8GC5xj0argsiNrvpyQ++8NgtWzUN+FazgOOGwEZ0
-	m7pnB1IrMWzbaj4bmorQi1I=
-Received: from mail.maildlp.com (unknown [172.19.163.163])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4jTwWs2YwTzmV7G;
-	Wed, 18 Nov 2026 16:59:21 +0800 (CST)
-Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
-	by mail.maildlp.com (Postfix) with ESMTPS id B45424048B;
-	Wed, 18 Nov 2026 16:59:40 +0800 (CST)
-Received: from [10.67.110.140] (10.67.110.140) by
- whupemk100010.china.huawei.com (7.152.184.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Wed, 18 Nov 2026 16:59:31 +0800
-Message-ID: <bdc22808-9f22-46f7-b42d-e6bd8e1eeaca@huawei.com>
-Date: Wed, 18 Nov 2026 16:59:29 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MtmMx8sj
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794992716; x=1826528716;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JRYvHjc2XzoEsxyTnYYkNUZ2Ub40RofbKnyppuYWcVE=;
+  b=MtmMx8sjCr5vR+qjxpRhT2uNF/AhwpmpnYaQB8iYuwddgwW1eHRpf46g
+   3e9L02Hoy2kNWR8sQXviPEI4D14YgBRHKkDWvp0weTXSdbJvbq8ZvQFHK
+   hHLP0FCbp66isUf6r15T62wjaQMSFVNv0JbRazYb2WZCzVLFO1q7EiAMP
+   Ihx6d4l3R4NHPI0G+L6txUO2TuJqABPynBSXJ8k4mwsBmbAdvmmxQ7rzV
+   OQ5pRDF2MHj3d98/issjEuwX9g833B9Bjk5YPrAopSP698FMHMMrNrg7K
+   w8MuxjqixGHADcE6nB9dgkpRHsa5xs+NpRQBT6NGSHotohuaVBRFON8a3
+   A==;
+X-CSE-ConnectionGUID: /aeuDjIEQmuIkUuf9CDjww==
+X-CSE-MsgGUID: vsyLOUV5ToevhQKynMg/4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3818821"
+X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
+   d="scan'208";a="3818821"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 01:05:02 -0800
+X-CSE-ConnectionGUID: +yvOVnxlTj+CX2zSo4rUIA==
+X-CSE-MsgGUID: nKNRUAYyRJqpgofT/76kLA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
+   d="scan'208";a="10424378"
+Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.157])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 01:04:59 -0800
+Date: Wed, 18 Nov 2026 11:04:56 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: raffaele.tranfaglia@gmail.com
+Cc: Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
+Subject: Re: [PATCH RFC] regmap: kunit: add tests for values wider than
+ val_bits
+Message-ID: <av1qOFxolvDhQTKs@ashevche-desk.local>
+References: <20261117-regmap-kunit-val-bits-v1-1-a1cd02063217@gmail.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -62,132 +83,114 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next -v4 02/17] LSM: pass struct path to the
- inode_setsecctx hook
-To: Al Viro <viro@zeniv.linux.org.uk>
-CC: <mic@digikod.net>, <gnoack@google.com>, <paul@paul-moore.com>,
-	<brauner@kernel.org>, <jack@suse.cz>, <amir73il@gmail.com>,
-	<andrii@kernel.org>, <apparmor@lists.ubuntu.com>, <ast@kernel.org>,
-	<axboe@kernel.dk>, <bpf@vger.kernel.org>, <casey@schaufler-ca.com>,
-	<cel@kernel.org>, <cem@kernel.org>, <chenxiaosong@chenxiaosong.com>,
-	<code@tyhicks.com>, <corbet@lwn.net>, <Dai.Ngo@oracle.com>,
-	<dakr@kernel.org>, <daniel@iogearbox.net>, <dhowells@redhat.com>,
-	<dlemoal@kernel.org>, <dmitry.kasatkin@gmail.com>,
-	<driver-core@lists.linux.dev>, <dsterba@suse.com>,
-	<ecryptfs@vger.kernel.org>, <eddyz87@gmail.com>, <emil@etsalapatis.com>,
-	<eric.snowberg@oracle.com>, <exfat@lists.linux.dev>,
-	<georgia.garcia@canonical.com>, <gregkh@linuxfoundation.org>, <hch@lst.de>,
-	<hirofumi@mail.parknet.co.jp>, <hyc.lee@gmail.com>,
-	<ihor.solodrai@linux.dev>, <jlayton@kernel.org>, <jmorris@namei.org>,
-	<johan@kernel.org>, <john.fastabend@gmail.com>,
-	<john.johansen@canonical.com>, <jolsa@kernel.org>, <kpsingh@kernel.org>,
-	<linkinjeon@kernel.org>, <linux-api@vger.kernel.org>,
-	<linux-block@vger.kernel.org>, <linux-btrfs@vger.kernel.org>,
-	<linux-cifs@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-nfs@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
-	<linux-trace-kernel@vger.kernel.org>, <linux-unionfs@vger.kernel.org>,
-	<linux-xfs@vger.kernel.org>, <liubaolin12138@163.com>,
-	<martin.lau@linux.dev>, <mason@kernel.org>, <mathieu.desnoyers@efficios.com>,
-	<matt@bobrowski.net>, <memxor@gmail.com>, <mhiramat@kernel.org>,
-	<miklos@szeredi.hu>, <neil@brown.name>, <netfs@lists.linux.dev>,
-	<ntfs@lists.linux.dev>, <okorniev@redhat.com>, <omosnacek@gmail.com>,
-	<penguin-kernel@i-love.sakura.ne.jp>, <rafael@kernel.org>,
-	<rdunlap@infradead.org>, <roberto.sassu@huawei.com>, <rostedt@goodmis.org>,
-	<selinux@vger.kernel.org>, <senozhatsky@chromium.org>, <serge@hallyn.com>,
-	<sj1557.seo@samsung.com>, <skhan@linuxfoundation.org>, <song@kernel.org>,
-	<stephen.smalley.work@gmail.com>, <takedakn@nttdata.co.jp>, <tom@talpey.com>,
-	<yonghong.song@linux.dev>, <yuezhang.mo@sony.com>, <zohar@linux.ibm.com>,
-	<utilityemal77@gmail.com>, <lujialin4@huawei.com>
-References: <20261117150542.1169451-1-caixinchen1@huawei.com>
- <20261117150542.1169451-3-caixinchen1@huawei.com>
- <20261117184342.GR989762@ZenIV> <20261118001641.GA1669148@ZenIV>
-Content-Language: en-US
-From: Cai Xinchen <caixinchen1@huawei.com>
-In-Reply-To: <20261118001641.GA1669148@ZenIV>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- whupemk100010.china.huawei.com (7.152.184.41)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261117-regmap-kunit-val-bits-v1-1-a1cd02063217@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Sorry, this is a major issue. I checked the current state of the patchset
+On Tue, Nov 17, 2026 at 07:55:14AM +0000, Raffaele Tranfaglia via B4 Relay wrote:
 
-- fs/attr.c, fs/open.c, fs/inode.c, fs/utimes.c, fs/namei.c,
-fs/coredump.c, drivers/block/loop.c: nd->path or file->f_path (in loop.c:
-the f_path of the backing file, where file == NULL is intentional).
+Thanks for starting this discussion! My comments below.
 
-- drivers/base/devtmpfs.c: the mount point of the parent directory, 
-which contains a directory entry that was just created or is about to be 
-deleted.
+> Add two test cases writing 0xffffff0f with regmap_write() to a regmap
+> with val_bits = 16:
+> 
+> - write_wider_than_val_bits uses the RAM regmap, a bus that only
+>   provides reg_write()/reg_read();
+> - raw_write_wider_than_val_bits uses the raw RAM regmap, which goes
+>   through the value formatters.
+> 
+> Both expect that only the low 16 bits reach the bus and can be read
+> back. The raw test passes, since regmap_format_16_*() only store 16
+> bits. The RAM test currently fails: _regmap_bus_reg_write() hands the
+> value to bus->reg_write() unmodified, so the bus sees 0xffffff0f. With
+> the rbtree cache the value is in addition truncated in the cache only,
+> so the cache and the bus disagree.
 
-- fs/cachefiles/xattr.c: cache->mnt, under which a directory entry is 
-searched.
+It means we can't enable this test cases without addressing the underneath
+implementation(s) of the regmap. I think the proper solution is to cut upper
+bits on the regmap level, so the cache and HW will see it as expected.
 
-- fs/ecryptfs: ecryptfs_lower_path(), which is the mount point of the 
-lower-level directory entry itself.
+> Signed-off-by: Raffaele Tranfaglia <raffaele.tranfaglia@gmail.com>
+> ---
+> regmap_write() takes an unsigned int, also for regmaps with
+> val_bits < 32. What happens to the bits above val_bits currently
+> depends on the bus and on the cache type:
+> 
+> - buses with raw write() go through the value formatters, which
+>   silently drop the upper bits;
+> - buses with only reg_write() get the value unmodified. regmap-i2c's
+>   SMBus backends and regmap-fsi then return -EINVAL, others (like
+>   regmap-ram here) take the full value;
 
-- fs/nfsd: exp->ex_path.mnt, which contains fh_dentry, a value decoded via
-exportfs_decode_fh_raw(exp->ex_path.mnt,...), or exp->ex_path.dentry.
+To make the users' lives easier we should not move the burden on their
+shoulders to carefully cut the upper bits all the time it might be required.
+I see the only solution is to fix either globally in regmap core or in each
+bus and document that somewhere that developers for the new regmap busses
+won't repeat the same mistakes.
 
-- fs/overlayfs: ovl_upper_mnt(ofs), which contains the actual 
-upper-level directory entry.
+> - with a reg_write() bus and the rbtree cache, the cache stores the
+>   truncated value while the bus got the full one.
+> 
+> This was found in the adux1020 IIO driver, which writes ~u16 (promoted
+> to int) to a 16-bit register. It works on I2C adapters and fails with
+> -EINVAL on SMBus-only ones [1]. I am raising it here as other drivers
+> can hit the same thing.
+> 
+> The tests in this patch expect masking to val_bits on both kinds of
+> buses, so the reg_write one fails today. This is only to show the
+> difference: should regmap_write() mask the value to val_bits for
+> reg_write() buses, or should it reject such values consistently for all
+> buses? I can send a patch for whichever is preferred and adjust the
+> tests accordingly.
 
-There are two places that violate (1), both introduced by this series of 
-patches in ksmbd:
+...
 
-smb2_parent_compressed() and smb_inherit_dacl() pair the directory entry 
-returned by dget_parent()
+> +static void raw_write_wider_than_val_bits(struct kunit *test)
+> +{
+> +	struct regmap *map;
+> +	struct regmap_config config;
+> +	struct regmap_ram_data *data;
+> +	u16 *hw_buf;
+> +	unsigned int rval;
 
-with path->mnt, and problems arise once that directory entry becomes the 
-root of its mount point.
+Reversed xmas tree order?
 
-I will fix these issues in v5 and ensure this invariant.
+> +	config = raw_regmap_config;
+> +
+> +	map = gen_raw_regmap(test, &config, &data);
+> +	KUNIT_ASSERT_FALSE(test, IS_ERR(map));
+> +	if (IS_ERR(map))
+> +		return;
+> +
+> +	hw_buf = (u16 *)data->vals;
+> +
+> +	/* Write a value with bits set above val_bits */
+> +	KUNIT_EXPECT_EQ(test, 0, regmap_write(map, 0, 0xffffff0f));
+> +
+> +	/* The "hardware" should only have seen the low val_bits bits */
+> +	if (config.val_format_endian == REGMAP_ENDIAN_BIG)
+> +		KUNIT_EXPECT_EQ(test, 0xff0f,
+> +				be16_to_cpu((__force __be16)hw_buf[0]));
 
-If you find any place where (1) still does not hold, please point it 
-out, and I
-will fix it.
+Do we really need those explicit castings? I think they are already inside
+the byteorder macros. Also we have be16_to_cpup() and le16_to_cpup() which
+might help.
 
-On 11/18/2026 8:16 AM, Al Viro wrote:
-> On Tue, Nov 17, 2026 at 06:43:42PM +0000, Al Viro wrote:
->> On Tue, Nov 17, 2026 at 11:05:27PM +0800, Cai Xinchen wrote:
->>> The inode_setsecctx hook and its security_inode_setsecctx() caller in
->>> fs/nfsd operate on a dentry even though both have a struct path
->>> available.  Pass a const struct path so that the coming conversion of the
->>> xattr helpers can be reflected in the implementations; for now SELinux
->>> and Smack keep passing path->dentry and &nop_mnt_idmap to
->>> __vfs_setxattr_locked().
->>>
->>> Also document in lsm_hook_defs.h what a struct path argument may be used
->>> for: it can be passed to VFS helpers taking a struct path, but nothing is
->>> guaranteed about path->mnt.
->> No, with the side of Hell, No.
->>
->>> + * Hooks that take a struct path argument: the VFS only sanctions passing
->>> + * the path to VFS helpers that take a struct path (e.g. notify_change());
->>> + * it makes no guarantees with regard to path->mnt, whose layout and
->>> + * implementation details are subject to change.  Implementations must
->>> + * not rely on its properties.
->> NAKed-by: Al Viro <viro@zeniv.linux.org.uk>
->>
->> If that kind of stuff actually does get passed to any existing hooks, we need
->> to fix that ASAP.  If not, consider that a blanket NAK on any patch series
->> that would introduce such.
->>
->> We are not going there.  At all.  "Must not rely on its properties" ==
->> "must make sure that no existing functions with struct path * arguments
->> ever have such malformed instances passed to them".  Which is not going
->> to be feasible to enforce.  And yes, that very much includes any VFS helpers.
-> To elaborate a bit: correctness of quite a few places does depend upon the
-> following invaraint:
-> 	path->mnt->mnt_sb == path->dentry->d_sb		(1)
-> for all struct path pointers they might possibly run into.  _Some_
-> functions might _currently_ be safe to call with that constraint violated;
-> there's neither a list of such functions nor any promise whatsoever that
-> call that is currently safe in such conditions will remain safe at any
-> later point.
->
-> _IF_ you can guarantee that (1) is not violated, we have something to
-> talk about; otherwise, don't call your object struct path and don't
-> pass it to anything that expects to deal with struct path.
+> +	else
+> +		KUNIT_EXPECT_EQ(test, 0xff0f,
+> +				le16_to_cpu((__force __le16)hw_buf[0]));
+
+Ditto.
+
+> +	/* And that is what we should read back */
+> +	KUNIT_EXPECT_EQ(test, 0, regmap_read(map, 0, &rval));
+> +	KUNIT_EXPECT_EQ(test, 0xff0f, rval);
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
