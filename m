@@ -1,67 +1,157 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.157
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795043038;
-	b=K64ZjevRNJcvo+4rpDbYiprGpxSmNMaJkLLtyU3ox0/VQC5eWHKi/iL57P5nDMxgikFf
-	 JlBYifqMyi6xVqFvcffcu8eIzLulzVNY9G4YtQemVkY4prn4GfpwLjTGvMN8nZLVuOxhe
-	 kP3kdPjdUJOdKlEZeZLJfZStRMR99RuJ5bUInkXizHGWIzirQi1UfZayCd78zrijrV80H
-	 ZKWzz7Lg5EaQQ2225RyfdMY5fAG5XXvysF/BdXcSVi35YcDrxuzSQltEcKoIK3pf6kFWa
-	 b3aFbQYEZHG9xy9NDdNkLELHOBDeMeNwkzzuzcAja+um9zR0DtpH5wEdfgoQDUnUOaQ==
+	t=1795046245;
+	b=ykSFoNBob0wafDTd2CciWRlRgZ+EdliDNAYv0HqA+Q1sxav12PjF7FdX1R18SewUI/H0
+	 p0jFiCgkuPKmO+z5sT0SP8EcqRioCHEoP+zVEnwSRr83nBXE2KDFj/SzjW7DAo45q3TP9
+	 DDoUNmEegTaSMOdvLCA0SV9dgvCzQh6L52zMLtnx5Xzw8SSxr37ZOEBdlxlQP9piZKXP4
+	 CTWFW1bb/268p2EdIJrTMgtZMO7Xrw1mpHVf1METcSehcU4Zwzl5vJHYyF2nziPrDN/Qw
+	 taYdvRpKAnI8XritHxUVXI0/sHmJl+xCXupaIuWNxfAbktm3HX9uQcunErCvVrpH5tw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795043038;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=LYuA5k8Q5G3bvObPmzEGjHYjfh5cZ3ol0+B9dG9s82g=;
-	b=gu+qJW9ariCRSvuuiv5riYEniuMMymZJ+ANiEhWZZP6hoPzbIzyGYENxdbMlZsm8b3dA
-	 TsAvr0+35hc8daiQYUH/WjK0G1AwaUUvaM48r2SL9S+ydNLaOGRQeC5KmW0/0zRUhgB08
-	 Zcob1fZdF+4GQlRVloYMVaWg1qXgKGGOuwqJbsSFHH/1innk29R8VcgkO/3L7Ap4u3jrA
-	 XG91kUvA+40D4RYmgZKJn+9uTex5WlW6nWDvvfh7m7q8rFvJdrsYKh2f63qhqi0PvDexZ
-	 IzUX1nrmq/4IRL5KqC14nZ88KH96nb5HoG2EyVxTiLjhTiUzjlIRf5pOIqp6YbI27XA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795046245;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding;
+	bh=hGkc2X+O0aenFipJnJuCddUF3up8YjP06AEbn7gF8WU=;
+	b=XyVfbCzkBGjc3AWKGDY9aCw1UacVF+P44NxXutDP1t6ehdsrVN7WiEYOUaAcTwDTdqQe
+	 /RD9MRuO9YMBMyo0uVaX7pM8oVxe96fxMxP26IqhdQG4L7qjIJ4xhRx4xQK1uZfZ3dWHB
+	 G0Ktc70dTTt7XJsqiUxt9HG3XHcURzpHMZc1KxEaBR3uv4VAUPwdq8A8iDLilOnGrjSR3
+	 SUx2/BTYDq9z/ADmN2Mks6qas/8i/WhkvbYWLrN3DVoOfEsnEw/Eaga/GL+KABm1jCE1R
+	 q6adsjnVCN++oxQAcATPYIanDvm9uTruvWjVP87CWma4vTzr8KmJUzKq6puRwuGUb6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=LunTQyVz;
-	arc=none smtp.remote-ip=91.218.175.174
-Received: from mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=shazbot.org;
+	spf=pass smtp.mailfrom=shazbot.org;
+	dkim=pass header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=A7foanMU;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=3RkSpiOv;
+	arc=none smtp.remote-ip=103.168.172.157
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2637360A261B
-	for <driver-core@lists.linux.dev>; Wed, 18 Nov 2026 23:03:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2637360A261B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90103606A331
+	for <driver-core@lists.linux.dev>; Wed, 18 Nov 2026 23:57:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 90103606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=LunTQyVz
-X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=NrOhDzn+O03mDRkyeFyoOgZyaruzpXiA8SMQB9zY2vg=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795043035; v=1; x=1795647835;
- b=LunTQyVzpfshMRtlK7gM2oJT3FI44XgmRE2wI21YLu/i63ahd7jEyAAYBGe0zNKH66gGnk4I
- BJHB8UTr5sCRPwJJlVY7gL+C3MVUfd59kpnfjvaOWF8qSg+c8mDe/Jf2lHHEJP5DRrxxyMCxho9
- S2zFFJM+6pLRSGvald5gfkco=
-X-Envelope-To: driver-core@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id 343db22439ec49d2;
-	Wed, 18 Nov 2026 23:03:55 +0000
-X-Mizu-Trace-ID: 343db22439ec49d2
-X-Migadu-Flow: FLOW_OUT
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Tejun Heo <tj@kernel.org>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=A7foanMU;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=3RkSpiOv
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 8DD7714001AD
+	for <driver-core@lists.linux.dev>; Wed, 18 Nov 2026 18:57:22 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Wed, 18 Nov 2026 18:57:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1795046242; x=
+	1795132642; bh=hGkc2X+O0aenFipJnJuCddUF3up8YjP06AEbn7gF8WU=; b=A
+	7foanMUPUfxIv3H1FmDkyuzbxOrNYzCiiZ1by2+ly7U+jwKgB8zqOVvB8DqS36ZQ
+	R3qPvZIBwJKODFDu2VYsWrK7VmPWVmovNW6ZCYul36VhEfNiFfTwFZS4q556SiL5
+	4pkgJFO0WYEy0L6IPx1HWyEnIaEyBR9jZnhIydDB1gv+ELprFrrGx+Y/DMGN+rFC
+	USlQZqu7pIZMbDsRRWCMgA0JOYrNI3gzmFXNMWojNRsPqIINo9FXCfRTho4RP/Kn
+	vB4pp9XdjdWQxG8YT8sID4mBgYbB3jvJ1JPxzkOtLv4BWE1VP+scZBYJEAqMZYQb
+	sJgAS0KEmf5EMVhHEskag==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm3; t=1795046242; x=1795132642; bh=h
+	Gkc2X+O0aenFipJnJuCddUF3up8YjP06AEbn7gF8WU=; b=3RkSpiOv7+ef9rqjv
+	rUUw5AIdUVO9YnKOv9jpRW3jXFfL+v5kVXGl5r6lg6DCOpT4FLTy9XvTF5Kv7+Ei
+	glf0F1W9yeskG8xBGIhcZdOzNFtpbdyUJZ8+flQVYEbbCgcZkFAr/7S3DOc8inrr
+	m8IY59bG+8dixNFIK+Tc9WSWv8seByDZlMc5QR+QHjDQ0GfQ6Ha9RCz0gr0OR68l
+	W75Gm1m3pF0AFgYJzRp4GSm+Wj/CBrtZF0H6qIYO4Tbk45PP0XVmi+upkVgP230l
+	t6YHRy47ziF3z38GE8z8Z5ohy7+mKqmgQv9he2yqpZ4ck2+KlFshq/UIRE/q10RU
+	9h+KQ==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=shazbot.org a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795046242; d=shazbot.org;
+	mf=PGFsZXhAc2hhemJvdC5vcmc+;
+	rt=PGRyaXZlci1jb3JlQGxpc3RzLmxpbnV4LmRldj4=;
+	s=fm2:rsa-sha256:yOHugVtkSC82wAL4be+HD3mceGVdCpSKybDH7P+9a6MM1zU
+	LSk/CpY6nFJShmIbuLUh5g+mzHsE48sKwlrQ5Bq3WqgAKnpePDPDRiaSwQVbz/Hl
+	v7G1Y3iVy0Y/yIgBjEgLnZCD58viYwCpfMRV0Ykk4PU72foB4TDl5cTj8CgrlkAB
+	hvBPSAQZetuS47tYcZGsnYfPtwfRTcVD9Ods6mkjCHuve2prkfBKy/4O/Ta1B6FR
+	70daPqwNydkM3uVAnfdPjIuRFYEjPfFHvNukbLPPd0zpDrZz+Eg5/7T7zGt23GE6
+	ZAhNlhYE3YRPLpiWWl0Pwirdhjkg18pMvwbsWCw==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=11;
+	hn=cc,content-transfer-encoding,date,feedback-id,from,
+	in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:G6j1WEbAHIq8tWmPJmZZjibdOMkBo5R3V8kRbHFfYgk=:TQvuQbnPhs7gSThCadxJaJQQTnwfP3uEZUne5G+6jaY=;
+X-ME-Sender: <xms:Xzv-aiHQ9j-S5ueg19b6lfr9ws1pGbGaGXHq0zE10VzWphYwHGk-5Q>
+    <xme:Xzv-akm4VSOI6jDqluwD8uyXoVA4t5iYF3643I2IuE22ruPOAyl-OrwiLWUTZruUW
+    XNuW-3qoq3jVDNoMAaLfev-2vB38C5o9ExK4Og-WH06U0C-9nWrq38>
+X-ME-Received: <xmr:Xzv-apNqb9sRFzfeQ0TObntKdaVhKxHsPsSsfhYT6wfrXfbVxXxSm_4vBPDF3B7e9ZixTC2uvb0>
+X-ME-Proxy-Cause: dmFkZTE0Qtik2h0LMLqrIgUWaI4CB2p93T0f1m2Kzl/l87lwNGBwuAOgQ+AfXvskrVJH2i
+    p6ljHDZzG0CdtMT8T/gJ0T/Ti8sgeV3YeHpVIWrG+q0gmcN+rSNf86o5eLrSjjxw191yW8
+    QIuwzR2/xbFWQj1RjX6bpXbsd5hi5tlZCTkPfY+KJY0UFP3Mvtfj1CKS2rlcsiSjEsKO6w
+    cb1dgXvYDD+YDFjqo7iv6CO6NMKEUTzrEzlD1WbyPxC8PcFVxrf+LToTyWzvM6ACXwfG6h
+    SY+FoWkIfjoa+LvWm3E3FkRmWzkd0723UYoRV8j3fBKkHkovoceJNgnLcDQpOIPuy/7Nqx
+    ygevKGMYWzOodp2z/0YktPtXaILj/vFOCX20D35s3gJpaq9mBVH3cxqskd5V1crriXXNK6
+    eEdtcVEJ1nzEs6LC/9cx8cg6p37d/t4I7m1EbbqJsLK0kC2O+eSuaR9EW1VqIwUmAlCFm4
+    /GRq2UggEiJ4QZXe+/bW+PRDGg+48u60CZqg/FNZn+63LgWYsJZIw+93AHFDyYkrOg4LSG
+    nAB92UkBH5u7VgvifKkxVw1/+aV0Kq7r1B9PA8G/LFV7IdgCLinBNWI9N5zCca4vKisFtW
+    aeFstJ+I6b50r2tMGDdMpGqSQlLGgCG9Fq54GgbgrzWbuNVj8VkjaYbDrwwg
+X-ME-Proxy: <xmx:Xzv-avF02BQ8n4g73EHJJZjI-AJeyThCD84z6V54fKZOR8AoSQdkCA>
+    <xmx:Xzv-alvipkmumC-NaUJOo3495pRv7sntm5o3p2h1ZXEwlG6Path3ug>
+    <xmx:Xzv-aqShcvD4y1hQxHNj8CA0rCwg-4ve_VylLntsHl7LcbLLyKFmGQ>
+    <xmx:Xzv-agFZFdSGyJcdd6rw4KKEQxNavsCB5hTfO7O0NwRBN-MqZQkHFg>
+    <xmx:Yjv-apYnMgJzheWFzJ63cPRZHEGj_u_5UGJwkguoka3gsS9UsFzZK2Va>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 18 Nov 2026 18:57:16 -0500 (EST)
+From: Alex Williamson <alex@shazbot.org>
+To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Alex Williamson <alex@shazbot.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Meta kernel team <kernel-team@meta.com>,
-	cgroups@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Armin Wolf <W_Armin@gmx.de>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Karl Mehltretter <kmehltretter@gmail.com>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Dapeng Mi <dapeng1.mi@linux.intel.com>,
+	Marco Elver <elver@google.com>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Bradley Morgan <brads@mainlining.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Pnina Feder <pnina.feder@mobileye.com>,
+	Mete Durlu <meted@linux.ibm.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Rio <rioo.tsukatsukii@gmail.com>,
+	Feng Tang <feng.tang@linux.alibaba.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] cgroup: allocate the inode for cgroup_may_write() before cgroup_mutex
-Date: Wed, 18 Nov 2026 15:03:45 -0800
-Message-ID: <20261118230346.3700213-1-shakeel.butt@linux.dev>
-X-Mailer: git-send-email 2.53.1
+	linux-trace-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	linux-pci@vger.kernel.org
+Subject: [PATCH] PCI: Allow untainted driver_override for PCI stub drivers
+Date: Wed, 18 Nov 2026 16:56:43 -0700
+Message-ID: <20261118235645.2907908-1-alex@shazbot.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <DMYH4ED3GWDO.29DGXPK4M82VR@kernel.org>
+References: <DMYH4ED3GWDO.29DGXPK4M82VR@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -73,377 +163,59 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In the Meta fleet, on 6.16 kernels, the memcg OOM killer ran from
-cgroup_may_write() with cgroup_mutex and cgroup_threadgroup_rwsem held.
-The callers were systemd in containers and build tools, short of memory
-in their own cgroup.  Our lock monitor also saw cgroup_mutex held
-across memcg reclaim there, for up to 152 ms.
+As the name suggests, the pci-stub driver is only a stub, it performs
+no hardware access and is typically used only to prevent other drivers
+from binding to the device.
 
-cgroup_may_write() checks permission on the inode of a cgroup.procs
-file.  kernfs frees that inode with its last reference, so it is often
-not cached, and kernfs_get_inode() then allocates one, charged to the
-caller's memory cgroup, with cgroup_mutex held.  A cgroup.procs write
-usually holds cgroup_threadgroup_rwsem too.  While the allocation
-reclaims, every cgroup operation, fork and exit on the host waits.
-clone3(CLONE_INTO_CGROUP) allocates the same way.
+Similarly, pci-pf-stub only interacts with devices through the SR-IOV
+capability, and may be used to create VFs on any PF that otherwise does
+not require a PF driver.
 
-Allocate the inode before taking cgroup_mutex, and add it under
-kernfs_rwsem with kernfs_get_inode_locked(), as kernfs lookup does.
-The cgroup.procs write allocates after dropping the file's active
-reference, because rmdir waits for active references with cgroup_mutex
-held.  clone3() checks that the fd is a cgroup2 directory before
-allocating on its superblock.
+Both of these are often used with driver_override, as this is our
+standard, non-racy mechanism for associating a driver to a device.
+With the introduction of support_driver_override in driver core, this
+use case needs to be explicitly flagged as safe or else the bind will
+be denied or taint the kernel.  Declare these drivers as safe for use
+with driver_override.
 
-Worst latency in a VM while a task in a full 256 MB memory cgroup moves
-a process between two cgroups (60 s, worst of four runs):
-
-                          before    after
-  fork and exit            4.9 s     14 ms
-  mkdir and rmdir          4.9 s    8.4 ms
-  cgroup_mutex held        4.9 s    8.3 ms
-
-Before, each run spent 2 to 16 s in memcg reclaim with cgroup_mutex
-held.  After, none.
-
-Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-pci@vger.kernel.org
+Signed-off-by: Alex Williamson <alex@shazbot.org>
 ---
-This is based on my series "kernfs: stop taking kernfs_iattr_rwsem for
-writing in mkdir/rmdir" [1], on top of vfs-7.5.kernfs, as both change
-the comment of kernfs_get_inode().
 
-[1] https://lore.kernel.org/all/20261118220154.2965621-1-shakeel.butt@linux.dev/
+Uwe, both these PCI stub drivers should allow driver_override use cases.
+Thanks,
 
- fs/kernfs/inode.c      |  28 ++++-----
- include/linux/kernfs.h |   4 +-
- kernel/cgroup/cgroup.c | 128 +++++++++++++++++++++++++++--------------
- 3 files changed, 98 insertions(+), 62 deletions(-)
+Alex
 
-diff --git a/fs/kernfs/inode.c b/fs/kernfs/inode.c
-index 580095e0fad9..71e19d32e392 100644
---- a/fs/kernfs/inode.c
-+++ b/fs/kernfs/inode.c
-@@ -318,30 +318,24 @@ static void kernfs_init_inode(struct kernfs_node *kn, struct inode *inode)
- }
- 
- /**
-- *	kernfs_get_inode - get inode for kernfs_node
-- *	@sb: super block
-- *	@kn: kernfs_node to allocate inode for
-+ *	kernfs_get_inode - get the inode of a kernfs_node
-+ *	@inode: inode allocated with new_inode() on the target superblock
-+ *	@kn: kernfs_node to get the inode for
-  *
-- *	Get inode for @kn.  If such inode doesn't exist, a new inode is
-- *	allocated and basics are initialized.  New inode is returned
-- *	locked.
-+ *	kernfs_get_inode_locked() for callers outside kernfs.  Allocate
-+ *	@inode before taking your own locks, as the allocation can wait for
-+ *	reclaim.  @inode is consumed.
-  *
-  *	Locking:
-- *	Kernel thread context (may sleep).  Not for directories: kernfs
-- *	sets up their inodes itself, with kernfs_rwsem held.
-+ *	Kernel thread context (may sleep).  Takes kernfs_rwsem for reading.
-  *
-  *	Return:
-- *	Pointer to allocated inode on success, %NULL on failure.
-+ *	The inode of @kn, or %NULL if @kn is no longer active.
-  */
--struct inode *kernfs_get_inode(struct super_block *sb, struct kernfs_node *kn)
-+struct inode *kernfs_get_inode(struct inode *inode, struct kernfs_node *kn)
- {
--	struct inode *inode;
--
--	inode = iget_locked(sb, kernfs_ino(kn));
--	if (inode && (inode_state_read_once(inode) & I_NEW))
--		kernfs_init_inode(kn, inode);
--
--	return inode;
-+	guard(rwsem_read)(&kernfs_root(kn)->kernfs_rwsem);
-+	return kernfs_get_inode_locked(inode, kn);
- }
- 
- static int kernfs_inode_test(struct inode *inode, void *data)
-diff --git a/include/linux/kernfs.h b/include/linux/kernfs.h
-index 803294a67e47..cda9467693da 100644
---- a/include/linux/kernfs.h
-+++ b/include/linux/kernfs.h
-@@ -429,7 +429,7 @@ void kernfs_put(struct kernfs_node *kn);
- 
- struct kernfs_node *kernfs_node_from_dentry(struct dentry *dentry);
- struct kernfs_root *kernfs_root_from_sb(struct super_block *sb);
--struct inode *kernfs_get_inode(struct super_block *sb, struct kernfs_node *kn);
-+struct inode *kernfs_get_inode(struct inode *inode, struct kernfs_node *kn);
- 
- struct dentry *kernfs_node_dentry(struct kernfs_node *kn,
- 				  struct super_block *sb);
-@@ -528,7 +528,7 @@ static inline struct kernfs_root *kernfs_root_from_sb(struct super_block *sb)
- { return NULL; }
- 
- static inline struct inode *
--kernfs_get_inode(struct super_block *sb, struct kernfs_node *kn)
-+kernfs_get_inode(struct inode *inode, struct kernfs_node *kn)
- { return NULL; }
- 
- static inline struct kernfs_root *
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index a284225f8dc9..15e03faedbbc 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -1664,6 +1664,32 @@ void cgroup_kn_unlock(struct kernfs_node *kn)
- 	cgroup_put(cgrp);
- }
- 
-+/*
-+ * Pin the cgroup of @kn and drop @kn's active reference: the part of
-+ * cgroup_kn_lock_live() before cgroup_mutex is taken.  cgroup_kn_unlock()
-+ * undoes it.
-+ */
-+static struct cgroup *cgroup_kn_break_active(struct kernfs_node *kn)
-+{
-+	struct cgroup *cgrp;
-+
-+	if (kernfs_type(kn) == KERNFS_DIR)
-+		cgrp = kn->priv;
-+	else
-+		cgrp = kn_priv(kn);
-+
-+	/*
-+	 * We're gonna grab cgroup_mutex which nests outside kernfs
-+	 * active_ref.  cgroup liveliness check alone provides enough
-+	 * protection against removal.  Ensure @cgrp stays accessible and
-+	 * break the active_ref protection.
-+	 */
-+	if (!cgroup_tryget(cgrp))
-+		return ERR_PTR(-ENODEV);
-+	kernfs_break_active_protection(kn);
-+	return cgrp;
-+}
-+
- /**
-  * cgroup_kn_lock_live - locking helper for cgroup kernfs methods
-  * @kn: the kernfs_node being serviced
-@@ -1687,20 +1713,9 @@ struct cgroup *cgroup_kn_lock_live(struct kernfs_node *kn, bool drain_offline)
- 	struct cgroup *cgrp;
- 	int ret;
- 
--	if (kernfs_type(kn) == KERNFS_DIR)
--		cgrp = kn->priv;
--	else
--		cgrp = kn_priv(kn);
--
--	/*
--	 * We're gonna grab cgroup_mutex which nests outside kernfs
--	 * active_ref.  cgroup liveliness check alone provides enough
--	 * protection against removal.  Ensure @cgrp stays accessible and
--	 * break the active_ref protection.
--	 */
--	if (!cgroup_tryget(cgrp))
--		return ERR_PTR(-ENODEV);
--	kernfs_break_active_protection(kn);
-+	cgrp = cgroup_kn_break_active(kn);
-+	if (IS_ERR(cgrp))
-+		return cgrp;
- 
- 	if (drain_offline) {
- 		ret = cgroup_lock_and_drain_offline(cgrp);
-@@ -5424,16 +5439,23 @@ static int cgroup_procs_show(struct seq_file *s, void *v)
- 	return 0;
- }
- 
--static int cgroup_may_write(const struct cgroup *cgrp, struct super_block *sb)
-+/*
-+ * *@new is an inode from new_inode(), allocated before cgroup_mutex as the
-+ * allocation can wait for reclaim.  This uses it up and sets *@new to NULL.
-+ */
-+static int cgroup_may_write(const struct cgroup *cgrp, struct inode **new)
- {
-+	struct inode *inode = *new;
- 	int ret;
--	struct inode *inode;
- 
- 	lockdep_assert_held(&cgroup_mutex);
- 
--	inode = kernfs_get_inode(sb, cgrp->procs_file.kn);
-+	*new = NULL;
- 	if (!inode)
- 		return -ENOMEM;
-+	inode = kernfs_get_inode(inode, cgrp->procs_file.kn);
-+	if (!inode)
-+		return -ENODEV;
- 
- 	ret = inode_permission(&nop_mnt_idmap, inode, MAY_WRITE);
- 	iput(inode);
-@@ -5442,7 +5464,7 @@ static int cgroup_may_write(const struct cgroup *cgrp, struct super_block *sb)
- 
- static int cgroup_procs_write_permission(struct cgroup *src_cgrp,
- 					 struct cgroup *dst_cgrp,
--					 struct super_block *sb,
-+					 struct inode **new,
- 					 struct cgroup_namespace *ns)
- {
- 	struct cgroup *com_cgrp = src_cgrp;
-@@ -5455,7 +5477,7 @@ static int cgroup_procs_write_permission(struct cgroup *src_cgrp,
- 		com_cgrp = cgroup_parent(com_cgrp);
- 
- 	/* %current should be authorized to migrate to the common ancestor */
--	ret = cgroup_may_write(com_cgrp, sb);
-+	ret = cgroup_may_write(com_cgrp, new);
- 	if (ret)
- 		return ret;
- 
-@@ -5473,12 +5495,12 @@ static int cgroup_procs_write_permission(struct cgroup *src_cgrp,
- 
- static int cgroup_attach_permissions(struct cgroup *src_cgrp,
- 				     struct cgroup *dst_cgrp,
--				     struct super_block *sb, bool threadgroup,
-+				     struct inode **new, bool threadgroup,
- 				     struct cgroup_namespace *ns)
- {
- 	int ret = 0;
- 
--	ret = cgroup_procs_write_permission(src_cgrp, dst_cgrp, sb, ns);
-+	ret = cgroup_procs_write_permission(src_cgrp, dst_cgrp, new, ns);
- 	if (ret)
- 		return ret;
- 
-@@ -5498,12 +5520,25 @@ static ssize_t __cgroup_procs_write(struct kernfs_open_file *of, char *buf,
- 	struct cgroup_file_ctx *ctx = of->priv;
- 	struct cgroup *src_cgrp, *dst_cgrp;
- 	struct task_struct *task;
-+	struct inode *new;
- 	ssize_t ret;
- 	enum cgroup_attach_lock_mode lock_mode;
- 
--	dst_cgrp = cgroup_kn_lock_live(of->kn, false);
-+	/*
-+	 * Allocate the inode cgroup_may_write() may need before taking
-+	 * cgroup_mutex and with the file's active reference dropped: the
-+	 * allocation can wait for reclaim, and rmdir waits for active
-+	 * references with cgroup_mutex held.
-+	 */
-+	dst_cgrp = cgroup_kn_break_active(of->kn);
- 	if (IS_ERR(dst_cgrp))
- 		return PTR_ERR(dst_cgrp);
-+	new = new_inode(of->file->f_path.dentry->d_sb);
-+	cgroup_lock();
-+	if (cgroup_is_dead(dst_cgrp)) {
-+		ret = -ENODEV;
-+		goto out_unlock;
-+	}
- 
- 	task = cgroup_procs_write_start(buf, threadgroup, &lock_mode);
- 	ret = PTR_ERR_OR_ZERO(task);
-@@ -5521,8 +5556,7 @@ static ssize_t __cgroup_procs_write(struct kernfs_open_file *of, char *buf,
- 	 * inherited fd attacks.
- 	 */
- 	scoped_with_creds(of->file->f_cred)
--		ret = cgroup_attach_permissions(src_cgrp, dst_cgrp,
--						of->file->f_path.dentry->d_sb,
-+		ret = cgroup_attach_permissions(src_cgrp, dst_cgrp, &new,
- 						threadgroup, ctx->ns);
- 	if (ret)
- 		goto out_finish;
-@@ -5533,7 +5567,7 @@ static ssize_t __cgroup_procs_write(struct kernfs_open_file *of, char *buf,
- 	cgroup_procs_write_finish(task, lock_mode);
- out_unlock:
- 	cgroup_kn_unlock(of->kn);
--
-+	iput(new);
- 	return ret;
- }
- 
-@@ -6924,13 +6958,31 @@ static void cgroup_fork_child_unlock(struct task_struct *child)
- static int cgroup_css_set_fork(struct kernel_clone_args *kargs)
- 	__acquires(&cgroup_mutex) __acquires(&cgroup_threadgroup_rwsem)
- {
-+	struct inode *new_dst = NULL, *new_com = NULL;
-+	struct file *file = NULL;
- 	int ret;
- 	struct cgroup *dst_cgrp = NULL;
- 	struct css_set *cset;
--	struct super_block *sb;
- 
--	if (kargs->flags & CLONE_INTO_CGROUP)
-+	if (kargs->flags & CLONE_INTO_CGROUP) {
-+		/*
-+		 * Allocate the inodes cgroup_may_write() may need before
-+		 * taking cgroup_mutex, as the allocation can wait for reclaim.
-+		 * Check first that the fd is a cgroup2 directory, so they are
-+		 * allocated on a cgroup2 superblock.
-+		 */
-+		file = fget_raw(kargs->cgroup);
-+		if (!file)
-+			return -EBADF;
-+		dst_cgrp = cgroup_get_from_file(file);
-+		if (IS_ERR(dst_cgrp)) {
-+			fput(file);
-+			return PTR_ERR(dst_cgrp);
-+		}
-+		new_dst = new_inode(file->f_path.dentry->d_sb);
-+		new_com = new_inode(file->f_path.dentry->d_sb);
- 		cgroup_lock();
-+	}
- 
- 	cgroup_threadgroup_change_begin(current);
- 
-@@ -6945,20 +6997,6 @@ static int cgroup_css_set_fork(struct kernel_clone_args *kargs)
- 		return 0;
- 	}
- 
--	CLASS(fd_raw, f)(kargs->cgroup);
--	if (fd_empty(f)) {
--		ret = -EBADF;
--		goto err;
--	}
--	sb = fd_file(f)->f_path.dentry->d_sb;
--
--	dst_cgrp = cgroup_get_from_file(fd_file(f));
--	if (IS_ERR(dst_cgrp)) {
--		ret = PTR_ERR(dst_cgrp);
--		dst_cgrp = NULL;
--		goto err;
--	}
--
- 	if (cgroup_is_dead(dst_cgrp)) {
- 		ret = -ENODEV;
- 		goto err;
-@@ -6969,7 +7007,7 @@ static int cgroup_css_set_fork(struct kernel_clone_args *kargs)
- 	 * usually done by the vfs layer but since we're not going through
- 	 * the vfs layer here we need to do it "manually".
- 	 */
--	ret = cgroup_may_write(dst_cgrp, sb);
-+	ret = cgroup_may_write(dst_cgrp, &new_dst);
- 	if (ret)
- 		goto err;
- 
-@@ -6987,7 +7025,7 @@ static int cgroup_css_set_fork(struct kernel_clone_args *kargs)
- 	 * cgroup.procs of the cgroup indicated by @dfd_cgroup. This allows us
- 	 * to always use the caller's credentials.
- 	 */
--	ret = cgroup_attach_permissions(cset->dfl_cgrp, dst_cgrp, sb,
-+	ret = cgroup_attach_permissions(cset->dfl_cgrp, dst_cgrp, &new_com,
- 					!(kargs->flags & CLONE_THREAD),
- 					current->nsproxy->cgroup_ns);
- 	if (ret)
-@@ -7002,11 +7040,15 @@ static int cgroup_css_set_fork(struct kernel_clone_args *kargs)
- 	put_css_set(cset);
- 	kargs->cgrp = dst_cgrp;
- 	kargs->kill_seq = dst_cgrp->kill_seq;
-+	fput(file);
- 	return ret;
- 
- err:
- 	cgroup_threadgroup_change_end(current);
- 	cgroup_unlock();
-+	iput(new_dst);
-+	iput(new_com);
-+	fput(file);
- 	if (dst_cgrp)
- 		cgroup_put(dst_cgrp);
- 	put_css_set(cset);
+ drivers/pci/pci-pf-stub.c | 1 +
+ drivers/pci/pci-stub.c    | 1 +
+ 2 files changed, 2 insertions(+)
 
-base-commit: ccf2a4692fed0fa77751d32d2690585127a152c5
+diff --git a/drivers/pci/pci-pf-stub.c b/drivers/pci/pci-pf-stub.c
+index da4db4928907..328fb4a57092 100644
+--- a/drivers/pci/pci-pf-stub.c
++++ b/drivers/pci/pci-pf-stub.c
+@@ -36,6 +36,7 @@ static struct pci_driver pf_stub_driver = {
+ 	.id_table		= pci_pf_stub_whitelist,
+ 	.probe			= pci_pf_stub_probe,
+ 	.sriov_configure	= pci_sriov_configure_simple,
++	.driver.support_driver_override = true,
+ };
+ module_pci_driver(pf_stub_driver);
+ 
+diff --git a/drivers/pci/pci-stub.c b/drivers/pci/pci-stub.c
+index 9bc478df4e8f..acbd43c17adc 100644
+--- a/drivers/pci/pci-stub.c
++++ b/drivers/pci/pci-stub.c
+@@ -37,6 +37,7 @@ static struct pci_driver stub_driver = {
+ 	.id_table	= NULL,	/* only dynamic id's */
+ 	.probe		= pci_stub_probe,
+ 	.driver_managed_dma = true,
++	.driver.support_driver_override = true,
+ };
+ 
+ static int __init pci_stub_init(void)
 -- 
-2.53.1-Meta
+2.54.0
 
