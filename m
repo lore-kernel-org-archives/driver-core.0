@@ -1,99 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=130.133.4.66
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.218
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794986415;
-	b=NcEc/1yOuU0UlFh/uVD+CDkEK6VRVCci95bYM76wdNCdbCblpE+ok9Gqim/ahrjEVWWb
-	 8je+/VZHSygLKlMQppNdXXNM3F9SwBnMXLPhSWE25ZpJptbjrDT/zGRhXwzKrkEXTXakj
-	 5mHzZ4+R0T5moDJAwXDLl+WV7Z0we68D4rsK6hRJQYSjKyyItJUGFSDT96IpLN6QASycc
-	 F0vbrBahxr9SGRlU5Q+HuHxTsWhLZ5+DMeX45ULaPhQCoC5XqCsMAIrkUMVAn2Q0+WDGd
-	 MbJDfoaGp9mKqAuugEBoXrxzDTQxLa2kggN9GVE3vNi8sB0h+aYdfkevM+7hNXz4LjA==
+	t=1794986681;
+	b=omB0j5ejk5hSnCt0eqWNc5kJX2rHpPx1azg7X7cPZvKFZYXjtqGYXloAVx5wxfR4DXEG
+	 Mk1D9dknuqi+eX7IIxI8tXB7EMi3pfrzoXUbkC+Oe30qu5+mR3LVhwvMW1w8rtppEerlz
+	 DfzhO61L7VERT8B5g8py9z0a7jw9wPqMjXJH5Okuq8Mr3OzG7PyYT6FYkYNBWNWsv/T+D
+	 f2kzpoVbHHfZGgW/LygMxiSLt7spmvL2D8ljV2VYQ68cQ0QA/3BD+iz5JnJyZftG+8cwF
+	 044FOQdJVH2McsYlzPZ+bgWxZOQdFSLeGIZMWcS4ptyS3ZwX2p3O4eUzqat7IHSXJtw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794986415;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Subject:
-	 From:To:Cc:Date:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:User-Agent:MIME-Version:X-Original-Sender:
-	 X-Originating-IP:X-ZEDAT-Hint;
-	bh=BP5uJPFEij5TgQlQa0MnVpdjGYnsN3jkV0Ck605J8vA=;
-	b=gtoD6P/x0a/oyyEZhY90THNb6hLED+V8WGAiCVXQPDycbaCjJUbQBcxFSXOAbBy4VDpk
-	 8cVE5UEDF1OFQjmTDjsl4S5CoQFpW6O634xovab9zSYNch3KIY8SWlKU/OM/22ejBz/88
-	 qRL7pD8luB1Oje0Sasew3K5ZA7gnmQ8ls0mpMJZAiafFzjnw746Ms3hdrUHfXFBSuySHr
-	 E+zNTQH4xdWOxNm+0w6lRItr9Akqsdzx2MPevKLKkxnxXulWbBkxADTPrU6LVFxJyzmMS
-	 vq3zh+2yPfdX3Z3H77OFWTnc/UPlMhboW7itsiLKJI3saRXUOiyeJ6Hwx8euhbOM4jA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794986681;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Subject:To:CC:
+	 References:From:Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+	 Content-Type:Content-Language:Content-Transfer-Encoding:
+	 X-Originating-IP:X-ClientProxiedBy;
+	bh=YxfLuSOt8ET85QiZh6OvB/zGAowvN5z/7eyIr5ItJTU=;
+	b=WAE+jl6UO0UtqU6M5gzXMMPa0hCeDBgrwypu6tw8HB2eRdSpXCcnDtSwuuy2rO9RBEMV
+	 BJvDp/CcFUPcWEpqnZZ/jkJ7EH/hjkZSWPDAkNMi/0oyaVeqg1dCOv6lcGHDGHbhT18mu
+	 9Jv9y1E9QEWo8tYAtQzSWhCh5lqt7thJ2d0JKhSCTc4zOrG9Fv6cZsjmzduLssB4+avRp
+	 7jZUMMkigvnmso3m2EgGMC4EmAbCOkryjIX/YY+MMLHT/QrMH5m3H8km3Ys2nr5IDR7h4
+	 6k0WmFJjl2w8+yjdTN5zl+1SHlpsef3bAjGuyDyQyYSgA5j5i63563J/KpVPrm7X+mA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=physik.fu-berlin.de;
-	spf=pass smtp.mailfrom=zedat.fu-berlin.de;
-	dkim=pass header.d=fu-berlin.de header.i=@fu-berlin.de header.a=rsa-sha256 header.s=fub01 header.b=NVIV5AZx;
-	arc=none smtp.remote-ip=130.133.4.66
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=vUvwXW2W;
+	arc=none smtp.remote-ip=113.46.200.218
+Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 347BF606A31C;
-	Wed, 18 Nov 2026 07:20:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 347BF606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31ED606A31C
+	for <driver-core@lists.linux.dev>; Wed, 18 Nov 2026 07:24:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F31ED606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.a=rsa-sha256 header.s=fub01 header.b=NVIV5AZx
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:From:
-	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=BP5uJPFEij5TgQlQa0MnVpdjGYnsN3jkV0Ck605J8vA=; t=1794986415;
-	x=1795591215; b=NVIV5AZxUiLiZeysWsuiw4TVDW8kKs6h5+50BSjLWqaE6wJWn+nWIm5HCfv3Q
-	FSCMgg0V623TN0IzaiSFtarP0Wg0bjgMEIhw5s+h0PExnQBReb8stY1uNrqXwBaIQooUaCFyE18TH
-	0N6DK15zqyqGuv3ApY3IX2xhao4XQBUMjuZZ3tX1OiSqgfGx5y3KNQUFGOtcmjFgGUxCV3ky6KVf3
-	sJQVqSuld5Tmhwi1i/NV6u8aZZdlkOVDYD1HIs4fGBVqQQzd9+CsRCpar8fLV0xTyw9AGa405uTzm
-	ecmAqL5QrPiXcAcv/OCITy0eppkMKKkHVy3ybnSJLt8ZbShbDg==;
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.100)
-          with esmtps (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1xTZxc-00000000Itt-3izf; Wed, 18 Nov 2026 08:20:04 +0100
-Received: from p57bd95b5.dip0.t-ipconnect.de ([87.189.149.181] helo=[192.168.178.61])
-          by inpost2.zedat.fu-berlin.de (Exim 4.100)
-          with esmtpsa (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1xTZxc-00000000GfQ-25vy; Wed, 18 Nov 2026 08:20:04 +0100
-Message-ID: <88645597bb3aeae8d36a7b5c499a0a6d74b4acc4.camel@physik.fu-berlin.de>
-Subject: Re: [PATCH v3 3/9] sh: sq: Add missing kobject release callback to
- ktype_percpu_entry
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Ian Rogers <irogers@google.com>, Danilo Krummrich <dakr@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kees Cook
- <kees@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, "Rafael J . Wysocki"
- <rafael@kernel.org>
-Cc: Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman	
- <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
-	 <chleroy@kernel.org>, Nayna Jain <nayna@linux.ibm.com>, Srish Srinivasan	
- <ssrish@linux.ibm.com>, Mimi Zohar <zohar@linux.ibm.com>, Yoshinori Sato	
- <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, Juergen Gross	
- <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>, Oleksandr
- Tyshchenko <oleksandr_tyshchenko@epam.com>, Nathan Chancellor
- <nathan@kernel.org>, Nick Desaulniers	 <ndesaulniers@google.com>, Viresh
- Kumar <viresh.kumar@linaro.org>, Zhongqiu Han	
- <zhongqiu.han@oss.qualcomm.com>, Alexander Aring <aahringo@redhat.com>, 
- Felix Kuehling <felix.kuehling@amd.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>,  Zhihao Cheng <chengzhihao1@huawei.com>,
- Sumanth Korikkar <sumanthk@linux.ibm.com>, Bill Wendling	
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	driver-core@lists.linux.dev, llvm@lists.linux.dev, 
-	linux-hardening@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-pm@vger.kernel.org, 	linuxppc-dev@lists.ozlabs.org,
- linux-sh@vger.kernel.org, 	linux-s390@vger.kernel.org,
- gfs2@lists.linux.dev, xen-devel@lists.xenproject.org, 
-	linux-mtd@lists.infradead.org, amd-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Wed, 18 Nov 2026 08:20:02 +0100
-In-Reply-To: <20261108223913.3624571-4-irogers@google.com>
-References: <20261108223913.3624571-1-irogers@google.com>
-	 <20261108223913.3624571-4-irogers@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.62.1 
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=vUvwXW2W
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=YxfLuSOt8ET85QiZh6OvB/zGAowvN5z/7eyIr5ItJTU=;
+	b=vUvwXW2WIA+PKi7kpUQn/IdJA3tUeSnR/DAy6nHLaKc51qgaH4uezVDugKTwg71dSQ0iQnYz5
+	7qfqxPWENL8AfnzkCAe0uglj9oduqtAzDO52wcZSeb5b7e7OqW+v6g0PKUzKYgC0I/sddQ8CfqM
+	XuwpFrFNaB2bAcjdpHKAdqo=
+Received: from mail.maildlp.com (unknown [172.19.163.104])
+	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4jTtPZ0n3fzpSyt;
+	Wed, 18 Nov 2026 15:23:46 +0800 (CST)
+Received: from whupemk100004.china.huawei.com (unknown [7.152.185.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id D205D4056E;
+	Wed, 18 Nov 2026 15:24:35 +0800 (CST)
+Received: from [10.173.125.21] (10.173.125.21) by
+ whupemk100004.china.huawei.com (7.152.185.74) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Wed, 18 Nov 2026 15:24:32 +0800
+Subject: Re: [PATCH v6 7/7] mm/memory-failure: efi: record hardware-poisoned
+ frames into the poisoned-memory table
+To: Breno Leitao <leitao@debian.org>
+CC: <linux-efi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-cxl@vger.kernel.org>,
+	<driver-core@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+	<rmikey@meta.com>, <riel@surriel.com>, <harry@kernel.org>,
+	<kernel-team@meta.com>, Ard Biesheuvel <ardb@kernel.org>, Ilias Apalodimas
+	<ilias.apalodimas@linaro.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
+	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+	<dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
+	<hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand
+	<david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett"
+	<liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
+	<rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+	<mhocko@suse.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, Oscar Salvador
+	<osalvador@suse.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael
+ J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Catalin
+ Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Mark
+ Rutland <mark.rutland@arm.com>, <kas@kernel.org>,
+	<kexec@lists.infradead.org>, Brendan Jackman <brendan.jackman@linux.dev>,
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+	<shakeel.butt@linux.dev>
+References: <20261016-hwpoison-kho-v6-0-f304255147da@debian.org>
+ <20261016-hwpoison-kho-v6-7-f304255147da@debian.org>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <f04d766b-2942-3627-14b4-dc3c88c899dd@huawei.com>
+Date: Wed, 18 Nov 2026 15:24:31 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -103,52 +90,45 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-ZEDAT-Hint: PO
+In-Reply-To: <20261016-hwpoison-kho-v6-7-f304255147da@debian.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ whupemk100004.china.huawei.com (7.152.185.74)
 
-Hi Ian,
+On 2026/10/16 20:15, Breno Leitao wrote:
+> When memory_failure() reports the outcome of a hard offline, set the
+> frame's bit in the LINUX_EFI_POISONED_MEMORY bitmap, so that the next
+> kernel reserves its unit.
+> 
+> Hook action_result() ahead of the statistics guard. A hard error on a
+> frame that was soft-offlined earlier comes in as MF_MSG_ALREADY_POISONED,
+> which skips the statistics, but it is a real failure and has to be
+> recorded. MF_MSG_PFN_MAP is left out, as it is not System RAM.
+> 
+> A bit is only ever set, never cleared (for now). Several frames share
+> a bit, and an unpoison cannot tell whether the unit as a whole is good
+> again. That is a known limitation.
+> 
+> The table is mapped with memremap() from an early_initcall rather than
+> through the direct map. On arm64, mem= and the usable memory range of a
+> crash kernel trim memblock, which drops the table's pages from the direct
+> map, and the first recorded error then faults.
+> 
+> Recording is skipped on a host with SME active. The stub writes the table
+> in the clear, so reading it back there needs a decrypted mapping. That is
+> left for a follow up.
+> 
+> memory_failure() has already taken the frame out of this kernel's
+> allocator, so only the cross-kexec record happens here.
+> 
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 
-On Sun, 2026-11-08 at 14:39 -0800, Ian Rogers wrote:
-> In sq_dev_add(), sq_kobject[cpu] is dynamically allocated with
-> kzalloc_obj() and initialized with ktype_percpu_entry. When
-> sq_dev_remove() calls kobject_put(kobj), the kobject is never freed
-> because ktype_percpu_entry lacks a .release callback.
->=20
-> Provide a sq_kobj_release() callback that calls kfree(kobj).
->=20
-> Fixes: d7c30c682a27 ("sh: Store Queue API rework.")
-> Signed-off-by: Ian Rogers <irogers@google.com>
-> ---
->  arch/sh/kernel/cpu/sh4/sq.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/arch/sh/kernel/cpu/sh4/sq.c b/arch/sh/kernel/cpu/sh4/sq.c
-> index 908a8e09113b..f33864958487 100644
-> --- a/arch/sh/kernel/cpu/sh4/sq.c
-> +++ b/arch/sh/kernel/cpu/sh4/sq.c
-> @@ -331,7 +331,13 @@ static const struct sysfs_ops sq_sysfs_ops =3D {
->  =09.store=09=3D sq_sysfs_store,
->  };
-> =20
-> +static void sq_kobj_release(struct kobject *kobj)
-> +{
-> +=09kfree(kobj);
-> +}
-> +
->  static struct kobj_type ktype_percpu_entry =3D {
-> +=09.release=09=3D sq_kobj_release,
->  =09.sysfs_ops=09=3D &sq_sysfs_ops,
->  =09.default_groups=09=3D sq_sysfs_groups,
->  };
+For memory-failure part:
 
-Looks good to me, thanks!
+Acked-by: Miaohe Lin <linmiaohe@huawei.com>
 
-Acked-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Thanks.
+.
 
-Adrian
-
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
