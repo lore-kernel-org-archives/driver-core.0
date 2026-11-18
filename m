@@ -1,83 +1,68 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794994563;
-	b=uige0oKgeJWHNoG03Q1AnC9RbaARJdL19qZ9Cg6wcaiovz6lJg0OI4jSfLdshI6pv/KA
-	 jNTbX25cpcj4qJwBTfPw+8JDoufK3Fvp/jbnvx0D+tUohfBDDtOjT6dOISs3ecs2GGbYo
-	 G5AThHr8o3ab/U7fSBbVlYmKRXC77kzPLvdQgTB7LxWQH9yN/WhNIVZugbODndFujLfNz
-	 mBMbC3/TqZPWxIx7G3SPse7KNk8zpjbUjizLLu+bDk9ihboeT//pRIrBRvxjDfgQgjgpS
-	 zYvse4vQKSHZ1TPSXiDV5BeuXCMzxHxJKoPJumVuTsxW5B82CRCALk/SKsDf13HgYPA==
+	t=1794994613;
+	b=Hkw2SITJ13wEWprBDAuGMZVW4Fue+SFi3BiNuskHsaIvRBQ3XiDtmtzmFeWYP/MzaXrY
+	 U22I6hVRaL+gaAHjoxdqU2SGKPRvQth0dXAFWB70cWTk4Zz3jhhxZhZ1GL4d3WoYuA/q6
+	 DWvhFhLSPTPl0KGD2oG/JdDSL8IIgjDwLbKbJODssCob3QRjc8WXmVBOVcTcxtWzhMYHm
+	 f5EZAQldIQEo55znY1As+6kC4RujDeBlpml8HJutF3sxLijKWmdfvyymdrTMBzVp6poTm
+	 ii2s3mt9P2nn1hpRPJhC/A4MHoAivmUo+CoFqtWy6gETLPeiF2Aw2xPrU64p3SocO4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794994563;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794994613;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=oEtrs9YN++TIvppEtfu/diqt2HKppGf1oq8L8HaJ3VE=;
-	b=JHHT6GeaZBO6zG1NBYKWec1cXinR97AX7khOViQRUydYGKs8oRGE8KnVjaK8LhOUL+ZW
-	 rYalF4yIvB1/GcW3Gh6XFeHnIQQU1RrVXzJKOiPSF/tmESHYxAltdbu8PyNrFbZKEOwoW
-	 ieHmCdmJqFi16QijcxgD4pZ7esxPiMB3xrxcFcFAMWg8QhqrDXE/hVlLi7NE9PhfQa48N
-	 m0UHIkDkylbLWRYiv7HzD98MIKFWkl4feBVjd+nwcBXkE1hu2exRzTREtQqK1NE7gs8si
-	 zlGbHK7KLZ6EWISue9p52Vro7wvl3vAtremgw33zWnDqWGo+aPs65LeSnimlleR9NSw==
+	bh=kbRmNI2E1W6sUc3AbI7TqK+tU8lljpg50Qb3VML0+KY=;
+	b=oj4jwaEdJP6LeErc1u15GMWehrSMarPwuseZe++LTqvVbB6w323k88All1gm7zoSY2rE
+	 xitGkAZeCgDLV6bk2OZCyOcrM7b/rkaDipFgjpPiRSeEop6Ir4cfo7Wf8na6s+DbCtO32
+	 R55B8vsXfzdVdQVz/pNqXb4l02hYAZmZYU1Qpapn54yq7S2YE/rbfQd8WtSCpTnnHklhb
+	 p9Eaa5NSLPl0qTlT5qJbRUs54hPADHYb/8SHTdxGVrvhVym621jPcyxbravbkdPQmsX3p
+	 3IlxrKgFuwFGbvjcGaoY/G+PaicspkSnu+ArtzW9s/JSGQ+ChRRAvK4vo174ArDqCjg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nahPYjtB;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B7exoyp5;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8235B606A31C;
-	Wed, 18 Nov 2026 09:36:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3651606A31C;
+	Wed, 18 Nov 2026 09:36:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nahPYjtB
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48F321F000C4;
-	Wed, 18 Nov 2026 09:35:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B7exoyp5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40F441F000C4;
+	Wed, 18 Nov 2026 09:36:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794994563;
-	bh=oEtrs9YN++TIvppEtfu/diqt2HKppGf1oq8L8HaJ3VE=;
+	s=k20260515; t=1794994613;
+	bh=kbRmNI2E1W6sUc3AbI7TqK+tU8lljpg50Qb3VML0+KY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nahPYjtBD1Iaas2FHy09zfnsVzzPWV2xfnaZM4o2uDixquvqwuHvQ+/o6Lx3RmcT7
-	 A5MLlaaWHi5zeDFe6Pr6Zu/1tZf365UdM7zLPXtacuahcYasmLgD5icYRCqSxPoOAQ
-	 apSPaDPnXbhT/Rjv6/c4yyGGAb3a6EIjZs+gpHbG4KtSnFEboWn87xat6LJyla++Jd
-	 yjbLXh2HQKcIglQe/QgOIjdxO0MlY4PzADbD2mLPuxiLGazQOP1N6OqiCY11zDd0cS
-	 +PtK7soRS49YQWtEbo0XhLlRb2q60FYLSeh5q1DNqhKbRWl7YpSpO779dHK9eKPFp5
-	 s/bgKJ6Xw8nfA==
-Date: Wed, 18 Nov 2026 10:35:40 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Cai Xinchen <caixinchen1@huawei.com>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, mic@digikod.net, gnoack@google.com, 
-	paul@paul-moore.com, jack@suse.cz, amir73il@gmail.com, andrii@kernel.org, 
-	apparmor@lists.ubuntu.com, ast@kernel.org, axboe@kernel.dk, bpf@vger.kernel.org, 
-	casey@schaufler-ca.com, cel@kernel.org, cem@kernel.org, chenxiaosong@chenxiaosong.com, 
-	code@tyhicks.com, corbet@lwn.net, Dai.Ngo@oracle.com, dakr@kernel.org, 
-	daniel@iogearbox.net, dhowells@redhat.com, dlemoal@kernel.org, 
-	dmitry.kasatkin@gmail.com, driver-core@lists.linux.dev, dsterba@suse.com, 
-	ecryptfs@vger.kernel.org, eddyz87@gmail.com, emil@etsalapatis.com, 
-	eric.snowberg@oracle.com, exfat@lists.linux.dev, georgia.garcia@canonical.com, 
-	gregkh@linuxfoundation.org, hch@lst.de, hirofumi@mail.parknet.co.jp, hyc.lee@gmail.com, 
-	ihor.solodrai@linux.dev, jlayton@kernel.org, jmorris@namei.org, johan@kernel.org, 
-	john.fastabend@gmail.com, john.johansen@canonical.com, jolsa@kernel.org, 
-	kpsingh@kernel.org, linkinjeon@kernel.org, linux-api@vger.kernel.org, 
-	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org, liubaolin12138@163.com, 
-	martin.lau@linux.dev, mason@kernel.org, mathieu.desnoyers@efficios.com, 
-	matt@bobrowski.net, memxor@gmail.com, mhiramat@kernel.org, miklos@szeredi.hu, 
-	neil@brown.name, netfs@lists.linux.dev, ntfs@lists.linux.dev, okorniev@redhat.com, 
-	omosnacek@gmail.com, penguin-kernel@i-love.sakura.ne.jp, rafael@kernel.org, 
-	rdunlap@infradead.org, roberto.sassu@huawei.com, rostedt@goodmis.org, 
-	selinux@vger.kernel.org, senozhatsky@chromium.org, serge@hallyn.com, 
-	sj1557.seo@samsung.com, skhan@linuxfoundation.org, song@kernel.org, 
-	stephen.smalley.work@gmail.com, takedakn@nttdata.co.jp, tom@talpey.com, yonghong.song@linux.dev, 
-	yuezhang.mo@sony.com, zohar@linux.ibm.com, utilityemal77@gmail.com, 
-	lujialin4@huawei.com
-Subject: Re: [PATCH -next -v4 02/17] LSM: pass struct path to the
- inode_setsecctx hook
-Message-ID: <20261118-nordlicht-badeort-daumen-813a1e9fd0b3@brauner>
-References: <20261117150542.1169451-1-caixinchen1@huawei.com>
- <20261117150542.1169451-3-caixinchen1@huawei.com>
- <20261117184342.GR989762@ZenIV>
- <20261118001641.GA1669148@ZenIV>
- <bdc22808-9f22-46f7-b42d-e6bd8e1eeaca@huawei.com>
+	b=B7exoyp5tC6yZqy2topR/b99Vx/7SenWATSGXKY5QUcmlaP/9F8zaKPwSmoR56VPN
+	 l2bVW4/X6ZdIZSAGS060gb+0A4GhDFzlGfV8HW9pS5CrPi6KrQqHI/WcWpIIO77Pnw
+	 4LqAibbSttkK6+jx3M24lqoTt/fi4C+dnLDDYW6BqGG7Y+T4M69kyR6/eFsCffyNoK
+	 zTLKCKEOkPu+E9kVbXb5HqTEXzyfRREWpXIe61Gp089n7v9ReTKIWTlpYXGpKBP647
+	 TQDDNvlXQpopXHrGbWCrMiyZF16OdfTsJ7I8WCu/ISZy2ffCfkkO77CsJtGWx1T42I
+	 /+SHtfCkUT2kA==
+Received: from johan by xi.lan with local (Exim 4.100.1)
+	(envelope-from <johan@kernel.org>)
+	id 1xTc5y-00000004XAs-20zL;
+	Wed, 18 Nov 2026 10:36:50 +0100
+Date: Wed, 18 Nov 2026 10:36:50 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	driver-core@lists.linux.dev, linux-acpi@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 4/8] software node: ignore primary nodes in
+ device_remove_software_node()
+Message-ID: <av1xsrv8zNIEOtxg@hovoldconsulting.com>
+References: <20261117101336.980216-1-johan@kernel.org>
+ <20261117101336.980216-5-johan@kernel.org>
+ <avxeTnaEG_FnBhck@ashevche-desk.local>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -87,24 +72,55 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bdc22808-9f22-46f7-b42d-e6bd8e1eeaca@huawei.com>
+In-Reply-To: <avxeTnaEG_FnBhck@ashevche-desk.local>
 
-On Wed, Nov 18, 2026 at 04:59:29PM +0800, Cai Xinchen wrote:
-> There are two places that violate (1), both introduced by this series of
-> patches in ksmbd:
->
-> smb2_parent_compressed() and smb_inherit_dacl() pair the directory entry
-> returned by dget_parent()
->
-> with path->mnt, and problems arise once that directory entry becomes the
-> root of its mount point.
+On Tue, Nov 17, 2026 at 04:01:50PM +0200, Andy Shevchenko wrote:
+> On Tue, Nov 17, 2026 at 11:13:32AM +0100, Johan Hovold wrote:
+> > device_remove_software_node() should only be used to remove secondary
+> > firmware nodes added by device_add_software_node() but will currently
+> > drop a reference also if a device has a primary software node.
+> > 
+> > Bail out early if device_remove_software_node() is called for a device
+> > whose primary firmware node is a software node and fix up the two
+> > callers that currently work around this themselves.
+> 
+> ...
+> 
+> > +++ b/drivers/i2c/i2c-core-base.c
+> 
+> >  void i2c_unregister_device(struct i2c_client *client)
+> >  {
+> >  	struct fwnode_handle *fwnode;
+> > -	bool fwnode_is_software_node;
+> >  
+> >  	if (IS_ERR_OR_NULL(client))
+> >  		return;
+> 
+> > -	fwnode_is_software_node = is_software_node(fwnode);
+> >  	device_remove_software_node(&client->dev);
+> >  	/*
+> > -	 * If the firmware node is a software node, its reference count
+> > -	 * was decremented by device_remove_software_node().
+> > +	 * Must be done after device_remove_software_node() which may have
+> > +	 * freed a secondary firmware node and cleared the fwnode pointer.
+> >  	 */
+> > -	if (!fwnode_is_software_node)
+> > -		fwnode_handle_put(fwnode);
+> > +	fwnode_handle_put(client->dev.fwnode);
+> 
+> We have fwnode getter, so better use it
+> 
+> 	fwnode_handle_put(dev_fwnode(&client->dev));
 
-No, (1) holds there. dget_parent() never leaves the superblock so the
-parent has the same ->d_sb as path->dentry.
+I used the fwnode pointer directly here on purpose since that is the
+pointer that gets cleared by device_remove_software_node() and which the
+comment refers to.
 
-What happens at the root of a mount is that the parent isn't below
-path->mnt->mnt_root anymore. That's a different property and struct path
-doesn't guarantee that (open_by_handle_at(), nfsd with
-no_subtree_check). So there's nothing to fix for (1) in those two.
+This hopefully also reduces the risk of anyone introducing a UAF by
+reusing the fwnode variable (or the compiler doing something silly since
+dev_fwnode() returns the dev->of_node->fwnode when CONFIG_OF is
+enabled).
+
+Johan
