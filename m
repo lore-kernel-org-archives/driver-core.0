@@ -1,87 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794998368;
-	b=SICiAwoI8h2+uIveuBSznXajqYobt/7s9UkGKmxvpS5E0tzTx8Q9QgpBcJ6LdL8T8S9i
-	 ia8s6QuJPLufbQV3kUqJ1ykwggHbYRSPtM8y1Cid4RSrfEtRAQHrDkVJ3pz4u440JJwCi
-	 +U+o3Pi/opG6k7DSNPNrLy1hq8iUffDrCjZqGTvuOdZWMIiHRQtmOds5Kz+wNSSZ+kcGG
-	 ZCV7l8S4q/peeY29MVRjQpP1B4dRDuYF05OybhThF2M1p2Sj9M7aLmiX4uHzGtVJwoGhr
-	 4SORSJifo6SeNF/S4JQ3/q1Ht3/5hRyjGRu4GAELdDRE7VJtt5fguTnhPKkbuCmLMNA==
+	t=1795001292;
+	b=egELwPhBe2lc4x58Tne8wRR8ZT4BwfAszaAxEyu0l2nGj3KcPaNXRYDQtlY9FyjvvXfh
+	 8I0LE/w99VjDWwUApJ6V+XssvdPtSjyq/w+zMyXMCsD5r47GLvbFz1GWJnzYCRD6AHFaF
+	 zCPUnmAOdHcoPNSboB3h7zvGDDQRExQYORfnoalM1gvYs3eGq/k/QdWKyuW/Fvowx5Xxj
+	 vr+rF0bz3AlK9xMnv6CG/xHQMs8eoQoR2pLIoUZjxNOP39HNA0lVBtq+SJxXZpJvvrhhm
+	 z7yeY+MIyYJQU3wNiGivpy+u6yC6mcz9ypX9ofrsUIcOHVLyTwJ5UYC2pjMOx9voC5g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794998368;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=FbEQD5M3UYXQRXqyfi19N+b5UjzXEv/BtRZ0MIOvX3I=;
-	b=BVjUSMXDs8aHjHqNkkVxgl3Mh6StV2s0ATBZmu0RHyafyv6xOFNCz+tftJ/OEOx/lQ8I
-	 j8T5qetW+FNj1KfsfCUbGyp6oFIzFuLmZAnkWQS4l5FGTI9o3QPbkcvvyARImDhWmtDoP
-	 dVbbeJMh15uZB25rDFytcTWLqAdethDhdtZ0J8vU1p4RhtFzLTMziJpFpYbCeNzry9tqi
-	 oBjp8uRI4lak4Lg0x9U9uOBk0Fd7r1Y1d+Olp0K9HsAgj734Y+2yUyD970RfcDJSv4urQ
-	 QYBI8Jsw1tS8vKnhPU0F5AZdce5s1Nc8hyXHw21sune391hxHh6UCq8jWbukQyG4K6w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795001292;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
+	 X-Proofpoint-Reinject:X-Proofpoint-GUID:X-Authority-Analysis:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=IJC9KJmTrnmm/LU0ScPd6lIZJgRVI3dJDnY3i1kWIT8=;
+	b=fpSJ7h9httWd2ucjyHeyzMyO4U/RfgozUnnOrTxz+GHJ2xa+DlhaLvhxPzG5AhLQ1w0R
+	 HaemDRFwQoDTPxh3ZlT4/8xyFRTYpzcLHENJFEG/vJaKyxeYLToqAT8Z/aDZSWt21S8Bi
+	 bX/wxPHd3RUoxlQCtl2Idq0QnqXTTuwWP8H0w/74KBe0aHVZahAeCDp78KM90sniRTKnw
+	 nhg+bNnm+jyk1+QkWgPE/okzr3ciRIm/c6e+Hf6FYFIyirI3fEOBCkmPHLxYhQx4vLzM/
+	 H6qW94uPZ4ROM3oLNqmSqDZ8U6rt4kXMEsHrEs5QNvYH6ofs8WaZi1sbpu703AVQ9nw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=S5NsDiyp;
-	arc=none smtp.remote-ip=192.198.163.17
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b="MpN/ngx1";
+	arc=none smtp.remote-ip=148.163.158.5
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3C0606A325
-	for <driver-core@lists.linux.dev>; Wed, 18 Nov 2026 10:39:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE3C0606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07D8606A32C
+	for <driver-core@lists.linux.dev>; Wed, 18 Nov 2026 11:28:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B07D8606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=S5NsDiyp
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794998368; x=1826534368;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=C+KNOrCVujZhHnK6/CVLOwjEGKTtZH1w9yupF48hJqk=;
-  b=S5NsDiypeCU1qoONsMFWT+3IVTheV6Jhlc+O8SjAV+zfq/OPSTkhq2hu
-   J2Fxj6hi30DOBwHMz5ZDG0EqqogLzY3BaEUxJzyBtf6QFNXWEdap4Y9uX
-   tmcPP9M9UTm1VvTgWxw56hR7DbVL3VrJ5fdWpFutHVXQlVW37zRiDeRzv
-   FyLZ2IqYCpZ2y7oGeGwZlD9k/bohP2jGCp/x0YYgx1Sthhk5zD5IcW2qt
-   OEvKB+IbrUxrS+xJy83L3Q5SRfZJ9pMx8MGklG//6fiNb8rWg+9cZ/QRU
-   q+q48anh/atZedylxUxBpHs7Te8p/tEONIp2uFUm6ahJSUN1XhwkIKP5Z
-   g==;
-X-CSE-ConnectionGUID: 642ev2h2QJabCu9471r0Qg==
-X-CSE-MsgGUID: HiJQUGhdRXGssBs4dhl/5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11969"; a="3792272"
-X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="3792272"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 02:39:27 -0800
-X-CSE-ConnectionGUID: csp/N0A6QSWqU14XBSmI8w==
-X-CSE-MsgGUID: Dvfkm19MT/S2NnHq9LbpZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="10477321"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.157])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 02:39:24 -0800
-Date: Wed, 18 Nov 2026 12:39:21 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	driver-core@lists.linux.dev, linux-acpi@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/8] software node: ignore primary nodes in
- device_remove_software_node()
-Message-ID: <av2AWRsjQfrmr5A3@ashevche-desk.local>
-References: <20261117101336.980216-1-johan@kernel.org>
- <20261117101336.980216-5-johan@kernel.org>
- <avxeTnaEG_FnBhck@ashevche-desk.local>
- <av1xsrv8zNIEOtxg@hovoldconsulting.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=MpN/ngx1
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AIBQwmd3964612;
+	Wed, 18 Nov 2026 11:28:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=IJC9KJ
+	mTrnmm/LU0ScPd6lIZJgRVI3dJDnY3i1kWIT8=; b=MpN/ngx100a1YoZ1TBmrDu
+	xlZ6f7Fau81hNb5HUNS98DeChP7vzdp3K/9eU/f/rC13BRg8FpykIrJdzQfZF8ct
+	/fIMsp94voegU2nH3U8M+0OsZOSt05IAVCi2lPkUdCGjxEGjD45kBA+ssBf/UPxg
+	eF8H8Ch5piXt9hGwU2M0QgFhEa0DI+6wsJR6Jb4gVlU5remz91u8F2TFC+KfUOd6
+	vyHHfNRAjLFpwNes2ynNrQmI8i50fcXDnBPI0SVMkqnbyyU13G0NBO8mIRUKjJu5
+	geIwq3mcV+oapy1MUEdLBHJK56psqG8FRahoA1dqRms4Dmtv6b8ONV039MVmo8zg
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j105vt3a6-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 18 Nov 2026 11:28:00 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AIBK5JX1928622;
+	Wed, 18 Nov 2026 11:27:59 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4j17c4rp1d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 18 Nov 2026 11:27:59 +0000 (GMT)
+Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com [10.241.53.102])
+	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AIBRvMi15991316
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 18 Nov 2026 11:27:58 GMT
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A7FFA58064;
+	Wed, 18 Nov 2026 11:27:57 +0000 (GMT)
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0CAF958060;
+	Wed, 18 Nov 2026 11:27:52 +0000 (GMT)
+Received: from [9.43.57.33] (unknown [9.43.57.33])
+	by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 18 Nov 2026 11:27:51 +0000 (GMT)
+Message-ID: <11020f85-6e45-4a2f-bd72-b006e337623d@linux.ibm.com>
+Date: Wed, 18 Nov 2026 16:57:45 +0530
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -91,61 +86,108 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <av1xsrv8zNIEOtxg@hovoldconsulting.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-
-On Wed, Nov 18, 2026 at 10:36:50AM +0100, Johan Hovold wrote:
-> On Tue, Nov 17, 2026 at 04:01:50PM +0200, Andy Shevchenko wrote:
-> > On Tue, Nov 17, 2026 at 11:13:32AM +0100, Johan Hovold wrote:
-
-...
-
-> > > +++ b/drivers/i2c/i2c-core-base.c
-> > 
-> > >  void i2c_unregister_device(struct i2c_client *client)
-> > >  {
-> > >  	struct fwnode_handle *fwnode;
-> > > -	bool fwnode_is_software_node;
-> > >  
-> > >  	if (IS_ERR_OR_NULL(client))
-> > >  		return;
-> > 
-> > > -	fwnode_is_software_node = is_software_node(fwnode);
-> > >  	device_remove_software_node(&client->dev);
-> > >  	/*
-> > > -	 * If the firmware node is a software node, its reference count
-> > > -	 * was decremented by device_remove_software_node().
-> > > +	 * Must be done after device_remove_software_node() which may have
-> > > +	 * freed a secondary firmware node and cleared the fwnode pointer.
-> > >  	 */
-> > > -	if (!fwnode_is_software_node)
-> > > -		fwnode_handle_put(fwnode);
-> > > +	fwnode_handle_put(client->dev.fwnode);
-> > 
-> > We have fwnode getter, so better use it
-> > 
-> > 	fwnode_handle_put(dev_fwnode(&client->dev));
-> 
-> I used the fwnode pointer directly here on purpose since that is the
-> pointer that gets cleared by device_remove_software_node() and which the
-> comment refers to.
-> 
-> This hopefully also reduces the risk of anyone introducing a UAF by
-> reusing the fwnode variable (or the compiler doing something silly since
-> dev_fwnode() returns the dev->of_node->fwnode when CONFIG_OF is
-> enabled).
-
-This makes explicit use of the member outside of driver core. It adds
-an unneeded burden on the possible changes in the future if we decide
-to make the fwnode stuff being hidden in struct device (in a sense
-of having say list head instead of that). I think we really need to
-mark fwnode with __private there.
-
--- 
-With Best Regards,
-Andy Shevchenko
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/9] powerpc/secvar: Add missing kobject release
+ callback to secvar_ktype
+To: Ian Rogers <irogers@google.com>, Nayna Jain <nayna@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>, Piggin <npiggin@gmail.com>,
+        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+        "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+        Shrikanth Hegde <sshegde@linux.ibm.com>
+Cc: Srish Srinivasan <ssrish@linux.ibm.com>, Mimi Zohar
+ <zohar@linux.ibm.com>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        driver-core@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>
+References: <20261108223913.3624571-1-irogers@google.com>
+ <20261108223913.3624571-3-irogers@google.com>
+ <CAP-5=fUQvqpny1CrYVUqg9SQo6VpOuUqfOK403BxK_vWCDU30w@mail.gmail.com>
+Content-Language: en-US
+From: Madhavan Srinivasan <maddy@linux.ibm.com>
+In-Reply-To: <CAP-5=fUQvqpny1CrYVUqg9SQo6VpOuUqfOK403BxK_vWCDU30w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: vXKWCYIsO8QL_giJhdoQTN72NW1RHYq2
+X-Authority-Analysis: v=2.4 cv=Z8x5j3RA c=1 sm=1 tr=0 ts=6afd8bc0 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=1XWaLZrsAAAA:8
+ a=VnNF1IyMAAAA:8 a=uPf0OYVXD692Dvb0MzEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: h-je1vqzPwGpa6iH9pk9RsytTjhUVezA
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDA0NSBTYWx0ZWRfXwTGx+Eq+qFXW
+ oes0I2T049kquvdD1aytGbD+9kVmQaqjQXodSLRxTDs/5+jLgiDeQKhaWOPtQ1ei735Pc3f4ZYm
+ nJ8heTk3fUENtZS74FS8VGJyVjA+bEw=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDA0NSBTYWx0ZWRfX019265k+gXwI
+ dmowQQGxK8g00xqzQJSVSiBKPXJ2DrO1kSEkITFPg3lKy67l12Gs/WL97ZOew48EaHDBvvtP8kJ
+ nmhF2RXE0JTnNlQ0uJTVKTdndAAvyHJq1wKVuguvenc9GjlMDJ19QKSaJS/RP8CF11pXN0ZKjrb
+ 9mfgUaFvr9ZHGlmcRh4w85p8sgl6lvxwyikOeRBNipn470tyhLHCCVxa6BMvSsgaFyMpQmkL0Kp
+ crNx4pIfbpwO4GzRNlHT0f2u52cDjlyJ8ytwvVI0U0DsQcdK0GXh1JZBcSOu9Fp+F6pEr+9Ij1/
+ JSHqcChqck5xfbeeJdQqlvfWZXckM3EbLMkvaEltCsSxC/ql+TZ+KIdrEPoZ6URBOIkwsEkGlk3
+ WxOPAptBzobfMEbJhLa0XA9mBw6AOO2+Dxb45sV42oX4Dki7S4CXajrwEW5fUXAoYSTGIrLWSAW
+ IGp1pGjhM8eyEWi9mIg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-18_03,2026-11-16_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
+ adultscore=0 bulkscore=0 clxscore=1011 impostorscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611180045
 
 
+On 11/18/26 1:55 AM, Ian Rogers wrote:
+> On Sun, Nov 8, 2026 at 2:39 PM Ian Rogers <irogers@google.com> wrote:
+>> In add_var(), a struct kobject is dynamically allocated with
+>> kzalloc_obj() and initialized with secvar_ktype. If kobject_add() or
+>> sysfs_create_file() fails, kobject_put(kobj) is called to clean up.
+>> However, secvar_ktype does not define a .release callback, which results
+>> in a memory leak of kobj (and a pr_debug warning in kobject_cleanup()
+>> when CONFIG_DEBUG_KOBJECT_RELEASE is enabled).
+>>
+>> Provide a secvar_release() callback that calls kfree(kobj).
+>>
+>> Fixes: bd5d9c743d38 ("powerpc: expose secure variables to userspace via sysfs")
+>> Signed-off-by: Ian Rogers <irogers@google.com>
+> Gentle ping on this patch (moving PowerPC maintainers to To: in case
+> this got buried in Cc:).
+>
+> Danilo offered to take the full 9-patch kobj_type::release __must_init
+> series through the driver-core tree with subsystem ACKs, and this is
+> one of the last two patches awaiting an Acked-by. Does this look okay
+> to go via driver-core?
+Sure Ian
+
+Acked-by: Madhavan Srinivasan <maddy@linux.ibm.com>
+
+>
+> Thanks,
+> Ian
+>
+>> ---
+>>   arch/powerpc/kernel/secvar-sysfs.c | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/arch/powerpc/kernel/secvar-sysfs.c b/arch/powerpc/kernel/secvar-sysfs.c
+>> index 395399bbab2c..f3f6ac25ea78 100644
+>> --- a/arch/powerpc/kernel/secvar-sysfs.c
+>> +++ b/arch/powerpc/kernel/secvar-sysfs.c
+>> @@ -126,7 +126,13 @@ static const struct attribute_group secvar_attr_group = {
+>>   };
+>>   __ATTRIBUTE_GROUPS(secvar_attr);
+>>
+>> +static void secvar_release(struct kobject *kobj)
+>> +{
+>> +       kfree(kobj);
+>> +}
+>> +
+>>   static const struct kobj_type secvar_ktype = {
+>> +       .release        = secvar_release,
+>>          .sysfs_ops      = &kobj_sysfs_ops,
+>>          .default_groups = secvar_attr_groups,
+>>   };
+>> --
+>> 2.56.0.455.g6c5a503b38-goog
+>>
