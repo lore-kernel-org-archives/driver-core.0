@@ -1,118 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.2
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794987246;
-	b=3t7Ne0AcIqEGoLs0LL12c87ijm9SU2HSXn0mov23XhPu1UFSQ4luNkIc6Pse2K3CnvZt
-	 B7uNHc/606CASX9PCq+IBgSqYjJ0kwO5s1xQO5KhtVRRUuBwf2l0TtORfJ0w9TYhnr5lb
-	 T8ahLYvqR9DIXXVKnxD4l1j+8szPH/bDzrjII9K3VmZ50UKxRTpcX3ODl5jYMJJy97GwX
-	 +saOFqOwmCfx3JTHHHrv7v1N4IgmDw9fUsUE+jo5EtduOYE5rBJwDVXaCLV2+zsNieopX
-	 rtcWb/gQTs8wCTSiPnR4EOGRjz5FcmxJaW+sazqqlr7eStWIDBdKlcyVJqKHZyeyOrg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794987246;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=71OmnO+FWbA4EhJ7EN+OTkAqWLzkAt6SqNvR5q45ls0=;
-	b=AuFf/1zHd/0gF6c/W3lZqBjcjeoqVQxtFZmz+1H6NdzfgCWMvY5V9NdhTXpbZE+OLMmF
-	 VkPEol6Zu9H5lcYtwimozSTARzebcCJdhY4jjeRpKnWj0x5i0jqOl1udRYa8QrNuxDI/q
-	 zEt/R9L5yA9NdqnVd7u67hU2Vhs7Yy+F637EXaAOX3xKrQ1C+H+uXsUkIgOx0V0KEYaOo
-	 wDjL7jToS/waD3TnhdpBdQRbZDuTBPO2YVg5ahxnUrIxP+ZOO9SFNp7HGRlGjSNDQi2il
-	 90e16fjXkYyt5JqRtQ9qBcxTnD8sh4OayZQhTVpHMvCgXsRyi13w13dOd9dMn8AlQqQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=oKSIu2Qc;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.2
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013002.outbound.protection.outlook.com [40.93.201.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.45
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794987832;
+	b=XOkYhJhTykD6kInx1XZYOEnLa5p41okABRpd+kgBmzok9dnzpHMZRXjFyXNMmpHHbvws
+	 uuD0twzawHb55YPdCDRxmBPKup9Yh6BwcPesUnynIlViw3OjN/jGwhCRmnbQZvqXJ6QLG
+	 QhtjwcQ8lTpJuu0MnI3kMYkEB7wKpNOMADIIJgpQQ4dR5a2ko6ihvsBMz5+rBr2gB/0Cj
+	 fICoBdl0PDWzsEt8F1FzVf+nwEuv+bquGTxuDeYmymMxl5vZv9gKJsFlaKW2plkIhBzx2
+	 xLE+mE0A0F9UfaI0L3IHPDQnJ2nqlHAUNjc1Lx9QkJ+4eLzuyQMW2Pt/cr3DfxZBxlQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794987832;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=ZnHY355Lmina/i/sthQaqZuymWw1SBJp8dmE6kjbEPE=;
+	b=nW9f6n92TI7WT6ON5GTkoZZRacf6BS6Dlq+4abGBE59myr1bzHSYDBT/EcgZs1iqDJGV
+	 OjVvPVhf5qS55QeQbe1frAgFTcrQSwdnciLpNfJXnwRIELiXnZJlYX76Pl2zC6PScBcsu
+	 bk1YstvjlN6lZLrYqVEOjwwA5y8gMGmhWZq/UiD6CNYhz5kAYw70d9sBwR+KZvUNgJxvK
+	 lZ1iEfn0Mo0DIQUx7pxCftnBqu8f4XBBdIX/M2z8/z02Z5JNNOWIJhNZhv25jcxiI/Fon
+	 DDdxfEK8tvVKhWDB6PPhJSpFVYurrYLrSD/2RSlWK9CEWQrVghCk1tfX3+PfVrNfErQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=oGVbQizm;
+	arc=none smtp.remote-ip=209.85.221.45
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645D7606A336;
-	Wed, 18 Nov 2026 07:34:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 645D7606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABB8606A31C
+	for <driver-core@lists.linux.dev>; Wed, 18 Nov 2026 07:43:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EABB8606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=oKSIu2Qc
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wdKAIEGnqdhU/EHEpEmLwUWftF30FTizR18CjiJZl5OBIk0Mt9CG67kYJR7Gk6R4buzoOL87F3MjSjywAeZS093GSZZSUk+vaIR1zn0ny0+uCoW5e+cr8PfgmP6mOvgkc1DJIXmN0cXEme6LPs6hBcSED8TWSjSVE1zwYRxXP4CqSA94cthB3bYSfbtHFvR75mVyAWA34Yc5M9WEb5AadMEcyr5j+ThXOjxGw6X1pqWl0YDncXC65EE4l4ZBhgQbFwZHzwgWdT8iBJYJcDalRyI6SX0nN3oNNT5J9Yq8ty83n1RxQiyDhuYolL9TtFgC3J1YLxuyDfDtlXUs5Zjbew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=71OmnO+FWbA4EhJ7EN+OTkAqWLzkAt6SqNvR5q45ls0=;
- b=PFJQTaorj+btu/GQHbdEdVWzRzrAdxnBaERWNdmr7kgPjY5VAd0aYP52PJObcll1c52ye2vQmfVuiusrB/R1yKMWTd2j1N93dL/3pSSEnt7z5J1C564dcgDEARaK9gCRy448OInC9kpTqvIA+E65nsl0+Xt6dGNdpYVYr/XnUCTNigBIX0GPzp8HP/C5aO4bOfbIyViVc5T0jEKRZ69h7DHso00WLVuJQZVN6JH+ikur98bH3Jk7dcjVFves2a3PRZA8l+W7G5dN95mMKuBELdVrlRGyaHbDYCDmIJhouZeFJx4gnuJt3JNNfWqn6zd69w2XW7z6rgAJoWBDnFCKyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=71OmnO+FWbA4EhJ7EN+OTkAqWLzkAt6SqNvR5q45ls0=;
- b=oKSIu2QcuIBY3gBoAslJAehQIUbvqoFOn3cbCza/8IKjn4ieDrICYeaK9yZQKCjJwJRoBNEdSeDR1UrRMfis5tYqVwhvBj913hy0sRevca8+7okw961lmfbzmJllF/Um0IqrFliEZEpdmLrRpNKGpW+VQxiitsfyZHTk1N+OLm0=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SA1PR12MB999228.namprd12.prod.outlook.com
- (2603:10b6:806:4db::10) by SJ2PR12MB7866.namprd12.prod.outlook.com
- (2603:10b6:a03:4cc::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Wed, 18 Nov
- 2026 07:34:01 +0000
-Received: from SA1PR12MB999228.namprd12.prod.outlook.com
- ([fe80::4dba:119e:8e7c:37b3]) by SA1PR12MB999228.namprd12.prod.outlook.com
- ([fe80::4dba:119e:8e7c:37b3%6]) with mapi id 15.21.0615.013; Wed, 18 Nov 2026
- 07:34:01 +0000
-Message-ID: <fd25ed52-e3ea-41a2-9f62-2397d5d9e8c8@amd.com>
-Date: Wed, 18 Nov 2026 18:33:45 +1100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 18/19] PCI: Replace untrusted state with device trust
-To: Leon Romanovsky <leon@kernel.org>, Robin Murphy <robin.murphy@arm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
- David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
- Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
- Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Nipun Gupta <nipun.gupta@amd.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>,
- Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
- linux-input@vger.kernel.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, iommu@lists.linux.dev,
- Jason Gunthorpe <jgg@ziepe.ca>
-References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
- <20261109-device-trust-core-v2-18-3b12d9a9f861@nvidia.com>
- <d0999161-3b27-4c3b-9d66-1d117c4836fd@arm.com> <20261110122237.GG8635@unreal>
- <b4c2538f-8021-4abc-be2e-fcd1596f84ca@arm.com>
- <20261117124801.GD124972@unreal>
-From: Alexey Kardashevskiy <aik@amd.com>
-Content-Language: en-US
-In-Reply-To: <20261117124801.GD124972@unreal>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SY6PR01CA0131.ausprd01.prod.outlook.com
- (2603:10c6:10:1b9::7) To SA1PR12MB999228.namprd12.prod.outlook.com
- (2603:10b6:806:4db::10)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=oGVbQizm
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-490c3ae81d3so356657f8f.2
+        for <driver-core@lists.linux.dev>; Tue, 17 Nov 2026 23:43:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1794987829; x=1795592629; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ZnHY355Lmina/i/sthQaqZuymWw1SBJp8dmE6kjbEPE=;
+        b=oGVbQizmK1FS8cdQnTsWSILDv+9umvwbXByJIQTAUII8fpHRu1rFqSdPGsr4keaNsV
+         Oy+11Sm52J8NyLh0orLLb2knmn+ncka+CDMEkqUEpWlR61Xvq+BBbONFjTxApSqZ3IfG
+         fJqsE1GPYqjJgr7TI5P9ZySh9S878o3i7iWK11+geMsQbwqZ/Gmdjc51II52tFUaoHSb
+         UtYqSr6xmKWUujwCvgVN5/U52Xu4H6cqTHwuVLmzImFEICLNIbadCKbBhQKSFKeuYHXi
+         X2813HmkoXLRxwJ4qyhkvbeNnf135e3LPetDlq6gvZoAsbhL9y3Xdx5jqlzvemQfj4D8
+         0+kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794987829; x=1795592629;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZnHY355Lmina/i/sthQaqZuymWw1SBJp8dmE6kjbEPE=;
+        b=UImiOqSxiifljNPsvWVJ+/gFl6l8f4hiAfTSQsdGq2SkGfgwk3rxC4CiD55IGSQaML
+         PADuqejguyx0nTD12H7bxkvP7/HRd3CLnWpf18JmPcaJsvCb6vRN/0HSIFO3t/gf8txK
+         s8uW8SEzUIcapUbradB0Zlyvc1wpgNqeYj78AQW3NgWWs3nbFkvbji7wwV65XilqLmL4
+         TGMs/Oim9GKSmZhZ1qc32RVIJnQOAHvkk3oNHZo9gzouFFkoOc+In5n046sx2scoiDGL
+         M24YXLHM0Ed6hoLLWozMCjD4np89yHgXnHf7cVYJ8DgO1Rt8JKvJk7Hz1n8H2D/9tLn6
+         U0fA==
+X-Forwarded-Encrypted: i=1; AL+hErEvnJvD7Iks7NZ4Q7XzH+kdOAd+0OO5Lo6tG7HWrwcPPVogkT7hQw94to4pvEo7T5mr9Od+Ate40jOwZA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+vz/eHH8hXjSCRiVy9F+aZ8HXH8zo3QnKhOOOwvFuJDWBBpEFM
+	489wn/NSeiyDApiq44Pho/8K0WhguKK7Ai3V4Hl+z7Vndy5AN1nCGtNjpuS0od6flrg=
+X-Gm-Gg: AZFdTZdyjKOqZB6W2StL8d/HfoQ2PnaQe4EaeP37D5RpMCnnr/UqEJfS7N48a47eftq
+	786r6SmJ6kUOz8Z/UiXY4+FKirejgKht0oX2QA47+n8dF3ow5yCwtt552rIkog3zOpBTy9bOTem
+	d4oljMdmaQgmqpa/jhzI0Ftbb2b5YR6n4mHtg6+6GMGOc/X6+Oxb2/t7003aNyUfpqmYH909K0a
+	eHYfhBmTkWxwpfvQxE4DYkyb7fjl0Q0EMVCN7W3Jc3jsc4rxToKJGlZ4boGbl6fSQP4LP576eZC
+	IbJ93CVjArJXbfMPH0pRk6tXYFJoOdeCCguvC4HKd2L+p+9MoQRCDxPZgR9GXppSTW5DY7SsLuk
+	43ZS4hYMyyKCW/bC2wpbgFFJ3DltnTlNVz031RRvKV9YkfVvsX9dW9RpYda1v/txRsEY3VWGlvQ
+	QhFXOhL98vu/uYuLiCG59A2S04rA1vhGqHu4nNnvkjis54C3NEo3dngQ1YlrYHoywIV+3AXmhdk
+	XGpjIVA9ZbKVkbghz5c+PW0NhFgaZoy+64RgSZClu+wjtJMwg8zarHsbb0833F/j7ErB3t05Rmi
+	ZpoIJYMGgDMnU1cQYF70hnjgdE25iqBYdn9vEYoY53EABNY4GT0pJap7BwY6NIvBiiwsOlVv/C0
+	iVgfTc4o21VGt/qo=
+X-Received: by 2002:a05:6000:2c02:b0:493:bd29:a6e3 with SMTP id ffacd0b85a97d-4a63c6582f1mr3348907f8f.15.1794987829259;
+        Tue, 17 Nov 2026 23:43:49 -0800 (PST)
+Received: from localhost (p200300f65f19a904dea20c2220232395.dip0.t-ipconnect.de. [2003:f6:5f19:a904:dea2:c22:2023:2395])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4a656c11f4bsm3197026f8f.51.2026.11.17.23.43.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2026 23:43:48 -0800 (PST)
+Date: Wed, 18 Nov 2026 08:43:46 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Michael Kelley <mhklinux@outlook.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, David Lechner <dlechner@baylibre.com>, 
+	Armin Wolf <W_Armin@gmx.de>, Thierry Reding <thierry.reding@kernel.org>, 
+	"Mike Rapoport (Microsoft)" <rppt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Karl Mehltretter <kmehltretter@gmail.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	"Borislav Petkov (AMD)" <bp@alien8.de>, Dapeng Mi <dapeng1.mi@linux.intel.com>, 
+	Marco Elver <elver@google.com>, Ethan Nelson-Moore <enelsonmoore@gmail.com>, 
+	Jeff Layton <jlayton@kernel.org>, Bradley Morgan <brads@mainlining.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
+	Pnina Feder <pnina.feder@mobileye.com>, Mete Durlu <meted@linux.ibm.com>, 
+	Aaron Tomlin <atomlin@atomlin.com>, Rio <rioo.tsukatsukii@gmail.com>, 
+	Feng Tang <feng.tang@linux.alibaba.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "driver-core@lists.linux.dev" <driver-core@lists.linux.dev>, 
+	"linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Alex Williamson <alex@shazbot.org>
+Subject: Re: [PATCH] driver core: Disable driver overriding by default
+Message-ID: <av1UwuDq9JJkEYkN@monoceros>
+References: <20261116110853.3418077-2-u.kleine-koenig@baylibre.com>
+ <MN2PR02MB6863F6E744D2651D2520A238D47A2@MN2PR02MB6863.namprd02.prod.outlook.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -122,259 +115,217 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR12MB999228:EE_|SJ2PR12MB7866:EE_
-X-MS-Office365-Filtering-Correlation-Id: bd85bdef-bc7f-4f4b-6fb7-08df454650ad
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|376014|23010399003|366016|261026140227099003|56012099006|10067099003|11063799006|261009223027099003|261026121527099003|5023799004|4143699003|261028144727099003|261022075727099003|261022105027099003|261021121427099003|261102123227099003|261021123027099003|22082099003|18002099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	kZxqGkqBkyBWGddz7J43Pl2uxsBLycER/2T8xvGeAlMFBYBrqILCeo2xLkvd7irsvHU3dkvMSuLYf8YFAGzYLW5ITQqs7VrwHfg6ge9RLBWA2rmzvXDJfIi+MQarPcP8BLXI5lLOEReRYrxmkgxEKTO5X4dRXJvXy9iYHC+W3Q3eIKuc7qPScMtYS4mt4k5ydQcu8Gmn0ZrZ1gnFrMQGDEvMhHZGJh/GzQyYtkuxknydptTCtMEIcOgbvKz9911rwFxWWvBgWpCgHkn6yQYLvXdEXuE4EG2OZWZ6fx7xSL+UyyUFQVtUgjP9539uPO/lf6g+GMFPTFgT6VoNqio9L1ZqJmf9ABYL4V8mkKK5SLCrJSWdWD9+wzlmgOnk0mY5zbVQMj7ICC5KgJBsg0h5eTNtOvza4IjsxYwVqWTNzsm9c7XbeppZdFHC9gP1RAKywD/PeHoJjmWA9d3jLvRViv6LihiaFYlzln9Cv+HOgLXkUcenh6cZcL48JPafpaRfO4RVUE5qUEuXvt54ePYY5SslDAT/VJ8+zA+uS/FoZE+zXfqT2RV7Ad9CclhY7Zkb5Ofs587wGOoiFn4CdF1cEkDeJXpN+6Mormj5WThJej3v0ZlWEKW1kyMxVysEzZuGCt8Z9uWhM0Xji146/E8TgFiYQfla2tgcOJxcOPKtbZk=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR12MB999228.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(23010399003)(366016)(261026140227099003)(56012099006)(10067099003)(11063799006)(261009223027099003)(261026121527099003)(5023799004)(4143699003)(261028144727099003)(261022075727099003)(261022105027099003)(261021121427099003)(261102123227099003)(261021123027099003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?djU3N2JoaG5SRnpKelptR3lmL2dSdG4zTEE5enJuUVhWQ3ZIa0dpYmQzekdC?=
- =?utf-8?B?NGhLM1AxN2tWV0hFNnJJZW51cnNGS1dLeFY2d1lxQVlsNG1YeDhjT044RTFa?=
- =?utf-8?B?aWxhSjRCUHNERXJPczJFZDZaU056UkJEZUFFYlFMbEdqWDVIbElsZG1PUTls?=
- =?utf-8?B?MVRZWEJGbjlQSzE4M25qeENiNXhpaHBmYVVOT3QzQi9QZm0rYmxCbnMvM2FW?=
- =?utf-8?B?UmpBSWRZSUwxTjJMM2RsNzJtYzBrZmJJZCt5UkhFRVo1OEZjTXF4TmJ2anI1?=
- =?utf-8?B?V1hrQWRTUjkzMHZYenh5UVlrYkdPNHVUNTVGWFZSUnNUYyt0ekh5d0loUzRu?=
- =?utf-8?B?K0NUcm10TENvekVtWTNjZlUwMjlaL0cwQmp3VlNsSzJBbHFpUW5CNFlnOWNH?=
- =?utf-8?B?eHNuQWhCMWdJVGpWTzBmek9qeStINTFWR1k1OUxia1RzUkxrRFQwSzRpRnZS?=
- =?utf-8?B?NW5RNHhsd254Qm1UcFM2OUhiUWphdVZxU1Jzbi9vK2xTa1pMU01iRXR0c210?=
- =?utf-8?B?NGpzNmlaS1RCdHUwYmVLWDdsSHNCc2tWbWF1NWhrZkFJbWV5UFRMMDhKMFN4?=
- =?utf-8?B?MUxOWW5mTjhwYitQMXpCdDRYSFc4Rm9CaWtqTjBVUEd2SzlROU83NGhQdjlG?=
- =?utf-8?B?bVZ5c2hBNmI5NCtLTHY1QkFRTldKVlJzeHYwNFAzS0M0Mkk5OGNScTg0M1Bo?=
- =?utf-8?B?Zlp6anduTUFjUVFUeGVtYVc1RzRXMlZQSHFoSTlVQlZGTVA0a2xxWldJRkI3?=
- =?utf-8?B?NG5zL1IrREZLWU1PZ3RIQ1F3T3Zmd3Z5Mjl0cHh1S05xSno2NlNHTTBWVWJ0?=
- =?utf-8?B?OUl1V2srdkJzai8xbS9BcUlGWUFRalJKTVZtM2NCMUYvM08yc2FIUVFjSzFJ?=
- =?utf-8?B?Q2JKcVlQMnVHMXd5ZG5xRzdFb2x0ZVVWNHRxcE1kU2hsMEQySHpwQ1JFemcy?=
- =?utf-8?B?Mkg3V3I0MkZScVVJSEhjb2YySDI1L0NiTmlNSnU2NlUvTHR3TFJxbFFsSXAr?=
- =?utf-8?B?d1RIaTB2NzBrNjlCR1hDZ0k0NVd3MFRDRjRWWXdLTVVyWGdkNGpIRDRNODF5?=
- =?utf-8?B?bXk1VmJ5NVFKR1BGbm1NRkRpM0VnNjlBakRYQ2twZG1GRTV2Z1dJQ1Z1WXJj?=
- =?utf-8?B?bGRMeGsrWnpnYzFQTnVkUnZSMEl5YWs2bmpiZjZ2TUNyMjV0aTAxb0tqWXV3?=
- =?utf-8?B?Z3lPcEZpdzZIR3FUMmg4eXpyaHdBdmEzTGZSMFZ0ZzM1dWloMnlMR0FGa21z?=
- =?utf-8?B?N3laVWhZZU9vcGpTQitqS2xydzJhQ3VLeW5GRzR2VXZUa1NmZmhISWNldDZB?=
- =?utf-8?B?cUpDT0d1cXpIckpjT3AyNE1UNW81dVdEZ0dhaHlldmh5NFVKcmNhOEZ2VFRX?=
- =?utf-8?B?L0REb3QxSnR6aTVucXJ5elZvcXZGTHBxUHFnWTJEQkowbjFDdG5FQkp4dE5q?=
- =?utf-8?B?NWhlb1AxSGNwVVk4ZGJKcU1hd3NlRWNNTHRmMFZ5cVBROEhvdUxocjk0bmNu?=
- =?utf-8?B?NVBUOUpkMTNQd3YwZFJ2MkxXK3YvWnh6UGhETDAwNmZtNGxOei9Oak5pY3Mx?=
- =?utf-8?B?L3lOVWZSdVZiekZhUnFlak9tZFovbVRJLzJGcDB5c0ppOTNmbDhFbzB3WnJx?=
- =?utf-8?B?bmRXYllkYjJoUEZTa0tjOU0zbVVpL0MrdXRtUHJVSWFJT0VRc0N5TGhoNElT?=
- =?utf-8?B?VFBQQk5ZZXJlbjAzcnVuem1qT3JFMGhoMjZmS3pFR1AvTHBibVQ1Q3FEbmsv?=
- =?utf-8?B?M05tZERoZWxyVjUvbUhNRHRuOFMxaFc4VVI3R0V2dHpiK1FvYjhvU0E3ZDJz?=
- =?utf-8?B?MTRSUmVUTDlsbFp4WkFOM211UUtyMU9mckllRFM5M054a1I4YXlWQmJMUGM4?=
- =?utf-8?B?SnNhVTdlbUxrYVFyNVVUNVZuN0VNVGlqc3lhdk5GYWp1Y2ZvWEJjN2hSSHhI?=
- =?utf-8?B?aDd6WG1NajdIVWtiSGRrejBSL3U2K2pITmsxNWJYcHRobjFxMGI3ek5FWk9O?=
- =?utf-8?B?aXUzYjdGZU5FV21veUxidXpVN3IyNkpxeExGOS83eEZXaWcrd2V1Q3pxYUVI?=
- =?utf-8?B?RUE2SjJ2M1paWTRPbndkS3JmVTlNOWhXMEpRTzltVlh0TS9qYlNzclh4amhO?=
- =?utf-8?B?eGFteFZDZlhHN3BmT2xoaG14d00ycTF0enB1ampSL3VYNUlIa2ZJNVF3OVF3?=
- =?utf-8?B?aFlRV0Zxa2UrZEM4SjBkT3FZd1JMTkhuQmtTaEtCb1VkdnN6UkdnVjVyVDFG?=
- =?utf-8?B?ZXNnYXQxS243MkwxTjhvVTU4akRremwyemlkbjE5OUdLVkhsQlFvQVZibjdj?=
- =?utf-8?Q?2pFLH8CnXLePCKoejg?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd85bdef-bc7f-4f4b-6fb7-08df454650ad
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB999228.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 07:34:01.4690
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1CclyQk6YPOQ+Exb7LflDSdMYo57jIk9mtHPrVn1FJzl+16k1BeAm8LItqcpegYfmjW3EVUh2jaWqFXUiteQxg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7866
-
-On 17/11/26 23:48, Leon Romanovsky wrote:
-> On Mon, Nov 16, 2026 at 05:13:59PM +0000, Robin Murphy wrote:
->> On 10/11/2026 12:22 pm, Leon Romanovsky wrote:
->>> On Mon, Nov 09, 2026 at 01:53:02PM +0000, Robin Murphy wrote:
->>>> On 09/11/2026 7:33 am, Leon Romanovsky wrote:
->>>> [...]
->>>>> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
->>>>> index b486b8bbd1fcd..8be2a246d4903 100644
->>>>> --- a/drivers/iommu/iommu.c
->>>>> +++ b/drivers/iommu/iommu.c
->>>>> @@ -1879,7 +1879,7 @@ static int iommu_get_def_domain_type(struct iommu_group *group,
->>>>>     static int iommu_get_default_domain_type(struct iommu_group *group,
->>>>>     					 int target_type)
->>>>>     {
->>>>> -	struct device *untrusted = NULL;
->>>>> +	struct device *restricted = NULL;
->>>>>     	struct group_device *gdev;
->>>>>     	int driver_type = 0;
->>>>> @@ -1901,14 +1901,15 @@ static int iommu_get_default_domain_type(struct iommu_group *group,
->>>>>     		driver_type = iommu_get_def_domain_type(group, gdev->dev,
->>>>>     							driver_type);
->>>>> -		if (dev_is_pci(gdev->dev) && to_pci_dev(gdev->dev)->untrusted) {
->>>>> +		if (dev_is_pci(gdev->dev) &&
->>>>> +		    pci_dev_default_is_restricted(to_pci_dev(gdev->dev))) {
->>>>
->>>> I think this should be the generic device_is_adversarial(gdev->dev) now - in
->>>> fact probably all the dev_is_pci()/to_pci_dev() stanzas aren't conceptually
->>>> PCI-specific, just an artefact of the current "untrusted" flag being so.
->>>
->>> I wanted to do the same, but iommu_get_default_domain_type() may be called
->>> before the PCI device's trust level has been set. At that point, we are
->>> still in "disabled" mode, whereas device_is_adversarial() checks for
->>> "adversarial" mode.
->>>
->>> The below is from AI, I asked to present me the path for that:
->>> --------------------------------------------------------------------------------
->>> For a newly discovered PCI device with an available IOMMU and a new IOMMU group:
->>> pci_scan_single_device()
->>>     pci_device_add()
->>>       device_add()
->>>         bus_notify(dev, BUS_NOTIFY_ADD_DEVICE)
->>>           blocking_notifier_call_chain()
->>>             notifier_call_chain()
->>>               iommu_bus_notifier()
->>>                 iommu_probe_device(dev)
->>>                   __iommu_probe_device(dev, NULL)
->>>                     iommu_setup_default_domain(group, 0)
->>>                       iommu_get_default_domain_type(group, 0)
->>>
->>> For a device whose initial policy is adversary, its state during that call is:
->>> dev->trust_policy          = DEVICE_TRUST_POLICY_ADVERSARY
->>> dev->trust_level           = DEVICE_TRUST_DISABLED
->>> dev->trust_committed_level = DEVICE_TRUST_DISABLED
->>> dev->driver               = NULL
->>>
->>> device_is_adversarial(dev) = false
->>>
->>> The active level changes later, during binding:
->>> really_probe()
->>>     device_trust_prepare()
->>>       __device_trust_prepare()
->>>         WRITE_ONCE(dev->trust_level, DEVICE_TRUST_ADVERSARY)
->>>     dev->bus->dma_configure()
->>>     call_driver_probe()
->>
->> OK, that seems less than ideal. Feels like it would be better if bus code
->> set the initial device state prior to device_add, so then it only ever
->> changes later as a result of an explicit attestation/acceptance process. If
->> the initial IOMMU probe still has to poke into bus-specific code to avoid
->> always making a worst-case assumption, doesn't that rather defeat the point
->> of having a generic abstraction?
-> 
-> As Jason said, this is part of a very large series. Each series is an
-> adventure in itself. Even Greg's seemingly simple request to convert the
-> USB authorization knob to this new scheme has been extremely painful
-> because of AI reviews. They keep pointing out bugs and gaps that are
-> automatically attributed to me simply because I'm touching that part of
-> the code.
-> 
->>
->> Even with the slightly dubious argument that this series only intends to
->> shuffle the existing PCI code around rather than fully introduce the generic
->> abstraction that it claims to, if the PCI behaviour is still just based on
->> propagating the internal "untrusted" flag plus the new global override, both
->> of which *are* known at add_device time into the common trust state, then
->> there seems little excuse for not doing that up-front so that the new API
->> *can* just work as expected.
-> 
-> I would prefer to keep both PCI and USB out of this series on device trust
-> levels. Let's see what people say if I drop them in v3.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="v3mgawp7jou3triv"
+Content-Disposition: inline
+In-Reply-To: <MN2PR02MB6863F6E744D2651D2520A238D47A2@MN2PR02MB6863.namprd02.prod.outlook.com>
 
 
-I'd rather you did not as it is going to make experiments with CoCo VMs harder.
+--v3mgawp7jou3triv
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] driver core: Disable driver overriding by default
+MIME-Version: 1.0
 
+On Wed, Nov 18, 2026 at 05:51:29AM +0000, Michael Kelley wrote:
+> From: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com> Sent: Monday, Nov=
+ember 16, 2026 3:09 AM
+> >=20
+> > Driver overriding is useful only in a very limited set of situations
+> > and then only with very few drivers that are designed to support that.
+> >=20
+> > Disallow matching via driver_override unless the driver explicitly
+> > allows it or the safe guard is disabled using the
+> > "allow_driver_override=3D1" kernel parameter.
+> >=20
+> > There are many drivers that don't expect to be force-bound and often
+> > doing it anyhow results in a NULL pointer exception. To make debugging
+> > such cases easier, add a new taint if such a forced match happens.
+>=20
+> As noted by Alex Williamson [1], there's also the new_id mechanism
+> that can force bogus matches and result in the same kind of NULL
+> pointer exceptions. What's your thinking about covering that case
+> as well?
+>=20
+> [1] https://lore.kernel.org/lkml/20261028094139.12ea7c16@shazbot.org/
 
-> 
->>
->>>>
->>>>>     			/*
->>>>> -			 * No ARM32 using systems will set untrusted, it cannot
->>>>> -			 * work.
->>>>> +			 * No ARM32 using systems select a restricted trust
->>>>> +			 * policy; it cannot work.
->>>>>     			 */
->>>>>     			if (WARN_ON(IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)))
->>>>>     				return -1;
->>>>> -			untrusted = gdev->dev;
->>>>> +			restricted = gdev->dev;
->>>>>     		}
->>>>>     	}
->>>> [...]
->>>>> @@ -616,6 +608,28 @@ static inline struct pci_dev *to_pci_dev(const struct device *dev)
->>>>>     {
->>>>>     	return container_of(dev, struct pci_dev, dev);
->>>>>     }
->>>>> +
->>>>> +static inline bool
->>>>> +pci_dev_default_is_restricted(const struct pci_dev *pdev)
->>>>> +{
->>>>> +	enum device_trust_policy policy = READ_ONCE(pdev->dev.trust_policy);
->>>>> +
->>>>> +	return policy == DEVICE_TRUST_POLICY_DISABLED ||
->>>>> +	       policy == DEVICE_TRUST_POLICY_ADVERSARY;
->>>>> +}
->>>>
->>>> Unless I've wildly misunderstood, I'm not sure this is right - if the user
->>>> has set DEVICE_TRUST_POLICY_DISABLED to explicitly override the bus-default
->>>> behaviour, but that leads to the IOMMU layer special-casing all PCI devices
->>>> as adversarial and thus force-*enabling* all their trust-model restrictions,
->>>> isn't that pretty much the complete opposite of what was asked for?
->>>
->>> We have two levels: policy - that describes the default of all devices
->>> for that bus. level - actual decision on how that device is going to be
->>> operated.
->>>
->>> "Disabled" prevents driver probing until the device is authorized,
->>> "Adversary" permits probing and requests the available protections
->>> for operating an untrusted device.
->>>
->>> Both need conservative initial IOMMU setup: a disabled device may later
->>> be authorized as adversary, and authorization does not rebuild its IOMMU
->>> domain.
->>
->> Urgh, I can be absolutely certain I'm not the only one who is going to be
->> confused this way... I see "disabled" and instinctively take it to mean
->> disabling the device_trust *mechanism*, as the logical thing that people
->> will reach for in terms of "I don't care what this new thing is, just get it
->> out of my way and let my drivers work like they always used to; I want to
->> disable the new thing."
-> 
-> I completely agree. I was under the impression that these names had already
-> been decided, since I picked up where Dan left off.>>
->>  From there it then also makes perfect self-consistent sense that
->> "device_trust=full" would be the opposite end of the scale as in "Apply the
->> explicit trust model 'fully', to all devices regardless of their bus-level
->> default."
->>
->> Now I guess you could name it something like "device.default_trust_level" to
->> attempt to make it clearer that it represents a value the value represents
->> the "trust" *of* each individual device itself, but TBH it's still liable to
->> look backwards to many users - similarly it's hard to guess that
->> FOO_POLICY_DISABLED might mean something entirely different from "don't
->> enforce the policy for FOO.", thus rather than try to contort the naming of
->> everything, I'd still be much more inclined to just flip the meanings to be
->> more intuitive from the outsider perspective.
->>
->> Say you upgrade your kernel and find your boot is broken because it now
->> flibbles, but at least there is a "flibble" parameter whose values are
->> "disabled", "wibble" and "frobble". Are you really going to spend time
->> straight off reading up on what flibbling is to understand what wibbles and
->> frobbles mean? Or is your instinct just going to be to try the seemingly
->> obvious way of disabling flibbling, and then getting positively annoyed if
->> that only makes it flibble harder?
-> 
-> What about: blocked, adversarial and unrestricted
+I didn't look into pci's new_id a lot. It sounds as if it should also be
+guarded with a similar mechanism as the one from this patch for
+driver_override. As my experience and testing capability with PCI is
+limited, I'd not add it to this effort, but leave it for someone in a
+better position than me.
 
-yes, that's better.
+> > Implementation detail: device_match_driver_override() isn't a static
+> > inline any more. It grew a certain complexity (e.g. a pr_info()) and so
+> > was made a regular exported function.
+> >=20
+> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
+> > ---
+> > Hello,
+> >=20
+> > this is a rebase to current next of the series
+> > https://lore.kernel.org/all/cover.1790612298.git.u.kleine-koenig@baylib=
+re.com/
+> > . It combines the functionality of former patches #2 and #3 (#1 was a
+> > fix that was already applied). I also addressed sashiko's comments. I t=
+hink
+> > this matches what most people want in the previous discussion.
+> >=20
+> > As the rebase wasn't trivial and I merged the two patches, I didn't
+> > apply the review tags I already received for v3.
+> >=20
+> > If this patch is accepted, a number of drivers that are supposed to be
+> > force-bound need to get their .support_driver_override property set. I'm
+> > aware of the following:
+> >=20
+> >  - spidev_spi_driver in drivers/spi/spidev.c
+> >  - stub_driver in drivers/pci/pci-stub.c
+> >  - uio_dmem_genirq in drivers/uio/uio_dmem_genirq.c
+> >  - uio_pci_driver in drivers/uio/uio_pci_generic.c
+> >  - uio_pdrv_genirq in drivers/uio/uio_pdrv_genirq.c
+> >  - vfio_amba_driver in drivers/vfio/platform/vfio_amba.c
+> >  - vfio_ccw_sch_driver in drivers/s390/cio/vfio_ccw_drv.c
+> >  - vfio_pci_driver in drivers/vfio/pci/vfio_pci.c
+> >  - vfio_platform_driver in drivers/vfio/platform/vfio_platform.c
+>=20
+> drivers/uio/uio_hv_generic.c also probably needs to be in this list.
+> It's used for running DPDK against the Hyper-V VMBus synthetic
+> NIC device.
 
-> instead of: disabled, adversarial and full
+Noted.
 
-may be simplify: blocked, restricted, unrestricted? Thanks,
+> [...]
+> > +static bool __read_mostly allow_driver_override;
+> > +
+> > +static int __init allow_driver_override_setup(char *str)
+> > +{
+> > +	if (!str || kstrtobool(str, &allow_driver_override) < 0)
+>=20
+> If the kernel boot line parameter has a bogus value that doesn't
+> map to "true" or "false", kstrtobool returns -EINVAL and
+> allow_driver_override is set to true. Seems like a bogus value
+> should default to false. If no value at all is supplied and str
+> is NULL, it's debatable as to whether defaulting to true is OK.
+> Seems like might want to insist on a value that indicates
+> "true".
 
+Well, the default without passing allow_driver_override=3D$anything is
+false. Initially I wanted to have just
 
-> 
-> Thanks
-> 
->>
->> Robin.
+	allow_driver_override
 
--- 
-Alexey
+on the commandline to disable the safe-guard but sashiko wailed about it
+(well, more about how I implemented it). Maybe I'm going back to that
+approach.
 
+> > +		allow_driver_override =3D true;
+> > +
+> > +	return 1;
+> > +}
+> > +__setup("allow_driver_override=3D", allow_driver_override_setup);
+> > +
+> > +/**
+> > + * device_match_driver_override() - Match a driver against the device'=
+s driver_override.
+> > + * @dev: device to check
+> > + * @drv: driver to match against
+> > + *
+> > + * Returns > 0 if a driver override is set and matches the given drive=
+r, 0 if a
+> > + * driver override is set but does not match, or < 0 if a driver overr=
+ide is not
+> > + * set at all.
+>=20
+> Additionally, returns < 0 if a matching override exists but is disallowed.
+
+Yeah, that comment is just taken unmodified from the old location of
+device_match_driver_override(). Indeed needs adaption.
+=20
+> > + */
+> > +int device_match_driver_override(struct device *dev,
+> > +				 const struct device_driver *drv)
+> > +{
+> > +	guard(spinlock)(&dev->driver_override.lock);
+> > +	if (dev->driver_override.name) {
+> > +		int ret =3D !strcmp(dev->driver_override.name, drv->name);
+> > +
+> > +		if (ret > 0 && !drv->support_driver_override) {
+>=20
+> Using "ret > 0" seems a bit odd since the value is essentially Boolean.
+> Suggest using just "ret".
+
+ok
+
+> > +			if (allow_driver_override) {
+> > +				add_taint_module(drv->owner,
+> > +						 TAINT_DRIVER_OVERRIDE, LOCKDEP_STILL_OK);
+> > +			} else {
+> > +				/*
+> > +				 * If you hit this warning and you need to
+> > +				 * quickly workaround this check, boot with
+> > +				 * allow_driver_override=3D1 on the kernel
+> > +				 * commandline. The right fix is to set the
+> > +				 * driver's .support_driver_override property.
+> > +				 */
+> > +				dev_warn(dev, "Suppressed driver override binding to %s.\n", drv->=
+name);
+>=20
+> Maybe "Disallowed" instead of "Suppressed" in the message? Even better,
+> could the name of the device be provided? For example,
+>=20
+> "Disallowed bind of driver %s to device %s using driver override"
+
+dev_warn() emits the device name.
+
+> [...]
+> > diff --git a/tools/debugging/kernel-chktaint b/tools/debugging/kernel-c=
+hktaint
+> > index e1571c04afb5..56215e0f5112 100755
+> > --- a/tools/debugging/kernel-chktaint
+> > +++ b/tools/debugging/kernel-chktaint
+> > @@ -211,6 +211,15 @@ else
+> >  	addout "J"
+> >  	echo " * fwctl's mutating debug interface was used (#19)"
+> >  fi
+> > +
+> > +T=3D`expr $T / 2`
+> > +if [ `expr $T % 2` -eq 0 ]; then
+> > +	addout " "
+> > +else
+> > +	addout "Z"
+> > +	echo " * A device was matched using driver_override to a driver not s=
+upporting that (#20)"
+>=20
+> The messages in kernel-chktaint usually word-for-word match the text
+> in Documentation/admin-guide/tainted-kernels.rst. Any reason not to
+> do the same for this one?
+
+no, will adapt.
+
+> > +fi
+> > +
+> >  echo "Raw taint value as int/string: $taint/'$out'"
+> >=20
+> >  # report on any tainted loadable modules
+
+Thanks for the feedback.
+
+Uwe
+
+--v3mgawp7jou3triv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmr9VzAACgkQj4D7WH0S
+/k4x8Qf+L/hWtqlrgV77gKjkQ3o8g15MeCaKb8qCFvTvBbXXBo8rkw7NzS3wgss8
+dRpsoTD8At5OtGl/6aGkB4RuygBxQg27jXRPPKVG1AilLnzSVM3hIyOpy3BwR/BD
+/t1iXYWgfyEjnS3/s0knXZjJKQtRMhSmurudhbU8ecCq4sxjj4QqYAB5/cUitW8P
+rVVRhzXG4rTyA1J4MH3NLynXrDW4cMh7GYZyRCO9qLYRNq1XEZDYxKWRYzk9B8Xb
+Aa/QqtZSgnUNkoh3cwwkAJdFWjLh417nVzFA5e7YRIRMqzbR7Au9+b40/vS++4d0
+a+EPr7Jty/qPVQ0cG6+31pQCliB06Q==
+=V3Pv
+-----END PGP SIGNATURE-----
+
+--v3mgawp7jou3triv--
