@@ -1,117 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795031493;
-	b=Yqwl/WRt/xFsBa1Jxr9urUCC3LL66jlggoDEqSXVYbVdB9DMWLGte31fbwt6FMsXvYbG
-	 dSTFWnMIDm54P+E6df2GD2piOrBiUFt32CcbV07Ge5VENPzzGSHwvGwDQUndWiS6/MgAd
-	 NXFRiufQZqZIwIeHdbUnYUifuezHagmDcSl9I/CxdbYc1pmutA4TR7X9sER53ca2Lj0ls
-	 aPkIpB5uGZRBcopNzrUCslL4Bv8jFX6y/5VD+aHd+UCBgnIlZnI+sb4UqOZuPq6v/ozg1
-	 MvB/2Fh2fhmeefxZ9kCahqb/9cQp+bdlvbLuulAI6POkURD+xUGVBKzIFvetYQP703g==
+	t=1795033360;
+	b=mZlSlaww0QcPTFEv0D57H59aVHpgj3PPnVFMudMQZvfeP+KD6ZGkagSM8OCopWmWEu/6
+	 QFP9ezCUCUof7aI1GqrbRjkgG+TH/mJkCqJ/wEvtlYANyb6B1hypFbkYBeOnpjCOOyhZo
+	 wrdwwXPjXU9qke02DziOtzUOzhbGYUCAvNZHQA/ZGLekMSULm9vloNrAMft4sbpFhcrnF
+	 tlL5lVCShA0ZOzUbP5XrQwmGlXPJqlkpYoiJWUaIAxVmzLmbeg5Mze71ouznUVnqTZBXV
+	 9/Q5vgeEQgYppjmPC/Pr2jGcjDQZ+E4jHDTDEHh908CnB0u6n9+cFyOXFx6XZm9ccqg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795031493;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=hFZIFuBcLJ0vIHcol0BdyKUl3oPu8AoNqdKHILyKuII=;
-	b=pccdlJuHh20XpVwJzaU3Ayx6lX3Gl+xDYQ9OmzAz6C02zBskz4qiqMrtzd+O8HhbzHNy
-	 nMGGFPL0AG0fI0w34Y4xfgsFvCPAkM5jHk9d7Q/yZhSNezel1EOvn3X/hLnzbRvh0DnOJ
-	 rEE9pVFLz8UHJmUpbvoHVPEwc8fyUD+K3QKsJI1VZNQX9VJ/SqunCUJ4HQCEboL0V3UrY
-	 Aka/FEG99imyzefPWmecVp2GlQQPUXnJjftldpsN8UnoqWqYH6iw2fH8lbDc5oNvocInx
-	 4jSnWfhcoToZMliSejhAXXzNZTwaGEKRJRTG7DvZKpJHkjV8/b7cB+1Q7N4ur+IML4w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795033360;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=83WZjXw0m9X3Ou7HW+EzfUQVbMPBRYNOgGwn1hvvtI4=;
+	b=h+LwGdqoCMwaQVDZ45kdQSCBT6jz7n2m6Y4WRlF5U7gA0MGGVHMDVTnKCfHnIoEPyzo5
+	 kbc+Hd5Kdw7b4K2FbQQJMVigT1aP84DOy0A16vIyj2SBFiNtSoOZRMVXfOn0H0C13QtRD
+	 JFoorYSTXrG019wYdFBErcuOzqOKP6ibnMxQOfO1wN7TPcjh/6S1Bccx940oRBttPCR6o
+	 kgN5CxT6R8g8IGShx2xZJJPLq5rmMIsZ1plhNI1Y7qy3mhjenNcd0JBlBSagXL7fhpLrl
+	 JqLgvJyBg7LtDT05asLI/snmvk+mvQyqAHCYGg6wM8fP/1kUiuNMV+FQSrzHHURH+Cw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=iZUyw8R7;
-	arc=none smtp.remote-ip=209.85.160.181
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=lunn.ch;
+	spf=pass smtp.mailfrom=lunn.ch;
+	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=PDzvVA0d;
+	arc=none smtp.remote-ip=156.67.10.101
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D21B606A320
-	for <driver-core@lists.linux.dev>; Wed, 18 Nov 2026 19:51:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D21B606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627FC606A31C;
+	Wed, 18 Nov 2026 20:22:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 627FC606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=iZUyw8R7
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-55c48582654so13713931cf.0
-        for <driver-core@lists.linux.dev>; Wed, 18 Nov 2026 11:51:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1795031492; x=1795636292; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hFZIFuBcLJ0vIHcol0BdyKUl3oPu8AoNqdKHILyKuII=;
-        b=iZUyw8R7phULKbi0WNODuzP1wM6HLfsE2QcuQR1l7EwsSLcPHegqmMGHZJQMEt+nis
-         s7AFec34U3H2jXCbac004U3tqqW/P3kMQfJezhOM5OwM4L4Ps0VEORAEM0FE4QrMVnt0
-         tMeQLHO0riHjYjVPzfi9Dcsdk2eF/AL1OAsM36GjliG+3PJjGsrCUSdZdDu0r+PDgo6B
-         2dqEqk1OStV8vJNQlNef4YC5dlzOZD7aOt9USeeW9ZvFkTaGskw3YlY8qHZQ3VwSyEs8
-         YqnLUsmCXdalZH8idKrCq1EEvP6/rzJkILOe20COXVO837/ebpkxkMfwYmNSFD3SbhLU
-         f+QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795031492; x=1795636292;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hFZIFuBcLJ0vIHcol0BdyKUl3oPu8AoNqdKHILyKuII=;
-        b=PWEZYR3JZ3U7TN0MgZlxs6LG972OLK5+fhWSXy7m262c7syUQCp5RU/IXczSH2j7rD
-         et41eG0GVB2UeZ2pmiOONC4UNcyDnb9k0/lgz7wWdCOGYWaslIoKZ3KOaII71wgWGr9w
-         qpcQs04bS0/GFdhylKsgxH4/EeXuLOqqPR4Z/Tld/R9up6YKxGFyw1G+1pwBVF12ApB4
-         DHxtuvwQWGvtBKXhHn1wbVOaRpSU/8EURlGbAwl1I+tjccyyZefh8CRQmSI0uavC/oRh
-         hIY+StRL8shDKHyVSadLbl5YMFef5nbpKHOrSwu48Bj+gneY/gbOgjzL8wRJr3gMVf4w
-         Fsuw==
-X-Forwarded-Encrypted: i=1; AL+hErE6KDHxgQ7UGI0i5DR0LeZr0lYcPH7w1pLmIyKKghnK0fPSYQsO8VLJgN8cYedDDEHW4thbRIV3C3Bk4w==@lists.linux.dev
-X-Gm-Message-State: APuU4Z94MlZGcF05r17KhTmJi/3mt1Upsufx5YJPUVxqqFxPrKsRf6rW
-	3jlLtypoikV/dHfyA/NfuRuyAdHqF2CS/ToFEqoa9uoZAH4F5gggrpfAYBJYC5d8Cps=
-X-Gm-Gg: AYBFou3gY40fBwjoqab9bNVk0/WrebkgH4vic7eQftX+12N5KAeOwK2HpiPnLSwpWy6
-	dN/QqbHY2mSJfw0NLCmHJx4jJXWFi5Js0r98OPzl0FCIjekzpuA0O0kyK39Iwcw4QAAEsuwYeCu
-	aOvO2EdtROmBEAh81pq9dAvcF78XrxkhbqGWf61RECBEiuQio5UyhxHh96tSDPACHi2v2UfPgff
-	px73JLbtaFJSgBer6UnH5c3kYUYnMU/PQDxHvsyPkyJpFkF54oIA+QIngKDyL1967KSha1LpOpV
-	QFwhzB4MjJoamY7fktIJgImExA4cTtU6jnRMlr1kIVu3vLWFNvaW0zuoeh8C3TtdPtQkNdsgFqp
-	3H03btxH8wSBU1Yab9YtbwaJYndH3CtGDcx3hB4iUW9+FpC6geRMB33UlXTSxXX4xs3XfccDrWq
-	EbKklIMgGGLbaz+fvVX4yiLROvlojIzfCsANSbD8oprV2HTwVuyRaogoPeZZQyhOQecKQCkPMtd
-	P3g5IhyI/w+4zP7f0QX/+iLTF04KoArk1gL0wEaEFrwx1BM/fgAXMGEYx2mlpKkKnPRMOfCBNbh
-	HDuRJA==
-X-Received: by 2002:a05:622a:14c6:b0:535:24f8:fe3c with SMTP id d75a77b69052e-55d5a34dfa4mr59779801cf.5.1795031492124;
-        Wed, 18 Nov 2026 11:51:32 -0800 (PST)
-Received: from ziepe.ca ([142.166.156.71])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-92114d98adbsm29661026d6.40.2026.11.18.11.51.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 11:51:31 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xTlgo-0000000GIH6-327U;
-	Wed, 18 Nov 2026 15:51:30 -0400
-Date: Wed, 18 Nov 2026 15:51:30 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Daniel Almeida <daniel.almeida@collabora.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=PDzvVA0d
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=83WZjXw0m9X3Ou7HW+EzfUQVbMPBRYNOgGwn1hvvtI4=; b=PDzvVA0dUL6X8a07m7W3FtiHvq
+	LePg1RVFpWzznF0js/ikqR1IzilBKVSOUmy8h9aKRnAwxpYoxqprli7vjNifq9IrxVN+EUiCgaPNG
+	4rQZEsMDX0Xmbd6Ah6hLNSO3HY0lLWTY1/+eE0gbxcfsyM8B16K+idR7+paawH6C6Uiw=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xTmA5-00HVa7-0i; Wed, 18 Nov 2026 21:21:45 +0100
+Date: Wed, 18 Nov 2026 21:21:45 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>, iommu@lists.linux.dev,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	Detlev Casanova <detlev.casanova@collabora.com>
-Subject: Re: [PATCH 0/6] rust: iommu: add a paging domain abstraction
-Message-ID: <20261118195130.GE3115493@ziepe.ca>
-References: <20261112-b4-iommu-domain-v1-0-c29e86788dda@collabora.com>
- <20261116193821.GC2452510@ziepe.ca>
- <3EB4C2ED-B699-4532-A562-68B78F6E29C6@collabora.com>
- <20261117202055.GA3115493@ziepe.ca>
- <b145b2ceb92c73a4fa0477d7b3895a6e3b4adf99.camel@collabora.com>
- <20261118160909.GC3115493@ziepe.ca>
- <ede3b421d419a35c115ed584e60e74bfd6b91dff.camel@collabora.com>
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	Chris Lu <chris.lu@mediatek.com>, Mans Rullgard <mans@mansr.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Cornelia Huck <cornelia.huck@de.ibm.com>,
+	Andrew Morton <akpm@osdl.org>, Jeff Garzik <jeff@garzik.org>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev, linux-coco@lists.linux.dev,
+	Alexey Kardashevskiy <aik@amd.com>,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
+	Greg Kroah-Hartman <gregkh@suse.de>, linux-sound@vger.kernel.org,
+	Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH v3 18/31] net: phy: Use the compatibility driver
+ attachment API
+Message-ID: <71c1b931-c553-46e3-b49a-51167f168ac4@lunn.ch>
+References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
+ <20261118-device-trust-core-v3-18-d655875c4bfb@nvidia.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -123,82 +104,20 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ede3b421d419a35c115ed584e60e74bfd6b91dff.camel@collabora.com>
+In-Reply-To: <20261118-device-trust-core-v3-18-d655875c4bfb@nvidia.com>
 
-On Wed, Nov 18, 2026 at 02:31:28PM -0500, Nicolas Dufresne wrote:
-> > > This seem to digress. All we want to do is use the iommu subsystem as intended
-> > > for the case the iommu driver is not inside the DRM driver (which seems to have
-> > > never been the case so far in DRM).
-> > 
-> > "As intended" means you use the DMA API and you do not touch
-> > the paging domain.
-> > 
-> > "As intended" means you use iommufd if you want a domain full of user
-> > controlled mappings.
-> 
-> As discussed at LPC, we believe its pointless for this type of device to give
-> any direct page choices to userspace. Can you explain why you believe
-> differently?
+> @@ -3813,6 +3809,8 @@ static int phy_probe(struct device *dev)
+>  	int err = 0;
+>  
+>  	phydev->drv = phydrv;
+> +	phydev->is_genphy_driven = phydrv == &genphy_driver ||
+> +				 phydrv == &genphy_c45_driver;
+>  
 
-This is what was asked for a few messages back?
+Why do this here?
 
-> I'm not sure how this applies to our work. But since they are all broken
-> according to you, let me give example of cores/iommu mapping we are using, and
-> perhaps you'll be able to explain us correctly? I've picked the Rockchip video
-> decoder, which is upstream but expose through V4L2 stateless API, but from a
-> hardware point of view is pretty much identical:
-> 
-> The DT (which I read you must be broken and in violation of everything, yet all
-> reviewed by DT maintainers):
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi#n1400
+It also makes the code asymmetric. If you set it in phy_probe, you
+should unset it in phy_remove. At the moment, it is symmetric,
+phy_attach_direct sets it, phy_detach clears it.
 
-You linked to a clocks line, I have no idea what I'm supposed to look
-at in this file. Can you explain what parts of the DT apply to what
-you are intersted in?
-
-> The multi-core support proposal, its not doing process isolation, its not
-> strictly needed in higher level abstraction (though could be better), but its
-> using domains so that each core can actually see the same memory:
-> https://lore.kernel.org/all/20260810-rkvdec-multicore-v2-0-986f89d22cdc@collabora.com/
-
-IIRC This is the driver that had the weird not-quite-an-iommu issue and
-there were many complaints about it doing things with the API that
-make no sense because it's HW is bad.
-
-                /*
-                 * To rewrite mapping into the attached IOMMU core, attach a new empty domain that
-                 * will program an empty table, then detach it to restore the default domain and
-                 * all cached mappings.
-                 * This is safely done in this interrupt handler to make sure no memory get mapped
-                 * through the IOMMU while the empty domain is attached.
-                 */
-
-But that doesn't excuse this:
-
-  As each core has its own IOMMU core, buffers must be mapped in each
-  core's IOMMU so that any run() call can use any core without having to
-  remap everything.
-
-  To do that, we use rockchip iommu domain's iommu devices list.
-  With that, one IOMMU domain can be mapped on multiple devices, meaning
-  that each call to iommu_map() will flush the new mapping on all devices
-  in the list.
-
-We have DT for this already, you use iommus=[] and list all your
-iommus and it sets everything up for you. Going around and changing
-domains behind the scenes when the core already attached DMA API
-
-Then WTF is this:
-
--                       ret = iommu_map(iommu_get_domain_for_dev(core->dev),
--                                       virt_addr, phys_addr,
-
-Seriously? You cannot directly map to a DMA API owned domain. It is
-fully illegal.
-
-> The DMA abstraction that is used by the above driver:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-
-Thats DMA API so it looks OK?
-
-Jason
+	Andrew
