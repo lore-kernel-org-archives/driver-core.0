@@ -1,82 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795090519;
-	b=E18yt3gAyH1kFlwEap1k3lZzsVWFDgxcGViCobvdmnbmxK8lhFaa1uRwT6TfUNcaFrRQ
-	 TTKYgzusg342Q7ejqaF+sgh/oKkR3T8Ei1VPxTQDHlVAXQdO7JJLwvyoo+nw0jv6K/UCc
-	 URjZ+VGe5hK69ehsnDTNRRsXF3Er+SrII/CI2tDP82oBo4P61SMnfZaR0qP/AZWg/2N5y
-	 CML6UPmnjVzUsyjzjnn527gOQU7gq977/jELBKxYz66wySF0HH8AHN0rUTaKPjEoNByDq
-	 GXFylzyMZapOmeZqET7BgrlUXlx8gLnA6c4/iMsuP84PrxemhCC0ZlW3MuBPzKag9xg==
+	t=1795091097;
+	b=T+SnOqgDYTkm9EOCVlt6YJ3vUq4/d9r26Cd47TxLrzdUnFB/CUcJ+CueOFJxFgqVMX3E
+	 W48MXSI+9Ylt4ZImvN2sjuPARdaMU5kIOP9Dlrg1fELs6ODZtWK93AxnVXGWjekFoKeZQ
+	 av5/tTIdQh3C5hcx8+LqaslEHtl2FJT3+cjvXVYGZvhOIcrPGpzguc+4Mm5k4XIA9e2x7
+	 qiSEwSgpkCvbreDGKh8P8F6hBv3rsxNtSjUoZFKVuRuIyhcUJClcBLE4fVFIt+BQ8uMTJ
+	 hiyY5Ny62xCaioxqAlnca2Zf7Tihpqdn6KIzGSTvDqrCgrwvu52ZDyyZ9S92+pmZkLw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795090519;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
-	 X-Proofpoint-Reinject:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
-	 X-Authority-Analysis:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=CgFJXeqjJqdzCQvhP2yS9fqVYD+1lcromI51vnn/aFM=;
-	b=JYDse+wUHb/bQTqAhG6PI2qV+RKKFT88Zg/4xvyxZb2r7ZpxT1Tb7rEwnJ1jf9lkQPWc
-	 y5w/lkGy4DgDISveEgNAdHgf7mmzwz8xK3ChWk8QQAdbybhCHzKTQPjqTQ1UrbGlVdO3X
-	 SMeO0Cg+MxoiJuTNdN2kJTNapvP5hHsEdhPOg2wAya+zrQsEJkOjx2jTCK7bYvH+W2ryx
-	 pK5p4oXMxM4wmeuhkX/Zae/CGw1Kgg/wJkFNfnU9rV0kpYaYm+sChEa6BzuNgde72Wb/m
-	 /kI6IMFE8hMmoKTfOnTrGxw9EAqlQ6NFBRveV0anS3e8LGWJljy5NxZ2jNPI7TnioDg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795091097;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=rNajSngytGm8mtvAWgpqThXqlpNe7qAFM40MIDd7694=;
+	b=suv1/KFnQyWLUK7lmMofefJhy7WnfWL7Esq/mSgFgcYjX6WKRrFOCZ+qJUBC2suXBDLZ
+	 /i+kgEJpL6iU31jCJWbv1B6/rdsoXNP/AqzZUxSTQUR8xoefMN+RyFskTLqW10y0I6oie
+	 31+W90/K0CIE5Rdd8/Cd3o+FIB8rLquHMgZ7GHTlZqxhDwyTTxOOtcyd2JOm1jMG2T7SO
+	 DG1lCPIxYjk7Uqpr+4gmKHBOUbgwL3E5mtwKxjVIE8t1BuxmHhFAWsYXhQgCS71Z4Wpl2
+	 fhfMZ3lQzvG833nPkJbQ9F+F6kgC/fmunZLwEOynGmYouShGgAt8HglP2SA5v4GYeSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.ibm.com;
-	spf=pass smtp.mailfrom=linux.ibm.com;
-	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b="d5tP/nxp";
-	arc=none smtp.remote-ip=148.163.158.5
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12FB2606A326
-	for <driver-core@lists.linux.dev>; Thu, 19 Nov 2026 12:15:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12FB2606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=ZiQznPLn;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2550A606A324;
+	Thu, 19 Nov 2026 12:24:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2550A606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=d5tP/nxp
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJBuDZ24055034;
-	Thu, 19 Nov 2026 12:14:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=CgFJXe
-	qjJqdzCQvhP2yS9fqVYD+1lcromI51vnn/aFM=; b=d5tP/nxpj+3jLEaDep69JN
-	zdFx4LCSmewMo5ueOv2RItRMgsSF7MtUHm2cKy4hTL8wMMd3hG9IjWQ8Gi0nEw77
-	m5oNL7KO+1Q372Xw46Kk5/LARh+lLt9QK1fzLY67tPoLd7GY11A9nsRSGNtTAsF1
-	P8bRzc/JWC3O1bTqxSqxjZsq3mJS3pL7nU10oNd8lhVe8MnUIGoLkfUQBSp2PlAI
-	tjKsNFnaBDYjUeZciDGycxDOfmZTX/C/v0aex6rBJL5bd8nq7rIOte/AXWbAOVyh
-	AH0g22jD4GTvW/DMmixsKbhK75y7eObyIt2OeVLdP5Ak0e419j5HMmg/9TsDTa6g
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j105x0kj7-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 19 Nov 2026 12:14:53 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJBo1Jv812713;
-	Thu, 19 Nov 2026 12:14:52 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4j1hd6v6ew-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 19 Nov 2026 12:14:52 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AJCEp6C25494216
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 19 Nov 2026 12:14:51 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1A35B58059;
-	Thu, 19 Nov 2026 12:14:51 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5A0615805E;
-	Thu, 19 Nov 2026 12:14:48 +0000 (GMT)
-Received: from [9.61.98.127] (unknown [9.61.98.127])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 19 Nov 2026 12:14:48 +0000 (GMT)
-Message-ID: <aca4e70b-3a8a-475b-b2fb-ad9d1a44f254@linux.ibm.com>
-Date: Thu, 19 Nov 2026 07:14:47 -0500
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=ZiQznPLn
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1D0AA1575;
+	Thu, 19 Nov 2026 04:24:53 -0800 (PST)
+Received: from [10.2.212.23] (e121345-lin.cambridge.arm.com [10.2.212.23])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E11413F673;
+	Thu, 19 Nov 2026 04:24:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795091096; bh=QBq9PQw0Pr94poUNHbDPbL4VDmT2XAawnGIjosmoAJI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZiQznPLnW5HNhPtyf5c5HsUBV7TdtnmUz89PVcL0CxCieqVWSDx27MkItSb51oT3L
+	 iPto6OFmcmm+RT1ygM+PVHKS1wQlcblpmjOSJ+MyULm+nIsuI6M63/AU7CZSjNT2Pn
+	 Ea0eKc7ffcjE6T/63cjVT35v+Xm6NftdkCmgL3tM=
+Message-ID: <fe60c0bd-1ee2-4b33-8ca3-564ee08e6db5@arm.com>
+Date: Thu, 19 Nov 2026 12:24:50 +0000
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -87,136 +54,159 @@ List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] s390/vfio: Allow untainted use of driver_override
-To: Alex Williamson <alex@shazbot.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Rafael J . Wysocki"
- <rafael@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        David Lechner <dlechner@baylibre.com>, Armin Wolf <W_Armin@gmx.de>,
-        Thierry Reding <thierry.reding@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Karl Mehltretter <kmehltretter@gmail.com>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Borislav Petkov <bp@alien8.de>, Dapeng Mi <dapeng1.mi@linux.intel.com>,
-        Marco Elver <elver@google.com>,
-        Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-        Jeff Layton
- <jlayton@kernel.org>,
-        Bradley Morgan <brads@mainlining.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Petr Mladek <pmladek@suse.com>, Pnina Feder <pnina.feder@mobileye.com>,
-        Mete Durlu <meted@linux.ibm.com>, Aaron Tomlin <atomlin@atomlin.com>,
-        Rio <rioo.tsukatsukii@gmail.com>,
-        Feng Tang <feng.tang@linux.alibaba.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-        linux-trace-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Halil Pasic <pasic@linux.ibm.com>, linux-s390@vger.kernel.org
-References: <DMYH4ED3GWDO.29DGXPK4M82VR@kernel.org>
- <20261119051507.3306075-1-alex@shazbot.org>
-Content-Language: en-US
-From: Anthony Krowiak <akrowiak@linux.ibm.com>
-In-Reply-To: <20261119051507.3306075-1-alex@shazbot.org>
+Subject: Re: [PATCH 0/6] rust: iommu: add a paging domain abstraction
+To: Jason Gunthorpe <jgg@ziepe.ca>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
+ "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot
+ <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>, iommu@lists.linux.dev,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ driver-core@lists.linux.dev, Detlev Casanova <detlev.casanova@collabora.com>
+References: <20261112-b4-iommu-domain-v1-0-c29e86788dda@collabora.com>
+ <20261116193821.GC2452510@ziepe.ca>
+ <3EB4C2ED-B699-4532-A562-68B78F6E29C6@collabora.com>
+ <20261117202055.GA3115493@ziepe.ca>
+ <b145b2ceb92c73a4fa0477d7b3895a6e3b4adf99.camel@collabora.com>
+ <20261118160909.GC3115493@ziepe.ca>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20261118160909.GC3115493@ziepe.ca>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: 6jdBM5Nsu3v9NjV347NG8GEwW16sxsNM
-X-Proofpoint-GUID: -Is8sDl67eNE4Ph3U6oVoO0OSRsRBGd2
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE5MDA0NyBTYWx0ZWRfX98L9DeOl2848
- Dq+aaDMU8l2HkawJgni92nfgQqMoCkshde/NbrGfSc+tLTISgwf7RF+AmTeYSEFy7pIKa3XEpG7
- 4vDgzlHZXqTQiu5gIlKAJeJ4AJO0v0IVg1O7kY0wK6sRf0xTQLV4FzZDzoXtFm5SeX8dXGndTaG
- OAcina7KeNk78dTu++w9wyq0RMx8sPt1wCHHn0WoEETII81ShpqchRYe46gWufnkknJEkL5wT/3
- QByQYoe6g0ks5hLtAuojkS9jKmAyM7R+/ENl+RWWFcLyedYptF7Q1c9+h6nu5FqbiqvprOjhRxz
- Fh1lKtd1tTDPWK7v+36ctUp8rdEAFjJ+et0YBTYv0Fv/wEtUV7HfmeOv+CsonsabqgUupEt/rM8
- Wrdc2gq+Bx9brY5zpLF7FiVz/K+K74xPpDTJIwRk6uhSk4SgoWoR3k+1ixDSZ4+e+63W+MlWuu3
- 9LgHdGJVzepC/wqcrFg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE5MDA0NyBTYWx0ZWRfX0O17A8gTVimo
- kNA5kPEltyUBepHk4HkUbQZBB+m4ZnK3No1lQZDY7ASn/IeUCXtaTsLybySDIz7e7uYeXjvs06C
- o9xuhvyyMQQeQ2v3Gx5dROcrRcRAh5c=
-X-Authority-Analysis: v=2.4 cv=K+m3jCWI c=1 sm=1 tr=0 ts=6afee83d cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8
- a=VwQbUJbxAAAA:8 a=r1p2_3pzAAAA:8 a=gDYNflvPqbsmVAx1gOsA:9 a=QEXdDO2ut3YA:10
- a=r_pkcD-q9-ctt7trBg_g:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-19_03,2026-11-19_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 clxscore=1011 adultscore=0 spamscore=0
- priorityscore=1501 impostorscore=0 phishscore=0 lowpriorityscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611190047
+Content-Transfer-Encoding: 8bit
 
+On 18/11/2026 4:09 pm, Jason Gunthorpe wrote:
+> On Wed, Nov 18, 2026 at 10:25:58AM -0500, Nicolas Dufresne wrote:
+>> Hi,
+>>
+>> Le mardi 17 novembre 2026 à 16:20 -0400, Jason Gunthorpe a écrit :
+>>> On Tue, Nov 17, 2026 at 05:09:11PM -0300, Daniel Almeida wrote:
+>>>> Hi Jason,
+>>>>
+>>>>> On 16 Nov 2026, at 16:38, Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>>>>>
+>>>>> On Thu, Nov 12, 2026 at 02:00:07PM -0300, Daniel Almeida wrote:
+>>>>>> This series adds a Rust abstraction for IOMMU paging domains. A driver
+>>>>>> can allocate a domain, attach it to its device, map pages into it, and
+>>>>>> install a handler for its faults.
+>>>>>>
+>>>>>> This will be used by the upcoming rkvenc driver that my colleagues
+>>>>>> Detlev Casanova, Nicolas Dufresne and I are working on. More details on
+>>>>>> this driver can be found by watching Nicolas Dufresne's talk at LPC 2026
+>>>>>> [0].
+>>>>>>
+>>>>>> As part of the security model, each client will have its own IOMMU
+>>>>>> domain. This is needed as the submission model will let userspace set
+>>>>>> most of the encoder's registers directly, so the kernel cannot check
+>>>>>> every memory access that a job makes the encoder do. With a single
+>>>>>> domain, one client could make the encoder read or write the memory of
+>>>>>> another client.
+>>>>>
+>>>>> How do you plan to get the paging domain in the first place?
+>>>>
+>>>> We plan to alloc a paging domain when a video encoder session is created. Then
+>>>> we call iommu_attach_device() before a job runs, and detach back to the default
+>>>> domain after it finishes so the next job can attach its own session's domain.
+>>>> This is so each session is isolated from each other.
+>>>
+>>> If you do that you can't use the DMA API at all in your driver as you
+>>> have to set 'driver_managed = true'. Is it OK? If it is why not just
+>>> use VFIO?
+>>>
+>>> Or are you planning DT horrors to get yourself a DT created "DMA
+>>> struct" ?
+>>
+>> This seem to digress. All we want to do is use the iommu subsystem as intended
+>> for the case the iommu driver is not inside the DRM driver (which seems to have
+>> never been the case so far in DRM).
+> 
+> "As intended" means you use the DMA API and you do not touch
+> the paging domain.
+> 
+> "As intended" means you use iommufd if you want a domain full of user
+> controlled mappings.
 
+There is a middle ground, where a kernel driver wants pages to appear at 
+specific IOVAs under its own control. This is entirely legitimate to do 
+by using the public IOMMU API "as intended" - the fact that people often 
+also try to do the wrong things for the wrong reasons, and that any 
+attempt to involve dma-buf usually ends up a hot mess, does not make 
+that basic premise unsound.
 
-On 11/19/26 12:15 AM, Alex Williamson wrote:
-> The vfio_ap and vfio_ccw drivers bind devices through driver_override.
-> With the introduction of the support_driver_override flag in the core
-> driver struct, it's now required for drivers to declare themselves as
-> driver_override compatible, otherwise driver_override bindings will be
-> denied or generate a kernel taint.
+>> The existing infra for that (in C) is pretty abstract an simple in
+>> my opinion, and built into the DMA API if you manage which domain to
+>> attach to your device at the right time.
 > 
-> Set the support_driver_override flag on the vfio_ap and vfio_ccw driver
-> structs.
+> What does this even mean? The DMA API owns the domain, not the
+> driver.
 > 
-> Cc: Tony Krowiak <akrowiak@linux.ibm.com>
-> Cc: Jason Herne <jjherne@linux.ibm.com>
-> Cc: Eric Farman <farman@linux.ibm.com>
-> Cc: Matthew Rosato <mjrosato@linux.ibm.com>
-> Cc: Halil Pasic <pasic@linux.ibm.com>
-> Cc: linux-s390@vger.kernel.org
-> Signed-off-by: Alex Williamson <alex@shazbot.org>
-> ---
+> All the cases using these APIs in DRM and media are troubled in one
+> way or another.
 > 
-> Uwe, this should complete the vfio drivers needing driver override,
-> covering the s390 specific drivers.  Thanks,
+> For example the recent revelation they have always been using DMABUF entirely wrong:
 > 
-> Alex
+> https://lore.kernel.org/all/20261009125338.GB13920@nvidia.com/
 > 
->   drivers/s390/cio/vfio_ccw_drv.c   | 1 +
->   drivers/s390/crypto/vfio_ap_drv.c | 1 +
->   2 files changed, 2 insertions(+)
+> Tegra desires to undo their abuses.
 > 
-> diff --git a/drivers/s390/cio/vfio_ccw_drv.c b/drivers/s390/cio/vfio_ccw_drv.c
-> index 7546bd137e4e..77765cde87f7 100644
-> --- a/drivers/s390/cio/vfio_ccw_drv.c
-> +++ b/drivers/s390/cio/vfio_ccw_drv.c
-> @@ -375,6 +375,7 @@ static struct css_driver vfio_ccw_sch_driver = {
->   	.drv = {
->   		.name = "vfio_ccw",
->   		.owner = THIS_MODULE,
-> +		.support_driver_override = true,
->   	},
->   	.subchannel_type = vfio_ccw_sch_ids,
->   	.irq = vfio_ccw_sch_irq,
-> diff --git a/drivers/s390/crypto/vfio_ap_drv.c b/drivers/s390/crypto/vfio_ap_drv.c
-> index 8e69ed286bb9..2d47dc643269 100644
-> --- a/drivers/s390/crypto/vfio_ap_drv.c
-> +++ b/drivers/s390/crypto/vfio_ap_drv.c
-> @@ -62,6 +62,7 @@ static struct ap_driver vfio_ap_drv = {
->   	.on_config_changed = vfio_ap_on_cfg_changed,
->   	.on_scan_complete = vfio_ap_on_scan_complete,
->   	.ids = ap_queue_ids,
-> +	.driver.support_driver_override = true,
+> It was never intended for things to work like this, there is missing
+> infrastructure.
+> 
+>> To me, it fits CODEC HW driver which are also simple. The DT horrors
+>> you refer to seems totally unfounded, you just describe the iommu
+>> and the iommu subsystem will manage it for your device.
+> 
+> "unfounded? You are not following along, I've written about this now
+> many times to many different people. Follow the links and discussion
+> from here:
+> 
+> https://lore.kernel.org/all/20260917144804.GI3196566@ziepe.ca/
+> 
+> If you use DT correctly there is no place to attach an iommu_domain to
+> and you can't even use these APIs. You get DMA API only and that's it.
+> 
+> You have to do something "wrong" in DT to create fake HW devices to
+> even give you a struct device to even attach something to.
+> 
+> Or you have to entirely give up DMA API and attach to your only struct
+> device.
 
-Does this really belong here? Shouldn't it be in struct ap_driver
-since driver_override is supported in the AP bus?
+I can't speak for the actual intent of the Rust drivers, but giving them 
+the benefit of the doubt, none of that fearmongering should apply: the 
+valid use-case is just simple time-division multiplexing.
 
->   };
->   
->   static void vfio_ap_matrix_dev_release(struct device *dev)
+A = iommu_paging_domain_alloc(dev);
+B = iommu_paging_domain_alloc(dev);
+iommu_attach(dev, A);
+iommu_map(A, iova_x, virt_to_phys(X));
+dma_map(dev, X) //still needed for the underlying memory
+... //tell dev to do the work for context A using iova_x
+dma_unmap(dev, X);
+dma_map(dev, Y);
+iommu_map(B, iova_y, virt_to_phys(Y));
+iommu_detach(dev, A);
+iommu_attach(dev, B);
+... //do some work in context B
 
+...and so on. The only real subtlety is that while you still need to 
+make the DMA map/unmap calls as usual (for the sake of managing cache 
+coherency), you only use the returned DMA address for checking 
+dma_mapping_error() and the subsequent dma_unmap(); the address you give 
+to the device is your own IOVA for the mapping through your unmanaged 
+domain.
+
+Plus as I mentioned recently in one of those sketchy dma-buf threads, 
+it's also true that at the moment, iommu-dma will still do a load of 
+unnecessary work in the unattached default domain for reasons that were 
+valid 5 years ago, but that now can and really should be optimised out. 
+I guess I'll have to steal a day or two from what I'm supposed to be 
+doing to write that patch before I get fed up of explaining it :)
+
+Thanks,
+Robin.
