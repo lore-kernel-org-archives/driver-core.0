@@ -1,173 +1,123 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.141
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795046251;
-	b=fzvn4kAoKFsfTrx5UEhVL3KQxGKNN0yIjzB9loOBF4UKST1eI7f2Zh0qCtc2jxc8hL22
-	 IERlIt1hcEMPMBvPVk/bV3kbvDcDcFM+6ZwJIbtWyaYUDU/ykPZFWwkyvr7NOoiYX9UF1
-	 l6EZ/oxbqcWmw14k+UPs/olfbulXN4TlkwaAtJIEHTOQK71HcjkdegVP/t+sf68CCeEpp
-	 TqjVElamzW25jPguQW2hpcoiX4cpHeq3vOoMKz4KNL8VmqbJ27GSLWKJu9nLkUd5OdSBR
-	 uKxTvloHAKeaihQlrLM6PoQ9x0u+Qxzo3PPdTmOoJ3Z58wqZ0f/g1lFe5dCk/yE4KgQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795046251;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-	 References:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=B4zFjEL5hlhQrSt2smgrlHZVn55qIbn5+9S0rz2RBas=;
-	b=giMeNN4JKzzagGCtwXsNF+gWKkNTm/QKUz+qxAdxJ7QIXxN9lcpJeAG2cZ0Gnz+Ve6Q1
-	 C6fyDrANNETDxCiuFCBBzFBnQgCoC+ixUaxQ7NKFccLwfzo5YBOpHi0va/chVzBT7eK+1
-	 kWUWO4/OcE/z7R4NvgMpjnawrgRsFR98sPao9q9tb4buZaD3BfYDjHaiMPSB0kXzyfjBX
-	 21jcW0hc2Ytc2J/BiLSVV0imRHoB5Eb9jpb+SuU6nfrz6p96owDHQZMwF/4gtbm2oR1Gz
-	 0OA+qg23LgtEVs+H25+43x/PrkU6ug+1P5WcEbbOw/fsbfiHA0YM4FXyQmZiah00Yfw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=shazbot.org;
-	spf=pass smtp.mailfrom=shazbot.org;
-	dkim=pass header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=jhChCI27;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=oKNtFcR7;
-	arc=none smtp.remote-ip=103.168.172.141
-Received: from flow-a6-smtp.messagingengine.com (flow-a6-smtp.messagingengine.com [103.168.172.141])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.194.55
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795047172;
+	b=4AEm1TSDgHQRYIAHUS0sDCQW+dER7l2Z9AqkZFbVr2ujPkXSj6uZCUUIK8CROXdtpN+f
+	 cxgcA+Bu/YdnkiKd+icgRU2+Qi65ayhhUOhKWRhSe7r7IvEXIKnx2lapKF2vkK7wWZFHi
+	 EQx4F81mesvYG4d8KvOY4nxnv1HHZ9UAx3roNbmpUHrfXBWVRufI2jSHJ2PWT3c6Fs7CB
+	 DpNG8xqNacJ9umOnBJmNw8TilSoytTdkUsip2Z4OH28ukAcy8/XGleZdLR5kDZliWcoID
+	 MlEkPHP4ti/ZpeuoZtx9ALmY2mDQApxyQnbeSlTkYVQbHJAW1uwviGmASzsHyuwtbgA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795047172;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=HSwmMFbMcuoGnbaPCp6Kzu+PXKVfQeQZKhHagsueKak=;
+	b=KJBqC2xjo8pSj5xuRgKcihNObwR62EOApJP7tnI3L8k76yX4YelLjNAytwsRSfC4dUg0
+	 DQPju1vNGKnaWKjiekHNjAtReudO8JlvbXwov3kZkty8NFs/9dkaJhSQc5s4aug1FYY1T
+	 T5YfVbcyMNC1Hl+5nSkA3bhW21u3yEWEgxaOprCpZTa4x30Z2aHNC7Ys+WBmqoC1eyqvi
+	 aqiPdgjLZgAqJkfKuGVo/MgpICL0oskMdEcNSsml6I14eeF5j3uD7I+YjPOtBnWSOBymO
+	 W2Xclt0H+Fl9n53n0NsXRC7r7+v0cU61eLK+UtLrA1CjtFKq1AxLlF+54YJFzA9rKHw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=pBqrXFZx;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.194.55
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011055.outbound.protection.outlook.com [40.93.194.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5492A60A260A
-	for <driver-core@lists.linux.dev>; Wed, 18 Nov 2026 23:57:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5492A60A260A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97C0606A333;
+	Thu, 19 Nov 2026 00:12:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D97C0606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=jhChCI27;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=oKNtFcR7
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailflow.phl.internal (Postfix) with ESMTP id 73ACE13819B4
-	for <driver-core@lists.linux.dev>; Wed, 18 Nov 2026 18:57:28 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Wed, 18 Nov 2026 18:57:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1795046248;
-	 x=1795053448; bh=B4zFjEL5hlhQrSt2smgrlHZVn55qIbn5+9S0rz2RBas=; b=
-	jhChCI27TV0AUe3b/OxSOD4nN2iBvo0mrgoeO6U99iuz/83bXfUyuTNSNKQTRno4
-	MU4OLYd12tVJtLPOC4q3YKounCyXILO8+Dce3nwTC277Qq/bX6TwMeCRXf3DC780
-	qbxJLTdiiwXghIba0ZyVnIBlsIAUGSvnl/wtHcHHbL9eWeJLo9HTg7AeYm4wu52y
-	WW5ksSo4mW7ABZgWHmkHOZn5Z/sOPQ5AWllSji1yfzMGYwuhgBOleoB59ROkK/67
-	fnGLXf3DB0KHURCzbwnpM0ebq3nmoPPYWU+M555JuKHRroRUVGyRadl8I0oO9LIj
-	5Kx45kJPSRX5aWlL8eHWEA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795046248; x=
-	1795053448; bh=B4zFjEL5hlhQrSt2smgrlHZVn55qIbn5+9S0rz2RBas=; b=o
-	KNtFcR70DVjYBfQi1evQJ2By4kJtIi0MW4f71HgMh9FX69hVTo3SPkTZpPr1eoW2
-	fkRlTLtN+Ij+6RuMKKvr/hYrps+MDdwlDnU63FxILssh7XBdzIpKWt4kNs2kkgGF
-	zAaP0ONbV1XQhJcW3VdfDZSlPd8mYA6l68hckKA94RF5x323FWK9zdsANjw5Ue91
-	gtlOt9aCHV9EvNIFf/1toXez4eZG+zrntjM+FqYQnPacW4vxBAxW87zOGd35qPvu
-	b1rZYCwiB3LMG2xHatxYGd/pKQW8N2b4lFMg7Q8e08ijwzrCABlgmKOntZ3Oolsp
-	P8wOI0uy5r/STHlS41fww==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=shazbot.org a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795046248; d=shazbot.org;
-	mf=PGFsZXhAc2hhemJvdC5vcmc+;
-	rt=PGRyaXZlci1jb3JlQGxpc3RzLmxpbnV4LmRldj4=;
-	s=fm2:rsa-sha256:A+3dYrjSs79iHb7l+faU0yIy7X4HTEw1ruvAJPD+Q31gedx
-	QOpBcSNpoZRP+7X9ZW8wTddAueNi3zqsKZhtuNemMGjDQ0SDMXTAOhInr/5PoWzr
-	12pS60cq06+6vGwnjMMNkD7a1R/WLceJGX6j2yX8MGnqjDIMh+xxo0K4j8bE5x3w
-	1zT5VhgJcRev0fQhQagM2NCzJlz6SaQmZjuXVWs2lC80P60ajjhnyJtE8EipXVP+
-	ZIUKq0B+M2Gq9z+HCuBA1wc3XsBDPu8vJpxbTJonnAJjJevjJVK0ab3GHp8UQqHk
-	XMEJEJle3FMqH+DF2Zab0yZoYHmujIyo+ceDEvQ==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:qog/qb0ddv/KJY5cf9DNh/IItNoaVRZb1M1r5Mk/ZL0=:zdUGlLVrHk0sg6/jTFIok0PVKmmRpFzoo1hWrECnnaY=;
-X-ME-Sender: <xms:Zjv-aqfnz5xmurs_GHsqTWy6lXiC0lL2J1trjzRetqE9iXsPfAHA9A>
-    <xme:Zjv-arPTiRXQ_nYvYXkFMB5hr9FlB4VMtPzWshvTyK-QC0xlM9jJbOyrfhNR_Op40
-    ZfqKomxiUCilnEtutoYyJ13lFEywsc3rpEAdnOzkDxCE2ns2xSQcg>
-X-ME-Received: <xmr:Zjv-an0yUoDjq_5V2rAUugRk4GcrVzcsLEpbentKeOXxYwzEK38B2WPHWTFajMnTQ7_KQc6S3u4>
-X-ME-Proxy-Cause: dmFkZTETr3a90om7ZcxKHjLHiqlEITvFRz7EG4g8nD0o633cA3uUqXNQzqyRCqHNmFHd0d
-    zzK7udLaJMcv0zL0xjQNuLrOosegpV0KyCxl59ibhiuUcdaPuW0gIZ/BO5XlQ24ypBWVMX
-    c+3koyrttcdMTEx6oKP82WiXEOp2ZY2ktCOIEZstACd6F+alceiHjDBixJEKURxmB9PUEY
-    As8xQ+NktmnMGJIPT2ravKfkS4AvdxWe7CxmkHGqjCUif+f7TZm5FrutIqEazF8ylYiwSd
-    lfR2xIhVUJgfis7MYUtXAG4tw5UUZ5KM0TY0M61y0jv5NwUbtXsOR/u6AhRD1A5l5Rofcy
-    MdExTJQ2HeZuU8vuLrFvl7X7bh2ObYgm62G/Q/CS3qUEiJ3Meo6fWxZhI8FK8Qg8wEzyHF
-    Ob1e1xavbZ+rXIy/Qld57huC2fxa9HIUaAxoC36fOkjrhV2CYCf17C+9q99ANiZ2SI3zOl
-    pBTcJe5PUTfgs63+2Mk2TWommQzhhm9+KR4jEzdzbHvUoFzTAGJpRXU6+oDQNns2ebmqWg
-    S+dEzIHXPA4/4UwaITH+b7kbX9D0Z0LvcSlw+zJ5laplspIyz6QRx6ax1qb4AbCgvhlH+X
-    KU4Jt0oomr1gCRGwiUyuZdmNQztO+VkcjXafPorfNIk7xYzscAIBFhCR10SQ
-X-ME-Proxy: <xmx:Zjv-au1jFUxaVkqvTf2_nGHRo7pEFwmRIYqfWMIz-PTGEkOIyNR08g>
-    <xmx:Zjv-atV6qbBh_xJ8tB0a0RxVNialdFZXQI2TkGrZM3go_j4scCwaOA>
-    <xmx:Zjv-aggzyYqS6mcl6Ey1awRnIhE-m_e8Ge6vqf3sRdgFpCsQ8ckVnQ>
-    <xmx:Zjv-agIcA0qovO-trbGtL7hLD3B4qd41NvIRWEpMpdyfKV7a8xnPfA>
-    <xmx:aDv-anCw6RIdfILW7MNW1DXCVNCv0UKHb6z_PrXssdXRW1kCf4EsoqIQ>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 18 Nov 2026 18:57:22 -0500 (EST)
-From: Alex Williamson <alex@shazbot.org>
-To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Alex Williamson <alex@shazbot.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Armin Wolf <W_Armin@gmx.de>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Karl Mehltretter <kmehltretter@gmail.com>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Dapeng Mi <dapeng1.mi@linux.intel.com>,
-	Marco Elver <elver@google.com>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Bradley Morgan <brads@mainlining.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Pnina Feder <pnina.feder@mobileye.com>,
-	Mete Durlu <meted@linux.ibm.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Rio <rioo.tsukatsukii@gmail.com>,
-	Feng Tang <feng.tang@linux.alibaba.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Longfang Liu <liulongfang@huawei.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Brett Creeley <brett.creeley@amd.com>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	=?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
-	Julian Ruess <julianr@linux.ibm.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Eric Auger <eric.auger@redhat.com>,
-	Mostafa Saleh <smostafa@google.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Ioana Ciornei <ioana.ciornei@nxp.com>,
-	qat-linux@intel.com,
-	virtualization@lists.linux.dev,
-	intel-xe@lists.freedesktop.org,
-	kvm@vger.kernel.org
-Subject: [PATCH] vfio: Allow untainted use of driver_override
-Date: Wed, 18 Nov 2026 16:56:44 -0700
-Message-ID: <20261118235645.2907908-2-alex@shazbot.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <DMYH4ED3GWDO.29DGXPK4M82VR@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=pBqrXFZx
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tYPY9aNZ9+VUFhuRTVWItXWe6LA1ELe8NyvJ7Ok2zx3/0wkPzK0mHPeU885hXGYmXDJDxuQ7BBu2RK5vqwb3eytMcmL0W1me1vzW7v5CHSymecosg/qx51eSl1E/fGuCzo8s5oOIAXKZulZcjM/K84iHGlGbfcyzpCrEXGqbNobqj7fX78oh1y2ze7pnQ/26A8PLfioBrS/gDfmzBjoI9xPTKup32u7c65t+vlMCASfDmTHV2rF/fgmmgFORd/yBm8+q6zFFdZ6mA5wOBveJJPS89vOsX8BlkS8gg67HR2MKaEJE0X9d840zGIlEjD9Ow4QcKvKQ2t6YiTjFeRK02g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HSwmMFbMcuoGnbaPCp6Kzu+PXKVfQeQZKhHagsueKak=;
+ b=fbYdftSE80tBLNnV/ez0jiIknAiZgPvNKRgmuK6YOosa31MsIyqxVPRQZ9mM9kMvG1oFnC1umFZmiFWKwovv3x7+uQmy+EVsMNqUq6MI+VXF7HCjwreDT9o5e1V4+BFULwuh/CN+eR+iwklotRHZdeh/qK0xTkwr4S9T4mBHeqNOlVlxtlnkMoBHZxJE2hurX6uC4DAiSQqnA2puFMscBDyHgGgvH6hAPmYD7oqkQE2hDGda9f8giyJSF7N3ik1PTpJJ7x3+WhbjV/omWcp7vpVpzQXUBZzXj8Sv2wef6377uq2TObmhBUsM6LevuA0veCJ6OqgaxOeLcKjA8rmnVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HSwmMFbMcuoGnbaPCp6Kzu+PXKVfQeQZKhHagsueKak=;
+ b=pBqrXFZxH5df2mkpkvSBs2ZBAVdHZFTMIcVKqU8gM0iPbLxwxoxum+60y9bhZPeYj0YxNhvDXmDtq7dhNlNygpdTdgLfS6W5K+1VIn601umtFZZKNAXhWo5RK+UlAzpQB54dVdVnk2PsvZhtn4ZBRV1DMnsBFDbqKWd9DmO4WaM=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5389.namprd12.prod.outlook.com (2603:10b6:5:39e::8) by
+ SJ2PR12MB9005.namprd12.prod.outlook.com (2603:10b6:a03:53d::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.10; Thu, 19 Nov
+ 2026 00:12:47 +0000
+Received: from DM4PR12MB5389.namprd12.prod.outlook.com
+ ([fe80::1f4e:98f9:2c94:8e4e]) by DM4PR12MB5389.namprd12.prod.outlook.com
+ ([fe80::1f4e:98f9:2c94:8e4e%7]) with mapi id 15.21.0615.013; Thu, 19 Nov 2026
+ 00:12:46 +0000
+Message-ID: <f3be0259-80b5-4474-94b7-0f6e7591f499@amd.com>
+Date: Wed, 18 Nov 2026 16:12:38 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] vfio: Allow untainted use of driver_override
+To: Alex Williamson <alex@shazbot.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, "Rafael J . Wysocki"
+ <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Johan Hovold <johan@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ David Lechner <dlechner@baylibre.com>, Armin Wolf <W_Armin@gmx.de>,
+ Thierry Reding <thierry.reding@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Karl Mehltretter <kmehltretter@gmail.com>,
+ "Paul E . McKenney" <paulmck@kernel.org>, Borislav Petkov <bp@alien8.de>,
+ Dapeng Mi <dapeng1.mi@linux.intel.com>, Marco Elver <elver@google.com>,
+ Ethan Nelson-Moore <enelsonmoore@gmail.com>, Jeff Layton
+ <jlayton@kernel.org>, Bradley Morgan <brads@mainlining.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>,
+ Pnina Feder <pnina.feder@mobileye.com>, Mete Durlu <meted@linux.ibm.com>,
+ Aaron Tomlin <atomlin@atomlin.com>, Rio <rioo.tsukatsukii@gmail.com>,
+ Feng Tang <feng.tang@linux.alibaba.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-trace-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Longfang Liu <liulongfang@huawei.com>, Ankit Agrawal <ankita@nvidia.com>,
+ Brett Creeley <brett.creeley@amd.com>,
+ Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+ =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>,
+ Julian Ruess <julianr@linux.ibm.com>, Nipun Gupta <nipun.gupta@amd.com>,
+ Nikhil Agarwal <nikhil.agarwal@amd.com>, Eric Auger <eric.auger@redhat.com>,
+ Mostafa Saleh <smostafa@google.com>, Pranjal Shrivastava <praan@google.com>,
+ Ioana Ciornei <ioana.ciornei@nxp.com>, qat-linux@intel.com,
+ virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ kvm@vger.kernel.org
 References: <DMYH4ED3GWDO.29DGXPK4M82VR@kernel.org>
+ <20261118235645.2907908-2-alex@shazbot.org>
+Content-Language: en-US
+From: "Creeley, Brett" <bcreeley@amd.com>
+In-Reply-To: <20261118235645.2907908-2-alex@shazbot.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR03CA0376.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a1::21) To DM4PR12MB5389.namprd12.prod.outlook.com
+ (2603:10b6:5:39e::8)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -177,232 +127,142 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5389:EE_|SJ2PR12MB9005:EE_
+X-MS-Office365-Filtering-Correlation-Id: ef748d09-9e5b-4b0c-44af-08df45d1d5f7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|23010399003|261026140227099003|261022105027099003|261028144727099003|56012099006|4143699003|261021123027099003|11063799006|261021121427099003|10067099003|261009223027099003|261102123227099003|261022075727099003|18002099003|22082099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	Q71K5ZIH7rsQeAfNKqqsD9kMUMPictFuHLsbFC1/vZLlN6oVeKs1hOnprAF7BRnSDO5eCMQ5JvSRyod0AmD4CERon511iXrAlTXWnx7oqCgYYKS4+TUBKBUiS+H02hiFlrE+b2BTwMS1e5rs4VgvBI/tf6G1SSgfLaVk7ONgHSB/eL+JX34B1EGQ8XN+ulRpTLKS1eMNPFww5qLu2fOdZkL1voMGA7A1mWuf1okXmUXy1GJRst9Wn6v2x4z7FE+Bc0ZM72Bfx/gumEo8pvqQmxjYHsYSQCnFSw2591bYwlq8JPKB0YBhO+DKO7dwmiHv/nzUP0IWC3TOCYQE7STufyQvDdgPQbbpjvoPHkpC26oJ70kLreacG1VjXQ0eLVE8ZeF+PkeKqswS4FoeYP+YLS9Iq8CDD3FCILT7CuhXLQST2743P/gVj3HNn1La66KZ3Opj78LMjsMawi9OqQE56YOxtV4ZO1g0DkS2kSvcGW3GDZLMj0kFS0JB1fC0dfRUpVyDTmE5bUZqAp3BLD/aQp9Bktqvussi+vnTT/Ca5iFpmKST0zhiS7uc1HmkriU3ARsGyvR2ChMqiznnLETjyN9eEe1RzNL9Xeminamm6A8fLwicQV0CDgu/d8i4Oy774+mMFMyUpla7wPOvSNlR7ytHi0gbTZ8XCMrS/kr0nvA=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5389.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(23010399003)(261026140227099003)(261022105027099003)(261028144727099003)(56012099006)(4143699003)(261021123027099003)(11063799006)(261021121427099003)(10067099003)(261009223027099003)(261102123227099003)(261022075727099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YndLTnFQU0VsZmdsRy9MQm9VQ290OUpXblRhU3J6TUkxYWx5YjRXTmJrbmRo?=
+ =?utf-8?B?ME83cU5yNjc3SjBTWDYwVUh0aUFPbmJaeFZGMVA2TWtQbndtQTVzbzBxMDRC?=
+ =?utf-8?B?U0tFT1BiZHJsOVd4TWFjTk9CakFkMEhRMmFlRFB0cFNKQlRnTHgzdTkvNk0z?=
+ =?utf-8?B?bjE5N281emIwaE5Tb2JpRGR6di9ReTJFcUxmV0I2dm5yQ3NvNHhFSldOUitS?=
+ =?utf-8?B?YjJVRUlkUGJ4R0g1SDlVM3hZNGVJOVpESWZWS3o1OXR0RmNkdzgvK3ZSc3VU?=
+ =?utf-8?B?UmcvaUFCWTN1WVg2K2V0YjBSR0JwZjFJNkNkNWtsZWZvejVJalRQMlArbzRJ?=
+ =?utf-8?B?QlZFMFA3clpETkIwcExVM29CTUxRZGc5SVFWM1B0MGVuTGhBRUZ1YkUwellS?=
+ =?utf-8?B?U3l5eVkxMWtNQThJZ2VhVkxZbnBpWmVsQXRiU09VUEhkbkZlbHhiVlJrZGcy?=
+ =?utf-8?B?Ym9iRnhOTlh2MEU4ZjdyZ1pXZXBGUkswcGdEb1UwYjhFY1F3ZFNqTHhVTVBB?=
+ =?utf-8?B?R2k4ZzFiYi9NMEdQOEM2aFl3a0l3dmVoQ3RLaVAwajgxeitkN0JNUis5R1lY?=
+ =?utf-8?B?K3FlOGwwTGF1eXpQR1dNaXBSVUxKZGQrVEErWlk3TFZ6OUNYMzlRcnl2WG16?=
+ =?utf-8?B?WExCMVN5bkhCWFFXc1JsaGYyaHBqQ2RxMmJjWXhXYjRIaG9OVFY3NHVnYUxt?=
+ =?utf-8?B?NkVKRlpWTVhmaU9uRkNvWU1RNlpMSTVzQjkrZ2xwM3dYN0hDOWl1TFNLaUoy?=
+ =?utf-8?B?ek5jVnpHRHNuM2l5eVNGc3h3Wjgyd0FEWkoyUGdIUDRzeDhEUG1TSFhqMmQ1?=
+ =?utf-8?B?WnVnUk1UU3gzZzZDZE9qOUFDVFh6eGN1ckdnR1AzUldkT2tIMUlONWpLWnBC?=
+ =?utf-8?B?V0p6L3piMERzOG5GTTNwU0xDNEhHMmpSYWxUcFpuaXFIWm1UU3JTNklPTWZ5?=
+ =?utf-8?B?ODFoU09rT3pmZWVxT0xnMms1RG0zMm9mWTcvUnZqRFRUdzRSVStCVTNLcDlz?=
+ =?utf-8?B?QWFKNUlJMXQ1eENRZGY5ZGpUM0pRSFlGcWlZSWR4aTBMNWUwc2xpNDR1OE5T?=
+ =?utf-8?B?dzF1ZlJyd1gzNGpjaGlTYmlGNllSMjRPNnpJRHdBUmdUSHI1QUN4Z3NvcTJi?=
+ =?utf-8?B?dWUvN1F0SXFVTXVxWnBHOTIxUTE2TXFVL3JPSzhFQVc4dXZXWHIzNFd5NHlJ?=
+ =?utf-8?B?OC9DVUlnYUxNZnFMcDBJcGVFVFR5K1I2REloZTFsZ281Q2dTaWNzUEMyNExE?=
+ =?utf-8?B?Q3pqUWRLdUtyREVMM0ZWekEzWG1OTWRLZS9tRTdSZm96RXYrY2QweWhJREEy?=
+ =?utf-8?B?aGlVMFE0Tk5VUzZjbVhPOGoxcVZ0ZzdRZE5QNEtNTFc2bTdYaGY5YitnR2V1?=
+ =?utf-8?B?WEc3NHNCaTR3aXFxQm1mdURnclFaK2IxVE1reXpHM2dqNDRiLzJuR2laWHc3?=
+ =?utf-8?B?NUt0OVpmOTd0ZEp3VG1RUFRCeGIraEtPSGZlRHFBVmE4YWRTSHpqVHYyZnlE?=
+ =?utf-8?B?YXBqUnhhakR2Q3E2ZmxlL1JGSHNxZUJyb1EyOStodVRLd3hTbFlMN3dQaFJk?=
+ =?utf-8?B?b01VRDZEUWRGQlhEcEcxdTh2VmFuMXUxUlJtQlRSanlDQUh3ZkhqRnlPS3Fs?=
+ =?utf-8?B?NEc4Y3Ruc3BKMjdHMWJJNXZya2VaOXp4emhXMlRYUmVjRUszbUtqMjRqcUJF?=
+ =?utf-8?B?ZjN3MGhJQXBGUjc5cU56TkswbG1OVFpuTlg4SGU0V1ViT1I3QjJtb3JkMEJ2?=
+ =?utf-8?B?VkJHbUNpZ3VBNndVRHo2WWxxQ1k3eUw4bUxiM0MwNW96eGUxVjB3dkJiUGxu?=
+ =?utf-8?B?dzU5MDNEYmhDeGhDSElMSUViV1ZDWDZxMVhJTWRnRzFTNkpmbGpwVmxDdFpv?=
+ =?utf-8?B?MlZ4a1VrWVZYTnVrdGRScThYTEVqbHJaK1Ftc3lhSU85Z2EzMGQyaitKWTZP?=
+ =?utf-8?B?Y3pCcURvYVVYT3RBSXAvVGJmS2UvYnZpejJzKzh4bkxxN1N5Z2ZHUkVHaEtR?=
+ =?utf-8?B?T2xid1dIa3kzaHpLeHlSSXFDU1NhbnBHVzBqUUFLYWFaN0VCR29YMFlEaFBm?=
+ =?utf-8?B?dXFWVDIzUlJKVE85RXZ4SGJjNFpCUE9YSzg3NzhNakdSeTVPRWd3V1FZZ1l4?=
+ =?utf-8?B?N3VKOTBJNnJwalErNitOVzdMbVo5WEoxelEyc2RlTHNHU2Q0OURDUHVsamYv?=
+ =?utf-8?B?anZLTnF1aFNORUZHeGFyYjNJdGlheUd4VDcwT1ZkQ1ZWa244VEtqTXdwYmUw?=
+ =?utf-8?B?ekpJdzZYUWFhdVYzTWFCT2VycDBMdzFkOStuaWhUYmtWVEZzZlgvYXo0VE1F?=
+ =?utf-8?Q?os8m4OH8R/6p+fxIcF?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef748d09-9e5b-4b0c-44af-08df45d1d5f7
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5389.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2026 00:12:46.1099
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rtBuCPMdT9+dmHBDwWX5VxhpUlzh5eUWAR+6BWWwIBmohxPQ0v7ZkPE7zBmSsAbF5WUYtHwyuKHU6wTnVNnBqA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB9005
 
-Driver overrides are the standard mechanism for binding vfio drivers
-to devices.  With the introduction of the support_driver_override flag
-in the core driver struct, it's now required for drivers to declare
-themselves as driver_override compatible, otherwise driver_override
-bindings will be denied or generate a kernel taint.
 
-Set the support_driver_override flag on the driver struct across all
-vfio drivers.
 
-Cc: Yishai Hadas <yishaih@nvidia.com>
-Cc: Longfang Liu <liulongfang@huawei.com>
-Cc: Ankit Agrawal <ankita@nvidia.com>
-Cc: Brett Creeley <brett.creeley@amd.com>
-Cc: Giovanni Cabiddu <giovanni.cabiddu@intel.com>
-Cc: Michał Winiarski <michal.winiarski@intel.com>
-Cc: Julian Ruess <julianr@linux.ibm.com>
-Cc: Nipun Gupta <nipun.gupta@amd.com>
-Cc: Nikhil Agarwal <nikhil.agarwal@amd.com>
-Cc: Eric Auger <eric.auger@redhat.com>
-Cc: Mostafa Saleh <smostafa@google.com>
-Cc: Pranjal Shrivastava <praan@google.com>
-Cc: Ioana Ciornei <ioana.ciornei@nxp.com>
-Cc: qat-linux@intel.com
-Cc: virtualization@lists.linux.dev
-Cc: intel-xe@lists.freedesktop.org
-Cc: kvm@vger.kernel.org
-Signed-off-by: Alex Williamson <alex@shazbot.org>
----
+On 11/18/2026 3:56 PM, Alex Williamson wrote:
+> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
+>
+>
+> Driver overrides are the standard mechanism for binding vfio drivers
+> to devices.  With the introduction of the support_driver_override flag
+> in the core driver struct, it's now required for drivers to declare
+> themselves as driver_override compatible, otherwise driver_override
+> bindings will be denied or generate a kernel taint.
+>
+> Set the support_driver_override flag on the driver struct across all
+> vfio drivers.
+>
+> Cc: Yishai Hadas <yishaih@nvidia.com>
+> Cc: Longfang Liu <liulongfang@huawei.com>
+> Cc: Ankit Agrawal <ankita@nvidia.com>
+> Cc: Brett Creeley <brett.creeley@amd.com>
+> Cc: Giovanni Cabiddu <giovanni.cabiddu@intel.com>
+> Cc: Michał Winiarski <michal.winiarski@intel.com>
+> Cc: Julian Ruess <julianr@linux.ibm.com>
+> Cc: Nipun Gupta <nipun.gupta@amd.com>
+> Cc: Nikhil Agarwal <nikhil.agarwal@amd.com>
+> Cc: Eric Auger <eric.auger@redhat.com>
+> Cc: Mostafa Saleh <smostafa@google.com>
+> Cc: Pranjal Shrivastava <praan@google.com>
+> Cc: Ioana Ciornei <ioana.ciornei@nxp.com>
+> Cc: qat-linux@intel.com
+> Cc: virtualization@lists.linux.dev
+> Cc: intel-xe@lists.freedesktop.org
+> Cc: kvm@vger.kernel.org
+> Signed-off-by: Alex Williamson <alex@shazbot.org>
+> ---
+>
+> Uwe, this should cover all the vfio drivers that expect to use
+> driver_override.  Thanks,
+>
+> Alex
+>
+>   drivers/vfio/cdx/main.c                        | 1 +
+>   drivers/vfio/fsl-mc/vfio_fsl_mc.c              | 1 +
+>   drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c | 3 ++-
+>   drivers/vfio/pci/ism/main.c                    | 3 ++-
+>   drivers/vfio/pci/mlx5/main.c                   | 3 ++-
+>   drivers/vfio/pci/nvgrace-gpu/main.c            | 3 ++-
+>   drivers/vfio/pci/pds/pci_drv.c                 | 3 ++-
+>   drivers/vfio/pci/qat/main.c                    | 3 ++-
+>   drivers/vfio/pci/vfio_pci.c                    | 3 ++-
+>   drivers/vfio/pci/virtio/main.c                 | 3 ++-
+>   drivers/vfio/pci/xe/main.c                     | 3 ++-
+>   drivers/vfio/platform/vfio_amba.c              | 1 +
+>   drivers/vfio/platform/vfio_platform.c          | 1 +
+>   13 files changed, 22 insertions(+), 9 deletions(-)
+>
+> <...>
+>
+> diff --git a/drivers/vfio/pci/pds/pci_drv.c b/drivers/vfio/pci/pds/pci_drv.c
+> index cf7e33d4d17b..1fcef987f1b0 100644
+> --- a/drivers/vfio/pci/pds/pci_drv.c
+> +++ b/drivers/vfio/pci/pds/pci_drv.c
+> @@ -184,7 +184,8 @@ static struct pci_driver pds_vfio_pci_driver = {
+>          .id_table = pds_vfio_pci_table,
+>          .probe = pds_vfio_pci_probe,
+>          .remove = pds_vfio_pci_remove,
+> -       .driver = { .pm = pm_ptr(&pds_vfio_pm_ops) },
+> +       .driver = { .pm = pm_ptr(&pds_vfio_pm_ops),
+> +                   .support_driver_override = true },
+>          .err_handler = &pds_vfio_pci_err_handlers,
+>          .driver_managed_dma = true,
+>   };
+LGTM.
 
-Uwe, this should cover all the vfio drivers that expect to use
-driver_override.  Thanks,
-
-Alex
-
- drivers/vfio/cdx/main.c                        | 1 +
- drivers/vfio/fsl-mc/vfio_fsl_mc.c              | 1 +
- drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c | 3 ++-
- drivers/vfio/pci/ism/main.c                    | 3 ++-
- drivers/vfio/pci/mlx5/main.c                   | 3 ++-
- drivers/vfio/pci/nvgrace-gpu/main.c            | 3 ++-
- drivers/vfio/pci/pds/pci_drv.c                 | 3 ++-
- drivers/vfio/pci/qat/main.c                    | 3 ++-
- drivers/vfio/pci/vfio_pci.c                    | 3 ++-
- drivers/vfio/pci/virtio/main.c                 | 3 ++-
- drivers/vfio/pci/xe/main.c                     | 3 ++-
- drivers/vfio/platform/vfio_amba.c              | 1 +
- drivers/vfio/platform/vfio_platform.c          | 1 +
- 13 files changed, 22 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/vfio/cdx/main.c b/drivers/vfio/cdx/main.c
-index 28dc8c825600..fb7679bf92fd 100644
---- a/drivers/vfio/cdx/main.c
-+++ b/drivers/vfio/cdx/main.c
-@@ -358,6 +358,7 @@ static struct cdx_driver vfio_cdx_driver = {
- 	.match_id_table	= vfio_cdx_table,
- 	.driver	= {
- 		.name	= "vfio-cdx",
-+		.support_driver_override = true,
- 	},
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/fsl-mc/vfio_fsl_mc.c b/drivers/vfio/fsl-mc/vfio_fsl_mc.c
-index 15b05b8c0c90..1603f81e0257 100644
---- a/drivers/vfio/fsl-mc/vfio_fsl_mc.c
-+++ b/drivers/vfio/fsl-mc/vfio_fsl_mc.c
-@@ -597,6 +597,7 @@ static struct fsl_mc_driver vfio_fsl_mc_driver = {
- 	.remove		= vfio_fsl_mc_remove,
- 	.driver	= {
- 		.name	= "vfio-fsl-mc",
-+		.support_driver_override = true,
- 	},
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c b/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
-index c82c59246a3f..5c56aff8db01 100644
---- a/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
-+++ b/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
-@@ -1737,7 +1737,8 @@ static struct pci_driver hisi_acc_vfio_pci_driver = {
- 	.id_table = hisi_acc_vfio_pci_table,
- 	.probe = hisi_acc_vfio_pci_probe,
- 	.remove = hisi_acc_vfio_pci_remove,
--	.driver = { .pm = pm_ptr(&hisi_acc_vf_pm_ops) },
-+	.driver = { .pm = pm_ptr(&hisi_acc_vf_pm_ops),
-+		    .support_driver_override = true },
- 	.err_handler = &hisi_acc_vf_err_handlers,
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/pci/ism/main.c b/drivers/vfio/pci/ism/main.c
-index cce3bdf1f070..263b377e87c4 100644
---- a/drivers/vfio/pci/ism/main.c
-+++ b/drivers/vfio/pci/ism/main.c
-@@ -399,7 +399,8 @@ static struct pci_driver ism_vfio_pci_driver = {
- 	.id_table = ism_device_table,
- 	.probe = ism_vfio_pci_probe,
- 	.remove = ism_vfio_pci_remove,
--	.driver	= { .pm = pm_ptr(&ism_vfio_pm_ops) },
-+	.driver	= { .pm = pm_ptr(&ism_vfio_pm_ops),
-+		    .support_driver_override = true },
- 	.err_handler = &ism_vfio_err_handlers,
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/pci/mlx5/main.c b/drivers/vfio/pci/mlx5/main.c
-index 18a6d224b1fd..63c89e461be8 100644
---- a/drivers/vfio/pci/mlx5/main.c
-+++ b/drivers/vfio/pci/mlx5/main.c
-@@ -1451,7 +1451,8 @@ static struct pci_driver mlx5vf_pci_driver = {
- 	.id_table = mlx5vf_pci_table,
- 	.probe = mlx5vf_pci_probe,
- 	.remove = mlx5vf_pci_remove,
--	.driver	= { .pm = pm_ptr(&mlx5vf_pm_ops) },
-+	.driver	= { .pm = pm_ptr(&mlx5vf_pm_ops),
-+		    .support_driver_override = true },
- 	.err_handler = &mlx5vf_err_handlers,
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/pci/nvgrace-gpu/main.c b/drivers/vfio/pci/nvgrace-gpu/main.c
-index 5ddec340b73b..946da32c61ff 100644
---- a/drivers/vfio/pci/nvgrace-gpu/main.c
-+++ b/drivers/vfio/pci/nvgrace-gpu/main.c
-@@ -1438,7 +1438,8 @@ static struct pci_driver nvgrace_gpu_vfio_pci_driver = {
- 	.id_table = nvgrace_gpu_vfio_pci_table,
- 	.probe = nvgrace_gpu_probe,
- 	.remove = nvgrace_gpu_remove,
--	.driver = { .pm = pm_ptr(&nvgrace_gpu_pm_ops) },
-+	.driver = { .pm = pm_ptr(&nvgrace_gpu_pm_ops),
-+		    .support_driver_override = true },
- 	.err_handler = &nvgrace_gpu_vfio_pci_err_handlers,
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/pci/pds/pci_drv.c b/drivers/vfio/pci/pds/pci_drv.c
-index cf7e33d4d17b..1fcef987f1b0 100644
---- a/drivers/vfio/pci/pds/pci_drv.c
-+++ b/drivers/vfio/pci/pds/pci_drv.c
-@@ -184,7 +184,8 @@ static struct pci_driver pds_vfio_pci_driver = {
- 	.id_table = pds_vfio_pci_table,
- 	.probe = pds_vfio_pci_probe,
- 	.remove = pds_vfio_pci_remove,
--	.driver = { .pm = pm_ptr(&pds_vfio_pm_ops) },
-+	.driver = { .pm = pm_ptr(&pds_vfio_pm_ops),
-+		    .support_driver_override = true },
- 	.err_handler = &pds_vfio_pci_err_handlers,
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/pci/qat/main.c b/drivers/vfio/pci/qat/main.c
-index 69448fa57df4..8a616f9b6494 100644
---- a/drivers/vfio/pci/qat/main.c
-+++ b/drivers/vfio/pci/qat/main.c
-@@ -695,7 +695,8 @@ static struct pci_driver qat_vf_vfio_pci_driver = {
- 	.id_table = qat_vf_vfio_pci_table,
- 	.probe = qat_vf_vfio_pci_probe,
- 	.remove = qat_vf_vfio_pci_remove,
--	.driver	= { .pm = pm_ptr(&qat_vf_pm_ops) },
-+	.driver	= { .pm = pm_ptr(&qat_vf_pm_ops),
-+		    .support_driver_override = true },
- 	.err_handler = &qat_vf_err_handlers,
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
-index e7c012febe91..fde2c3fc88eb 100644
---- a/drivers/vfio/pci/vfio_pci.c
-+++ b/drivers/vfio/pci/vfio_pci.c
-@@ -260,7 +260,8 @@ static struct pci_driver vfio_pci_driver = {
- 	.remove			= vfio_pci_remove,
- 	.sriov_configure	= vfio_pci_sriov_configure,
- 	.err_handler		= &vfio_pci_err_handlers,
--	.driver		= { .pm = pm_ptr(&vfio_pci_pm_ops) },
-+	.driver		= { .pm = pm_ptr(&vfio_pci_pm_ops),
-+			    .support_driver_override = true },
- 	.driver_managed_dma	= true,
- };
- 
-diff --git a/drivers/vfio/pci/virtio/main.c b/drivers/vfio/pci/virtio/main.c
-index 123ff5193812..1e02a8fd4a61 100644
---- a/drivers/vfio/pci/virtio/main.c
-+++ b/drivers/vfio/pci/virtio/main.c
-@@ -222,7 +222,8 @@ static struct pci_driver virtiovf_pci_driver = {
- 	.id_table = virtiovf_pci_table,
- 	.probe = virtiovf_pci_probe,
- 	.remove = virtiovf_pci_remove,
--	.driver = { .pm = pm_ptr(&virtiovf_pm_ops) },
-+	.driver = { .pm = pm_ptr(&virtiovf_pm_ops),
-+		    .support_driver_override = true },
- 	.err_handler = &virtiovf_err_handlers,
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/pci/xe/main.c b/drivers/vfio/pci/xe/main.c
-index 7dab3e024aa8..e0ab61f604de 100644
---- a/drivers/vfio/pci/xe/main.c
-+++ b/drivers/vfio/pci/xe/main.c
-@@ -592,7 +592,8 @@ static struct pci_driver xe_vfio_pci_driver = {
- 	.id_table = xe_vfio_pci_table,
- 	.probe = xe_vfio_pci_probe,
- 	.remove = xe_vfio_pci_remove,
--	.driver = { .pm = pm_ptr(&xe_vfio_pm_ops) },
-+	.driver = { .pm = pm_ptr(&xe_vfio_pm_ops),
-+		    .support_driver_override = true },
- 	.err_handler = &xe_vfio_pci_err_handlers,
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/platform/vfio_amba.c b/drivers/vfio/platform/vfio_amba.c
-index fa754f203b2d..2c87caf1b7f7 100644
---- a/drivers/vfio/platform/vfio_amba.c
-+++ b/drivers/vfio/platform/vfio_amba.c
-@@ -137,6 +137,7 @@ static struct amba_driver vfio_amba_driver = {
- 	.id_table = vfio_amba_ids,
- 	.drv = {
- 		.name = "vfio-amba",
-+		.support_driver_override = true,
- 	},
- 	.driver_managed_dma = true,
- };
-diff --git a/drivers/vfio/platform/vfio_platform.c b/drivers/vfio/platform/vfio_platform.c
-index a4d3ace3e02d..93d06032cdde 100644
---- a/drivers/vfio/platform/vfio_platform.c
-+++ b/drivers/vfio/platform/vfio_platform.c
-@@ -116,6 +116,7 @@ static struct platform_driver vfio_platform_driver = {
- 	.remove		= vfio_platform_remove,
- 	.driver	= {
- 		.name	= "vfio-platform",
-+		.support_driver_override = true,
- 	},
- 	.driver_managed_dma = true,
- };
--- 
-2.54.0
+Reviewed-by: Brett Creeley <brett.creeley@amd.com>
 
