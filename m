@@ -1,99 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795067497;
-	b=PizJrPiRdacQOivJN1glKJiYPuAYyuMqqTZl3wR6SZDQCrGB0x8rOMA9QkgdTaT0uV/1
-	 bgLOd87vA/SwIr+H+68jWMEIOv5B4NGuBQ+p7yO9tZmKcyqE8vVdCqqAKSihHDS0K7yDP
-	 7O8b5P+to3XynZpyLjO5JJjiL8lXNU7SReH3SYW6tM7daU8vm4G6OJm+/TaXmJmMg1gyL
-	 Yfxr+8of5GKNaxXhphnWFrQHUHf8SnYjbFzm5o9OfJIDiolqN8uORqfvKszlLXISCHMvK
-	 2be/9YMNQdXf5MwcfuM4NkEwLIA2LOfWAAHBXC1JS/fmxCNDNh8KH2VXQLN9kHFF89Q==
+	t=1795068443;
+	b=sNbEy+HpIemrEiQYTXgrw9AXwXmQ9psLflcl9bIyhzI7nUlC1L3WE0fsgryUTVhPweU8
+	 z7RVMI8oeQiWStSuLab9DF+ETn5lTKWI83+W69p2f1PsDnzTcVmu88wzBcM9C9SUtWysa
+	 NQvSnCTnfyYuZXD7OeryvZMuL7kvZz0oYBVp0dsYfPEhUFSWxmmxMXHoho9VK5VuAaNZR
+	 6ho4waVT34CsE6A5gcjIesi2jZUkuMxHqFvghuF2Vjp+WtbTA3F+Vmoo+wKLudl4AGbZX
+	 RVqVww05DqT+QgDUj94zK4A6TOCN73D/eBOX0bPeGoZK8Pf3iIqOZM5Fx1zqnUZT0Ew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795067497;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:Sender;
-	bh=z8G4571aUTPFuGlDRih4WtoT+MR1zWs5KxPfHLJ0IoQ=;
-	b=K438CdbgINAZblCj2Vo8NMPTupp/jd8A3pokleOc9gKBuaVvr8hgSpT7r+t88U3xpw4R
-	 8lCEgPXLikVJak4pUOOjA4WHRs43tG8gXxCkodM9lU1qGFg3zzn8+XP2CxxHooy1Gayd0
-	 juO8N3HMQBBckyCNTsdUDRwj9NuzbHC90rRyc7Aa3H108FuG2cE5256WaeqxJlJN+wkEj
-	 takEtrZqw7IUaVDHq3aUOrY1e0ps3JpvqlCFmg12LpqYohT5bh1QbKRiHNRdaq2adobsE
-	 vYFosqm6szMv6srf4rGaa0Vd5nVeEHcEzwuULrG4gu1btRDDdAOfuAPwdULTADdmyPg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795068443;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
+	 X-Proofpoint-Reinject:X-Proofpoint-Spam-Details-Enc:
+	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=RflKtLzANh50OVjZUvhyj5Uu+ZLP4MbVSiyqCQZ/TjM=;
+	b=wZtlPE5r5JD/ByWVIjklVL1ppKFE1SqUXbFRGOCAVTSvHrPe2faSLutQ5i3ah6n8O/N/
+	 +PNxtHaSBUFgBfC2CZpbe+0hcSU6RPfqo67XSLFCez4wnsnaCRFrvP7t38ZzcmsIMMC2W
+	 4F+u8PUz9AcD+z0Ahe6gGkqWMz1TLQaDh8KQFCsbpjBrYdZ8Ixu4mAy+fRpeEPSq/eLMx
+	 KkXC0Tel5rraIO14CewNB7JUNEcSyY2s89W7ZKCxcQVIFdi8j/D5DiKzIQlWS1LqfrUoL
+	 LbuVBrqFSxK7/Vl56q49yQAo3Krq0gUpk/7oMAdUMKZY6qeO47g6LtPiCe0UX8iD27g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=zeniv.linux.org.uk;
-	spf=none smtp.mailfrom=ftp.linux.org.uk;
-	dkim=pass header.d=linux.org.uk header.i=@linux.org.uk header.a=rsa-sha256 header.s=zeniv-20220401 header.b=HUmq9V2f;
-	arc=none smtp.remote-ip=62.89.141.173
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=nS5XLY09;
+	arc=none smtp.remote-ip=148.163.156.1
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD1F606A325;
-	Thu, 19 Nov 2026 05:51:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EFD1F606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B02606A320
+	for <driver-core@lists.linux.dev>; Thu, 19 Nov 2026 06:07:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29B02606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.a=rsa-sha256 header.s=zeniv-20220401 header.b=HUmq9V2f
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=z8G4571aUTPFuGlDRih4WtoT+MR1zWs5KxPfHLJ0IoQ=; b=HUmq9V2fqWZniya7o9nBaVPeDZ
-	hdLnNqA0+VaoySgEJuKHB41/nmyLaGptpyplTvFZpj9ZsUfvW/Uacb0EujAyxoatj/wEjrTHUy1Y8
-	Jf/0+dvEia8oYQhTDJ2QTEjT6TZu9xP6N/is4httLR57O2jb4I7x7sybjo+/cFqRcKEnzzz9PN71w
-	Fs3s4nF5yw1DIdzaYMKdWCNazNDVu5/+7GdnX+s8wkC+dHul4l8kAJetHVgTfI7IM42m1/kFkA0V+
-	e5cVGVGh3fNAY2bVKP02Pyi9IdxpjMoQwmhSMxh71ivIpbruqUDwYbd4JXLlMVMx0hkbK2WWTq4Oa
-	k2qmfFmA==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xTv3O-000000063G7-3IJX;
-	Thu, 19 Nov 2026 05:51:26 +0000
-Date: Thu, 19 Nov 2026 05:51:26 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Cai Xinchen <caixinchen1@huawei.com>, mic@digikod.net,
-	gnoack@google.com, paul@paul-moore.com, jack@suse.cz,
-	amir73il@gmail.com, andrii@kernel.org, apparmor@lists.ubuntu.com,
-	ast@kernel.org, axboe@kernel.dk, bpf@vger.kernel.org,
-	casey@schaufler-ca.com, cel@kernel.org, cem@kernel.org,
-	chenxiaosong@chenxiaosong.com, code@tyhicks.com, corbet@lwn.net,
-	Dai.Ngo@oracle.com, dakr@kernel.org, daniel@iogearbox.net,
-	dhowells@redhat.com, dlemoal@kernel.org, dmitry.kasatkin@gmail.com,
-	driver-core@lists.linux.dev, dsterba@suse.com,
-	ecryptfs@vger.kernel.org, eddyz87@gmail.com, emil@etsalapatis.com,
-	eric.snowberg@oracle.com, exfat@lists.linux.dev,
-	georgia.garcia@canonical.com, gregkh@linuxfoundation.org,
-	hch@lst.de, hirofumi@mail.parknet.co.jp, hyc.lee@gmail.com,
-	ihor.solodrai@linux.dev, jlayton@kernel.org, jmorris@namei.org,
-	johan@kernel.org, john.fastabend@gmail.com,
-	john.johansen@canonical.com, jolsa@kernel.org, kpsingh@kernel.org,
-	linkinjeon@kernel.org, linux-api@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-nfs@vger.kernel.org, linux-security-module@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-unionfs@vger.kernel.org,
-	linux-xfs@vger.kernel.org, liubaolin12138@163.com,
-	martin.lau@linux.dev, mason@kernel.org,
-	mathieu.desnoyers@efficios.com, matt@bobrowski.net,
-	memxor@gmail.com, mhiramat@kernel.org, miklos@szeredi.hu,
-	neil@brown.name, netfs@lists.linux.dev, ntfs@lists.linux.dev,
-	okorniev@redhat.com, omosnacek@gmail.com,
-	penguin-kernel@i-love.sakura.ne.jp, rafael@kernel.org,
-	rdunlap@infradead.org, roberto.sassu@huawei.com,
-	rostedt@goodmis.org, selinux@vger.kernel.org,
-	senozhatsky@chromium.org, serge@hallyn.com, sj1557.seo@samsung.com,
-	skhan@linuxfoundation.org, song@kernel.org,
-	stephen.smalley.work@gmail.com, takedakn@nttdata.co.jp,
-	tom@talpey.com, yonghong.song@linux.dev, yuezhang.mo@sony.com,
-	zohar@linux.ibm.com, utilityemal77@gmail.com, lujialin4@huawei.com
-Subject: Re: [PATCH -next -v4 02/17] LSM: pass struct path to the
- inode_setsecctx hook
-Message-ID: <20261119055126.GU989762@ZenIV>
-References: <20261117150542.1169451-1-caixinchen1@huawei.com>
- <20261117150542.1169451-3-caixinchen1@huawei.com>
- <20261117184342.GR989762@ZenIV>
- <20261118001641.GA1669148@ZenIV>
- <20261118-woher-duften-bejubeln-7a8a2099f89f@brauner>
+	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=nS5XLY09
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJ4jHEI3324071;
+	Thu, 19 Nov 2026 06:07:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=RflKtL
+	zANh50OVjZUvhyj5Uu+ZLP4MbVSiyqCQZ/TjM=; b=nS5XLY09cQJppraZF5/Ui6
+	HzPXK0pxBcBYsO79/mnMn9NTE8lAPHxxIxKoIID85ZQBtXIEQwtEMvnz+ro5Cb42
+	4j3afcBdy1/sDiFgSGnFn1GjHjHiP1kHKAvN6swcblTyumUZ4xIqz61/kS94brjz
+	yH+C9oMfpYyyTWkflTbsiLlZ5Md36eAxD/rYIM6NwAu/kKVxHuHzpkY3990jgymU
+	WodQGGsPNkO6hInudnpi4mOolqy9HENqYE2uPnlMv6LDjQOJgNxLJhYZHORjSTX5
+	pmPCA2PVnVLN0+b22FWUp3zM8vpk0dNejPsFJiUGsYljqo59hEvg7RPR+hti7bSA
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j105nevr5-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 19 Nov 2026 06:07:00 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJ4XlFK2162899;
+	Thu, 19 Nov 2026 06:06:59 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hy2bvnqmd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 19 Nov 2026 06:06:59 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AJ66tb450397622
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 19 Nov 2026 06:06:55 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 291D220040;
+	Thu, 19 Nov 2026 06:06:55 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DCD0E2004B;
+	Thu, 19 Nov 2026 06:06:47 +0000 (GMT)
+Received: from [9.124.217.144] (unknown [9.124.217.144])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 19 Nov 2026 06:06:47 +0000 (GMT)
+Message-ID: <37a30a91-bd86-4dbb-ad12-8cbb509f7c4c@linux.ibm.com>
+Date: Thu, 19 Nov 2026 11:36:46 +0530
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -103,123 +86,223 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261118-woher-duften-bejubeln-7a8a2099f89f@brauner>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/7] virt: steal_governor: restart sampling immediately
+ after CPU hotplug
+To: Yury Norov <ynorov@nvidia.com>, Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>
+Cc: Yury Norov <yury.norov@gmail.com>,
+        "Rafael J. Wysocki"
+ <rafael@kernel.org>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Andrea Righi <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Ilya Leoshkevich <iii@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        K Prateek Nayak <kprateek.nayak@amd.com>,
+        Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>,
+        Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Steven Rostedt
+ <rostedt@goodmis.org>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-s390@vger.kernel.org
+References: <20261113184257.621707-1-ynorov@nvidia.com>
+ <20261113184257.621707-7-ynorov@nvidia.com>
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <20261113184257.621707-7-ynorov@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE5MDAyMyBTYWx0ZWRfXz3FkMuLeeVV5
+ WUzbQqK3YwHV2gj69TBumNrDiz+4gYq0fiSGmx34KzREAEzefH8oJdqtAwSVZcy3aPOOBNeYGgC
+ 4YvQv+NPpQYJreJDMERt2PPjfhiOoYV0j5IFfZ88M8p5QAmQxINmhSc1K6i+RmBMJaITowpyZ9I
+ gDwsuNcURIX8Cguau3gk/fl2BcpeNoLTZodgQBhsKRp7tDxVf3+s3frUBX2cLhvu5UiB34slUo3
+ 8wZ/05RGmF6RhjnlpRsB3/6EAMPCT2VDUa1axW7tHp+q4wPjH8Co+eoqc97VOMCWQ7WCP8Foaxq
+ YqffDk30Wx7VXlQe9wzO/snrEYhqO3mm9RGA68su1NghmbKShNG/uBfW3FOli0MvKFOp3Q5gvGm
+ XC5/sAWwWV2bgbzTuZhxgxB21EzBulPZ+mpXeu/Tc6BinBDiFYjmuyt1iyLO5hoZSysMYTFT72v
+ GNFthaIyl3wljSmKbIg==
+X-Authority-Analysis: v=2.4 cv=HN9WhYtv c=1 sm=1 tr=0 ts=6afe9205 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=Ikd4Dj_1AAAA:8
+ a=0HZJD8Sdi3QcteILL10A:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: hGB-_hglpyk7epm03uhVkOL4XuxGf6Ot
+X-Proofpoint-ORIG-GUID: 5H73WGlaohj3_b7yzRgqsLltE59hArR0
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE5MDAyMyBTYWx0ZWRfX5Q+rkoAKKTwf
+ CjaHtE8KE7Yofa8LEijqts+UNxUoWM1P/XqQK6P4W2j23GRhykzKFm+wBOc+8aVI/dEAEGJ3e8A
+ LHtQGyCDceK2utJ4pXtFAqwnujkUbnI=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-19_01,2026-11-16_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 priorityscore=1501 impostorscore=0 suspectscore=0 malwarescore=0
+ adultscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611190023
 
-On Wed, Nov 18, 2026 at 09:51:27AM +0100, Christian Brauner wrote:
-> On Wed, Nov 18, 2026 at 12:16:41AM +0000, Al Viro wrote:
-> > On Tue, Nov 17, 2026 at 06:43:42PM +0000, Al Viro wrote:
-> > > > + * Hooks that take a struct path argument: the VFS only sanctions passing
-> > > > + * the path to VFS helpers that take a struct path (e.g. notify_change());
-> > > > + * it makes no guarantees with regard to path->mnt, whose layout and
-> > > > + * implementation details are subject to change.  Implementations must
-> > > > + * not rely on its properties.
-> 
-> That comment is a garbled version of an earlier review. It meant that
-> LSMs get no guarantees about struct vfsmount internals and don't get to
-> poke at them. I'm not sure how this can be read as path->mnt being a
-> random mount.
+Hi Yury.
 
-"no guarantees with regard to path->mnt" is easy to parse that way when one
-is stuck with a caller that needs to be converted to new API with no relevant
-mount reference in sight.
+On 11/14/26 12:12 AM, Yury Norov wrote:
+> CPU hotplug between samples can distort the calculated steal ratio because
+> the governor divides accumulated steal time by the current active CPU
+> count, even when that count changed during the sampling interval.
+> 
+> For example, assume a constant 3% steal rate on each CPU, with four active
+> CPUs for 900ms followed by two active CPUs for 100ms. The accumulated
+> steal time is:
+> 
+>      4 * 900ms * 3% + 2 * 100ms * 3% = 108ms + 6ms = 114ms
 
-> > > If that kind of stuff actually does get passed to any existing hooks, we need
-> > > to fix that ASAP.
+
+This example is not realistic. If you had 3% steal with 4 CPUs, and if they become 2,
+your steal time will definitely increase. It will likely double. So
+governor likely calculates 6%.
+
+But yes, you can have realistic examples, where governor may calculate
+the values which goes slightly above or below. But IMHO those examples are very
+limited. Even in the above examples, the steal governor was supposed to trigger
+high threshold since the steal time with 2 CPUs is 6%. So if not now, in the next
+delta it would have triggered it anyways.
+
+Some examples are really corner cases. Maybe like
+
+60 CPUs 3% steal, and then 40 CPUs 5.1% steal = 4.55%
+(Below threshold, but should have been high). One interval missed. But if you see
+large duration was in low threshold, so it is agreeable to miss it.
+
 > 
-> Of course there is one...
+> The elapsed time is 1000ms. Using the final count of two active CPUs, the
+> governor calculates:
 > 
->   dent = lookup_one_unlocked(idmap, &QSTR_LEN(...),
->                              priv->dir_fp->filp->f_path.dentry);
->   [...].
->   rc = ksmbd_vfs_fill_dentry_attrs(priv->work, idmap, dent, &ksmbd_kstat);
+>      114ms / (2 * 1000ms) = 5.7%
 > 
-> It passes only the bare dentry, and ksmbd_vfs_fill_dentry_attrs() then
-> makes up a path from the share's root mount:
+> This exceeds the default 5% high threshold, even though the actual steal
+> rate stayed at 3%. Using the CPU counts over the whole interval gives:
 > 
->   struct path path = {
->           .mnt = share_conf->vfs_path.mnt,   /* mount the share is exported from */
->           .dentry = dentry,                  /* entry inside the listed dir */
+>      114ms / (4 * 900ms + 2 * 100ms) = 3%
+> 
+> Checking num_online_cpus() doesn't account for cases where CPUs go online
+> and offline such that the total number of online CPUs doesn't change. So,
+> implement the sampling restart on hotplug event.
+> 
+
+I am not sure if we really need to stress about hotplug cases. IIUC, when a user
+does hotplug, systems are usually idle. (Atleast that is what we have observed in
+real life use cases). And hotplug is really user driven, so user knows system is going
+through some transitions and will be stable soon.
+
+> Fixes: 27d47ebce4d6 ("virt/steal_governor: Implement steal_governor policy loop")
+> Signed-off-by: Yury Norov <ynorov@nvidia.com>
+> ---
+>   drivers/virt/steal_governor.c | 37 ++++++++++++++++++++++++++++++++---
+>   1 file changed, 34 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/virt/steal_governor.c b/drivers/virt/steal_governor.c
+> index c34d91267ec1..f71dbf27e4a9 100644
+> --- a/drivers/virt/steal_governor.c
+> +++ b/drivers/virt/steal_governor.c
+> @@ -14,6 +14,7 @@
+>   #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>   
+>   #include <linux/cleanup.h>
+> +#include <linux/cpuhotplug.h>
+>   #include <linux/cpuhplock.h>
+>   #include <linux/cpumask.h>
+>   #include <linux/init.h>
+> @@ -42,6 +43,8 @@ struct steal_governor {
+>   	unsigned long		delay;
+>   	unsigned int		high_threshold;
+>   	unsigned int		low_threshold;
+> +	int			hp_state;
+> +	bool			sample_invalidated;
+>   	struct delayed_work	work;
 >   };
->   rc = vfs_getattr(&path, ...);
-> 
-> since 5614c8c487f6 ("ksmbd: replace generic_fillattr with vfs_getattr").
-> 
-> So a client that lists a directory on a submount below the share then
-> that dentry belongs to another superblock. So security_inode_getattr()
-> and ->getattr() get a mixed path.
+>   
+> @@ -217,6 +220,13 @@ static bool preferred_cpus_valid(void)
+>   	return true;
+>   }
+>   
+> +static int hotplug_callback(unsigned int cpu)
+> +{
+> +	sg_ctx.sample_invalidated = true;
+> +	mod_delayed_work(system_wq, &sg_ctx.work, 0);
+> +	return 0;
+> +}
+> +
+>   static void steal_governor_loop(struct work_struct *work)
+>   {
+>   	u64 curr_steal, delta_steal, delta_ns, steal_ratio;
+> @@ -233,6 +243,11 @@ static void steal_governor_loop(struct work_struct *work)
+>   	sg_ctx.steal = curr_steal;
+>   	sg_ctx.time = now;
+>   
+> +	if (sg_ctx.sample_invalidated) {
+> +		sg_ctx.sample_invalidated = false;
+> +		goto requeue_work;
+> +	}
+> +
+>   	/*
+>   	 * steal_ratio = (delta_steal * 100*100)/(delta_ns * num_cpus())
+>   	 * To avoid possible overflow, divide the denominator early.
+> @@ -254,11 +269,14 @@ static void steal_governor_loop(struct work_struct *work)
+>   		return;
+>   	}
+>   
+> -	schedule_delayed_work(&sg_ctx.work, sg_ctx.delay);
+> +requeue_work:
+> +	mod_delayed_work(system_wq, &sg_ctx.work, sg_ctx.delay);
+>   }
+>   
+>   static int __init steal_governor_init(void)
+>   {
+> +	int ret;
+> +
+>   #ifdef CONFIG_XEN
+>   	if (xen_initial_domain()) {
+>   		pr_err("Cannot load in Xen Dom0 (Host OS). Driver is for guests only.\n");
+> @@ -273,8 +291,20 @@ static int __init steal_governor_init(void)
+>   	}
+>   
+>   	INIT_DELAYED_WORK(&sg_ctx.work, steal_governor_loop);
+> -	sg_ctx.steal = get_system_steal_time();
+> -	sg_ctx.time = ktime_get();
+> +	/* Lock to prevent unobserved hotplug event during setup. */
+> +	scoped_guard(cpus_read_lock) {
+> +		sg_ctx.steal = get_system_steal_time();
+> +		sg_ctx.time = ktime_get();
+> +		sg_ctx.sample_invalidated = false;
+> +		ret = cpuhp_setup_state_nocalls_cpuslocked(CPUHP_AP_ONLINE_DYN,
+> +							 "virt/steal_governor:online",
+> +							 hotplug_callback,
+> +							 hotplug_callback);
+> +	}
+> +	if (ret < 0)
+> +		return ret;
+> +	sg_ctx.hp_state = ret;
+> +
+>   	schedule_delayed_work(&sg_ctx.work, sg_ctx.delay);
+>   	pr_info("enabled. interval: %ums, high_threshold: %u, low_threshold: %u\n",
+>   		jiffies_to_msecs(sg_ctx.delay), sg_ctx.high_threshold, sg_ctx.low_threshold);
+> @@ -285,6 +315,7 @@ static int __init steal_governor_init(void)
+>   static void __exit steal_governor_exit(void)
+>   {
+>   	disable_delayed_work_sync(&sg_ctx.work);
+> +	cpuhp_remove_state_nocalls(sg_ctx.hp_state);
+>   	guard(cpus_read_lock)();
+>   	guard(mutex)(&cpu_preferred_mutex);
+>   
 
-So e.g. apparmor hits
-        vfsuid_t vfsuid = i_uid_into_vfsuid(mnt_idmap(path->mnt),
-					    d_backing_inode(path->dentry));
-with path->mnt having nothing to do with path->dentry there?  Fun...
-
-> The third patch in this series fixes this. But we should make this a
-> Fixes: patch really... Something like [1].
-> 
-> > To elaborate a bit: correctness of quite a few places does depend upon the
-> > following invaraint:
-> > 	path->mnt->mnt_sb == path->dentry->d_sb		(1)
-> > for all struct path pointers they might possibly run into.
-> >
-> > _IF_ you can guarantee that (1) is not violated, we have something to
-> > talk about; otherwise, don't call your object struct path and don't
-> > pass it to anything that expects to deal with struct path.
-> 
-> Every struct path the series constructs:
-> 
->   - devtmpfs
->   - nfsd
->   - cachefiles
->   - ecryptfs
->   - overlayfs
->   - ksmbd
-> 
-> doesn't have this bug.
-> 
-> [1]:
-> 
->   --- a/fs/smb/server/smb2pdu.c
->   +++ b/fs/smb/server/smb2pdu.c
->   @@ -6375,13 +6375,14 @@ static int process_query_dir_entries(struct smb2_query_dir_private *priv)
->                           continue;
->                   }
-> 
->   +               path.mnt = priv->dir_fp->filp->f_path.mnt;
->   +               path.dentry = dent;
->   +
->                   if (test_share_config_flag(priv->work->tcon->share_conf,
->                                              KSMBD_SHARE_FLAG_HIDE_UNREADABLE)) {
->                           __le32 daccess = FILE_READ_DATA_LE | FILE_READ_EA_LE |
->                                   FILE_READ_ATTRIBUTES_LE;
-> 
->   -                       path.mnt = priv->dir_fp->filp->f_path.mnt;
->   -                       path.dentry = dent;
->                           rc = smb_check_perm_dacl(priv->work->conn, &path,
->                                                    &daccess, daccess,
->                                                    priv->work->sess->user->uid,
->   @@ -6397,7 +6398,7 @@ static int process_query_dir_entries(struct smb2_query_dir_private *priv)
->   @@ -6397,7 +6398,7 @@ static int process_query_dir_entries(struct smb2_query_dir_private *priv)
->                   if (priv->info_level != FILE_NAMES_INFORMATION) {
->                           rc = ksmbd_vfs_fill_dentry_attrs(priv->work,
->                                                            idmap,
->   -                                                        dent,
->   +                                                        &path,
->                                                            &ksmbd_kstat);
->                           if (rc) {
->                                   dput(dent);
->   --- a/fs/smb/server/smb_common.c
->   +++ b/fs/smb/server/smb_common.c
->   @@ -472,32 +472,36 @@ int ksmbd_populate_dot_dotdot_entries(struct ksmbd_work *work, int info_level,
->           for (i = 0; i < 2; i++) {
->                   struct kstat kstat;
->                   struct ksmbd_kstat ksmbd_kstat;
->   -               struct dentry *dentry;
->   +               struct path path = { .mnt = dir->filp->f_path.mnt };
-
-That's just asking for breakage down the road.  Just pass it
-the address of ->f_path for "." and
-	&(struct path){.mnt = dir->filp->f_path.mnt, .dentry = dentry}
-for ".." (and sod the dentry = dget(...) for "." - just have it NULL there)
