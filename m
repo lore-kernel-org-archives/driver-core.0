@@ -1,162 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.136
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.89.141.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795065323;
-	b=cRVX51gRpaA4SOv1LOzlvnB01tZI1xMzzXqd4lkg3fl+3hmNO3hBfH6GvGVg1xxMlWrk
-	 2b9vkpuhShZHauarfWYT4cJV1JXFbZxJ6cMx2l8ulyveAmYFpmmhD077/5LVLyIuL6BVX
-	 667+SNAZ3LFxo9CL7JfBVfRXn6M29x7cA6UI/Znhv338Hs+M95VM97kzRk6jObx7j/y4U
-	 6cESr9vQaPv9jPR1WRNSOyprKWd3+4ZDybkd7iLSonyJoUb/fbWgsyL5aF/ejK8nFw69n
-	 01LA4yaMQ1IZqk3l2MWUxlBnCIVswV0FEiFUTwNNzO3duhPKDEfnLQB143NauVh8XWA==
+	t=1795065850;
+	b=WVcoqzNjdtF171AniYQPhukiXAmZ0zmxrJyA+UgMeVYQzDD1brHJgjqKd9vk+TRpjHMz
+	 yyC2gRnRtCdTK8JIGeOYGZNvBylY+chXpg+JGCJQS4NtzEY+y4c6l9JnP6i6cZ3Klskk+
+	 6vtdnam3h5HqFQWKjr1OA7j8/FaJ+WTff56e66BkxXz1Eo/Up1bitufgf6FGNRQU0MZFS
+	 9/kjA8YWQQ+uwWj8sa+mcOvN25OcTTBsZwyuJEcLBhQBrWOMP8xWgVhQH7bicNvj+zlXj
+	 pNzGZVce1dwfoltaicWKOpHn63ZZHtMmPHduN/IcgoZYakZabRvYijAoS7X1a7Fex2A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795065323;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding;
-	bh=nB7NyMM3+R/ysxmgGPhpf3VtSpdLduKfuUDtKW50pjU=;
-	b=bZLuohJ1vGldPS3VSCbx6OAPq6oUXHfK5uFlMSlgM8qSjFOQH8dABir1vX/4vgWUE6me
-	 gydlEZGC7cFt3aQS31+UyCsJsfrzbysjoft8rEHou9ypgZY0MiejJNxKxmpNSM6VF/ggB
-	 SBdwta/hs1GLAE/HUwF0Hc0FygeE/KBv/ulkJA9SVZ5MdgVDFlAnFBVjyJAOBKhoO+dUI
-	 /oWx7rwsSZjYMVC7Tr4XErsa+qMaKhP1WAVmt67k2pXlBf/WQJ5D8AUDpr4g4byoiF3B7
-	 tMMsMlIRLiy62YpZIFRZrTfpzsRXf1OGh18GJyxRNUSJkRykMJ3Gn25vJNBTouUnwPA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795065850;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:Sender;
+	bh=4wIPBSNjEoWaDOrCHG3/HEZVU2V/dMehfnugzAp7piY=;
+	b=gUOzS6gIvkvy/YE9lSFm9kAtiIU9DUh+mNYp0EJOM+zJE16NyXY137SOBf0QsvchVxEb
+	 UnpccoEDHV7lms5WNroJw1k7OboDkzRdUBKwfH2pDu0Qi6OzkH3WDTTInx53l0OBayhT+
+	 r3eoE2bq1fuLIeO2EmpSR7sVjPKmenVrPXBtiFB6s3xt3qGZbiWyNQXkhLKiYuECnaW9D
+	 ODmOzB2F2RxxQPFNMtzGD4kwJyR4khAV1nAP/IiqYeiQMpKUMEKqgbb9cttc1T54UnwQo
+	 59FUboI5gc7/GDJ8CTf58UeHTEZqS7VZ+UCnqrszGTqLClle/xtEKP7KB0WCEoaDCkA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=shazbot.org;
-	spf=pass smtp.mailfrom=shazbot.org;
-	dkim=pass header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=X+tuZ839;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=MapbBIfr;
-	arc=none smtp.remote-ip=103.168.172.136
-Received: from flow-a1-smtp.messagingengine.com (flow-a1-smtp.messagingengine.com [103.168.172.136])
+	dmarc=pass header.from=zeniv.linux.org.uk;
+	spf=none smtp.mailfrom=ftp.linux.org.uk;
+	dkim=pass header.d=linux.org.uk header.i=@linux.org.uk header.a=rsa-sha256 header.s=zeniv-20220401 header.b=XTj4OJNT;
+	arc=none smtp.remote-ip=62.89.141.173
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0AC606A326
-	for <driver-core@lists.linux.dev>; Thu, 19 Nov 2026 05:15:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C0AC606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E7D606A325;
+	Thu, 19 Nov 2026 05:24:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A1E7D606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=X+tuZ839;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=MapbBIfr
-Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailflow.phl.internal (Postfix) with ESMTP id 86CE31381B54
-	for <driver-core@lists.linux.dev>; Thu, 19 Nov 2026 00:15:21 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-11.internal (MEProxy); Thu, 19 Nov 2026 00:15:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1795065321; x=
-	1795072521; bh=nB7NyMM3+R/ysxmgGPhpf3VtSpdLduKfuUDtKW50pjU=; b=X
-	+tuZ839rtn44ra+tvX2/152CSn6sDJOi7eousXbFCygf3cj8uGPHOY9zUJba5huv
-	LCDQkU3Us9mEAnjbN5Ef+LAxHS1Pn9feoFU19N4WImH0CStAhcTDg0M0nF2CEbEU
-	1bVoUzI/sDEC8n07qqeXwanpSDwadkHK1wPasK1FW0h8ivlRmbuI/oVU4rMg8ZjE
-	BuNY+34UfeNjEbECb66jlcoUTPgDrySsv3b4nliyi3+1bHnjA7GATLSoIOlgesNw
-	kiDiz8RLAec8dWe2IzNJlMf3v5PDuycDgC4rzc+4mL6LbVjJ1y+yqLkeLGvjiRUf
-	JZVNPCJoN8mUsJIbxPlcw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1795065321; x=1795072521; bh=n
-	B7NyMM3+R/ysxmgGPhpf3VtSpdLduKfuUDtKW50pjU=; b=MapbBIfr7L6+jr/nb
-	+T7Wbr7xE94G4iBTC7xM69GXLXTNZ1A+AMhCTT65P1yp+UI5192y2+nqRlnVySGY
-	//mKjxGvSOp9DRW0Eoa0qcpNvZo5e7pFU2B2QOaCHfreaRpvCWu0DfQXS56Jo6SM
-	goTpD2+y0TsyLTQw11fG6S7bnHMy5bRxV010QexQnDd7OwrU/TMNE6sQyiQBj76u
-	2sZM7G9KtRQKUgbqRdAlsWj9Dz1V79tDu5pKTcaaxrt255k2kGifMJC94A+o6550
-	ggPUrWfejInKfJ3ffJm1zGP9tSYuRjt8gOfaUdwP50AyD6Sx0h9cNONhcSYmYSds
-	JYEcw==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=shazbot.org a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795065321; d=shazbot.org;
-	mf=PGFsZXhAc2hhemJvdC5vcmc+;
-	rt=PGRyaXZlci1jb3JlQGxpc3RzLmxpbnV4LmRldj4=;
-	s=fm2:rsa-sha256:TCk5pAq/uNZPLGwZCTHE14vi5tkHjbXhRXS44jn7HJgUrBD
-	0ii+1VCTw7HBYJ3n8ksVbG1bh1TztA57kdAobs58ek4v8BQZnu5PXIEGj1rOY+5U
-	xcx0jtA0jBXaLydX63fQlVhvJ2whagODJ0HDIEDQeEZvm0WS9oHJFRnbuM8LNO6U
-	VxOVnItLodvwhCwSS7jsXzakR9w9rLSnQKNqMIn38KR8Vg31FFictPpu7qO2TGUW
-	MHA4Law8StJgw3H0MYF2qNpNohu//4AtGRpAN7a86L1g+18EUmwBX0knZQhdTKKI
-	MIhD8wAMmhdUTmn0NFZxqO8oZoISTSJ9wzlvK+A==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=11;
-	hn=cc,content-transfer-encoding,date,feedback-id,from,
-	in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:x//NWy/h1nXC+M2WEmBfJfyd3519ihGy7lPGHXQNuSc=:4+p7gG5BwT/2fGf8d6eViKD6hqgE7hcriyEtzB2mdtQ=;
-X-ME-Sender: <xms:54X-aho_4vnnPquv-OcJCaLJUPyMtmONCVPGAJperguEiPfYtqBbFg>
-    <xme:54X-atcUTrB8kgIfLeDTdVatV-K0OoF0ZP2r4ZX3WPEcQS0-XAgGTJkDkeG2oEuzj
-    rLO5fUGEpWY97rzBD5bw5Ko1FBnlKiAvko0o9rXX1TvfRn6ozMT1J8>
-X-ME-Received: <xmr:54X-apoG77N28j-gDtcYRM10JWcfECYA3P8FK6HQiJ7FHK3H0APXSHp88o2wH9nkevS322BTiQY>
-X-ME-Proxy-Cause: dmFkZTGhOmZn91BW8pxHvBMWXRqhbLMysp8Q4TvoI+VE9JbSYAz0c/4zd+rMp6yJOnzQo2
-    A5h1+Ma3DwwRz0lh04L5XOWbUr4LmVOSOkHzpY/w2yLXGwmcxZredAsP80hMCQrJRFodW6
-    fmevnh4d26BVXSXn55rBOjAyx+h1bESp7gOITB+AIkBvzyJYGo0ESemuyh5h9uJD60i+cs
-    SgAZ3CvmPdBrooaNlYfuH3M0HsG27/6DablfXZ89RfIZExguJZ8ORWOgjF0hFWp3UR9raT
-    3tReRAeuihRXAsm9oqtGE+5YCk876shunhrpseVaBMkz0D3wHUm1dvwS6tCtN64SczWLEn
-    DuDdQwcYEIyrIp3ndQyEaBgkuOsANeEsOYAmiMe5BKYSCCscMTQTaA7bUQTdT6x2SL99mc
-    EUQODC5AfuKbMNxP/Du61PY2puKdqVCkV3+Tj2MSc94/QSUyNMqYek+Yv0FJ1UbYiNlyrf
-    Dnot7ED3QRTkVgCtq9MaF7Q85ATJahP/UiowPn4G+To3EsPmA3oeh0AsCvZ4gVbYqU7hOJ
-    F7+WWByG6u6U+GL8WxBKjc6F/n6WShQdTeCvDenqqOMGya2CnkJ8dAWj319wv25W8G1+/8
-    rT7muG5iAUUuzY6DkFFkzKUn5f4NY69Kts+aQyf5MaAnpzKasBu+TSjoeOAA
-X-ME-Proxy: <xmx:54X-apS2YRuzof4jvWet_kxz44WkEnql4uUwPonuQ0QVH0sa7svGJA>
-    <xmx:54X-arx6inLsBrg-Tf1IxmB_y7hsOGZShniWqqg7vapbad7zq59tSQ>
-    <xmx:54X-aog9aBPY90lWo6IWsIbsmYaUsr_HqTTPBwRBXHY114KefCSlCw>
-    <xmx:54X-an-yVrgaL7OWQVQnQxZNCLETee9XviNCC5sg_XgPQyln9JvbIw>
-    <xmx:6YX-aobwTqTMr42AXmk7bvGgz7NskPIhynqV0CtdcbgTyOySumcUqW7H>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 Nov 2026 00:15:16 -0500 (EST)
-From: Alex Williamson <alex@shazbot.org>
-To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Alex Williamson <alex@shazbot.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Armin Wolf <W_Armin@gmx.de>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Karl Mehltretter <kmehltretter@gmail.com>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Dapeng Mi <dapeng1.mi@linux.intel.com>,
-	Marco Elver <elver@google.com>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Bradley Morgan <brads@mainlining.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Pnina Feder <pnina.feder@mobileye.com>,
-	Mete Durlu <meted@linux.ibm.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Rio <rioo.tsukatsukii@gmail.com>,
-	Feng Tang <feng.tang@linux.alibaba.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Tony Krowiak <akrowiak@linux.ibm.com>,
-	Jason Herne <jjherne@linux.ibm.com>,
-	Eric Farman <farman@linux.ibm.com>,
-	Matthew Rosato <mjrosato@linux.ibm.com>,
-	Halil Pasic <pasic@linux.ibm.com>,
-	linux-s390@vger.kernel.org
-Subject: [PATCH] s390/vfio: Allow untainted use of driver_override
-Date: Wed, 18 Nov 2026 22:15:04 -0700
-Message-ID: <20261119051507.3306075-1-alex@shazbot.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <DMYH4ED3GWDO.29DGXPK4M82VR@kernel.org>
-References: <DMYH4ED3GWDO.29DGXPK4M82VR@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=linux.org.uk header.i=@linux.org.uk header.a=rsa-sha256 header.s=zeniv-20220401 header.b=XTj4OJNT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=4wIPBSNjEoWaDOrCHG3/HEZVU2V/dMehfnugzAp7piY=; b=XTj4OJNT5IuDqV/yIcnzKva4nx
+	pocorNO75aqnFm9/1Ze9bHSwKOfz5CS4qaLbAtUnG13eC9jQJed2MGMyOeWGA3C4Zb6Es3Dg8EZqJ
+	8O3GXDLjd7n4E+68EzDacDIjDIC/pXlb2rpz3kkFNt2pdRMiuDG5jFCy5tJJZRMrQJ1g1Supi6ilv
+	8jzkSvOLaf4yvqj1FdnScIn03dupGsH/g5ozR/EgMqAQZbnhAFd/n0pmpOM26Qp1zPMkmnHeOTQlm
+	l5+iRyWJ8N1Wbkl9GJhAZqkw141ykK1gb1FM1Wk9sFq85ig69qtmoNp6dFkz8syOpiUBbRIX/NHR9
+	Z1CRIKfQ==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xTucV-00000005d11-45eR;
+	Thu, 19 Nov 2026 05:23:40 +0000
+Date: Thu, 19 Nov 2026 05:23:39 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Cai Xinchen <caixinchen1@huawei.com>
+Cc: mic@digikod.net, gnoack@google.com, paul@paul-moore.com,
+	brauner@kernel.org, jack@suse.cz, amir73il@gmail.com,
+	andrii@kernel.org, apparmor@lists.ubuntu.com, ast@kernel.org,
+	axboe@kernel.dk, bpf@vger.kernel.org, casey@schaufler-ca.com,
+	cel@kernel.org, cem@kernel.org, chenxiaosong@chenxiaosong.com,
+	code@tyhicks.com, corbet@lwn.net, Dai.Ngo@oracle.com,
+	dakr@kernel.org, daniel@iogearbox.net, dhowells@redhat.com,
+	dlemoal@kernel.org, dmitry.kasatkin@gmail.com,
+	driver-core@lists.linux.dev, dsterba@suse.com,
+	ecryptfs@vger.kernel.org, eddyz87@gmail.com, emil@etsalapatis.com,
+	eric.snowberg@oracle.com, exfat@lists.linux.dev,
+	georgia.garcia@canonical.com, gregkh@linuxfoundation.org,
+	hch@lst.de, hirofumi@mail.parknet.co.jp, hyc.lee@gmail.com,
+	ihor.solodrai@linux.dev, jlayton@kernel.org, jmorris@namei.org,
+	johan@kernel.org, john.fastabend@gmail.com,
+	john.johansen@canonical.com, jolsa@kernel.org, kpsingh@kernel.org,
+	linkinjeon@kernel.org, linux-api@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-nfs@vger.kernel.org, linux-security-module@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-unionfs@vger.kernel.org,
+	linux-xfs@vger.kernel.org, liubaolin12138@163.com,
+	martin.lau@linux.dev, mason@kernel.org,
+	mathieu.desnoyers@efficios.com, matt@bobrowski.net,
+	memxor@gmail.com, mhiramat@kernel.org, miklos@szeredi.hu,
+	neil@brown.name, netfs@lists.linux.dev, ntfs@lists.linux.dev,
+	okorniev@redhat.com, omosnacek@gmail.com,
+	penguin-kernel@i-love.sakura.ne.jp, rafael@kernel.org,
+	rdunlap@infradead.org, roberto.sassu@huawei.com,
+	rostedt@goodmis.org, selinux@vger.kernel.org,
+	senozhatsky@chromium.org, serge@hallyn.com, sj1557.seo@samsung.com,
+	skhan@linuxfoundation.org, song@kernel.org,
+	stephen.smalley.work@gmail.com, takedakn@nttdata.co.jp,
+	tom@talpey.com, yonghong.song@linux.dev, yuezhang.mo@sony.com,
+	zohar@linux.ibm.com, utilityemal77@gmail.com, lujialin4@huawei.com
+Subject: Re: [PATCH -next -v4 01/17] fs: pass struct path to notify_change()
+Message-ID: <20261119052339.GT989762@ZenIV>
+References: <20261117150542.1169451-1-caixinchen1@huawei.com>
+ <20261117150542.1169451-2-caixinchen1@huawei.com>
+ <20261117183059.GP989762@ZenIV>
+ <32b8d9c9-27d2-4da9-8618-ccfc44dee7a3@huawei.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -166,59 +101,30 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <32b8d9c9-27d2-4da9-8618-ccfc44dee7a3@huawei.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-The vfio_ap and vfio_ccw drivers bind devices through driver_override.
-With the introduction of the support_driver_override flag in the core
-driver struct, it's now required for drivers to declare themselves as
-driver_override compatible, otherwise driver_override bindings will be
-denied or generate a kernel taint.
+On Wed, Nov 18, 2026 at 05:13:31PM +0800, Cai Xinchen wrote:
+> On whether we want the mount references at all: they are not for NTFS.
+> The path-based LSM hooks need them - Landlock's check walks the hierarchy
+> up from the object with path->mnt->mnt_root and follow_up(), for every
+> layer, and the idmap we pass has to be the one of the mount the path was
+> checked in.
 
-Set the support_driver_override flag on the vfio_ap and vfio_ccw driver
-structs.
+Then it won't be happy with overlayfs ones:
+        upper_mnt = clone_private_mount(upperpath);
+...
+        upper_layer->mnt = upper_mnt;
+in ovl_get_upper(),
+                err = ovl_get_upper(sb, ofs, &layers[0], &ctx->upper);
+in ovl_fill_super_creds()
+combined with
+static inline struct vfsmount *ovl_upper_mnt(struct ovl_fs *ofs)
+{
+        return ofs->layers[0].mnt;
+}
 
-Cc: Tony Krowiak <akrowiak@linux.ibm.com>
-Cc: Jason Herne <jjherne@linux.ibm.com>
-Cc: Eric Farman <farman@linux.ibm.com>
-Cc: Matthew Rosato <mjrosato@linux.ibm.com>
-Cc: Halil Pasic <pasic@linux.ibm.com>
-Cc: linux-s390@vger.kernel.org
-Signed-off-by: Alex Williamson <alex@shazbot.org>
----
-
-Uwe, this should complete the vfio drivers needing driver override,
-covering the s390 specific drivers.  Thanks,
-
-Alex
-
- drivers/s390/cio/vfio_ccw_drv.c   | 1 +
- drivers/s390/crypto/vfio_ap_drv.c | 1 +
- 2 files changed, 2 insertions(+)
-
-diff --git a/drivers/s390/cio/vfio_ccw_drv.c b/drivers/s390/cio/vfio_ccw_drv.c
-index 7546bd137e4e..77765cde87f7 100644
---- a/drivers/s390/cio/vfio_ccw_drv.c
-+++ b/drivers/s390/cio/vfio_ccw_drv.c
-@@ -375,6 +375,7 @@ static struct css_driver vfio_ccw_sch_driver = {
- 	.drv = {
- 		.name = "vfio_ccw",
- 		.owner = THIS_MODULE,
-+		.support_driver_override = true,
- 	},
- 	.subchannel_type = vfio_ccw_sch_ids,
- 	.irq = vfio_ccw_sch_irq,
-diff --git a/drivers/s390/crypto/vfio_ap_drv.c b/drivers/s390/crypto/vfio_ap_drv.c
-index 8e69ed286bb9..2d47dc643269 100644
---- a/drivers/s390/crypto/vfio_ap_drv.c
-+++ b/drivers/s390/crypto/vfio_ap_drv.c
-@@ -62,6 +62,7 @@ static struct ap_driver vfio_ap_drv = {
- 	.on_config_changed = vfio_ap_on_cfg_changed,
- 	.on_scan_complete = vfio_ap_on_scan_complete,
- 	.ids = ap_queue_ids,
-+	.driver.support_driver_override = true,
- };
- 
- static void vfio_ap_matrix_dev_release(struct device *dev)
--- 
-2.54.0
-
+mean that the mount you get won't be attached to anything.  How (un)happy
+would landlock be with that?
