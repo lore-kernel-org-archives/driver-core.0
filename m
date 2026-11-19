@@ -1,55 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.85.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795088318;
-	b=qaAWMQQOiis6Q6NFlDLl/oQlqIo80dL5B/KZK4e7rmkz5wTONLvo6bEeYuGdOobZw0Hj
-	 fzuP2WV7QFgdB8MWnKoL9j4m/eHMnDMLYpo2IV0TDh2Q19EMM+8ABK2ykm0GrJCm7cnRE
-	 erYlCZsBbpAOn3rD0ZelXFOCmqQ9RM+csf4k/49wgYhSAsymoF9r82U8EZHeHuRXUxaFr
-	 MtPGNtBRR1VFK7hhNH0L3W4DHU7FwLBYUQodSkc44zY4D/xtVZqlZ7c66fY91vnpU/kbz
-	 saHngEM6CIkH93IxrYBLAMSsE+Qpdj+5XCEAPUc2yj5UWu8I6NhLt8djwr3yYBBi7oA==
+	t=1795088321;
+	b=nRL65q+edyXS+FFs2sCJz53Nyz38jofqHImoTDeEZn/MTFzVM2HDJLTv5L9DFfVtbDTj
+	 EyR6+wRieZwJM8J1CBQJ6QFedQenyg+/nK1+K6mSUVAaq4A+vut6We48imiZEU903BtTf
+	 fybBdFe49i9jseJXW7Pi4so9vc1hrxQEVmFraw3UOXCnXu4gJ5Mh7cMONP1KG5CcJC2RM
+	 ZfIxmbE48iw28Qd/Zv1jc+MpPo6hJ/e+vDNB6GmFKoY+7F9sKiQxRxE19lQZGQlxoknqe
+	 yl0/RWLTXwcJthv2kR9oCuaaW0Kif6/6BJ3SaCeWGz3cDDYfcWYUKdpqn8rS4H/ZnuQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795088318;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795088321;
 	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:To:Cc:
 	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:X-Last-TLS-Session-Version;
-	bh=L1YcTl/uYfFtLb4iHc/VuFExeEr6pRbLZWly8UMoO5U=;
-	b=j0U+zet6AmT/gxiCL2IQkCfUSF81hQ856PSjCzeth4Y3+bRhsj/E/bTbhBK1rc0dvGta
-	 L8RXF0y+tGR/9pNNOTsAuulsQsnDmAt9qduCiv15zYzutQwQLF9ywsgVuHR+FfpCgxAxN
-	 5fzspKprcfh9OGssCe0caIdlb9NRPBJrrscTj2mC6LQbGXAbqXidmkiAWAey2OlPWKnGc
-	 mJBKADc/hsYHeFHQEPU/Rp5ZYhpwD5tq99CjydpMNU6YeZ7fyNiX9n67njMkTN5SbD9CE
-	 URMDo1g+No9iihE71qDL88mJJo63zkzs57LQ1eTLyfgGdhDoPp5JSCsgWE65qGPJijA==
+	bh=sfUMDLC0E22rep4FDmPzBeyywhsxbumM+Fv7jNI+gdQ=;
+	b=wbKi78Y/khogsfrEaXb7mn2SCqN+yxSo3aqLN2/1reNA6DMV2SV+IQ4yTTlbLE5AHI3W
+	 KdqEtoBaugwFUy/L3o4eGtzt6Im4DHt2XlTaZWVCJf0uPSDjMub/Rq0SSHP7ge9zgNTbH
+	 0LUa8guisODlvIy6WF+hzJILbDSIdlvd7xT+5hTP41Q315L6fSdGMgHQt6xMb0NZupHPr
+	 yESMy8YJyajOhuWe1YtQ475ysoV8Qgp5mp8yhdtib7ucWgu3v3YmUqqC9k3QYOQDXsV3F
+	 mYGQokmMzQNL74vy/PSyIOfYzXsU6tjMQAAUz7IVFt+JpavY5v61OfWBSBo5QZzWnGQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bootlin.com;
 	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=GjGO65NN;
-	arc=none smtp.remote-ip=185.171.202.116
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=vH62IJSf;
+	arc=none smtp.remote-ip=185.246.85.4
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD03A606A330
-	for <driver-core@lists.linux.dev>; Thu, 19 Nov 2026 11:38:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DD03A606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8F160A260C
+	for <driver-core@lists.linux.dev>; Thu, 19 Nov 2026 11:38:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0E8F160A260C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=GjGO65NN
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=vH62IJSf
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id C3B9DC4CBEF;
-	Thu, 19 Nov 2026 11:38:41 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id B59374E41665;
+	Thu, 19 Nov 2026 11:38:39 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 8AF8C60237;
-	Thu, 19 Nov 2026 11:38:36 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BD25A11BC1249;
-	Thu, 19 Nov 2026 12:38:27 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8A23260237;
+	Thu, 19 Nov 2026 11:38:39 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9B62511BC1049;
+	Thu, 19 Nov 2026 12:38:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795088311; h=from:subject:date:message-id:to:cc:mime-version:
+	t=1795088318; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=L1YcTl/uYfFtLb4iHc/VuFExeEr6pRbLZWly8UMoO5U=;
-	b=GjGO65NNOSB8ZEHNPWdX+QLZsp0hZ4Zz5l6LH58sZhhekddhSKLcZtO6Eex5P+uASB5uqs
-	noI88Ek4b6WI+9qE8JCCXfCapMCJPynJJ0rCjute/GeoQqDetQq+UsbBJwQSIG4P7dWsqg
-	VdD2hwj4h3akOVu9hme8a8O67I6CpqBzjZZ/thquyJzUVKfcaKRJNIB4L3ybgwoLbp602M
-	VYZ1CqGM86fe4Cdff798vqdKasVkoGFq+nCI2wz6/vMRcoZoSaE7RqhweuhFepV3CLKLbB
-	w1JA0ycEe6u6hSq0zDsYTBmK17aDHY8W6v4Dgq7PPed5S5gvhtfBprQZb2hrBQ==
+	bh=sfUMDLC0E22rep4FDmPzBeyywhsxbumM+Fv7jNI+gdQ=;
+	b=vH62IJSfk2XQNAcZcOawsmDUuKG1V6DF1t78czfPI/wXjtAyyxmZ5g0DsFDmpPai74l5FX
+	xwPr1af83Q2hl7omU7WEDzYUp/lcehTfdJ8QfEZWjVbGfJxDgZtjvw83uPVIPmt6YPg2Gt
+	c8paOuDl5DewOPhtXLTwSJIvD6WKli62bvgXTrVWLpRzuqnuhN8PvHqo8CMgVzhEt16Qaq
+	nKIFrH9nlKTEYyadNR4jw6uVMve1UM9XrODKurMtoh7l9e9xcpVtP+Rw8qvx1Q+qB3dAY0
+	goEfv6piXKEx7Hl3V7uXl7B863e4urBnLgUS0BLYNR8TIVK/We89KMDDKgFtZA==
 From: Herve Codina <herve.codina@bootlin.com>
 To: Andrew Lunn <andrew@lunn.ch>,
 	Rob Herring <robh@kernel.org>,
@@ -79,9 +79,9 @@ Cc: linux-omap@vger.kernel.org,
 	Luca Ceresoli <luca.ceresoli@bootlin.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Herve Codina <herve.codina@bootlin.com>
-Subject: [PATCH v11 3/5] bus: simple-pm-bus: Remove child devices when the bus is unbound
-Date: Thu, 19 Nov 2026 12:37:54 +0100
-Message-ID: <20261119113758.603074-4-herve.codina@bootlin.com>
+Subject: [PATCH v11 4/5] ARM: OMAP2+: pdata-quirks: Pass auxdata for simple-bus devices
+Date: Thu, 19 Nov 2026 12:37:55 +0100
+Message-ID: <20261119113758.603074-5-herve.codina@bootlin.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261119113758.603074-1-herve.codina@bootlin.com>
 References: <20261119113758.603074-1-herve.codina@bootlin.com>
@@ -97,83 +97,43 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-During its probe, the simple-pm-bus driver (simple-pm-bus compatible
-variant) populates its child devices but it doesn't touch them during
-its removal.
+The simple-pm-bus driver takes the of_dev_auxdata lookup table from the
+platform data of the bus device, following the convention introduced for
+"simple-pm-bus" by commit eda080eabf5b ("drivers: bus: simple-pm-bus:
+Fix compatibility with simple-bus for auxdata").
 
-This leads to bus child devices present and bound to drivers whereas the
-bus itself is unbound.
+omap_auxdata_lookup only has an entry for the "simple-pm-bus"
+compatible, so a simple-bus node created by of_platform_populate() with
+this lookup table has no platform data, and the lookup table is not
+available to the driver for that bus.
 
-Be consistent and remove child devices when the bus itself is unbound.
+As a prerequisite for introducing platform device population for
+bus-only devices in the simple-pm-bus driver, the lookup table must also
+be available on simple-bus devices. When the driver populates the
+children of such a bus from its probe(), it takes the lookup table from
+the platform data of the bus device; otherwise those children are created
+without the bus_id and platform_data overrides.
+
+Add the corresponding "simple-bus" entry, mapping it to the same table
+as the "simple-pm-bus" one.
 
 Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 ---
- drivers/bus/simple-pm-bus.c | 45 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 43 insertions(+), 2 deletions(-)
+ arch/arm/mach-omap2/pdata-quirks.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/bus/simple-pm-bus.c b/drivers/bus/simple-pm-bus.c
-index e45700156732..23ac18551fd9 100644
---- a/drivers/bus/simple-pm-bus.c
-+++ b/drivers/bus/simple-pm-bus.c
-@@ -22,6 +22,46 @@ struct simple_pm_bus {
- 	int num_clks;
- };
- 
-+static void simple_pm_bus_depopulate(void *data)
-+{
-+	struct device *dev = data;
-+
-+	/*
-+	 * Bus stays on for children
-+	 * This ensure that the bus will not be put in idle asynchronously when
-+	 * all its children are removed.
-+	 */
-+	pm_runtime_get_sync(dev);
-+
-+	/* Let remove children */
-+	of_platform_depopulate(dev);
-+
-+	/*
-+	 * Lets runtime_suspend() calls simple_pm_bus_runtime_suspend() in a
-+	 * synchronous way before disabling runtime pm.
-+	 *
-+	 * This guarantee that clocks are disabled and unprepared before the
-+	 * bus is removed in all cases.
-+	 */
-+	pm_runtime_put_sync(dev);
-+}
-+
-+static int simple_pm_bus_populate(struct device *dev,
-+				  const struct of_dev_auxdata *lookup)
-+{
-+	struct device_node *np = dev->of_node;
-+	int ret;
-+
-+	if (!np)
-+		return 0;
-+
-+	ret = of_platform_populate(np, NULL, lookup, dev);
-+	if (ret)
-+		return ret;
-+
-+	return devm_add_action_or_reset(dev, simple_pm_bus_depopulate, dev);
-+}
-+
- static int simple_pm_bus_probe(struct platform_device *pdev)
- {
- 	const struct device *dev = &pdev->dev;
-@@ -71,8 +111,9 @@ static int simple_pm_bus_probe(struct platform_device *pdev)
- 	if (ret)
- 		return dev_err_probe(&pdev->dev, ret, "failed enable pm_runtime\n");
- 
--	if (np)
--		of_platform_populate(np, NULL, lookup, &pdev->dev);
-+	ret = simple_pm_bus_populate(&pdev->dev, lookup);
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret, "failed to populate\n");
- 
- 	return 0;
- }
+diff --git a/arch/arm/mach-omap2/pdata-quirks.c b/arch/arm/mach-omap2/pdata-quirks.c
+index b947bacf23a3..f591a94d9c73 100644
+--- a/arch/arm/mach-omap2/pdata-quirks.c
++++ b/arch/arm/mach-omap2/pdata-quirks.c
+@@ -491,6 +491,7 @@ static struct of_dev_auxdata omap_auxdata_lookup[] = {
+ #endif
+ 	/* Common auxdata */
+ 	OF_DEV_AUXDATA("simple-pm-bus", 0, NULL, omap_auxdata_lookup),
++	OF_DEV_AUXDATA("simple-bus", 0, NULL, omap_auxdata_lookup),
+ 	OF_DEV_AUXDATA("ti,sysc", 0, NULL, &ti_sysc_pdata),
+ 	OF_DEV_AUXDATA("pinctrl-single", 0, NULL, &pcs_pdata),
+ 	OF_DEV_AUXDATA("ti,omap-prm-inst", 0, NULL, &ti_prm_pdata),
 -- 
 2.56.0
 
