@@ -1,60 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.71
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795095474;
-	b=MlUP63p+bDow23WbxBqrsa+GUYDCTC+X6vpub5vOTFck24R/Kg/IJe5gymBfsuiU1QKB
-	 y3NOKMbZ2mhOUJOGcZJrPGbRcMvA3TPpr2cJMZXgkuW8m41XCaXvAEZa1soVEmU0ZDUNF
-	 PzzVcOJGq96hTYbxFvh1ahW+BRIpaUUeLP4UbjTHvImno3HOvU7q79HGTI3r5wFAsFW+i
-	 JlnXlwkgDYOgKGHaHpi/N/lgIANYl7Flu4F8kB6V26+Tf+rjuIpzWWE+CUtJa3H3jUci1
-	 8HsVbL7PqyMywdBCf/tq6ybswj2JMrzEIf9ou3frhYz27AxBLDXPjQFLQdMgZ6Ppepw==
+	t=1795097575;
+	b=f2tX7L8J9PmDoj8tlzraEZOJWzY4TelFxpUJLW/mQsfcY+RrtK+x+A5Vvt/3pMIwAdwk
+	 ny8rx5xAWA713TjquVBuqUp9kHUPLLeAzdAoOk1B77rudEV+uOSAApAhOBCHHqoc6vxnn
+	 +gzwFxee2V4g3tCHINwKWqKiR78sQZUq8csFKwo6vcpq9VFa1UpRpVW48GIoD8GnEmL7V
+	 +5+1qunoSy4/IqAEsQurwg/ciCJhSfPDp36B7cir5RZ+la80KU6TRZNE3mg2S9Y2NGxxm
+	 1mRLMoxavzxaPzDMx09eWG921vCJYhKNVK4B1QTjeN+/1bVuZC2MwmsrFPnv/KWHOJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795095474;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Chocolate:X-Operating-System:X-Uptime:User-Agent;
-	bh=PvHb4BMFz+BfyBgTQmp1wGbaq5LzX9lJwo4XV2wURNk=;
-	b=zcVIL9yaxfRIzQjUm00VQgU+uRSlDoIt0o3UzX3rMy/8yYXWn46G+tdZXakBSrnTd5PD
-	 C9yBUBiMsLrHavDYUgJ9rrZcZiiTzLIIHoUlROuX5X/iBXmH/GNy4L4fowt+HMZuRBudE
-	 jytqsHcSIJqHBi5dm6DNb21Xd7EBth5Ka6A694GHHZLhf8su8iaGv6W2tlW3sBTl4aqXG
-	 rR+mDY6IX+7qMtsPdfsB4bouJiUAHzWi5mfwPxgzVJ3lliqJ1ao5hEF5xFBLLvgvAEPY9
-	 mrNteQ5q1giq/Iw/TSc0JmNbpRcf+DX7cgM/2qFYBLxxI9oyI/MaLcy3oqnRfz7T4Ew==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795097575;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
+	 X-B4-Tracking:X-Change-Id:X-Developer-Key:X-Developer-Signature:
+	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=iAg55S3TxhURmgbu+oeHbyE50eo1n0cGlF6c1aYE3Jw=;
+	b=5ar8saecQ+wdO03cW3RlCp2KQFEBdN9CjMRalWXaFL+QcbXgws9C4uRKI9YzVxrJXRMZ
+	 6bO7h5uawzbzLC2ZELBG5mAETB7m5zrtMWsFlbGJufRz7oCYXcNj7TQLaRmNHD4XtKqLS
+	 UDF7XNHsBcHRRF9ebdR3ghXMkyQl5e7uUPeFwisxozl0+HUon7T6QOrmjks1iNOEkgfh9
+	 LKHejK6Oqp1cOl7yRQnuiazjdx1QadFOfIplgG+HtH8oY4pPrc+jMfFAQl+WJKpFfPKIP
+	 SdaNUXnmqGPWooMqDz9fVZ9xWx/pSMFX2Y5WcBtKtw/Ucz7U0XEnuZ15/fyCUmdgWFA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=treblig.org;
-	spf=pass smtp.mailfrom=treblig.org;
-	dkim=pass header.d=treblig.org header.i=@treblig.org header.a=rsa-sha256 header.s=bytemarkmx header.b=VbJ4X1gv;
-	arc=none smtp.remote-ip=46.235.229.95
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=cEmojSAE;
+	arc=none smtp.remote-ip=209.85.221.71
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com [209.85.221.71])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB58B606A320
-	for <driver-core@lists.linux.dev>; Thu, 19 Nov 2026 13:37:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EB58B606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ADBB606A325
+	for <driver-core@lists.linux.dev>; Thu, 19 Nov 2026 14:12:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1ADBB606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=treblig.org header.i=@treblig.org header.a=rsa-sha256 header.s=bytemarkmx header.b=VbJ4X1gv
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=PvHb4BMFz+BfyBgTQmp1wGbaq5LzX9lJwo4XV2wURNk=; b=VbJ4X1gvq6ChdoYe
-	gMNBL9UcXIhHKEero+upzkxoBBieQikOdHHTRmQ2sANb4cfZOcXd/DyLKJLComOmf/1xTPJ48oT/i
-	BRIpDJBY94Zh14ko+6zoThf0v85MLA/+hsW1jUiyAR8li3OsgtSkPuhRqZOphU6sj+zbVb2+IJqbW
-	DtoezmVa0g56er/mTSIPv2umJGArFvrfFgkeGnNByE7e1uov2kiiCgQODCJ3B38fuUHnBg/JAePsn
-	sQ0wodY8qOXbu4ogHzD7EoLzoG96v4NDMXWYelLeEEeprJeWKa1imOr07ygIlGoNobIV4ymQ9BVaf
-	/Gp5AYNOa/Nto/lpjA==;
-Received: from dg by mx.treblig.org with local (Exim 4.98.2)
-	(envelope-from <dg@treblig.org>)
-	id 1xU2Kl-000000026Rq-3zZ9;
-	Thu, 19 Nov 2026 13:37:51 +0000
-Date: Thu, 19 Nov 2026 13:37:51 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: rafael@kernel.org, dakr@kernel.org, johan@kernel.org,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH] driver core: platform: Check for NULL name in
- platform_get_resource_byname
-Message-ID: <av77r-cfY9p1KOAa@gallifrey>
-References: <20261119001820.168018-1-linux@treblig.org>
- <2026111930-swagger-emit-3a58@gregkh>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=cEmojSAE
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-48fcb657f32so1404167f8f.2
+        for <driver-core@lists.linux.dev>; Thu, 19 Nov 2026 06:12:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795097573; x=1795702373; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=iAg55S3TxhURmgbu+oeHbyE50eo1n0cGlF6c1aYE3Jw=;
+        b=cEmojSAEtvoAEwRevoE+C9ZfuXOmlMqNHUz1vUCsQux2lghtphQ9ySvtp5XtW8j2CA
+         fjB40j1WYgOfWtbowaXJTkcEEeE25Kt5MzxHCjsZEU+vdeHIIjRV34eeDMvVyw1gt+/U
+         ZOuZ9szjWsMX/Rc0nbH2OeM568jHp2NoNa2LklYTGKt8JIa5Is5mRwOyxYq/zcF6B/di
+         bOsE6CNFeJ8cZ4JzIDPnmZLwuLpQxAP+q1vi1u7JtDycz8mYVfmXRZdBigfyir0Fnotp
+         gKdOVnpPHuimok4rpqjviWOeR2/sR4yS1Dwo+CRqKcBMDr+72k1pcrGt1/OaVaBKoNkL
+         Bjlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795097573; x=1795702373;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=iAg55S3TxhURmgbu+oeHbyE50eo1n0cGlF6c1aYE3Jw=;
+        b=PtHOZIo9ak+Zb3ZATw7gIuK5FmG6E4S18JVhrzVWBQ9V9FFIR08CO/RRXYQEEpehlJ
+         T6c8ETWS42Xo7z6dsa5f3x5N/AA9veddTsUM81PutiX6uJ0tQ5I/YIuEBV7ZXjMG2RvS
+         t8ctLXeaDkByGx7pLYmKMIG6g20dQdtIH8vPdjaNnH8wjsXGgsz2HQleWGRYB2yIMFNs
+         cO27otvTxXc2KZbjaRx7sOlmhJg3S1b2v3+cJCi4282qJ9DhbigbNdNtH2ouCSZa8JBW
+         P7xgv+bG5KKrDJHZFYx56KENSIYaB9MmtA2NAPT8bN/nBnOMpgwIz7FIsZHrtq9gT+Qx
+         egZg==
+X-Forwarded-Encrypted: i=1; AL+hErG9Gwcr220eVRJcl04YvUiBwfv4RCLUqVfKAS1QfwX/NdzJLT8qQRWEvQZAeowaYDCeUQk6o93qIeUFWg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/HKZoiN0uS8bdKG4BTVgIzdau047YKoidpBQrl3NfyRnqL5SuJ
+	p/LKzuI4vkWBvT42xdvrqvvVUobDLmKJEPBuZFjSz48V9w+Y/k21j4cNNMSBElSxGJ9K0CuxTSq
+	0jTF9VrGAnR1kagJENg==
+X-Received: from wrbgv29.prod.google.com ([2002:a05:6000:461d:b0:48e:662f:5b55])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6000:220f:b0:4a7:8406:1e91 with SMTP id ffacd0b85a97d-4a7840621e8mr11084389f8f.30.1795097572994;
+ Thu, 19 Nov 2026 06:12:52 -0800 (PST)
+Date: Thu, 19 Nov 2026 14:12:41 +0000
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -63,66 +76,133 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <2026111930-swagger-emit-3a58@gregkh>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.12.117+deb13-amd64 (x86_64)
-X-Uptime: 13:28:58 up 5 days, 15:37,  2 users,  load average: 0.06, 0.06, 0.00
-User-Agent: Mutt/2.2.13 (2024-03-09)
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIANkD/2oC/12Oyw6CMBBFf4V07ZBSoK2u+A/DAmGAhkd1Cqgh/
+ LuFGBcuT27uyVmZQzLo2CVYGeFinLGjh+QUsLItxgbBVJ6Z4EJGPBJAs5vgaal7zDgjyFSXFa9
+ vqBRn/nQnrM3rEF5zzzXZAaaWsPhpuOYqkqlIRRjr5KxVChFURUdZhzRiH1pqdlVr3GTpfaQt8 S78Vgj+X7HEwAELVaqk8rPUWWNt02NY2oHl27Z9AP8vLRjoAAAA
+X-Change-Id: 20261012-rust-workqueue-658cd0fbe770
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4508; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=khfXhip+b6bKgqmY3nzEIDnd1JlpCzVD1cRmFRun0y4=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBq/wPd3umD72NcCTCoIRkLPRpzluxRmCnf31ziz
+ R0WOxkLmyaJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCav8D3QAKCRAEWL7uWMY5
+ RmEgD/0V28ZmwmzcZhOThJ1+bl/9Iufb84QTqdi+se5nEgbTBYJc37dRFXfxlo8N1aFnUCEd/eh
+ LoYKbK1vAM86EsUl2H7La11CX505/YFpeOx5pmTJ109iEI6f8KX0aCwDUSGkXOMM+QdgfSgQDCr
+ +Ri5DfzpEY2J47NPoV9cH9BowpSqoCVUtjirnMu1+aS0RMvlor7gtzhBotjmH86M3EviVvL73Ee
+ SSptZNvaeKruKbJdq5qGFguVE6EZ8Vp2vk+yrrC1xmxVlPS/8N8Nw1e0sZjtqd/AXvveBQfpZpj
+ PNF7VlZV2a9X6YSSjtYRa4+eXONjM2QrncmbGMeJKLHOAb1HxHy06pcHOSFGKBJxK3PPK71lCoD
+ YQzwsScCN29j081rTKNsx7nWfK+beZwDVKvGRje75AgRAsUEw8dvmHpbWcLSofHrKWS7Rldh4Mk
+ FS7zLDqMQrN4wrpE2LgQ86dAB4FsrFGrhXu/HsvSiWsyB1mNij5rkOfEmd3sn/wvqQCMMLIe2NB
+ bCCU/tsGu7DcEitRSM614Ev+ZpWDHk0b6W8iMn/Sa76fCYdUc8DsBTAt7Kn11WthVscSfWyk1+m
+ VnbowVaNCBitlF3z1NL3sTGbO9A3Z1JqI/K2bHpl1Ky6fRzU719GzPEwthrWJZQyQddy6yNhrmj fNQnrZnm0AUxzvw==
+X-Mailer: b4 0.14.3
+Message-ID: <20261119-rust-workqueue-v4-0-707c68994940@google.com>
+Subject: [PATCH v4 0/5] workqueue: OwnedQueue and ScopedWork
+From: Alice Ryhl <aliceryhl@google.com>
+To: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, "=?utf-8?q?Onur_=C3=96zkan?=" <work@onurozkan.dev>, 
+	John Hubbard <jhubbard@nvidia.com>, Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+	Alice Ryhl <aliceryhl@google.com>, stable@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-* Greg KH (gregkh@linuxfoundation.org) wrote:
-> On Thu, Nov 19, 2026 at 12:18:20AM +0000, linux@treblig.org wrote:
-> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> > 
-> > Drivers are calling platform_get_resource_byname() with a name string
-> > derived from a DT.  If that's a DT that's broken without the field
-> > that should land in the name field, a NULL is passed and it OOPSs
-> > in the strcmp.  Check for a NULL name and return NULL; turning
-> > a crash into one broken device.
-> 
-> Nope, this is as-intended, fix the DT :)
+This series extends the Rust workqueue bindings with the ability to create
+custom workqueues (OwnedQueue), and introduces ScopedWork, a work item
+type that cancels synchronously on drop, allowing drivers to use
+workqueues with lifetime-bound data.
 
-This makes the difference between a machine
-   a) that panics and was leaving me at a black screen and
-having to rely on pstore to figure out what happened (then
-later once I knew the device I could then load the module later
-after boot, but still then it made the module un-removable)
+This is a continuation of Danilo's v2 [4], which picked up my earlier
+series [1] and Onur's ScopedQueue work [2].
 
-and
-   b) something where I get reasonable errors, I can unload
-the module and reload it with function tracing on and figure
-out which bit of the DT to fix easily.
+Patch 1/6 of v2, "rust: workqueue: replace deprecated system_wq with
+system_{percpu,dfl}_wq", is a fix that was sent separately [3] and
+landed upstream in v7.4-rc1.
 
-which given that it's just the webcam is one hell of a difference.
+The soundness of this series depends on the ordered workqueue cancellation
+fix series [5].
 
-If your worry is that it'll just leave people shipping even more broken
-DTs then perhaps a WARN would help.
+[1] https://lore.kernel.org/all/20260312-create-workqueue-v4-0-ea39c351c38f@google.com
+[2] https://lore.kernel.org/all/20260617144645.253444-1-work@onurozkan.dev
+[3] https://lore.kernel.org/all/20261014-rust-workqueue-system-fix-v2-1-c018b8f870f9@google.com
+[4] https://lore.kernel.org/all/20260807165252.3849875-1-dakr@kernel.org
+[5] https://lore.kernel.org/r/20261118-ordered-wq-cancel-v1-0-916e01f9affe@google.com
 
-It would be good to have a kernel we can actually debug.
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+---
+Changes in v4:
+  - Rebase on v7.4-rc3
+  - ScopedWork: bind ScopedWork<'wq, T> to &'wq Queue at construction and
+    replace Queue::enqueue_scoped() with ScopedWork::enqueue() so a work
+    item cannot be migrated across workqueues
+  - Add patch to pass object_is_on_stack() in init_work_with_key() and
+    call destroy_work_on_stack() when Work is dropped
+  - ScopedWork: call destroy_work_on_stack() on drop for
+    CONFIG_DEBUG_OBJECTS_WORK support
+  - ScopedWork: initialize data before work_struct in ScopedWork::new() so
+    init_work_with_key() is not called if the data initializer fails
+  - ScopedWork: add INVARIANT comments in ScopedWork::new()
+  - ScopedWork: require Sync on ScopedWorkItem
+  - Add Queue::as_raw()
+  - Pick up Reviewed-by tag from Philipp
+  - Link to v3: https://lore.kernel.org/r/20261020-rust-workqueue-v3-0-ea7c74d02068@google.com
 
-> Also:
-> 
-> > @@ -464,6 +464,9 @@ struct resource *platform_get_resource_byname(struct platform_device *dev,
-> >  {
-> >  	u32 i;
-> >  
-> > +	if (unlikely(!name))
-> > +		return NULL;
-> 
-> Only ever use unlikely/likely if you can measure the difference with it
-> not being there.  For a call like this, you can't :)
+Changes in v3:
+  - Rebase on v7.3-rc7
+  - Split out the system_wq patch and send it separately as a fix [3];
+    this series no longer depends on it
+  - Drop ScopedQueue: with the ScopedWork changes below it is no longer
+    needed to enqueue non-'static work items, and it has no other user
+  - ScopedWork: make ScopedWork::new() unsafe instead of
+    Queue::enqueue_scoped(), which is now a safe method accepting
+    &ScopedWork<T> on any queue
+  - ScopedWork: drop the WorkItem/WorkItemPointer/HasWork impls and the
+    public ScopedWorkRef type; embed the work_struct directly with a
+    dedicated callback, and keep the Opaque-wrapped payload private
+  - ScopedWork: drop T on drop (Opaque does not run destructors)
+  - ScopedWork: propagate the initializer's error type from new()
+  - Builder: new_power_efficient() uses WQ_PERCPU | WQ_POWER_EFFICIENT;
+    remove the now pointless percpu() modifier
+  - Pick up Reviewed-by tags from Daniel
+  - Link to v2: https://lore.kernel.org/all/20260807165252.3849875-1-dakr@kernel.org
 
-OK, I was just being consistent with the check directly below it.
+Changes in v2:
+  - Merge scoped_work.rs and scoped_queue.rs into scoped.rs
+  - Introduce ScopedWorkRef<T> and wrap it in Opaque inside ScopedWork to avoid
+    &mut aliasing in drop
+  - Pass &ScopedWorkRef<Self> to ScopedWorkItem::run to enable self-re-enqueue
+  - Add Deref<Target = Queue> for ScopedQueue; remove duplicate enqueue_scoped()
+  - Add Send + Sync for OwnedQueue
+  - Fix stale workqueue::system() references in docs
+  - Drop Work::cancel_work_sync()
+  - Make sysfs() available on ordered workqueues
+  - Add #[inline] annotations throughout
 
-Dave
+---
+Alice Ryhl (4):
+      rust: workqueue: support stack-allocated work items
+      rust: workqueue: restrict delayed work to global wqs
+      rust: workqueue: create workqueue subdirectory
+      rust: workqueue: add creation of workqueues
 
-> thanks,
-> 
-> greg k-h
+Danilo Krummrich (1):
+      rust: workqueue: add ScopedWork for non-'static work items
+
+ MAINTAINERS                                    |   1 +
+ rust/helpers/workqueue.c                       |  16 +-
+ rust/kernel/workqueue/builder.rs               | 370 ++++++++++++++++++++++
+ rust/kernel/{workqueue.rs => workqueue/mod.rs} |  86 +++++-
+ rust/kernel/workqueue/scoped.rs                | 410 +++++++++++++++++++++++++
+ 5 files changed, 874 insertions(+), 9 deletions(-)
+---
+base-commit: aebb7274476403040d582c61478df8f4a7bf9cd3
+change-id: 20261012-rust-workqueue-658cd0fbe770
+
+Best regards,
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+Alice Ryhl <aliceryhl@google.com>
+
