@@ -1,82 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795080634;
-	b=3l6WUbAgibfiFHoa84wB41FVXBACqBEkfJBIeUzONA6Q7DVkaGcMaIJPSnW4Pb4Cwd3k
-	 iyvrLrZiETuHTv5/v7aXdBgakOtxKDQwBLYH/WhhUGoQO6JiNViqpcs4etcllWKhON7zM
-	 VMIU8z65YFZ+2Eb+fKkZj4R04/5ZRPOo5NdrQNAgTcsXt79/tHJ4FQWHpGq1mzxAIdAj0
-	 kPuRGCoZc5rKT3NWkviku4V9r1d/H6rvcG9SzFxp7wxa7A6QYgB1Mejc6HDklvySbN09q
-	 olNGzAL0k/4sicnThokoFml1kM1itFR4cM7yJBeCfFmrKKhZQ3RKuZsEGLWAYuk1X+Q==
+	t=1795085847;
+	b=ywiPD+1qfTTOrQPMM8QNrkv6LJ/PNqXWkaW7Y/gjcX8k6uphuIfjghjCCPu40yk5U7dG
+	 hOibTQ8CAoSdynJ1+Sxr0nIlWqVbdnbrgdB+8RjWg66Fg7tQJXKTF7yZq85ASH/kwMoMZ
+	 6T/cdLIC91OsZE6B0jfPnod5nAF9JnE+Njcyx/7ADzpAPOh+ExtFP/3QSzoCfgLjP/OQy
+	 a+cRZPJ77PG2vI3Rtbq9OebHgSj7oii3f2+QHmPpiFxBMHpwOkVATBgJryOwK2KISiL9m
+	 vkgaRKkxSMO/w/HeBLyCv3CjD2kQpgq08jTS8ltnoCxR8hG2oQyFVTuKeqJK/ODQnqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795080634;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
-	 X-Proofpoint-Reinject:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
-	 X-Authority-Analysis:X-Proofpoint-Virus-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795085847;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:Date:
+	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
 	 X-Proofpoint-Spam-Details;
-	bh=oXSxWpF6KMQEcM2O7Evo65h0Ne4A9GyvN44olTG3Jnk=;
-	b=J5lkMrDH6SIC3UW+ZiBOu61472qPhep5i8ebd7/QsFxvzQnTckaX/Hu3eX/WzxPTlolP
-	 3vcQgYGD2y2KVoDM8RaIutGdQqqLzSi6OaYPlum6aZb26JQAQunm+ioDwH+Q2Y1FZqFf2
-	 B2G2YrxRb60lDcIEpiekwyUZvkoJtzQRQMhNxm5dUgN6RZiwWcbTfXUkLNEc2VwxDkvZX
-	 jpj6qOjld8SCQuXkGNzReA+XdGzrzCUBp3pckQjsrOjPepTudEomKOFxmEe3xhB9v/GMB
-	 DZtgCDOZNwFW1Lry3qoboAMFofr/eUTu7Al8ggABEfcW2AQdTe2C0A+2juX318+J3KA==
+	bh=JFsoS6ri2XuI0W7ZaUYiJaCSvYPtS8y6PfumWrPYH1U=;
+	b=QpzvjbL6zNqLoxDa27lXNtIWH4t33EkxBfo1cBf35aHbl2EEun1blO3NeP8ii8HugE7A
+	 B8R2ny3aqP+uFHPYstL8kvYPJ+djZu8DdAl4LnOAlEH5FQDEXaKe9KxAz7iXTfEBLGKnC
+	 qAFh9rlB739oomfgMSLuoNonLdbAczFVzrQDYHkYt+BwlYoDLG8H9eU38PTCFgFaKav0H
+	 jwBDWxmN+yHlJmm/s7UtkekMp/Usjyk0kNI4qtA+EsnveYXHpShGok75LVG00YwFR2sF5
+	 75AEodiC35UE0QzrWieRyk+sIiwzR5BTIywxQvY1A+hraxRJm5qE9dEV3I8F9lS0SKg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.ibm.com;
-	spf=pass smtp.mailfrom=linux.ibm.com;
-	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=NoJaHiyb;
-	arc=none smtp.remote-ip=148.163.158.5
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=O3LbohtG;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Tv9+JoHR;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8511D606A33A
-	for <driver-core@lists.linux.dev>; Thu, 19 Nov 2026 09:30:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8511D606A33A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71207606A320
+	for <driver-core@lists.linux.dev>; Thu, 19 Nov 2026 10:57:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71207606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=NoJaHiyb
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJ6uWYj3422488;
-	Thu, 19 Nov 2026 09:30:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=oXSxWp
-	F6KMQEcM2O7Evo65h0Ne4A9GyvN44olTG3Jnk=; b=NoJaHiybk14TYzc2H0fzjS
-	RwdowrROJ9Vs+zRgQAXZ/9r/B4oBsUN2HedpGMzCupPMQGnPDxOvL7vFFpszw4Fl
-	8THIyogOLzIkZjPKUzDlyetaXb/yEIlXhEFCgJet2y2G2lb1k8kfAeCqTBxRgRZn
-	KuvbG+/6NU03l0T4hfp/uUzXycz8kLYDP0tIdyo3ZDYDNyTM4hztug4Rj/EXpOXQ
-	zNbRuUoztDrgKMOmGoS5feEzDP81ngAv+DxopDj8IfJdmfYeT1/+nb1vlIUQtJJc
-	hOraqbtwSWirw913fZ5zr0sPs7SPKLSsc8QWkoPqDkJ4SJlJQn+lKA6wzX19slMQ
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j105wyr6w-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 19 Nov 2026 09:30:24 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJ751Iw472310;
-	Thu, 19 Nov 2026 09:30:23 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4j1hd6uenj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 19 Nov 2026 09:30:23 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AJ9UJJn17826172
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 19 Nov 2026 09:30:19 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5858820043;
-	Thu, 19 Nov 2026 09:30:19 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 853482004B;
-	Thu, 19 Nov 2026 09:30:14 +0000 (GMT)
-Received: from [9.124.217.219] (unknown [9.124.217.219])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 19 Nov 2026 09:30:14 +0000 (GMT)
-Message-ID: <d76a72b5-e489-47fe-81bd-a3bf5935c209@linux.ibm.com>
-Date: Thu, 19 Nov 2026 15:00:13 +0530
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=O3LbohtG;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Tv9+JoHR
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJAuigE2736653
+	for <driver-core@lists.linux.dev>; Thu, 19 Nov 2026 10:57:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=JFsoS6ri2XuI0W7ZaUYiJa
+	CSvYPtS8y6PfumWrPYH1U=; b=O3LbohtG906Q1T6XY5bwTkoSh4SJNCJGUfJg4j
+	Ois3DCtMUnTLp/e1+H6CBP39fWS0L537A3X2vR+B5Yx0VSaMl1vHzL5GCen8OoBE
+	XnRtuqY9LKrXC8S9PiqwiXxhph6Fpu6wov2t7ZxFTcwgODG8Ybz+qQuVxc4K4eH0
+	W2dg9v3OFNF5UtbjF5wia71rk4q/MeI5Zqd1b69rvqBK51Oe5NUKQ/Ro7Y1DINj2
+	mrV6yNb/WWXfmPDuErOroLipl3K1Bb4V2T8gonem1yKKRTzgdnxn9F2NVVzqfOOl
+	Z56Thi9rveYngsZwKdzCnvW8/Y35Dk/5+0cfPA0eZnjaMGQg==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j1xc6rddv-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Thu, 19 Nov 2026 10:57:26 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-55cc3c32e15so23762991cf.1
+        for <driver-core@lists.linux.dev>; Thu, 19 Nov 2026 02:57:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1795085845; x=1795690645; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=JFsoS6ri2XuI0W7ZaUYiJaCSvYPtS8y6PfumWrPYH1U=;
+        b=Tv9+JoHRHJ3urnVOAJtERzqP2DgklXvR96kznBvVaQIFqqBsXDtPKJZqvkHKmYRtlo
+         zxjvoa2URQdt89PGok4KtwpnTaLGbiHX+rAu+WQ0d2EXhu+d6JvGiT/4WCT4ldQ9Rbs4
+         TbmO+3L3+vZwx7U7qAS+CDMrLY4opSty0Wcp7m9GQo1TuPnVNyXvyhnTZos9VfA/8iTm
+         GMTx6oIZn8BZiKq7Jjaos7e1CN1KqLIjWW7qwRtgCPBRT61e+9qMvhzlAJyyBnJSxf3i
+         TIlKsnxxBBHcaMdbcHY2estEY5eFlrbE2I7y0VsJzpbBa1mR3o4Qo7POKO4AanQFGNca
+         kGCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795085845; x=1795690645;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=JFsoS6ri2XuI0W7ZaUYiJaCSvYPtS8y6PfumWrPYH1U=;
+        b=S/6Lwm0nU31hiLDgdaCK3WgVw3tXJsS6b5y74Fs4MDhZWSzk6fEHFMO8hW+qt/117o
+         JoQzoXDeFH7wCn4tInW+yJRqQez+HhnvwdP7Y5me21MM4/gpmNxrp/OelaFtLYXWUhKJ
+         n9Fq3TzP4eiMclKNTH1q15o295/gmjkajqivlI2gXFwLqAaNjxeIgyRt2GtoqxePT5sc
+         oSfEADezgAJs/DZwWVpmUpDJTvrxV/I6vwiQ+ahlGGijeKa4fPyl04Aumy097H2HJvRj
+         6IjvxjdQjAx93lc4Sss2rpmUmGXgdmYGqHQBisHrNPcyJJllpxSLMukz1B35/jMfzjyM
+         NPcw==
+X-Forwarded-Encrypted: i=1; AL+hErHPAPyoDaNVfV3sRRQfE3C2OoO7tipK2d8sQqzU0E8AitXTe6J8G3GN8lsMjn8KkamrYTavp9Ul9DJTUg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8bCDaL82ZeitfCILQwgor917Du/FNkwHZ/wTT2mrFHFZ7zSAc1
+	yi7IjpLjonnXZELVcZDysMXhZctu/ayjxYkUa9ivCjBr6s0fxU89Hfp+HMkdpdNxeQzhdJHlQng
+	1By/gJKJqMPP2ycOZeCoVVMPrmaCeP2BR2ke3kzwiJVz0cRovDYfPvdT8mxYxEZAF7A==
+X-Gm-Gg: AYBFou3Lc3e8Ir4FR6fOHKoCjN/pJSw5YMMapXqBMWiaHTO+YzCWp8Sdiq7z9Ve/MXO
+	2PWwEq407liDTsA2mONUvl0LyHikASyqtJWRm6x98bAaDXim3Dn8Q8dx2+kvkAsVN1WLnCsCCC2
+	urpT0V0yyXk6kVTdLs5ZSzFALRp9OWx8ah2QNAomVEYHTDMSZ+mukD/Z1txPfT5WRL4+p1ofdWU
+	54wacTu2zO5h993ypef27R274CvwPyEGWAPSO7gYwSqojDxtmgKsSUHn3c3enPHHChj1RkmqG6h
+	Z4GQDRlnUuGbtG0PT+aOrEBGu4iKVF7SciTzEU3zD7kCiWvtitzLrhBGatB2eXILwu2TrwKJmu2
+	bGEcKTPy8ubEBKOESMvnYo3KednVkKSZV7fL5ozDiyeUKIzLSlvSwoVHXvOsVA67bnXImJbNrNH
+	s=
+X-Received: by 2002:a05:622a:5807:b0:55d:333a:9c52 with SMTP id d75a77b69052e-55d5a2b12a5mr80194461cf.11.1795085845293;
+        Thu, 19 Nov 2026 02:57:25 -0800 (PST)
+X-Received: by 2002:a05:622a:5807:b0:55d:333a:9c52 with SMTP id d75a77b69052e-55d5a2b12a5mr80194191cf.11.1795085844584;
+        Thu, 19 Nov 2026 02:57:24 -0800 (PST)
+Received: from brgl-qcom.local ([195.50.164.66])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb84e4df2bsm26665535e9.3.2026.11.19.02.57.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Nov 2026 02:57:22 -0800 (PST)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Date: Thu, 19 Nov 2026 11:57:19 +0100
+Subject: [PATCH v2] software node: make swnodes hold their own references
+ on parents
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -86,625 +115,130 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] cacheinfo, powerpc: Move powerpc to generic cacheinfo
-To: linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        driver-core@lists.linux.dev, Samir M <samir@linux.ibm.com>,
-        Venkat Rao Bagalkote <venkat88@linux.ibm.com>
-Cc: christophe.leroy@csgroup.eu, maddy@linux.ibm.com,
-        gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
-        johan@kernel.org, sudeep.holla@kernel.org, ritesh.list@gmail.com,
-        tim.c.chen@linux.intel.com, yu.c.chen@intel.com,
-        Srikar Dronamraju <srikar@linux.ibm.com>
-References: <20261118163639.890546-1-sshegde@linux.ibm.com>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <20261118163639.890546-1-sshegde@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: Y_LZc8CESEW_sUlisyuSBcYsXuRwST2b
-X-Proofpoint-GUID: Qd0b7JzILWRuIw6cngOC7LjKoST-ljCK
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE5MDAzNyBTYWx0ZWRfX1af4UOBKFWGk
- j+nwJr2I46baeKAXxrlORUn5EQIt7/N9tg/rp/dDWi6bHXC0Sba6u3PSFbK/or9Htd7OX8k1kow
- vzHaFKW4OCv1bxai7RZDw8DcajG4F+ND2SmjACsYrybH3sbs3kGueSr4Gx4NcYnhUj9aNfGd9WR
- Q7yvNAeg499YrrnG8O1PNCLwhKezmHwBi9k6QHeRAV6Swyb1Oz7H26zhh3xFJcwhUEBKgg86DFi
- 8oGdTDbk88ssaqV4h6WNu6t0vG6kla7+o2hZpU1w0tQa9FkA9w8oNwgyh1a3Dz6bYECeyRQ7jBK
- llfeuzkOL9w12hejJKqvAhrHg4Vg8vWGuWfejSHHm+fLZCZ+1aSS6NXGhEsTqpYcADSSfze/9+U
- z3XHIOJN/Nv+URHZDhyNr1/p/sAxuJbhmT8Y9VCIrQNgagstyCOp2LdgZB9TxUO3nrtGuc8xAAb
- zn+QRnlWgCbBC11tBEg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE5MDAzNyBTYWx0ZWRfX7UFXuDDXjzav
- +OhWsbEDc+SOJ+B+Fxp+eGhCUvKCZ8hKx6w5i8ge5djv4e2E6x2HU5+J7oc3N/DvcFLHbJO2Itn
- Y1ttKkMeQYRYYfOR3M8cxCWd4CKKASA=
-X-Authority-Analysis: v=2.4 cv=K+m3jCWI c=1 sm=1 tr=0 ts=6afec1b0 cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=Vh4Lmjysm8k9_e_hK4cA:9
- a=QEXdDO2ut3YA:10
+Message-Id: <20261119-swnode-kobject-parent-ref-v2-1-7ff8bd54e526@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAA7W/moC/42NQQ6CMBBFr0Jm7RBaIg2uvIdh0dJRqtJip6KGc
+ HcrJ3Dzk/eT//4CTNERw6FYINLs2AWfQe4K6AftL4TOZgZZyUaIqkF++WAJb8FcqU846Ug+YaQ
+ z1sa2pjVqr8lA3k+5dO/NfeoyD45TiJ/taha/9h/rLFCgUtZYJUVtbXUMzOXjqe99GMcyB3Tru
+ n4B1Ax5mckAAAA=
+X-Change-ID: 20261106-swnode-kobject-parent-ref-3bd9b9b75aeb
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+        Linus Walleij <linusw@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2423;
+ i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
+ bh=wZe7rBsEI4ji+EJjGj+EZVL4FRQLMyYUnyMYDZz0BmM=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBq/tYRI3vkUlqOQ1k9CeKdLjYjbWcHJvtmK3x96
+ OyNwDhzW3qJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCav7WEQAKCRAFnS7L/zaE
+ w/2DD/99v6wV46jHPGJgxjVou9/QkG40Ryp+Fb8aKw6uG0dqNm4gzwPlZWqMN6idOAdQM+xCPhG
+ gQEZK6cJs6YnEwSZbU574yuNIfD2Tgk4u9l4H0gO2tipG8oDvL0O6TpEs+hE2R3GmkjBH/Fe9mE
+ +Rcegf+zqhuk3YJGO81VVfP0h76Xm6nmgZH5lx50gG5pcT9FDz5gTpXI01gd4BS/6CJEBBiJqZK
+ fF0MvkWMumQVtvGhedfUDyAd2u5hBQfI2xHGkl/dvAfgN4XMTVWKvlA/1fBe/liebDOJvjM8Zsw
+ r2hq6T25qCi9gIOi+lQSMv3/5hi5Dm9SerI37ptoqEfCMRfSkVXrZLSbOF1vBxISVWiplY1Wq7H
+ thZHPBOqnEA5tw9gA3640PyZj9Jw2co/DMUlHojp4z6vSUVjW5sT7FzTWtQjCQYWaIQBqb4Me+t
+ 5002OP5sfpW6kipcIN/KbWtEfZdGeY3QsT04UDWGjOqbzLecw3b8/NhpO2xCH921HvyugFLtdcz
+ qArcj0bW0mYP3t4mFxNMTYQBsFvPI2oxfbwDsJa6eLq+GiFnhyUMIIlU+r0wxDRi1FSdU3uijhS
+ kVeV8RyVnEGVTTQ3V2/plyI6XNzBJYDHm0iKSZPq+NqwQz2NPyMSOdBylO5BxFwbcY6mhqahLNY
+ ZDdWkt0kor9Oncw==
+X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-Authority-Analysis: v=2.4 cv=ef+o7LEH c=1 sm=1 tr=0 ts=6afed616 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=Jk2/TV77q6/E6wQq2oQJxQ==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=c92rfblmAAAA:8 a=bC-a23v3AAAA:8 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8
+ a=gm3xcvSgROcOYQEXUbwA:9 a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+ a=GvGzcOZaWPEFPQC_NcjD:22 a=FO4_E8m0qiDe52t0p3_H:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE5MDA0MyBTYWx0ZWRfX+pgOQxwRtlx+
+ vibrE/LqpHaqLpjNX5UAaEzUCPIZO9ef6BDgkpw0fKw6Rh5kkxKXWvjXOC52sRpAQeMcIo1Os7J
+ lHwiKVhT0eKZJoL3ONMGeCoRKHANEpBDLgN3240rvcE0krPwTuuTlmCALW4DOA7pc1RWO1Dtsiq
+ 0bGn2TCv/E+10FUE7FD36k7GMzlDbmdn3OwaIOqyVOK5JPlFwCpxG2AhxlwVOqPtRi45VR5GqXL
+ aMUIe+ZROhrSgqkMU4GLVR8V4k/Tesr0aAXjBwntcAuVCf87MuhpFgx7/GRl7pKLHY2a/xrzVL0
+ sBqkHMJbDNo82E5HbK8tmkK8PN31Ol3ywCNV9Wp/nhQolbF/mPzqCEvxRlPuUbtEdKsNSjNmcCk
+ jsMAlxH5UFumJwnvZtZ0DzsYCiZwfZmhYBvrnkQzrMJ5SMLIFJngpv7asxoQpgqhupjqx5Pp8br
+ vT91sOJWVZ2uPSzDjsg==
+X-Proofpoint-ORIG-GUID: FlSUsrcgx-zZJ9LZEzIX9vVlDPvsoaJQ
+X-Proofpoint-GUID: FlSUsrcgx-zZJ9LZEzIX9vVlDPvsoaJQ
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE5MDA0MyBTYWx0ZWRfX7rFHVJ+KXRA8
+ RYaTiEOa4FmD41iwkdOm35FYmjhTvy2eLr22xUUneCvHPsVOGBHnQcMUQKunvTRSZytU5aqdH+H
+ pPh8WF5y1HTo5W+t5XZt+AH/vh9ZiGE=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-19_02,2026-11-16_01,2025-10-01_01
+ definitions=2026-11-19_03,2026-11-16_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 clxscore=1015 adultscore=0 spamscore=0
- priorityscore=1501 impostorscore=0 phishscore=0 lowpriorityscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611190037
+ priorityscore=1501 phishscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0
+ malwarescore=0 clxscore=1015 impostorscore=0 bulkscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611190043
 
-+samir, Venkat
+In swnode_register(), swnode->parent is assigned before calling
+kobject_init_and_add(), which normally acquires a reference on
+parent->kobj via kobject_add_internal() that is held until after
+software_node_release() completes. However, if kobject_init_and_add()
+fails before acquiring the parent reference or drops it on error in
+kobject_add_internal(), swnode->kobj holds no reference on parent->kobj
+while swnode->parent remains set.
 
+With CONFIG_DEBUG_KOBJECT_RELEASE enabled, the random delay in
+kobject_delayed_cleanup() may create a situation where - when
+unregistering the child node and then the parent - the parent object
+gets released before the child who's left with a dangling pointer.
 
-> Tested the values compatibilty on Power11 Dedicated and Shared LPAR's.
-> All the values are same, except id and uevent which was not there
-> before. That should help rather than hurt any tool.
-> 
-> This may need more broader checks on different boards/configuration
-> to ensure it is same. Also DLPAR CPU add/remove is not tested yet.
-> Please test and report if your board/platform shows up any different
-> values in those cache entries.
-> 
+Acquire a refernce to the parent swnode when registering the child and
+drop it on child's release.
 
-Could you please help to run DLPAR and ensure the cache sysfs entries remain
-same. Also if you have a P7/P8 it would be great if you validate there as well.
+Cc: stable@vger.kernel.org
+Fixes: 59abd83672f7 ("drivers: base: Introducing software nodes to the firmware node framework")
+Closes: https://sashiko.dev/#/bug/linux-82933c14-d212-49f1-bd2f-d4ab1e16fed7
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+Changes in v2:
+- Simplify the code by folding the swnode_put() call into the existing
+  conditional branch
+- Link to v1: https://patch.msgid.link/20261106-swnode-kobject-parent-ref-v1-1-77dbd7213dd0@oss.qualcomm.com
+---
+ drivers/base/swnode.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Please find the below script that i used to do the verification.
-(Again, thanks to LLM)
+diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+index 65e9388af8651f9d9602ff82e1761e5870284f26..f7b53e966b183cec1bfba6535ccdba308b0be68e 100644
+--- a/drivers/base/swnode.c
++++ b/drivers/base/swnode.c
+@@ -850,6 +850,7 @@ static void software_node_release(struct kobject *kobj)
+ 	if (swnode->parent) {
+ 		ida_free(&swnode->parent->child_ids, swnode->id);
+ 		list_del(&swnode->entry);
++		swnode_put(swnode->parent);
+ 	} else {
+ 		ida_free(&swnode_root_ids, swnode->id);
+ 	}
+@@ -886,7 +887,7 @@ swnode_register(const struct software_node *node, struct swnode *parent,
+ 
+ 	swnode->id = ret;
+ 	swnode->node = node;
+-	swnode->parent = parent;
++	swnode->parent = parent ? swnode_get(parent) : NULL;
+ 	swnode->kobj.kset = swnode_kset;
+ 	fwnode_init(&swnode->fwnode, &software_node_ops);
+ 
 
 ---
-
-#!/usr/bin/env bash
-#
-# Validate PowerPC cacheinfo before and after migration to generic cacheinfo.
-#
-# Usage:
-#   sudo ./validate-cacheinfo.sh capture before
-#
-#   # Reboot into the patched kernel
-#
-#   sudo ./validate-cacheinfo.sh capture after
-#   sudo ./validate-cacheinfo.sh compare before after
-#
-# Expected additions from generic cacheinfo:
-#   index*/id
-#   index*/uevent
-#
-# These attributes are excluded from the compatibility comparison.
-#
-
-set -euo pipefail
-
-SYS_CPU=/sys/devices/system/cpu
-
-die()
-{
-	echo "ERROR: $*" >&2
-	exit 1
-}
-
-command_exists()
-{
-	command -v "$1" >/dev/null 2>&1
-}
-
-capture_file()
-{
-	local source=$1
-	local destination=$2
-
-	if [[ -r "$source" ]]; then
-		cat "$source" > "$destination"
-	else
-		printf '<unavailable>\n' > "$destination"
-	fi
-}
-
-capture_cache_sysfs()
-{
-	local output=$1
-	local cpu_dir cache_dir index attr
-	local cpu index_name value
-
-	: > "$output"
-
-	for cpu_dir in "$SYS_CPU"/cpu[0-9]*; do
-		[[ -d "$cpu_dir" ]] || continue
-
-		cpu=${cpu_dir##*/cpu}
-		cache_dir="$cpu_dir/cache"
-
-		echo "Capturing CPU $cpu" >&2
-
-		if [[ ! -d "$cache_dir" ]]; then
-			printf '%s\t%s\t%s\t%s\n' \
-				"$cpu" \
-				"<none>" \
-				"<cache-directory>" \
-				"<absent>" \
-				>> "$output"
-			continue
-		fi
-
-		for index in "$cache_dir"/index*; do
-			[[ -d "$index" ]] || continue
-
-			index_name=${index##*/}
-
-			#
-			# Do not use find -type f. Sysfs attributes are virtual
-			# files and may not be classified consistently by all
-			# find implementations.
-			#
-			for attr in "$index"/*; do
-				[[ -e "$attr" || -L "$attr" ]] || continue
-				[[ ! -d "$attr" ]] || continue
-				[[ -r "$attr" ]] || continue
-
-				value=$(
-					tr '\n' ' ' < "$attr" |
-						sed 's/[[:space:]]*$//'
-				)
-
-				printf '%s\t%s\t%s\t%s\n' \
-					"$cpu" \
-					"$index_name" \
-					"${attr##*/}" \
-					"$value" \
-					>> "$output"
-			done
-		done
-	done
-
-	sort -t $'\t' \
-		-k1,1n \
-		-k2,2V \
-		-k3,3 \
-		"$output" -o "$output"
-}
-
-generate_compatibility_view()
-{
-	local snapshot=$1
-
-	#
-	# The old PowerPC implementation did not expose id or uevent.
-	# Exclude both when checking whether existing ABI values changed.
-	#
-	awk -F $'\t' '
-		$3 != "id" && $3 != "uevent" {
-			print
-		}
-	' "$snapshot/cacheinfo.tsv" \
-		> "$snapshot/cacheinfo-compatible.tsv"
-}
-
-generate_id_view()
-{
-	local snapshot=$1
-	local cpu index attribute value
-
-	: > "$snapshot/cache-ids.tsv"
-
-	while IFS=$'\t' read -r cpu index attribute value; do
-		if [[ "$attribute" == "id" ]]; then
-			printf '%s\t%s\t%s\n' \
-				"$cpu" "$index" "$value" \
-				>> "$snapshot/cache-ids.tsv"
-		fi
-	done < "$snapshot/cacheinfo.tsv"
-}
-
-generate_uevent_view()
-{
-	local snapshot=$1
-	local cpu index attribute value
-
-	: > "$snapshot/cache-uevents.tsv"
-
-	while IFS=$'\t' read -r cpu index attribute value; do
-		if [[ "$attribute" == "uevent" ]]; then
-			printf '%s\t%s\t%s\n' \
-				"$cpu" "$index" "$value" \
-				>> "$snapshot/cache-uevents.tsv"
-		fi
-	done < "$snapshot/cacheinfo.tsv"
-}
-
-capture_snapshot()
-{
-	local output=$1
-	local leaves ids uevents
-
-	[[ -n "$output" ]] || die "capture directory is required"
-	[[ ! -e "$output" ]] || die "$output already exists"
-
-	mkdir -p "$output"
-
-	uname -a > "$output/uname.txt"
-	capture_file /proc/version "$output/version.txt"
-	capture_file /proc/cmdline "$output/cmdline.txt"
-
-	capture_file "$SYS_CPU/online" "$output/cpus-online.txt"
-	capture_file "$SYS_CPU/offline" "$output/cpus-offline.txt"
-	capture_file "$SYS_CPU/possible" "$output/cpus-possible.txt"
-	capture_file "$SYS_CPU/present" "$output/cpus-present.txt"
-
-	capture_cache_sysfs "$output/cacheinfo.tsv"
-
-	generate_compatibility_view "$output"
-	generate_id_view "$output"
-	generate_uevent_view "$output"
-
-	if command_exists lscpu; then
-		timeout 60 lscpu \
-			> "$output/lscpu.txt" 2>&1 || true
-
-		timeout 60 lscpu -C \
-			> "$output/lscpu-cache.txt" 2>&1 || true
-
-		timeout 60 lscpu -e=CPU,CORE,SOCKET,NODE,CACHE \
-			> "$output/lscpu-extended.txt" 2>&1 || true
-
-		#
-		# Exclude CACHE from the automatically compared view because
-		# lscpu may switch from userspace-generated contiguous numbers
-		# to sparse kernel-provided cache IDs.
-		#
-		timeout 60 lscpu -e=CPU,CORE,SOCKET,NODE \
-			> "$output/lscpu-topology.txt" 2>&1 || true
-	fi
-
-	dmesg > "$output/dmesg.txt" 2>/dev/null || true
-
-	leaves=$(
-		awk -F $'\t' '
-			$3 == "level" {
-				count++
-			}
-			END {
-				print count + 0
-			}
-		' "$output/cacheinfo.tsv"
-	)
-
-	ids=$(wc -l < "$output/cache-ids.tsv")
-	uevents=$(wc -l < "$output/cache-uevents.tsv")
-
-	echo
-	echo "Captured snapshot: $output"
-	echo "Cache leaves:      $leaves"
-	echo "Cache IDs:         $ids"
-	echo "Cache uevents:     $uevents"
-
-	if [[ "$ids" -eq 0 ]]; then
-		echo "No cache IDs found."
-		echo "This is expected for the old PowerPC cacheinfo implementation."
-	fi
-
-	if [[ "$uevents" -eq 0 ]]; then
-		echo "No cache uevent files found."
-		echo "This is expected for the old PowerPC cacheinfo implementation."
-	fi
-}
-
-expand_cpu_list()
-{
-	local list=$1
-	local item first last cpu
-	local -a elements
-
-	IFS=',' read -r -a elements <<< "$list"
-
-	for item in "${elements[@]}"; do
-		if [[ "$item" == *-* ]]; then
-			first=${item%-*}
-			last=${item#*-}
-
-			for ((cpu = first; cpu <= last; cpu++)); do
-				echo "$cpu"
-			done
-		else
-			echo "$item"
-		fi
-	done
-}
-
-build_leaf_records()
-{
-	local snapshot=$1
-	local output=$2
-
-	awk -F $'\t' '
-	{
-		key = $1 SUBSEP $2
-		value[key, $3] = $4
-		seen[key] = 1
-	}
-	END {
-		for (key in seen) {
-			split(key, part, SUBSEP)
-
-			if (part[2] == "<none>")
-				continue
-
-			printf "%s\t%s\t%s\t%s\t%s\t%s\n",
-			       part[1],
-			       part[2],
-			       value[key, "level"],
-			       value[key, "type"],
-			       value[key, "id"],
-			       value[key, "shared_cpu_list"]
-		}
-	}' "$snapshot/cacheinfo.tsv" |
-		sort -t $'\t' -k1,1n -k2,2V > "$output"
-}
-
-lookup_leaf_field()
-{
-	local records=$1
-	local cpu=$2
-	local level=$3
-	local type=$4
-	local field=$5
-
-	awk -F $'\t' \
-		-v cpu="$cpu" \
-		-v level="$level" \
-		-v type="$type" \
-		-v field="$field" '
-		$1 == cpu && $3 == level && $4 == type {
-			if (field == "id")
-				print $5
-			else if (field == "shared")
-				print $6
-			exit
-		}
-	' "$records"
-}
-
-validate_new_ids()
-{
-	local snapshot=$1
-	local records
-	local cpu index level type id shared
-	local sibling sibling_id sibling_shared
-	local failed=0
-
-	records=$(mktemp)
-	build_leaf_records "$snapshot" "$records"
-
-	echo
-	echo "Validating generic cache IDs..."
-
-	while IFS=$'\t' read -r cpu index level type id shared; do
-		if [[ -z "$id" ]]; then
-			echo "ERROR: cpu${cpu}/${index} has no id"
-			failed=1
-			continue
-		fi
-
-		if [[ -z "$shared" ]]; then
-			echo "ERROR: cpu${cpu}/${index} has no shared_cpu_list"
-			failed=1
-			continue
-		fi
-
-		#
-		# Every CPU in shared_cpu_list must report the same ID and
-		# shared CPU list for a leaf of the same level and type.
-		#
-		while IFS= read -r sibling; do
-			sibling_id=$(
-				lookup_leaf_field \
-					"$records" \
-					"$sibling" \
-					"$level" \
-					"$type" \
-					"id"
-			)
-
-			sibling_shared=$(
-				lookup_leaf_field \
-					"$records" \
-					"$sibling" \
-					"$level" \
-					"$type" \
-					"shared"
-			)
-
-			if [[ -z "$sibling_id" ]]; then
-				echo "ERROR: cpu${cpu}/${index}: CPU ${sibling}" \
-				     "has no L${level} ${type} cache ID"
-				failed=1
-			elif [[ "$sibling_id" != "$id" ]]; then
-				echo "ERROR: cpu${cpu}/${index}: ID is ${id}," \
-				     "but CPU ${sibling} has ID ${sibling_id}"
-				failed=1
-			fi
-
-			if [[ -z "$sibling_shared" ]]; then
-				echo "ERROR: cpu${cpu}/${index}: CPU ${sibling}" \
-				     "has no L${level} ${type} shared_cpu_list"
-				failed=1
-			elif [[ "$sibling_shared" != "$shared" ]]; then
-				echo "ERROR: cpu${cpu}/${index}: shared list is" \
-				     "${shared}, but CPU ${sibling} reports" \
-				     "${sibling_shared}"
-				failed=1
-			fi
-		done < <(expand_cpu_list "$shared")
-	done < "$records"
-
-	rm -f "$records"
-
-	if (( failed )); then
-		echo "Cache ID validation: FAILED"
-		return 1
-	fi
-
-	echo "Cache ID validation: PASS"
-}
-
-compare_file()
-{
-	local description=$1
-	local before=$2
-	local after=$3
-
-	echo
-	echo "Comparing $description..."
-
-	if diff -u "$before" "$after"; then
-		echo "$description: PASS"
-		return 0
-	fi
-
-	echo "$description: FAILED"
-	return 1
-}
-
-compare_snapshots()
-{
-	local before=$1
-	local after=$2
-	local failed=0
-	local before_ids after_ids
-	local before_uevents after_uevents
-
-	[[ -f "$before/cacheinfo-compatible.tsv" ]] ||
-		die "$before is not a valid snapshot"
-
-	[[ -f "$after/cacheinfo-compatible.tsv" ]] ||
-		die "$after is not a valid snapshot"
-
-	if ! compare_file \
-		"cache sysfs values excluding id and uevent" \
-		"$before/cacheinfo-compatible.tsv" \
-		"$after/cacheinfo-compatible.tsv"; then
-		failed=1
-	fi
-
-	for mask in online offline possible present; do
-		if ! compare_file \
-			"CPU ${mask} mask" \
-			"$before/cpus-${mask}.txt" \
-			"$after/cpus-${mask}.txt"; then
-			failed=1
-		fi
-	done
-
-	if [[ -f "$before/lscpu-topology.txt" &&
-	      -f "$after/lscpu-topology.txt" ]]; then
-		if ! compare_file \
-			"lscpu topology without cache IDs" \
-			"$before/lscpu-topology.txt" \
-			"$after/lscpu-topology.txt"; then
-			failed=1
-		fi
-	fi
-
-	before_ids=$(wc -l < "$before/cache-ids.tsv")
-	after_ids=$(wc -l < "$after/cache-ids.tsv")
-
-	before_uevents=$(wc -l < "$before/cache-uevents.tsv")
-	after_uevents=$(wc -l < "$after/cache-uevents.tsv")
-
-	echo
-	echo "Expected generic-cacheinfo additions:"
-	echo "  Before IDs:     $before_ids"
-	echo "  After IDs:      $after_ids"
-	echo "  Before uevents: $before_uevents"
-	echo "  After uevents:  $after_uevents"
-
-	if [[ "$after_ids" -eq 0 ]]; then
-		echo "ERROR: patched kernel exposes no index*/id attributes"
-		failed=1
-	fi
-
-	if [[ "$after_uevents" -eq 0 ]]; then
-		echo "ERROR: patched kernel exposes no index*/uevent attributes"
-		failed=1
-	fi
-
-	echo
-	echo "Cache IDs exposed by generic cacheinfo:"
-
-	if [[ -s "$after/cache-ids.tsv" ]]; then
-		if command_exists column; then
-			{
-				printf 'CPU\tINDEX\tID\n'
-				cat "$after/cache-ids.tsv"
-			} | column -t -s $'\t'
-		else
-			cat "$after/cache-ids.tsv"
-		fi
-	fi
-
-	if ! validate_new_ids "$after"; then
-		failed=1
-	fi
-
-	echo
-	echo "Informational files for manual inspection:"
-	echo "  $before/lscpu-cache.txt"
-	echo "  $after/lscpu-cache.txt"
-	echo "  $before/lscpu-extended.txt"
-	echo "  $after/lscpu-extended.txt"
-	echo
-	echo "The lscpu CACHE column may legitimately change from contiguous"
-	echo "userspace-generated values to sparse kernel-provided cache IDs."
-	echo
-	echo "The new id and uevent files are treated as expected ABI additions"
-	echo "and are excluded from the compatibility diff."
-
-	if (( failed )); then
-		echo
-		echo "Overall result: FAILED"
-		return 1
-	fi
-
-	echo
-	echo "Overall result: PASS"
-}
-
-usage()
-{
-	cat <<EOF
-Usage:
-   $0 capture <directory>
-   $0 compare <before-directory> <after-directory>
-
-Example:
-   sudo $0 capture before
-   # Reboot into the patched kernel
-   sudo $0 capture after
-   sudo $0 compare before after
-EOF
-}
-
-[[ $# -ge 1 ]] || {
-	usage
-	exit 1
-}
-
-case "$1" in
-capture)
-	[[ $# -eq 2 ]] ||
-		die "capture requires one output directory"
-
-	capture_snapshot "$2"
-	;;
-
-compare)
-	[[ $# -eq 3 ]] ||
-		die "compare requires before and after directories"
-
-	compare_snapshots "$2" "$3"
-	;;
-
-*)
-	usage
-	exit 1
-	;;
-esac
+base-commit: e8017d29067fd1310a65c3494ce1a1b492adbac6
+change-id: 20261106-swnode-kobject-parent-ref-3bd9b9b75aeb
+
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
