@@ -1,119 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.46.13
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795107028;
-	b=t8IAQa8yQs6Oiq2ZLJD5SCEOx8VVoj1whu1INVsNrcwYyTODretzEq8UHAVssTF4sVbM
-	 Dgb2fM+6MleuanoR8k9YUoUowvd4wf+ZZA5wvNge1R+AOGGn/NKcmeLcnz+jF8msH4gsa
-	 1fWjjeStbZhf3pAnXNaIv4O8HzFvqvzI8jYVrDTaU0xjl8uj7j5nvEGMmLbx2E6s9uX7v
-	 HkGDtrPjaxfhhPFGa4eKUNIrM2YwP1vTG0+0VMjesFIcMLNabjoCs6U3tmZXc4wFKwnZt
-	 55yWfAbRJuiHfIU9YXhblU5oO1Arz54wDxhHOuDhEf2oYUpCX4AYxiY4BAh+w/iC/nQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795107028;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=AJk7k3vniF7F/iGu1Eg/aQQnaczaIWxQrKUdLixfHkM=;
-	b=WP2gqH6GOFZXtE4MeClLIaSLE/aCEj4axAH3YYJsiVGyzeL3gO30m3oWxBiLgHQ63WCe
-	 QRJtwUVCCtvMeMyHz4R1dQNs/baRknQhBzbC7yn0cYxjNcSqNtWgk9lHSxRpwWyhZmbBR
-	 HtGQYsdgIIlC23g7STMxNi8iV2gu5r6peS5MmxG8CerIfp6Ltu8zohgy9V7NC5/7lO+HB
-	 qzRiA2WcKp4BcdpwOMdlI7s/RUZTt83lLl6AWHqhEkDPKFHTLfTn9QcixEDFKqO+BRCj9
-	 B4/Aio3fKDKd8q/pkgjQPRK5B+1jcykfwy/lIYE1/Obgi8ZxndXX2t0JyI6v9NDWJqg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=mqKH2YGT;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.46.13
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010013.outbound.protection.outlook.com [52.101.46.13])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7A260A2623
-	for <driver-core@lists.linux.dev>; Thu, 19 Nov 2026 16:50:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E7A260A2623
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795107247;
+	b=vmCTLs+BtFenteXT0pOOVU0jMvH537YWNV28xUs5kZpsC9sKRbFrGRLntrTRk+CnYcAb
+	 QfBVWBD3qfiNPbB1Jk99oIufLaZndKYFcu5fcQ9u7xdarVsGBbCFZWlKw23A2G12xJR/y
+	 dsqSlD4OQ+pzhq2b8CPr4sWdn/XW70bwJzPvW3Us1evnTcx3yLMVudZQlQYqBv5tb0yzV
+	 9+pjqQcJqg3Jda2BDgTbY8/44vJt4Yqe4kuEpxxYDt1rO/tGLf8dpPiYmiLSHnTLDEyYD
+	 9Kuk1gCIKGD5el4QQNzHjtk7JYidevE9GReL3IW8yARiC0UAhzdiKYGJmLUorlbZKGg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795107247;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=FpRAw10TJh8yb7R34VwZYYTrEJ2MgNuHTOaOU0kAmbg=;
+	b=AHqPfmgtDYAp81XIbSnKkQsdftwpljG7DM9eB9bbW/s9bV+51ic/JtRCKN6KLSJAGfZr
+	 tG923Xg4pbVan8kGIc0FkSVeJEf6QF5h40UXtp2qwt32DyeZUpZv2pRaKy3ppddwC4qDK
+	 hkH+XapX/ZKFSg9zsjnbBEol2Nygo7iXXtU/d+cKypUeuTQD1hZHgdgDETx+CUjYLl7pr
+	 t7P8OptSFD9DySz0ydM35ZTqebLgtxv+qxq6WsLLoFr296NvhqsWGcYM6WimtQ2EP54rj
+	 8UNpi1DAXtQYtPwfvAsvaTDPWbK/kiS8b/OQgD1El7TSv3CTuXup6yPomRqphZPIeLQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=UdcRID8K;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BFEE606A336
+	for <driver-core@lists.linux.dev>; Thu, 19 Nov 2026 16:54:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6BFEE606A336
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=mqKH2YGT
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZEfVL+uBmcPBhXBBV9EnSK3FZW+XBFD+8BnOkqv6XdDybh9xKUYJe4NPQoq4+bBIH54syj6qk8RljcfkhY0VPwxZKcLygj7BkaL+rxzXjSjF3igabYygc6Vw3SNz854zZ9TsUWClQfLmzu0dkPxzqn6E3euGDRhrC4ZRZCtGXYdAIQmWALmyn+Gote7bpE3+y9pjxBg4uP0yY3qhdOx/y/+QB9FZarNa2U/Q46Lpo6Xx6wGk5tqbl/IjJf9nH62bfBEmcdDez7rx+dEqquyTJ8+/6xvj/aGC+YIFfEx6NQF9Bbd+KEPIispfQEo6vRmussWTDdgpHlI7t563BLAabg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AJk7k3vniF7F/iGu1Eg/aQQnaczaIWxQrKUdLixfHkM=;
- b=Fp+jSp2+6U4ldJqVZ3ohlm9dFI5orNx300DTSS7HtJOanw17dQg5GD7U09qF5YWVF+KF7yOeRgKP/qUVN514IuI8KCpPrK6oGKrr1Ee2fL4uawuRvlbcLfWOsYw58zgf8HmBbZNVjkvURVTCtG04ZOtRj2dYD0UebxCKX3ka7Di4Krp6eRzJ2kkVJn266F/0Y7eSQOMtQaRcD9sljRXOwLZ10aum1eFSKSTR3qQY8Yu6aUH59pf/XhNzue3Og+9DBsitHegrIghrgpRlM+Vs1rbm/3MGYzhYdoqAn65FFN4WeEuuQnuKnXPhkwfn9fgm2E6znFHyaQTHFzG7PUsmWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AJk7k3vniF7F/iGu1Eg/aQQnaczaIWxQrKUdLixfHkM=;
- b=mqKH2YGTE1pKdCMn29p2FqpOTO8vSgrFCszmgmrIgbtkLo41A4z5/veVRn/jyVBv7SzhoubUOzbzWh/FAquzFaEQVN36TqzxqqgRADs5Up9ZjL9xcUAcN3JKyLIQHm4VrryACF/UhiZ80buCWiaZN0VqIzWAhMRkfZ0ASUpHMrYIpSnETV9y8kvkvgLmI7x8tkg7F+okwCIYl0/pP2ESf9vvjRm2UxGwnWO8l8s7U/t7cftS3eiNyk7BjEN+OYYTSGrrWNq/PGQHK5wxpCkeFSAYjT0lvQf2AmxQpAJgtd7kGD03Iah7p2CcUCt7Q/Y5y4egAj2/WSHnz8RFDS+GbQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
- by IA1PR12MB363945.namprd12.prod.outlook.com (2603:10b6:208:5b4::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Thu, 19 Nov
- 2026 16:50:23 +0000
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286%4]) with mapi id 15.21.0615.012; Thu, 19 Nov 2026
- 16:50:22 +0000
-Date: Thu, 19 Nov 2026 11:50:19 -0500
-From: Yury Norov <ynorov@nvidia.com>
-To: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Yury Norov <yury.norov@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andrea Righi <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=UdcRID8K
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A8A901575;
+	Thu, 19 Nov 2026 08:54:03 -0800 (PST)
+Received: from localhost (unknown [10.2.196.114])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 360A43F673;
+	Thu, 19 Nov 2026 08:54:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795107246; bh=UH4KDSFam0LfRKFnI3gJVWSsyCyljyOGfCQ7wrragEk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UdcRID8Kz4lZK/h1ThJUkIPZuCu8llRVTIWUol7CEgsEAJDWIJ0dMrQdRTWZMoOz2
+	 XP992aMvTFRo5UvN7IMTff5COtXdHBV8kWVELcF8QaQZkmk72M2pRJtv6Ua4OgHRjd
+	 /qd3KyGzwJg18bFRXM4FHYSooM96/pJ6aeSI40CE=
+Date: Thu, 19 Nov 2026 16:54:04 +0000
+From: Leo Yan <leo.yan@arm.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Ilya Leoshkevich <iii@linux.ibm.com>,
-	Johan Hovold <johan@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>,
-	Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-s390@vger.kernel.org
-Subject: Re: [PATCH 4/7] virt: steal_governor: serialize sampling against CPU
- hotplug
-Message-ID: <av8oy9v9eLTL0dw8@yury>
-References: <20261113184257.621707-1-ynorov@nvidia.com>
- <20261113184257.621707-5-ynorov@nvidia.com>
- <1556d3b0-1c89-4d3d-b9e5-5921c5c9158b@linux.ibm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1556d3b0-1c89-4d3d-b9e5-5921c5c9158b@linux.ibm.com>
-X-ClientProxiedBy: SJ0PR05CA0180.namprd05.prod.outlook.com
- (2603:10b6:a03:339::35) To LV3PR12MB9356.namprd12.prod.outlook.com
- (2603:10b6:408:20c::21)
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Will Deacon <will@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Hanjun Guo <guohanjun@huawei.com>,
+	Jeremy Linton <jeremy.linton@arm.com>,
+	Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@arm.com>,
+	James Clark <james.clark@linaro.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Al Grant <al.grant@arm.com>, "Johnny.Fan" <johnny.fan@cixtech.com>,
+	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH 2/8] device property: Add software-node IRQ affinity masks
+Message-ID: <20261119165404.GA9176@e132581.arm.com>
+References: <20261116-acpi_arm_pmu_registration_hmp-v1-0-0371d4eca626@arm.com>
+ <20261116-acpi_arm_pmu_registration_hmp-v1-2-0371d4eca626@arm.com>
+ <avwHQXJxOir8XXxX@ashevche-desk.local>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -123,91 +85,74 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|IA1PR12MB363945:EE_
-X-MS-Office365-Filtering-Correlation-Id: 78d8dc3e-67b7-4599-ff0c-08df465d33d4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|10070799003|23010399003|366016|56012099006|261022105027099003|4143699003|11063799006|261026140227099003|10067099003|261022075727099003|261028144727099003|22082099003|18002099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	Ybg7RO+b6x0AKWbUn+gXWYaNiVw7c4tlelV1VZCuvNkbL9sUKMKZIQTg5lfUWpoBTqG/K8qGnB7+91Vi5R9rDoLxgnGZj4Sa8v3PRiy7xsacd4lCOOIdbUNjvatAV9C9OhTyR6gj70JE+1it0uhQCr97EfqnNPMLYM7vQXYU0zxTDOfUUAemvvN3zcwvcNmYDCawfhHS2N3iCJVyfLALdYYSUMU7y6sv4CpDFctTg5mxSi9AKw7f0tCVlFyD4XTGX7wC9ihFq5l4LfT9lgu6zkBdmPZZy6+Qgv7GTcXkZq6s99S9lCd0+JGqFCQvt5Ji24WZBNcxyigx7vp806r6lRQHAbLGHbYUzglSExxCO0JyvvOgAX6Ru0KZN0p2AYxikhUiaH+UaXC4nujPB9zo0Y8YYyuZpPaIeCpWpoMtU+IMRHdMUNmXziTNg014zfwZJD+fX/Svpy7Cj4MEws+dhPDbqeFuX4lsDjI1Tr5IENnXtQ7fXizh/+El3mk13GoZv6lvRcuhmr9IYSQqmpb76yu3abW9wjMIdtVfrrMOUfBgT99Z1XXaD+TMFFDX12N8vF8OGidpXZ1KTMi4WJEitEHhIGt0mBS4gQRv0AHib0IN0hrV5O6NkkopH0Y9wN/CnbFB/nPEMGhOeKPqGVeq9eluCUKrQ/vL3qOKES2Ag8k=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(10070799003)(23010399003)(366016)(56012099006)(261022105027099003)(4143699003)(11063799006)(261026140227099003)(10067099003)(261022075727099003)(261028144727099003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?fnNyWf8MYFZbDP3F9SJTc2MDkL/yD4Is6tGHGUS0CtcYzqeZZdOXjnvs5i06?=
- =?us-ascii?Q?lXS4W/MRXOJQsg8jKwaARqJo12o82zefyy8ZienKLz3eZ2BXytBV7+KVztZo?=
- =?us-ascii?Q?anFKQr5NUNKHbfgMfjdHe0JOIxY0Mt7ukpziy+VfKkXCCH3aKaSK7/0rcrE/?=
- =?us-ascii?Q?+iU6Pv1GtVIdVYW8TXdfE4mVOWO31e65E8ptH0jzff7jieABeLrRIjp926iZ?=
- =?us-ascii?Q?o+jEHNMJSTReIfeTTUPt6oaZOOKDIrYUPaSC0/MvV+JWPyxooaz6No3pcKei?=
- =?us-ascii?Q?VqXhfmCk2cmB+BDy8XDV6RRE8ai5W5ERI2lsC1s+b6G0SAEnEk5tDrhLujT8?=
- =?us-ascii?Q?IIz9caN7WjRqW07rGEUFuV1JDrhNWf3eyIDQ9pNZIKd4s7Xrq8k3wzuivSXG?=
- =?us-ascii?Q?tf63bf/PwZLn1KxvKRfyMH4MIOTyhEjk11wTGW9zfhVKIDf/p4Q8yFaovt/8?=
- =?us-ascii?Q?jUYeSr9aidyhsHBrFF+T0BfBWog+wMRdVmH+GYBCgAhAV2HG7KsHM4IJuf6d?=
- =?us-ascii?Q?Ypg1vObVtJBLv/lh6xRyH6y8iqYIpn+DT3K7rNPSsyODM29EVgPGCg0BPK2W?=
- =?us-ascii?Q?J1x/ib9mLqWjVTPiBP/OMGH1md9cmZA4sPndAeQrfZqPWEvOfnLvgDc8bSMu?=
- =?us-ascii?Q?49rW1OY9A4LshTfr7SbWf0mubwUcm+ed7g9osfPCoFycaJvnvJ3kCCIPCszl?=
- =?us-ascii?Q?h/0CQ6DPg/tH7xzNBQ6RUkoMlTFbePZocNrS2RypVUQuA7VEp/4QR8d0W9r1?=
- =?us-ascii?Q?FU7LLLYPVeDYg/znb+zq5A7t/7+4WMYKZlJ/ZqznuVB4Zieh75bN1AY0yMQc?=
- =?us-ascii?Q?RBqto+tZpvkQRC7dbblTB9x4DYIFPR6Gb5WUXUKWmNOOJY8c8cKiPlIPzNnR?=
- =?us-ascii?Q?+DKsI2yFDUv4whX4o0rX/A7m3AWQXmjg7mrUoFwpzh+/9sK9gUkwDenfigZN?=
- =?us-ascii?Q?cFdB9DBdCZFteeYFDLJGlcp/mLvFhdSYlhxBAZojQ2E91TE+Urz6eAnZSvLR?=
- =?us-ascii?Q?uU9nL4KogHRDzIx+oxDQeo3kTtaHqowPYHUmAz6JqypMK+27/cA22HKHlmq8?=
- =?us-ascii?Q?GFA5XFtnBeZeNJ7m00Cbh0fw6NfanaG+jB5tAM06qES5/Pk4vwiRKw6BJVkt?=
- =?us-ascii?Q?/pYSILCP0G4h+hfTuHDxUAef3L7RAqeMh7k/Ujg773mxyEzx/iQ8Fr+i6oPe?=
- =?us-ascii?Q?Rd+id8T3Pf2EXq36wk9SD93DDaLgZwKtsGf3II81fdUTfscEi8ynV5vgyqB2?=
- =?us-ascii?Q?/RJON9pBC1dzh0aOuoeFiG1OrPTOsbB4BlPUsgEONkQQOHhTzyK51hYN2efX?=
- =?us-ascii?Q?2o9PIvvcps8aN0i+0zZQ+Wk9NvAwbq9qeics7dcZYv/uBEVPduyYecx69hG3?=
- =?us-ascii?Q?ssM8lgQ764lQ9RYOWp/CH3njpp8sJ+sCZcLXlIrJwA/1tqu7R2B1EcVghALx?=
- =?us-ascii?Q?nCx3TQFLGfon5F0LG4glSWbyqFtK7J7EyFZPDHWcZgrXHTpUkUnJfepvJDEK?=
- =?us-ascii?Q?+8tDQuvpoDy3F6QTsl4Ymh96+JE8dxgefYBPWTo9B23ZaKhHdLh8NoVed7VN?=
- =?us-ascii?Q?VJmyX++GcMNaCYxDCh1ypRcb4rSzPzKNX+W415y+nLh3iTBXGd1fdPGvrEFT?=
- =?us-ascii?Q?J3PS8t7RABJ13TXF8s+f7lcS6LJI4BdJCr7ZJpFvX+Ea69mWEytJc3hO/tTn?=
- =?us-ascii?Q?ZI4ZqHLBP9LwL96zC0/NoNBYyoKlNmldMnwXMaWTB5jpy5cWhLkYPSO02dcG?=
- =?us-ascii?Q?PW7YdAe8pf98PPvpTqbFy+RUZI7VjetCh+r5RH9G+PQ0l0k3SRji?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78d8dc3e-67b7-4599-ff0c-08df465d33d4
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2026 16:50:22.7964
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9EZyuWCxf0VVIYLzij/06HW5n9lIH6fZZRNCqmcu5ip2TFMzSpZJLxvwWQ+NycPC0TUeGBwFwWG4aJFzbQgB9w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB363945
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <avwHQXJxOir8XXxX@ashevche-desk.local>
 
-On Thu, Nov 19, 2026 at 11:52:19AM +0530, Shrikanth Hegde wrote:
+On Tue, Nov 17, 2026 at 09:50:25AM +0200, Andy Shevchenko wrote:
+> On Mon, Nov 16, 2026 at 06:21:29PM +0000, Leo Yan wrote:
+> > Devices created from firmware tables may need CPU affinity information
+> > without a corresponding firmware node. Allow software nodes to supply
+> > this information through the common firmware node IRQ affinity API.
+> > 
+> > Add software_node_add_irq_affinity() to copy a CPU mask for an IRQ index,
+> > and implement the software node irq_get_affinity callback. Keep each mask
+> > until the node is released and reject replacement so borrowed masks remain
+> > valid for the node's lifetime.
 > 
 > 
-> On 11/14/26 12:12 AM, Yury Norov wrote:
-> > Steal governor is not safe against a concurrent CPU hotplug operation
-> > because it can change active and preferred cpumasks during the governor
-> > sampling.
-> > 
-> > To address the race, the governor would take the cpus_write_lock(). But
-> > that may be impractical for the loadable module.
-> > 
-> > Instead, implement the following locking policy:
-> > 
-> >   - if the code takes cpus_write_lock(), it's enough to write-access
-> >     the preferred cpumask;
-> >   - if the code takes cpus_read_lock(), it must also take
-> >     cpu_preferred_mutex in order to modify the preferred mask.
-> > 
-> > The core scheduler and hotplug paths already modify the preferred cpumask
-> > under the cpus_write_lock(), so no change in core logic is required.
-> > 
-> > This provides a common update protocol for multiple policy drivers
-> > without requiring writers to take the broader CPU hotplug write lock.
-> > 
-> 
-> This is also necessary if there are multiple writers outside of core hotplug No?
-> So should it go with the write interface series?
+> This is definitely not a place where to put that. Are you stating that any
+> software node might find the IRQ affinity information useful? I don't think
+> so. With that in mind this approach looks like a layering violation.
 
-The race is real, and it's already there, so this is the fix for an
-existing functionality.
- 
-> > Fixes: 27d47ebce4d6 ("virt/steal_governor: Implement steal_governor policy loop")
-> > Signed-off-by: Yury Norov <ynorov@nvidia.com>
+My intent is to expose optional affinity information through the
+common platform_get_irq_affinity() interface.
+
+As an alternative, could we represent the masks in an "irq-affinity"
+property, with one CPU mask per IRQ index? The swnode .irq_get_affinity
+callback would read it, using the existing property storage.
+
+Would interpreting this property in swnode still be a layering
+violation? See the sample code below.
+
+---8<---
+
++static const struct cpumask *
++software_node_irq_get_affinity(const struct fwnode_handle *fwnode,
++			       unsigned int index)
++{
++	const struct property_entry *prop;
++	const void *masks;
++	size_t size = cpumask_size();
++
++	prop = property_entry_get(to_swnode(fwnode)->node->properties, "irq-affinity");
++	if (!prop || index >= prop->length / size)
++		return NULL;
++
++	masks = property_get_pointer(prop);
++	return masks ? masks + index * size : NULL;
++}
++
+ static const struct fwnode_operations software_node_ops = {
+ 	.get = software_node_get,
+ 	.put = software_node_put,
+@@ -774,6 +796,7 @@ static const struct fwnode_operations software_node_ops = {
+ 	.graph_get_port_parent = software_node_graph_get_port_parent,
+ 	.graph_parse_endpoint = software_node_graph_parse_endpoint,
+ 	.add_links = software_node_add_links,
++	.irq_get_affinity = software_node_irq_get_affinity,
+ };
+
+> ...
+> 
+> And overall, the domain specific (IRQ, DMA, et cetera) topics feels a bit
+> misplaced when one can find that in the generic properties. We also have
+> that PHY thingy, which is complete alien to word 'generic'.
+
+Since software nodes have no standard property specification of their
+own, would this be an appropriate way to define "irq-affinity" as a
+generic swnode property?
+
+Thanks for the review!
+
+Leo
