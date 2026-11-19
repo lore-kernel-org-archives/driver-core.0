@@ -1,53 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795174292;
-	b=Yp8W7ksPSKI40Ss9ZbdJ8j2hekShGWELjcKyH0FIIh6K6mhAqr5HPNLU30yXieAMEmqn
-	 5t+RzVAUIEyINlZ73fpWwmJAtnBVEsX7t9+GJfOdu2IBImQAEXR2n5d4LMkJOSj/hGAA3
-	 1VAOwbxehXnqJDsm0AHbACYaT8isCXy2He7dWSQEbY2WzcXhizn4OMUAcEoKBFfkpcyj5
-	 kPyWlhMEqJA+eM5tEG0tdueqcbzb4abZq7Ju+XvtSkM3/TClBQ+yA/CulAjPqGbO9uSTk
-	 iRmmtB4IQzcvBd4rcAzA0iDl/r3fBAd0duOClm3/BADuD1Chj8K+LewsBH6szX156Lw==
+	t=1795175984;
+	b=JHUh+AW6Lr3htnwMe7VTqIBOGVcQVsrOa3eR9Wl2Eygv1DGk47cCh+Xnq1KkTTGGdwct
+	 UIL5UQEfhJEil9jLomefRd1XxfMuWq5hPWOiB+PqDOxGaiqMvuGFW6wHbQGtCreuYGlHP
+	 I4iwn63jJ3dlDzXr6H7H6gVPEjA+zdmLjpsiLtX/WrI8e0/Rrn4W0WOgxbvKLTALf+ivR
+	 lFqovP0r6ZmXIXmc5bsaw+f1slEmNk8EVkASqIXbd0aNkFQpCT+x/s7YGTL/Dt5futLNI
+	 exik+/GIVhkbjRUKWrlexMnV6aKRBsCumz2LWEhwWsZgGdz0WXHyAVYRHGE2j5fkSjQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795174292;
-	h=Received:DKIM-Signature:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=FwBF50PIfL1aiRZV3XVfdxpCMikmYS/1IPOH4JT3geo=;
-	b=MAsoodTSJNqrAPcJLPTZUosJCQ14FNU79kpdmQWG1uTcb8LDdm8Q4Sdmn0WohV+RUj7P
-	 RA4pM0JYj/2XY+c3yNaLecHg3MSstjzahID7oiXgcjZHZjMxZSyF8XFD+1ocfQ0UoB4y3
-	 aYlNXUAZpIbt0i7eqRfda3V0zZ0/cbrMO5uDW+eWg9wtUR9VUXclAoy3A04swRuZ+oHit
-	 5gKvOswP44PHAFMAockGbaeB2jb/fL3eU9Gm5hzRk3z6fsXXGppSYBHpKWhQR40ZbnGD1
-	 l8dbK8716mAu3lArvx3b089rARxuS51LW5IKUqE3fJUR94W8G4EwybVG8QupjbN/A+Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795175984;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=WTa184/D+dpYU0m9TvKEDuuAyqsQWzsiGfAwCYduL4U=;
+	b=s83S3hFQMVi2iK0aBvi4QDqM4LsDuLlby3YCaRSCkxu7nDv4cj1bEqMEw/f7fELL8C7/
+	 xTYL69qYtqaSnU1YIiChdTCgc07SnWAJM01qzj9Xf9p7aBTuHWKnLyWpFvCT54lobhTEw
+	 xa0bIQ7AjOGxJkFFU37u/sDEyZaRLizjWyMmjs2PE6BF1mi/gsCdO1AjmQzcmKM7mNiC3
+	 H7XjCxuX/pF/PB1gAlh1XN6fzPtjDlDcPXkrZ8ACHrCocpTcR7d/E+f22Dn3WnmgY2Yy9
+	 iW9ozDaJi7SCve2QB70JGCK3cBizsiLx4MOuiXOEv7d/97JhGHgEdYadK+rzHkjL3qQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MyyiOHUZ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hcIElR1k;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B38160A2606;
-	Fri, 20 Nov 2026 11:31:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D18606A32A;
+	Fri, 20 Nov 2026 11:59:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MyyiOHUZ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6D571F000C4;
-	Fri, 20 Nov 2026 11:31:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hcIElR1k
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E122F1F000C6;
+	Fri, 20 Nov 2026 11:59:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795174292;
-	bh=FwBF50PIfL1aiRZV3XVfdxpCMikmYS/1IPOH4JT3geo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=MyyiOHUZtdULT6DEcjeMicWbSGpBiRKITjueL55u88L8J78b70T/RQo7P1wtPigDw
-	 W52ycUM2UqceFCn8pQNAOMWT2Enz82Yc754891ZYESvJL4oiXgNjphEbc1ozgz2fa4
-	 iCKObl9lGx/8vAyzPfB7xwlkfbaKhiArJ1xwLeaJQWkUEWLxapLNiKrkLWOtj1nI3V
-	 tN8k1QhbvvxtKjwQmfEJmi7j4lDYPCyqi3yljS9Pf1FFujsTHVvWVHaUrv3vxbA3Xe
-	 6K6X4JZaAAKnu2hfIqnxQfcL22DS7yRS5L0XBO2BEaE0cRAbvRIfSERlEcPCfVMF0i
-	 fudP2WVJ3SDBg==
-Date: Fri, 20 Nov 2026 01:31:31 -1000
-Message-ID: <93b68486e7a30fc0332eb8f78bec46ee@kernel.org>
-From: Tejun Heo <tj@kernel.org>
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Christian Brauner <brauner@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jori Koolstra <jkoolstra@xs4all.nl>, Ian Kent <raven@themaw.net>, "T . J . Mercier" <tjmercier@google.com>, Meta kernel team <kernel-team@meta.com>, linux-fsdevel@vger.kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/6] kernfs: stop taking kernfs_iattr_rwsem for writing in mkdir/rmdir
-In-Reply-To: <20261118220154.2965621-1-shakeel.butt@linux.dev>
-References: <20261118220154.2965621-1-shakeel.butt@linux.dev>
+	s=k20260515; t=1795175983;
+	bh=WTa184/D+dpYU0m9TvKEDuuAyqsQWzsiGfAwCYduL4U=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=hcIElR1kgyYjVB711wffRIUQb9bbkM02G76Ur5QJ2EHX6DiUZGqKDFuTPOFok1kvj
+	 yyrx1HcKf+58DBr2s9za6z3ahRBbpBQTRw8Pm0Gt6PkdXcyhMPH6+B+kc0SdF0D4so
+	 vjA2Oigh/DPlsh0oqzoG/12BrFVWek7VYJl6q+xvY7Bt7ekXK72Tes4PAoIn3akgzq
+	 VPuNqF9Zs2WMgGIVhQwTUNR0rlSwxnXfUKqU2lXmAAMyzB+yBtaToYTheyY7qTolad
+	 eFr3AORa4Oukc42ljcSMR3NpwhGzTuxTR/caYmM9Wlfx/lPBKy+Q3/vB+VQqN9Fz+u
+	 5u3o1H1IoOXnA==
+From: Mark Brown <broonie@kernel.org>
+To: Arun Iyengar <aiyengar1990@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Johan Hovold <johan@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+ stable@vger.kernel.org
+In-Reply-To: <20261119-regmap-mmio-attach-clk-v1-1-91291802ac53@gmail.com>
+References: <20261119-regmap-mmio-attach-clk-v1-1-91291802ac53@gmail.com>
+Subject: Re: [PATCH] regmap: mmio: Don't attach the clock if clk_prepare()
+ fails
+Message-Id: <179512899892.116416.13230762331536934249.b4-ty@b4>
+Date: Thu, 19 Nov 2026 22:56:38 +0000
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -57,22 +62,46 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1138; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=DPK3QJShF5aA+PmtmBOiISahQ7qwKlUH6H6y5QEkFWo=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIZzHT49K89LapSiN7WybEt8/arMC/bxA1LVkgbic83O
+ VSy5MbZjlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAExk6yOG/8Vq9uvz3j2ss+3Q
+ 3JLHmdfa9bPq+NNo9gnJh9KV9y0VyGH475u6oFIpPnr/Fpblifp5S1f29PQuv2olG3/06uYJEtu
+ d+AE=
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, Nov 18, 2026 at 02:01:47PM -0800, Shakeel Butt wrote:
-> In the Meta fleet, cgroup mkdir and rmdir can stall cgroup operations
-> on the whole host.  They hold cgroup_mutex and kernfs_rwsem while they
-> wait for kernfs_iattr_rwsem, which every path walk takes for reading,
-> and they take it once or twice for every file of the cgroup.  systemd,
-> clone3() into a cgroup, BPF queries and the OOM daemon all wait behind
-> them.
+On Thu, 19 Nov 2026 16:50:01 +0000, Arun Iyengar wrote:
+> regmap: mmio: Don't attach the clock if clk_prepare() fails
 
-For the series,
+Applied to
 
-Acked-by: Tejun Heo <tj@kernel.org>
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-7.4
 
-Thanks.
+Thanks!
 
---
-tejun
+[1/1] regmap: mmio: Don't attach the clock if clk_prepare() fails
+      https://git.kernel.org/broonie/regmap/c/21f72877037e
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
