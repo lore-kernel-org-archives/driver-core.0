@@ -1,55 +1,121 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795191827;
-	b=L00fIRrceNg7A3exYrgTjOwbdQt8XAgLpeIu9Qcws7/4NmXfRt2NFijlIsYbqYwUgxcU
-	 A5r75rGJ6BLOxKJM81E4yD//JYxFYEJFXY+bQhVxkIGV3L1+2jmG1krqw9qLHumBqM8is
-	 JWi7rCGyVxJYBiBv3KzLF1vbwLPw38ifd/5RxO5wooiPE1RrI4xNpmDWogf0WG1v0PxxG
-	 ewLW31fdUJ8QqkAfbznwEjmYFEk/Wub/QQ45nXaKyMAUMilHjibgOZfHjQp146pfejgHA
-	 rCaC1dL7Z2UanBYDsfYThNlzEgm4eDdAVw3Di6WNtq3AyehXv2BBH9/L+5+NdhkKVcQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795191827;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=d3QBEP8dRM7vxwDgY9cDJ9vgtjYUzyf7+KDqMUm8lZE=;
-	b=mlGL9klgApJsv2G0aE3U6bc7WP1BSeKVw0mtW1oJD82SeB1sNv5hIzee9ttudFuFK6Ec
-	 E83kfL9insJTAET23N52LDjLfi+c1UQ3GFMkMlg2wRHUzWgzwdarTVpIJAczpSXN1q7E7
-	 UHWJomthZ/sL2RWE+b1lI5PUwQXFeUbyyk3CF/7NyH7RQJ3+coj6aoiLvav6LLn5MtE/r
-	 Hdei/oFUtNmZh7IRUKehdIi7mOq9pQdp1buTzqWIolre5P4yIMUE9cktNVNvZ19QhgVEz
-	 H6sii0XmKIyiRPX4jeanxYOJvPhdxH2f+JgJzsUs7/AovCIN1SSvoooouEHzySXh0VQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JSRXDky8;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.208.55
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795191976;
+	b=MhTkX9Qs7E52uiBxBgOlwfnvYB1qX3YICN5abVmeXbX3v/SYR5C4SIHXsTODG0W4Jg9r
+	 kY5HQspfANxGt1u3P5A5+vifLtaAwGPBGXZ4S70LYN/tROIpdi1qEL2rn/qm5ok7Pl+fp
+	 Utd9DE3b/jYok0/7at+1ZOy0gAbx9B+aNFGpblrCXQ1bPajvDrjc2oBYqer+oX8ybPsR1
+	 ozAiXBGv5RJoE+X1aJB21r2Yazb8smE+wH8PLHtXG470teL/bfPfHz3u8d5AVXAZaR/4a
+	 k0hKzI3FP5ojiYQj6GbINsbv/kit+WWXx7fI8NIIgcytUBHMs4ypB5dG7ka7+hobB+g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795191976;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=vKS/iM2nVL9PhooLH4dCW40smlNtl6BRn9buHx5Nl28=;
+	b=t6H2jLjRfG47I/wAKlpv6R043BJauftIDJNdrf8reld1FTS08iMHWhywdy6pi+VoxfGa
+	 ABvHP7r5VcUcoIsGBG66hpbyINg2QO4EFb4xcUiIyeUVXhCRwgVCtHZz/UB1aTJX+LV+E
+	 pb+jAQxja1DARG7dz2rsNdvjYIRv3+WA72NNrnEGzPtpEgVE2oH+t/n8Ws4DFFZIzF/QY
+	 XI4Pt/0f8MhEMflAKEh1G8NGvaAdcNHWLnhnfID/5gTCPAdxYkHdGbqOsGI2UINQS1sop
+	 pCHjVXffhxnHFi9sb19EzoyVJ0HlHbQTnwH5l58Kj1r3lkwYytDndTcdU8ftf2Ocigw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=lWwHU6JD;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.208.55
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011055.outbound.protection.outlook.com [40.107.208.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 8C45A606A325;
-	Fri, 20 Nov 2026 16:23:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8FF606A332
+	for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 16:26:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB8FF606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JSRXDky8
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 1134F1F000CA;
-	Fri, 20 Nov 2026 16:23:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795191826;
-	bh=d3QBEP8dRM7vxwDgY9cDJ9vgtjYUzyf7+KDqMUm8lZE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JSRXDky8awBoFyMHc2ZYa/qstsTfmMod7yUu3hMwHzq+8DKmkTeiCyZEcZ2j8whmN
-	 hyM0IVbMfSGnvfxxYmC76qRFIYVtAtiENd9M1Y65PPno2ppTtiPinrnAGC/r4yQHel
-	 XIIsnEP3XhLf1OoF6YOqX+xvU9JDF7ybMY7ZRmFJP5mLtmsT2NT5XygkNQznbJXwLk
-	 mwG7JM3V2OlHRFpzFWalUd/ZQq5j5XS0HwDo9keZXUjGkpPhksWaCuNmIALDzCYpEt
-	 H3tI2DOXwDzcPXA6UYHPpq4ukXbZlLmbky6KCTSGD+fiU0TWmlzvzC8gIWGOZ+gh1P
-	 Gq3cytlfMhlzw==
-Date: Fri, 20 Nov 2026 17:23:43 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Thierry Reding <thierry.reding@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-tegra@vger.kernel.org, Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH 0/2] driver: core: Allow drivers to opt out of
- driver_override
-Message-ID: <awByB3M1qPiye8JL@monoceros>
-References: <20260922-driver-override-opt-out-v1-0-58c35ded3b83@nvidia.com>
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=lWwHU6JD
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Nqaxsylaw3Z7R3Y+N/tAvx0ReW+Gbj+Mj0IMNA+x1Et7XeZ3AMqj6p9D2GFYcZGSjx0DcU3vbrdXtXSxn8u8sVPWxN/3w8BI5yWz1N+C5d+q0+/g2ugj9nl28Y2jDgBi57ZTEyIHwYlnRVb/+wSAeWzY0snyH0TWpbFEUV5vckCLazd0DDvOn/pzfTsENhXEfXH+Nngqjx/dBkmfHkovHPQPNskncytP4VKq+b6QRp5l53WuUTd4J7c4zRROJTGRYXW5oFb3hWj0oLvD/jjHkLhrpu0mvmsJa5Ls0UGSuu9H6O8Rdw/JxKUghmOxksiDRrL3oG06GtnynmxhvZbT4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vKS/iM2nVL9PhooLH4dCW40smlNtl6BRn9buHx5Nl28=;
+ b=ClVGWaW8CDBKjU4Gzua+sPC0vo3M8dSvBh1QXcVNToZZpWWAkfEu6XmEAk/rpOGa+jchTEfDOfjilSiurd5wO6avliHw9bIV3g02pOFGWosClq5KtUrIVZ4YRRiCw3pAl6SvE1EWM6iyZoGiCjD+C6+F+g+1xexXYTd0uGOLp/YlnuFIrNZA9KNnQwxv7xAXD+u1Du7FggAi6jyWl9P4J1skBshccaHJpuRXScRoo2qOkqYJvQ+Zd/ORey0DUsaJ9XCf1GZfYX87yj1eamf0BHFzU2MZ7irEDZPxgmZhhN0wYI6WLbmSnpA3kFCb/xlPHoYRLadOR5DDrT0cM5SfBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vKS/iM2nVL9PhooLH4dCW40smlNtl6BRn9buHx5Nl28=;
+ b=lWwHU6JDkX4JIieQut4ynfCxYDhuivHoEHxalQaim7W9GWX5IT7Igez9EKmbSj6nQ/6LGcFW/0XIT3P8TCSH9rzimD3WhGjF4F91o/p2GCUEI4lNSZPJkqYoK4EKHN8nkOmscjuGNfO5ph5Q23ppEELv39j5nylYHZsQH8nfjxbabz7jQZ0mpQ0shMw8kYrYsgMdRmTGkXw/TFL+bBF3HCl9bQpDGrTZ054q+XhMc7VR02topmCZVuRIkDs2PAzDPXcbm6jPpavysrCnaS8BacFbw89Y+NwyYWTjVcqBpYYyffD9Xb061+rWVRvWCWB80XtSg3iCltySZCb+zK4UUQ==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ by DM4PR12MB6158.namprd12.prod.outlook.com (2603:10b6:8:a9::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.10; Fri, 20 Nov
+ 2026 16:25:59 +0000
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286%4]) with mapi id 15.21.0639.011; Fri, 20 Nov 2026
+ 16:25:59 +0000
+Date: Fri, 20 Nov 2026 11:25:57 -0500
+From: Yury Norov <ynorov@nvidia.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Andrea Righi <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Ilya Leoshkevich <iii@linux.ibm.com>,
+	Johan Hovold <johan@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>,
+	Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-s390@vger.kernel.org
+Subject: Re: [PATCH 7/7] cpu: make preferred CPU policy writers mutually
+ exclusive
+Message-ID: <awB0lRGLJnKli7jE@yury>
+References: <20261113184257.621707-1-ynorov@nvidia.com>
+ <20261113184257.621707-8-ynorov@nvidia.com>
+ <20261120153851.GX2668564@noisy.programming.kicks-ass.net>
+ <awBub4wgnTnsqL7i@yury>
+ <20261120160957.GA2668564@noisy.programming.kicks-ass.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261120160957.GA2668564@noisy.programming.kicks-ass.net>
+X-ClientProxiedBy: CH0PR08CA0003.namprd08.prod.outlook.com
+ (2603:10b6:610:33::8) To LV3PR12MB9356.namprd12.prod.outlook.com
+ (2603:10b6:408:20c::21)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -59,60 +125,81 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tc46iwcpupwpxjlw"
-Content-Disposition: inline
-In-Reply-To: <20260922-driver-override-opt-out-v1-0-58c35ded3b83@nvidia.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|DM4PR12MB6158:EE_
+X-MS-Office365-Filtering-Correlation-Id: e49374e0-9fc3-47e5-2420-08df4722f60f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|366016|376014|7416014|10070799003|1800799024|18002099003|22082099003|3023799007|11063799006|56012099006|4143699003|261026140227099003|261026121527099003|261022105027099003|261028144727099003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	C2FK0Az/RF4oyl9J5RV8mb4ytJFR56oP3e+CYsohQypgrN/aiLojwXN1Vq1gxUQwXqpMe5tb+/S6W1H3TSgVuY3yRS9NKBCG66MqbbfXEeCOQl72Y94NCp+OElkoAC4/vkSgC/yPaDIuq9qD7W0CeSinFR3kB7hkuVQhbgE182+hUfQoybCTsZuWsW8wD4Q29JsjoWI3DNu8lxyckqwuBzVMdyBp/P5+0qc38ZNkQmCkJnF6Fa7n1GS4OFx8j/E8V8W5np5i65qDAKj4CU2Pqcsal6yODnlPYHJ9n6TJ4UUOObHQEH2WTOXvo8z0LUDOlHVk77SVk3DFq61aJgzLA4KvQbzeAcSzj0hFFT0pxbvtDyXIMhgwn+Y1h1cCLgcMCrArSpDIZI3xgrqVCZaIh09wtUYzDVZvMLPsA+GxG26Zb+QJEFBbw0srU3tNL0YFu9tU8tLrqddMwQVHh1PCcEthfE5gG9pO6usychaNRdRnu6x2TQd8xE5EcOcbzXhqLr1FGCV+3nEevl/bfSUUTMQZ4qrHmIR35aHBgcRd1kBzZMc9n4YXXf1RcE7Aw6n+wgUDQxkTlT7hI/MqJLSPVe6HfkpelAwacc5k0xzvsPBbiFS+5A/cWQj3gUJ8psEvWOzphyiUH24L2SLj1noQ0CmbIvukOqCLW1N4mi7YDbI=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(7416014)(10070799003)(1800799024)(18002099003)(22082099003)(3023799007)(11063799006)(56012099006)(4143699003)(261026140227099003)(261026121527099003)(261022105027099003)(261028144727099003)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?09mNe5VwOV61fDdpAK4ihRnMVFdyyeld1fNL4Se1VYVAf9DMXPgcf27TIcWF?=
+ =?us-ascii?Q?7fvLmNXkdho8O7SxjX863nao6KvzZQ2I045T0TFk8ssVRqXHga77RFr7ivje?=
+ =?us-ascii?Q?2p+9iiwmxCjJMy+usGwtg8xjQGW7zXzWou2JQBZCjPPk0+DhO6s+PwYPWbFd?=
+ =?us-ascii?Q?JiRWIl5jZOZc3xsfRBndc1yaS6dvKIvEMYkvYL6Q4+Ee9/oFBUE/tsbwwh/L?=
+ =?us-ascii?Q?CHk8gBwnWa1a1cvGmDEBzOnck5F5lvyDSHYfL3npdRQx1gpympvQTVzPyAN0?=
+ =?us-ascii?Q?cHD0tPURjpe73aCZx1J01WEflRdHR+aiir0RKRIMe8LioCyBwiZiCGQPw3mA?=
+ =?us-ascii?Q?WCPxsUxo8n2pzKyKQfgC2RZwFVrdmMpYuhBUjR2gesrWsznFJH/zZgVGJLkK?=
+ =?us-ascii?Q?k2SmtAZdB3sXW1kOdMUffEJmyMYtGIyxhMsWiarsEk+QnJs098MbLEAPpcOR?=
+ =?us-ascii?Q?mrqmx9pvYtCK/+QBack5SG3Fat5TUIx5XMv5ioUshTJBZKU8IzN8RzE3qgI4?=
+ =?us-ascii?Q?kl5mT4mUhtMiL2c3iSM5HczbkW3LB1/OYKBWMjsk5PFaxthwAvDwkwaWJa2C?=
+ =?us-ascii?Q?g9W0KRBpPxHeWdkeGg/8nbn3Yib4NZ7o8UcF7Pre0BeEsbKCRRO4Kx3+05au?=
+ =?us-ascii?Q?WA5VMdZJh/iieBmtdWZtLJdBHHwYyMFxPTV/Ax5rpnUaFMwIAfVwuN8P1tBY?=
+ =?us-ascii?Q?DvsqrfnWvOdhgRqqMEXPaCTHKVk2qNFdshExUU1meymuE1v+rqlyDF/iEEoE?=
+ =?us-ascii?Q?fWUvpwr+W3hTl5qBXlWN/8LfOazBe6nw8gjGR4USBpeyEK1zPljWvj0pWm3K?=
+ =?us-ascii?Q?KJYroC/xujgVRJ0UHb8gOJzzyIsRYru+4T6r9140vGuE3CM4w2svZlcKaVoB?=
+ =?us-ascii?Q?kYrZF/x1o0Jlc0tJ/WfqrXORNVpm2weN66fWw/0ZcVr28XUr6yjKwJqvsnrH?=
+ =?us-ascii?Q?U2YKTPFKMpLbXRUsVA/rvHX1Nx5+LshOOiDcXIGe9gji4sZGfqTCQqOE5Dkx?=
+ =?us-ascii?Q?6UGhAaigD+/QIMVLnm9eJ0SS1tFcTXi/cyshICObIrG1dHx4M5ni1PAJ1qRW?=
+ =?us-ascii?Q?gXt+PstgisDBT0hVBPmcjtuf8jOEYnTHhZE5bsr1JFc4JxjKBiq+c9uxen1Z?=
+ =?us-ascii?Q?aMdnzDgjm/ES/9/Xg1NYrwShYNVdelNQUhq3I7FsT4N6VEMmPCHyEy16H1Sh?=
+ =?us-ascii?Q?bslCJyqqjBK5bxpWSmznbxm7aza5OENhWK2sKVjC8gpmNhLPkMeOEeKXehoI?=
+ =?us-ascii?Q?VujHWQtRGjrG5AuL7KZnJGcURrPRpY/G8O4o8lCAq7d1R/j3AI+XeYgV1HBd?=
+ =?us-ascii?Q?1xWmJLx7Zj/LdV54B5I7OSNVRuMdcDOtfhXwHbRbseeSTR6q+jFhT1ole+lV?=
+ =?us-ascii?Q?h+W4qoh5Ch4OsYG8uHZItw5EF1HCgc0xKzdkjuZSJTjaROweZacG8kTO4kRL?=
+ =?us-ascii?Q?R+fGUSjZftFGgeiXFbxsnWcbOJZ1Py2vcXqlLnx82a34oMY/R1Rgs9XBFDR7?=
+ =?us-ascii?Q?ReW6EDoHRxQVfo100Ud2t+jnzI01U8yz8yHbcf5zRKTY7YVBa+/6heIpcbtM?=
+ =?us-ascii?Q?5uUnaby+PnM+gygqY39UHF9WTTEPoBofCUOOED2tn5mVjElitSANbCytab2c?=
+ =?us-ascii?Q?SNGOU+Yx17uPuye11tEg5rdlClVBsos6/YS894PhXV1Inq9caKc36kHRp3cy?=
+ =?us-ascii?Q?eI95lFrTAaNWv3+COTSp+3ux+gtsy740TWHfob1lubkqsPKK7LnWz3WV/ZMw?=
+ =?us-ascii?Q?QWXtjl0A/AUl+F2BmQh0WHXrtkoY7v1VyjIOUWgGpJnlccTeVEaU?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e49374e0-9fc3-47e5-2420-08df4722f60f
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 16:25:59.4292
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Uti28Pn4b3FsCoHDpg1otnX4LJkvMVPo9aj0p2Z0xWIlnSQGvUX2uWs/3a1id1qsOPR90NpjMqhWEpb6rwUeOg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6158
 
+On Fri, Nov 20, 2026 at 05:09:57PM +0100, Peter Zijlstra wrote:
+> On Fri, Nov 20, 2026 at 10:59:43AM -0500, Yury Norov wrote:
+> > On Fri, Nov 20, 2026 at 04:38:51PM +0100, Peter Zijlstra wrote:
+> > > On Fri, Nov 13, 2026 at 01:42:56PM -0500, Yury Norov wrote:
+> > > > Serializing preferred mask updates still lets competing policy drivers
+> > > > repeatedly override each other's selections.
+> > > 
+> > > Competing controllers is not going to happen.
+> > 
+> > That's the purpose of this patch. You can't stop people writing
+> > alternative controllers,
+> 
+> Why not? As I said last time; the whole scheme is co-operative, it
+> relies on all guests doing the same thing.
 
---tc46iwcpupwpxjlw
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 0/2] driver: core: Allow drivers to opt out of
- driver_override
-MIME-Version: 1.0
+The whole scheme is co-operative so far. I'm experimenting with
+cgroups right now to teach the host to catch and punish cheaters.
 
-Hello Thierry,
+Throttling may be driven by a different type of control signal,
+like [1] does for overheating, or a mix of signals.
 
-On Tue, Sep 22, 2026 at 01:38:27PM +0200, Thierry Reding wrote:
-> Overriding the driver to bind to may not make sense for some drivers.
-> One example of this is platform drivers that use device data obtained
-> through device ID matching (such as OF or ACPI) and they cannot work
-> without that device data.
->=20
-> Usually the device ID matching is the only way that such drivers can
-> match against a device, so drivers shouldn't need to check that their
-> device data is valid. For such drivers, driver_override is the only
-> corner case that can lead to a case where no device data is found.
-> Instead of requiring each and every driver to handle this case, move
-> handling into the core and let drivers opt out of this override
-> mechanism if it doesn't make any sense for them.
->=20
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-
-https://lore.kernel.org/all/cover.1795171088.git.u.kleine-koenig@baylibre.c=
-om/
-is the more promising approach that doesn't require each driver to
-opt-out of force-binding, so I'm discarding this series from my patch
-queue.
-
-Thanks
-Uwe
-
---tc46iwcpupwpxjlw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmsAdAsACgkQj4D7WH0S
-/k5q8Af9E9OuIg4RQEWxGrl1pehojKPkNhbBi8UGoCLQMXxGjsSvtcgWWUo+BI4d
-v74CAyb8WsBYczaaPkLSzdh5E7iRRhOsAa2hmTc/Ck5QL6uTnuti1gmDEr1+zaht
-BsqkGSM3SQ4tsXEmpAoX19LHNupGCVhb9kDCIFrOeqpgDmTCdM4qbD5hELo4OQyv
-acs+1UmnlaCJFe6WywMiNA2nq08jhd90FnVuKAVb3bleyoRx+fh40lSWmc0Kuhxp
-M5/w288ljlxEFphCHgycl8JKGg7Mj4u7DXRzh93GMJxHhpDeAILJLvsRn73FPWDd
-92wzxVeeR+jUBALI2fFoh64AI1IJfg==
-=9Efd
------END PGP SIGNATURE-----
-
---tc46iwcpupwpxjlw--
+Even for the current steal time scheme, one may want to implement
+their own controller, for example built into their driver.
