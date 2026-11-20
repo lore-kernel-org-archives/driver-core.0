@@ -1,122 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.196.68
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795192006;
-	b=vMlzRVmW1DKhDEBIR0DMDeKulsy/oMNRKiPDBZV8vDhlQLsjZK/xuo8+pBX09HqG3Tbr
-	 H7BmbXoTxX/8doadXL1RGcbxBMeAEyPrJ7ZCEFLNSNaH7xgqR5qh0vpRtTVeZCLRHM8rH
-	 imGXrpyN02U77AYIrJVvyIftuDxc9Ly5TlxKRr1T2KS/VbTzsB37jBD+hQ038meOK1td0
-	 W7IZXbQahhpaLoLqP+HCzc3Kb643+Phzq0OKpPPwLIHm8yX53TswgAujeQM2yXh3UpqlT
-	 P6aYxfUTadSqDt9jS4A4QokElhY4rWEsfY3uHCpLTCkgC83slminKeIfnk5NjZG22qw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795192006;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=jDiCL2p+DGO4vDl3jTBUIdV9E0lCov1HeZdKNXK4Qj0=;
-	b=1kNOwMBWTQkwYHxr5Vq3/DBkLfNNB6Ozd333Q0SVzMBjh3HulQOeKHsxJDDpWLxs0ykt
-	 aBNCvRObwqztCaX/F+725bPYJEMCN0Y5+xY+82IFdO175GyFKv9m+3u3g0z5oOOySi3WY
-	 xLiFeiZZ0k7MgmQdluo38qZ0hOh83G7GwIPeTAm/3fMP3Ed9ueAGxAWoqXdvlkM8p5fRj
-	 NnlJrxwB4vCInVBCPYU8mZANCk/94Ey2WnoWDpY0ilEFKJNl4HGuk8IQWowoCg9SVkUjF
-	 45nv0lNY3dBoK3q8EeSyukS/pDhukGiT6IBDvm5/HEo8YXKLJb4c/lN7+EAHoLIML9w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=WnOc+3vj;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.196.68
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013068.outbound.protection.outlook.com [40.93.196.68])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795197296;
+	b=4iUDZjmU9613YcfXkeiKsN3HjTeZsoDx9QTy+GPBuADv6+i/iLKpR93YEtaLilYB+P6i
+	 ey7+9A8WFHNJQ+580w3uvy9UJ62xu8y80EMSjgxWHdstl49iw6NumY5up00pSCc8V6aI6
+	 xCLEemaJhRCh6PTNeHSBaO78y0S3SMajzAakQPcIKbvLFmlihUMhM1P3fHu7ooah6x78z
+	 kHOo8IVVhgvT/lfIFPeROE3YPKblRzslrxySDNOE7iIDvS/8DyBoRzYAQ+5bFE9O1EFyW
+	 mF4IawYZFaDgwZ+TfT9FoxL1cmmrPIzdgxJk3LF1GKWKu4AkHI3zQEqemTyXFhMR5SQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795197296;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=dKrmLiXU2F487bqrAOIazBqAgREKSs8080df6vNjwXY=;
+	b=vBMd5bStdor6KFcTAd+A620LLmlfpuWQjbI/W6NBDegNFMbK67sluTDOSs/8anZPjJrA
+	 NbN2Q+eX4C9+I6oGd0ZmnaMnht6mZSXs9ekOvdKBb6EbLBM7xXQKDxGy2MRZ/6MdvR1FE
+	 pETbmYmFtHQAS/6Zdc4p144QY+VJM3eOKvmPDPvdG++ADqBQi1ZrEP2/J5PlTtvIMR0Ut
+	 8MKxOhjZdNXmefzXtK1LJJv6OIx6oSLvBcE55gBBIOHCYLvfT336MaK0sbYD+B/EFGKam
+	 Je12ABuVpqKhoJxbZH6blYJh2W1mYOvyFJQehJIVL9l0FiuT+D91wEArxp6GfSwte+A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HxnrnQiV;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08238606A330
-	for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 16:26:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 08238606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBFD0606A33B
+	for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 17:54:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=WnOc+3vj
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dP8w4n+eGSsQz5/OvcE8sDU7HjNLT6uVq4E0CEutQkKoD+pjKWveiDM5RwH8B3UQ8g5vVzfmrjSvpiltdxyK30+OAwFRQ0r9l6vMBoaX7i9TF6Uzph7ZYhwdFMs43F1dRk3xIT+FPFITbQtRZYUR/rPk8jPt8wGnDpE4cOmyuUEZ0Huu0GiAclPalE5d1CQ7PgQvlft57itEq8CSpHMLWYkejWj9KhHmFOcBnbMcaszTzX615IgFbS5ATuNQvxKwUt496axKVIWHRYC0670jbyYo6OmgjR/UFQyZaugM74rl4RpXqGGYHErqebA4gADOKCeKHyG4Q/VPS3QwbiiRsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jDiCL2p+DGO4vDl3jTBUIdV9E0lCov1HeZdKNXK4Qj0=;
- b=O4Op7s/NsLhLtt1jJ4+SkDPPOd9L1MQFMXxT8q9vCsKWGaaUiJ8GWpciOFcuLWOAPlO5LqVE/KNj9mJHZPO8vddHyYBqdSraLGyh8czUy+Oxf88hOSpYDl27lkgdSqoMPi/mU3jc+2SHrGVoJiJPeYnwCwkhUOBEHAgkyPsIf/wnjeGeUh7CSMehQJH5RdrEf+19B4uDVMqwUEJ2B0JR12O+WVFgY5XT8OVqKjToF+W/zLCVUprb8mmcUPGofANBaP0b0g6QLKBUQRePod2Tii6wyv4IGCnXL09AT1Kh5CKeQmhLbx92af1LSFjbVDT9Q2BFi3aviLimlqW3bwL+qg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jDiCL2p+DGO4vDl3jTBUIdV9E0lCov1HeZdKNXK4Qj0=;
- b=WnOc+3vj36fhYJH1TYwOILzgiKcuyMViHnFCcgbsyGsOSDXhvASaLMxm9JoOVCM3hq5Nt8HmHdjJsHFd/2RGcn75KCnxRyir7cSGhDYO3sB1/1DHfGdy2palxiEyrvSakcIvSa9rWzJM9zFnXNKn8v0Tzl+Z5my/unDQUUqcbt9aqCDcEAbKWJHjmZjr451NhqiPsQZqA9vJwRFYL0jfF2n0GCXPYYIZDcrJnYLHx+YqG4mKbcvzR3RUcPmZWKcnUabv7JvuK9CJupmFPMqdJaU9l2Jgi6T8HPvsOmBajuo4SPRFFaZPKJk9xkG4YT6HG9AcQZ3dlnSkqYyy+00swg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
- by DM4PR12MB6158.namprd12.prod.outlook.com (2603:10b6:8:a9::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.10; Fri, 20 Nov
- 2026 16:26:37 +0000
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286%4]) with mapi id 15.21.0639.011; Fri, 20 Nov 2026
- 16:26:37 +0000
-Date: Fri, 20 Nov 2026 11:26:35 -0500
-From: Yury Norov <ynorov@nvidia.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andrea Righi <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Ilya Leoshkevich <iii@linux.ibm.com>,
-	Johan Hovold <johan@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>,
-	Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-s390@vger.kernel.org
-Subject: Re: [PATCH 7/7] cpu: make preferred CPU policy writers mutually
- exclusive
-Message-ID: <awB0uzaEEIuEb92m@yury>
-References: <20261113184257.621707-1-ynorov@nvidia.com>
- <20261113184257.621707-8-ynorov@nvidia.com>
- <20261120153851.GX2668564@noisy.programming.kicks-ass.net>
- <awBub4wgnTnsqL7i@yury>
- <20261120160957.GA2668564@noisy.programming.kicks-ass.net>
- <awB0lRGLJnKli7jE@yury>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <awB0lRGLJnKli7jE@yury>
-X-ClientProxiedBy: CH0PR13CA0044.namprd13.prod.outlook.com
- (2603:10b6:610:b2::19) To LV3PR12MB9356.namprd12.prod.outlook.com
- (2603:10b6:408:20c::21)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HxnrnQiV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 943411F000ED
+	for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 17:54:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795197295;
+	bh=dKrmLiXU2F487bqrAOIazBqAgREKSs8080df6vNjwXY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=HxnrnQiVLW3ZnOR3uRlDYCwz9NVO84sq1aERU+XGJxa5P98Qu/z/0xWUUfPT+2+t1
+	 /RfOthkV9UAX2QlcDl/j+gkqaoFvo9a18ZoQfNmMjyfMulj483u0L6J+woa213TGy9
+	 ypiVv/vsyFIEYRgZKcG0uLSh2j0/QD4hecccbDnwqxbGZlW3fPDXWg11xoQcshHs9j
+	 sCzr+U0Vzn5o9tBYuMvhBOGA2psdGM9Vm620SF2wh8CDeMxWjmbYM9KoFM4aOMcsOL
+	 CJWkEe/wAKtl95y+M/FmEYuqm5Gkm0jv/mODu0NiBISO7VWYrPs8F8YLk8GOLJpVlc
+	 7PDe2O8BP4Haw==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5be4b61fd3dso930160e87.3
+        for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 09:54:55 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErHX4p64Mt2oniJc1+xGIHT69GE0aml2itqzHGjBgTEDdWQArJ2s/23x6VrQw1faoFtr89cWvJwUS/yajQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+EpUv/EvG2KZbrDV2p0JKgnqjWI27k5rxTsMvtHwQqTH1PiQV7
+	1H1WJ1b4GZZWwwUhe0c1Ygh9osN+N4+SgtmSedRA3HgSt79w1MfbzXYoKP5Gl66hNSx6RmXxBMr
+	GcwAntXwMSRatGnLZ830uk5ZmvefRhTo=
+X-Received: by 2002:ac2:4c4b:0:b0:5c0:a54:5d4c with SMTP id
+ 2adb3069b0e04-5c1bc8635bfmr1193536e87.36.1795197294018; Fri, 20 Nov 2026
+ 09:54:54 -0800 (PST)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -126,84 +59,215 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|DM4PR12MB6158:EE_
-X-MS-Office365-Filtering-Correlation-Id: e9591a8c-78f8-4d2f-0679-08df47230cbf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|366016|376014|7416014|10070799003|1800799024|18002099003|22082099003|3023799007|11063799006|56012099006|4143699003|261026140227099003|261026121527099003|261022105027099003|261028144727099003|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	lKJwBnZaSpcMqoOBMb59GvZIdgG1Vyh9Or5PyB94Jf9qKTO+3VFYMbGSr/DjAnA5bQMdFpVox5PuxkOPO3xm0AHKgrdklzlq187TL/0ZI4xjc/ogl7S5z+ThNa/0IYWOQ/BorFrF6zQUo8cA2b9fuONDfscWyHzN8FGAaf20g5O5zrn36Z1aCAQkAxhsjCQ4KD50ZK/jc9231F/0TlfMl/JLcRceKRcvMl/8iUgwPDhjl3MBsRRwsAKpS/8eTkF9u7a3mqUVorHjsIJn+xtcNyjGHA469NPQM9OEtxyl4uHT2NYu8eRctenBfzo+3lS9GdSznaFB7xciQfEW0NJvEDWMGPAb54lPSDpmJYygfglR9e/LmJesW/CguDBleKl5f+28gxUouDfFqJDMQWn+SZpFRpiTlZE+zfd2cfLzwhIItEnvXh6lEyO15Q0noEwJbghqVrfxmxbCCF3dewbNWWrrayDec3BXIIxABOABSxIuBsRRf+bXoAePGTgJdW5KQT6LpYC2nAihTfrHhJ13U66BmVrRptZr6yewaO1U4S25dbmeU/x/5AnNQlmNirEvl3gQsDBoLIxkkWpOBGZ71EgBJZ9kPdgk9ZyrE5cadhbRISNIZAK6dt6Zb0Itwt26Ip6jKq3cx09wNSfXk92PNVSq8gshkPvA2YxhMc6C3QY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(7416014)(10070799003)(1800799024)(18002099003)(22082099003)(3023799007)(11063799006)(56012099006)(4143699003)(261026140227099003)(261026121527099003)(261022105027099003)(261028144727099003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?nYbCs+KwnfHnkUPqAqiWU5cbvPwk3NcsdyoCAHoDeK6iIxOBqtGZC2l22yxS?=
- =?us-ascii?Q?HvZl9h9DhCUgZzHKA6Y643LyNOVEKR4VdWdOOdKuNwQXb4PR5L8bYr+HUTOI?=
- =?us-ascii?Q?cSe6rnNzT3btj5rx9t3qJADr/urPitWWtmAla3DcyxfUXNpsn30U966mz+He?=
- =?us-ascii?Q?/YreY86eyg3b1LicGgrep/MuieMQ1EG8PNimRXNlP3jvlFBrkCgWwCLfS81o?=
- =?us-ascii?Q?GpWJSUeDXKDXdUXBr7c/SWTLZ2RZ6pGgMlIuMI62TY/yUacFJ8UsbkG2SYPr?=
- =?us-ascii?Q?o9khpVuSmcWW1aSzpqKKJdRnPdaRxIR9LJY/i+VXioN9sEiyCI/V31VGw/bK?=
- =?us-ascii?Q?rkTve75f5tR6LoLCITk8CCCsDkl8HUal6SY8vOC7Ql2kwgaeAidADLGkyWsM?=
- =?us-ascii?Q?wf3T2Z+AFwkLmQBt5i4EWqVJl/KNLeAxM5siDTdYMLrlix8Kmr4f/mNllAsC?=
- =?us-ascii?Q?WQXy+5l0twsx78SsSpU2gBfE7z8zkaKw5uy3v0fpV/rFiaTl1SRRRgfTBfym?=
- =?us-ascii?Q?56dZsSeFhUJvSCqczP0eVtOCCICGWHqpAP3eDJyG5p+hONSZ21Jy8/1lQO/k?=
- =?us-ascii?Q?KHHQ2PNge3v1ze72bfhOxtrQoKvF2PTOKkgucQYPK3+2f9k7dQhky39nlVT9?=
- =?us-ascii?Q?2MPznSI0SJZm6Xw6HPDMhs2CDfqs5JBO/zCLAE5I1mAV5m0g90Zhcckk96WL?=
- =?us-ascii?Q?W/fBTyCGZ63sKwqRAEdN6m27TwHtqFeIaHt2FDjKLxr9GhfjSourU4c97870?=
- =?us-ascii?Q?uSvLjDiw8bAuKTFzW715q7xJMrKPKeT+pCJWYjV3hzufdHxAEs/d7Z/CgLS7?=
- =?us-ascii?Q?48NeXueWi8xXAZ8RB5umt4udSchlEx6OruCQaCjeIfcniquhDk5uFxGOAqVg?=
- =?us-ascii?Q?zUKQst3A3nLK4MM0RTzPJU1bAjlZVlTJcMEexvAOL+iVWEcg/OEwsSQ51Gd+?=
- =?us-ascii?Q?gsQW+nCiNWEm4X+gnE6Q0dHX2CvvozDCEZCh9pCI4K43NltjOMbTppIvXO2t?=
- =?us-ascii?Q?x/0LItlkuOGi4aJrubybtoumrnvdulPk3rZmT+GDVTiVwhMLr8uWGT+Y6AIV?=
- =?us-ascii?Q?KrApiYPwdhVpczVuZ1ti6WIRPR8tV09159ajvIhFoH00SASQweSc6IAKy9Ya?=
- =?us-ascii?Q?WcSyUSDNFr6qJVuNGX7lBWTW/lw4ZFcj8j8RvSMy3XQw1e/1IwCMo8Z1lVr5?=
- =?us-ascii?Q?ttpTlOjsPpbxGJp6E7yeBLwjiq7a3ai10V8PavIC2mEmhkd+7YqowO11prNS?=
- =?us-ascii?Q?wxsM3doBW+VTG78kqyjRuA5vBAPVxIj0kMaJ6UONru8hj4/YntPRVOCL/SKh?=
- =?us-ascii?Q?djVEGiksjnqaCMrxHibOVzBdU4SwPC+hi/r+uavB7wMjQx9MZEHQ+X1JExfU?=
- =?us-ascii?Q?e+HxqZbJzqi74hsy8sSqYMKj57Fu49tShEwlIc19gwWMNcTsukdm29bjXriH?=
- =?us-ascii?Q?WrUzLuSyizv5k/xWmWgzDP7YIm3Og6aYhVWL6DfGolKtUNcbOCPdSmojjoCp?=
- =?us-ascii?Q?JwSW3qykiPYrydMd84v821DBcl81M1Pd+mxsiSgZve8THSuVwqYlHkrjluec?=
- =?us-ascii?Q?yO3PQAWcvJcZEqS6zTgfjGWZhRVYnn0aAXEwP1cV6oAXEv6c20geq5G+t/hH?=
- =?us-ascii?Q?nggYJF39mOaLz8RvFrO8NkcnEv9hHjNDaTBtEprNSbzwPKXvBsi1sApFQl/0?=
- =?us-ascii?Q?zleZTdg2fRTul7MMynIfNDQ0eTjZiBK8Uuz5Ox7UZyorCuljC0cwr7D3yuk2?=
- =?us-ascii?Q?+ACmtOsOGM+2ojd56B0qZqhT8oQx+0dZ3LaC5xiicSKpOYO5feU3?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9591a8c-78f8-4d2f-0679-08df47230cbf
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 16:26:37.4414
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CjRraDULBIAr3lFXXYsL05NYKgP+XwXpHxhY1K6kre1EPS4uZHsJ4942QyUBiB6hfIFsEKCXivt9mFc8tS0YCQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6158
+References: <20261116-pm-runtime-summary-v2-0-a3d8654baf8f@kernel.org> <20261116-pm-runtime-summary-v2-1-a3d8654baf8f@kernel.org>
+In-Reply-To: <20261116-pm-runtime-summary-v2-1-a3d8654baf8f@kernel.org>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Fri, 20 Nov 2026 18:54:39 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0g+7zxWmUNt4b6NXQnWML-coCBDCqrZnVpD+7s=SmCAcw@mail.gmail.com>
+X-Gm-Features: Aa3M54rjIr-lP8MdASeLxH5QB5e_sHkRORN5DH92yPw3YktljUsuSRiXGkY7deM
+Message-ID: <CAJZ5v0g+7zxWmUNt4b6NXQnWML-coCBDCqrZnVpD+7s=SmCAcw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] PM: runtime: add additional suspend/resume metrics
+To: Joshua Crofts <crofts@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Johan Hovold <johan@kernel.org>, Samuel Wu <wusamuel@google.com>, linux-pm@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 20, 2026 at 11:25:57AM -0500, Yury Norov wrote:
-> On Fri, Nov 20, 2026 at 05:09:57PM +0100, Peter Zijlstra wrote:
-> > On Fri, Nov 20, 2026 at 10:59:43AM -0500, Yury Norov wrote:
-> > > On Fri, Nov 20, 2026 at 04:38:51PM +0100, Peter Zijlstra wrote:
-> > > > On Fri, Nov 13, 2026 at 01:42:56PM -0500, Yury Norov wrote:
-> > > > > Serializing preferred mask updates still lets competing policy drivers
-> > > > > repeatedly override each other's selections.
-> > > > 
-> > > > Competing controllers is not going to happen.
-> > > 
-> > > That's the purpose of this patch. You can't stop people writing
-> > > alternative controllers,
-> > 
-> > Why not? As I said last time; the whole scheme is co-operative, it
-> > relies on all guests doing the same thing.
-> 
-> The whole scheme is co-operative so far. I'm experimenting with
-> cgroups right now to teach the host to catch and punish cheaters.
-> 
-> Throttling may be driven by a different type of control signal,
-> like [1] does for overheating, or a mix of signals.
-> 
-> Even for the current steal time scheme, one may want to implement
-> their own controller, for example built into their driver.
+On Mon, Nov 16, 2026 at 10:36=E2=80=AFAM Joshua Crofts <crofts@kernel.org> =
+wrote:
+>
+> The current implementation only logs the total accumulated time a device
+> spends in suspended or active states.
+>
+> Add tracking for:
+> - resume_count : number of successful transitions to active
+> - suspend_count: number of successful transitions to suspended
+> - last_suspended_time: duration of the most recent sleep cycle (ns)
+> - min_suspended_time / max_suspended_time: shortest and longest sleep
+>   cycle durations to help detect power thrashing (ns)
+>
+> Signed-off-by: Joshua Crofts <crofts@kernel.org>
+> ---
+>  drivers/base/power/runtime.c | 76 ++++++++++++++++++++++++++++++++++++++=
++++---
+>  include/linux/pm.h           | 12 +++++++
+>  2 files changed, 83 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
+> index 304a2b12342082ffacce32aa9c2e863466b0d4ae..3085318e9c32fce892def5a90=
+1aae300f473ea2d 100644
+> --- a/drivers/base/power/runtime.c
+> +++ b/drivers/base/power/runtime.c
+> @@ -5,6 +5,8 @@
+>   * Copyright (c) 2009 Rafael J. Wysocki <rjw@sisk.pl>, Novell Inc.
+>   * Copyright (C) 2010 Alan Stern <stern@rowland.harvard.edu>
+>   */
+> +#include <linux/pm.h>
+> +#include <linux/timekeeping.h>
+>  #include <linux/sched/mm.h>
+>  #include <linux/ktime.h>
+>  #include <linux/hrtimer.h>
+> @@ -103,11 +105,58 @@ static void update_pm_runtime_accounting(struct dev=
+ice *dev)
+>                 dev->power.active_time +=3D delta;
+>  }
+>
+> +static void rpm_account_suspend(struct device *dev)
+> +{
+> +       dev->power.suspend_time =3D dev->power.accounting_timestamp;
+> +       dev->power.suspend_count++;
+> +}
+> +
+> +static void rpm_account_sleep_end(struct device *dev)
+> +{
+> +       u64 duration;
+> +
+> +       if (!dev->power.suspend_time)
+> +               return;
+> +
+> +       if (dev->power.accounting_timestamp <=3D dev->power.suspend_time)
+> +               return;
+> +
+> +       duration =3D dev->power.accounting_timestamp - dev->power.suspend=
+_time;
+> +       dev->power.last_suspended_time =3D duration;
+> +
+> +       /* Update min/max extrema at the exact same moment as last_suspen=
+ded_time */
+> +       if (!dev->power.min_suspended_time || duration < dev->power.min_s=
+uspended_time)
+> +               dev->power.min_suspended_time =3D duration;
+> +
+> +       if (duration > dev->power.max_suspended_time)
+> +               dev->power.max_suspended_time =3D duration;
+> +}
+> +
+> +static void rpm_account_resume_complete(struct device *dev)
+> +{
+> +       dev->power.resume_count++;
+> +       dev->power.suspend_time =3D 0;
+> +}
+> +
+>  static void __update_runtime_status(struct device *dev, enum rpm_status =
+status)
+>  {
+> +       enum rpm_status old_status =3D dev->power.runtime_status;
+> +
+>         update_pm_runtime_accounting(dev);
+>         trace_rpm_status(dev, status);
+>         dev->power.runtime_status =3D status;
+> +
+> +       if ((old_status =3D=3D RPM_SUSPENDING || old_status =3D=3D RPM_AC=
+TIVE) &&
+> +           status =3D=3D RPM_SUSPENDED)
+> +               rpm_account_suspend(dev);
+> +       else if (old_status =3D=3D RPM_RESUMING && status =3D=3D RPM_SUSP=
+ENDED)
+> +               dev->power.suspend_time =3D dev->power.accounting_timesta=
+mp;
+> +       else if (old_status =3D=3D RPM_SUSPENDED && status !=3D RPM_SUSPE=
+NDED)
+> +               rpm_account_sleep_end(dev);
+> +
+> +       if ((old_status =3D=3D RPM_RESUMING || old_status =3D=3D RPM_SUSP=
+ENDED) &&
+> +           status =3D=3D RPM_ACTIVE)
+> +               rpm_account_resume_complete(dev);
+>  }
+>
+>  static u64 rpm_get_accounted_time(struct device *dev, bool suspended)
+> @@ -1571,6 +1620,7 @@ EXPORT_SYMBOL_GPL(__pm_runtime_disable);
+>  void pm_runtime_enable(struct device *dev)
+>  {
+>         unsigned long flags;
+> +       u64 now;
+>
+>         spin_lock_irqsave(&dev->power.lock, flags);
+>
+> @@ -1587,12 +1637,21 @@ void pm_runtime_enable(struct device *dev)
+>                 dump_stack();
+>         }
+>         dev->power.last_status =3D RPM_INVALID;
+> -       dev->power.accounting_timestamp =3D ktime_get_mono_fast_ns();
+> +       now =3D ktime_get_mono_fast_ns();
+>
+> -       if (dev->power.runtime_status =3D=3D RPM_SUSPENDED &&
+> -           !dev->power.ignore_children &&
+> -           atomic_read(&dev->power.child_count) > 0)
+> -               dev_warn(dev, "Enabling runtime PM for inactive device wi=
+th active children\n");
+> +       if (dev->power.runtime_status =3D=3D RPM_SUSPENDED) {
+> +               if (dev->power.suspend_time && dev->power.accounting_time=
+stamp
+> +                   && now > dev->power.accounting_timestamp)
+> +                       dev->power.suspend_time +=3D now - dev->power.acc=
+ounting_timestamp;
+> +               else
+> +                       dev->power.suspend_time =3D now;
+> +
+> +               if (!dev->power.ignore_children &&
+> +                   atomic_read(&dev->power.child_count) > 0)
+> +                       dev_warn(dev, "Enabling runtime PM for inactive d=
+evice with active children\n");
+> +       }
+> +
+> +       dev->power.accounting_timestamp =3D now;
+>
+>  out:
+>         spin_unlock_irqrestore(&dev->power.lock, flags);
+> @@ -1861,6 +1920,13 @@ void pm_runtime_init(struct device *dev)
+>         pm_suspend_ignore_children(dev, false);
+>         dev->power.runtime_auto =3D true;
+>
+> +       dev->power.resume_count =3D 0;
+> +       dev->power.suspend_count =3D 0;
+> +       dev->power.suspend_time =3D 0;
+> +       dev->power.last_suspended_time =3D 0;
+> +       dev->power.min_suspended_time =3D 0;
+> +       dev->power.max_suspended_time =3D 0;
+> +
+>         dev->power.request_pending =3D false;
+>         dev->power.request =3D RPM_REQ_NONE;
+>         dev->power.deferred_resume =3D false;
+> diff --git a/include/linux/pm.h b/include/linux/pm.h
+> index ef3f1310e749c34d4aff75a2fd7e95b9f2ef3a10..7cd1350ea327be4e800175c2f=
+c0e3b3e35c3ea57 100644
+> --- a/include/linux/pm.h
+> +++ b/include/linux/pm.h
+> @@ -747,6 +747,12 @@ struct pm_subsys_data {
+>   *   state.
+>   * @accounting_timestamp: Timestamp in nanoseconds of the last runtime P=
+M state
+>   *   accounting update.
+> + * @resume_count: Number of transitions from suspended -> active
+> + * @suspend_count: Number of transitions from active -> suspended
+> + * @suspend_time: Timestamp when device entered RPM_SUSPENDED
+> + * @last_suspended_time: Residency of the last sleep period (ns)
+> + * @min_suspended_time: Shortest sleep duration
+> + * @max_suspended_time: Longest sleep duration
+>   * @subsys_data: Subsystem-specific power management data.
+>   * @set_latency_tolerance: Callback for setting latency tolerance.
+>   * @qos: Per-device PM Quality of Service (QoS) constraints.
+> @@ -816,6 +822,12 @@ struct dev_pm_info {
+>         u64                     active_time;
+>         u64                     suspended_time;
+>         u64                     accounting_timestamp;
+> +       u64                     resume_count;
+> +       u64                     suspend_count;
+> +       u64                     suspend_time;
+> +       u64                     last_suspended_time;
+> +       u64                     min_suspended_time;
+> +       u64                     max_suspended_time;
 
-[1] https://lore.kernel.org/all/20261117022542.863028-1-ynorov@nvidia.com/
+Can we please put those new fields behind CONFIG_DEBUGFS?
+
+They would just be pure useless overhead without it AFAICS.
+
+>  #endif
+>         struct pm_subsys_data   *subsys_data;  /* Owned by the subsystem.=
+ */
+>         void (*set_latency_tolerance)(struct device *, s32);
+>
+> --
