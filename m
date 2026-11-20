@@ -1,48 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795208418;
-	b=RAh1YqSrfo2U8iU64A2Sl8PJgmLPT/wDHR1G9540srQVbZzJgNvOiTDVdKwU0FguX1KV
-	 94qAuU/ADrq0Nhs5yhGQ2EhPSO4w1khCLibKMTZRvl3NNDVe/O0LdoFlWLdNLdYnzv5Vv
-	 cSdKeQnsWVjJJPrGBPuunXBoO8i09s477t0SoE/drKlpllDguk49A7bLjOOEBQcTvaRXH
-	 TAnibqsqjMltGTMsTH8DD/J12QqpRm+HL4ta2V/jICutXW/SDaEzVvzkIhSn1swUHv5mW
-	 eLnktm65GkoHu8oIS5nMwP5SnMkDMl/82JsCFJaAquE1CULUtwNK5xj5NA2SMamhBOw==
+	t=1795208653;
+	b=xnXOe3Zjousjt1w5s1PntUfF5y/cj0KU6LqVva6S1EQOt1hXnznlKDC3dtqmfOn8BTBX
+	 R90HNWRPiQwy35sVmhVQ4wIc/p3uR5SXDnZOQnQ5MVIVV+Uy41uV7r0VpSI+FAPN3EwXg
+	 hI9GUu1TbF65vhdG4iBbYtszPszbnqzbIvDkGpTirEH6lDSJTFlsNognhBY7sbtY8Fm3k
+	 grVxF1VyM6dsLDC1nKvj+dHMPbCjbgZZIKpm8Osc67ZIhE0ldZsKTa1uoAuW2CMwE3Y9W
+	 LNC8kzru1jy4lk8e/9bfBAEVebi2jBsr9NB0GbFriwyqLEuE2cu1BoOSiAHCFcs7yJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795208418;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=+ouoWf0jPxz4lOByrM5BHp1+040jp+3W6jzF7j7K964=;
-	b=2wvFpFnK1UYZpJugiLl3Z15oY9I/LYHc0DSWKOqAEDQ8pW0JED0RXYugc6KBb9fo0r1+
-	 kKipo8OeBY9Extm7aTVZlcAprSsFvgyJjLrLT8rXFhJiJ0AsaP/HNWB2TZencf0BEvCM8
-	 2GxYW21j+c8XkuZjwidAPNJEwXwgn5ylO7xM0WvUQE42yl9X2Yndxc39R95bEu5GVp2wg
-	 ofOz8B0Irjqhjgzwx9fUUv++UJ3eTSkKam5TB58wL6C7gKe2TjL3gztyYmGDJNu1Mrcmf
-	 iwkN56U44qEiU6YwdhXjVWxw9ebCMeZu/5Hp+uJvWNgIXUOF0xN3G4YN0cgkKUQr6+Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795208653;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=/ru90xVBZjCMBPo2fB3f1IAfOuYApIQHIQMbSW86U10=;
+	b=cD/KoOZocr+wrgYJ1h7ckqrIk1bBHryaXYOVKP21GbAmqFgzgJcszz4NBfI7KLxAQxVS
+	 vZJx9Pne8lnonl5d3iLwsnHn6PPH5clsR6/+HFaVC2glDU42KMKkWZAEIw2+U2LeK/IO/
+	 Ol7h5Uur41U/e6DZQ8U/YVVcUnd+ITBhV6Wabim3H+qAvOL4KrpJm2w8sL+H2wgutqepW
+	 ZRHmBFEbheIRumnHrP7XLpuZ1FxEaRxMJPIhoF7UBmWgf/XRQrOQgiZeavn8RN1VL5gyK
+	 MUaM25LF9zCwnEUtAtrqHR0jyfs+DNMeAfvbwNCvOLol1tAEg6yohW4+TyCIlMj7kxg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h7YIxuIS;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=chromium.org;
+	spf=pass smtp.mailfrom=chromium.org;
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=iF9HBCZN;
+	arc=none smtp.remote-ip=74.125.82.175
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550FC606A685;
-	Fri, 20 Nov 2026 21:00:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27D0606A687
+	for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 21:04:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D27D0606A687
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h7YIxuIS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75E431F000C0;
-	Fri, 20 Nov 2026 21:00:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795208417;
-	bh=+ouoWf0jPxz4lOByrM5BHp1+040jp+3W6jzF7j7K964=;
-	h=From:Date:Subject:To:Cc;
-	b=h7YIxuIS4hpZS/90gMheyz9EkItqLE/U5lNaXPNdN67z9zuSi6sA1284eeHsDAOI3
-	 pGvJwY6NBMLXj8VSUPxEgxVZnsB3yq8yBfNTq2QJd/DyMGL/qT1zD/R0R/+x5jGEUb
-	 DaUcKnOsZpZBjrjuTLVMifhCn3sEd6LBDMoY2oEucLcdTRTWU15/32BvD3zuQQTKP5
-	 HHQ6RJhD3wXM5AS/sFRco95nXkG5Jp8Z1vN7ciWPDaCJFQXevPmgvJdTh3UHeMpwq2
-	 bqwmtR+oper+YUUu+WsdazbMNx1kjQWdfi1wtMMtXKwveGH8bz7fL1WDJAZM5dkhKP
-	 uLa6yQQEQMxeA==
-From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 20 Nov 2026 21:59:59 +0100
-Subject: [PATCH] kernfs: clear i_nlink before deactivating removed nodes
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=iF9HBCZN
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-385c497bf94so2365382eec.1
+        for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 13:04:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1795208650; x=1795813450; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=/ru90xVBZjCMBPo2fB3f1IAfOuYApIQHIQMbSW86U10=;
+        b=iF9HBCZN0b+9y+dIgtvnjIyj174apSjg+E6wLNrIbro1UoK6Am6HwG558PY9wfxkl6
+         tFh23ze7N4bNWoPw66lrI4qI1gxz4wL6gmw60FYWcozWh0gVcwhY/mlUwfBIQH2NYoew
+         erdfZR563aS5ms9nTvki3tK6elE5c9n7QjtZA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795208650; x=1795813450;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/ru90xVBZjCMBPo2fB3f1IAfOuYApIQHIQMbSW86U10=;
+        b=T9RoTtErEmodN09PhbqmZEWG5ZSSoxhcuAgjFgROVIzy0cqmfj1LazaSE+CREfw1GJ
+         onS+HUopfNC4E8eAY5vdoOJicFjFpy0dPVsdTxDI3MmAGgf7oKQwWV2IqE3K2SI4iqar
+         8D+D5uFc9I+bsIW20n3WK8sCHArLEuRUWN8+2gVE2gepWUhyfGBP5ifWT8c7O86kodQu
+         Lv1++nw/TgE56dVq08ogOSsmRtnk3J0TKQus5PUDBf9z20T7qT0bnuhjTOZcRjWINKnD
+         UI+uA1QMnQOVtZQ07G82ZVK7fufz8F+x5df2W5cVs2qw3z8z+I15tPU7/fakYBWP3Pxq
+         DL+g==
+X-Forwarded-Encrypted: i=1; AL+hErHcV5mqvKIDFyH3OHHdp9n468mESBLpxVS3COuWAaY2MorsAsplhuQIMzVFj5l2fnh+tlmHuGug+a3avQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8SnJovEXDlKGLQozGCmYvS3kegQatulJy6/HZ7iBaK83tHNszF
+	ZXeEr6SI8GE/rUIR5yijCYo1j9EohmzQmaw2+oxpjaBAxRjhEAoyKw5p/p1n32eRBQ==
+X-Gm-Gg: AZFdTZdINv+7tOIWgPHJs6cVOsgNNVA0yNBSxWWHgK6gYSQeU0w+frtYrlAGEQA+qdE
+	/dEd8BdleHHDgMblwLXZHfXVPciH4RRNMvYZYdfkYnHWif90MELQklQzVk+ctvRD3FM/koSCSt9
+	VrbjrG7VRpJ1idZBa+6hQGDrK4ywU2K7Klewfyvr3rolQH3Zqd8+eHh2XSsIn29gAZSbpTCTY/x
+	yzmRqsIGc8RIkEq1o7KUlSidJqEZou5yXpaf6gPpfqNTmOCp2CXUQrfW+UmgoL+5bkQIntCnCoH
+	TSOryo8ktJDTeGund3PbDcrPATMhyPO3yViKLAjPfm0+UNDIASMmoLY1F3/+7nhJ+MTjUQV4Inf
+	Mm8XdCeAnSea1gWQZpuvYSAUoEHNGFdVBhSCBKOWtI6HrpH27C3K3VzhjtlK6L/4UXpd0NAMRY/
+	OdZpqeQwKjO2x6+rimcd0Ozw3WBfIbnEFHGgzenBHabw9jWwsYsE6vvoxgbXfY5NJgvAab4csXc
+	KBk9HDmAU+eGyZqQvyI4Ssy72RbvvN0z81yv+Yll2k4hQUxT+Mf5/Z4djJK9GAIirnjKd3Gn2sq
+	YCEySevaeg0pPEg3PxL0npHxyBINv53WRshY030ZxgoPfiUHMh1S39yi/aa49k8PL1Wq
+X-Received: by 2002:a05:7300:f283:b0:386:9854:9123 with SMTP id 5a478bee46e88-3869854950emr974034eec.14.1795208649910;
+        Fri, 20 Nov 2026 13:04:09 -0800 (PST)
+Received: from localhost ([2a00:79e0:2e7c:8:ec05:65c0:ffe0:d597])
+        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-3856456e6c6sm9889709eec.2.2026.11.20.13.04.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Nov 2026 13:04:09 -0800 (PST)
+Date: Fri, 20 Nov 2026 13:04:07 -0800
+From: Brian Norris <briannorris@chromium.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Linux PM <linux-pm@vger.kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Ulf Hansson <ulf.hansson@oss.qualcomm.com>,
+	Linux Driver Core Development <driver-core@lists.linux.dev>
+Subject: Re: [PATCH v1 3/4] PM: runtime: Let devices suspend after an
+ attempted resume
+Message-ID: <awC1xx1Wi2BYo5rb@google.com>
+References: <1978814.tdWV9SEqCh@rafael.j.wysocki>
+ <10954171.nUPlyArG6x@rafael.j.wysocki>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -52,110 +98,99 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261120-work-kernfs-delete_self-v1-1-514a35d04431@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/03MywrCMBCF4Vcps3ZCE6QLX0VEkvTExpZUMvUCp
- e9uYjcu/+HMt5IgRwidmpUyXlHinEroQ0N+sOkGjn1pMq3ptDYtv+c88oicgnCPCQuugimw1aF
- 33RHOe1D5fmSE+PnJ58ve8nR3+KVydeGsgF22yQ/1VGG1w+oPVnVG2/YFuIeWMqoAAAA=
-X-Change-ID: 20261120-work-kernfs-delete_self-a1fdb64ebcce
-To: linux-fsdevel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Tejun Heo <tj@kernel.org>, "T.J. Mercier" <tjmercier@google.com>, 
- driver-core@lists.linux.dev, Shakeel Butt <shakeel.butt@linux.dev>, 
- Jori Koolstra <jkoolstra@xs4all.nl>, Ian Kent <raven@themaw.net>, 
- Meta kernel team <kernel-team@meta.com>, stable@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.17-dev-04696
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3579; i=brauner@kernel.org;
- h=from:subject:message-id; bh=dkJEe6C91+RBAXIsLzOWlu37yZyrsLcvZX9OOfeNnWo=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQzbLlTdsetcNrbNbOU9qtzWn5Nrm7nFNjEFvVw25JP4
- kK3VZjPd5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzkhSAjw+Zehh8PNv3J8uq9
- GjTHQWKarJnx97VhD0wf3tirZTRTbQvD/1SGu98s3VVaJO5GrTR5xh3TU/S+u630y0YpDamXWi6
- KfAA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <10954171.nUPlyArG6x@rafael.j.wysocki>
 
-__kernfs_remove() deactivates the whole subtree first and only clears
-i_nlink on a node's inodes later, once it unlinks the node from its
-parent. In between kernfs_dop_revalidate() already fails for the node,
-so a lookup that runs into one of its cached dentries kills the dentry
-while i_nlink is still 1. For a file of a cgroup that is being removed:
+On Thu, Nov 19, 2026 at 09:17:51PM +0100, Rafael J. Wysocki wrote:
+> From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+> 
+> On a successful runtime resume of a device, rpm_idle() is called by
+> rpm_resume(), but only if the runtime PM status of the device was not
+> RPM_ACTIVE when rpm_resume() was called, which is inconsistent.  For
+> instance, if the given device uses autosuspend, an autosuspend timer
+> will most likely be started for it after it has been actually resumed
+> by rpm_resume(), which will not happen if it is already active when it
+> is passed to that function.  This may lead to observable differences in
+> behavior going forward.
+> 
+> Address it by rearranging rpm_resume() to call rpm_idle() also if the
+> device has been active to start with.
+> 
+> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> ---
+>  drivers/base/power/runtime.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
+> index 5a0b4600c244..1a3b32e299d8 100644
+> --- a/drivers/base/power/runtime.c
+> +++ b/drivers/base/power/runtime.c
+> @@ -794,7 +794,8 @@ static int rpm_suspend(struct device *dev, int rpmflags)
+>   * suspending (deferred_resume) or wait for it to finish.  If the RPM_ASYNC
+>   * flag is set then queue a resume request; otherwise run the
+>   * ->runtime_resume() callback directly.  Queue an idle notification for the
+> - * device if the resume succeeded.
+> + * device if the resume succeeded or the device's runtime PM status was
+> + * RPM_ACTIVE to start with.
+>   *
+>   * This function must be called under dev->power.lock with interrupts disabled.
+>   */
+> @@ -840,7 +841,7 @@ static int rpm_resume(struct device *dev, int rpmflags)
+>  		 */
+>  		pm_runtime_mark_last_busy(dev);
+>  		retval = 1;
+> -		goto out;
+> +		goto success;
+>  	}
+>  
+>  	if (dev->power.runtime_status == RPM_RESUMING ||
+> @@ -971,8 +972,11 @@ static int rpm_resume(struct device *dev, int rpmflags)
+>  	}
+>  	wake_up_all(&dev->power.wait_queue);
+>  
+> -	if (retval >= 0)
+> -		rpm_idle(dev, RPM_ASYNC);
+> +	if (retval < 0)
+> +		goto out;
+> +
+> +success:
+> +	rpm_idle(dev, RPM_ASYNC);
 
-  rmdir("cg")                          stat("cg/cgroup.events")
-  css_clear_dir()
-    __kernfs_remove(cgroup.events)
-      deactivate the node
-                                       kernfs_dop_revalidate() == 0
-                                       d_invalidate()
-                                       dput()
-                                         dentry_unlink_inode()
-                                           i_nlink == 1, no IN_DELETE_SELF
-      kernfs_unlink_sibling()
-      kernfs_clear_inode_nlink()
-        i_nlink == 0, but the inode has no dentry left
+It's super common for rpm_resume() to be called with a non-zero
+usage_count (e.g., all pm_runtime_get*(), pm_runtime_forbid()). Do we
+really want them all to turn into rpm_idle() (and predictably fail)? For
+one, it adds a lot more trace_event noise.
 
-The inotify watch keeps the inode alive, so nothing ever sends
-IN_DELETE_SELF for it and the watch only goes away once the watcher
-closes the inotify fd.
+Maybe we could check RPM_GET_PUT before doing this? Or check
+usage_count? I wouldn't want to go too far on re-implementing all the
+rpm_idle() pre-conditions though...
 
-The window covers everything between the two loops in
-__kernfs_remove(). kernfs_drain() drops kernfs_rwsem and waits for the
-active references and open files of the node, and the clear itself
-waits for kernfs_iattr_rwsem behind every concurrent permission check
-and stat(). In a VM with a few threads stat()ing a cgroup and one of
-its files while the cgroup is removed, IN_DELETE_SELF for the watched
-file got lost in 16 to 33 out of 150 rmdirs, and it didn't show up even
-after dropping the dcache.
+Also: I'm not quite sure what's *really* expected here, but drivers like
+drivers/net/ethernet/intel/e1000e/netdev.c (no autosuspend; they use
+.runtime_idle() to re-implement autosuspend, more or less) might see a
+change in behavior. For example, see its watchdog, which does:
 
-So clear i_nlink in the loop that marks the subtree as being removed,
-before a node turns inactive. kernfs_rwsem is held for writing there, so
-no new inode can show up for these nodes while the loop runs, and once
-a node is inactive kernfs_get_inode_locked() refuses to attach one. Two
-overlapping removals may clear the same inode twice, which is fine.
+	/* Cancel scheduled suspend requests. */
+	pm_runtime_resume(netdev->dev.parent);
 
-Fixes: eea5d2bb34ba ("kernfs: Send IN_DELETE_SELF and IN_IGNORED")
-Cc: stable@vger.kernel.org # v7.1+
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/kernfs/dir.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+For cases where the device stayed RPM_ACTIVE but usage_count == 0 (very
+common, I think), this does indeed cancel any pending suspend timers,
+but then it immediately queues another idle request. (That idle request
+will end up failing anyway, so no functional issue. It just means the
+comments are a little confusing.)
 
-diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
-index fb1dcf35d900d..aab5f5f12036d 100644
---- a/fs/kernfs/dir.c
-+++ b/fs/kernfs/dir.c
-@@ -1604,10 +1604,18 @@ static void __kernfs_remove(struct kernfs_node *kn)
- 
- 	pr_debug("kernfs %s: removing\n", kernfs_rcu_name(kn));
- 
--	/* prevent new usage by marking all nodes removing and deactivating */
-+	/*
-+	 * Prevent new usage by marking all nodes removing and deactivating.
-+	 *
-+	 * Clear i_nlink before a node turns inactive.  From then on
-+	 * kernfs_dop_revalidate() fails and a lookup can kill the node's
-+	 * dentries, and only a dentry dying with i_nlink at 0 sends
-+	 * IN_DELETE_SELF.
-+	 */
- 	down_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
- 	pos = NULL;
- 	while ((pos = kernfs_next_descendant_post(pos, kn))) {
-+		kernfs_clear_inode_nlink(pos);
- 		pos->flags |= KERNFS_REMOVING;
- 		if (kernfs_active(pos))
- 			atomic_add(KN_DEACTIVATED_BIAS, &pos->active);
-@@ -1638,8 +1646,6 @@ static void __kernfs_remove(struct kernfs_node *kn)
- 
- 			down_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
- 
--			kernfs_clear_inode_nlink(pos);
--
- 			/* update timestamps on the parent */
- 			if (ps_iattr) {
- 				ktime_get_real_ts64(&ps_iattr->ia_ctime);
+Do we really want that? Or maybe these drivers are just outliers, and
+should be rewritten anyway.
 
----
-base-commit: ccf2a4692fed0fa77751d32d2690585127a152c5
-change-id: 20261120-work-kernfs-delete_self-a1fdb64ebcce
+Brian
 
+>  
+>  out:
+>  	if (parent && !dev->power.irq_safe) {
+> -- 
+> 2.51.0
+> 
+> 
+> 
+> 
