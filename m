@@ -1,119 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795183842;
-	b=jb/KrE3NP4RpSPAqYTZpiyeu0MxMNYlxlj4ltUwBUCaMd1aObQNGnHkq7OqvCI764zDT
-	 x7GmsnSpnvs0jKkQRnGxMpCdz+XvFYBgdZ4MF4XIq79OJ6NnO8nXsObw45Hs9uvY1Dqmu
-	 z1iXKclwBqViCPkLB8gb7UbQFBSLiOFScG1p47jV1MZLjIkuIWuM1QoTiIXH1R8GK42y/
-	 zKPWZFU95QSd1qBef0EioaT+Fhqmo7P6U2Ya2KDbOqXeJ3Su4N8AU3xT0f7+vemCkYfpd
-	 fLw4gQYZDpLwtRi0uCxqPHP+jgYLlGazefDIhcb6q92UArLrBVsmkzHCSY3raW4kDmw==
+	t=1795184305;
+	b=0vS+JTmHYJtrub7qCS0+Vtxk1u1ATSXGULfVSMxdnT9LVeuc5/KZ72dArS9n5JMmmWgc
+	 lK2SgnNtW+g+XkvOCB5/bA/aEsEq8uYFtTBm/hYqBxmBFzrs8JeegUZ6gSiNNhK9V54hP
+	 JBLTPwHrBkd4pxa9UMdR2WAVXOtiM7ZuoMCM26CipKakcvWnSFxpPWw3L262OD4JRX5Fx
+	 02Kk8RtxuJAqi78cd4NKjs2m4LB8ObNKs6s6GbRTTwyqo3aw9nhQsrFSUv+W/0LGrtp13
+	 3vqyxGigVwEATEQ8KID+pJr/FSJjHpKO0Brl0ivOOlrdxvO116DPbBPDHl0sUujHCCQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795183842;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=5S4P9EVhrzfLBPEUlAs5RhZwbxTfoymelcBjiUJ2aGo=;
-	b=TkMpxjbBiqQzi6eCpTyof/w8IQvD/KB9gO4ZA85IhsgHXOpGk/3JHi+c5H5WWhSvmFLy
-	 fjXvFuREeyibDEgP3dY+B/6fijsfAtWRN+JGq5wmtGrViQl4JUJ78S0fdn/gQd9qIAfRB
-	 Xh2oJtSRlIKuObK/2Wx/+4VSTo83npKNUFo6rz5MHPLdIGy7FAwF7+oFemMTyHbiLi0uc
-	 J0wNKisBoqK0wUZNVgaEMHVMBHZ7NQp5Q32egL3F7zm+rK/qp+rnStWwOAUI2/uSsnsak
-	 gEktbkisAjSpyxjHTY/pNOdWSxl6AJMbnph+DHJlqVzOkMlgsmLHM0c3uAs9ZGvAR3A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795184305;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=R+kufEY/E+bsc6xg+Ks+M0qb/1tUkGUpCidjOKTYsjs=;
+	b=ny6vvhxRBxk2xFCEzv0FbJ34hfssNMx6IqVrTV7oOcosRlhf9i9X7S6b2EoTxn0a4r2l
+	 GPMe8TTm8empAqSrNFJt5B5pI+/dCrx8gm+3BblMuJN29GAVcBlPLLa0UDrLl+7p43t7P
+	 Z4Bn+q6VEcrRlhzSbKEtX2/N6/Ajj//BOyfibmIvVIN1u3WfCeg5jvnoOHmpeooX++8+C
+	 j1M/PdVeARzD1noXw449ffDqK0grnWSF0xjmgguOk5FokZmRB7zj3Y8UjssVT9hQUo6BF
+	 Q2U5ujryNjJICikFw+mVWmPhQ7QPTIXi2EfJWEEwGccxbkf+uvF5o/JGaAUlLoe9l6A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=bYZsFo8Q;
-	arc=none smtp.remote-ip=209.85.128.53
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hPYT8FF7;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5678606A332
-	for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 14:10:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5678606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD3E606A325;
+	Fri, 20 Nov 2026 14:18:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=bYZsFo8Q
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4ac95761c85so7147775e9.2
-        for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 06:10:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1795183840; x=1795788640; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=5S4P9EVhrzfLBPEUlAs5RhZwbxTfoymelcBjiUJ2aGo=;
-        b=bYZsFo8Qxn73GrJwPeBscB//SiOf5PXvozmhKZmGuyrptyCY3L6uhd5lhU7UAEoey0
-         pR1HL+0q9b+/CwTBf4eLtIKhBInkaDfj2GuGN3KvA6HE/g9nC5LL+d37i863s172nriF
-         DEzqenvju8xbUgy665oBpQAW0LpmkBjMXcntUf7TcPGNNBpyAMimZ8lKOzI/aQmtC0SY
-         u9XVdUk5JyP1tuFp8PteXfMn7nXHg5NNtjPfTOCwOu6KidDhwgG8OmeYqcuXI3L7XRMq
-         qO51/t5p+zJHvngP4Hn03m7GQGyXBit2F8SBYzslAMshwoFd32x/e+3ck9ZIVllKOu4q
-         SCUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795183840; x=1795788640;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5S4P9EVhrzfLBPEUlAs5RhZwbxTfoymelcBjiUJ2aGo=;
-        b=lgisCRJrN4J5RMBzviBZmgYynBWinljq3fSQV/wTs56SaGHNqKpK/Lc8rm/QV29WIe
-         xx8rOqo9985/6gW0ePtbMPpDsvFTywrIJjldhkfCpi4s06LMh8AJ68M5qh63WRk0RWzS
-         Yv1eljgAWUiSwvAK8vmDFwriDe+2P7bWM1nCdjHoNX0nhBN2LJwoPR4DUKEPKZu5ADpa
-         +yhr/dWQgf54O3MJQE8ty5g6Nslx2A0Lyk59v4CpAZRHj+L+Lg2t17+mT9jp8kGQavFL
-         y+hYJ0RuNVe42JElcRoUfFyh/qf8eVX+szMsDB561tF9yz4Nd0zjz0Lt0kBlYCfkcxOR
-         Ojbg==
-X-Forwarded-Encrypted: i=1; AL+hErH/qLivvtY9bF4m4l0wjGtlz27RqNX2HH05gnJGY4QCR33TwnT1bAiiPlZvrTVd3QWnE43OTYJAV7PdIQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9X6DluZU5//JsXgCiFtMvkQTNHiUwnSh1/g4FSUS7h7J/ZTJvD
-	sIMzauZJCpqnYKKY/MibLa0WRYhDKSSUQpgvFp9zC4h6hSgwGhdSngKzuIEC7/EfLs4=
-X-Gm-Gg: AYBFou3kuzTvKhCJM20xhcXL5AyBz231I8l8i1yZT6g4LVIsWM4YmPzvqeGsmNYfroM
-	UBodUFmDNJd48G8yKYxKJdC3x4GfQN8PTRH79EVWP9Fe77mmuQHNOs8Ymg3Yn4c4hJC4ubkf4U/
-	VtBsBE/fmtgMIJ9U5DZ34Xs3Qa6rpGKaLGJ7RBqLNWeYMXkIaah49t+P4U+piptk8DLZmA/7Fdg
-	R1tD8A2MyJXcLq2HLWdn094cjJPyyqo2m5S3PHZa5aUaUSWjNy7oT6alEMAzXpSNM+NOPV7lHm+
-	PVQfmlYuxcR6PHAmte6gNNIPXjRzHJcavNJnH5lgSwWZyU9AQTNd7cQe0FbLqGOTUDPw5OVlNND
-	eNUW6+TYM1dPmrxTo5lUW4A8Fsem0sHUfPEttu1dtjpU6NtyOCkz3TE9vo1RjGDkSQzV4eZW6Dg
-	E4j8HARgmZJ61ytCRQS2PEw9H6Hb6dUAoNVxNMaJu3CUiPyApqsanQ0nROUKQpccDqDvah+6Ykj
-	zlCZL47aDk/MdzyEf8JsJHhDTuale9Lo1O085mmgmmc1xBg9GuUewclnUMCoYCSkHYsxEI4faac
-	m+i5rrBpLe1ELVOGA7glzn2qNPg4Bxjmc1qDHhRJdcQ2iwTrJhGQmvVFIrPGY+LoWDxuH1N5GsA
-	O6chBE2OmXNr5/NPd
-X-Received: by 2002:a05:600c:3b1a:b0:4a7:8fe8:130c with SMTP id 5b1f17b1804b1-4bb8881d4damr71087005e9.28.1795183840190;
-        Fri, 20 Nov 2026 06:10:40 -0800 (PST)
-Received: from localhost (p200300f65f19a9041d3eb07d772156f3.dip0.t-ipconnect.de. [2003:f6:5f19:a904:1d3e:b07d:7721:56f3])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4bb895f66e1sm37012445e9.0.2026.11.20.06.10.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 06:10:39 -0800 (PST)
-Date: Fri, 20 Nov 2026 15:10:38 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Yao Yuan <yaoyuan@linux.alibaba.com>
-Cc: Alex Williamson <alex@shazbot.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hPYT8FF7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCB5B1F000C4;
+	Fri, 20 Nov 2026 14:18:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795184305;
+	bh=R+kufEY/E+bsc6xg+Ks+M0qb/1tUkGUpCidjOKTYsjs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hPYT8FF7iduFPkJ4iHmWTYzFOXIDVjVzsgEu+b+PIaVxd9rAbDZrkqDn0kvaYa7CN
+	 TS3W+Fq7q1SDsZlwymg/X71NkiB0i0GAuYomWvK9HHLnEpKBVxyYJkjNCh2By1iSbO
+	 0BtO1ijL7q3ouf7vvLuY9IcTbRVjJ4u6ueLEGNarQU/g+mvyQVKhaMHy/0Ep44opf7
+	 JXOGp5ka1d+UYKQqTGGI/z4Y/OX3i2Wm5IDwZgMeNY/u5r8cW98mbVVeu3i49CXM7a
+	 /DdbQ8Ua13zkOR4LPXDQFcKeYYXccQJ+ogXOG8CW1kI3GdMEK7Oxd5II8oOmlPAuVQ
+	 RcfxGTUxzc2qg==
+Date: Fri, 20 Nov 2026 14:18:13 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Luigi Rizzo <lrizzo@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Jens Axboe <axboe@kernel.dk>, "David S . Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Luigi Rizzo <rizzo.unipi@gmail.com>, 
+	"Liam R . Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, Harry Yoo <harry@kernel.org>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, Matthew Wilcox <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Johan Hovold <johan@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	David Lechner <dlechner@baylibre.com>, Armin Wolf <W_Armin@gmx.de>, 
-	Thierry Reding <thierry.reding@kernel.org>, Mike Rapoport <rppt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Karl Mehltretter <kmehltretter@gmail.com>, "Paul E . McKenney" <paulmck@kernel.org>, 
-	Borislav Petkov <bp@alien8.de>, Dapeng Mi <dapeng1.mi@linux.intel.com>, 
-	Marco Elver <elver@google.com>, Ethan Nelson-Moore <enelsonmoore@gmail.com>, 
-	Jeff Layton <jlayton@kernel.org>, Bradley Morgan <brads@mainlining.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
-	Pnina Feder <pnina.feder@mobileye.com>, Mete Durlu <meted@linux.ibm.com>, 
-	Aaron Tomlin <atomlin@atomlin.com>, Rio <rioo.tsukatsukii@gmail.com>, 
-	Feng Tang <feng.tang@linux.alibaba.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
-	Mark Brown <broonie@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Yishai Hadas <yishaih@nvidia.com>, Longfang Liu <liulongfang@huawei.com>, 
-	Ankit Agrawal <ankita@nvidia.com>, Brett Creeley <brett.creeley@amd.com>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>, 
-	Julian Ruess <julianr@linux.ibm.com>, Nipun Gupta <nipun.gupta@amd.com>, 
-	Nikhil Agarwal <nikhil.agarwal@amd.com>, Eric Auger <eric.auger@redhat.com>, 
-	Mostafa Saleh <smostafa@google.com>, Pranjal Shrivastava <praan@google.com>, 
-	Ioana Ciornei <ioana.ciornei@nxp.com>, qat-linux@intel.com, virtualization@lists.linux.dev, 
-	intel-xe@lists.freedesktop.org, kvm@vger.kernel.org
-Subject: Re: [PATCH] vfio: Allow untainted use of driver_override
-Message-ID: <awBUG7-QzXplEiUT@monoceros>
-References: <DMYH4ED3GWDO.29DGXPK4M82VR@kernel.org>
- <20261118235645.2907908-2-alex@shazbot.org>
- <xzp5gljhburzbpol5bgnyyzwdrgpw3fj6ff3j23ein27raiidw@kti7moeuwvb5>
+	Jonathan Corbet <corbet@lwn.net>, Simon Horman <horms@kernel.org>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+	Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
+	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Alexander Lobakin <aleksander.lobakin@intel.com>, Christoph Hellwig <hch@lst.de>, 
+	Dragos Tatulea <dtatulea@nvidia.com>, Naman Gulati <namangulati@google.com>, 
+	Pranjal Shrivastava <praan@google.com>, Mostafa Saleh <smostafa@google.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org, iommu@lists.linux.dev, 
+	netdev@vger.kernel.org, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-api@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v3 00/25] PISA: Pre-mapped IOVA Superpage Allocator
+ for DMA and CoCo
+Message-ID: <awBVBqaPDmKXXHom@gremlin>
+References: <20261109182533.3594984-1-lrizzo@google.com>
+ <20261120010655.467825-1-lrizzo@google.com>
+ <20261120135013.GO3115493@ziepe.ca>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -123,62 +84,40 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="76ybofus6n5n73yb"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <xzp5gljhburzbpol5bgnyyzwdrgpw3fj6ff3j23ein27raiidw@kti7moeuwvb5>
+In-Reply-To: <20261120135013.GO3115493@ziepe.ca>
 
+On Fri, Nov 20, 2026 at 09:50:13AM -0400, Jason Gunthorpe wrote:
+> On Fri, Nov 20, 2026 at 01:06:30AM +0000, Luigi Rizzo wrote:
+> > This is v3 of the RFC previously posted as DMA_PMD [0], now renamed PISA
+> > ("Pre-mapped IOVA Superpage Allocator"). The text below follows
+> > Documentation/core-api/pisa.rst (patch 25/25), which has the details.
+>
+> I thought the conclusion was to just do this stuff in netdev pagepool,
+> now you come with an enormous AI series spread across the entire
+> kernel?
 
---76ybofus6n5n73yb
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] vfio: Allow untainted use of driver_override
-MIME-Version: 1.0
+Welcome to 2026 :) It's so exhausting.
 
-On Fri, Nov 20, 2026 at 10:17:46AM +0800, Yao Yuan wrote:
-> On Wed, Nov 18, 2026 at 04:56:44PM +0800, Alex Williamson wrote:
-> > Driver overrides are the standard mechanism for binding vfio drivers
-> > to devices.  With the introduction of the support_driver_override flag
-> > in the core driver struct, it's now required for drivers to declare
-> > themselves as driver_override compatible, otherwise driver_override
-> > bindings will be denied or generate a kernel taint.
-> >
->=20
-> Hi Alex,
->=20
-> > Set the support_driver_override flag on the driver struct across all
-> > vfio drivers.
->=20
-> LGTM.
->=20
-> Reviewed-by: Yuan Yao <yaoyuan@linux.alibaba.com>
+>
+> > - Needs bounce buffers: in Confidential Computing VMs, PISA allocators
+> >   pre-decrypt 2MB pages in place, avoiding swiotlb bounce-buffer copies.
+>
+> It seems this was ignored too. We want the bounce buffers in CC. They
+> serve a security purpose. You cannot loose control of the shared
+> memory buffers have have them leak into SKBs, user mappings and so
+> on. It is not secure.
+>
+> I don't see how any of this is valuable or necessary for CC,
+> especially when we really don't even expect to have an vIOMMU for CC
+> very often..
+>
+> Jason
 
-I missed your reply when I sent the next revision of this patch. I had
-to trim the recipients of the v2 because gmail refused to send it with
-everyone on Cc: who was emitted by get_maintainer.pl. So please see
-https://lore.kernel.org/kvm/fb0df5c89336b77a373ae0f890f63427e4adbb28.179517=
-1088.git.u.kleine-koenig@baylibre.com
+Agreed, this whole thing needs to be rethought.
 
-But also note, that if v2 is picked up using `b4 am`, your Reviewed-by:
-is considered as the patch didn't change.
+Will reply separately to the cover I think :)
 
-Best regards
-Uwe
-
---76ybofus6n5n73yb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmsAVNwACgkQj4D7WH0S
-/k5TyQf/eHBkTiGwub1DLzfSI9Ji/DkzXua0OriEhTmok4cd+2dbl8OfLn0CXg3e
-B7W5T3PuQPmIapUivPRGpIJ31hN6+UScHDdfNvj1Xbret/ZoqA+0l48dqU/ikpgB
-X4WK2ENvhE+glZpB32rPkpeMadqauuBUmh1TjWnpLKn4QmgLyf+pHIJSnUmH7XkQ
-BV2i7AIctyUc2PP/Y+URhj62+6B5pxn3+5BlligAvpjkpg98TxVTctcCEgP4apyk
-TI6uZtnd9maFMXHbUJHEArWhVKI8FLAzZySY9/E7u4+tsY0gz/JMib7RngFR2IY4
-MPZB/liFV473f+eDblZh9CKsu8DAJA==
-=wiOu
------END PGP SIGNATURE-----
-
---76ybofus6n5n73yb--
+--
+Cheers, Lorenzo
