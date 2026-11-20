@@ -1,58 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795207347;
-	b=ILChicGNk59ztsozkcnH9SQsVovnSlkEE+01DzDERrWYMPIVfDqCDZZ0fDfCTrJNHPeW
-	 v/PaXbuHtxpg5jj/OmjYh7bcNvUd/cW6mLSkE3RKNwpNxGBXp081iHAsuQLY9XrcO5v8X
-	 4KavYLXRmuZ9ZcyIbNn3Vw5DCPTiJs1I8GLtr2vWyNdSsQR6cW320HjRX2qwlQDYjn6dQ
-	 VEhjoWBIo1+Puj44MxRu0SrosXhI40oKmPacJomFD9jSYTgJ7eEkHnExujxFHptOoHJ8s
-	 KALPMbggxiJbcKi1CE36fehHa6D/O/7O1qvFlCEflav6pyrx3bF5CgSwZ7bwKo+CgOQ==
+	t=1795208382;
+	b=zoCUMptzq1Rp1jMgQMLpePs94+TtVliMVhiD8+a9nd2a1SaDp8ooGf2GR5S//CXvIDoN
+	 0JisIZOfkGNX0xYCT2dTt9Npp5zrGxEAkIu/+aTRFCFOzgs3r5w94BNmzIDMWwlaC3aG5
+	 cfd5g4TLpZ+cdzvYMIm+CnzRv0Th10WIV54Krc8WOUQpCvZpmqhNzvt5TnHCynxdMwlCU
+	 lFahKJ4RMKfCg1s7qhjjBZ2rgWwm6cm91tuc9v5ZW48I8Qo4neb9Uz27L29K0YAc+z1F9
+	 PDtu7JXO7neq2pRYA2YAwjexVKu9YWG3DMa/qvAM3D+G41uKlZ/purKxWA4+/VefuaA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795207347;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=JY1vZIgRiM5NsJl1wPNeOXCDiP+um8a3m9EeDgiFiVk=;
-	b=pP488opwcssJTSCcR4jcP7xQT12JT47g92UDzOMw9xc7Z2/pPr0jSW0FDybCDopUwkV+
-	 PiI3rz9sRCMVV+eacH4kEtwHApsNtNeAK7ktqp4bCd7yWXR96abdFRsDStqow7kkHvYTC
-	 H7K1Q82RlFS4DLjKwZII38hoNacUoqbFzFvYhbw/fA9Rb0iOieJ/usemMypZyD+sMLvw/
-	 EmQGmRQd6TVoriSasE13i6KzQeuVpvNMuQfRD8GR/u2DBkLXcSfJJmhWAR2FXEIxRTDz4
-	 +jxg+JkgJx0lqSCSg2BGs8+EI9r518LEQHvIvcwdNOcNpJzVEVH/iG0sn78SuaNElzQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795208382;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=xqx2feA+7Jx9teaQWOZ3qzuVX2GPDumqnHf9czn6DrU=;
+	b=MsJOXMtoxS3xuBoyxLtAc/4QWWfyNDkx6+bc2AKylc8PqAwf4AQCccJcAgIo5zCGIspV
+	 B0jI2C799eDSt4ieFoWaaWoDxYoyp4SQ+HUf3823lBt+N3dyLX0jO1sh1+r22MzO0MC7E
+	 mRocaQqcWbzLupC50sYEdctbNGTfBt9EdEDqYh00LK+OzkdAbjeL/njrXCIxJpBghTXZc
+	 l38ehUbC/M1rThbv3mYpub3wqIGlxmr/RBGIC4aBhicmJppaNMEk01erpvyjSynFOWokX
+	 bLJjEWYd89SaEj5FOa8e4ZnWXu1S54TJz0cMON1r+jlL//S2oXNtQlkhTtjtCgM0Brw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=miAF077r;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=chromium.org;
+	spf=pass smtp.mailfrom=chromium.org;
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=LUoTkBQh;
+	arc=none smtp.remote-ip=74.125.82.176
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31434606A6C0;
-	Fri, 20 Nov 2026 20:42:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1013606A685
+	for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 20:59:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1013606A685
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=miAF077r
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FB071F000D4;
-	Fri, 20 Nov 2026 20:42:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795207346;
-	bh=JY1vZIgRiM5NsJl1wPNeOXCDiP+um8a3m9EeDgiFiVk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=miAF077rNHBJFZ94WMh0jZKYrv63/zQCEj0mvtqPPDsVAO/btg7Z+us2vw9xaRlcC
-	 uFc+yGUdKIWIqV4RRQ+qk8z/YySG03TZNGuPNO7kGgjFXbCq8AKwoQa3p+RVJrbUYV
-	 f5nPwESmQ+f8KznDodGIie3Ag+PIvnTqoYzcpk5oA6i0PQBcV8XkBGe1S0PAuloe0Q
-	 qVXL4w/PEaR4r3/DssUW++y+HidB/ZkV+sV/RwSiht9mFEhrBC7pXnZLcEhCBrjGxN
-	 js5m2UwjP63W+m6uPX0P8N5QmMiOIzDud95rdAowgTMFJj/P4WwiXiYjpu7YPF/HYH
-	 bto4uHiWsyzFQ==
-From: Christian Brauner <brauner@kernel.org>
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Tejun Heo <tj@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
- Ian Kent <raven@themaw.net>, "T . J . Mercier" <tjmercier@google.com>, 
- Meta kernel team <kernel-team@meta.com>, linux-fsdevel@vger.kernel.org, 
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20261118220154.2965621-1-shakeel.butt@linux.dev>
-References: <20261118220154.2965621-1-shakeel.butt@linux.dev>
-Subject: Re: [PATCH 0/6] kernfs: stop taking kernfs_iattr_rwsem for writing
- in mkdir/rmdir
-Message-Id: <20261120-taverne-tonband-bunker-6b0699c075d4@brauner>
-Date: Fri, 20 Nov 2026 21:42:22 +0100
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=LUoTkBQh
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-38644aedba1so1245103eec.0
+        for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 12:59:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1795208376; x=1795813176; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=xqx2feA+7Jx9teaQWOZ3qzuVX2GPDumqnHf9czn6DrU=;
+        b=LUoTkBQhlI9hKQAZcskefI9gYZiZbJl6r0/CqS4GUaCeUKyykAxKr3gMtob/weJdW/
+         OweCh6+KVBSGAdou8zcKGWyWySYwloL5xkbGMEqJf8LbEVPzRxfEM00lgz6mb+Btgrw0
+         KYejmcEwjuC47xtJUSzz3tsfUxbceFGg9g3FE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795208376; x=1795813176;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xqx2feA+7Jx9teaQWOZ3qzuVX2GPDumqnHf9czn6DrU=;
+        b=oOgZq79RJaBMMR8ResskX88bYgILIc7vPMZEDpDdQ/P2EeEkA64CLlEID5s97CjL6W
+         HvWnRYL6UJ1jO5jw1uilabAc+L5XXi89VC18sMKMZ/x3Gr3dAHrcHxoKLOw1I9qkERrR
+         ywXN2BQOsMkqWd2VVGqKo7QtYRV3NstMH0OL12+n0zrGLJ1NaN3h5L+Oj06VWI//3tqs
+         Qwl7I7exZPhe8qbRYarZLysSDMgCwFWJP8kaysHCb7cFFYwmeNqwzi7aiKzbZjorVUQr
+         DaZL6WEYxUJN17EjXhfvRqMERUp19B366Vy5x8KEYAwG9xqDgFF4p79QHgU6vTT6tsSk
+         //rw==
+X-Forwarded-Encrypted: i=1; AL+hErF2NpzfmjQLrv8JUaMR225aG8lsX1P8bBGoFah+u1wJ9RTf41hJGsFIPYnooMCxPVZZ9YY8qVmlG8u3Og==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/WtPrcLtSPXSciBxo9f11CMAZykaacX9EzlupwCDq1hGXE43Jb
+	u53xOlpuw9efZE3e0LLcyX2o4HnFM1SXk3o8ZYxeHoz3RNn3y87mUo8TwNLd0ICMIw==
+X-Gm-Gg: AYBFou2+VSby1CuOTLsvrUM7bWMEJwc47uCteuID0Brz5GAHPXwTf6u+hoC26CD9OOX
+	bOBWQ3pjQafGxvNXv9xoi2GjaiFgXFz8EtL4KJ6k5TDOaGEXSKU6ytPX0RcyKuDOze+0vgJS/8V
+	IA7xhnxuNBY8bVg4xySKJVeXjV5v3JnT/sXcFu67T7BQIsNSKaptmE6jlPQNKhYahU1/FqENRSW
+	hmbUSNLwopyzsHKrJhXPWp3UBz1ChSEhue11OaOV9Qac8ehpgcFMm0C6iXs859LrKRci+F90uho
+	YiQNo0amsRomic67Crdp+BRN27qYefyESfbWKuDqZaNgZC3tT5AYstEy6afoUQ+QKOh038MvydG
+	VxbpqnOVuDMI1fQBTkNwmwf9qXibNrhkzEH7fNtGgOFPGPawJeh/gscd88XgsvZWRqEOSodhIq5
+	q/di5v6Sn9WPutI1KSw6qFvund9D7a1f/8xExcXHFB2faaEEvazJBdov2ByhRf0xJPXxDKP/MHB
+	/CqfcKIE4nOD9DAlejNsjLz6vwpjR72YBADFfNMIUVn/3DhYh4v0vmDWlyQaN04MFxvyYAr1Ml/
+	SYGimrwwo4V7yk6V9NDCr7C7FSnFPVAjnmoZsKTIGglL2znrgIOp78/r2oh7e2M0XPlt
+X-Received: by 2002:a05:693c:829b:10b0:376:feb:2df3 with SMTP id 5a478bee46e88-3856f85236cmr4832996eec.20.1795208375921;
+        Fri, 20 Nov 2026 12:59:35 -0800 (PST)
+Received: from localhost ([2a00:79e0:2e7c:8:ec05:65c0:ffe0:d597])
+        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-385677c349csm11386565eec.22.2026.11.20.12.59.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Nov 2026 12:59:35 -0800 (PST)
+Date: Fri, 20 Nov 2026 12:59:33 -0800
+From: Brian Norris <briannorris@chromium.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Linux PM <linux-pm@vger.kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Ulf Hansson <ulf.hansson@oss.qualcomm.com>,
+	Linux Driver Core Development <driver-core@lists.linux.dev>
+Subject: Re: [PATCH v1 1/4] PM: runtime: Update last_busy in all rpm_idle()
+ paths
+Message-ID: <awC0tcqgq2KvCyxO@google.com>
+References: <1978814.tdWV9SEqCh@rafael.j.wysocki>
+ <3076901.e9J7NaK4W3@rafael.j.wysocki>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -62,45 +98,126 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-04696
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3076901.e9J7NaK4W3@rafael.j.wysocki>
 
-On Wed, 18 Nov 2026 14:01:47 -0800, Shakeel Butt wrote:
-> In the Meta fleet, cgroup mkdir and rmdir can stall cgroup operations
-> on the whole host.  They hold cgroup_mutex and kernfs_rwsem while they
-> wait for kernfs_iattr_rwsem, which every path walk takes for reading,
-> and they take it once or twice for every file of the cgroup.  systemd,
-> clone3() into a cgroup, BPF queries and the OOM daemon all wait behind
-> them.
+On Thu, Nov 19, 2026 at 09:16:30PM +0100, Rafael J. Wysocki wrote:
+> From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
 > 
-> [...]
+> The changelog of commit 26236a3e8803 ("PM: runtime: Update last_busy
+> before calling rpm_suspend() in rpm_idle()") stated that rpm_idle() only
+> needed to update last_busy when it was about to call rpm_suspend(), but
+> that is incorrect.  There are still cases in which a device may be
+> autosuspended earlier than expected.
+> 
+> The first one is when pm_runtime_put() is called while a leftover
+> autosuspend timer is running.  Then, dropping the device's runtime PM
+> usage counter to 0 allows rpm_suspend() triggered by the timer to
+> suspend the device immediately before __pm_runtime_idle() is able to
+> grab the spinlock.  Prevent it from occurring by adding a last_busy
+> update before the rpm_drop_usage_count() call in __pm_runtime_idle().
 
-Applied to the vfs-7.5.kernfs branch of the vfs/vfs.git tree.
-Patches in the vfs-7.5.kernfs branch should appear in linux-next soon.
+Do consumer->supplier and child->parent refcount drops have the same
+problem? e.g., in pm_runtime_release_supplier() and rpm_suspend() /
+parent->power.child_count decrement?
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+> Another one is when rpm_idle() returns without calling rpm_suspend(),
+> for example because the callback has returned a transient error, while
+> an autosuspend timer is running.  The timer may then suspend the device
+> without respecting the autosuspend delay.  Moreover, the timer may fire
+> while the callback is running and it will not see the new last_busy
+> value in that case.  To address these cases, move the existing
+> pm_runtime_mark_last_busy() call in rpm_idle() before the first return
+> value check.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+I suppose we don't care about: "what if .runtime_idle() is slow?" --
+that makes a small delta in the expiration time.
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+> In both places mentioned above add comments explaining the rationale for
+> updating last_busy.
+> 
+> Fixes: 26236a3e8803 ("PM: runtime: Update last_busy before calling rpm_suspend() in rpm_idle()")
+> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> ---
+> 
+> Commit 26236a3e8803 is present in linux-next.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.5.kernfs
+Semi-unrelated cleanup: pm_runtime_put_sync() some stale kerneldoc now,
+saying "this does not update the last access time".
 
-[1/6] kernfs: report times and link count from the node in getattr
-      https://git.kernel.org/vfs/vfs/c/793fdbff8747
-[2/6] kernfs: don't copy times and link count into the inode on refresh
-      https://git.kernel.org/vfs/vfs/c/98d1b8f98844
-[3/6] kernfs: don't take kernfs_iattr_rwsem for the directory counters
-      https://git.kernel.org/vfs/vfs/c/77e95f59b821
-[4/6] kernfs: don't take kernfs_iattr_rwsem to publish KERNFS_REMOVING
-      https://git.kernel.org/vfs/vfs/c/ead252b9937f
-[5/6] kernfs: update a directory's times without kernfs_iattr_rwsem
-      https://git.kernel.org/vfs/vfs/c/992996523359
-[6/6] kernfs: don't take kernfs_iattr_rwsem in __kernfs_remove()
-      https://git.kernel.org/vfs/vfs/c/af421cafc6ce
+> ---
+>  drivers/base/power/runtime.c | 16 +++++++++++++++-
+>  1 file changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
+> index 0b15c718c1bb..02e7b4953c38 100644
+> --- a/drivers/base/power/runtime.c
+> +++ b/drivers/base/power/runtime.c
+> @@ -518,6 +518,14 @@ static int rpm_idle(struct device *dev, int rpmflags)
+>  	else if (dev->power.idle_notification)
+>  		retval = -EINPROGRESS;
+>  
+> +	/*
+> +	 * Update last_busy to defer autosuspend by the full autosuspend delay.
+> +	 * Since an autosuspend timer may be running and the new last_busy value
+> +	 * needs to be seen by it, update last_busy before returning an error or
+> +	 * dropping the spinlock and allowing the timer function to grab it.
+> +	 */
+> +	pm_runtime_mark_last_busy(dev);
+> +
+>  	if (retval)
+>  		goto out;
+>  
+> @@ -563,7 +571,6 @@ static int rpm_idle(struct device *dev, int rpmflags)
+>  	if (retval)
+>  		return retval;
+>  
+> -	pm_runtime_mark_last_busy(dev);
+>  	return rpm_suspend(dev, rpmflags | RPM_AUTO);
+>  }
+>  
+> @@ -1132,6 +1139,13 @@ int __pm_runtime_idle(struct device *dev, int rpmflags)
+>  	int retval;
+>  
+>  	if (rpmflags & RPM_GET_PUT) {
+> +		/*
+> +		 * Once the usage counter drops to 0, a leftover autosuspend
+> +		 * timer may fire before the spinlock below is acquired.  Update
+> +		 * last_busy first so it does not find the expiration time in
+> +		 * the past and suspend the device immediately.
+> +		 */
+> +		pm_runtime_mark_last_busy(dev);
+>  		retval = rpm_drop_usage_count(dev);
 
+This is somewhat of a pre-existing issue (e.g., in
+pm_runtime_put_autosuspend()), but weakly ordered architectures don't
+really enforce the dependencies you want.
+
+rpm_drop_usage_count() uses an atomic decrement, which has a full
+barrier. But this is supposed to influence the rpm_suspend() behavior of
+rpm_check_suspend_allowed() (atomic_read) + READ_ONCE(last_busy), which
+includes only a conditional dependency and no barrier.
+
+https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0124r6.html
+
+  "Control dependencies can order prior loads against later dependent
+  stores, however, they do not order prior loads against later dependent
+  loads. (Use memory_order_consume or memory_order_acquire if you
+  require this behavior.)"
+
+So, rpm_check_suspend_allowed() should probably use
+atomic_read_acquire(&dev->power.usage_count).
+
+(This is probably an extremely narrow, practically impossible issue.)
+
+Brian
+
+>  		if (retval < 0) {
+>  			return retval;
+> -- 
+> 2.51.0
+> 
+> 
+> 
+> 
