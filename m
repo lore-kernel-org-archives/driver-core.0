@@ -1,94 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795208382;
-	b=zoCUMptzq1Rp1jMgQMLpePs94+TtVliMVhiD8+a9nd2a1SaDp8ooGf2GR5S//CXvIDoN
-	 0JisIZOfkGNX0xYCT2dTt9Npp5zrGxEAkIu/+aTRFCFOzgs3r5w94BNmzIDMWwlaC3aG5
-	 cfd5g4TLpZ+cdzvYMIm+CnzRv0Th10WIV54Krc8WOUQpCvZpmqhNzvt5TnHCynxdMwlCU
-	 lFahKJ4RMKfCg1s7qhjjBZ2rgWwm6cm91tuc9v5ZW48I8Qo4neb9Uz27L29K0YAc+z1F9
-	 PDtu7JXO7neq2pRYA2YAwjexVKu9YWG3DMa/qvAM3D+G41uKlZ/purKxWA4+/VefuaA==
+	t=1795208418;
+	b=RAh1YqSrfo2U8iU64A2Sl8PJgmLPT/wDHR1G9540srQVbZzJgNvOiTDVdKwU0FguX1KV
+	 94qAuU/ADrq0Nhs5yhGQ2EhPSO4w1khCLibKMTZRvl3NNDVe/O0LdoFlWLdNLdYnzv5Vv
+	 cSdKeQnsWVjJJPrGBPuunXBoO8i09s477t0SoE/drKlpllDguk49A7bLjOOEBQcTvaRXH
+	 TAnibqsqjMltGTMsTH8DD/J12QqpRm+HL4ta2V/jICutXW/SDaEzVvzkIhSn1swUHv5mW
+	 eLnktm65GkoHu8oIS5nMwP5SnMkDMl/82JsCFJaAquE1CULUtwNK5xj5NA2SMamhBOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795208382;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=xqx2feA+7Jx9teaQWOZ3qzuVX2GPDumqnHf9czn6DrU=;
-	b=MsJOXMtoxS3xuBoyxLtAc/4QWWfyNDkx6+bc2AKylc8PqAwf4AQCccJcAgIo5zCGIspV
-	 B0jI2C799eDSt4ieFoWaaWoDxYoyp4SQ+HUf3823lBt+N3dyLX0jO1sh1+r22MzO0MC7E
-	 mRocaQqcWbzLupC50sYEdctbNGTfBt9EdEDqYh00LK+OzkdAbjeL/njrXCIxJpBghTXZc
-	 l38ehUbC/M1rThbv3mYpub3wqIGlxmr/RBGIC4aBhicmJppaNMEk01erpvyjSynFOWokX
-	 bLJjEWYd89SaEj5FOa8e4ZnWXu1S54TJz0cMON1r+jlL//S2oXNtQlkhTtjtCgM0Brw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795208418;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=+ouoWf0jPxz4lOByrM5BHp1+040jp+3W6jzF7j7K964=;
+	b=2wvFpFnK1UYZpJugiLl3Z15oY9I/LYHc0DSWKOqAEDQ8pW0JED0RXYugc6KBb9fo0r1+
+	 kKipo8OeBY9Extm7aTVZlcAprSsFvgyJjLrLT8rXFhJiJ0AsaP/HNWB2TZencf0BEvCM8
+	 2GxYW21j+c8XkuZjwidAPNJEwXwgn5ylO7xM0WvUQE42yl9X2Yndxc39R95bEu5GVp2wg
+	 ofOz8B0Irjqhjgzwx9fUUv++UJ3eTSkKam5TB58wL6C7gKe2TjL3gztyYmGDJNu1Mrcmf
+	 iwkN56U44qEiU6YwdhXjVWxw9ebCMeZu/5Hp+uJvWNgIXUOF0xN3G4YN0cgkKUQr6+Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chromium.org;
-	spf=pass smtp.mailfrom=chromium.org;
-	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=LUoTkBQh;
-	arc=none smtp.remote-ip=74.125.82.176
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h7YIxuIS;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1013606A685
-	for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 20:59:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1013606A685
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550FC606A685;
+	Fri, 20 Nov 2026 21:00:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=LUoTkBQh
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-38644aedba1so1245103eec.0
-        for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 12:59:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1795208376; x=1795813176; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=xqx2feA+7Jx9teaQWOZ3qzuVX2GPDumqnHf9czn6DrU=;
-        b=LUoTkBQhlI9hKQAZcskefI9gYZiZbJl6r0/CqS4GUaCeUKyykAxKr3gMtob/weJdW/
-         OweCh6+KVBSGAdou8zcKGWyWySYwloL5xkbGMEqJf8LbEVPzRxfEM00lgz6mb+Btgrw0
-         KYejmcEwjuC47xtJUSzz3tsfUxbceFGg9g3FE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795208376; x=1795813176;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xqx2feA+7Jx9teaQWOZ3qzuVX2GPDumqnHf9czn6DrU=;
-        b=oOgZq79RJaBMMR8ResskX88bYgILIc7vPMZEDpDdQ/P2EeEkA64CLlEID5s97CjL6W
-         HvWnRYL6UJ1jO5jw1uilabAc+L5XXi89VC18sMKMZ/x3Gr3dAHrcHxoKLOw1I9qkERrR
-         ywXN2BQOsMkqWd2VVGqKo7QtYRV3NstMH0OL12+n0zrGLJ1NaN3h5L+Oj06VWI//3tqs
-         Qwl7I7exZPhe8qbRYarZLysSDMgCwFWJP8kaysHCb7cFFYwmeNqwzi7aiKzbZjorVUQr
-         DaZL6WEYxUJN17EjXhfvRqMERUp19B366Vy5x8KEYAwG9xqDgFF4p79QHgU6vTT6tsSk
-         //rw==
-X-Forwarded-Encrypted: i=1; AL+hErF2NpzfmjQLrv8JUaMR225aG8lsX1P8bBGoFah+u1wJ9RTf41hJGsFIPYnooMCxPVZZ9YY8qVmlG8u3Og==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/WtPrcLtSPXSciBxo9f11CMAZykaacX9EzlupwCDq1hGXE43Jb
-	u53xOlpuw9efZE3e0LLcyX2o4HnFM1SXk3o8ZYxeHoz3RNn3y87mUo8TwNLd0ICMIw==
-X-Gm-Gg: AYBFou2+VSby1CuOTLsvrUM7bWMEJwc47uCteuID0Brz5GAHPXwTf6u+hoC26CD9OOX
-	bOBWQ3pjQafGxvNXv9xoi2GjaiFgXFz8EtL4KJ6k5TDOaGEXSKU6ytPX0RcyKuDOze+0vgJS/8V
-	IA7xhnxuNBY8bVg4xySKJVeXjV5v3JnT/sXcFu67T7BQIsNSKaptmE6jlPQNKhYahU1/FqENRSW
-	hmbUSNLwopyzsHKrJhXPWp3UBz1ChSEhue11OaOV9Qac8ehpgcFMm0C6iXs859LrKRci+F90uho
-	YiQNo0amsRomic67Crdp+BRN27qYefyESfbWKuDqZaNgZC3tT5AYstEy6afoUQ+QKOh038MvydG
-	VxbpqnOVuDMI1fQBTkNwmwf9qXibNrhkzEH7fNtGgOFPGPawJeh/gscd88XgsvZWRqEOSodhIq5
-	q/di5v6Sn9WPutI1KSw6qFvund9D7a1f/8xExcXHFB2faaEEvazJBdov2ByhRf0xJPXxDKP/MHB
-	/CqfcKIE4nOD9DAlejNsjLz6vwpjR72YBADFfNMIUVn/3DhYh4v0vmDWlyQaN04MFxvyYAr1Ml/
-	SYGimrwwo4V7yk6V9NDCr7C7FSnFPVAjnmoZsKTIGglL2znrgIOp78/r2oh7e2M0XPlt
-X-Received: by 2002:a05:693c:829b:10b0:376:feb:2df3 with SMTP id 5a478bee46e88-3856f85236cmr4832996eec.20.1795208375921;
-        Fri, 20 Nov 2026 12:59:35 -0800 (PST)
-Received: from localhost ([2a00:79e0:2e7c:8:ec05:65c0:ffe0:d597])
-        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-385677c349csm11386565eec.22.2026.11.20.12.59.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Nov 2026 12:59:35 -0800 (PST)
-Date: Fri, 20 Nov 2026 12:59:33 -0800
-From: Brian Norris <briannorris@chromium.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Linux PM <linux-pm@vger.kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Ulf Hansson <ulf.hansson@oss.qualcomm.com>,
-	Linux Driver Core Development <driver-core@lists.linux.dev>
-Subject: Re: [PATCH v1 1/4] PM: runtime: Update last_busy in all rpm_idle()
- paths
-Message-ID: <awC0tcqgq2KvCyxO@google.com>
-References: <1978814.tdWV9SEqCh@rafael.j.wysocki>
- <3076901.e9J7NaK4W3@rafael.j.wysocki>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h7YIxuIS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75E431F000C0;
+	Fri, 20 Nov 2026 21:00:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795208417;
+	bh=+ouoWf0jPxz4lOByrM5BHp1+040jp+3W6jzF7j7K964=;
+	h=From:Date:Subject:To:Cc;
+	b=h7YIxuIS4hpZS/90gMheyz9EkItqLE/U5lNaXPNdN67z9zuSi6sA1284eeHsDAOI3
+	 pGvJwY6NBMLXj8VSUPxEgxVZnsB3yq8yBfNTq2QJd/DyMGL/qT1zD/R0R/+x5jGEUb
+	 DaUcKnOsZpZBjrjuTLVMifhCn3sEd6LBDMoY2oEucLcdTRTWU15/32BvD3zuQQTKP5
+	 HHQ6RJhD3wXM5AS/sFRco95nXkG5Jp8Z1vN7ciWPDaCJFQXevPmgvJdTh3UHeMpwq2
+	 bqwmtR+oper+YUUu+WsdazbMNx1kjQWdfi1wtMMtXKwveGH8bz7fL1WDJAZM5dkhKP
+	 uLa6yQQEQMxeA==
+From: Christian Brauner <brauner@kernel.org>
+Date: Fri, 20 Nov 2026 21:59:59 +0100
+Subject: [PATCH] kernfs: clear i_nlink before deactivating removed nodes
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -98,126 +52,110 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3076901.e9J7NaK4W3@rafael.j.wysocki>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261120-work-kernfs-delete_self-v1-1-514a35d04431@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/03MywrCMBCF4Vcps3ZCE6QLX0VEkvTExpZUMvUCp
+ e9uYjcu/+HMt5IgRwidmpUyXlHinEroQ0N+sOkGjn1pMq3ptDYtv+c88oicgnCPCQuugimw1aF
+ 33RHOe1D5fmSE+PnJ58ve8nR3+KVydeGsgF22yQ/1VGG1w+oPVnVG2/YFuIeWMqoAAAA=
+X-Change-ID: 20261120-work-kernfs-delete_self-a1fdb64ebcce
+To: linux-fsdevel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Tejun Heo <tj@kernel.org>, "T.J. Mercier" <tjmercier@google.com>, 
+ driver-core@lists.linux.dev, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Jori Koolstra <jkoolstra@xs4all.nl>, Ian Kent <raven@themaw.net>, 
+ Meta kernel team <kernel-team@meta.com>, stable@vger.kernel.org, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.17-dev-04696
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3579; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=dkJEe6C91+RBAXIsLzOWlu37yZyrsLcvZX9OOfeNnWo=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQzbLlTdsetcNrbNbOU9qtzWn5Nrm7nFNjEFvVw25JP4
+ kK3VZjPd5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzkhSAjw+Zehh8PNv3J8uq9
+ GjTHQWKarJnx97VhD0wf3tirZTRTbQvD/1SGu98s3VVaJO5GrTR5xh3TU/S+u630y0YpDamXWi6
+ KfAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Thu, Nov 19, 2026 at 09:16:30PM +0100, Rafael J. Wysocki wrote:
-> From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-> 
-> The changelog of commit 26236a3e8803 ("PM: runtime: Update last_busy
-> before calling rpm_suspend() in rpm_idle()") stated that rpm_idle() only
-> needed to update last_busy when it was about to call rpm_suspend(), but
-> that is incorrect.  There are still cases in which a device may be
-> autosuspended earlier than expected.
-> 
-> The first one is when pm_runtime_put() is called while a leftover
-> autosuspend timer is running.  Then, dropping the device's runtime PM
-> usage counter to 0 allows rpm_suspend() triggered by the timer to
-> suspend the device immediately before __pm_runtime_idle() is able to
-> grab the spinlock.  Prevent it from occurring by adding a last_busy
-> update before the rpm_drop_usage_count() call in __pm_runtime_idle().
+__kernfs_remove() deactivates the whole subtree first and only clears
+i_nlink on a node's inodes later, once it unlinks the node from its
+parent. In between kernfs_dop_revalidate() already fails for the node,
+so a lookup that runs into one of its cached dentries kills the dentry
+while i_nlink is still 1. For a file of a cgroup that is being removed:
 
-Do consumer->supplier and child->parent refcount drops have the same
-problem? e.g., in pm_runtime_release_supplier() and rpm_suspend() /
-parent->power.child_count decrement?
+  rmdir("cg")                          stat("cg/cgroup.events")
+  css_clear_dir()
+    __kernfs_remove(cgroup.events)
+      deactivate the node
+                                       kernfs_dop_revalidate() == 0
+                                       d_invalidate()
+                                       dput()
+                                         dentry_unlink_inode()
+                                           i_nlink == 1, no IN_DELETE_SELF
+      kernfs_unlink_sibling()
+      kernfs_clear_inode_nlink()
+        i_nlink == 0, but the inode has no dentry left
 
-> Another one is when rpm_idle() returns without calling rpm_suspend(),
-> for example because the callback has returned a transient error, while
-> an autosuspend timer is running.  The timer may then suspend the device
-> without respecting the autosuspend delay.  Moreover, the timer may fire
-> while the callback is running and it will not see the new last_busy
-> value in that case.  To address these cases, move the existing
-> pm_runtime_mark_last_busy() call in rpm_idle() before the first return
-> value check.
+The inotify watch keeps the inode alive, so nothing ever sends
+IN_DELETE_SELF for it and the watch only goes away once the watcher
+closes the inotify fd.
 
-I suppose we don't care about: "what if .runtime_idle() is slow?" --
-that makes a small delta in the expiration time.
+The window covers everything between the two loops in
+__kernfs_remove(). kernfs_drain() drops kernfs_rwsem and waits for the
+active references and open files of the node, and the clear itself
+waits for kernfs_iattr_rwsem behind every concurrent permission check
+and stat(). In a VM with a few threads stat()ing a cgroup and one of
+its files while the cgroup is removed, IN_DELETE_SELF for the watched
+file got lost in 16 to 33 out of 150 rmdirs, and it didn't show up even
+after dropping the dcache.
 
-> In both places mentioned above add comments explaining the rationale for
-> updating last_busy.
-> 
-> Fixes: 26236a3e8803 ("PM: runtime: Update last_busy before calling rpm_suspend() in rpm_idle()")
-> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> ---
-> 
-> Commit 26236a3e8803 is present in linux-next.
+So clear i_nlink in the loop that marks the subtree as being removed,
+before a node turns inactive. kernfs_rwsem is held for writing there, so
+no new inode can show up for these nodes while the loop runs, and once
+a node is inactive kernfs_get_inode_locked() refuses to attach one. Two
+overlapping removals may clear the same inode twice, which is fine.
 
-Semi-unrelated cleanup: pm_runtime_put_sync() some stale kerneldoc now,
-saying "this does not update the last access time".
+Fixes: eea5d2bb34ba ("kernfs: Send IN_DELETE_SELF and IN_IGNORED")
+Cc: stable@vger.kernel.org # v7.1+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+ fs/kernfs/dir.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-> ---
->  drivers/base/power/runtime.c | 16 +++++++++++++++-
->  1 file changed, 15 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
-> index 0b15c718c1bb..02e7b4953c38 100644
-> --- a/drivers/base/power/runtime.c
-> +++ b/drivers/base/power/runtime.c
-> @@ -518,6 +518,14 @@ static int rpm_idle(struct device *dev, int rpmflags)
->  	else if (dev->power.idle_notification)
->  		retval = -EINPROGRESS;
->  
-> +	/*
-> +	 * Update last_busy to defer autosuspend by the full autosuspend delay.
-> +	 * Since an autosuspend timer may be running and the new last_busy value
-> +	 * needs to be seen by it, update last_busy before returning an error or
-> +	 * dropping the spinlock and allowing the timer function to grab it.
-> +	 */
-> +	pm_runtime_mark_last_busy(dev);
-> +
->  	if (retval)
->  		goto out;
->  
-> @@ -563,7 +571,6 @@ static int rpm_idle(struct device *dev, int rpmflags)
->  	if (retval)
->  		return retval;
->  
-> -	pm_runtime_mark_last_busy(dev);
->  	return rpm_suspend(dev, rpmflags | RPM_AUTO);
->  }
->  
-> @@ -1132,6 +1139,13 @@ int __pm_runtime_idle(struct device *dev, int rpmflags)
->  	int retval;
->  
->  	if (rpmflags & RPM_GET_PUT) {
-> +		/*
-> +		 * Once the usage counter drops to 0, a leftover autosuspend
-> +		 * timer may fire before the spinlock below is acquired.  Update
-> +		 * last_busy first so it does not find the expiration time in
-> +		 * the past and suspend the device immediately.
-> +		 */
-> +		pm_runtime_mark_last_busy(dev);
->  		retval = rpm_drop_usage_count(dev);
+diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
+index fb1dcf35d900d..aab5f5f12036d 100644
+--- a/fs/kernfs/dir.c
++++ b/fs/kernfs/dir.c
+@@ -1604,10 +1604,18 @@ static void __kernfs_remove(struct kernfs_node *kn)
+ 
+ 	pr_debug("kernfs %s: removing\n", kernfs_rcu_name(kn));
+ 
+-	/* prevent new usage by marking all nodes removing and deactivating */
++	/*
++	 * Prevent new usage by marking all nodes removing and deactivating.
++	 *
++	 * Clear i_nlink before a node turns inactive.  From then on
++	 * kernfs_dop_revalidate() fails and a lookup can kill the node's
++	 * dentries, and only a dentry dying with i_nlink at 0 sends
++	 * IN_DELETE_SELF.
++	 */
+ 	down_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
+ 	pos = NULL;
+ 	while ((pos = kernfs_next_descendant_post(pos, kn))) {
++		kernfs_clear_inode_nlink(pos);
+ 		pos->flags |= KERNFS_REMOVING;
+ 		if (kernfs_active(pos))
+ 			atomic_add(KN_DEACTIVATED_BIAS, &pos->active);
+@@ -1638,8 +1646,6 @@ static void __kernfs_remove(struct kernfs_node *kn)
+ 
+ 			down_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
+ 
+-			kernfs_clear_inode_nlink(pos);
+-
+ 			/* update timestamps on the parent */
+ 			if (ps_iattr) {
+ 				ktime_get_real_ts64(&ps_iattr->ia_ctime);
 
-This is somewhat of a pre-existing issue (e.g., in
-pm_runtime_put_autosuspend()), but weakly ordered architectures don't
-really enforce the dependencies you want.
+---
+base-commit: ccf2a4692fed0fa77751d32d2690585127a152c5
+change-id: 20261120-work-kernfs-delete_self-a1fdb64ebcce
 
-rpm_drop_usage_count() uses an atomic decrement, which has a full
-barrier. But this is supposed to influence the rpm_suspend() behavior of
-rpm_check_suspend_allowed() (atomic_read) + READ_ONCE(last_busy), which
-includes only a conditional dependency and no barrier.
-
-https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0124r6.html
-
-  "Control dependencies can order prior loads against later dependent
-  stores, however, they do not order prior loads against later dependent
-  loads. (Use memory_order_consume or memory_order_acquire if you
-  require this behavior.)"
-
-So, rpm_check_suspend_allowed() should probably use
-atomic_read_acquire(&dev->power.usage_count).
-
-(This is probably an extremely narrow, practically impossible issue.)
-
-Brian
-
->  		if (retval < 0) {
->  			return retval;
-> -- 
-> 2.51.0
-> 
-> 
-> 
-> 
