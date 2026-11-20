@@ -1,74 +1,74 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795136849;
-	b=cffHFyW41+E2FTst0wZH6I6RUC9CTIE0SVYS2jQuwk1DcNQFwdg95l0cQL6akWpt00ze
-	 sPFu9VX+c37IkddH9q4kZpFhCCTUnF5VooAbFkTr69BaKkpTzzelwq3I8kk/ifUToowzW
-	 htk+3Ub41YCVFR4Qy3E5fD4REw8Uiuop4jIEHRSo0kd6H62bGzbScgyXywWOt9abBPIg5
-	 gRcg5wipiMNxvLaUyCVyOUEPPzvpyGXf+yVP32sv+u7Qn7/XgXAPXqLDwXhrq2l6bqOV5
-	 J9P0FJ0f56gteer00qjPCNVKuTnlYYLaAY/6tAQpTvmnUulWxLG7oYt1NjgI/0d8BBA==
+	t=1795136850;
+	b=3cj8Vwd2rHq04ahLHkzMVsScq5Mod95zPBc/8BAmzAnET4L7l8uU22iWf5JFZxmXudQP
+	 WfNui0NVOc2QUFta/yoqo6S94h+M+kMs+xtkiex6uabgHkkeeClAzx0jmZsOK2nNzHp7z
+	 8vovyy/J+B5wqfj3fooSYp2Ov1oLWdHRdfkLpRQ3DoNFwoaQkbladCzp4qCeAGZeKmSzk
+	 pXAq2zbxWij2Jt/CMBio6sBhJv/qvhabsjcyfnBhlPtpVpHTOsTNp0KtVFUv6IrzQcT6Q
+	 Zke2wbGtGfSzKBHDyw6vLtH91ZYaOei0lzv9Z9uvSost+ZujEDpB/4fsUiUcNnjqBNg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795136849;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795136850;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=E07+bb3FRwBQVv7TP6tKUfjd8V3oXYxVPDexh6Cqmzk=;
-	b=aYtIWe7pb+/JxwStv/O3HsinOOtLNTgcjIdVlnNNlsGAolQvr8nn1RGqEk+sFZl4c0dB
-	 cm9a9WqhGbeXYu5sKpwMWkSWOav0ZWMV6dAQeSwNBD3lWPl5Z9g1HZZRTgaghCiGWnErE
-	 xxOnjmRlhBSRDu/2F1CAYPCBeB4E1dnPZIikeTth3fcJ+vBMUlM+bPrcrsc2sfUL44uP+
-	 8QEJZG4j3p21JQ06fiYOUdTVnQK+1frQDIhzFdjj1FzIvHjnaLaosvg8dApU73EI/9iRb
-	 A6Q2ACxLDNVdjKR4r42P1sB5od3V5yfZwuM/RfXZMBNb0NE3Bxu6J5mxEq1+I/x7mkw==
+	bh=uXiDLRBLPSFfTPfUoJ5i1Hu7TTvZxwWf2XG5sLJAj+k=;
+	b=hXygIEbsAMDISezjN2qRkg8XYKo2Bhhfi5XTzWoQu21+CQAQAoWEBeu6dtdQSILDtAtd
+	 Tr8Sxn7mgcD1JYDl9Ne1w/Drhs0onCmviOsPs9VysKOIJB2p1BJmBh1qkt8qy5ezo/5yb
+	 yWiD+KfncwBx+ecc3qvYXGRpLNbBN54HnbCu7jbiHJHplb3frH+emQ+cx4VbTcYQ/JWgN
+	 Zr8bFJAjIKZLoK29tYzl3CoRaBi0xZMqaPTm+oMF+mS+vB04LzkcWAdFlUfzgiUu6OWMJ
+	 2xUjfYSdhALNfbL0u2pOjLbZBs35jhRoYPho+dJSn3VXl7s3Tu97UOv9DtgrfbvYjyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=nO2tHQ2w;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=PjgN82xL;
 	arc=none smtp.remote-ip=209.85.208.72
 Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB156074AE5
-	for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 01:07:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6FB156074AE5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8EC6074AEB
+	for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 01:07:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA8EC6074AEB
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=nO2tHQ2w
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-6b4f1fcf171so302823a12.1
-        for <driver-core@lists.linux.dev>; Thu, 19 Nov 2026 17:07:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=PjgN82xL
+Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-6b88815d748so342163a12.2
+        for <driver-core@lists.linux.dev>; Thu, 19 Nov 2026 17:07:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795136847; x=1795741647; darn=lists.linux.dev;
+        d=google.com; s=20260707; t=1795136848; x=1795741648; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=E07+bb3FRwBQVv7TP6tKUfjd8V3oXYxVPDexh6Cqmzk=;
-        b=nO2tHQ2w2iFuQvKuHSc6jEPXcRs4Fo6r3lOfheiTP1ulE0okyyKx8oHvMmz/Ot4Wca
-         QrvIKnYKPpbKS5spD4sOGM0uECE2aXWOwUDcl7sq0ZpjY0ma4O9NLkiyshH9f2CYPtks
-         X8N4w66Pp3U/y7rBGG5YgVJxJcmY2V1sNZqaY2GqzErvBaf8VxqKqWQVY+0k/BRJbsiV
-         jSo7svjQTNaRkLtH1USBjBXkHS69pIXkk6LvTQuiZWZhHpK1zeLFGWYAhvRu9xFvlaCJ
-         7Eni9Lgk9BnKNa/Y5jfMEXA/j0n3XekZutCvpItHeGoTDIqSW/E7mIrjZ5FpwOA0GfxM
-         R7Nw==
+        bh=uXiDLRBLPSFfTPfUoJ5i1Hu7TTvZxwWf2XG5sLJAj+k=;
+        b=PjgN82xLnioW5gjEThBe083wzzt8aMz2UNTV67T9D0YSRL7mouXY3s8d+RW4bF2BQT
+         x4Hh/m0fgNOuaZKMfR2vd2I8/0/+YNfB0k5HbgdkV/LJzwzQijbkBr0p4c6JWeVcHxYX
+         dTvWJovqlzcXRabpZ/BF2lkkQduargEX/+vTtdURix9N5xkop1EP5vZ7Lw1vP0NNeBkB
+         oQRSeJjoCtBELfY6UGX+8vflkxv4Dy7Pw2econBAA8q90atiGbFIAqtk2qli0zCFszR/
+         JvNKaaRD2AfzYY39NLlxkEUtfalJ04Plwo5KXvGZ0pUh93GnBMqIKaYiiavCuaHBGxul
+         iKVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795136847; x=1795741647;
+        d=1e100.net; s=20260707; t=1795136848; x=1795741648;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=E07+bb3FRwBQVv7TP6tKUfjd8V3oXYxVPDexh6Cqmzk=;
-        b=UL3i4FzfUaefEmQvKGb1FbOHQD3bbVJb+BBGn90VcWMVXu6de5ZFCMSfK5A8VvCVsW
-         KSoI5DOpmCSJRInRtwQOwYRkjJyhKOvo/haB99eliZKy6Fp13ffyg3LxkhIbWyEz0UV8
-         NYbAR5EMm7S8uTc3fspOQ2z43xxJ0dUeyiZdPH1zdM8gRGWMQS2g6Q/myFqv8tpXYVsL
-         5W/7frMPwxc5QyzWMS6Mg3HHjU+NDXkMVqUtQutF+CFeylShv6IsQOYNNT7BBao0H5Pc
-         nRox5PyK3IFopC7tX/xdgUP/bvYeFepAQpxRFWrpQ4oC7up33zfmULwWC/3sNMAL8nT6
-         XsXA==
-X-Forwarded-Encrypted: i=1; AL+hErE7JPhcKMOjy8uGrYt10YWhSXW6cRChHdNgZ7iuP5gEn2a9TNfmdBlmBgYq0rMeWQX/fRTnLT9Up2WjtQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8q/4k59wRXXfBdGAydjKOXdTY6/U24FuxDUTbEIaShoR3rVvV2
-	0D1qXlThj9xXiD4PYy+KDlGYX303UHFTTCdGky2dKQD+Z7MLIiBkIGyQ9X2Oi6RGIHwKMcMn8ht
-	/RSL99Q==
-X-Received: from edl2-n1.prod.google.com ([2002:a05:6402:4242:10b0:6b5:6602:7fc9])
- (user=lrizzo job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6402:1e94:b0:6b5:8247:7bc7
- with SMTP id 4fb4d7f45d1cf-6ba37ed4f03mr808156a12.44.1795136846496; Thu, 19
- Nov 2026 17:07:26 -0800 (PST)
-Date: Fri, 20 Nov 2026 01:06:53 +0000
+        bh=uXiDLRBLPSFfTPfUoJ5i1Hu7TTvZxwWf2XG5sLJAj+k=;
+        b=te9T9ZiF5xwOwHm2ObOzWbllxjX6Q6/dd41whwf7WufPJGN/tn7OkKrD5xLCm6wT9Q
+         QZ93F/YW0v6ptffuuYTRz3jWzscukoyUtucEAPJB5KiQrtWcR44U9utqKPmsMzagUKjN
+         z+0tbRrNonyV1CfrB41f0ep5XKZFJwCXrqu8kF1wQbtnoDxdwMK0/NBk1GSFm8077QH6
+         LSWNEcK3ZFkyDpA8SonAd9J+2XX2w8iWvk2YIO8xsrzmMmRdtDzJryH+XyRxX0sazOLc
+         byZqNLUwLuL1LnF+gTYxttl2pToONJ56DHWTlwY6r8uuOkzy8kX8WFhsz6sigK3+9ADH
+         rHZQ==
+X-Forwarded-Encrypted: i=1; AL+hErHRCMnefLuB/OyEl1pkjntdEyR9CjsV4cXr5GWjWSIjT/xgKgclecj5lPFNl8qgENhh1XX3klKJjVZ+Og==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9YLI0+VTcFrggqzHg8a2WVmz1LrVh/9coNdO14oEJRU2C4ci0P
+	pO1np/cANIxVopZgihUGUtMHtj6uTLpYyfBrff5Tz3D3DdmQ6/uZ3sb9GbaKugYkK+vQp+0eZvy
+	d/jEkAw==
+X-Received: from edeg28.prod.google.com ([2002:a05:6402:565c:b0:6b7:8448:c876])
+ (user=lrizzo job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6402:c522:20b0:6b4:c971:589d
+ with SMTP id 4fb4d7f45d1cf-6ba37d640bbmr579772a12.13.1795136847835; Thu, 19
+ Nov 2026 17:07:27 -0800 (PST)
+Date: Fri, 20 Nov 2026 01:06:54 +0000
 In-Reply-To: <20261120010655.467825-1-lrizzo@google.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -81,8 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261109182533.3594984-1-lrizzo@google.com> <20261120010655.467825-1-lrizzo@google.com>
 X-Mailer: git-send-email 2.56.1.809.ga0b61035b5-goog
-Message-ID: <20261120010655.467825-24-lrizzo@google.com>
-Subject: [RFC PATCH v3 23/25] net/gve: Use GFP_KERNEL when pre-filling RX rings
+Message-ID: <20261120010655.467825-25-lrizzo@google.com>
+Subject: [RFC PATCH v3 24/25] net/gve: Use PISA memory for RX buffers
 From: Luigi Rizzo <lrizzo@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
 	Johannes Weiner <hannes@cmpxchg.org>, Vlastimil Babka <vbabka@kernel.org>, Joerg Roedel <joro@8bytes.org>, 
@@ -112,82 +112,109 @@ Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, M
 	Luigi Rizzo <lrizzo@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-When pre-filling DQO and GQI RX rings in process context before NAPI is
-enabled (e.g. gve_open), use GFP_KERNEL instead of GFP_ATOMIC so page
-allocation (and CoCo page decryption) can sleep instead of dipping into
-atomic reserves.
+When dev->pisa_rx_bufs is enabled, allocate GQI-RDA RX packet buffers
+with pisa_rx_gfp(dev) so they come from the per-node PISA
+allocator, and evict plain pages when a free PISA RX block is available;
+DQO-RDA uses page_pool, which checks dev->pisa_rx_bufs directly.
 
 Signed-off-by: Luigi Rizzo <lrizzo@google.com>
 ---
- drivers/net/ethernet/google/gve/gve_buffer_mgmt_dqo.c |  8 +++++++-
- drivers/net/ethernet/google/gve/gve_rx.c              | 10 +++++-----
- 2 files changed, 12 insertions(+), 6 deletions(-)
+ drivers/net/ethernet/google/gve/gve_rx.c | 34 ++++++++++++++++--------
+ 1 file changed, 23 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/net/ethernet/google/gve/gve_buffer_mgmt_dqo.c b/drivers/net/ethernet/google/gve/gve_buffer_mgmt_dqo.c
-index 6880d1531ba5e..a3fe684ca087a 100644
---- a/drivers/net/ethernet/google/gve/gve_buffer_mgmt_dqo.c
-+++ b/drivers/net/ethernet/google/gve/gve_buffer_mgmt_dqo.c
-@@ -223,13 +223,19 @@ void gve_free_to_page_pool(struct gve_rx_ring *rx,
- static int gve_alloc_from_page_pool(struct gve_rx_ring *rx,
- 				    struct gve_rx_buf_state_dqo *buf_state)
- {
-+	/*
-+	 * Use GFP_KERNEL when pre-filling RX rings in process context (e.g.
-+	 * gve_open) so PISA metadata init and CoCo page decryption can sleep.
-+	 */
-+	gfp_t gfp = (gve_get_napi_enabled(rx->gve) || in_softirq()) ?
-+		    GFP_ATOMIC : GFP_KERNEL;
- 	netmem_ref netmem;
- 
- 	buf_state->page_info.buf_size = rx->packet_buffer_truesize;
- 	netmem = page_pool_alloc_netmem(rx->dqo.page_pool,
- 					&buf_state->page_info.page_offset,
- 					&buf_state->page_info.buf_size,
--					GFP_ATOMIC);
-+					gfp);
- 
- 	if (!netmem)
- 		return -ENOMEM;
 diff --git a/drivers/net/ethernet/google/gve/gve_rx.c b/drivers/net/ethernet/google/gve/gve_rx.c
-index 81ea800e66e94..7c201fd513ee3 100644
+index 7c201fd513ee3..562c11f5bdd24 100644
 --- a/drivers/net/ethernet/google/gve/gve_rx.c
 +++ b/drivers/net/ethernet/google/gve/gve_rx.c
-@@ -159,14 +159,13 @@ static void gve_setup_rx_buffer(struct gve_rx_ring *rx,
- static int gve_rx_alloc_buffer(struct gve_priv *priv, struct device *dev,
- 			       struct gve_rx_slot_page_info *page_info,
- 			       union gve_rx_data_slot *data_slot,
--			       struct gve_rx_ring *rx)
-+			       struct gve_rx_ring *rx, gfp_t gfp)
- {
- 	struct page *page;
+@@ -4,6 +4,7 @@
+  * Copyright (C) 2015-2021 Google, Inc.
+  */
+ 
++#include <linux/pisa.h>
+ #include "gve.h"
+ #include "gve_adminq.h"
+ #include "gve_utils.h"
+@@ -165,6 +166,8 @@ static int gve_rx_alloc_buffer(struct gve_priv *priv, struct device *dev,
  	dma_addr_t dma;
  	int err;
  
--	err = gve_alloc_page(priv, dev, &page, &dma, DMA_FROM_DEVICE,
--			     GFP_ATOMIC);
-+	err = gve_alloc_page(priv, dev, &page, &dma, DMA_FROM_DEVICE, gfp);
++	if (rx->data.raw_addressing)
++		gfp |= pisa_rx_gfp(dev);
+ 	err = gve_alloc_page(priv, dev, &page, &dma, DMA_FROM_DEVICE, gfp);
  	if (err) {
  		u64_stats_update_begin(&rx->statss);
- 		rx->rx_buf_alloc_fail++;
-@@ -209,7 +208,7 @@ static int gve_rx_prefill_pages(struct gve_rx_ring *rx,
+@@ -494,13 +497,19 @@ static void gve_rx_flip_buff(struct gve_rx_slot_page_info *page_info, __be64 *sl
+ 	*(slot_addr) ^= offset;
+ }
+ 
+-static int gve_rx_can_recycle_buffer(struct gve_rx_slot_page_info *page_info)
++static int gve_rx_can_recycle_buffer(struct gve_rx_ring *rx,
++				     struct gve_rx_slot_page_info *page_info)
+ {
+ 	int pagecount = page_count(page_info->page);
+ 
+ 	/* This page is not being used by any SKBs - reuse */
+-	if (pagecount == page_info->pagecnt_bias)
++	if (pagecount == page_info->pagecnt_bias) {
++		if (rx && rx->data.raw_addressing &&
++		    !is_pisa_page(page_info->page) &&
++		    pisa_has_free_blocks_rx(&rx->gve->pdev->dev, 0, rx->gve->numa_node))
++			return 0;
+ 		return 1;
++	}
+ 	/* This page is still being used by an SKB - we can't reuse */
+ 	else if (pagecount > page_info->pagecnt_bias)
+ 		return 0;
+@@ -544,7 +553,7 @@ static struct sk_buff *gve_rx_copy_to_pool(struct gve_rx_ring *rx,
+ 
+ 	copy_page_info = &rx->qpl_copy_pool[pool_idx];
+ 	if (!copy_page_info->can_flip) {
+-		int recycle = gve_rx_can_recycle_buffer(copy_page_info);
++		int recycle = gve_rx_can_recycle_buffer(NULL, copy_page_info);
+ 
+ 		if (unlikely(recycle < 0)) {
+ 			gve_schedule_reset(rx->gve);
+@@ -664,7 +673,7 @@ static struct sk_buff *gve_rx_skb(struct gve_priv *priv, struct gve_rx_ring *rx,
+ 			u64_stats_update_end(&rx->statss);
  		}
- 		err = gve_rx_alloc_buffer(priv, &priv->pdev->dev,
- 					  &rx->data.page_info[i],
--					  &rx->data.data_ring[i], rx);
-+					  &rx->data.data_ring[i], rx, GFP_KERNEL);
- 		if (err)
- 			goto alloc_err_rda;
- 	}
-@@ -986,7 +985,8 @@ static bool gve_rx_refill_buffers(struct gve_priv *priv, struct gve_rx_ring *rx)
- 				gve_rx_free_buffer(dev, page_info, data_slot);
- 				page_info->page = NULL;
- 				if (gve_rx_alloc_buffer(priv, dev, page_info,
--							data_slot, rx)) {
-+							data_slot, rx,
-+							GFP_ATOMIC)) {
+ 	} else {
+-		int recycle = gve_rx_can_recycle_buffer(page_info);
++		int recycle = gve_rx_can_recycle_buffer(rx, page_info);
+ 
+ 		if (unlikely(recycle < 0)) {
+ 			gve_schedule_reset(priv);
+@@ -970,7 +979,7 @@ static bool gve_rx_refill_buffers(struct gve_priv *priv, struct gve_rx_ring *rx)
+ 			 * owns half the page it is impossible to tell which half. Either
+ 			 * the whole page is free or it needs to be replaced.
+ 			 */
+-			int recycle = gve_rx_can_recycle_buffer(page_info);
++			int recycle = gve_rx_can_recycle_buffer(rx, page_info);
+ 
+ 			if (recycle < 0) {
+ 				if (!rx->data.raw_addressing)
+@@ -982,13 +991,16 @@ static bool gve_rx_refill_buffers(struct gve_priv *priv, struct gve_rx_ring *rx)
+ 				union gve_rx_data_slot *data_slot =
+ 						&rx->data.data_ring[idx];
+ 				struct device *dev = &priv->pdev->dev;
+-				gve_rx_free_buffer(dev, page_info, data_slot);
+-				page_info->page = NULL;
+-				if (gve_rx_alloc_buffer(priv, dev, page_info,
+-							data_slot, rx,
+-							GFP_ATOMIC)) {
++				struct gve_rx_slot_page_info new_info = {};
++				union gve_rx_data_slot new_slot;
++
++				if (gve_rx_alloc_buffer(priv, dev, &new_info,
++							&new_slot, rx,
++							GFP_ATOMIC))
  					break;
- 				}
+-				}
++				gve_rx_free_buffer(dev, page_info, data_slot);
++				*page_info = new_info;
++				*data_slot = new_slot;
  			}
+ 		}
+ 		fill_cnt++;
 -- 
 2.56.1.809.ga0b61035b5-goog
 
