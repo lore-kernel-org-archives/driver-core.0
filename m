@@ -1,58 +1,81 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795175984;
-	b=JHUh+AW6Lr3htnwMe7VTqIBOGVcQVsrOa3eR9Wl2Eygv1DGk47cCh+Xnq1KkTTGGdwct
-	 UIL5UQEfhJEil9jLomefRd1XxfMuWq5hPWOiB+PqDOxGaiqMvuGFW6wHbQGtCreuYGlHP
-	 I4iwn63jJ3dlDzXr6H7H6gVPEjA+zdmLjpsiLtX/WrI8e0/Rrn4W0WOgxbvKLTALf+ivR
-	 lFqovP0r6ZmXIXmc5bsaw+f1slEmNk8EVkASqIXbd0aNkFQpCT+x/s7YGTL/Dt5futLNI
-	 exik+/GIVhkbjRUKWrlexMnV6aKRBsCumz2LWEhwWsZgGdz0WXHyAVYRHGE2j5fkSjQ==
+	t=1795176047;
+	b=UWSaCGLFWgx10XO1YrEQGwoOute28j22KFwh7s9bFC0dsbkNQSIKyEn1RH8UpuwWjT0w
+	 NJKxW74LjeMWB1ogfYRhE7x5/aFFTwYu9L4P/oJ8OKmcAG2ROOfhO/J9tmKJ/6Xwa1uaX
+	 c9L18UYBYIs3/RvndB1WlvSP+wQGTWTgKJHei0Qbs+TbRclQWx/90Xg0eiXqFxrw3HA5q
+	 hWkc8BWRkJUG1pAcliSJBOHTojs56RkC9fD7cURqjxc6d868N9rosxhq3ucZS6qC2ZE7c
+	 PAjoa/MZxjGf4MWhtn7GqN2WDQ3fEcXBi1ZHLxGFUljolUaAGZVo86R7Ti+wJ2Jhq+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795175984;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=WTa184/D+dpYU0m9TvKEDuuAyqsQWzsiGfAwCYduL4U=;
-	b=s83S3hFQMVi2iK0aBvi4QDqM4LsDuLlby3YCaRSCkxu7nDv4cj1bEqMEw/f7fELL8C7/
-	 xTYL69qYtqaSnU1YIiChdTCgc07SnWAJM01qzj9Xf9p7aBTuHWKnLyWpFvCT54lobhTEw
-	 xa0bIQ7AjOGxJkFFU37u/sDEyZaRLizjWyMmjs2PE6BF1mi/gsCdO1AjmQzcmKM7mNiC3
-	 H7XjCxuX/pF/PB1gAlh1XN6fzPtjDlDcPXkrZ8ACHrCocpTcR7d/E+f22Dn3WnmgY2Yy9
-	 iW9ozDaJi7SCve2QB70JGCK3cBizsiLx4MOuiXOEv7d/97JhGHgEdYadK+rzHkjL3qQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795176047;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=beQWb4LoAtDg8Zy+5AKtlfFZLus+EPwyn9DYxNFG6mU=;
+	b=nY8fMPcLeErqjvAYNJVx1B0AWZNWZG+kJcoPPkkvHYEQ/GwVzjcdE2tagt99qhVwy1h4
+	 OwQcRMOGLUlgnp302kgbrnoocubc2eFTgfPQtLSSoe0TgGM57TDboEzxuRLt3giTd/ryU
+	 MHoVlCj6Fj3nlhDmNSW73W7JTndAV+QdX+pB+45C4X3bSO3pn5sNBtC4jUY2loRQEOCYk
+	 i/9pC6Xx5+MMGvemVVLVzDduWLLD0UfE2IyVRpEsGLaJ3cLCYuUKczTeaD8g5clHfEv+5
+	 Ia8rmu42WHnrUME3R2us90PmLhIuLeisFI2Xqw03GaHa3aYfvH7HXpXUdb1xuu2iyvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hcIElR1k;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EIYxJwKV;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D18606A32A;
-	Fri, 20 Nov 2026 11:59:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111F3606A338;
+	Fri, 20 Nov 2026 12:00:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hcIElR1k
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E122F1F000C6;
-	Fri, 20 Nov 2026 11:59:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EIYxJwKV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F5811F000CA;
+	Fri, 20 Nov 2026 12:00:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795175983;
-	bh=WTa184/D+dpYU0m9TvKEDuuAyqsQWzsiGfAwCYduL4U=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=hcIElR1kgyYjVB711wffRIUQb9bbkM02G76Ur5QJ2EHX6DiUZGqKDFuTPOFok1kvj
-	 yyrx1HcKf+58DBr2s9za6z3ahRBbpBQTRw8Pm0Gt6PkdXcyhMPH6+B+kc0SdF0D4so
-	 vjA2Oigh/DPlsh0oqzoG/12BrFVWek7VYJl6q+xvY7Bt7ekXK72Tes4PAoIn3akgzq
-	 VPuNqF9Zs2WMgGIVhQwTUNR0rlSwxnXfUKqU2lXmAAMyzB+yBtaToYTheyY7qTolad
-	 eFr3AORa4Oukc42ljcSMR3NpwhGzTuxTR/caYmM9Wlfx/lPBKy+Q3/vB+VQqN9Fz+u
-	 5u3o1H1IoOXnA==
-From: Mark Brown <broonie@kernel.org>
-To: Arun Iyengar <aiyengar1990@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Johan Hovold <johan@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
- stable@vger.kernel.org
-In-Reply-To: <20261119-regmap-mmio-attach-clk-v1-1-91291802ac53@gmail.com>
-References: <20261119-regmap-mmio-attach-clk-v1-1-91291802ac53@gmail.com>
-Subject: Re: [PATCH] regmap: mmio: Don't attach the clock if clk_prepare()
- fails
-Message-Id: <179512899892.116416.13230762331536934249.b4-ty@b4>
-Date: Thu, 19 Nov 2026 22:56:38 +0000
+	s=k20260515; t=1795176046;
+	bh=beQWb4LoAtDg8Zy+5AKtlfFZLus+EPwyn9DYxNFG6mU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EIYxJwKV6pKOzzIEBuRXOlDo0Y+HodiAO2ZB2R6VQEfoBQ/HvGlDsgCsZZD6G5Czz
+	 6Hw2mEq4W7WWL2M0khcowQ1ijdyhpl4Mf5E6jvjTXU3BGCjU3W7JH3HwTFePuk7BsW
+	 Zf0fcxra0plL9c0eF7Yjpx+CYN7bzoUzk/Q+FqleL9bhb1AcVGEf22bj+ScG5xaNBz
+	 T66Fe3ePBa9AIlYOk+9jLYdZIJzmgdv7gXFnPj3yOg7RrM21kpYHHujoSPlrAH4uP9
+	 arxmZfKtYgbrYZDY/oMy1BhaVWUrcfXk5RMw2HX+ZvgFLWMDcsj5WLUngXGiGzaopt
+	 u7hrJu5tbh8fQ==
+Date: Fri, 20 Nov 2026 13:00:27 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Andreas Hindborg <a.hindborg@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Lyude Paul <lyude@redhat.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Igor Korotin <igor.korotin@linux.dev>, 
+	Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
+	Ira Weiny <iweiny@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Johan Hovold <johan@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Zhi Wang <zhiw@nvidia.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Markus Probst <markus.probst@posteo.de>
+Cc: Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, driver-core@lists.linux.dev, 
+	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, linux-serial@vger.kernel.org, 
+	Oliver Mangold <oliver.mangold@pm.me>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+Subject: Re: [PATCH v22 4/5] rust: rename `AlwaysRefCounted` to `RefCounted`
+Message-ID: <20261120-belichtet-austoben-januar-9fca976c1371@brauner>
+References: <20261116-unique-ref-v22-0-12029383206d@kernel.org>
+ <20261116-unique-ref-v22-4-12029383206d@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -62,46 +85,12 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1138; i=broonie@kernel.org;
- h=from:subject:message-id; bh=DPK3QJShF5aA+PmtmBOiISahQ7qwKlUH6H6y5QEkFWo=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIZzHT49K89LapSiN7WybEt8/arMC/bxA1LVkgbic83O
- VSy5MbZjlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAExk6yOG/8Vq9uvz3j2ss+3Q
- 3JLHmdfa9bPq+NNo9gnJh9KV9y0VyGH475u6oFIpPnr/Fpblifp5S1f29PQuv2olG3/06uYJEtu
- d+AE=
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261116-unique-ref-v22-4-12029383206d@kernel.org>
 
-On Thu, 19 Nov 2026 16:50:01 +0000, Arun Iyengar wrote:
-> regmap: mmio: Don't attach the clock if clk_prepare() fails
+On Mon, Nov 16, 2026 at 03:21:01PM +0100, Andreas Hindborg wrote:
 
-Applied to
+For the fs and pid_namespace bits:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-7.4
-
-Thanks!
-
-[1/1] regmap: mmio: Don't attach the clock if clk_prepare() fails
-      https://git.kernel.org/broonie/regmap/c/21f72877037e
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Acked-by: Christian Brauner <brauner@kernel.org>
