@@ -1,53 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795158719;
-	b=J11A/B/obWCtD58rW4ueV/xHK2tmXhNM743dbztHQpUmx9KFbsd3p8YG1WrNZc+omJ2k
-	 gzJJZ84yNgMivqhWBncsrEKsW0UmzYD0VA8v5FUwt6IuRThEiYvFU0ZHuKenkY0H1mWj0
-	 fP4CfCGxpPBQfIPTysrhwDE3MRoZyGo0qNw8AsXzqX4f7k0egbRKH1hveG1uPA43QZXQ8
-	 e3C2PNgwSdDXFAz27l9q5O9We6cElWdiVN+gqQUKWpNkxccOr9ElV1xBNqYpkYZvxB9b2
-	 8P9T94Qz9rgflHoD7Rem7izETiirxVfcOPpkBdTFnbJE0mScBWwe9OKw3XBQoP/cG0A==
+	t=1795163974;
+	b=CGbd+xoTqv8gUv+mwra2pv6gBiUpd3b9oCy7DRV3byb0m2D6AgPwqurrRr9DjbbNGubv
+	 NEM2+KgNLBWKYIFxASRVMeZEFLPWBZ702V21COY1gvFoGUxZHUYJM1zKqxXQ0dlzdLN4p
+	 I6cjbveCTs2eTFPx1VeSBkhDdcyy59p+DrtQZxxjofyvTplSjK5rMjtx/hpaPrBsZeM4e
+	 ayKeZUOsGAQA88rDpC87dnqi+VmojqeoGXbLs+PCLV2pH+z/MV6MsrbHGcbEXPO0ds5Zf
+	 kl/x3DbzO8muuXqq7h/xZoWrlJVWQm2sMoAj8+ft5tpeTrYdXQ1h2fHmzdFy9Qqeo3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795158719;
-	h=Received:DKIM-Signature:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=mx9jCoyCL35kZcFJj4eE8mVv6yBQ3TyEebvwewA9a4g=;
-	b=M26yAey1UZUe2IpAR4/XmXQ6d6zzF4rH9H7TUq+YJzL79YuRW3wIXC+RxF9L9jl8xudn
-	 qXsf6+I+HgSSLx6yN5VPmMsWfix3nA7BG93bOVR26r6tOdLlEoLF2kCPgNquyRDUN+l5R
-	 CuGS2UiveL7GJfrfEdVArMD3XViB/YSC4Kt2HE7gl2ZrfWneiY1ykOJllqaFJSQ8lkazF
-	 PivLuy8u0TplHw5LVhcmsTtE/4/nPXrjvOg41T4dOmzTZIAkqtwKsTKDiqRLFzruKFGyp
-	 ZrJ1Ho4kZ22m7HB0cnN2zYdi0CTsdJ++uibOMgiaMnb9ADCJUSzG32Jl63Dn7kgD9VA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795163974;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
+	 X-Proofpoint-Reinject:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
+	 X-Authority-Analysis:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=vDyPOJ67XjYt3wWQDVUZSaQFeg0AX+VGsQspzrlVypg=;
+	b=cxB/DEWqQ1HMae17mTfjsijWECg3fjYSHoHNtUMDdzoypA5b7ru1Gf/7IEWQjB1abfeB
+	 2bL/qBRMItC7zeGcgcO2pqZDGPL6nTptidNYFIAg+UsOh9vWLUVMD68C1s7ODSyMrK9kq
+	 vbE0XxAfglRNTtxCPdEz23rFo5IdggKXirYIFtaxjVHnOtsmhHmjJXLfOrqo9LaQkkNjk
+	 aIeJ/sATB/kot2y/dMtLCyBBh8nGsQssdyWA6K2FZCdhuT17Q6l9Vl+2HOcY5TUFwe/AL
+	 GIQm0l+1opwrfvSdPclZWD2GsMb7Tgf0/ZmkyrJYQfQ8onlMLOEAgJHAZEEnbgbxTlA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e9U250e2;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=I669TyEn;
+	arc=none smtp.remote-ip=148.163.158.5
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B6D606A320;
-	Fri, 20 Nov 2026 07:11:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BD8606A320
+	for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 08:39:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A4BD8606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e9U250e2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADC081F000D0;
-	Fri, 20 Nov 2026 07:11:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795158718;
-	bh=mx9jCoyCL35kZcFJj4eE8mVv6yBQ3TyEebvwewA9a4g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=e9U250e2Gzb07Ntri6FU1jyd1iOeaWowp9mJogUIquiqBmVzVbZWTHY2hyPWe2gd3
-	 nyai3xuBcqofgbzO/TpuSQ4cJ1S9qVY5RPYUucXTX3f9omHsgxg7z8epdEontApjuo
-	 h1y3niP9km8nnrGQbV8ziWpUeLaRLqmRHem7uE6OOAc+vakPoFbroCNBE6dfDrpE/U
-	 5RLYW743BIl6KNhDl2vreez9mItgH/CSGRZaguFN5Y2gun04lNjJQoBDdDf5I/fJ9G
-	 m81eyRxobsGLGxZ+G29pbFCIDt6A7cKCNo8RK3KfsR0J1zVq94tLqkd3SP/Vi18nE2
-	 E9NszsnlyEHCA==
-Date: Thu, 19 Nov 2026 21:11:52 -1000
-Message-ID: <e64643aed76382fd9adc3b616cb76948@kernel.org>
-From: Tejun Heo <tj@kernel.org>
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Christian Brauner <brauner@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jori Koolstra <jkoolstra@xs4all.nl>, Meta kernel team <kernel-team@meta.com>, cgroups@vger.kernel.org, linux-fsdevel@vger.kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kernfs: allocate in open before taking the active reference
-In-Reply-To: <20261119191923.2223993-1-shakeel.butt@linux.dev>
-References: <20261119191923.2223993-1-shakeel.butt@linux.dev>
+	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=I669TyEn
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AK7uRLM2482076;
+	Fri, 20 Nov 2026 08:39:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=vDyPOJ
+	67XjYt3wWQDVUZSaQFeg0AX+VGsQspzrlVypg=; b=I669TyEnErtCRamkxzxq+P
+	gPf6A3FuIajOJ1dDv0d546ZwBSj0jQ3uJ3seyQ6cZO2idIN5EBdg8ItEDEl3bn4i
+	s0KtrbtWdDEhP9zDqmWlsXwFR5Iwag/FLpjJSOhVHDJIcJhUPE+hoDpyVXD0g29x
+	RCBbaj23lLZi91/xgqm3bJsq4NKkRtllNnhQU6gsufl+am3ttshtPHLOiOv10enE
+	Jgt+i1VZhhYXpAI1aEpsobuUrSmP2IQDV+MEBPvOTN2V84P5FEdhtIFBg0thSbqs
+	hLLjiHGKComVVQfgsr35UIVkT7lAps6w5P+r1V3uGWRdbUe4i0HCnuSOYwNVSMhg
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j105x6ucf-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 20 Nov 2026 08:39:12 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AK7o2hf821287;
+	Fri, 20 Nov 2026 08:39:12 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4j17c53tp6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 20 Nov 2026 08:39:11 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AK8d7TK54001998
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 20 Nov 2026 08:39:07 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A98D820040;
+	Fri, 20 Nov 2026 08:39:07 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7BA0020043;
+	Fri, 20 Nov 2026 08:39:00 +0000 (GMT)
+Received: from [9.124.219.128] (unknown [9.124.219.128])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 20 Nov 2026 08:39:00 +0000 (GMT)
+Message-ID: <38f8999a-f3e1-486f-870b-25710462308e@linux.ibm.com>
+Date: Fri, 20 Nov 2026 14:08:59 +0530
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -57,42 +86,120 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/7] virt: steal_governor: serialize sampling against CPU
+ hotplug
+To: Yury Norov <ynorov@nvidia.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@kernel.org>, Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Andrea Righi
+ <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Ilya Leoshkevich <iii@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        K Prateek Nayak <kprateek.nayak@amd.com>,
+        Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>,
+        Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Steven Rostedt
+ <rostedt@goodmis.org>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-s390@vger.kernel.org
+References: <20261113184257.621707-1-ynorov@nvidia.com>
+ <20261113184257.621707-5-ynorov@nvidia.com>
+ <1556d3b0-1c89-4d3d-b9e5-5921c5c9158b@linux.ibm.com> <av8oy9v9eLTL0dw8@yury>
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <av8oy9v9eLTL0dw8@yury>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: HnFjsIqIwCBqsOr4Q9IJZy_rWJ3MVT8X
+X-Proofpoint-GUID: EU1aD9gF691CJx3Y3rvSU-lxEX-zsZmT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIwMDAzMyBTYWx0ZWRfX4efz25aqZi5n
+ KJ2Z0MmKbBJ3Gp78pWeQdHzc7odjIdnz30YHPdG/v1Y/C8O5fspytaA4ZDRYsmc1DNqFypj+VSE
+ Bd+xDjl7ClMVNju47EvIVyGD8tM867K1K95qt4hx5tHFjO+uNN3gigcSqflB8OaEdXbYD8jRYL/
+ dQjp0D/uTBPbbSxQuZIyrf3ospzDBOtMiMKqhen/yaCfkBE7eWKgG+kXzFcusiTAXxHxMQxFGJ+
+ 2JUhrIvGGxoQgoK8yILvlrr9SeicEHhEKrCpGQwtCN5iQ+0ShHeWmzAsOZZU+0pYrAd0x6uRYmg
+ XRDOc+IW6ZPdWLJae6SkKBncdnhAMNijjd4AiwQ2FY98TLigqLDNK9WKUubV/a6G27kY15PhFgD
+ C1syVM8JnXI5A5IDm7swrRbjd4wQGpf9gD1de8hf7yZp0ReToc5tj8n4BIfdm9rOXBcSutLa5Ic
+ pvSZ8xvFN6/zDRKy4Jw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIwMDAzMyBTYWx0ZWRfX2XbEVjvM4F4a
+ rodQfY0nMEh9JSgaLa4gr1pr3PrJJEKE0mjmria5NXpB/pMxuoq22alKfBijC2mEJjCq2y7iTbt
+ gOT+mwwzWVLKD9Smyai7dhNsxhuKYwc=
+X-Authority-Analysis: v=2.4 cv=K+m3jCWI c=1 sm=1 tr=0 ts=6b000731 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=Ikd4Dj_1AAAA:8
+ a=VIC0OLWXFpzVDZgiAzwA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-20_03,2026-11-19_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0 clxscore=1015 adultscore=0 spamscore=0
+ priorityscore=1501 impostorscore=0 phishscore=0 lowpriorityscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611200033
 
-On Thu, Nov 19, 2026 at 11:19:22AM -0800, Shakeel Butt wrote:
-> kernfs_fop_open() allocates the open file, its seq_file and the open
-> node while holding the file's active reference.  The seq_file is
-> charged to the opener's memory cgroup, so in a cgroup at its limit the
-> allocation reclaims.  Removing the file waits for active references.
-> cgroup rmdir does that with cgroup_mutex held, so every cgroup
-> operation on the host waits for that reclaim.  Deleting a netdev waits
-> the same way with rtnl_lock held.
->
-> Allocate them before taking the active reference.  kn->flags already
-> says whether the file has ->seq_show, which is all seq_open() needs.
-> If the file is removed in the meantime, open fails with -ENODEV as
-> before.  Only the prealloc buffer, whose size comes from the ops, and
-> ->open() still allocate under the active reference.
->
-> In a VM, eight tasks in a 256 MB memory cgroup at its limit, with swap
-> writes taking 500 ms, open and read small files of a cgroup that
-> another task removes and recreates every 20 ms (60 s, worst of four
-> runs):
->
->                                            before    after
->   reclaim with an active reference held     5.0 s        0
->   rmdir waiting for it, cgroup_mutex held  377 ms   6.3 ms
->   mkdir/rmdir of other cgroups             382 ms   125 ms
->
-> The rest of the mkdir/rmdir time is waiting for kernfs_rwsem.  Opening
-> and closing cgroup files in a loop is as fast as before.
->
-> Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
 
-Acked-by: Tejun Heo <tj@kernel.org>
 
-Thanks.
+On 11/19/26 10:20 PM, Yury Norov wrote:
+> On Thu, Nov 19, 2026 at 11:52:19AM +0530, Shrikanth Hegde wrote:
+>>
+>>
+>> On 11/14/26 12:12 AM, Yury Norov wrote:
+>>> Steal governor is not safe against a concurrent CPU hotplug operation
+>>> because it can change active and preferred cpumasks during the governor
+>>> sampling.
+>>>
+>>> To address the race, the governor would take the cpus_write_lock(). But
+>>> that may be impractical for the loadable module.
+>>>
+>>> Instead, implement the following locking policy:
+>>>
+>>>    - if the code takes cpus_write_lock(), it's enough to write-access
+>>>      the preferred cpumask;
+>>>    - if the code takes cpus_read_lock(), it must also take
+>>>      cpu_preferred_mutex in order to modify the preferred mask.
+>>>
+>>> The core scheduler and hotplug paths already modify the preferred cpumask
+>>> under the cpus_write_lock(), so no change in core logic is required.
+>>>
+>>> This provides a common update protocol for multiple policy drivers
+>>> without requiring writers to take the broader CPU hotplug write lock.
+>>>
+>>
+>> This is also necessary if there are multiple writers outside of core hotplug No?
+>> So should it go with the write interface series?
+> 
+> The race is real, and it's already there, so this is the fix for an
+> existing functionality.
+>   
 
---
-tejun
+At current, if there is hotplug, core takes cpus_write_lock to modify
+active/preferred which makes governor to wait.
+
+If the governor is modifying the preferred mask it is taking the read lock
+which makes the hotplug core to wait before modifying active/preferred masks.
+
+And there are no other infra modifying the preferred mask.
+Could you please explain where is race currently?
+
+>>> Fixes: 27d47ebce4d6 ("virt/steal_governor: Implement steal_governor policy loop")
+>>> Signed-off-by: Yury Norov <ynorov@nvidia.com>
+
