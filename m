@@ -1,55 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795197296;
-	b=4iUDZjmU9613YcfXkeiKsN3HjTeZsoDx9QTy+GPBuADv6+i/iLKpR93YEtaLilYB+P6i
-	 ey7+9A8WFHNJQ+580w3uvy9UJ62xu8y80EMSjgxWHdstl49iw6NumY5up00pSCc8V6aI6
-	 xCLEemaJhRCh6PTNeHSBaO78y0S3SMajzAakQPcIKbvLFmlihUMhM1P3fHu7ooah6x78z
-	 kHOo8IVVhgvT/lfIFPeROE3YPKblRzslrxySDNOE7iIDvS/8DyBoRzYAQ+5bFE9O1EFyW
-	 mF4IawYZFaDgwZ+TfT9FoxL1cmmrPIzdgxJk3LF1GKWKu4AkHI3zQEqemTyXFhMR5SQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795197296;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=dKrmLiXU2F487bqrAOIazBqAgREKSs8080df6vNjwXY=;
-	b=vBMd5bStdor6KFcTAd+A620LLmlfpuWQjbI/W6NBDegNFMbK67sluTDOSs/8anZPjJrA
-	 NbN2Q+eX4C9+I6oGd0ZmnaMnht6mZSXs9ekOvdKBb6EbLBM7xXQKDxGy2MRZ/6MdvR1FE
-	 pETbmYmFtHQAS/6Zdc4p144QY+VJM3eOKvmPDPvdG++ADqBQi1ZrEP2/J5PlTtvIMR0Ut
-	 8MKxOhjZdNXmefzXtK1LJJv6OIx6oSLvBcE55gBBIOHCYLvfT336MaK0sbYD+B/EFGKam
-	 Je12ABuVpqKhoJxbZH6blYJh2W1mYOvyFJQehJIVL9l0FiuT+D91wEArxp6GfSwte+A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HxnrnQiV;
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795198170;
+	b=RYS94LFQo8KmowxcPLU1YxDyewCeB/SJYONMtfdcGYAV3XqbHzRULyuwmR/1v6NACUwP
+	 AM0q6cUvb6YvXHSkWBArHzIf3612xtOLfyEfZtWVqB94Rz/4q8ODwgcAgn0OkQzlrBu2x
+	 Wlx9dn8DG9nxgmCnXYIWOM3s91xU6G7PwioemBqildOhJiYUVzbWQYJnK0rS9MiQVTtw4
+	 WjxfS0k2xhZa7TpC8d1/s7aR2frdErV/hWINPp71XBQ8cSkpEmU9q+K+skI3Gnrn59cRK
+	 zHJq9wUazqVIIB2OiuGtjK1AqqfeD5bPRgEdkCNkr1/fIACQU4RLLNP1hsjnx/Z0suA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795198170;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=NTsNDMBuz7zPhiY5EdCthhkTLILbhAv/FdI9gjXNQX4=;
+	b=09joYTU4NEQEkqaO5lifnx0QmtpSjHGDQrB6AexiC3wtanAzM5aCJ81VQc8SjqtTxkZK
+	 1EhQt9LZsXhffJz2QPUM2C5InJ5c+NafznpRu/ZZ0Vmpdi9lp6uOSroDipWW/zWR2PdSr
+	 dCo3rLtzCZDd9Ar1plTKt/W01oq+XL8E7ckZY/qxlcjauk8t4ft/Be+VpYGuaqtfsQ49q
+	 U0JALq3CP4M1qdKmEtmmBTvTQybb9wrkgPuDQ0BVgf1+4qkrv5dc9C7JiOHYs3iZjcKsB
+	 S3rmqieOi0TZPkfz8W0AOxam7d2bo6jrnKJ255l/MuVT9abApoodx4cFNYo8ioMyF6g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="l5V/+EuU";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBFD0606A33B
-	for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 17:54:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C34606A335;
+	Fri, 20 Nov 2026 18:09:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HxnrnQiV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 943411F000ED
-	for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 17:54:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l5V/+EuU
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795198169;
+	b=2fm3oJIfacRV58tKr04+SjQjMgImPzFLABofcMO1aHpUdC9kBYP0m3RljKh2gdP3nlgb
+	 55wWHmckTLkwcoIHxkxqsZ5tZ4HHtEgAlMErealMjIoKIEqQCTpMhy24G0xdjAlWgg0pE
+	 Xcm3QE6CgufIwHs/vpqtNAkxTAm7qEHq84x5Vz27pP26M3EMoDC50j0isf320mIaKNaUT
+	 QA6hQ0SQ9WVmXnX8VaTZ7YCIvVOhDyhZo45lIoo2acQoOtiEUs/tFCYrocBtctFQOBD3Z
+	 bZWNo9ugj0QyPNfXiwEQPdYqETWwtKCJl/1e4Xn+Vdgn4EscvSK9tt9DJ1/snCG0qKQ==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795198169;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=NTsNDMBuz7zPhiY5EdCthhkTLILbhAv/FdI9gjXNQX4=;
+	b=LJoIBWBFUvpUJrpm17RNmyFzxgu+lnaz0+GBXz7ntuzt06i3N0MCEp4CDhOjR2UQwOsA
+	 e5xXve3wzj0seFIStGNRb5mjSFW6VcLyPbz+Jk/FCREtfuLzk9QLFyaptxG0YRSSAG7SG
+	 y/QvplTB8MvM+edaSl/uit8iun7LxDnNsZCxl0tDoolpwOAYmWK+15S0ibjx1+nZcZTP5
+	 OBEiAQbihcGI1szIsvGro3XGfGCvESujPoFgDv77sZudeXh9/NA+B+ZQfJtz39mSHqgzd
+	 4kIGGHg7/i64kHItu/AVV4/N1XA2sxJy5ROtKtTQOr60PMD/eIXw7B2RkkRilEZULKA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id A20D41F000D1;
+	Fri, 20 Nov 2026 18:09:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795197295;
-	bh=dKrmLiXU2F487bqrAOIazBqAgREKSs8080df6vNjwXY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=HxnrnQiVLW3ZnOR3uRlDYCwz9NVO84sq1aERU+XGJxa5P98Qu/z/0xWUUfPT+2+t1
-	 /RfOthkV9UAX2QlcDl/j+gkqaoFvo9a18ZoQfNmMjyfMulj483u0L6J+woa213TGy9
-	 ypiVv/vsyFIEYRgZKcG0uLSh2j0/QD4hecccbDnwqxbGZlW3fPDXWg11xoQcshHs9j
-	 sCzr+U0Vzn5o9tBYuMvhBOGA2psdGM9Vm620SF2wh8CDeMxWjmbYM9KoFM4aOMcsOL
-	 CJWkEe/wAKtl95y+M/FmEYuqm5Gkm0jv/mODu0NiBISO7VWYrPs8F8YLk8GOLJpVlc
-	 7PDe2O8BP4Haw==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5be4b61fd3dso930160e87.3
-        for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 09:54:55 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErHX4p64Mt2oniJc1+xGIHT69GE0aml2itqzHGjBgTEDdWQArJ2s/23x6VrQw1faoFtr89cWvJwUS/yajQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+EpUv/EvG2KZbrDV2p0JKgnqjWI27k5rxTsMvtHwQqTH1PiQV7
-	1H1WJ1b4GZZWwwUhe0c1Ygh9osN+N4+SgtmSedRA3HgSt79w1MfbzXYoKP5Gl66hNSx6RmXxBMr
-	GcwAntXwMSRatGnLZ830uk5ZmvefRhTo=
-X-Received: by 2002:ac2:4c4b:0:b0:5c0:a54:5d4c with SMTP id
- 2adb3069b0e04-5c1bc8635bfmr1193536e87.36.1795197294018; Fri, 20 Nov 2026
- 09:54:54 -0800 (PST)
+	s=k20260515; t=1795198169;
+	bh=NTsNDMBuz7zPhiY5EdCthhkTLILbhAv/FdI9gjXNQX4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=l5V/+EuU4PvP0RiYrfLT3SAD6U0KHvuf8qFxU309jSif57nh8Q0kGkmO7OPyCYr0q
+	 xbfFznMM+Rqz9WIWIl7p6AkSSmv4OXaITj37z1Z64zPRjTIjI3x2ePMyPViiqBtKIv
+	 tB1yxIe0zridNxcKT1HYPTrvCG19lO5fk3WiT2wrXmI2YE3qs4p29+bUMh3+OnUb+v
+	 YMGpWtO24FIJ8Ye2j0cUBzu9SKjH9PAIGHaQS8YPTTUYxLp+YTa70ZCXxSQp2/4CVH
+	 B78U1I1xMApAe4FrDnZw4c1bUfl1u4ifFc4AiOypCExWG6d8IS+xvJVEakaynbeP8I
+	 0iJeg6O21zthw==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 26D6D4B8C9;
+	Fri, 20 Nov 2026 18:09:17 +0000 (UTC)
+From: Gregory Price via B4 Relay <devnull+gourry.gourry.net@kernel.org>
+Date: Fri, 20 Nov 2026 13:08:52 -0500
+Subject: [PATCH 01/60] nodemask: add node-state iterators
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -59,215 +82,135 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261116-pm-runtime-summary-v2-0-a3d8654baf8f@kernel.org> <20261116-pm-runtime-summary-v2-1-a3d8654baf8f@kernel.org>
-In-Reply-To: <20261116-pm-runtime-summary-v2-1-a3d8654baf8f@kernel.org>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Fri, 20 Nov 2026 18:54:39 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0g+7zxWmUNt4b6NXQnWML-coCBDCqrZnVpD+7s=SmCAcw@mail.gmail.com>
-X-Gm-Features: Aa3M54rjIr-lP8MdASeLxH5QB5e_sHkRORN5DH92yPw3YktljUsuSRiXGkY7deM
-Message-ID: <CAJZ5v0g+7zxWmUNt4b6NXQnWML-coCBDCqrZnVpD+7s=SmCAcw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] PM: runtime: add additional suspend/resume metrics
-To: Joshua Crofts <crofts@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Johan Hovold <johan@kernel.org>, Samuel Wu <wusamuel@google.com>, linux-pm@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261120-private_nodes_v6-v1-1-74f5f9a115c2@gourry.net>
+References: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
+In-Reply-To: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
+To: Yury Norov <yury.norov@gmail.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ David Hildenbrand <david@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Oscar Salvador <osalvador@suse.de>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Suren Baghdasaryan <surenb@google.com>, 
+ Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Johan Hovold <johan@kernel.org>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+ Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, 
+ Matthew Brost <matthew.brost@intel.com>, Byungchul Park <byungchul@sk.com>, 
+ Alistair Popple <apopple@nvidia.com>, SJ Park <sj@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ K Prateek Nayak <kprateek.nayak@amd.com>, Kees Cook <kees@kernel.org>, 
+ Kairui Song <kasong@tencent.com>, Barry Song <baohua@kernel.org>, 
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Michal Hocko <mhocko@kernel.org>, David Rientjes <rientjes@google.com>, 
+ Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
+ Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, 
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+ Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
+ Lorenzo Stoakes <ljs@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
+ Jann Horn <jannh@google.com>, Chris Li <chrisl@kernel.org>, 
+ Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+ Youngjun Park <youngjun.park@lge.com>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Waiman Long <longman@redhat.com>, Ridong Chen <ridong.chen@linux.dev>, 
+ Tejun Heo <tj@kernel.org>, 
+ =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Dan Williams <djbw@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+ Dave Jiang <dave.jiang@intel.com>, 
+ Alison Schofield <alison.schofield@intel.com>, 
+ Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org, 
+ driver-core@lists.linux.dev, damon@lists.linux.dev, 
+ linux-pm@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ cgroups@vger.kernel.org, nvdimm@lists.linux.dev, 
+ linux-kselftest@vger.kernel.org, "Gregory Price (Meta)" <gourry@gourry.net>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795198152; l=2119;
+ i=gourry@gourry.net; s=20261120; h=from:subject:message-id;
+ bh=G4ssD0bod7vgjZxwR56nCucNo1kgkEnObUnor5Z23Ok=;
+ b=RjAl7uvfEf4NqVkoeEx7BN6LIu7ylgrHkEUd9mkFu97o60NZ4EyCUrePrl7IYTdG0pVE3cvIL
+ Tfn22wnQtSZAtJ0uk4weMboEXWaQLw3lMEAfCsBn1GD/x5mvmm8mTel
+X-Developer-Key: i=gourry@gourry.net; a=ed25519;
+ pk=BZWDlx4htkR5KcvGjGtSDfx1tM0E5dlyBR43FEhjWVc=
+X-Endpoint-Received: by B4 Relay for gourry@gourry.net/20261120 with
+ auth_id=1586
+X-Original-From: "Gregory Price (Meta)" <gourry@gourry.net>
+Reply-To: gourry@gourry.net
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 16, 2026 at 10:36=E2=80=AFAM Joshua Crofts <crofts@kernel.org> =
-wrote:
->
-> The current implementation only logs the total accumulated time a device
-> spends in suspended or active states.
->
-> Add tracking for:
-> - resume_count : number of successful transitions to active
-> - suspend_count: number of successful transitions to suspended
-> - last_suspended_time: duration of the most recent sleep cycle (ns)
-> - min_suspended_time / max_suspended_time: shortest and longest sleep
->   cycle durations to help detect power thrashing (ns)
->
-> Signed-off-by: Joshua Crofts <crofts@kernel.org>
-> ---
->  drivers/base/power/runtime.c | 76 ++++++++++++++++++++++++++++++++++++++=
-+++---
->  include/linux/pm.h           | 12 +++++++
->  2 files changed, 83 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
-> index 304a2b12342082ffacce32aa9c2e863466b0d4ae..3085318e9c32fce892def5a90=
-1aae300f473ea2d 100644
-> --- a/drivers/base/power/runtime.c
-> +++ b/drivers/base/power/runtime.c
-> @@ -5,6 +5,8 @@
->   * Copyright (c) 2009 Rafael J. Wysocki <rjw@sisk.pl>, Novell Inc.
->   * Copyright (C) 2010 Alan Stern <stern@rowland.harvard.edu>
->   */
-> +#include <linux/pm.h>
-> +#include <linux/timekeeping.h>
->  #include <linux/sched/mm.h>
->  #include <linux/ktime.h>
->  #include <linux/hrtimer.h>
-> @@ -103,11 +105,58 @@ static void update_pm_runtime_accounting(struct dev=
-ice *dev)
->                 dev->power.active_time +=3D delta;
->  }
->
-> +static void rpm_account_suspend(struct device *dev)
-> +{
-> +       dev->power.suspend_time =3D dev->power.accounting_timestamp;
-> +       dev->power.suspend_count++;
-> +}
-> +
-> +static void rpm_account_sleep_end(struct device *dev)
-> +{
-> +       u64 duration;
-> +
-> +       if (!dev->power.suspend_time)
-> +               return;
-> +
-> +       if (dev->power.accounting_timestamp <=3D dev->power.suspend_time)
-> +               return;
-> +
-> +       duration =3D dev->power.accounting_timestamp - dev->power.suspend=
-_time;
-> +       dev->power.last_suspended_time =3D duration;
-> +
-> +       /* Update min/max extrema at the exact same moment as last_suspen=
-ded_time */
-> +       if (!dev->power.min_suspended_time || duration < dev->power.min_s=
-uspended_time)
-> +               dev->power.min_suspended_time =3D duration;
-> +
-> +       if (duration > dev->power.max_suspended_time)
-> +               dev->power.max_suspended_time =3D duration;
-> +}
-> +
-> +static void rpm_account_resume_complete(struct device *dev)
-> +{
-> +       dev->power.resume_count++;
-> +       dev->power.suspend_time =3D 0;
-> +}
-> +
->  static void __update_runtime_status(struct device *dev, enum rpm_status =
-status)
->  {
-> +       enum rpm_status old_status =3D dev->power.runtime_status;
-> +
->         update_pm_runtime_accounting(dev);
->         trace_rpm_status(dev, status);
->         dev->power.runtime_status =3D status;
-> +
-> +       if ((old_status =3D=3D RPM_SUSPENDING || old_status =3D=3D RPM_AC=
-TIVE) &&
-> +           status =3D=3D RPM_SUSPENDED)
-> +               rpm_account_suspend(dev);
-> +       else if (old_status =3D=3D RPM_RESUMING && status =3D=3D RPM_SUSP=
-ENDED)
-> +               dev->power.suspend_time =3D dev->power.accounting_timesta=
-mp;
-> +       else if (old_status =3D=3D RPM_SUSPENDED && status !=3D RPM_SUSPE=
-NDED)
-> +               rpm_account_sleep_end(dev);
-> +
-> +       if ((old_status =3D=3D RPM_RESUMING || old_status =3D=3D RPM_SUSP=
-ENDED) &&
-> +           status =3D=3D RPM_ACTIVE)
-> +               rpm_account_resume_complete(dev);
->  }
->
->  static u64 rpm_get_accounted_time(struct device *dev, bool suspended)
-> @@ -1571,6 +1620,7 @@ EXPORT_SYMBOL_GPL(__pm_runtime_disable);
->  void pm_runtime_enable(struct device *dev)
->  {
->         unsigned long flags;
-> +       u64 now;
->
->         spin_lock_irqsave(&dev->power.lock, flags);
->
-> @@ -1587,12 +1637,21 @@ void pm_runtime_enable(struct device *dev)
->                 dump_stack();
->         }
->         dev->power.last_status =3D RPM_INVALID;
-> -       dev->power.accounting_timestamp =3D ktime_get_mono_fast_ns();
-> +       now =3D ktime_get_mono_fast_ns();
->
-> -       if (dev->power.runtime_status =3D=3D RPM_SUSPENDED &&
-> -           !dev->power.ignore_children &&
-> -           atomic_read(&dev->power.child_count) > 0)
-> -               dev_warn(dev, "Enabling runtime PM for inactive device wi=
-th active children\n");
-> +       if (dev->power.runtime_status =3D=3D RPM_SUSPENDED) {
-> +               if (dev->power.suspend_time && dev->power.accounting_time=
-stamp
-> +                   && now > dev->power.accounting_timestamp)
-> +                       dev->power.suspend_time +=3D now - dev->power.acc=
-ounting_timestamp;
-> +               else
-> +                       dev->power.suspend_time =3D now;
-> +
-> +               if (!dev->power.ignore_children &&
-> +                   atomic_read(&dev->power.child_count) > 0)
-> +                       dev_warn(dev, "Enabling runtime PM for inactive d=
-evice with active children\n");
-> +       }
-> +
-> +       dev->power.accounting_timestamp =3D now;
->
->  out:
->         spin_unlock_irqrestore(&dev->power.lock, flags);
-> @@ -1861,6 +1920,13 @@ void pm_runtime_init(struct device *dev)
->         pm_suspend_ignore_children(dev, false);
->         dev->power.runtime_auto =3D true;
->
-> +       dev->power.resume_count =3D 0;
-> +       dev->power.suspend_count =3D 0;
-> +       dev->power.suspend_time =3D 0;
-> +       dev->power.last_suspended_time =3D 0;
-> +       dev->power.min_suspended_time =3D 0;
-> +       dev->power.max_suspended_time =3D 0;
-> +
->         dev->power.request_pending =3D false;
->         dev->power.request =3D RPM_REQ_NONE;
->         dev->power.deferred_resume =3D false;
-> diff --git a/include/linux/pm.h b/include/linux/pm.h
-> index ef3f1310e749c34d4aff75a2fd7e95b9f2ef3a10..7cd1350ea327be4e800175c2f=
-c0e3b3e35c3ea57 100644
-> --- a/include/linux/pm.h
-> +++ b/include/linux/pm.h
-> @@ -747,6 +747,12 @@ struct pm_subsys_data {
->   *   state.
->   * @accounting_timestamp: Timestamp in nanoseconds of the last runtime P=
-M state
->   *   accounting update.
-> + * @resume_count: Number of transitions from suspended -> active
-> + * @suspend_count: Number of transitions from active -> suspended
-> + * @suspend_time: Timestamp when device entered RPM_SUSPENDED
-> + * @last_suspended_time: Residency of the last sleep period (ns)
-> + * @min_suspended_time: Shortest sleep duration
-> + * @max_suspended_time: Longest sleep duration
->   * @subsys_data: Subsystem-specific power management data.
->   * @set_latency_tolerance: Callback for setting latency tolerance.
->   * @qos: Per-device PM Quality of Service (QoS) constraints.
-> @@ -816,6 +822,12 @@ struct dev_pm_info {
->         u64                     active_time;
->         u64                     suspended_time;
->         u64                     accounting_timestamp;
-> +       u64                     resume_count;
-> +       u64                     suspend_count;
-> +       u64                     suspend_time;
-> +       u64                     last_suspended_time;
-> +       u64                     min_suspended_time;
-> +       u64                     max_suspended_time;
+From: "Gregory Price (Meta)" <gourry@gourry.net>
 
-Can we please put those new fields behind CONFIG_DEBUGFS?
+Add first_node_state() and next_node_state(), so callers can walk any
+node state the way first_memory_node and next_memory_node walk N_MEMORY.
 
-They would just be pure useless overhead without it AFAICS.
+Add for_each_node_mask_state(), which iterates a nodemask intersected
+with a node state using the bitmap intersection helpers, without a
+temporary nodemask.
 
->  #endif
->         struct pm_subsys_data   *subsys_data;  /* Owned by the subsystem.=
- */
->         void (*set_latency_tolerance)(struct device *, s32);
->
-> --
+Signed-off-by: Gregory Price (Meta) <gourry@gourry.net>
+---
+ include/linux/nodemask.h | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/include/linux/nodemask.h b/include/linux/nodemask.h
+index 607373bd83ee..90bdcffa42ea 100644
+--- a/include/linux/nodemask.h
++++ b/include/linux/nodemask.h
+@@ -411,6 +411,11 @@ enum node_states {
+ 
+ extern nodemask_t node_states[NR_NODE_STATES];
+ 
++/* Iterate the nodes in a mask that also belong to the specified state. */
++#define for_each_node_mask_state(node, mask, state)			\
++	for_each_and_bit(node, nodes_addr(mask),			\
++			 nodes_addr(node_states[state]), MAX_NUMNODES)
++
+ #if MAX_NUMNODES > 1
+ static __always_inline int node_state(int node, enum node_states state)
+ {
+@@ -435,6 +440,12 @@ static __always_inline int num_node_state(enum node_states state)
+ #define for_each_node_state(__node, __state) \
+ 	for_each_node_mask((__node), node_states[__state])
+ 
++#define first_node_state(state)	first_node(node_states[state])
++static __always_inline unsigned int next_node_state(int nid, enum node_states state)
++{
++	return next_node(nid, node_states[state]);
++}
++
+ #define first_online_node	first_node(node_states[N_ONLINE])
+ #define first_memory_node	first_node(node_states[N_MEMORY])
+ static __always_inline unsigned int next_online_node(int nid)
+@@ -481,6 +492,12 @@ static __always_inline int num_node_state(enum node_states state)
+ #define for_each_node_state(node, __state) \
+ 	for ( (node) = 0; (node) == 0; (node) = 1)
+ 
++#define first_node_state(state)	0
++static __always_inline unsigned int next_node_state(int nid, enum node_states state)
++{
++	return MAX_NUMNODES;
++}
++
+ #define first_online_node	0
+ #define first_memory_node	0
+ #define next_online_node(nid)	(MAX_NUMNODES)
+
+-- 
+2.56.1
+
+
