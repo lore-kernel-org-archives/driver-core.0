@@ -1,55 +1,119 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795189707;
-	b=Ck/by1djokdGQ2c++Rwj0X1+tvZ4itg5adATid0ebODOdKNiAeqQhAtQpwZ9DeRMVWzJ
-	 s1Sy9tdzHdeLj62kRUgEYvvFHaj2rOswIjIxMR03gKqxnhERp/rXfqBhLov7LujTFVpbK
-	 pJFDb9QNYn2vjVy3eQ2N9FCo4tM5E6ZJ8e/tOHQGT68yyRqIKUatZjFIFnJEkTSC+Juyg
-	 4lg1NvqNu04GmquOLn7EeA4fFGVQl57MiGiaHr0rLfQaxXR25mdmnp0DDuXQAiwHio0Ma
-	 iKpXV98rvFzzgLVXNNIE0svBOLJ6J61e2fKUmWjwXUW4RIj968du3FvetAUun04+TgQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795189707;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=uoCLXlIyzTuVjcKkec7UtFiflj2Avxbg288tSQZ5p04=;
-	b=GCMvkhDfKrz6HVNfo21fuE8HiWY5RfQdAdMJbb/w92yQMe+1SRhouAwp7OMZjizxm0He
-	 JHe/9kkOyyd+Vv2oeFp7Y64ckr/sK/MQLiokcVsY1JPV2AZ3lVxHc93ly71eQynMjMyM/
-	 99jtS1Te4TthU5eRVPospzpnf9elIy1XosoNtEC2HOmMj71Fz7FdCQ/H4vybw35CPt5f3
-	 +qt3wYKCABlGtKjp0K7lWexqAc3xYMmxbYFAhvvQ5yeMAkZLkP4YPIneNrUUGQV3byiCb
-	 luQKUqUGQvxAP6pP5BedRzMryepYnb0rRepbdwGRafvFflfOh9BLs0UV6UYJb3e1yTg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nQh0VJwT;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.19
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795190392;
+	b=phcyJS7Kd7/qZIjuQwQ1gqHdQ+KgIPGp4teauNO+FssaQ0GFEf2ks7HeHQp4+rmzjsB4
+	 VZiPxeIGWFt7HdF0ZDG4bMe6ECmxiL3za0RPDzx2u+fbAjOS51t8bUGx4JruOc9seF9HU
+	 j+xsnw+b+NvneV5ADZQUHBvG4eVrYGb4JeV0e6Z+oUccmRr8GR1GHIO5iMAWn+ZfzQ9je
+	 rgaxAT4XXjIvetSUhggzRkY0FjR0GrD5IJxJqBCSb0thhjbXywBDpeuGhzUetAtC88Iph
+	 1RCUycadZIk6etvlSLyt6yzxsQMviIaN0KuC/C2lnHeNUIApNhd5flPzuS8BMl0bOVA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795190392;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=QsVY//bu9ZEXQaW9BRArY8yIP8+vZ7c6IQ/kIbeWyFQ=;
+	b=O00hFcD2rNHbXkKrP1MTgVImvMLM+80uTcGndIHQnKTt600IwmiKqqOGyuM8Y8wgJU00
+	 ruJuP9Zw3sTbIW6t3BSpPIkZV9dZnydc+cHpXK+SLLrnr72NWUJAVU0KzlImHTKlcOtiQ
+	 NCWN3Z+Yv3JEMsUmvI4GQvbnhYkywr89dYi5s0Z9kGRJRuCpM4NIOzcRv66NBFIlZMVwV
+	 DYX8trTazJpojXlQCCcTeEdzDE/5U5FFL0YBztANGJF8oCgAIqefszMzzS5DqoFFlWYY+
+	 0b7aGxuuI/vF6jH3LSz9j9wEeVjlCOHn09Pd2Pb/Pzl19WXpGSCN9NbS/abw8Y80THA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=nbzyIVbK;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.19
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013019.outbound.protection.outlook.com [40.93.201.19])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7AC1606A325
-	for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 15:48:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6963606A32A
+	for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 15:59:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6963606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nQh0VJwT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFC791F000EB
-	for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 15:48:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795189707;
-	bh=uoCLXlIyzTuVjcKkec7UtFiflj2Avxbg288tSQZ5p04=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=nQh0VJwTgDgdrEhJmK1lo+HQXM7C78ahzsguFe+Ayghpa8C8GxU32GQIIq8lSPBr2
-	 tBRZEbSLo0q/x+kPfxKl6d/xHuBTZKbvUODjOpS1KQvWvDeUBmg1fyv+6vGiwcgSjZ
-	 0XYwchPNFp0yZSMwrckMI5nv/rLvUvhAKvBBOY8odnSvX+IZJZkdS98nAcaQk1/I2m
-	 VuCVJQ5ZidOry1A4ewKgBpbnqRr2KaWmOUoHBpXsLMnRH+mglNymSRw9SXuptPkywM
-	 ISAOoSPlvOSr1TsLcIlRO4KJoB9aA04LDI/ms2XPczGEcORqCwYe9kbdzvt93ue/s8
-	 /AI2GHYgWKeJQ==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-3ae81ae52ffso6828771fa.2
-        for <driver-core@lists.linux.dev>; Fri, 20 Nov 2026 07:48:26 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErEwY8EOBtRFDHKRL+vTYuJPO/MdvhdiBchTdaZqMrGrfulNmdEHlr4JD//z6X1mSPpusI+IOAds3jvYBQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/RDGVqw1yRJb4lOgSg3xAGd4q/c8py5Oip7+GMTUtA8CCG25C4
-	VIf2Ww+hc06kQdl0Yp98PaY47dnbWTbC4Rl52yycypzSj+1lN2n4wtWQe2NOq7MmP1Te1hTDEKd
-	9Cujv2d8adjgBZ6x/xmVPyW0ujpOEToY=
-X-Received: by 2002:a2e:ac0c:0:b0:3a9:811d:3a58 with SMTP id
- 38308e7fff4ca-3ae7f9da2admr11520241fa.14.1795189705315; Fri, 20 Nov 2026
- 07:48:25 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=nbzyIVbK
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eb3ci456cOBCV0nTs5Ik7SLsVwIouBNBzDNGC/7PZg/lvVeLcprzoL0oUq0oOzJQjLGnAxHDz19yGiPUiRGWygYGfgSVKLt+fEHNe6fuVOiWFBads7YpkgU1bPmmz3BzxyhlRYf/HFyo6bASVRombXlCmoP2uTsiyu/autZAiYE+3WVt2WhiOc+J3fO+nZUkQtd7b87n8R3tTgBuRzMHu/dBsYHh/Ek5s/V/SqH/R0aax3mHCnuxFnFcI+bDjENmqnPGQiuapcEJ00/siZcWc8Qkk47+ryHEQF3eWZhMI/0LRZMHiGH/4+fLHzghS0TVUlGf8S9tJPpXkncXHB5Rcw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QsVY//bu9ZEXQaW9BRArY8yIP8+vZ7c6IQ/kIbeWyFQ=;
+ b=pH3DtUp8AftbeX+OzwVB5UAlOySdUeLCvwOXc4gj441AksmJWhitJgWnCSurlwC/ku8rTdgOruIvqmaqcEx9De5RBEUiXHzg10cwR5BlUqHHTOx3hBirrk+s6a3ZOvYN2gdpCB+zCyVrJVYO4T6KEI1E8cqL5rQDVkzA9j1ahY8eOiJDyDzLmAocdQz6l3l1kDrLGksdLsl2r95c0pbnen9i+eNPwNZu3R9J6dhDBhfpBZVwRDQL3DZkkxLh3eycW+Cqv73fAPpeGsX+W7pWN+PiwVW+GcwY1redjpfgMh7jOAdOxwZunDmAblsxBXglvBL/X759tPDQYJiqjbLsyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QsVY//bu9ZEXQaW9BRArY8yIP8+vZ7c6IQ/kIbeWyFQ=;
+ b=nbzyIVbKZjLEsD8m//kA7UoB9X8o/cTjm+NCtGL49fKbf3bH+C+os/z1eoFWxBXcFUwxdUvUtivmGZrcCI7IEedOK4uLyUk4nHUl4HY468GUohYACoo7Q3KqZdfVg2+7zoFhginnOY7tkp0WMAH98PfRuH2jI0GzLRn+SrR43OPg1zAS4PKYq3Cg/uiEEdiexiEmNlphb7NRvTfTJlH6SKHuHRBCOyKc9NS74IzGlnTExKkEBo8T700PerqaYCv8m+XKAZZFin/R0E2fXemg79NNiLAugO4ygQTR/b0Hod//OpA2BTFButVs+7Y+DbUgitUG0DaiE5N3UY25M6Rc1Q==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ by MW4PR12MB5643.namprd12.prod.outlook.com (2603:10b6:303:188::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Fri, 20 Nov
+ 2026 15:59:45 +0000
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286%4]) with mapi id 15.21.0639.011; Fri, 20 Nov 2026
+ 15:59:45 +0000
+Date: Fri, 20 Nov 2026 10:59:43 -0500
+From: Yury Norov <ynorov@nvidia.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Andrea Righi <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Ilya Leoshkevich <iii@linux.ibm.com>,
+	Johan Hovold <johan@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>,
+	Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-s390@vger.kernel.org
+Subject: Re: [PATCH 7/7] cpu: make preferred CPU policy writers mutually
+ exclusive
+Message-ID: <awBub4wgnTnsqL7i@yury>
+References: <20261113184257.621707-1-ynorov@nvidia.com>
+ <20261113184257.621707-8-ynorov@nvidia.com>
+ <20261120153851.GX2668564@noisy.programming.kicks-ass.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261120153851.GX2668564@noisy.programming.kicks-ass.net>
+X-ClientProxiedBy: CH0PR04CA0041.namprd04.prod.outlook.com
+ (2603:10b6:610:77::16) To LV3PR12MB9356.namprd12.prod.outlook.com
+ (2603:10b6:408:20c::21)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -59,206 +123,67 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261102-pm-clk-resume-report-errors-v1-1-ba6e1dddd522@oss.qualcomm.com>
- <CAFEp6-3GKHmc4y_mTTVMO6iPdnpmxEmRokpki4uVGoBuXTj6Hg@mail.gmail.com>
-In-Reply-To: <CAFEp6-3GKHmc4y_mTTVMO6iPdnpmxEmRokpki4uVGoBuXTj6Hg@mail.gmail.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Fri, 20 Nov 2026 16:48:11 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0hftga=t4QGoc8C3iY-zVYwewXi9BK3xnEdTm5KuOsNOQ@mail.gmail.com>
-X-Gm-Features: Aa3M54q_rzvZFVXpc28f17CurETrF5JEsNbmkva9b4j9EDron5Ym5vF04rjyMSA
-Message-ID: <CAJZ5v0hftga=t4QGoc8C3iY-zVYwewXi9BK3xnEdTm5KuOsNOQ@mail.gmail.com>
-Subject: Re: [PATCH] PM: clk: Report clock enable failures from pm_clk_resume()
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>, Abel Vesa <abel.vesa@oss.qualcomm.com>
-Cc: Pavel Machek <pavel@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, linux-pm@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|MW4PR12MB5643:EE_
+X-MS-Office365-Filtering-Correlation-Id: 31d86a0b-76f9-4035-f7d8-08df471f4bab
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|23010399003|10070799003|18002099003|22082099003|3023799007|4143699003|11063799006|56012099006|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	ZUQtNC+XS6sGZxLxCvW8OL0h2LaX6qBfRa8wv8Rvv0LtXt2tqjt5iEAD4KX9TlJIUUPnWH+eRjHzAlqP/bW8Jp02w4t73W6wqbECw9uxj/2ypAaLoULIz9bpXn8Q0EwPZOQiKQk/LIwpcQ7tzf3mprsP9IBt5kwCalzIUfxTM5URaUstpYGJSGH6K/rL7CNOO3x5huknWDLqCtVI44mpmh4aFJaWQmyPd9BYYqczH1NjjBXkzFhPKJk0SsQ0IOEWqg5/jWn2LSgtRVW5XtaIovCma5D71nSPNnnfEwzSGPD/EoVttRDoQQZSmkc7BA79kxU1ZYGMmicw+WTpR7Hd3ms/Zk9aGivrecLXi5xPOGnt/o7g5oHni+hacij4i/ZdwXihIx8gHJvcU5s+QyERo5looWg3U+3KE1VIG1jXs1B44o60IS4F+FSI8LFuIB78hzm/fWzO2Twl1XL+uEsvehnXL3pU5HUpSlkLaDHfQAS6jkFVCU0NVv0nYaFE1m9krk5pdszG0erNc0T8kUXkOJI2LMxSDeNB942pnOyB4ybk709O1TjpKd80D+d2TZ5gp+k4k2fdF+Tx8iBnqSxeDZSyjcX5/327h8jgxomGJUiwMJX/uo9dPe3zUZe4lyN/+p9yEl0QWiwvvxUEbGJOMU/wOZI/qHvJHqrU808x5NY=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(23010399003)(10070799003)(18002099003)(22082099003)(3023799007)(4143699003)(11063799006)(56012099006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?lmTtaQfho1QgFTh27FdOAL3MGrHw1nOxHGICZWEnG2XNGxIuUE6bXbiezFk0?=
+ =?us-ascii?Q?x5AuUmudVaQn4vU7QyACsXiOLnb+Ljyt6EhQn5/UN7odopz30wO3neMMSoEb?=
+ =?us-ascii?Q?UMygyRbbqX5osy5YCG4py4IsyIJGG3SaxCqCUsdSzE0bQ0sazozh+k+eTv93?=
+ =?us-ascii?Q?2+K/aYaadaYPjeKmxKWlI1rfRQ697ElIJLrGg279xNTQ4nLtW64XlCbZn23j?=
+ =?us-ascii?Q?CBu2//7R+7zfg/v4vtHJapU2yEziHuogYeFlpGmVxSP9uSpYu7MJ9gwyx+97?=
+ =?us-ascii?Q?drmxEzyrL8k3DoKiUCgd+7qDQ0u/yhm4IODo60efuV3RHao6K9byKM8KnLp6?=
+ =?us-ascii?Q?3wsYrunT/jZljP3bH75/ffFEEctHS0k1BwXM+cdMmt6WbdDMsAL6IsDjD2wv?=
+ =?us-ascii?Q?31pEGsZOus5xacc9s06Y7Upxum8zes/9eRNS/ij/Lr+C8NvC371Qq22WPzUt?=
+ =?us-ascii?Q?7Qo15fjcksNCZJtUs3KxlPrpEsO3QQUmpCtMQjrAnUlpo3UCVfxUTRfhaJLq?=
+ =?us-ascii?Q?1sq4PqLpUsY2Qi+hRWO5pTSxAYEDzkRnbmxj3HoQe43gqWOYHxavKlvuS1dO?=
+ =?us-ascii?Q?jt7zkRlMsE0icVKQrMmKZJy7+wmpwvXToqwRfsuOhDyFL+79+AcIx/jv+D7f?=
+ =?us-ascii?Q?Gdldo9klTwWD+/eLYZuVbU2wm93kSDSRXSsC/T/u5x+fD25vYmq8C505qqYF?=
+ =?us-ascii?Q?HN0L/GHo1PTlJTnVEKecxGJEMg4bynlzloNE89sALO0mAhp8Jt9ZBetaUOPx?=
+ =?us-ascii?Q?QZCwEzUgUwX7sYbqNkstn6QcJGO9tcPO4wFkoGbex83s15XVwa6SgIdBa0+O?=
+ =?us-ascii?Q?xgamXSNGHZUlX3Ofs/YYA/VjDHc2yxjX6ZSOAnVKCOuHnxVtkhoBOGIQR7Ou?=
+ =?us-ascii?Q?DnWLRPOVGhBPLETZqHXfUmfdTU+/aisJW2mCxEcP69zaDMx5LlIWHJANvxjV?=
+ =?us-ascii?Q?dtz+XsELDK7G60ptPh5qCZfhFEeuIS7qGLaSq8mAyODsxyc/EQcqABBKTj0A?=
+ =?us-ascii?Q?6ZizTCk67Gy0t4RsrwKwlhqBziRuBjVWxvpbybeDhuKD01Tn7laQN4lkRGB1?=
+ =?us-ascii?Q?nqSA4u+FC0ITKCrfByns9pGxtQXplkPYEPEUlDQigawaJJkXo+iAtWEz6YzL?=
+ =?us-ascii?Q?eLTdHifykSJ78dqXhIm6YckZ3dQNDrYa0QNVdyY/TIGUJPNHsq3e9ESwhyzp?=
+ =?us-ascii?Q?yOX8fE2mrywc9egSjh79Y2+ygZdtGYeoARbMsX8nPPR+MMmhcbHIRFXunPWk?=
+ =?us-ascii?Q?YPQ4/ShCJuXf/rhaSOpgt1uPQ92+fDmz+ifchMXD7sLXkSUtaazi1yz5HS9i?=
+ =?us-ascii?Q?1CC3guAb3US56H7XZUeroLF3BkOIqs0+jXF+vqBab/r6M5rUYQeXqaQ2hHO2?=
+ =?us-ascii?Q?1WHA6X68vdyXoRgL8kIhA9gAg+IWEXQPnXuHkR7j5n6+e8ri7wbOWMwvRi6Y?=
+ =?us-ascii?Q?0NRKEJ+UrSYoprLFvWpgK12ab2l81BPRt4Iq3OqmtebkLRIXX8IZgBIBcEsR?=
+ =?us-ascii?Q?iKBFZDi1+Z3vu3xa7GwtbXUjibeBEZpJokhfe3vnOXTvmXD9170xNBYxvd/v?=
+ =?us-ascii?Q?HxAPs5HuZnpIAawTW4QhgBaa94IqYWcQJ/svxqAGJCVeNygS5Qox29doFib3?=
+ =?us-ascii?Q?Jjl7Ns9uhl1+kAacahErlMY5smcYIYmk7H8kFSvzdy4s1o64Kz5W/2QmOumu?=
+ =?us-ascii?Q?cI/ghAx5fz10ZNMpeCoXS+r0EveU/GpHDn3182NDz2f6YL8lbNX9ejHEtgoy?=
+ =?us-ascii?Q?vVaS0gChzJc4tK5hmzFYUHS0PCg5m6er7VJitD6YgXZFGvhAXeV0?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31d86a0b-76f9-4035-f7d8-08df471f4bab
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 15:59:45.1077
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UM4Max2R32mmj36hz1qMfW+Oc1PL9OJ+6/liv2BsRizAZBfyNtpeAhM0KHkbgst4DpQ3c2/QuzWlQ1uL5QYl9A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5643
 
-On Mon, Nov 16, 2026 at 7:37=E2=80=AFPM Loic Poulain
-<loic.poulain@oss.qualcomm.com> wrote:
->
-> On Mon, Nov 2, 2026 at 11:23=E2=80=AFAM Abel Vesa <abel.vesa@oss.qualcomm=
-.com> wrote:
-> >
-> > pm_clk_resume() logs a clock that fails to start but always returns
-> > success, so the runtime resume of a device using the PM clock helpers
-> > succeeds without its clocks, and its driver goes on and accesses the
-> > hardware.
-> >
-> > This happens to the devices in the Qualcomm LPASS, whose clocks are
-> > provided by the ADSP: after the ADSP is gone, like right after a
-> > hibernation image is restored, a sound card opened by user space
-> > resumes the LPASS LPI pin controller without clocks, and the access to
-> > its registers then brings the whole machine down:
-> >
-> >   qcom-prm gprsvc:service:2:2: CMD timeout for [100100f] opcode
-> >   qcom-sm8550-lpass-lpi-pinctrl 6e80000.pinctrl: __pm_clk_enable: faile=
-d to enable clk 00000000b90a5151, error -110
-> >
-> > Stop at the first clock that fails to start, stop the ones started
-> > before it, and return the error, so that the resume fails and the
-> > device stays suspended with its clocks off.
-> >
-> > The callers of pm_clk_resume() check what it returns, including genpd
-> > and pm_clk_runtime_resume(), except the MMP2 audio clock controller,
-> > which keeps ignoring it. A device with a clock that fails to start no
-> > longer resumes though, even if it used to work without that clock.
-> >
-> > Signed-off-by: Abel Vesa <abel.vesa@oss.qualcomm.com>
->
-> Reviewed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+On Fri, Nov 20, 2026 at 04:38:51PM +0100, Peter Zijlstra wrote:
+> On Fri, Nov 13, 2026 at 01:42:56PM -0500, Yury Norov wrote:
+> > Serializing preferred mask updates still lets competing policy drivers
+> > repeatedly override each other's selections.
+> 
+> Competing controllers is not going to happen.
 
-Applied as 7.5 material, thanks!
-
-> > ---
-> > pm_clk_resume() always returns success, even when a clock fails to
-> > start, so a device using the PM clock helpers resumes without its clock=
-s
-> > and its driver goes on accessing the hardware.
-> >
-> > I hit this on the Qualcomm Hamoa CRD while working on hibernation: the =
-LPASS
-> > devices get their clocks from the ADSP, and when the ADSP is gone, like
-> > right after a hibernation image is restored, a sound card opened by use=
-r
-> > space resumes the LPASS LPI pin controller without clocks and the whole
-> > machine resets on the first register access. With this patch, the
-> > resume fails, the open fails, and the machine stays up until the ADSP i=
-s
-> > restarted.
-> >
-> > The LPASS macro drivers already check what pm_clk_resume() returns, but
-> > never saw an error so far.
-> >
-> > Prepared with help from an LLM-based assistant.
-> > ---
-> >  drivers/base/power/clock_ops.c | 56 ++++++++++++++++++++++++++++++----=
---------
-> >  1 file changed, 40 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/drivers/base/power/clock_ops.c b/drivers/base/power/clock_=
-ops.c
-> > index 3b8ba27802a8..a978eb3d5479 100644
-> > --- a/drivers/base/power/clock_ops.c
-> > +++ b/drivers/base/power/clock_ops.c
-> > @@ -143,8 +143,10 @@ static void pm_clk_op_unlock(struct pm_subsys_data=
- *psd, unsigned long *flags)
-> >   * __pm_clk_enable - Enable a clock, reporting any errors
-> >   * @dev: The device for the given clock
-> >   * @ce: PM clock entry corresponding to the clock.
-> > + *
-> > + * Return: 0 on success or the error from enabling the clock.
-> >   */
-> > -static inline void __pm_clk_enable(struct device *dev, struct pm_clock=
-_entry *ce)
-> > +static inline int __pm_clk_enable(struct device *dev, struct pm_clock_=
-entry *ce)
-> >  {
-> >         int ret;
-> >
-> > @@ -156,13 +158,29 @@ static inline void __pm_clk_enable(struct device =
-*dev, struct pm_clock_entry *ce
-> >                 ret =3D clk_enable(ce->clk);
-> >                 break;
-> >         default:
-> > -               return;
-> > +               return 0;
-> >         }
-> >         if (!ret)
-> >                 ce->status =3D PCE_STATUS_ENABLED;
-> >         else
-> >                 dev_err(dev, "%s: failed to enable clk %p, error %d\n",
-> >                         __func__, ce->clk, ret);
-> > +
-> > +       return ret;
-> > +}
-> > +
-> > +static inline void __pm_clk_disable(struct pm_clock_entry *ce)
-> > +{
-> > +       if (ce->status !=3D PCE_STATUS_ENABLED)
-> > +               return;
-> > +
-> > +       if (ce->enabled_when_prepared) {
-> > +               clk_disable_unprepare(ce->clk);
-> > +               ce->status =3D PCE_STATUS_ACQUIRED;
-> > +       } else {
-> > +               clk_disable(ce->clk);
-> > +               ce->status =3D PCE_STATUS_PREPARED;
-> > +       }
-> >  }
-> >
-> >  /**
-> > @@ -483,17 +501,8 @@ int pm_clk_suspend(struct device *dev)
-> >         if (ret)
-> >                 return ret;
-> >
-> > -       list_for_each_entry_reverse(ce, &psd->clock_list, node) {
-> > -               if (ce->status =3D=3D PCE_STATUS_ENABLED) {
-> > -                       if (ce->enabled_when_prepared) {
-> > -                               clk_disable_unprepare(ce->clk);
-> > -                               ce->status =3D PCE_STATUS_ACQUIRED;
-> > -                       } else {
-> > -                               clk_disable(ce->clk);
-> > -                               ce->status =3D PCE_STATUS_PREPARED;
-> > -                       }
-> > -               }
-> > -       }
-> > +       list_for_each_entry_reverse(ce, &psd->clock_list, node)
-> > +               __pm_clk_disable(ce);
-> >
-> >         pm_clk_op_unlock(psd, &flags);
-> >
-> > @@ -504,6 +513,9 @@ EXPORT_SYMBOL_GPL(pm_clk_suspend);
-> >  /**
-> >   * pm_clk_resume - Enable clocks in a device's PM clock list.
-> >   * @dev: Device to enable the clocks for.
-> > + *
-> > + * Return: 0 on success or a negative error code. If a clock fails to =
-start,
-> > + * the clocks started before it are stopped again.
-> >   */
-> >  int pm_clk_resume(struct device *dev)
-> >  {
-> > @@ -521,12 +533,24 @@ int pm_clk_resume(struct device *dev)
-> >         if (ret)
-> >                 return ret;
-> >
-> > -       list_for_each_entry(ce, &psd->clock_list, node)
-> > -               __pm_clk_enable(dev, ce);
-> > +       list_for_each_entry(ce, &psd->clock_list, node) {
-> > +               ret =3D __pm_clk_enable(dev, ce);
-> > +               if (ret)
-> > +                       break;
-> > +       }
-> > +
-> > +       /*
-> > +        * A device whose clocks are not running cannot be accessed. Do=
- not
-> > +        * pretend it resumed, and leave its clocks off as it stays sus=
-pended.
-> > +        */
-> > +       if (ret) {
-> > +               list_for_each_entry_continue_reverse(ce, &psd->clock_li=
-st, node)
-> > +                       __pm_clk_disable(ce);
-> > +       }
-> >
-> >         pm_clk_op_unlock(psd, &flags);
-> >
-> > -       return 0;
-> > +       return ret;
-> >  }
-> >  EXPORT_SYMBOL_GPL(pm_clk_resume);
-> >
-> >
-> > ---
-> > base-commit: 7649ba73f9e7e1e04d0b46213e39c79ae09dd55c
-> > change-id: 20261029-pm-clk-resume-report-errors-b5d538eb27de
-> >
-> > Best regards,
-> > --
-> >
-> > Abel
-> >
-> >
+That's the purpose of this patch. You can't stop people writing
+alternative controllers, but you can make them non-competing.
