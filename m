@@ -1,48 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795170513;
-	b=I1n+z/sEqFp0rPrqMQyql+mRMFOOuAgFEQXH9jeL+n36KhguAavcpuZGwn1ixQTtVhMc
-	 L+u42rE7KM7pJ3vvDo0ow2I8+yEAJXvjZ6RZcB4ZeeKdcAtM9NSCbss7ywNa62HwAIuuU
-	 Nb9iFu56mgRt2Jcew7LilU2JxBVrLIwotlA11zidf/4TKvzGGvvg0PN8qfi5e6Ngwkv3g
-	 CiB9rvRjeI2EsEiF5X3bb00Y1CetlzN+N/uV7X5WvD+UDHYzDKCwMKOuYUlIXjT8TgBTH
-	 0O3uDyyswFKf7Gt0DciuGrKsagySG9mjyVMsABopZPTMZ8c6ueaGgLrHKwK3elm8WqA==
+	t=1795170520;
+	b=2e4+/2VVnX+tk41C5QFavuQFnawG/qlnLlPPlSBEqHrCObqrvlKucvctvgKtvr8uh9I9
+	 W/qR10bkAapbylBWdTQDdp2Grdp6K4PMOjTlrm/h2PECDTwcE4Cov6qzJg+I6CdIp8Rcz
+	 mO9boyzQ3QsKA9Pq1/t66rEMX4D/kVKjwsYbil73Ok6U+cinZBLkG4Cx8xGydwN44iGxT
+	 X+VVYqO0sZkukRUYh+d4IIFk8dTpEr2XJARlTwPAvT7UKY1yrp3YTwgRXz/6aULKJqp5M
+	 Aw/zfzFSQQTtapuRIfJdMiAAxVs2iR9Og13lGQhQOZFwSvQTfiz8mBqdd/NcN5Yforg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795170513;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795170520;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=rBLyy8yIWs7igApO2EIce+czdiY6vYX188Cradx6Qoc=;
-	b=5Mq3XzW+dbUyaq1fZSoDIzuwQ0G/oDQ8kbp567SFGUrSSeWOBtD69i/oX0YBhqpYR0a2
-	 GNfaRHwIRJKH4pCnR+V3W/K3k5B7BWK/tNg1NCbCqsPif6VcQ+F/MqFsIiySD3CsBztva
-	 LG1oRg1BgxdyGe6j9N06zPjcVQM4dZg+8zDXS4ytwnqjAA63CUhAQ+0Bm1iov9Eb3Ap0g
-	 gh/4CjtRZl8wd6Jz5zaY8Cwc2dNRDcI4LIb5fLSDDBlGmwmhDRbasKU19hTB9PbHxJvhe
-	 Mdu6jiAbjcKBNnkCMNaHx5Qg0K1bk0KSWg9gvy1hjADvHRiuAplLm9YIeuk5Qvu+l0Q==
+	bh=4CgRzJqEpozYdtfooGGK8vO5/mhcOc1oY2ASDM+A4Y8=;
+	b=0d7yjhIAXBw1vAe+1mw8gXI+IRgJJT3KIhVeiJu9NBnGoetvGG2m5RrlWDAAdwzowfaQ
+	 KEb0azGrEnNtQoJRQrWNHXBSIZ4cByNyRAq9VQ+9/SbA0BBRAkfcqHFUL6F755eMajym6
+	 vgMvT2kUTvnnQd4BMkd0MxehbERLKDP/vkptMHAJ0cE7/kb1i1F/7KzQcbodW6qnIoRrF
+	 U/+w0pXWbpwOZIrj0MI758575aHmcwtoFIfd5aVGwWlyJrEZ0LvtkkcDSusu+M8O0E6Qw
+	 X4QeiCmVr7al3xvaUmkUZRusOolXBl38QtUqNxi3AqFCIA3bbp77pZCuGAt1pPMonrA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jdzf7kP1;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TE3DoABs;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88CA860A263A;
-	Fri, 20 Nov 2026 10:28:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80AEE60A2615;
+	Fri, 20 Nov 2026 10:28:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jdzf7kP1
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 517F81F00ADE;
-	Fri, 20 Nov 2026 10:28:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TE3DoABs
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 669361F00ADE;
+	Fri, 20 Nov 2026 10:28:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795170512;
-	bh=rBLyy8yIWs7igApO2EIce+czdiY6vYX188Cradx6Qoc=;
+	s=k20260515; t=1795170520;
+	bh=4CgRzJqEpozYdtfooGGK8vO5/mhcOc1oY2ASDM+A4Y8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=jdzf7kP18P89AhI5FqPZU2Eu+JFmD6PUkUTX4HzGAiP0a868cfL/NsNzeb0PotnA5
-	 +h/mGa/sADisw9xNoTkrsH3ISbgmlL8tqeG8T/wmb+LJNwejmrOk2BTjYVM2R8rQ2V
-	 OsVOi2Z3THNYNjHeBMDIxRzcBLGGVnPKOkr+DNvCr6Jlwv08fMMv+lw38PlmrVXPCi
-	 lJ3WwH8DKzN0mkIWfR/vJZANbEAcp7qGrDxjbIb1EqBFQgLdl2F2mQ7/UWi5PpgMW4
-	 BsF5L0GmCvdFZZzuIi3NvvPoxrASAP01g7QmH1tkA2EPS+g+/uGY/rdUyGxSe8kXMY
-	 Ml0zOMPfm2zcg==
+	b=TE3DoABsetFmiGLQRbnkFNlVMuhNO43XVPdNZWmKh3FKhdpH+hhGnf2Q/hqQitH13
+	 978n1hhvAk+HdkiJFeT+T9svsUZnwIqPR9d/6z0FNhP3ctJz3oMKPl9lCWqVx7OgkS
+	 azo0JE4vfqnaQ+Ga0s0q8mtyu63ZQPo85RevTmLkAgjvkLAoFLDS4l7wVBAJJpasUm
+	 gROZQg/nA0+kcJCb++Od9KI0O/jua8h501RXmrJnQVLnbTm7wKPe8GMUxrSIYs+o76
+	 /KWvlEgEJAsgQGGRSRALIlAxusEvsRUkSPu5sKsya8ctgMYoJ+Uw4RkqTODz0oBI6E
+	 N7QLGUBPrOFRQ==
 From: Andreas Hindborg <a.hindborg@kernel.org>
-Date: Fri, 20 Nov 2026 11:27:08 +0100
-Subject: [PATCH 09/11] rust: page: add `Page::with_page_as_sysmem_local`
+Date: Fri, 20 Nov 2026 11:27:00 +0100
+Subject: [PATCH 01/11] rust: page: tighten safety requirements of `SysMem`
+ copy methods
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -54,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261120-page-shared-v1-9-66f8c4c62822@kernel.org>
+Message-Id: <20261120-page-shared-v1-1-66f8c4c62822@kernel.org>
 References: <20261120-page-shared-v1-0-66f8c4c62822@kernel.org>
 In-Reply-To: <20261120-page-shared-v1-0-66f8c4c62822@kernel.org>
 To: Alice Ryhl <aliceryhl@google.com>, Lorenzo Stoakes <ljs@kernel.org>, 
@@ -77,166 +78,80 @@ Cc: linux-mm@kvack.org, rust-for-linux@vger.kernel.org,
  linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
  Andreas Hindborg <a.hindborg@kernel.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6313; i=a.hindborg@kernel.org;
- h=from:subject:message-id; bh=Pp912Hpst4UEXsVK2CKEGwo1oxgZi8R2rnnTjQvDyoA=;
- b=owEBbQKS/ZANAwAKAfpQKQiqxb3QAcsmYgBrACCJ7AdUaY6xLJpeqXzITlzXG3r0yvC2GtUG1
- xtiZOi/m3mJAjMEAAEKAB0WIQRXitnI2WZ2JirAaob6UCkIqsW90AUCawAgiQAKCRD6UCkIqsW9
- 0HLDEACjH6w0dhSioz0cwNL8k77aa9fTdw3uSbiJWfLc50rRLz9V4uIMtbybohoSr2dJMRTclM8
- Ejkjlluk3t3nuKcTZ9sHXt7NnflUas4if0fngSbKZsKbxVoLc43EB60uplIICy59PttPPQ00ujX
- 2AH3xClkXxiJGlTwhvtsqEik2+zuKJT27DhNTlolHIXlpXsklkwQqBPavEZd6VQNVXEvf9e/Cul
- IGV6FCs7mjax1vhhjMg+TvbcvnohIQvCVtr7SJuwfu8kfIf8DHRDA1r4WAUVPUTI+5B/UXKNiYL
- 7JeNlICW5p7AVCVI99nmrr4dg7npPbwaku6M9YIhq4L+DsYASMepqDsqlwpfBjF/Jn1seaGuypk
- i4GEDa4WsQ88HXldXHIeVXIm3uixQcgnkAmO6zoHknRUEfiAVo14UiM9MhdMsPAfeuOf4jopTBj
- uyKBN0cQO2qBH1BVF4QKvnw3ZA0rJO15h5osD+I1Q76dy3+gbw7pViYPs6nIXthHR5nEHYiV7Tz
- mtE3oVQUZL3ApX7zc+HFXvnpvDL0IVi+vBCRTx3cFOacdFAsa8VjKStFni21qjILLcjY6AcE6dz
- AAYeKnV1fXLiIu/CY0yS9d6VtsoSud3vlVC5g94mRJDvTf+s6IDbFJYsHutEmV5+6p3cEkDNWJU
- 2xrtgBlHAnA+99Q==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3044; i=a.hindborg@kernel.org;
+ h=from:subject:message-id; bh=SEmUKaWSirshMZNhFKAa6XD1FMrLGE2pgSxpI+8ilKM=;
+ b=owEBbQKS/ZANAwAKAfpQKQiqxb3QAcsmYgBrACCCvNGTm5okCaeQwkmLXdu/rlqIT+sC5ohTS
+ kzAeoYXjYOJAjMEAAEKAB0WIQRXitnI2WZ2JirAaob6UCkIqsW90AUCawAgggAKCRD6UCkIqsW9
+ 0LBnEAC3BwBnfGcNsqqgePf0LBDFq5c9O1unwZ/ZKtEH4IY22gEgrLiQVbxyq0tD4/4fD+WKJid
+ X8CcsZCdr09obivkErnkRLd9CQCIFopCjlhd5no9MgOAYHmQNhy8xDZeCEDqsG6/I9jcv5wmkQ8
+ OTL6sD9/3+hdv1CP44TyYVxUd5cJsuk6CG06ttDtHfg7fh14fo07IWQ3rEJNV/5Roo8kAjr7mVy
+ BVGbGeZvk9Bsrd5x/4mULz+5ZE5x7Ny+04atr4VjWaXfEx55nL3GML2D1zDraiiyc65OQufh5H5
+ ceDkLDUXU77PSUEZ6a+bscAQmYgfXWGSnIC6q7YK00I4uf4T9216sb88cCVg6YRY/WRhW7udoU/
+ VLgd+meakaYxWCA3liBK72qyFi2E3bFJMv9Yh3kEX1F0xgTd6AIT/FTGp9OGB2wPPhG0MCnxaRA
+ RigFx0HUH9BcFcEOD4KuNam4jiPtEF+2px8DFVnCfJI9Z/G+5semJQB75CiIR7eflO761DJNtCJ
+ rmPUUUirheB7jZQvmat0C922Ib0E1ec8sR5YmMIv1LrhGuY1mrVYwcg5/OghrxQxEdOX8+QCkvC
+ L8tRWakO1j0yaE5qxJaNMPnmSZslF6Qg0M8caU61RrlC0eSyjFDhjzLgA96k+bx6TtBFdm2I+OQ
+ BrncguZsQuvLWIw==
 X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
  fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 
-The data of a `Page<Shared>` is initialized and is not referenced by Rust
-references, so it can be accessed safely with byte-wise atomic operations.
-The existing accessors of `Page` are available for all page kinds and are
-thus unsafe: a write can alias a slice obtained from a `Page<Exclusive>`.
-
-Add the safe method `Page::with_page_as_sysmem_local()` for
-`Page<Shared>`. It maps a range of the page and passes it to a closure as
-a `SysMemLocal` view. The view is not `Send`, since the mapping that backs
-it can be local to the current task.
-
-A `Page<Exclusive>` does not dereference to a `Page<Shared>`, so the
-method is not available for it.
+`Page::read_sysmem` and `Page::write_sysmem` are available for all page
+kinds, so they can be called on a `Page<Exclusive>`, whose data can be
+referenced as a slice. Add the requirements that the raw accessors of
+`Page` have for this case: no mutable reference to the data that is read
+may exist, no reference to the data that is written may exist, and data
+written to a `Page<Exclusive>` must be initialized.
 
 Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
 ---
- rust/kernel/page.rs | 89 ++++++++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 85 insertions(+), 4 deletions(-)
+ rust/kernel/page.rs | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
 diff --git a/rust/kernel/page.rs b/rust/kernel/page.rs
-index 85c710fa3dfd..7fa037f5938b 100644
+index 4ea7368b4699..3c48ecde4d14 100644
 --- a/rust/kernel/page.rs
 +++ b/rust/kernel/page.rs
-@@ -20,7 +20,8 @@
-         Io,
-         IoCopyable,
-         SysMem,
--        SysMemBackend, //
-+        SysMemBackend,
-+        SysMemLocal, //
-     },
-     sync::aref::{
-         self,
-@@ -132,6 +133,8 @@ impl PageKind for Base {}
- ///
- /// The data of a [`Page<Shared>`] can be accessed concurrently by other parties, such as user
- /// space, devices or other kernel code. Thus, no Rust reference to the data of the page exists.
-+/// The data is accessed with volatile or byte-wise atomic operations through a [`SysMemLocal`],
-+/// see [`Page::with_page_as_sysmem_local`].
- ///
- /// A [`Page<RefCounted>`] and a [`Page<Frozen>`] dereference to a [`Page<Shared>`]. A page that
- /// is managed by other means can be referenced as a [`Page<Shared>`] with [`Page::from_raw`].
-@@ -374,13 +377,14 @@ fn with_pointer_into_page<T>(
-     /// Runs a piece of code with a range of this page mapped as a [`SysMem`] view.
+@@ -374,6 +374,8 @@ pub unsafe fn read_raw(&self, dst: *mut u8, offset: usize, len: usize) -> Result
+     /// Callers must ensure that:
      ///
-     /// If `f` is called, then it is called with a view of the `len` bytes of the page that start
--    /// at `offset`. Accesses through the view are volatile or byte-wise atomic, so the view is
--    /// suitable for a page whose data is subject to concurrent writes by hardware or user space.
--    /// The view is valid for the duration of the call to `f`.
-+    /// at `offset`. The view is valid for the duration of the call to `f`.
+     /// - This call does not race with a write to the source page that overlaps with this read.
++    /// - No mutable reference to the data of the page that overlaps with this read exists during
++    ///   this call.
+     /// - The memory region of `dst` does not overlap with the memory of the page.
      ///
-     /// If `offset` and `len` refer to a region outside of this page, then this method returns
-     /// [`EINVAL`] and does not call `f`.
+     /// # Examples
+@@ -391,7 +393,8 @@ pub unsafe fn read_raw(&self, dst: *mut u8, offset: usize, len: usize) -> Result
+     /// // way while `dst` is alive.
+     /// let dst = unsafe { SysMem::new(&raw mut buf as *mut [u8]) };
      ///
-+    /// This is the building block for the accessors of [`Page`]. Use
-+    /// [`Page::with_page_as_sysmem_local`] for safe access to the data of a [`Page<Shared>`].
-+    ///
-     /// # Safety
+-    /// // SAFETY: `page` is not written to during this call, and `buf` is not part of the page.
++    /// // SAFETY: `page` is not written to during this call, no reference to the data of `page`
++    /// // exists, and `buf` is not part of the page.
+     /// unsafe { page.read_sysmem(dst, 0)? };
+     /// assert_eq!(buf, [0u8; 16]);
+     /// # Ok::<(), Error>(())
+@@ -453,6 +456,10 @@ pub unsafe fn write_raw(&self, src: *const u8, offset: usize, len: usize) -> Res
      ///
-     /// * Callers must ensure that no plain access to the mapped range races with an access
-@@ -658,6 +662,83 @@ pub unsafe fn copy_from_user_slice_raw(
-     }
- }
- 
-+impl Page<Shared> {
-+    /// Runs a piece of code with a range of this page mapped as a [`SysMemLocal`] view.
-+    ///
-+    /// If `f` is called, then it is called with a view of the `len` bytes of the page that start
-+    /// at `offset`. Accesses through the view are volatile or byte-wise atomic, so the view is
-+    /// suitable for a page whose data is subject to concurrent accesses by hardware, by user space
-+    /// or by other kernel code. When an access races with a write, the data observed may be
-+    /// arbitrary. The view is valid for the duration of the call to `f`.
-+    ///
-+    /// The view is not [`Send`], as it can be backed by a mapping that is local to the current
-+    /// task.
-+    ///
-+    /// If `offset` and `len` refer to a region outside of this page, then this method returns
-+    /// [`EINVAL`] and does not call `f`.
-+    ///
-+    /// This method is not available for a [`Page<Exclusive>`], as writing through the view would
-+    /// violate the aliasing rules for the slices returned by [`Page::as_slice`] and
-+    /// [`Page::as_mut_slice`].
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```
-+    /// use kernel::{
-+    ///     io::Io,
-+    ///     page::Page, //
-+    /// };
-+    ///
-+    /// let page = Page::alloc_page(GFP_KERNEL)?;
-+    /// let mut buf = [0xffu8; 4];
-+    ///
-+    /// page.with_page_as_sysmem_local(8, 4, |view| {
-+    ///     view.copy_to_slice(&mut buf);
-+    ///     assert_eq!(buf, [0u8; 4]);
-+    ///
-+    ///     view.copy_from_slice(&[1, 2, 3, 4]);
-+    ///     view.copy_to_slice(&mut buf);
-+    ///     assert_eq!(buf, [1, 2, 3, 4]);
-+    ///
-+    ///     view.fill_zero();
-+    ///     view.copy_to_slice(&mut buf);
-+    ///     assert_eq!(buf, [0u8; 4]);
-+    ///     Ok(())
-+    /// })?;
-+    /// # Ok::<(), Error>(())
-+    /// ```
-+    ///
-+    /// Copy data from user space to a page:
-+    ///
-+    /// ```
-+    /// use kernel::{
-+    ///     page::Page,
-+    ///     uaccess::UserSliceReader, //
-+    /// };
-+    ///
-+    /// fn copy_to_page(page: &Page, reader: &mut UserSliceReader, len: usize) -> Result {
-+    ///     page.with_page_as_sysmem_local(0, len, |view| reader.read_sysmem(view))
-+    /// }
-+    /// ```
-+    pub fn with_page_as_sysmem_local<T>(
-+        &self,
-+        offset: usize,
-+        len: usize,
-+        f: impl FnOnce(SysMemLocal<'_, [u8]>) -> Result<T>,
-+    ) -> Result<T> {
-+        let f = move |mem: SysMem<'_, [u8]>| f(SysMemLocal::from(mem));
-+
-+        // SAFETY:
-+        // - By the type invariant of `Page<Shared>`, no plain access to the data of the page races
-+        //   with another access, and no Rust reference to the data of the page exists.
-+        // - Safe code can only write initialized bytes through a `SysMemLocal`.
-+        // - `f` converts the view to a `SysMemLocal` before it is used. A `SysMemLocal` is not
-+        //   `Send` and it cannot outlive the call to `f`, so the view is only used on the current
-+        //   task.
-+        unsafe { self.with_page_as_sysmem(offset, len, f) }
-+    }
-+}
-+
- // SAFETY: By the type invariant, a `Page<RefCounted>` is managed by the page reference count.
- // Incrementing it via `get_page()` keeps the page alive at least until a matching `put_page()`,
- // which frees the page when the count reaches zero.
+     /// - This call does not race with a read or write to the destination page that overlaps with
+     ///   this write.
++    /// - No reference to the data of the page that overlaps with this write exists during this
++    ///   call. Such references can be obtained from a [`Page<Exclusive>`], see
++    ///   [`Page::as_slice`].
++    /// - If the page is a [`Page<Exclusive>`], the bytes of `src` are initialized.
+     /// - The memory region of `src` does not overlap with the memory of the page.
+     ///
+     /// # Examples
+@@ -476,8 +483,8 @@ pub unsafe fn write_raw(&self, src: *const u8, offset: usize, len: usize) -> Res
+     ///     )
+     /// };
+     ///
+-    /// // SAFETY: `page` is not accessed in any other way during these calls, and neither `data`
+-    /// // nor `buf` is part of the page.
++    /// // SAFETY: `page` is not accessed in any other way during these calls, no reference to the
++    /// // data of `page` exists, and neither `data` nor `buf` is part of the page.
+     /// unsafe {
+     ///     page.write_sysmem(src, 0)?;
+     ///     page.read_sysmem(dst, 0)?;
 
 -- 
 2.54.0
