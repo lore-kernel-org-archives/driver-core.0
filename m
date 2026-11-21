@@ -1,55 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.196
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795265086;
-	b=o0Ecw2IbLbhOBlaSUwuPC92dtoAoqrkg5URXxZyq7tBjh9VgAd9Hmn5w0KXBBBhyq1ur
-	 f+OMHq4pXYf9yObzK0MnjpPb65V1vOCincg16ggD2EQb8wYUvcHxkQ7+nuNQ17LgeQbkP
-	 BAax6drtpBi0yJaJXVGHhrlaoTh/VZUUt+LTRvjmCDUDhy++mjvuJWbdZTCIA3+Qek55w
-	 Vybb5zknAU52Hg9B4UgirKx51H2ITSL/UvMIq2fRFF3RZQzEVpPxqnGol96fIti1V3Mhg
-	 I31yqc7rLkGufsM8n6YCAqaETSQ4Mto5ssgb6twtd9nptlkJBm8yNUXdkSjRJL1K79g==
+	t=1795281225;
+	b=1YkLpjU15lQs5OBRynDtr3SSqZRdQA2nLbRlOChB2BGGBHn7UtD9gb6X10Yu7VtUvA7g
+	 mmZflcnfDRV9dwQZ6bmVp0kuNC8WFMPlXVHDsnFLnwBfVmv0Ps6nheGG26am+vmhMHUPG
+	 FqbRm0cc+jN37bpLMGwcoMsy1ywgjThVYBhiSjiRTmta1OxaBaV4XpPczgEj6ArdCCxyO
+	 SsOt3U07PMHvRVIXcv8NzCVF+yPXWeX3nlwGFcfSZ3mJ447VDYI535HWg564kQ6tUFmJJ
+	 CVi7Jbw8qdIs69txICSSZe92lXTf4RaOQsfsKYeAYeI8uOLhfc7TyRwDxqu/U7Tub7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795265086;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer;
-	bh=Ju2BXwccP9syBqQMdgnQHqvrtqMLj05bAyauqWyrjrc=;
-	b=MmEtD9wAg2/8H3+Sbddd15T1z63XrqPJOkKSkIpgcZQ0LWMg87/zTaF/zC7gJ8qDMH10
-	 uCAt+TZZ/OPqf0FW24fhPT6ebf3BleSSMrcbOiKJa3SUJzPOw3PGuHQUxQzh4qFC6Gxcc
-	 rp4OqEc/K6ZYs8vgrUBcBTIM1ScumHV98vgsMdxzyGY+GTQvL1FS8e5y9Bwt8HwI5JH14
-	 pXXZSMP3s5aP+wlKBzzAH+YHpdWi3BcN2BypKxkAE+/oruun2LXpkDLPknHyolNhiAttj
-	 /b2eGDDd8GcS1/l780PDKdcWCyaGYA0LH1CWRmDwaXrZB4D9wXKMGg9Js1IVVIhRALQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795281225;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=+dbkeCpIOXBpnkn067V3Q5BN+/RTkw5huCud+rgDHN8=;
+	b=PaHudL446huRaKoXgOTnkGC++CDTBQbm96tL0TcCRWNXG914Pj4uIx25VUoRcLmYHQ9u
+	 roaSKYRzh2C7zzg/b2MKkRxsYTcUhY/eLL5jmkx8pVuLvVGBuAULIdNBJ2AE91aj9Nbuc
+	 Ki8uUKzu8ofBfqoK10TBFhNXwKl+6VnaLXPA/xbwGWV0xi/JQ8dh8HTXZlMfOQDxtGu13
+	 c9h/rppgFnX7Ep8dzicbmrnIwJwBuU+pR4jO/XeegDY7HZITEstJeo88RD80FIv+qr67L
+	 CVK4HnA3YzZ9ECzvbnfg0NDqd1hh708MJwXIDQz99tUEupNNj1Judl+j7apq1qbdUFw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=bU9wLUB4;
-	arc=none smtp.remote-ip=95.215.58.196
-Received: from mta1.migadu.com (out-196.mta1.migadu.com [95.215.58.196])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="bFQ/BHQd";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E934606A320
-	for <driver-core@lists.linux.dev>; Sat, 21 Nov 2026 12:44:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E934606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A71606A320;
+	Sat, 21 Nov 2026 17:13:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=bU9wLUB4
-X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=DQrheEy5+ObfvndJOk4fyT/8v3NAxQkFe2IZ7mZ0vQ4=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795265083; v=1; x=1795869883;
- b=bU9wLUB48UjABpzJwphWFt04QX1xerkjX9r39BavEiwJ0CQzy46xkEBDagVxLy0Zr5ZV8iCs
- xi4I9bA0kswkN30rfGRJ9YjGONTBoFWdiQv7Te42yiceHeW6O2TuLnk50P1vnbWVylIwx1OOqUL
- 9e7+zN8iTQLx1+52285+J3Zw=
-X-Envelope-To: driver-core@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id dcbc891ec8d23f4e;
-	Sat, 21 Nov 2026 12:44:43 +0000
-X-Mizu-Trace-ID: dcbc891ec8d23f4e
-X-Migadu-Flow: FLOW_OUT
-From: Peng Fan <peng.fan@linux.dev>
-Date: Sat, 21 Nov 2026 20:44:21 +0800
-Subject: [PATCH 3/3] regmap: kunit: add test for regmap_bus::init_limits
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bFQ/BHQd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A40051F000C4;
+	Sat, 21 Nov 2026 17:13:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795281224;
+	bh=+dbkeCpIOXBpnkn067V3Q5BN+/RTkw5huCud+rgDHN8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=bFQ/BHQdO64OIlvR3MzpRqRJgppB5crwltAK+iGDe6j3tL0wdIDRVo/juoAtfCka4
+	 AjHSJcrJPgM0FDT8FfvJzPaYjSlYrAS7Gb1PfFmb0chr12STn9af04ir242QeR/Grf
+	 70Hq1rM/sRJiCFlrOmsqlTViWH2xEQhngwVBR7LiiuCraA1VVccwbTnXKkaoVazSlP
+	 3wPFo+AWvmOxdEWyzJw5PO+Xu10BYLeMxBnib9GQ5dCKwIuOM8Vl2R0Vs4kARHh5/Q
+	 V5I3iy7d2bMHwnj8Rk9IZO1xLbELH9mxupi4tj9MqSsSXtKWn7lzzGCsqhYqKabyQx
+	 MGAqWnXnCcQLw==
+Date: Sat, 21 Nov 2026 07:13:43 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"T.J. Mercier" <tjmercier@google.com>, driver-core@lists.linux.dev,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Jori Koolstra <jkoolstra@xs4all.nl>, Ian Kent <raven@themaw.net>,
+	Meta kernel team <kernel-team@meta.com>, stable@vger.kernel.org
+Subject: Re: [PATCH] kernfs: clear i_nlink before deactivating removed nodes
+Message-ID: <awHRR58WX_YwCDSG@slm.duckdns.org>
+References: <20261120-work-kernfs-delete_self-v1-1-514a35d04431@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -59,143 +60,56 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261121-regmap-improve-2nd-v1-3-6b5fd59451ed@nxp.com>
-References: <20261121-regmap-improve-2nd-v1-0-6b5fd59451ed@nxp.com>
-In-Reply-To: <20261121-regmap-improve-2nd-v1-0-6b5fd59451ed@nxp.com>
-To: Mark Brown <broonie@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Johan Hovold <johan@kernel.org>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
- Peng Fan <peng.fan@nxp.com>
-X-Mailer: b4 0.14.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261120-work-kernfs-delete_self-v1-1-514a35d04431@kernel.org>
 
-From: Peng Fan <peng.fan@nxp.com>
+On Fri, Nov 20, 2026 at 09:59:59PM +0100, Christian Brauner wrote:
+> __kernfs_remove() deactivates the whole subtree first and only clears
+> i_nlink on a node's inodes later, once it unlinks the node from its
+> parent. In between kernfs_dop_revalidate() already fails for the node,
+> so a lookup that runs into one of its cached dentries kills the dentry
+> while i_nlink is still 1. For a file of a cgroup that is being removed:
+> 
+>   rmdir("cg")                          stat("cg/cgroup.events")
+>   css_clear_dir()
+>     __kernfs_remove(cgroup.events)
+>       deactivate the node
+>                                        kernfs_dop_revalidate() == 0
+>                                        d_invalidate()
+>                                        dput()
+>                                          dentry_unlink_inode()
+>                                            i_nlink == 1, no IN_DELETE_SELF
+>       kernfs_unlink_sibling()
+>       kernfs_clear_inode_nlink()
+>         i_nlink == 0, but the inode has no dentry left
+> 
+> The inotify watch keeps the inode alive, so nothing ever sends
+> IN_DELETE_SELF for it and the watch only goes away once the watcher
+> closes the inotify fd.
+> 
+> The window covers everything between the two loops in
+> __kernfs_remove(). kernfs_drain() drops kernfs_rwsem and waits for the
+> active references and open files of the node, and the clear itself
+> waits for kernfs_iattr_rwsem behind every concurrent permission check
+> and stat(). In a VM with a few threads stat()ing a cgroup and one of
+> its files while the cgroup is removed, IN_DELETE_SELF for the watched
+> file got lost in 16 to 33 out of 150 rmdirs, and it didn't show up even
+> after dropping the dcache.
+> 
+> So clear i_nlink in the loop that marks the subtree as being removed,
+> before a node turns inactive. kernfs_rwsem is held for writing there, so
+> no new inode can show up for these nodes while the loop runs, and once
+> a node is inactive kernfs_get_inode_locked() refuses to attach one. Two
+> overlapping removals may clear the same inode twice, which is fine.
+> 
+> Fixes: eea5d2bb34ba ("kernfs: Send IN_DELETE_SELF and IN_IGNORED")
+> Cc: stable@vger.kernel.org # v7.1+
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Add coverage for the optional regmap_bus::init_limits() callback. The
-test bus lowers the raw I/O limits and relies on raw register defaults so
-that regcache_hw_init() reads from the device during map initialization.
-The readback must be split according to the limits set by the callback,
-which also verifies that __regmap_init() invokes the callback before
-regcache_init().
+Acked-by: Tejun Heo <tj@kernel.org>
 
-Signed-off-by: Peng Fan <peng.fan@nxp.com>
----
- drivers/base/regmap/regmap-kunit.c | 91 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 91 insertions(+)
-
-diff --git a/drivers/base/regmap/regmap-kunit.c b/drivers/base/regmap/regmap-kunit.c
-index c948219f46a3..75c251132c89 100644
---- a/drivers/base/regmap/regmap-kunit.c
-+++ b/drivers/base/regmap/regmap-kunit.c
-@@ -2247,6 +2247,96 @@ static void raw_ranges(struct kunit *test)
- 	}
- }
- 
-+#define TEST_INIT_LIMITS_REGS 16
-+#define TEST_INIT_LIMITS_MAX_RAW 4
-+
-+struct test_init_limits_data {
-+	int num_reads;
-+	size_t read_sizes[TEST_INIT_LIMITS_REGS];
-+};
-+
-+static void test_init_limits_bus_init_limits(void *context,
-+					     const struct regmap_config *config,
-+					     size_t *max_raw_read,
-+					     size_t *max_raw_write)
-+{
-+	*max_raw_read = TEST_INIT_LIMITS_MAX_RAW;
-+	*max_raw_write = TEST_INIT_LIMITS_MAX_RAW;
-+}
-+
-+static int test_init_limits_bus_read(void *context, const void *reg_buf,
-+				     size_t reg_size, void *val_buf,
-+				     size_t val_size)
-+{
-+	struct test_init_limits_data *data = context;
-+
-+	if (data->num_reads < ARRAY_SIZE(data->read_sizes))
-+		data->read_sizes[data->num_reads] = val_size;
-+	data->num_reads++;
-+
-+	memset(val_buf, 0, val_size);
-+
-+	return 0;
-+}
-+
-+static int test_init_limits_bus_write(void *context, const void *data,
-+				      size_t count)
-+{
-+	return 0;
-+}
-+
-+static const struct regmap_bus test_init_limits_bus = {
-+	.read = test_init_limits_bus_read,
-+	.write = test_init_limits_bus_write,
-+	.init_limits = test_init_limits_bus_init_limits,
-+};
-+
-+static const struct regmap_config test_init_limits_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = TEST_INIT_LIMITS_REGS - 1,
-+	.cache_type = REGCACHE_FLAT,
-+	.num_reg_defaults_raw = TEST_INIT_LIMITS_REGS,
-+};
-+
-+static void test_init_limits(struct kunit *test)
-+{
-+	struct regmap_test_priv *priv = test->priv;
-+	struct test_init_limits_data *data;
-+	struct regmap *map;
-+	int i, ret;
-+
-+	data = kunit_kzalloc(test, sizeof(*data), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, data);
-+
-+	map = regmap_init(priv->dev, &test_init_limits_bus, data,
-+			  &test_init_limits_config);
-+	KUNIT_ASSERT_FALSE(test, IS_ERR(map));
-+	if (IS_ERR(map))
-+		return;
-+
-+	ret = kunit_add_action_or_reset(test, regmap_exit_action, map);
-+	KUNIT_ASSERT_EQ(test, 0, ret);
-+	if (ret)
-+		return;
-+
-+	KUNIT_EXPECT_EQ(test, (size_t)TEST_INIT_LIMITS_MAX_RAW,
-+			regmap_get_raw_read_max(map));
-+	KUNIT_EXPECT_EQ(test, (size_t)TEST_INIT_LIMITS_MAX_RAW,
-+			regmap_get_raw_write_max(map));
-+
-+	/*
-+	 * regcache_hw_init() reads raw defaults during map initialization,
-+	 * so the callback must already have set the limit which chunks the
-+	 * readback.
-+	 */
-+	KUNIT_ASSERT_EQ(test, TEST_INIT_LIMITS_REGS / TEST_INIT_LIMITS_MAX_RAW,
-+			data->num_reads);
-+	for (i = 0; i < data->num_reads; i++)
-+		KUNIT_EXPECT_EQ(test, (size_t)TEST_INIT_LIMITS_MAX_RAW,
-+				data->read_sizes[i]);
-+}
-+
- static struct kunit_case regmap_test_cases[] = {
- 	KUNIT_CASE_PARAM(basic_read_write, regcache_types_gen_params),
- 	KUNIT_CASE_PARAM(read_bypassed, real_cache_types_gen_params),
-@@ -2290,6 +2380,7 @@ static struct kunit_case regmap_test_cases[] = {
- 	KUNIT_CASE_PARAM(raw_noinc_write, raw_test_types_gen_params),
- 	KUNIT_CASE_PARAM(raw_sync, raw_test_cache_types_gen_params),
- 	KUNIT_CASE_PARAM(raw_ranges, raw_test_cache_types_gen_params),
-+	KUNIT_CASE(test_init_limits),
- 	{}
- };
- 
+Thanks.
 
 -- 
-2.56.0
-
+tejun
