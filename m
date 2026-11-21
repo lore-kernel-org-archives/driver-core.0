@@ -1,45 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795223831;
-	b=srBavq3Q6cHLoLnQpTlp9uPfNIQFvqjKYtu/dqcVIbDvgCwwGym5WrpeEr298mfvav6D
-	 i/SgL6aKEo9YoGNTHt7iL7i/GsXOAhuw1CdJyVXddC7PBbiMwGfJ7LHbezbFs/+sqnnht
-	 EprhjgsRhzVlxkAMcsP9cyV6NYRGbnVvyttSLeOX1BdIvl4jGAOUeD5ig9NoeKuhBa5el
-	 iik0uveIGL3YIrEMewzKPhdUzLvJs+7cLjTN4Dkz2hmIoMSURxiF40xACUQEjp13UMWXN
-	 ucrWcfpUmK/F9TQEYt9p6n8rjCy88OCr0BKuEoQivxAhDa7vlxyLf2ihth58rCnqM8g==
+	t=1795224075;
+	b=3d6NzKV0o+QAdlfZHEnBy8go9gniIpb17aZiHuwEjC8V4EhylKWpVPdAaXGwXMUzgyn8
+	 VDuxkuyKOVLM79RrS5EIp5MT6MlqVuM2rOui+hXMcNr+nZmk9gQGoHZu4V55L18Bz+kCn
+	 mrtOD+Ip556uf+0ucXwpjLLHEbL2/DgFihcQnHER8wvfR2VxYtsp7DiM+8g06l5dKaP6v
+	 xlfxywaD5cFwAZDUGeVQbRf5LrxDibTZ+wpZJwLuOPSd080MFPAZZdJttDrM1v0JXa/Bp
+	 /P5qG0Vft0+ABBJ/y97Y/Df1QZgrvdQCx7p9oS/BTPqxBMYUsn4D+P1G4QXUEOaVWkw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795223831;
-	h=Received:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
-	 Content-Type:Date:Message-Id:Cc:To:From:Subject:References:
-	 In-Reply-To;
-	bh=QklyuLab+Ko9mnpTo5UeclQww95mzIqhLo3F7I/BQkg=;
-	b=wFVV4gYWrx01cnFSnadL5PevvX3j04xWSPddAXakIWD+eXJLlH0ZIsjFZradl0gada+n
-	 JWzLydX9rKP6CIQV2qLNrY/ZqZ5EMrmfpRIwH1B540gc1VhzEDXMsJteCDMgoC34CYI1f
-	 CzYDVn2+X4WE+Sa04XwHimGmnBk4XJmNdxBfyBVxB5adOkHWqJFerm/lZ8GEw46B00xjo
-	 DPlVj6KH+VTyxJ9o2qucMHz6wvor4wnvxkz44NEur9Prs+VGLzqW5ZhTQk+dn4sTFo413
-	 3DnR9KY3K1+EMFmWNRgAAyR35ktqZd2fCn1lWZoHm43YAe/vDLZosZZjqhdCOBLDO+A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795224075;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=wTNzI/VAp0bMLJS1RLjl54bNgqDF612eF3HnhqkWqT8=;
+	b=AEqMD+miTI9jKuQXH1kyykSHQOokodtfnTbf4skJuf9M4F9nJheV9JpwVLN2RV9WdWLl
+	 7//pgmPJSr5u3rbVl6hGiL/XZdSQdOQqVrnKk18SLmCe6H58sXMgynbjbrTyZ5KHYTcot
+	 KhBBAp1nHCQR7bWpAaHyzRCZoy3xXEWVJkvlOAxexFWushTGT1H9V71o/UBsoOg6h3XmK
+	 gqxC7xAToyD8VhQCxTdTf9BTA0cMooVaWmZRJMdBBpQpawzLlVeUgV9E4BM4sgRvkvJ04
+	 YIBGCA8kHx9+XL4nTlzj/NJLb7fnK5PK03kBS79o+njuxMlabBDQa82kKpVz36tWLYA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gm8eJtOH;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b="l6/7aUbk";
+	arc=none smtp.remote-ip=91.218.175.169
+Received: from mta0.migadu.com (out-169.mta0.migadu.com [91.218.175.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C352606A684;
-	Sat, 21 Nov 2026 01:17:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8726F606A686
+	for <driver-core@lists.linux.dev>; Sat, 21 Nov 2026 01:21:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8726F606A686
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gm8eJtOH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE01B1F000CA;
-	Sat, 21 Nov 2026 01:16:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795223829;
-	bh=QklyuLab+Ko9mnpTo5UeclQww95mzIqhLo3F7I/BQkg=;
-	h=Date:Cc:To:From:Subject:References:In-Reply-To;
-	b=gm8eJtOHhBnaOZe7LwDMFJ8mofPVVmX1YGRFpGCBO2m5hz8UlzXX+WvNJUsq934h9
-	 Gtdb+AerXFQPif6SLfOq2/dWtEgcQTz7bh3I6KV8pXYeGgzuMqRHyjcJnn/Sn8iwhx
-	 YAqVTjTNfeSW2VdEJcGvIBkg4/J19L82jz9PAn9h9IkH5umIAy3FYAYFk2uVRLQd+T
-	 s94/ADqCteDEcqO9mcewjaHUBrR90XdQUJorq/NHZbaKSRZNalAGYYTXYCWvSW+hsc
-	 zi51JiNKnL+ynxLP/WhWXj9KNLrvetlXTYZdQhOtRoJb5Hc2rzkXDPGGzjDTCgK7xr
-	 LOe4azsm+AuJg==
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=l6/7aUbk
+X-Envelope-To: driver-core@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=3KZnzfGWlw6YrVlMNRYr5zPamqEAkGD9Dw9g6hM3Tq8=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795224067; v=1; x=1795828867;
+ b=l6/7aUbkVyYWpU1ucndzkT7jxbYN4Dh90AI61SJYiky8/GOo7/syBGBcxq7q4Nalpwlieq4H
+ RMWcp6AFCmXEExCqobm2UAQiV5+T2rHMixiYRxoQ/d48hc6qs0HBzsP+sJiay7kjjeInXBmVkff
+ zeKv5ot8JwscThMqzN8hmGj4=
+X-Envelope-To: driver-core@lists.linux.dev
+Received: by smtp.migadu.com with ESMTPS id d846639e71118490;
+	Sat, 21 Nov 2026 01:21:07 +0000
+X-Mizu-Trace-ID: d846639e71118490
+X-Migadu-Flow: FLOW_OUT
+Date: Fri, 20 Nov 2026 17:21:02 -0800
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tejun Heo <tj@kernel.org>, "T.J. Mercier" <tjmercier@google.com>, 
+	driver-core@lists.linux.dev, Jori Koolstra <jkoolstra@xs4all.nl>, Ian Kent <raven@themaw.net>, 
+	Meta kernel team <kernel-team@meta.com>, stable@vger.kernel.org
+Subject: Re: [PATCH] kernfs: clear i_nlink before deactivating removed nodes
+Message-ID: <awDxzdzSNy6xDkKI@linux.dev>
+References: <20261120-work-kernfs-delete_self-v1-1-514a35d04431@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -48,77 +64,52 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 21 Nov 2026 02:16:56 +0100
-Message-Id: <DN0HQBTG5VUY.1F40HSFIRRGNQ@kernel.org>
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Johan Hovold"
- <johan@kernel.org>, "Bjorn Helgaas" <bhelgaas@google.com>, "Nipun Gupta"
- <nipun.gupta@amd.com>, "Nikhil Agarwal" <nikhil.agarwal@amd.com>, "Ioana
- Ciornei" <ioana.ciornei@nxp.com>, "Longfang Liu" <liulongfang@huawei.com>,
- "Julian Ruess" <julianr@linux.ibm.com>, "Ankit Agrawal"
- <ankita@nvidia.com>, "Brett Creeley" <brett.creeley@amd.com>, "Giovanni
- Cabiddu" <giovanni.cabiddu@intel.com>, =?utf-8?q?Micha=C5=82_Winiarski?=
- <michal.winiarski@intel.com>, "Eric Auger" <eric.auger@redhat.com>, "Eric
- Farman" <farman@linux.ibm.com>, "Matthew Rosato" <mjrosato@linux.ibm.com>,
- "Tony Krowiak" <akrowiak@linux.ibm.com>, "Jason Herne"
- <jjherne@linux.ibm.com>, "Harald Freudenberger" <freude@linux.ibm.com>,
- "Holger Dengler" <dengler@linux.ibm.com>, "Haiyang Zhang"
- <haiyangz@microsoft.com>, "Wei Liu" <wei.liu@kernel.org>, "Dexuan Cui"
- <decui@microsoft.com>, "Michael S. Tsirkin" <mst@redhat.com>, "Mark Brown"
- <broonie@kernel.org>, "Abel Vesa" <abelvesa@kernel.org>, "Stephen Boyd"
- <sboyd@kernel.org>, "Brian Masney" <bmasney+clk@redhat.com>, "Jerome
- Brunet" <jbrunet+clk@baylibre.com>, "Bjorn Andersson"
- <andersson@kernel.org>, "Mathieu Poirier" <mathieu.poirier@linaro.org>,
- "Srinivas Kandagatla" <srini@kernel.org>, "Sylwester Nawrocki"
- <s.nawrocki@samsung.com>, "Liam Girdwood" <lgirdwood@gmail.com>, "Jaroslav
- Kysela" <perex@perex.cz>, "Jonathan Corbet" <corbet@lwn.net>, "Rafael J.
- Wysocki" <rafael@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>,
- "Bradley Morgan" <bradley.morgan@linux.dev>, "Armin Wolf" <W_Armin@gmx.de>,
- "Masami Hiramatsu" <mhiramat@kernel.org>, <linux-doc@vger.kernel.org>,
- <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <linux-trace-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>, "Alex
- Williamson" <alex@shazbot.org>, "Mostafa Saleh" <smostafa@google.com>,
- <kvm@vger.kernel.org>, <qat-linux@intel.com>,
- <virtualization@lists.linux.dev>, <intel-xe@lists.freedesktop.org>,
- "Vineeth Vijayan" <vneethv@linux.ibm.com>, "Peter Oberparleiter"
- <oberpar@linux.ibm.com>, "Heiko Carstens" <hca@linux.ibm.com>, "Vasily
- Gorbik" <gor@linux.ibm.com>, "Alexander Gordeev" <agordeev@linux.ibm.com>,
- <linux-s390@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
- <linux-spi@vger.kernel.org>, "Frank Li" <Frank.Li@nxp.com>, "Sascha Hauer"
- <s.hauer@pengutronix.de>, <linux-clk@vger.kernel.org>,
- <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
- <linux-remoteproc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, "Takashi Iwai" <tiwai@suse.com>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2 00/10] driver core: Disable driver overriding by
- default
-References: <cover.1795171088.git.u.kleine-koenig@baylibre.com>
-In-Reply-To: <cover.1795171088.git.u.kleine-koenig@baylibre.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261120-work-kernfs-delete_self-v1-1-514a35d04431@kernel.org>
 
-On Fri Nov 20, 2026 at 12:11 PM CET, Uwe Kleine-K=C3=B6nig wrote:
-> It is sensible to merge the driver core change (patch #1) together with
-> the individual driver patches setting .support_driver_override because
-> with the driver core change the driver override doesn't work any more
-> for the unmodified drivers (unless the new kernel parameter is provided
-> and a taint is accepted). So I suggest (once there is agreement that the
-> patches are fine) to merge them all in one go and provide a stable
-> branch in case a driver was missed to be adapted. I can create such a
-> branch and ask Greg or Linus to pull it, or Greg can do that.
+On Fri, Nov 20, 2026 at 09:59:59PM +0100, Christian Brauner wrote:
+> __kernfs_remove() deactivates the whole subtree first and only clears
+> i_nlink on a node's inodes later, once it unlinks the node from its
+> parent. In between kernfs_dop_revalidate() already fails for the node,
+> so a lookup that runs into one of its cached dentries kills the dentry
+> while i_nlink is still 1. For a file of a cgroup that is being removed:
+> 
+>   rmdir("cg")                          stat("cg/cgroup.events")
+>   css_clear_dir()
+>     __kernfs_remove(cgroup.events)
+>       deactivate the node
+>                                        kernfs_dop_revalidate() == 0
+>                                        d_invalidate()
+>                                        dput()
+>                                          dentry_unlink_inode()
+>                                            i_nlink == 1, no IN_DELETE_SELF
+>       kernfs_unlink_sibling()
+>       kernfs_clear_inode_nlink()
+>         i_nlink == 0, but the inode has no dentry left
+> 
+> The inotify watch keeps the inode alive, so nothing ever sends
+> IN_DELETE_SELF for it and the watch only goes away once the watcher
+> closes the inotify fd.
+> 
+> The window covers everything between the two loops in
+> __kernfs_remove(). kernfs_drain() drops kernfs_rwsem and waits for the
+> active references and open files of the node, and the clear itself
+> waits for kernfs_iattr_rwsem behind every concurrent permission check
+> and stat(). In a VM with a few threads stat()ing a cgroup and one of
+> its files while the cgroup is removed, IN_DELETE_SELF for the watched
+> file got lost in 16 to 33 out of 150 rmdirs, and it didn't show up even
+> after dropping the dcache.
+> 
+> So clear i_nlink in the loop that marks the subtree as being removed,
+> before a node turns inactive. kernfs_rwsem is held for writing there, so
+> no new inode can show up for these nodes while the loop runs, and once
+> a node is inactive kernfs_get_inode_locked() refuses to attach one. Two
+> overlapping removals may clear the same inode twice, which is fine.
+> 
+> Fixes: eea5d2bb34ba ("kernfs: Send IN_DELETE_SELF and IN_IGNORED")
+> Cc: stable@vger.kernel.org # v7.1+
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-I think it should be good enough to just take them all through driver-core.=
- If
-it turns out in linux-next that we missed a driver we can always add anothe=
-r
-patch to the driver-core tree.
-
-Those patches only set support_driver_override =3D true, so there shouldn't=
- be
-interactions with other trees.
-
-So, let's keep it simple. I can pick this up once we have all the ACKs.
-
-Thanks,
-Danilo
+Reviewed-by: Shakeel Butt <shakeel.butt@linux.dev>
