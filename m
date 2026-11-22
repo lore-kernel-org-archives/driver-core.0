@@ -1,75 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795352563;
-	b=lgPFUx/25NBxN6WUTcSopeRn+Ja7KoUZ1P72QudxRGe7vrkheaGRYyfentwMbL5yxltx
-	 p4Ts4zzC/4DvtMYFMpUslBszHLyF9TusuWNzwD/95U3o2DH8AajAE2ZoM15AA660qY//3
-	 9S8ovKbo3hVfctQuJ4yIJwSW1j4DK+w6ygzCGSrBMs/2UaJttdrqnbIzlvcl0zKH1jfFe
-	 AIf/pgwj531u8O3ugRuzcCinxx2uUd2IncK/AOkNmz631Lvk81Na7IL3gOD8GHO4pwt5W
-	 A9+USzTtJXAQ0V9Cy2C5fOnzNsUdkZkSnMBA8nlWlmwMMBtOEpZImhtsoC1fkAt9hWA==
+	t=1795352565;
+	b=rSulr94RqOl0hC0asAjVKDnqKCkJcqysicR2OgnE0QAhGX5KRz7cmNuN3Pzn+eOQFxsy
+	 bcwPKjM+uIujjo6Crw3jkQify3e5ueK7OIvhMYJmEuRmrJ5HMMWlSxduSEHtRfuCTPI6G
+	 7+o4zQFEPuhrO9ccv061DVNOaUBfPk8V+2K35Vs04NQt4P2T2U04hLq6KT9wGx5WUIsUG
+	 brqIVQAYksi8xjh9RpFE9m7ZAIro43vGL8fgXCH+RxkrC8IjzB9RXKq0+ViOdmTp6DNsp
+	 /kPD9wxRW6TLlrdMrmuVBs7zXMB90OV6VwILHyPMEMB/jDuwIbSPCsEQID99bp7nx6g==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795352563;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795352565;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
 	 X-Endpoint-Received;
-	bh=d+SQWSlHv7WPlZM43i9NAJMfZMunInpaUKkpPpLZbos=;
-	b=GuSJiXt57V7OfkxTLQWp8nqkpZg3BAkbfkhQEGEGUAL8uefIKss7C2LVUZK3bTFHEUk3
-	 53tGrDM/xdheGeruVxux497wlH4HYxhkTy7gIgoWXzxJNb6BomnBg5EREEp01WzsAhDI1
-	 QFWrPVKAwXnCOQ/Ljkk5Ds63nLTh8K9GWpsBJ2WpTbZ49ehbgXq+9UN3oby2CcqJleiKs
-	 5tYnnybB7i0ebV3Oxke2tBrGyoYytVOCp3QTOezrSuB4PZxLN6hQwESDbCFrQMIcoPKi2
-	 l4Zb4z90hg3v3nK2gt8WuO5HieHTdjktwIGE5sUn4c+JG6VY1TJr2Wrm+NhJ+YHBoOg==
+	bh=F3F/5DJsUYhqEjGjiDZ8FHYCTJv5xhZDMG4cisCHJuY=;
+	b=bOFwbvUsohtlZFGXHZtZzdG171K8QpyvtaXyuWeK+rL7gnnSUpGurbPpjGrgqlw+RI+v
+	 lMRQUTyR8180vFmQ753uIgmCgODJ7Klrz8r+IyuY2avQTjTGUAVXft1RRc/Ez/Ialdg0f
+	 ht89Hja7a4DRaWhCKw3+Jt3Gk/KFLxcrmBp8mVl7vkCO9RlpX78+fCu9XRlX3520qNjpG
+	 TARO+HiGzdumgpmtISeR593QPddoeMHxchnE2JqEbGVUUCZtYT+Mef1YWNMysXmiq49l8
+	 gEsWxYigCAIMtsMnkCweG+euyjB9/RWuI9Z1Rxe9T1ho74qDykZiuBQhuzWPOUua98g==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=korg header.b=admFtu9j;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=korg header.b=SvD+tY95;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 622EB606A320;
-	Sun, 22 Nov 2026 13:02:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D71606A32A;
+	Sun, 22 Nov 2026 13:02:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=korg header.b=admFtu9j
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=korg header.b=SvD+tY95
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795352563;
-	b=Iep+R5pY/g2pogj6orUPRApJWID61VrQBJomUnPtH+7g/2wzdBIc8nignP8aNzepuZzg
-	 NmNC9gKb9JrK7j9cHvyZNggv8EidTzLDo445UR+2OecNvn/R83GTV1CDhlfCIdBwBQpI6
-	 hrSkq2mmFst6+D+5jnQI5YR8VguGYumB2ltkxsiOanZmBFyN870+zKw4bjkwAdthYU7V0
-	 CgNAZp3pL5BXAqk7Hzry39+Y5SW1bpMlkywhDAt1mrtpwBE/oGZqwGxurvLRGjvStdxj1
-	 6oNfHtXYITlkZXzhFtb3ufnrYWa5IIVJPP5BW9VCxFt72UIRcE5Y6TF1eJ4WBy27cgg==
+	t=1795352564;
+	b=g/ZiTvh4NEeTt3SRQoIOtyBStORcdXsdT6jT883k35Ook4SiVoirGxK/6ooapTECnhkB
+	 9HBP08zUW7+YUSorQ3eTam9PAFz+7EQWKWEWGktTz3THcf6Wmdk2Yt52WCUNL8XiXrhdo
+	 kKR8gAnZ3nEjLNmn/HyYAjWVYIN3ZBU3hAv+Og8F/rQJNoNMadQWqS7osxxzVhNOrQ3I5
+	 se26x3qgBkeLBTFvLi61MV+x1vbOWPD4Qh3xN4+WULpPiuAmu9F71QBn3ZXV+z8pejkrM
+	 kgKDCuK0u62ynjC5ri4kg9zyuyPNWh/rN5QkovEcsSl64uh0qrlyw//tFD5F18XypYQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795352563;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received;
-	bh=d+SQWSlHv7WPlZM43i9NAJMfZMunInpaUKkpPpLZbos=;
-	b=Uxpg0LT9C9bhc/nefmT7Uz9P5zkX1AbGAOUxVpx5zOOIHizBPHUMo1EIfCH5hPTeL+D7
-	 VFt/bG8YAEFOdtbYPhTfvlNzs2Fc8xnrpFcK/HNCjGk52LzBlaTKUuN4gYbQjlDR66cR5
-	 +9aR5G4KWKhPhKf9YgutWnxLUWhSjQUbT1HeJOQxMaEh6Vtf0jU0VCSmQQ3Mvpr0H2nS9
-	 RV/R/Tm8077se7p7QtgzedtvG86vuJ4FWvFtMHTwd5v0XMk78R0FNUqi+XTimceg1Ja3X
-	 mpmY+4hbcjzGCVEa31E3us1KsSDBEtMQD4+D8n393fDE7dZgM6P1Qu+c7bh/SDfZ0Og==
+	c=relaxed/relaxed; t=1795352564;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received;
+	bh=F3F/5DJsUYhqEjGjiDZ8FHYCTJv5xhZDMG4cisCHJuY=;
+	b=fDNOn+4kIJGRnHHHa1nsZucA6gbwGqmKLllOwYdIJ5HNBTGbF3VTH9Iikg/YfdO/Val8
+	 Atmqq7CKjppR/x6EutVbSaqdxR/LgJjCXFM+01KIxhQZHzbY06QCNXHlNFx0VuvVw7zsk
+	 VT41TFStvCkxXawA9fgP03RFoyzCW198LAF/do4wnGPGKkOfYVh03VNs55Kx7VY+3dPpX
+	 JmW61HNZd0J3M5xU0oLLWmSg1qfzsIUuifZNNQzCoYsQd0gehhP31qXy2LTaox3kiPIFw
+	 nflSRQes1BtplaNaNQLT0793IJuc1ecMvaI44xs6ALeuxzQ7GdN2InsJl+OxwnUxN6Q==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 477641F000C4;
+	by smtp.kernel.org (Postfix) with ESMTPS id 5A7BC1F000CF;
 	Sun, 22 Nov 2026 13:02:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=korg;
-	t=1795352563; bh=d+SQWSlHv7WPlZM43i9NAJMfZMunInpaUKkpPpLZbos=;
-	h=From:Subject:Date:To:Cc;
-	b=admFtu9jA495SRfSzkxT4XFVz//oi1hEKpKecrX3tGnqYGVcVLSKZjEH/s85diybh
-	 c1NRdatu+t0o9AWSF+VfufgisJOIU/sWqpvC3FRnPBSFFMuFXnD3H06TQLmlYQVNe/
-	 i7K1nVr9qqvsjqzhN5cYsHAXpm6FGJthG9j09Hn8=
+	t=1795352564; bh=F3F/5DJsUYhqEjGjiDZ8FHYCTJv5xhZDMG4cisCHJuY=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=SvD+tY95kabt/msfM2g1AEEJXJVXp1By87X+G7SmtqcA7A0dahix+DGFsAvgyy4k7
+	 TVjjctvfkfNDcbUXEX9BkP53IZPQ95JLx2Lh9EnxbdW3CuQ6360yMcCypkJ5bHV2Te
+	 a7sfqxgUUgyQ8fOTWQrWMwLsBVQxwLUV93ZBm/XY=
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 99BF94C04F;
+	by lkml.kernel.org (Postfix) with ESMTP id D74F44C053;
 	Sun, 22 Nov 2026 13:02:33 +0000 (UTC)
 From: Alvin Sun <alvin.sun@linux.dev>
-Subject: [PATCH v7 00/10] drm/tyr: add VM and BO ioctl support
-Date: Sun, 22 Nov 2026 20:50:19 +0800
-Message-Id: <20261122-tyr-ioctls-v7-0-3a2af624b992@linux.dev>
+Date: Sun, 22 Nov 2026 20:50:21 +0800
+Subject: [PATCH v7 02/10] rust: task: add task_size()
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -81,13 +79,9 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAvlAmsC/2XQ327CIBQG8FdpuB4GDn9azLL4HssuChyUaNsNa
- qMxvvuoLs7GywP5ne/ku5CMKWIm6+pCEk4xx6EvQ/1WEbdr+y3S6MtMgIFmhnE6nhONgxsPmQb
- OMDDvbGg1KcC2GalNbe92M/Gpo+mYR9rjaZz/vxOGeLqFfX6VeRfzOKTzLXsS8+tfDJjnmElQR
- kEbpYLlnHu12Z8PsR/yyvVk3jPJh+UM2MLKYmsmPda1bwHEi1XPtl5YVawyPqBpnGXs1ep/y9n
- yZl2shcZoG8AKZxb2ei8j4c+xFD7eGyEd5tzeCl9X7/elvOFaABMrkI1olKac+nafNntMPR5WQ
- 9p+PIp3Q9fFcV2BQAsuuMAVMOO5NEGyGqWG0oMDbo1D45wsZ1x/AbQYRDD/AQAA
-X-Change-ID: 20260901-tyr-ioctls-f10ef0dcbfa6
+Message-Id: <20261122-tyr-ioctls-v7-2-3a2af624b992@linux.dev>
+References: <20261122-tyr-ioctls-v7-0-3a2af624b992@linux.dev>
+In-Reply-To: <20261122-tyr-ioctls-v7-0-3a2af624b992@linux.dev>
 To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
  Gary Guo <gary@garyguo.net>, 
  =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
@@ -106,160 +100,86 @@ Cc: Sami Tolvanen <samitolvanen@google.com>, rust-for-linux@vger.kernel.org,
  dri-devel@lists.freedesktop.org, driver-core@lists.linux.dev, 
  Ke Sun <sunke@kylinos.cn>, Alvin Sun <alvin.sun@linux.dev>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795352551; l=6920;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795352551; l=2517;
  i=alvin.sun@linux.dev; s=20260317; h=from:subject:message-id;
- bh=f8d05zXyGVgEVOiPLN3q0s3w6p0eXvdqpgWuWsw+vDY=;
- b=c/UG/JXENDhqhcNaIS0NGup+qAAQMg187EgeLO3C06tl509KhUF85JmBd9RY2cO4wHj1PGbS2
- L/cjClCHpf3AHnVWlc2fMauJ0Xrs5WdB8eepQqEEyaGnWPsHsEvnAhN
+ bh=ltCybRExPQSKXsCnz8UljjoTEH8sGi6OL1QQ7zSPhcQ=;
+ b=MPmHqFSk+yRPtfW83Pc/pd82Q4DbwpLmiDzOi0fF6lOklYZd8u8u+Xam9npIlRYQXF+I6n1pH
+ B8rf8k8DbUbCN4XFzWqSQ4gVBeCWMqacwuEOwjUjzM8RuLEZoJaNdgH
 X-Developer-Key: i=alvin.sun@linux.dev; a=ed25519;
  pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
 X-Endpoint-Received: by B4 Relay for alvin.sun@linux.dev/20260317 with
  auth_id=684
 
-Add the VM and BO ioctls to the Tyr driver, aligning its userspace
-interface with panthor.
+From: Sami Tolvanen <samitolvanen@google.com>
 
-The series is based on v3 of Danilo's lifetime-parameterized DRM File
-private data series:
-https://lore.kernel.org/all/20261118163203.2483856-1-dakr@kernel.org/
+A DRM driver that lets userspace pick GPU virtual addresses needs the
+address space size of the calling task, so it can offer a GPU range
+that the CPU can map at the same addresses. TASK_SIZE_OF() is a macro,
+so reading it from Rust needs a helper.
 
-It also carries Sami Tolvanen's buffer cache-management patches from
-https://gitlab.freedesktop.org/panfrost/linux sami/tyr/7.3/dev.
+Add CurrentTask::task_size(). It is bound to the current task because
+TASK_SIZE_OF() falls back to TASK_SIZE on architectures that do not
+define it, and TASK_SIZE describes current.
 
-The panthor GEM and VM IGT tests pass on an RK3588S device. The group
-and dev_query tests are not supported yet.
-
-A branch with the full series and all prerequisites applied is
-available at:
-https://gitlab.freedesktop.org/alvinsun039/linux.git tyr-ioctls
-
-Link: https://gitlab.freedesktop.org/panfrost/linux/-/merge_requests/64
-Signed-off-by: Ke Sun <sunke@kylinos.cn>
+Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+[ Add the <linux/mm.h> include, needed where TASK_SIZE is defined in
+  <asm/pgtable.h> (e.g. riscv). - Alvin ]
+Co-developed-by: Alvin Sun <alvin.sun@linux.dev>
+Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
 ---
-Changes in v7:
-- Rebase onto v3 of Danilo's lifetime-parameterized DRM File private
-  data series and v3 of his WaitQueue series.
-- Fix IdPool 32-bit off-by-one in VmPool::new(): size the pool with
-  IdPool::with_capacity(MAX_VMS_PER_FILE + 1) so all 32 VMs can be
-  allocated on 32-bit builds.
-- Fix a vm_bo leak in map_bo_range() when VM_BIND races with VM
-  teardown: run the deferred GPUVM BO cleanup even when the bind is
-  rejected, so the orphaned vm_bo is always flushed.
-- Link to v6: https://patch.msgid.link/20261109-tyr-ioctls-v6-0-b2896bf2b3c9@kylinos.cn
+ rust/helpers/task.c |  6 ++++++
+ rust/kernel/task.rs | 12 ++++++++++++
+ 2 files changed, 18 insertions(+)
 
-Changes in v6:
-- Rebase onto v2 of Danilo's lifetime-parameterized DRM File private
-  data series and use the Driver::File<'a> associated type instead of
-  ForLt.
-- Drop the unrelated Firmware::new closure rework from the VM
-  specifications patch (Deborah).
-- Merge the write-combine and WB_MMAP patches into one, with the full
-  should_map_wc() helper in a single place (Deborah).
-- Accept DRM_PANTHOR_BO_WB_MMAP directly in the BO_CREATE patch,
-  reject NO_MMAP combined with WB_MMAP, and return EOPNOTSUPP for
-  unsupported requests such as an exclusive VM (Deborah).
-- Pass the bound device from file.inner_with() to new_object() and
-  drop the unsafe as_bound() access (Deborah).
-- Expose all three DmaAttr values as constants instead of providing
-  is_coherent() (Deborah).
-- Validate the VM id before the empty-ops early return in VM_BIND and
-  reject sync objects before the size check, as in Panthor (Deborah).
-- Require an exact ops stride for now, use from_safe_cast for the id
-  and size conversions, and add TODO notes for variable strides and
-  zerocopy FromBytes (Deborah).
-- Link to v5: https://patch.msgid.link/20261027-tyr-ioctls-v5-0-59dfe98cb003@kylinos.cn
+diff --git a/rust/helpers/task.c b/rust/helpers/task.c
+index b46b1433a67e8..b49bd40027154 100644
+--- a/rust/helpers/task.c
++++ b/rust/helpers/task.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ 
+ #include <linux/kernel.h>
++#include <linux/mm.h>
+ #include <linux/sched/task.h>
+ 
+ __rust_helper void rust_helper_might_resched(void)
+@@ -13,6 +14,11 @@ __rust_helper struct task_struct *rust_helper_get_current(void)
+ 	return current;
+ }
+ 
++__rust_helper unsigned long rust_helper_current_task_size(void)
++{
++	return TASK_SIZE_OF(current);
++}
++
+ __rust_helper void rust_helper_get_task_struct(struct task_struct *t)
+ {
+ 	get_task_struct(t);
+diff --git a/rust/kernel/task.rs b/rust/kernel/task.rs
+index a733816fd5dd4..1978f54fe5897 100644
+--- a/rust/kernel/task.rs
++++ b/rust/kernel/task.rs
+@@ -317,6 +317,18 @@ pub fn mm(&self) -> Option<&MmWithUser> {
+         Some(unsafe { MmWithUser::from_raw(mm) })
+     }
+ 
++    /// Returns the size of the userspace address space of the current task.
++    ///
++    /// This is the first address above the userspace range, so it is smaller
++    /// for a task running in compat mode than for a native one. See
++    /// `TASK_SIZE_OF()` in [`include/linux/sched.h`](srctree/include/linux/sched.h).
++    #[doc(alias = "TASK_SIZE_OF")]
++    #[inline]
++    pub fn task_size(&self) -> usize {
++        // SAFETY: FFI call without preconditions, valid in any context.
++        unsafe { bindings::current_task_size() as usize }
++    }
++
+     /// Access the pid namespace of the current task.
+     ///
+     /// This function does not touch the refcount of the namespace or use RCU protection.
 
-Changes in v5:
-- Replace the mm-based task_size() (always returned 0) with Sami's
-  CurrentTask::task_size() implementation (Deborah, Alice).
-- Use from_safe_cast() for the id conversions and annotate the AddError
-  fields so the VM pool patch compiles on its own (Deborah).
-- Store a clone on pool conflicts and return the caller's VM instead of
-  expect()-ing (Deborah).
-- Drop the redundant project() in PinnedDrop (Deborah).
-- Fix the rustfmt issues found in the series (Deborah).
-- Link to v4: https://patch.msgid.link/20261020-tyr-ioctls-v4-0-704de77da223@kylinos.cn
-
-Changes in v4:
-- Rework VmPool teardown: add() returns an AddError the caller owns,
-  a conflicting stored VM is killed with EBUSY, and remove() kills
-  before the ID is reused (Daniel, Deborah).
-- Wrap dev_dma_attr in a DmaAttr type with dma_attr()/is_coherent()
-  and rename the patch accordingly (Danilo).
-- Fetch the sg_table unconditionally in new_object() and drop the
-  conditional flush call (Daniel).
-- Use dev_dbg!() instead of dev_err!() for user-input validation and
-  EOPNOTSUPP for the async VM_BIND path (Daniel).
-- Drop the pr_err!() calls from the VM specification patch (Daniel).
-- Link to v3: https://patch.msgid.link/20260929-tyr-ioctls-v3-0-26955fb111d5@kylinos.cn
-
-Changes in v3:
-- Drop the VmOwner wrapper and kill VMs explicitly on destroy and
-  file close (Deborah).
-- Add Sami Tolvanen's buffer cache-management patches: coherent
-  devices map buffers cached, write-combine buffers flush at
-  creation, and BO_CREATE accepts WB_MMAP.
-- Drop the new_dummy_object refactor; the dummy object stays a direct
-  Bo::new since new_object now fetches the sgtable for write-combine
-  buffers.
-- Document the LargeSizeConstants trait in the sizes patch (Miguel).
-- Misc commit message and comment cleanups.
-- Link to v2: https://lore.kernel.org/r/20260908-tyr-ioctls-v2-0-88bea777df67@kylinos.cn
-
-Changes in v2:
-- Fold the VM pool into vm.rs and cap it at 32 VMs per file (Deborah).
-- Add VmOwner so a VM is killed exactly once on drop, regardless of
-  remaining references (Daniel).
-- Replace the VmSpec enum with new_for_fw()/new_for_user()
-  constructors (Daniel).
-- Parse VM_BIND op types via VmBindOpType and use the kernel
-  Atomic<bool> for the unusable flag (Daniel).
-- Use PAGE_SIZE for the dummy object size (Daniel).
-- Rename BoData::create_flags() to flags() (Daniel).
-- Report VA-split failures with dev_err! at the caller.
-- Link to v1: https://lore.kernel.org/r/20260902-tyr-ioctls-v1-0-e0fdbf8bd108@kylinos.cn
-
----
-Alvin Sun (7):
-      rust: sizes: add SZ_4G constant
-      rust: sync: arc: relax `ForeignOwnable` for `Arc<T>`
-      drm/tyr: add per-file VM pool
-      drm/tyr: add user and MCU VM specifications
-      drm/tyr: add BO creation and lookup helpers
-      drm/tyr: add VM-related ioctls
-      drm/tyr: add BO-related ioctls
-
-Sami Tolvanen (3):
-      rust: task: add task_size()
-      rust: device: expose the device DMA attribute
-      drm/tyr: support write-combine BO mappings
-
- drivers/gpu/drm/tyr/driver.rs   |  25 ++-
- drivers/gpu/drm/tyr/file.rs     | 390 +++++++++++++++++++++++++++++++++++++++-
- drivers/gpu/drm/tyr/fw.rs       |   5 +-
- drivers/gpu/drm/tyr/gem.rs      |  79 +++++++-
- drivers/gpu/drm/tyr/vm.rs       | 381 ++++++++++++++++++++++++++++++++++++---
- rust/bindings/bindings_helper.h |   1 +
- rust/helpers/task.c             |   6 +
- rust/kernel/device.rs           |  27 +++
- rust/kernel/sizes.rs            |  12 ++
- rust/kernel/sync/arc.rs         |  12 +-
- rust/kernel/task.rs             |  12 ++
- 11 files changed, 901 insertions(+), 49 deletions(-)
----
-base-commit: 23eb2cfcf15209d149f407e462704c21b9ce9cc4
-change-id: 20260901-tyr-ioctls-f10ef0dcbfa6
-prerequisite-message-id: <20261118163203.2483856-1-dakr@kernel.org>
-prerequisite-patch-id: e17775a2fb002d71edd479f6002dc3380b9b6bb4
-prerequisite-patch-id: 388c5b871c09dbb6bad46c68be04813bcbdaadb6
-prerequisite-patch-id: f31098f7dcd1b2d7843767f9ef778788f8773477
-prerequisite-patch-id: b0ea30b4c39e5a43e53ceaf28bd8b39db5b26a76
-prerequisite-patch-id: e0735b7cd0f226e702c0edc4ed889340f93d24cf
-prerequisite-patch-id: 086eb00ec9c9c445c99bbb8d1a052b3fad56b5bd
-prerequisite-patch-id: a6ad22d9ab7cbdf32fb0e3dd56937dd222ddc448
-
-Best regards,
---  
-Alvin Sun <alvin.sun@linux.dev>
+-- 
+2.43.0
 
 
