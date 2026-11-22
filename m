@@ -1,118 +1,156 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.67.36.65
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795354461;
-	b=aftaHs5fmfAk1vRIr8nrFHqiDCKhSmn1Ssxu0d86K0AC5SByWUNYAHpYvCx8It6l2CGv
-	 aoBRzIUTupnH8tLXab3l3Sa8MZV5VxDwJUNHyqf3cSWGWTVeg5M0cFBtDDCo5lB60xJdn
-	 duFAWNOreI+ushS1ROlKSMY/R3bPZ0PdcZxldJAOu8YoSTYyfJDHbyv9pTaSoxOVf0Bcy
-	 sv0R1Y472Zo68Kik3eLxVWbOIKkML46pvhAwNDFs+2G/LIYSleKhWK+HgLnIDn1EM2faw
-	 lh/SUdD8yVq2oijC6zDaeVd77+43CQmMJv4EZqn3P9klnbgRk9SA4tbeR+feU2WNZoA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795354461;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Message-ID:Subject:
-	 From:To:Cc:Date:In-Reply-To:References:Autocrypt:Content-Type:
-	 MIME-Version:OpenPGP;
-	bh=B2YpqatDPSUl5On3Scqr15nRXXPYDlBJfIeTj6Aa2VI=;
-	b=XkSJ/wU97cDwaVTBZVv/X/K6QlbK39c8HNYfepxmSVL+pwi049vwwhra66c6DbJSEvbh
-	 4EX+LxxmQVZXhB1Mknl6gMjWj9XIn5/UMVR+ddxlZKe+0ctEfDNnByhA8Fm7QSXKp4Hl/
-	 t49pLoIQ+ky5I5JVWUi6+zHYuZVLc+7PzLzSOL8k+r1k18odeZvuYZlWMkj7z4YR+c2jc
-	 FWrybEUNXJ2zg4zQy5QgS1+IqQA08SIjR27jpIsqeCPQ4ApQPEecXhm569g+Hzps7y47p
-	 Q7cbYwOopy2Ciz9ydt3xTmpXtGo4jhm7zQGjuti1F23HnRvzEWwe3/dg4sgR4rbj2BQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=posteo.de;
-	spf=pass smtp.mailfrom=posteo.de;
-	dkim=pass header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=IY6ejkA5;
-	arc=none smtp.remote-ip=185.67.36.65
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.46.53
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795361541;
+	b=lcB/Gx6RsGxtMlmiCpohWJtEpuZpYqpxqdndbb98j/0rtAa5ONu/JSX6ihPfNWqp/dsH
+	 Xm3nqAvhMRKKb3KQQRAK2LbZOqwehVbJ4ZRbe7EuRbu9dyRTXyY8KIf2qKEduNDJ6l3bo
+	 EUa/oyEZQu9Np/BVPZpTf5XcMsmOe90G4EvMt9XBQTm8Js6flBmJ3LjKUdWOkMZjrZxVA
+	 1odXIKGG1r0cX6k6820ySKsdc9rmyUTVG0mYTm4ea8IZDZ/oRt+U80WEBDFQYmR7tNnbO
+	 heQhHLvbneUhDWjHLheupBG6j6rtBDuyChpuGulWjt7yYz2f4yJFhWkGXfvRU9bbAWw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795361541;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=WhMslJCGDuB5xV6P/V/CS6QxivMchvG1o2S2D3SeU7Y=;
+	b=gW27EoVDs8AscMkgTosrkzC1K6Hw8dGhPlVMtGD6WpKGiiVNEcZl5RTORaCXFYDhgkKJ
+	 kFXAtgm2zJ8eGg4cLuioAJ+N1kGZYjVgrbcSq/99w9FMoFK1Nw569rrCf0TxZqSYvSk7/
+	 mpp4niAw2XsXJUPYzjueXmk2i2RdwFIzZkutSIPJutBEBXqth/RdVITir8s+TAVHlrOlv
+	 ScH5et/v0ScVRu/FreWsLnFh3nUdCRj8IrzKiqkXgstzlNRGIWuVVcw9dsM1654Prvpot
+	 EXx9pQ+2lDgzMnSTBx1k9OzFxnA3YhKQxQ+pimF+/4MjzpfJLUYSdUE3KoG8OGoMF/g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=cr8yLoOX;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.46.53
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010053.outbound.protection.outlook.com [52.101.46.53])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCA9606A690
-	for <driver-core@lists.linux.dev>; Sun, 22 Nov 2026 13:34:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FCA9606A690
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79EBF606A336;
+	Sun, 22 Nov 2026 15:32:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79EBF606A336
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=IY6ejkA5
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id C6EE3240032
-	for <driver-core@lists.linux.dev>; Sun, 22 Nov 2026 14:34:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
-	s=1984.8680eb; t=1795354452;
-	bh=B2YpqatDPSUl5On3Scqr15nRXXPYDlBJfIeTj6Aa2VI=;
-	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
-	 MIME-Version:OpenPGP:From;
-	b=IY6ejkA5/suChshwsOezv6OLtBzqsbA4luOXxAO2vmgPZGdauXSSQwBbnx/yDYg5N
-	 hcrfKUP35jZntLnF/v3SHN6Fn4zDss8E0SrSyrFFnZEiny9NZqd8al2DgfXuhgtk1T
-	 D3a8cHq48JlTfE5+IWep3JlRy5uD6m1AQ4m5wzFJv9m76cmYFzTKUrxzehbSD0gwlv
-	 mj3YPZHbIcsc5kaTKv+frHzEjjFTIkOpKYQO3PdKgxR2mkASQvfxu6XunRQEfkyWIm
-	 6C/OrOC64go6r73eqcVnTCexZKyG8+OCC2+AxMkysS8d2zssXOA5XdAfWvNf/wpUUz
-	 RDurpIJPGoe9w==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4jXVR60WKDz6v0W;
-	Sun, 22 Nov 2026 14:34:10 +0100 (CET)
-Message-ID: <947615fd284c416891ac6de5d16cdd00ec5267ab.camel@posteo.de>
-Subject: Re: [RFC PATCH v7 2/4] i2c: rust: implement SMBus access via
- IoBackend
-From: Markus Probst <markus.probst@posteo.de>
-To: Muchamad Coirul Anwar <muchamadcoirulanwar@gmail.com>, Jonathan Cameron
-	 <jic23@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Igor Korotin
-	 <igor.korotin@linux.dev>, Danilo Krummrich <dakr@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>, Alice Ryhl
- <aliceryhl@google.com>,  Daniel Almeida <daniel.almeida@collabora.com>,
- Mark Brown <broonie@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,  Shuai
- Liu <847807867@qq.com>, linux-iio@vger.kernel.org,
- linux-i2c@vger.kernel.org, 	rust-for-linux@vger.kernel.org,
- driver-core@lists.linux.dev, 	linux-kernel@vger.kernel.org
-Date: Sun, 22 Nov 2026 13:34:12 +0000
-In-Reply-To: <20261109155743.83740-3-muchamadcoirulanwar@gmail.com>
-References: <20261109155743.83740-1-muchamadcoirulanwar@gmail.com>
-	 <20261109155743.83740-3-muchamadcoirulanwar@gmail.com>
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
- keydata=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
- jfGillcaQOqFZ3WwVqyzG1BUfTow==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-LlgQf4RobFMqc/n5pj36"
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=cr8yLoOX
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EHDbKitQys4tuIJDtOY5hUPO4Aj3x5WFLIkuQAlApmE2Q4b3YqB9ZH0lsXrMWpNWZv4NiqHhOCcsrGr1WeDorLAYdBe1EzhEuzo2hwf3RVevCgsz1wlZEVWlQABbgcVrtJ8r1wQqeHnlPLJd2OdiWxyCZjL9Go+lUtuOSoVTC0G5YC0SI4AJiCrgdjAPFdMQHWKwcwbNF9OnQ5yHFjl2oO8pdHHQMvJl7Ia5UdOGppFcn48kN6aHfWbXqupCUbc1C7Fv8api71Og+633PRFwVKA1tguNsATBHjC3/Jq9NMFwtyQX7ElH6E9N1POgmukkKV0hqNphXQmGmk0auArSCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WhMslJCGDuB5xV6P/V/CS6QxivMchvG1o2S2D3SeU7Y=;
+ b=G5n5JBi3HZk5TpGj4hj4HR3PdWpu1EqeSUnhBqlDdM8kTUi8QzX+4jKpS5z3HihfW7cgxr9rTFIcU/mtuF7qo8JX4b5ixE3Y796dIzL/qDhx3kXMeZHAltsyrGLj4c/1zvnrE2YhlSjtq9bDac67FJJi1D0XOakMJdgW87uYiH2xI3NAvHVuTZpZnMABCBW/QcUyisX6Tko9D2YkmOt3rOk2oWeLUiSpJZY/LWNCCGy+XABBr6SAiD8/gz+eVZgL496UwaGRxc9KVynJchUZ6Tu/tZMIR5hYe5X6v4Hh9MZzuWijV4SRMj8oNUq5A/Dt+/niX22GJOel+IJ81JH/OA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WhMslJCGDuB5xV6P/V/CS6QxivMchvG1o2S2D3SeU7Y=;
+ b=cr8yLoOXqwaA1c+Xblj201hZ1aXiuuG6UWySgT+ibVPblnFFwvfbrVnxM7sGd3KkhRmA2335SaSiM8fZqoNrGRi2RbSq/mgJHcohbQinfFYLUSw6O2nnFuWCqXKi8ZTDrSJLjpTIwmTLeeXEt3xlYsnRA9PfhT2aQyHh2pjEInlpjG1OQhcURJAY26uUDk94yMcwxH9cHtKmDxRRVRXiurMMIfz34Ge7WZvlu4M9eBLogajqQTY9a1QHUrmdfgVKr3OLxPARno8sqbFL3EjM7/qRiuhvjoB8FqpCZKWwBzJIqxACXORlL9mu+pndzSpz3bgdplgOAMfYw18VkOyLxw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ by CH3PR12MB9284.namprd12.prod.outlook.com (2603:10b6:610:1c7::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.14; Sun, 22 Nov
+ 2026 15:32:07 +0000
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286%4]) with mapi id 15.21.0639.012; Sun, 22 Nov 2026
+ 15:32:07 +0000
+Date: Sun, 22 Nov 2026 10:32:05 -0500
+From: Yury Norov <ynorov@nvidia.com>
+To: gourry@gourry.net
+Cc: Yury Norov <yury.norov@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	David Hildenbrand <david@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Oscar Salvador <osalvador@suse.de>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Alistair Popple <apopple@nvidia.com>, SJ Park <sj@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Kees Cook <kees@kernel.org>, Kairui Song <kasong@tencent.com>,
+	Barry Song <baohua@kernel.org>, Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Michal Hocko <mhocko@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+	Nico Pache <nico.pache@linux.dev>,
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+	Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
+	Xu Xin <xu.xin@linux.dev>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Lorenzo Stoakes <ljs@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
+	Jann Horn <jannh@google.com>, Chris Li <chrisl@kernel.org>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Youngjun Park <youngjun.park@lge.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, Waiman Long <longman@redhat.com>,
+	Ridong Chen <ridong.chen@linux.dev>, Tejun Heo <tj@kernel.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Dan Williams <djbw@kernel.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-cxl@vger.kernel.org,
+	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+	damon@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 01/60] nodemask: add node-state iterators
+Message-ID: <awMK9V6TbU9Xtzn9@yury>
+References: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
+ <20261120-private_nodes_v6-v1-1-74f5f9a115c2@gourry.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261120-private_nodes_v6-v1-1-74f5f9a115c2@gourry.net>
+X-ClientProxiedBy: BN9PR03CA0336.namprd03.prod.outlook.com
+ (2603:10b6:408:f6::11) To LV3PR12MB9356.namprd12.prod.outlook.com
+ (2603:10b6:408:20c::21)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -122,73 +160,133 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|CH3PR12MB9284:EE_
+X-MS-Office365-Filtering-Correlation-Id: c6485a54-1825-442f-628f-08df48adc424
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|366016|10070799003|1800799024|7416014|376014|10067099003|56012099006|11063799006|4143699003|261021121427099003|261102123227099003|261009223027099003|18002099003|22082099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	LadQk4uEsSebAaX36T2UMlD0k4aavvFJnGPyxq+sADDdoHz7h1S6cTm+9lwN2JuY+RhbZsAgBtH6HMrwaEs/1qoNwhCMXCD2HnT3piotu6CJhWi/zGa/x2kT3WvqgBYvrCRtXMV5byjJlFSa1Jfz2Z8Es8KqjJ/gP6DZ2VArDv3yVj5pPa+ZBvrppiFRCswwB+ZHiGKW9YWzBKGuNP+swVrsTET4lfSO/bT6JGwcEJAk4oAymrrQuP4kHwUsgRG0ONuqW69rZz34qgY2VzJiBrdY0IloGE1UIWWnNTM49Lemtc0UUlQ1LWF+KQtBZLWotV+9HucWijaFAQeLEouCDhaBiHWDCbkPaIYs1ijCLrdLfbpQWCHOIeZDVBboKpLNdpwAH5yTbh9XuDiHQjnOa52O8UH8hVIkGKvO4rmzHkJ4zuxhAeJV5BVjZs1dnRrbf+Zr2yALfauusWyHdhBvzh8mpkvQhguRY1p1v7/SaRa0p2DHBXmd805eyd7d+XI/367SUORKBEhSqopdRKVQQ+s3kmJ5FGjbepuputL8d/8bDEKKf4r1mwN+speML64l5Uja4AhFfhfUX2fQ9bcmlGAVrQbpl3yTTwZajpRZ59PJG/gbGGmT9vfmPokHenri9636b4Tgb3WBRlCk3okioAUGEdJsQCDwDgsbtAGC2bA=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(10070799003)(1800799024)(7416014)(376014)(10067099003)(56012099006)(11063799006)(4143699003)(261021121427099003)(261102123227099003)(261009223027099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?0878Rh0OU0ASRuFo6sTdoF3SxBqX7ikevLQHYzhknEeGzOQ2B2i3oyhkWmcB?=
+ =?us-ascii?Q?vdC0RV17nq5Ut/rsXr2QZcjCnVcWfnPDwx4CE/S/3ITrkFrSxtRIVb57b5TE?=
+ =?us-ascii?Q?12ScIl2aqKaC61hbvkut8h1CScZIOXaKEOSAPZQlVJeBESw1+J54nNhRYJpj?=
+ =?us-ascii?Q?q+N7YQPfjLLtxxFDpFRzb7RZaMPPwn+ImCVVh3yYk0zz1skuph4r4OrNDGtl?=
+ =?us-ascii?Q?qkoqiahw6e2odkS6anbXxrt2Om8f/9pUD9dTILttqGt9LbpROxJ2/A+rs8qB?=
+ =?us-ascii?Q?skcevIIA70HVfuwop8HFzHVfAmhOJh4uX008ShwOtG0uBJHCj0LkE1B75U4A?=
+ =?us-ascii?Q?ebER04WVfRArUCB8JwqdTJcNJXiX9d1MAOsYaEIbQts0iZodjls9ft6wDHFH?=
+ =?us-ascii?Q?r6P+wOoklKSj/vKZOZpZu8J9O6dY9tbmeo5yYfLC2K4WRf53iCXXF23bfd+9?=
+ =?us-ascii?Q?tIFtYp/soKOKQydkgswzkr+ZfFk5L8KWagu2ysOvEfxlM3ztcxZDMt9wPV/a?=
+ =?us-ascii?Q?kD1BPzvOZDDVr8SZPmJ3hEMWqLo5Hwe/zE+iBtxu2MWiZs7YFKFntevkZ/A9?=
+ =?us-ascii?Q?p7RCcL9+gTx8Y3GetF7l+gaEZUFd3mgEyTRwUdkMKMy1AXmt7471f8TFYrAE?=
+ =?us-ascii?Q?ppqEIDUMRaQinZdGh1ahBy2iFSvmNh5qX064NaVJo2nh3I66QQmSzAVKzYHC?=
+ =?us-ascii?Q?h1h2//nE+Ngekq3CW/h9KEsqk+iIvzl5cLCZ42JTQsbpDBnI72HIChThNP8q?=
+ =?us-ascii?Q?7rczyuAAqbWQo/bNvfd3slvoGpWdsjtQBfjyXmHha7ZSsdmPnqhO70FlNKLo?=
+ =?us-ascii?Q?DxPExNWZL3O7MPko9uFk2GpM8EsiD/kdfJtC1ofMNInyivne/bbGTSmeeiif?=
+ =?us-ascii?Q?6Gg7r5MtxZ8tjLyV0WuNqgoEHbohtKw+hpHTortmoZmsTVnhcjvbg7Lm9HL/?=
+ =?us-ascii?Q?dFVu0Pdgj+HSAbUj6Y9zY1DBu0lAdO16r94YDlXyd4TiPnHhK3QOMiMNJZuO?=
+ =?us-ascii?Q?icAU7Udp7fOt7HjE2sFh1hVsMbLTRoANkXvwWs6QKFecXZO7DSJ3eT490eHY?=
+ =?us-ascii?Q?QDnjQ5uCNL+Ao8ZIXN1qwATdl6d4j6vswBAHClf5u5W1wcyA2dCm7+/mXrDe?=
+ =?us-ascii?Q?8l4RUOVPDgu3N28TZqS83YQ27xcjHf2Yb+ijh2PMGCtZpD+WX6XdNwP/1Dve?=
+ =?us-ascii?Q?JgXMO5RnzA8CcoCenR6pxc06iEAxz71/MjWF3b0oXzaMKWDblsxxvi0qL6wk?=
+ =?us-ascii?Q?suYN7jZCmtP8qRBLGWqXe53Ug4Cib3eRbS/Ta4K5zjwgSbKzRZM6axMETgM2?=
+ =?us-ascii?Q?cPDKiMuak1fpXPue32bB10pQn7QbxG8x4LKK3mUC011F2mau0n0MMV2OehIN?=
+ =?us-ascii?Q?pal+m9ZylTSgCp9ICXUOUiMgAjacNp1DuAL5iwETjyo7fiCsC/qbCN9T/wpV?=
+ =?us-ascii?Q?g1qHrtgXxOuaHmAXoVHC4sSB7hGeNfd0gDvODHF17K0jBEWnNdqzAEO/5ZWO?=
+ =?us-ascii?Q?PguKAGxJWxeP2VTmK69UWOvI7hIWQQSbh6PAjuWtGlMY/JQy/91+7SGAHJnf?=
+ =?us-ascii?Q?vjvkTx0LQVwjsvvg2B5FKpNt+c9DmlMgWm79kZ/gKUY3O+/EdnWTD1Pgp4Gq?=
+ =?us-ascii?Q?pjLJ4vb+cGoeqVvNk+Eg72QSgLlZSW0TCWAeyVkAxZnoExgRM3QCTiOyGXdo?=
+ =?us-ascii?Q?jYlbLkU89rqfHTdlofrWERfbLIhveKByfPLzZ3P/Og8PCd8Y5LTrHWML7ZH1?=
+ =?us-ascii?Q?F2/DTg4BcCxL1MBVmHECkDpT6XYb12pDshSJ+5onFzgnC8b4MOgR?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6485a54-1825-442f-628f-08df48adc424
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2026 15:32:07.0533
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rew2IPNPi3eMjUW2rOx/D54VR1hE34BYSZEp/L4/4gyRLjUNdp187rMrRSfQ73nncADw0FzzNhR/N3gz2QevhA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9284
 
+On Fri, Nov 20, 2026 at 01:08:52PM -0500, Gregory Price via B4 Relay wrote:
+> From: "Gregory Price (Meta)" <gourry@gourry.net>
+> 
+> Add first_node_state() and next_node_state(), so callers can walk any
+> node state the way first_memory_node and next_memory_node walk N_MEMORY.
+> 
+> Add for_each_node_mask_state(), which iterates a nodemask intersected
+> with a node state using the bitmap intersection helpers, without a
+> temporary nodemask.
+> 
+> Signed-off-by: Gregory Price (Meta) <gourry@gourry.net>
+> ---
+>  include/linux/nodemask.h | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/include/linux/nodemask.h b/include/linux/nodemask.h
+> index 607373bd83ee..90bdcffa42ea 100644
+> --- a/include/linux/nodemask.h
+> +++ b/include/linux/nodemask.h
+> @@ -411,6 +411,11 @@ enum node_states {
+>  
+>  extern nodemask_t node_states[NR_NODE_STATES];
+>  
+> +/* Iterate the nodes in a mask that also belong to the specified state. */
+> +#define for_each_node_mask_state(node, mask, state)			\
 
---=-LlgQf4RobFMqc/n5pj36
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+for_each_node_state_and? We've got for_each_node(), and we've got
+for_each_node_state(), so let's figure out consistent naming.
 
-On Mon, 2026-11-09 at 22:57 +0700, Muchamad Coirul Anwar wrote:
-> Implement fallible SMBus byte and word access for bound I2C clients
-> using the generic I/O backend infrastructure.
->=20
-> I2C transactions may fail due to NACK, arbitration loss, or timeout, so
-> use FallibleIoCapable rather than the infallible IoCapable interface.
-> Propagate errors returned by the I2C core to callers.
->=20
-> Provide smbus_io() for byte-addressed register access and standalone
-> word helpers for layouts not represented by the Region-based view.
-> Also provide smbus_read_word_swapped() for devices that transmit the
-> high byte of a multi-byte value first.
->=20
-> Restrict these operations to I2cClient<Bound> so bus I/O is only availabl=
-e
-> while the client remains bound.
->=20
-> Keep the raw SMBus FFI calls and errno conversion in safe bound-client
-> methods. Include a generic no_run example for the word-read helper.
->=20
-> Suggested-by: Shuai Liu <847807867@qq.com>
-> Link: https://lore.kernel.org/all/tencent_173B7731E90B9624F9F82613DC3031B=
-70907@qq.com/
-> Signed-off-by: Muchamad Coirul Anwar <muchamadcoirulanwar@gmail.com>
-Hi,
+Did you check the codebase for exsisting candidates for this helper?
 
-please add me to CC.
+> +	for_each_and_bit(node, nodes_addr(mask),			\
+> +			 nodes_addr(node_states[state]), MAX_NUMNODES)
+> +
 
-Could you make `I2cClient<device::Bound>` Sync in this patch?
+Please use nr_node_ids instead of MAX_NUMNODES.
 
-`I2cClient<device::Normal>` already implements Sync. Functions exposed
-only for `I2cClient<device::Bound>` should be thread safe.
+>  #if MAX_NUMNODES > 1
+>  static __always_inline int node_state(int node, enum node_states state)
+>  {
+> @@ -435,6 +440,12 @@ static __always_inline int num_node_state(enum node_states state)
+>  #define for_each_node_state(__node, __state) \
+>  	for_each_node_mask((__node), node_states[__state])
+>  
+> +#define first_node_state(state)	first_node(node_states[state])
+> +static __always_inline unsigned int next_node_state(int nid, enum node_states state)
+> +{
+> +	return next_node(nid, node_states[state]);
+> +}
 
-I will need this patch (including the change mentioned above) for a
-future driver.
+At least the following {first,next}_{online,memory}_node must be
+switched to the new helpers. Can you check through the rest of the
+kernel to make sure all candidates of the proposed helpers are
+converted?
 
-Thanks
-- Markus Probst
-
-
---=-LlgQf4RobFMqc/n5pj36
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmsC70wbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPS2xMQAKDLB02pKK6mopiQyUo4
-Rw9Re4Hxwma6eGa1pfpDoTjkft+qnAjAoaZHb6hnGHojepz2FdRyVNxTARZnByFA
-VHnddeyhZxrK19kmKRSD/RF79bW9V6QEqouu90CXUE9glh9KlfnjsyLrk+heqxN4
-5p0n2lDo3DFczV1lhZPgkJnp+Wb8Xrys9SWX4aCC9vE5MMeQjRzJVxzlnpiQxY3z
-5SOCMbxu1mXnOnWGI1yWmBxbK1HRNhydPhwo/PkAz2KIeXFdaB1brMME+eck9fKl
-NxK40cAzmKgO6JWK2yG4qFMhWp+ZYcZiv/n4BR3aEeRuG+Akp8A+eUKWXV8aSqm6
-HPbBkU7yaugyyYqcq6wJw55dbde7Klbd7XKBWWK+7ol7ut7nAkTsi5HSh/zeX5b7
-I2OB5H+YKPCMy5vB6DCPhIN2gYO+V2N8qwfbbPcFkbLUNumfdk44ABk+Wds1Thu5
-vwagzVEu/aXOt0XT+aUmH5zzutzvwDXZKyHEuGt4wstKXHAlPyIjydM9St32l6QF
-L0H1XRxUAWHpr6GnlhxWAUAzu/UebGviaVAtAl1WDgrZQIWAwG1tevLVXkkju/J5
-euYBaeJ3yvKDBY+sm7TkbWH9iOCikShqAeA2ZNuAs/fE5H9TVMhyZd4pQSU0ifuw
-UZStFoSLiv1XrJYCjL/baqXI
-=u56D
------END PGP SIGNATURE-----
-
---=-LlgQf4RobFMqc/n5pj36--
+>  #define first_online_node	first_node(node_states[N_ONLINE])
+>  #define first_memory_node	first_node(node_states[N_MEMORY])
+>  static __always_inline unsigned int next_online_node(int nid)
+> @@ -481,6 +492,12 @@ static __always_inline int num_node_state(enum node_states state)
+>  #define for_each_node_state(node, __state) \
+>  	for ( (node) = 0; (node) == 0; (node) = 1)
+>  
+> +#define first_node_state(state)	0
+> +static __always_inline unsigned int next_node_state(int nid, enum node_states state)
+> +{
+> +	return MAX_NUMNODES;
+> +}
+> +
+>  #define first_online_node	0
+>  #define first_memory_node	0
+>  #define next_online_node(nid)	(MAX_NUMNODES)
+> 
+> -- 
+> 2.56.1
+> 
