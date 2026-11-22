@@ -1,73 +1,118 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795352577;
-	b=xwKliZw/mNCR7Yp15CtAsi5k7X3vA4j2vVnXH2knxTX9U5/aU06bp1oH9MSjh2hpV7j6
-	 cVwHzeBD+RRBRZ+qXUwnnu1OsjxLLZ9bOKqiaiQzw90vJqONl+uYLf9XGVxWYyb1nuOCp
-	 Vg4jr/Cb3A0u7WdMQOm5+XOAmNtZfqY8tstTe87k6u3mfjfK+/usxQfr+Uwlqg5iHhTLm
-	 C/jwKe1mW+arOh9h2F1CsNtbygKj/5/d4rG/Yyg1IPPeeYEDhzJNNyp108r3//cp3XfHv
-	 PV6iCQVNu07D7CsjZgtxBtmwO/gSvc5725wEfgxeedH1NYvJ+YcuRQV77I++M0G5K0g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795352577;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received;
-	bh=BZCM3W/xm56h1CkOrCWjJHr7ZD9ZwRb20GzDABx3Ya0=;
-	b=yyqr/aQiRnBq5fQxSvCAhqMLsKSIQtuJ8YxZsaOZXwGYQPVk0WIp0zvh2tAuA0PG67TY
-	 NBgzdSyz1y0i9t2DxI8Uiplv9VWD7R+ni3PYPMwFWjR/bqvI1CBN1VFbfWnjZo2jyKhp/
-	 HZe3ZPx3ntPKr3QS245rHjQKZ9QqLP29YZBxc7BMqPRaDmwZ8xArV2Mg3qR3bGE3EnCLn
-	 4c03dgqNTvyECuURS/nCOShYg5I2DR0BF5zLYIdJ8PMD1huXo8D3BKC+4LnPvlVTZ4YUf
-	 DEbRZd3RBa/oQN4ekIwKIqTqfHwKPEiw8d2zX90T1A/iI69b8SA2JSf1byx312lT3OA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=korg header.b=lSd5wEv8;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC638606A334;
-	Sun, 22 Nov 2026 13:02:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=korg header.b=lSd5wEv8
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795352576;
-	b=Nf6EkoLwprQv55968YylvWgzjZDIR1njXdhHeJIPtLKzK7U/WGwFp7dkkqgckDycCilX
-	 CR6XZvhfbIsf1UCESdwcc2IX6G+JdvkVNqbfEqpKB3RG9sYN8mlqXg24tHPPrePnU1/M6
-	 uELlokjDwlzaPR6x7Kg4GP3j55OC6zb/3gIcW12g0wFWWEWDMFd9kR3dQnUK8KNYtScfW
-	 zJ+5EfSnLon04lVyGHUEl3ks/25Pp9GYubexwSPfZhNYW1eh8VVgEBOfcSiQJKqGn4gho
-	 Dy42uqBKUgsbDC1L2P1ovS/iJHlVqTD4/UHiaf/Cib7zJqwRfbaDqfSFpSrGmptfaKQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795352576;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received;
-	bh=BZCM3W/xm56h1CkOrCWjJHr7ZD9ZwRb20GzDABx3Ya0=;
-	b=Xi5hk7RmnofOkw2z6+C8YWWO0vzdmkobOHYRidB4EP8hY2vLOcS17IiAarSI4W2T3WD5
-	 Uj59Q+B9eVFPQNalbvFJovOgvS7oFQS0dfbkFN4BqtUW8KhpDyu7CULO/5LHpDIp9Xqq9
-	 mYWkxFC4HX7szPUcel1rgq3EA3YtrbuS5p45EMF+7obSO8a6ccL/aAWGNJDO2qTRyROXi
-	 J2dztaoVI6ctYDANkbAP2CDrUeLoMh10DRcROpGziHhqKXWbpVXVP6BrUbNxoKFVX2xPn
-	 c/uIxO7ePdVTSjcKJkZNOP6eEM7uGdXcWbgopJHL7mcj0RJ6QC1lyO95or1uhwtMnsg==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.67.36.65
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795354461;
+	b=aftaHs5fmfAk1vRIr8nrFHqiDCKhSmn1Ssxu0d86K0AC5SByWUNYAHpYvCx8It6l2CGv
+	 aoBRzIUTupnH8tLXab3l3Sa8MZV5VxDwJUNHyqf3cSWGWTVeg5M0cFBtDDCo5lB60xJdn
+	 duFAWNOreI+ushS1ROlKSMY/R3bPZ0PdcZxldJAOu8YoSTYyfJDHbyv9pTaSoxOVf0Bcy
+	 sv0R1Y472Zo68Kik3eLxVWbOIKkML46pvhAwNDFs+2G/LIYSleKhWK+HgLnIDn1EM2faw
+	 lh/SUdD8yVq2oijC6zDaeVd77+43CQmMJv4EZqn3P9klnbgRk9SA4tbeR+feU2WNZoA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795354461;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Message-ID:Subject:
+	 From:To:Cc:Date:In-Reply-To:References:Autocrypt:Content-Type:
+	 MIME-Version:OpenPGP;
+	bh=B2YpqatDPSUl5On3Scqr15nRXXPYDlBJfIeTj6Aa2VI=;
+	b=XkSJ/wU97cDwaVTBZVv/X/K6QlbK39c8HNYfepxmSVL+pwi049vwwhra66c6DbJSEvbh
+	 4EX+LxxmQVZXhB1Mknl6gMjWj9XIn5/UMVR+ddxlZKe+0ctEfDNnByhA8Fm7QSXKp4Hl/
+	 t49pLoIQ+ky5I5JVWUi6+zHYuZVLc+7PzLzSOL8k+r1k18odeZvuYZlWMkj7z4YR+c2jc
+	 FWrybEUNXJ2zg4zQy5QgS1+IqQA08SIjR27jpIsqeCPQ4ApQPEecXhm569g+Hzps7y47p
+	 Q7cbYwOopy2Ciz9ydt3xTmpXtGo4jhm7zQGjuti1F23HnRvzEWwe3/dg4sgR4rbj2BQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=posteo.de;
+	spf=pass smtp.mailfrom=posteo.de;
+	dkim=pass header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=IY6ejkA5;
+	arc=none smtp.remote-ip=185.67.36.65
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id DDF7B1F000CF;
-	Sun, 22 Nov 2026 13:02:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=korg;
-	t=1795352576; bh=BZCM3W/xm56h1CkOrCWjJHr7ZD9ZwRb20GzDABx3Ya0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=lSd5wEv8NfIhdCA31PFOSKCr4SgTccGXmbq94wpNmoAa1NYP9NAc8qkPTqGEo+QRO
-	 BRv/DqxxFPEASLda3l8QaiDvnFWpFSRMeTWPv5LL7KVTwu47adXn2v3PGGlNMIhTZI
-	 hLcqjprAtbQHEzYmocxCYi4BkCYzuE0E+UF5ABmA=
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 9D8F94C06F;
-	Sun, 22 Nov 2026 13:02:34 +0000 (UTC)
-From: Alvin Sun <alvin.sun@linux.dev>
-Date: Sun, 22 Nov 2026 20:50:28 +0800
-Subject: [PATCH v7 09/10] drm/tyr: support write-combine BO mappings
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCA9606A690
+	for <driver-core@lists.linux.dev>; Sun, 22 Nov 2026 13:34:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FCA9606A690
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=IY6ejkA5
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id C6EE3240032
+	for <driver-core@lists.linux.dev>; Sun, 22 Nov 2026 14:34:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
+	s=1984.8680eb; t=1795354452;
+	bh=B2YpqatDPSUl5On3Scqr15nRXXPYDlBJfIeTj6Aa2VI=;
+	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
+	 MIME-Version:OpenPGP:From;
+	b=IY6ejkA5/suChshwsOezv6OLtBzqsbA4luOXxAO2vmgPZGdauXSSQwBbnx/yDYg5N
+	 hcrfKUP35jZntLnF/v3SHN6Fn4zDss8E0SrSyrFFnZEiny9NZqd8al2DgfXuhgtk1T
+	 D3a8cHq48JlTfE5+IWep3JlRy5uD6m1AQ4m5wzFJv9m76cmYFzTKUrxzehbSD0gwlv
+	 mj3YPZHbIcsc5kaTKv+frHzEjjFTIkOpKYQO3PdKgxR2mkASQvfxu6XunRQEfkyWIm
+	 6C/OrOC64go6r73eqcVnTCexZKyG8+OCC2+AxMkysS8d2zssXOA5XdAfWvNf/wpUUz
+	 RDurpIJPGoe9w==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4jXVR60WKDz6v0W;
+	Sun, 22 Nov 2026 14:34:10 +0100 (CET)
+Message-ID: <947615fd284c416891ac6de5d16cdd00ec5267ab.camel@posteo.de>
+Subject: Re: [RFC PATCH v7 2/4] i2c: rust: implement SMBus access via
+ IoBackend
+From: Markus Probst <markus.probst@posteo.de>
+To: Muchamad Coirul Anwar <muchamadcoirulanwar@gmail.com>, Jonathan Cameron
+	 <jic23@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Igor Korotin
+	 <igor.korotin@linux.dev>, Danilo Krummrich <dakr@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>, Alice Ryhl
+ <aliceryhl@google.com>,  Daniel Almeida <daniel.almeida@collabora.com>,
+ Mark Brown <broonie@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,  Shuai
+ Liu <847807867@qq.com>, linux-iio@vger.kernel.org,
+ linux-i2c@vger.kernel.org, 	rust-for-linux@vger.kernel.org,
+ driver-core@lists.linux.dev, 	linux-kernel@vger.kernel.org
+Date: Sun, 22 Nov 2026 13:34:12 +0000
+In-Reply-To: <20261109155743.83740-3-muchamadcoirulanwar@gmail.com>
+References: <20261109155743.83740-1-muchamadcoirulanwar@gmail.com>
+	 <20261109155743.83740-3-muchamadcoirulanwar@gmail.com>
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+ keydata=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
+ jfGillcaQOqFZ3WwVqyzG1BUfTow==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-LlgQf4RobFMqc/n5pj36"
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -77,342 +122,73 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261122-tyr-ioctls-v7-9-3a2af624b992@linux.dev>
-References: <20261122-tyr-ioctls-v7-0-3a2af624b992@linux.dev>
-In-Reply-To: <20261122-tyr-ioctls-v7-0-3a2af624b992@linux.dev>
-To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Johan Hovold <johan@kernel.org>
-Cc: Sami Tolvanen <samitolvanen@google.com>, rust-for-linux@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, driver-core@lists.linux.dev, 
- Ke Sun <sunke@kylinos.cn>, Alvin Sun <alvin.sun@linux.dev>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795352551; l=10160;
- i=alvin.sun@linux.dev; s=20260317; h=from:subject:message-id;
- bh=v3TG9HH3Dq6W5FhkNG5VlmYKBWNfwncWFzzwxA1Dzog=;
- b=3s7gWzophe+eqzHCBliTpRbZlelavfQjLwbyT5KrCxXdEcAl/MzRB2sw9kcRf5Xj4kEAzIbz1
- KCyYhg6qIBdAY/y8sxnt9R5AX4tpV46jgjR+dmVhEAMPDYSaSlOd1wj
-X-Developer-Key: i=alvin.sun@linux.dev; a=ed25519;
- pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
-X-Endpoint-Received: by B4 Relay for alvin.sun@linux.dev/20260317 with
- auth_id=684
-
-From: Sami Tolvanen <samitolvanen@google.com>
-
-Tyr maps shmem-backed buffers write-combine, but on a coherent device
-they are mapped write-back. Cache the coherence at probe and thread it
-through to every shmem::ObjectConfig::map_wc site.
-
-Userspace can opt out with DRM_PANTHOR_BO_WB_MMAP, which maps the
-buffer cached instead.
-
-The shmem layer zero-inits pages through a cached mapping, and those
-stale lines can land over later uncached writes, so fetch the sg_table
-at creation to flush them via dma_map_sgtable() before anyone accesses
-them uncached. Taking the bound device keeps the unsafe
-as_bound() call out of BO creation.
-
-Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-Co-developed-by: Alvin Sun <alvin.sun@linux.dev>
-Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
----
- drivers/gpu/drm/tyr/driver.rs | 13 ++++++++-
- drivers/gpu/drm/tyr/file.rs   |  1 +
- drivers/gpu/drm/tyr/fw.rs     |  4 ++-
- drivers/gpu/drm/tyr/gem.rs    | 61 ++++++++++++++++++++++++++++++++++---------
- drivers/gpu/drm/tyr/vm.rs     |  9 ++++---
- 5 files changed, 71 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
-index ba03cc4c52539..6869ab345d8fd 100644
---- a/drivers/gpu/drm/tyr/driver.rs
-+++ b/drivers/gpu/drm/tyr/driver.rs
-@@ -9,7 +9,8 @@
-         Bound,
-         Core,
-         Device,
--        DeviceContext, //
-+        DeviceContext,
-+        DmaAttr, //
-     },
-     dma::{
-         Device as DmaDevice,
-@@ -87,6 +88,12 @@ pub(crate) struct TyrDrmRegistrationData<'drm> {
- 
-     /// GPU information read from hardware during probe.
-     pub(crate) gpu_info: GpuInfo,
-+
-+    /// Whether the device is reported as DMA-coherent by firmware.
-+    ///
-+    /// Cached at probe via `device_get_dma_attr()`. Drives the BO
-+    /// cacheability policy in `crate::gem::should_map_wc`.
-+    pub(crate) coherent: bool,
- }
- 
- fn issue_soft_reset(dev: &Device, iomem: &IoMem<'_>) -> Result {
-@@ -151,6 +158,8 @@ fn probe<'bound>(
-             // other threads of execution.
-             unsafe { pdev.dma_set_mask_and_coherent(DmaMask::try_new(pa_bits)?)? };
- 
-+            let coherent = pdev.as_ref().dma_attr() == DmaAttr::COHERENT;
-+
-             let unreg_dev = drm::UnregisteredDevice::<TyrDrmDriver>::new(pdev, Ok(()))?;
- 
-             let mmu = Mmu::new(pdev.as_ref(), iomem.as_arc_borrow(), &gpu_info)?;
-@@ -161,6 +170,7 @@ fn probe<'bound>(
-                 &unreg_dev,
-                 mmu.as_arc_borrow(),
-                 &gpu_info,
-+                coherent,
-             )?;
- 
-             firmware.boot()?;
-@@ -186,6 +196,7 @@ fn probe<'bound>(
-                         }),
-                         iomem,
-                         gpu_info,
-+                        coherent,
-                     }),
-                 )},
-                 _: { dev_dbg!(pdev, "Tyr initialized correctly.") },
-diff --git a/drivers/gpu/drm/tyr/file.rs b/drivers/gpu/drm/tyr/file.rs
-index 901c0fb951adf..8fccb42ab9e56 100644
---- a/drivers/gpu/drm/tyr/file.rs
-+++ b/drivers/gpu/drm/tyr/file.rs
-@@ -109,6 +109,7 @@ pub(crate) fn vm_create(
-                 pfile.reg.mmu.as_arc_borrow(),
-                 &pfile.reg.gpu_info,
-                 UserVaRequest::from_uapi(vmcreate.user_va_range),
-+                pfile.reg.coherent,
-             )?;
-             let user_va_range = vm.layout.user.end;
-             let id = pfile.vm_pool.add(vm).map_err(|e| {
-diff --git a/drivers/gpu/drm/tyr/fw.rs b/drivers/gpu/drm/tyr/fw.rs
-index 196ffc96d9d99..1c77bf109a9be 100644
---- a/drivers/gpu/drm/tyr/fw.rs
-+++ b/drivers/gpu/drm/tyr/fw.rs
-@@ -217,8 +217,9 @@ pub(crate) fn new(
-         ddev: &TyrDrmDevice,
-         mmu: ArcBorrow<'_, Mmu<'drm>>,
-         gpu_info: &GpuInfo,
-+        coherent: bool,
-     ) -> Result<Firmware<'drm>> {
--        let vm = Vm::new_for_fw(dev, ddev, mmu, gpu_info)?;
-+        let vm = Vm::new_for_fw(dev, ddev, mmu, gpu_info, coherent)?;
-         vm.activate()?;
- 
-         let result = (|| {
-@@ -235,6 +236,7 @@ pub(crate) fn new(
-                     size,
-                     KernelBoVaAlloc::Explicit(va),
-                     parsed.vm_map_flags,
-+                    coherent,
-                 )?;
- 
-                 let section_start = parsed.data_range.start as usize;
-diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
-index 60f6363995a5a..55e2d67b96d98 100644
---- a/drivers/gpu/drm/tyr/gem.rs
-+++ b/drivers/gpu/drm/tyr/gem.rs
-@@ -7,6 +7,10 @@
- use core::ops::Range;
- 
- use kernel::{
-+    device::{
-+        Bound,
-+        Device, //
-+    },
-     drm::gem::{
-         self,
-         shmem,
-@@ -17,7 +21,8 @@
-     sync::{
-         aref::ARef,
-         Arc, //
--    }, //
-+    },
-+    uapi, //
- };
- 
- use crate::{
-@@ -38,6 +43,14 @@ pub(crate) struct BoData {
-     flags: u32,
- }
- 
-+impl BoData {
-+    /// Returns the flags the BO was created with.
-+    #[expect(dead_code)]
-+    pub(crate) fn flags(&self) -> u32 {
-+        self.flags
-+    }
-+}
-+
- /// Provides a way to pass arguments when creating BoData
- /// as required by the gem::DriverObject trait.
- pub(crate) struct BoCreateArgs {
-@@ -56,24 +69,48 @@ fn new(_dev: &TyrDrmDevice, _size: usize, args: BoCreateArgs) -> impl PinInit<Se
- /// Type alias for Tyr GEM buffer objects.
- pub(crate) type Bo = gem::shmem::Object<BoData>;
- 
-+/// Returns whether a BO should be mapped write-combine.
-+pub(crate) fn should_map_wc(coherent: bool, flags: u32) -> bool {
-+    if coherent {
-+        return false;
-+    }
-+
-+    if flags & uapi::drm_panthor_bo_flags_DRM_PANTHOR_BO_WB_MMAP != 0 {
-+        return false;
-+    }
-+
-+    true
-+}
-+
- /// Create a new GEM buffer object.
- #[expect(dead_code)]
--pub(crate) fn new_object(ddev: &TyrDrmDevice, size: usize, flags: u32) -> Result<ARef<Bo>> {
-+pub(crate) fn new_object(
-+    ddev: &TyrDrmDevice,
-+    pdev: &Device<Bound>,
-+    size: usize,
-+    flags: u32,
-+    coherent: bool,
-+) -> Result<ARef<Bo>> {
-     if size == 0 {
-         return Err(EINVAL);
-     }
- 
-     let aligned_size = size.checked_next_multiple_of(PAGE_SIZE).ok_or(EINVAL)?;
- 
--    Bo::new(
-+    let map_wc = should_map_wc(coherent, flags);
-+    let bo = Bo::new(
-         ddev,
-         aligned_size,
-         shmem::ObjectConfig {
--            map_wc: true,
-+            map_wc,
-             parent_resv_obj: None,
-         },
-         BoCreateArgs { flags },
--    )
-+    )?;
-+
-+    bo.sg_table(pdev)?;
-+
-+    Ok(bo)
- }
- 
- /// Look up a GEM object by handle for a DRM file.
-@@ -82,18 +119,17 @@ pub(crate) fn lookup_handle(file: &TyrDrmFile, handle: u32) -> Result<ARef<Bo>>
- }
- 
- /// Creates a dummy GEM object to serve as the root of a GPUVM.
--pub(crate) fn new_dummy_object(ddev: &TyrDrmDevice) -> Result<ARef<Bo>> {
--    let bo = Bo::new(
-+pub(crate) fn new_dummy_object(ddev: &TyrDrmDevice, coherent: bool) -> Result<ARef<Bo>> {
-+    // FIXME: use a Rust resv-object abstraction once available, rather than a real BO.
-+    Bo::new(
-         ddev,
-         4096,
-         shmem::ObjectConfig {
--            map_wc: true,
-+            map_wc: should_map_wc(coherent, 0),
-             parent_resv_obj: None,
-         },
-         BoCreateArgs { flags: 0 },
--    )?;
--
--    Ok(bo)
-+    )
- }
- 
- /// Specifies how to choose a GPU virtual address for a [`KernelBo`].
-@@ -131,6 +167,7 @@ pub(crate) fn new(
-         size: u64,
-         va_alloc: KernelBoVaAlloc,
-         flags: VmMapFlags,
-+        coherent: bool,
-     ) -> Result<Self> {
-         if size == 0 {
-             dev_err!(vm.dev(), "Cannot create KernelBo with size 0");
-@@ -146,7 +183,7 @@ pub(crate) fn new(
-             ddev,
-             bo_size,
-             shmem::ObjectConfig {
--                map_wc: true,
-+                map_wc: should_map_wc(coherent, 0),
-                 parent_resv_obj: None,
-             },
-             BoCreateArgs { flags: 0 },
-diff --git a/drivers/gpu/drm/tyr/vm.rs b/drivers/gpu/drm/tyr/vm.rs
-index 45e42e210de29..8d5be50c5a899 100644
---- a/drivers/gpu/drm/tyr/vm.rs
-+++ b/drivers/gpu/drm/tyr/vm.rs
-@@ -474,13 +474,14 @@ pub(crate) fn new_for_fw(
-         ddev: &TyrDrmDevice,
-         mmu: ArcBorrow<'_, Mmu<'drm>>,
-         gpu_info: &GpuInfo,
-+        coherent: bool,
-     ) -> Result<Arc<Vm<'drm>>> {
-         // As in panthor: the CSF MCU is a Cortex-M7 and can only address 4G.
-         let layout = VmLayout {
-             full: 0..u64::SZ_4G,
-             user: 0..0u64,
-         };
--        Self::new_internal(dev, ddev, mmu, gpu_info, layout)
-+        Self::new_internal(dev, ddev, mmu, gpu_info, layout, coherent)
-     }
- 
-     /// Creates a user VM, splitting the GPU VA range per `user_va`.
-@@ -490,6 +491,7 @@ pub(crate) fn new_for_user(
-         mmu: ArcBorrow<'_, Mmu<'drm>>,
-         gpu_info: &GpuInfo,
-         user_va: UserVaRequest,
-+        coherent: bool,
-     ) -> Result<Arc<Vm<'drm>>> {
-         let mmu_features = MMU_FEATURES::from_raw(gpu_info.mmu_features);
-         let va_bits = mmu_features.va_bits().get();
-@@ -503,7 +505,7 @@ pub(crate) fn new_for_user(
-                 range.end
-             );
-         })?;
--        Self::new_internal(dev, ddev, mmu, gpu_info, layout)
-+        Self::new_internal(dev, ddev, mmu, gpu_info, layout, coherent)
-     }
- 
-     /// Initializes a VM with the given layout.
-@@ -513,6 +515,7 @@ fn new_internal(
-         mmu: ArcBorrow<'_, Mmu<'drm>>,
-         gpu_info: &GpuInfo,
-         layout: VmLayout,
-+        coherent: bool,
-     ) -> Result<Arc<Vm<'drm>>> {
-         let mmu_features = MMU_FEATURES::from_raw(gpu_info.mmu_features);
-         let va_bits = mmu_features.va_bits().get();
-@@ -521,7 +524,7 @@ fn new_internal(
-         let reserve_range = 0..0u64;
- 
-         // dummy_obj is used to initialize the GPUVM tree.
--        let dummy_obj = gem::new_dummy_object(ddev).inspect_err(|e| {
-+        let dummy_obj = gem::new_dummy_object(ddev, coherent).inspect_err(|e| {
-             dev_err!(dev, "Failed to create dummy GEM object: {:?}", e);
-         })?;
- 
-
--- 
-2.43.0
+OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
 
+--=-LlgQf4RobFMqc/n5pj36
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, 2026-11-09 at 22:57 +0700, Muchamad Coirul Anwar wrote:
+> Implement fallible SMBus byte and word access for bound I2C clients
+> using the generic I/O backend infrastructure.
+>=20
+> I2C transactions may fail due to NACK, arbitration loss, or timeout, so
+> use FallibleIoCapable rather than the infallible IoCapable interface.
+> Propagate errors returned by the I2C core to callers.
+>=20
+> Provide smbus_io() for byte-addressed register access and standalone
+> word helpers for layouts not represented by the Region-based view.
+> Also provide smbus_read_word_swapped() for devices that transmit the
+> high byte of a multi-byte value first.
+>=20
+> Restrict these operations to I2cClient<Bound> so bus I/O is only availabl=
+e
+> while the client remains bound.
+>=20
+> Keep the raw SMBus FFI calls and errno conversion in safe bound-client
+> methods. Include a generic no_run example for the word-read helper.
+>=20
+> Suggested-by: Shuai Liu <847807867@qq.com>
+> Link: https://lore.kernel.org/all/tencent_173B7731E90B9624F9F82613DC3031B=
+70907@qq.com/
+> Signed-off-by: Muchamad Coirul Anwar <muchamadcoirulanwar@gmail.com>
+Hi,
+
+please add me to CC.
+
+Could you make `I2cClient<device::Bound>` Sync in this patch?
+
+`I2cClient<device::Normal>` already implements Sync. Functions exposed
+only for `I2cClient<device::Bound>` should be thread safe.
+
+I will need this patch (including the change mentioned above) for a
+future driver.
+
+Thanks
+- Markus Probst
+
+
+--=-LlgQf4RobFMqc/n5pj36
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmsC70wbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPS2xMQAKDLB02pKK6mopiQyUo4
+Rw9Re4Hxwma6eGa1pfpDoTjkft+qnAjAoaZHb6hnGHojepz2FdRyVNxTARZnByFA
+VHnddeyhZxrK19kmKRSD/RF79bW9V6QEqouu90CXUE9glh9KlfnjsyLrk+heqxN4
+5p0n2lDo3DFczV1lhZPgkJnp+Wb8Xrys9SWX4aCC9vE5MMeQjRzJVxzlnpiQxY3z
+5SOCMbxu1mXnOnWGI1yWmBxbK1HRNhydPhwo/PkAz2KIeXFdaB1brMME+eck9fKl
+NxK40cAzmKgO6JWK2yG4qFMhWp+ZYcZiv/n4BR3aEeRuG+Akp8A+eUKWXV8aSqm6
+HPbBkU7yaugyyYqcq6wJw55dbde7Klbd7XKBWWK+7ol7ut7nAkTsi5HSh/zeX5b7
+I2OB5H+YKPCMy5vB6DCPhIN2gYO+V2N8qwfbbPcFkbLUNumfdk44ABk+Wds1Thu5
+vwagzVEu/aXOt0XT+aUmH5zzutzvwDXZKyHEuGt4wstKXHAlPyIjydM9St32l6QF
+L0H1XRxUAWHpr6GnlhxWAUAzu/UebGviaVAtAl1WDgrZQIWAwG1tevLVXkkju/J5
+euYBaeJ3yvKDBY+sm7TkbWH9iOCikShqAeA2ZNuAs/fE5H9TVMhyZd4pQSU0ifuw
+UZStFoSLiv1XrJYCjL/baqXI
+=u56D
+-----END PGP SIGNATURE-----
+
+--=-LlgQf4RobFMqc/n5pj36--
