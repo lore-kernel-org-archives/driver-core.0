@@ -1,65 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795424788;
-	b=ooB4V1QuDEnh0Gvwdz9h5+z0kBA0IB0KRxnWw4afsv8f7O3aNGcsgYoZrQWihDAVpR4E
-	 4AlwjVQP/stJgcxSb1BHNXQUWLBXJKyiERJuNdT9fXmo/QyNPmJJUslYTNuwz4Mdfez28
-	 NrsuSrpEAXY0KXBhP0zS8V/1BjxVJnLq0QvM0sBQyVTo8DzRitGuRb5wYclwk6RpYnQ6K
-	 +9DVuGrLQ4+n9Ie1QkGpZDDXWpzYbanS1f3c43yDqNxduOCh8/1qIeD3KpvRwbBjfNkaT
-	 WGa7RKinCv9273mfZLc9cVTNVQcBVoNxAqUjLlhZyfBzhrpqHN/WBD9YEkDH9fT/JBA==
+	t=1795424859;
+	b=zs77JG7c195l9RIIqcFt1CwEgysSwawRxY/nIyWIYywYywbxN7cux4lv9xHv9XXLHHLF
+	 B+dAlB14Hs9YvrcArknBtuoiCqU2VoqXMYxH+BsYGoN1qLPZ+ABCp/9l70n1dLhGvTecF
+	 3Jf8DiR25EBFu3rbKAspKwLLvAaGqM9n/ZrbEG9H5dK9QTWCKqaPeouPMZsL78DpngFH2
+	 Pjyrdaqb9PM0X6KDIhdU59nXi/Zceh2mUiVSfCQ5rASjeJPg7eQ1oSdU5qq7+fwsUO3qb
+	 d7+qSYA/z7palU3doJT2NfuWXSVObtuKgrtvhxdLGLMzuBEMF38QvPC8hV1cwMxxm6g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795424788;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=z3DrjhrQrO2BYHo1W8YewL8VZiJu1abw+mdAXkVRo10=;
-	b=j56fXpiCDQI4XBf4ao1VifKFBwtLkv9+laVRuz+1Ub6fCi5s8UfrDKf+ZcAmk/1ODXvw
-	 1dBUZQbpoD9oRjbHph/drW//pAKYU4ujgUIzB8X3+iEuQWKWvWGlFZCI1lq5lm1ULvxAy
-	 70QaLEqs+iqMPkgpuGXySi6ajUcBXfSezaXQtU0Pa4MAkGqI9oQCv7pYyB/e4udU80zr2
-	 lt/MdMKt8A2ZSgaSHBrLIqy/QBglSCLQIqRqqRuW1u4bZuEduNqzW9t4aRUm9nYcyqumM
-	 hAWilUxg8uOMCNIuI2ajzitSTWCpTfBYEjHzd1zIJnC3F2315Ier8SBHkUkkLaDhWmQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795424859;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=jLIPT02dVVv6qszhT2W4/G5KPBa16vNIGlRpw6ARLT0=;
+	b=twEZSnr5JM/gqHwjH7e5ospZjAJhMnrKbAiHLp+1n6pxxpa9G/7AHGRLzIKAFKhWvwLu
+	 5yyNNKBAc0J5pg3WLTtKOP0wEohe0THZaR+x+k4dA9wb6HGdMMSeafvmY9fMowPXZyvYH
+	 BQ77IA+SO6NlVY984ejghOh1MRrhlDOU/DHGZUvkc3T7ctf/u7pwDxCYWqT6HdUshoH7E
+	 Vr/uKDvyBLYj1nmpP30opDZfOjfi7d1N7sDh9Zh4nDYqoT7sIL4SFt0+Qy6JR5Cd7AnXS
+	 vR1LJoC4R2xMaSn/eXfDw91MMHKO25pGs34Lq+US5K6MU0VBkAa2pF8CkBEyuMf+DZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Ev/KbF3O";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kYW7ZfgB;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C426E606A31A;
-	Mon, 23 Nov 2026 09:06:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 502F3606A321;
+	Mon, 23 Nov 2026 09:07:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ev/KbF3O
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 866181F000C6;
-	Mon, 23 Nov 2026 09:06:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kYW7ZfgB
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62FCD1F000D8;
+	Mon, 23 Nov 2026 09:07:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795424788;
-	bh=z3DrjhrQrO2BYHo1W8YewL8VZiJu1abw+mdAXkVRo10=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Ev/KbF3OKJT1NrTyypHir43Ji3PypA3Ny9jOe/nVKGfsjHzqeP+Cwa+SPtqolXMGN
-	 lydZKWAOvT/HA8KHudaFIV+wagOvjUDyePIcmfTVqITJ9limgPbzSAN+FO1kMxrZMt
-	 6owFBS5no6R0UIhs/But10CR9q+ciC9TrvGjKNnlzVBK7ou00dslYtGotEAIEKIDT3
-	 0fQXhs/xSoF3Lkv6qqOkx8RJcVmJsK03JZkNV5cG30uqETnh/WIYOwF+okO9AdHcI6
-	 ezuJfAtXmsEFZDFKStxv7Jq4HAQo4w+gOXH/S2IQWa4/peGaVy9ZxxB2+J8JKKON0p
-	 CzCFWyHfddqZA==
-Date: Mon, 23 Nov 2026 11:06:23 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
-	linux-coco@lists.linux.dev, Dan Williams <djbw@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>,
-	Alexey Kardashevskiy <aik@amd.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Lukas Wunner <lukas@wunner.de>, Ashish Kalra <ashish.kalra@amd.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH v1 00/10] PCI/TSM: Support guest TSM drivers
-Message-ID: <20261123090623.GK14811@unreal>
-References: <20261123083337.2731019-1-aneesh.kumar@kernel.org>
- <2026112325-emit-squeezing-5d96@gregkh>
+	s=k20260515; t=1795424858;
+	bh=jLIPT02dVVv6qszhT2W4/G5KPBa16vNIGlRpw6ARLT0=;
+	h=From:Subject:Date:To:Cc;
+	b=kYW7ZfgBSvpg8KfKNVpDYkG5LXZZ9zcSkLwhJrrDQZ1NBk5pKWgcD3RgjhOTCeOyv
+	 odFFw0v0DWmrKvfMmFRtO1icOKyTr7f+68iQ2bMnJOSdkEqie3qffCIIpJStNpx0uP
+	 WT2L5l7jprUtCBXjJ8qVKgOm1o56x8wdOLchN/1qtOtat8DlID4CfEZnRXochJ/6Xy
+	 y5q2XK1Aix6AOJWUMlmlddAcRhjywx5/10nSfvUyrQtk4kFrYzCajIZ29EdHNb2G4M
+	 2HbtGUwU3torm+LUezSy0mZIeo7OJxnLQtQ9tcIIYEqJ54g4g/LKCCy3ZCl7olWoZI
+	 OSk6XFEXIVIPg==
+From: Joshua Crofts <crofts@kernel.org>
+Subject: [PATCH v3 0/2] PM: runtime: add new runtime metrics and summary
+Date: Mon, 23 Nov 2026 10:06:53 +0100
+Message-Id: <20261123-pm-runtime-summary-v3-0-81a966953a81@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -69,48 +53,112 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026112325-emit-squeezing-5d96@gregkh>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAC0CBGsC/33NQQ7CIBCF4as0rMUU0IquvIdxAWVoiUKboSU2T
+ e8u7UoT4/J/yXwzkwjoIJJLMROE5KLrQg6xK0jdqtAAdSY34SWvGGMl7T3FMQzOA42j9wonKo3
+ hZ8WEFLom+bBHsO61obd77tbFocNp+5HYuv7lEqMlZRy05VIYfZLXB2CA577Dhqxe4p9G9dPg2
+ VDCyOp40MpK+2Usy/IG0IOyBfkAAAA=
+X-Change-ID: 20261110-pm-runtime-summary-8dd29a1383bc
+To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, 
+ Samuel Wu <wusamuel@google.com>
+Cc: linux-pm@vger.kernel.org, driver-core@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Joshua Crofts <crofts@kernel.org>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795424856; l=4098;
+ i=crofts@kernel.org; s=20260422; h=from:subject:message-id;
+ bh=OtDsCHXwWD+Ufbu1uwi7CcAIu2+RlIScZzvgxk6ftQg=;
+ b=kLr1WSPWI7eZxcI6jLCNGqF/iv0BwCUxTkm1NbmxA9jWehzuL2FNVHScLyhUk7LjXahqXEnie
+ jkKSpxyElxzCaZPzx3/S7Z4RX/2O8qzJroRcQ7QSuBzr5IwLIoQHB8l
+X-Developer-Key: i=crofts@kernel.org; a=ed25519;
+ pk=Xd+UVoRPiiI0K3LHQ2XIcXmO0jvVuFTv9eTx3lgBphI=
 
-On Mon, Nov 23, 2026 at 09:40:55AM +0100, Greg Kroah-Hartman wrote:
-> On Mon, Nov 23, 2026 at 02:03:27PM +0530, Aneesh Kumar K.V (Arm) wrote:
-> > This series adds the PCI/TSM support needed by a TEE Security Manager
-> > (TSM) driver in a confidential guest. It adds device lock/unlock,
-> > helpers for recording device acceptance and parsing MMIO reports, and
-> > DMA callbacks used during PCI driver attachment. The guest TSM driver and
-> > attestation commands using these interfaces are in follow-up series.
-> > 
-> > This series is based on Dan Williams' "[PATCH v2 00/19] PCI/TSM: TEE I/O
-> > infrastructure" posting [1], particularly the guest LOCK/UNLOCK, ACCEPT
-> > and MMIO report work [2-4]. It retains device_cc_accepted() and the
-> > confidential-device acceptance model from that posting, with changes
-> > adapted to the current PCI/TSM structures and reference APIs. Dan's
-> > device-core acceptance helper and per-host-bridge IDE stream reporting
-> > patch are also included.
-> > 
-> > This series does not adopt the Device Trust changes from Dan's "Device
-> > Evidence and Trust for PCI Security Protocol (TDISP)" [5]. That work is
-> > being developed separately in Leon Romanovsky's "driver core: Authorize
-> > device trust before driver binding" series, [6]. Confidential-device
-> > acceptance is kept separate from that driver-binding trust policy.
-> 
-> But it should not, as you are making driver core changes that will
-> mirror the same thing that that patchset is attempting to do.  Please
-> work together on this.
+Add a new set additional PM runtime metrics to improve power management
+debugging and reporting (these metrics may be useful to userspace utilities
+such as Powertop).
 
-+10000000,
+MOTIVATION:
+The current implementation only measures the duration a device spends in
+suspended or active mode, which is very limiting. We can't find out how many
+times a device changed state or what its shortest suspend cycle was.
 
-Greg,
+This overview would be useful for detecting power "thrashing" and tuning
+autosuspend delays. Currently, sysfs only shows the total time a device spent
+in active and suspended mode; from an energy standpoint, a continuous 50
+second suspension is different from a device cycling 1000 times for 50ms each
+(these transitions can be pretty power-hungry). This could help userspace
+utilities like PowerTOP to more effectively determine what is causing an
+increased power consumption.
 
-This series came as a surprise to me given the fact that device trust
-series is exactly for that - allow confidential computing.
+NEW FEATURES:
+This series introduces the following new metrics:
+- resume_count : number of successful transitions to active
+- suspend_count: number of successful transitions to suspended
+- last_suspended_time: duration of the most recent sleep cycle (ns)
+- min_suspended_time / max_suspended_time: shortest and longest sleep
+  cycle durations to help detect power thrashing (ns)
 
-Adversarial is equal to the "cc_accepted".
+By reading the debugfs file /sys/kernel/debug/pm_runtime_summary, you get
+the following table describing the power stats of each device with
+runtime PM enabled:
 
-Thanks
+Device                           Status        Resumes Suspends   Active(ms)  Suspend(ms)   Last(ms)    Min(ms)    Max(ms)
+--------------------------------------------------------------------------------------------------------------------------
+0000:00:02.0                     active              1        0        45688            0          0          0          0
+0000:00:1f.0                     active              1        0        45687            0          0          0          0
+0000:00:1f.2                     active              1        0        45686            0          0          0          0
+0000:00:1f.3                     suspended           1        1         1658        44028          0          0          0
+00:03:0                          active             15       14        19627        25899         42          5      14811
+00:03:0.0                        active             14       13        19626        25900         42          5      14811
 
-> 
-> thanks,
-> 
-> greg k-h
+TESTING:
+Tested with an x86_64 defconfig kernel and QEMU.
+
+AI ASSISTANCE:
+Gemini was used to prepare this series.
+
+Signed-off-by: Joshua Crofts <crofts@kernel.org>
+---
+Changes in v3:
+- Guard new metrics with #ifdef CONFIG_DEBUG_FS to reduce overhead on
+  non-debugfs enabled systems (Rafael)
+- Fix runtime status transition fixes flagged by Sashiko
+- Link to v2: https://lore.kernel.org/r/20261116-pm-runtime-summary-v2-0-a3d8654baf8f@kernel.org
+
+Changes in v2:
+- Drop sysfs patch as it would have a non-negligible impact on boot times and
+  the debugfs summary is enough (Samuel Wu)
+- Expand cover letter
+- Fix Sashiko findings - typo in commit message, race condition, duplicate
+  function call
+- Link to v1: https://lore.kernel.org/r/20261110-pm-runtime-summary-v1-0-12ebf283db78@kernel.org
+
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Pavel Machek <pavel@kernel.org>
+To: Len Brown <lenb@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Danilo Krummrich <dakr@kernel.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: linux-pm@vger.kernel.org
+Cc: driver-core@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org
+
+---
+Joshua Crofts (2):
+      PM: runtime: add additional suspend/resume metrics
+      PM: runtime: add debugfs entry for pm_runtime_summary
+
+ drivers/base/power/runtime.c | 179 +++++++++++++++++++++++++++++++++++++++++--
+ include/linux/pm.h           |  16 +++-
+ 2 files changed, 189 insertions(+), 6 deletions(-)
+---
+base-commit: d40cb8a12ed25789f39404c5f7968a65e98d89c3
+change-id: 20261110-pm-runtime-summary-8dd29a1383bc
+
+Best regards,
+--  
+Joshua Crofts <crofts@kernel.org>
+
