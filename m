@@ -1,101 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.44
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795456427;
-	b=q9p7VARnG8XPGcvPQJeE0QFvVqqkREQ+hlGoBcu+F8d5+WMYtoeQOXQh+wUNgZb/WKTx
-	 czitlCIuWByWY+DVqwJfIfekHZ75xHy8uRtjvAbCdxXtgBeSND+DebY0tScsX/Fq+4saK
-	 Flor218bwLQMNAtvzPGEpvPCSCzXOsFPO/FKHyHTp8FjCWtVqv0Jztrmfa4iGadA5OkE9
-	 7kGNnnmfhTyB9ZCfHUq5RAFA5qIhXnrsKzDj2/ldM+kbXdyk0lf1++nGTLQ0zgWnVUrK/
-	 CCtYxe4w5NkB6XoxUoDgx0dzyIsc+KO/v2LRQqwUl/qYp+Bxk9Tm3t3SiIiYVbplurQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795456427;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=RRZcWU4JooS1Xssmhmit/2z3n2umybpGN0QWpPuhuY4=;
-	b=ZXtcOlWkpFYgS/Ecp0YNZDy1YkFc7bqhRaROgiZnYKZWDMU/gNxuMvfS2v0u2GzOpgea
-	 KcXbq82azfBGpevDHSqLK5qZrnni0wN2Y3wCWW5NrN6nfx7cyEsUQcSvWWI5joDmXk70O
-	 CFdoh7zOGZ5gru1ifslnyxRagwQJG0IhK/swiTXISH2Dsdu7fleapI8kPtORyLMqiu0R9
-	 I3H7bjOcTty/mlI7lLbJPywsBDIvdMmmYT6du3NvQIZOJKhwuHKwWzXWfz5ThPeMUEFBD
-	 d6RQEnprqOGizTaKvlwZB3vJUtPEf7XdxDEH3jieObQmf7Ljz1BdTVxNsI1J7Jw1+vA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=VtiZdbya;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795460311;
+	b=MRfQ/UZow90FRFPdWUoXZjtwNz4UU/+CxqgMq2BHhb0EWbJvrU8KW06131qkX+Rwv1yX
+	 yGukaBNpo1NI2qG8iYlQJqQRHbU0i+1irGZdFyqDLvrwk7I/D6Se81rx9on+CuIWfhXQj
+	 POunSAaxu98VyU8EExy31B4E5y0ete5lhTUXAqb/rtoJFFc6bhwFSPa1OFzc8xkNs3PbE
+	 2NeF9La3WDa8TK9lhUeW1PzL0Cfil0BRoVxb9l05KwSll5uNpXyGr7T8DrpwYYz0jy3cV
+	 znHZegXv9Me95QCE+iJUmaGEfjVK7ZJumN1CdNYR06vaSos04/zw2Sy2p91ZEJF2TjQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795460311;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=fR7a34se89HC2qbh5eWb38xvg0rF06ySJI22k3+ve78=;
+	b=uq3+LcilOnp1VXmS+iYx4QsWewhDJTG3lEYJUslb2qybTjz+k7UU5dzCcHD57zw0eCic
+	 9ehKO+gf0KLvJZ/IM1bPGqSfIGN/Cwd/9UqDtwNkqkNKTi+9KUgE5EVLwgBQMKEtczZHK
+	 oPj/yY93uE4Vk5TDsHdT5V5rykdy97oAX76fRn+YVrwgge6J/SNFIW4gMaouhp8CZ9bt+
+	 50JAAjIz/oszv/RRYYGXpHYQVyU3qLT2zf3Y8lquPBgOUVZ5PEwHPtdEU0F967sLA/oO3
+	 4u+H7OovgDtFtFaIoWqbF0SQSAnicamy6wtl8zZcpLAUtfX6IPV6ofFGTDhi60gasnQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RPAFbQgJ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD210606A31A
-	for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 17:53:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DD210606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7953D606A31A;
+	Mon, 23 Nov 2026 18:58:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=VtiZdbya
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4bb845433b8so77695e9.0
-        for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 09:53:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795456425; cv=none;
-        d=google.com; s=arc-20260327;
-        b=X+E26m57TT8pHFqWoOsGDKaIa/whd4OBb+4tlUGnmruUjDUl0O2oiG4OZaQDy6MEZL
-         GOYY/cZkjBsQpg8+CmsC+lDq115qk8640uFKZnILY6aQjQswdwduVSNTn8hK97O4x/OJ
-         7enWvx9sbhli1NUZDOsfc2OEnnUzWg/4RLEjPrB4Q7iFM0gu0m5yflKZht/ztYRaMVTQ
-         djF04xvs4spSB5cxRMq152d7EuNLNaplFFF24PjRI6fa454t0Eivf74gXn5kVM4HTMLK
-         P0+eheD80+F+3KORY9HM3j3fw9/QXF6rX0opQIpYy3m1Q0eE+pRgLSkJB7YcDzguGzqb
-         r+Uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=RRZcWU4JooS1Xssmhmit/2z3n2umybpGN0QWpPuhuY4=;
-        fh=ZAbtjaS//q4lD2ARsyxRmLtVxPbK9ojhznD0vkUQxPM=;
-        b=osSGOFuTm7mnLnr7THQ/ol1bCVOfD9+5c8jatXNF+Bt7ZgXCBe+hgTTdeCw+cD1Hfw
-         ODn/ncHY3VMu11059wCUxv3az+Y1gFwpAAmfXSMm0T9rv58zg5gcBpzuuE9QOW5ueZiY
-         jtwwMbk/MxNMKSAekWCz7nULl2KfVAC/OTLbDsXK0rLEZ9L7fNog7uJEC3n65U/rVhtd
-         trZFX8IReR1dI617CJu103oXTGcysYVHLA13fEIR4rOjam4tNTVrkKCYfNvgbJ2LM0Wn
-         uN/BJvuPuGlrshcn2QlIxeTQXpuwldcX0z5Rq0M6k0zz+MJvfZDpFJMEbOKAYPXFwWtd
-         fvHA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795456425; x=1796061225; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=RRZcWU4JooS1Xssmhmit/2z3n2umybpGN0QWpPuhuY4=;
-        b=VtiZdbya0latErz0ge5+VhlJ10glonZMUJ7z3IIcmQeN7G23S8PZBBy0hV5p9BKiR2
-         SD2pcOiY7DrzYEh+2nbQIj2LKCiSl/Pi2s1uwN7yRaUmKrPbCPo/rahQFvYp6QebuyeK
-         t5DReWvwk6kRMgK/TNnhHnlZ8qd5SlGIbs+Hzltty07KaPWysoblCwUZafeVnMtogQON
-         w46WJv/YjpkmMvmGXvVOsiGOf27h79XGuK5Mpw505SaZsEpAwG6EF+nEFxjziVW2nirN
-         wy03ba1HYxBBWxmG5dGnEPYWUq+bXi/qmBJvmM8a6WfhgMMY3YoUb/lF3mzTHiUvCDJc
-         Y/AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795456425; x=1796061225;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=RRZcWU4JooS1Xssmhmit/2z3n2umybpGN0QWpPuhuY4=;
-        b=u5bKVN/0XnE6swgzhWZ8dZQM4fYuagXKq6e4iNDKX3PQCGtWUAQj2+oXvS2jknISIY
-         HT2I4jHIy2NKuiqK8FAcoBMalJtV0eFeFSvxmMlUQUqTC3sV6FK8SJ8Z03vo45VP0UHe
-         sLnouoWqDHh3mQyQ+eTmCTHqTcX6xADOBXCLlKWZdaP6iRzot78UZbHD40qYISKMITIq
-         XyjOC1T6gy9OT5pdLHILG1tI60GZFoe137vaTAN8imvnCqzfQUEgaoTg8VvR3Mrq1/qY
-         vtk3l7jLeta0/Y5VGMtUh0NzxnO12UtqvPILUl44XgG8aXiOWFNFVM+KvOVgdMXWaWs5
-         Ciaw==
-X-Forwarded-Encrypted: i=1; AL+hErGJdyh74a89Csomq1y0IeYsZVUiZV9/HT8YcNJm1IODP2LP80PeUupztgaGKiSArP1dtc2bFeasGue1EA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+sGdnmA9zw3tv0c6aS8yUoRhc/wt2EEL0dc6VNIhddXjbt0TQn
-	ACtwXF/waXh37A9cUi0NpebGlVwCun5mqu9Z+zspdlQBVBVTNcNdiGB6LTLyiIjUSiR9d0wxQEO
-	y8frewjbw3+6s/78/OhZFQrVspbB4SXWObmsGGHQ8
-X-Gm-Gg: AZFdTZedfbN/NdeiN8wTg+ZU6jNlJMmxLLiIBDSCvKUGGJSjUDzM/LxcoeUo6f6xk5d
-	VoyYnyKOys2bXLOLv8dD29V68FbkxbHPVdtarFNA0EntTj5lrIiCDIGkCcMrojkvg/7bJIaoewg
-	pHkbtWOOju5bJpmuZ8JRp30IhepzqEJ3XouKHmMzXuzbysuonIejg751DjtwYUmepMb7vCuO0/Y
-	otkqPjD1I+TUvlRfSyl3ih0Cwl4HamGSZ+dWcjJPqU1gb0BbBBorLwEBtpI1R9aSjNULa4zJKO6
-	pbFd9SfwHah14sdEh6qwjlsFoKs2rlSj7ziqb3ve0w/TO95N2jE1k+JLDy2Wy2ez4t0yyizALXE
-	ABMH3LkuPEyIBotQFhHDCQX6f9266DWEc4diStf4KNZPDvOZMvEk6B3YHRxcLRTs7sVJQSD+wmC
-	dVsgdtX9+RSelgpNGUMUTczMV8
-X-Received: by 2002:a05:600d:6512:10b0:4bb:7ae3:3517 with SMTP id
- 5b1f17b1804b1-4bb90bc3163mr1231475e9.4.1795456424900; Mon, 23 Nov 2026
- 09:53:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RPAFbQgJ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F8401F00A19;
+	Mon, 23 Nov 2026 18:58:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795460311;
+	bh=fR7a34se89HC2qbh5eWb38xvg0rF06ySJI22k3+ve78=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RPAFbQgJIsY6Cbfkts+Xb5iSEc3MKvrSOSy/0vixNIZgILppJcQli8+0SVtZIg1IV
+	 8qO3Ur+Tr3b0kf+oIsu0pVCEKMpIVKbY3s7i40Y9j7c9YoA5dQFSJOfSyi2IiT1XZb
+	 h//2/06SmpC30k6uoIK8tlSZT2DEvfU+fGyeW7+AQkY7bQP5mnjnbLio8yNywl09RM
+	 esz+e2V0VTsg69f43sQ9LjNM0S0eNmxEUZffnfwC3k8rp/7+MvS60l27Rte98OEQLO
+	 rXQvmnF7XK9oLc08ls2volRTMSbUckS0KR8QUnl7wxsRSojiwh0sVma6/2xiTrKOKd
+	 q8igKXUIvrBBA==
+Date: Mon, 23 Nov 2026 20:58:26 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Nicolin Chen <nicolinc@nvidia.com>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-coco@lists.linux.dev, Dan Williams <djbw@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Xu Yilun <yilun.xu@linux.intel.com>,
+	Alexey Kardashevskiy <aik@amd.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Lukas Wunner <lukas@wunner.de>, Ashish Kalra <ashish.kalra@amd.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, patches@lists.linux.dev
+Subject: Re: [PATCH v1 00/10] PCI/TSM: Support guest TSM drivers
+Message-ID: <20261123185826.GP14811@unreal>
+References: <20261123083337.2731019-1-aneesh.kumar@kernel.org>
+ <2026112325-emit-squeezing-5d96@gregkh>
+ <20261123090623.GK14811@unreal>
+ <yq5a7bi3riha.fsf@kernel.org>
+ <20261123115803.GN14811@unreal>
+ <yq5awlq3pto0.fsf@kernel.org>
+ <20261123135638.GO14811@unreal>
+ <20261123152533.GE179082@ziepe.ca>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -105,65 +78,34 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261120-work-kernfs-delete_self-v1-1-514a35d04431@kernel.org>
-In-Reply-To: <20261120-work-kernfs-delete_self-v1-1-514a35d04431@kernel.org>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Mon, 23 Nov 2026 09:53:32 -0800
-X-Gm-Features: Aa3M54ob7XYovyBMvNusAZSyIh_lIUnU-OICma0eFsVui65MkMhLZKbHyrFxGng
-Message-ID: <CABdmKX0gJbjX89B7Cxerh7AUjP+dJSOm09TmY+Q_AYTge5Ukww@mail.gmail.com>
-Subject: Re: [PATCH] kernfs: clear i_nlink before deactivating removed nodes
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tejun Heo <tj@kernel.org>, driver-core@lists.linux.dev, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jori Koolstra <jkoolstra@xs4all.nl>, 
-	Ian Kent <raven@themaw.net>, Meta kernel team <kernel-team@meta.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261123152533.GE179082@ziepe.ca>
 
-On Fri, Nov 20, 2026 at 1:00=E2=80=AFPM Christian Brauner <brauner@kernel.o=
-rg> wrote:
->
-> __kernfs_remove() deactivates the whole subtree first and only clears
-> i_nlink on a node's inodes later, once it unlinks the node from its
-> parent. In between kernfs_dop_revalidate() already fails for the node,
-> so a lookup that runs into one of its cached dentries kills the dentry
-> while i_nlink is still 1. For a file of a cgroup that is being removed:
->
->   rmdir("cg")                          stat("cg/cgroup.events")
->   css_clear_dir()
->     __kernfs_remove(cgroup.events)
->       deactivate the node
->                                        kernfs_dop_revalidate() =3D=3D 0
->                                        d_invalidate()
->                                        dput()
->                                          dentry_unlink_inode()
->                                            i_nlink =3D=3D 1, no IN_DELETE=
-_SELF
->       kernfs_unlink_sibling()
->       kernfs_clear_inode_nlink()
->         i_nlink =3D=3D 0, but the inode has no dentry left
->
-> The inotify watch keeps the inode alive, so nothing ever sends
-> IN_DELETE_SELF for it and the watch only goes away once the watcher
-> closes the inotify fd.
->
-> The window covers everything between the two loops in
-> __kernfs_remove(). kernfs_drain() drops kernfs_rwsem and waits for the
-> active references and open files of the node, and the clear itself
-> waits for kernfs_iattr_rwsem behind every concurrent permission check
-> and stat(). In a VM with a few threads stat()ing a cgroup and one of
-> its files while the cgroup is removed, IN_DELETE_SELF for the watched
-> file got lost in 16 to 33 out of 150 rmdirs, and it didn't show up even
-> after dropping the dcache.
->
-> So clear i_nlink in the loop that marks the subtree as being removed,
-> before a node turns inactive. kernfs_rwsem is held for writing there, so
-> no new inode can show up for these nodes while the loop runs, and once
-> a node is inactive kernfs_get_inode_locked() refuses to attach one. Two
-> overlapping removals may clear the same inode twice, which is fine.
->
-> Fixes: eea5d2bb34ba ("kernfs: Send IN_DELETE_SELF and IN_IGNORED")
-> Cc: stable@vger.kernel.org # v7.1+
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+On Mon, Nov 23, 2026 at 11:25:33AM -0400, Jason Gunthorpe wrote:
+> On Mon, Nov 23, 2026 at 03:56:38PM +0200, Leon Romanovsky wrote:
+> > > >> >> But it should not, as you are making driver core changes that will
+> > > >> >> mirror the same thing that that patchset is attempting to do.  Please
+> > > >> >> work together on this.
+> > > >> >
+> > > >> > +10000000,
+> > > >> >
+> > > >> > Greg,
+> > > >> >
+> > > >> > This series came as a surprise to me given the fact that device trust
+> > > >> > series is exactly for that - allow confidential computing.
+> 
+> Device trust's primary role in enabling confidential computing is to
+> give space for the userspace to do all the TSM and attestation stuff
+> to get the device into T=1 private DMA mode.
 
-Reviewed-by: T.J. Mercier <tjmercier@google.com>
+<...>
+
+> Getting the device into T=1 should influence how the userspace decides
+> to set the trust level, but it doesn't interact inside the kernel.
+
+The point is that I’m describing the reverse relationship: the trust level should
+determine how the device is configured, not the other way around, as you suggest.
+
+Thanks
