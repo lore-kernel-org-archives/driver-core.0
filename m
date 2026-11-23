@@ -1,54 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795472784;
-	b=PXBwSfd+0mCeFAKzfYr4p0KgGfABpvdCKguMXoPdu7ygsBvDPCEIt7BTEka2BB+ydvSx
-	 YWQhQjoCY6CG318GRxVTUe8Ew/9HFLKhxE8g8CQKvzqzcHgMH3j83/7sdLSCgZE6Z17Wm
-	 PO9ZLBbGLjTt6gygvS0kFKJNhIK0wJdE4Mx0HFGwdUa99vgikPJrUkJdJ1uOjPW2rc3fz
-	 pK+F0L+uq3z33TNum0Nu/xEsAtekCFL7i4luxWqITUXGW/TJkSM0om2r8ChkQndI2FVHh
-	 T8GIEP8b1CeZ/1H7pK/NGhqszy6T5n1VUEo4Dfs+XCOLDPg6hDTIXPiVZxNCDHcDIlQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795472784;
-	h=DMARC-Filter:DKIM-Signature:Received:Content-Type:Mime-Version:
-	 Subject:From:In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:
-	 References:To:X-Mailer:X-ZohoMailClient;
-	bh=k9AdsQ75C4VFTI3Ny+V7EnE4MQOaiUpfZxRopOuTcOg=;
-	b=dynnMresq7m+uQDnhavpWWVKxDCNFE3i3eKpTcfAEvo08XnXMb1+WAbrRVW9855oukX2
-	 pFbObXlE0/EUmj0oPgoyZBQ9wIn8KN4IlBP3tA8yYLHLnFn40/cTMev1yYD+4HUocUDNx
-	 gAHzlTrPWN2tp1zFHKEN+0Us45ALr51FKyodbEGV7QHuwEWjFp03hO8o5nUNVX77NexhT
-	 xJeyXQkBv2tQShG9VFg38sm15xDnbQkh7hyOi5DnKo3BUUOoFpcy/vuWxUSosGn/u6xvS
-	 UlDJU9y5wDIKLW0gi3RtE0R5yPCpevjHWd2dhK2BLHU/MM6QMmSAmp7hv8f46SmRvgA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=collabora.com;
-	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=E8ilBHpW;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
-Received: from sender6-op-o11.zoho.com (sender6-op-o11.zoho.com [165.173.180.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.54
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795475188;
+	b=ExCqWscq6J67aPJEnXITRSwDaSntZRaQMxliJiKJuoFQOvHXRd540UyODwMrkB60Pwmw
+	 /O8xZAdzpEURrOk2eFIK2eAPfI5LJWWzYi51IF9EwhDomQmzHzSbwv5MxD2vPdOkOc7im
+	 9EiTdXqET9gYTD55qlHEyqxLy052UjoB1AoHwZZpkuKVYCpATayghr35rzZV78E3q+lDV
+	 VGTPE8NzyqRGa3DCDXKEySUXsgpAuIIoLB4MiUm+tQpOc0OBfrXXWJXFbQ+/sFNICUi5Y
+	 BN0DI5urpoVrlG6grPl19fNEalkqFUaU0cJOVG/d8yha0oNe2YOXMJ9FH6qlKmnRPcg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795475188;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=umX51t+2vvQvnn/vRHnudssMt2lYCcNqFYn0hYVrUj4=;
+	b=U5oqr/QNt2jsB2wuwpyzS1cSqTTQAQJH0CweRX1cRfCrYmp1u5GxpdTUED+8S3hvdRHf
+	 ILw62Jyw+Q+2f9LfcFgRYZ2WlSaSQK15ECNAwp87E5QasCOKkb8rh1nPqGRSuKcm9yiyj
+	 V60yDUQf6JxpJRmbTA6BFItC3Nr7nB66i9eHSSoGpzwq2Rba22kahDYZiVeMX5rA/ft9G
+	 5S35k97gwxAYr8W65mPcMQYlZuhqeo5NSkyoK8lgj4eVdfpYl0t8IBLxMML+cTBJ3knx4
+	 iIzgLVveqGug3agbgWCeShpOim1yysvKFmVpeaVpVti35Vg5TfPOd68snYEgwV5p+uQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pPBy2urt;
+	arc=none smtp.remote-ip=209.85.167.54
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A10D606A31E
-	for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 22:26:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A10D606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577C2606A321
+	for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 23:06:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 577C2606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=E8ilBHpW
-ARC-Seal: i=1; a=rsa-sha256; t=1795472763; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=lk7EJhzpaJ+wBBDlEn8gJKP6rvwE0AtPPiz+pvSeF/ou0sYTpM/2tE6Q3jybpYsHS0U+31NxkENAEc5pooCC9EP0r8mbtXd6zC9yXMaNlu/HdyQcjkAFUSNTt00zLypAg7dQHdoHwsgghNa6Ko7+UIZlpE3jNzNXf8ApUtr0NF0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1795472763; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=k9AdsQ75C4VFTI3Ny+V7EnE4MQOaiUpfZxRopOuTcOg=; 
-	b=kahc7bT71Pn0fa82ABYYPL3CTo9qsUQ5ZFG93poNOET3MDSkzQq38u4zkH8sHwY3W/nqufIdbwL8DJyw5vObWDXdaY7LWLKYx3aYqgVQLYiNKj75IsPAaA08SRX2C5RX0sjpNhpr4BWtDRHA9PkMAybOILeQVjWVPosK4lrN0lM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: a=rsa-sha256; b=E8ilBHpWN4kfzwkBtr/JbRk2uHTFGzIxZhxtrvR5QU9bRZxskkCKuPd/+x8HxzPKNTbk/DTFidImiP3pjbz0VL+lp7JbmWYbshCVjPWrNwj5zmb667M6ECACgsrOh9Z5v7rfzBJBDIIqOvfJZZT2AXjNDGWjlYabS8p9gBQyztk=; c=relaxed/relaxed; s=zohomail; d=collabora.com; v=1; bh=k9AdsQ75C4VFTI3Ny+V7EnE4MQOaiUpfZxRopOuTcOg=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
-Received: by smtp.zohomail.com with SMTPS id 1795472760727373.83086376046344;
-	Mon, 23 Nov 2026 14:26:00 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pPBy2urt
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5be4fea434bso4534636e87.1
+        for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 15:06:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795475186; x=1796079986; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=umX51t+2vvQvnn/vRHnudssMt2lYCcNqFYn0hYVrUj4=;
+        b=pPBy2urtE+Cri2+wpoB3h20UCaobhwj6xZPaB6prxljkFGfnJHlOCJkr1zXaFZ47j3
+         2tLtipgSLhu7R/5m/IFEu5Ttc/wP6z+uH3dUb95WPzm7Pmk63VneONOUaEHc9Bwfm3bR
+         vU+wVHyF8S6CGWFVQN9sL2zT2A+JqWcmj8CKaVbCmDeok/0/2jqB/CmhdVMRWw7uNdNs
+         wsLJD8VNprogMRTimh1+WhGFHpebJk75zhyT3dXZtrrvUyobsKzAGQLQMwH+0dXbwZM9
+         U7heMUqzu6OZoHQ+uuLlYx1r9AVQPJFh6kexQTxFaDpNKDL4AjDbMSdKY4e4ClwQHK6M
+         /gaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795475186; x=1796079986;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=umX51t+2vvQvnn/vRHnudssMt2lYCcNqFYn0hYVrUj4=;
+        b=KJLrjaK3kGgpoIlrZBDw0PWWgxTkpFa+1sW7RDRmu0l1eBeGbSnNDbSQ3/DYv0THbN
+         mvdAPCynSwa3TmhJfiwGX7CMJwg2TYxFpvSZs+dKcENl6sQ6tO23DMoy0iW/QWDYn3xK
+         2INFJZY5v0RlsPuCGfDq1CFdm/v4O/PX+UFFuow/FMdv4ot8O+zOKeK7pUcENsJEaGl+
+         LgHZnCme62uK6c15YTvy/lmiO3+1LFT/+ko1yRlHMPyevPmPo1E0rCY3rNreqh6mKPO2
+         GNzmSN8zIfFs4Lspk3v1ob2wyVbzCL35/bhWB+tBE+lyqnmvjCS9Qro6fyrRdLbUHmdR
+         fXuA==
+X-Forwarded-Encrypted: i=1; AL+hErGctPmwLZBU6dnMav0Hcw8jw3EXEzGIxRq2pn6Et0nyciZGA2sHVMXQNCTivjgcT02tVSkyIMyDyX7v3w==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/KGMkS1agsEshuXOsbW4jp3/WVNKr8XvoXyQA5gNhX7iK9q7cX
+	W4YRcAZtN7kkCSAr8AxldqjSF3uZQuwKrkK+nsnmQzSbtIePNFJRm9qJ
+X-Gm-Gg: AZFdTZeaGA9l5P053I2IUUPCGcaFmu50fj7zsuaQ+4CeRg0GN3/MkzRG734eKSXvUYF
+	bkh6UMb4Hk1U3YJDEt5vEj06ijFMsLIWTXS2fD97xAgGtDcWf1TpkdOL+H2s18WYhCymFlHCgut
+	yMKx3FecA2XYQ3MNxD6RwCxdiSCNJYSsH8s5G0BUyTAGCZEpZKFUSaJuqlDJVvdFjDRVQWW4poN
+	dL0zk93oL52dv8o1jywmuqCNHGVF9ncB7qKPGPxY6Rrfq2YYGWSrYOilckJmn9n8lNoXAXcnGIx
+	i1Glxx4N515/rCtkasEnVaUSanUBsJ5PnDjlwfGUYZd0W7tp9nal831BlDVvVDdmeDYhIJ3L7wT
+	8Wg9+R2D4CzL7gm4YWJ09lZUTyc4aqYvfeZuGZjVToqFb7L7PiER3UYrG/49UZsKEiLaHBv3RSp
+	6Z5GyeWWlFA7BPbGyFWq7F0wiGzFIXdURzluoPtACpAnvbH+S0VXP/Uih+JFZcrc7ZeQvirRObF
+	uKpEng5hgWwaMDIXlOqv0xytS3Rd+/erOGSk46IwpwfLERM7MDt1pxIHH3FRPG4feY4bpEhJPLn
+	YDSB55V6CGS1xfjwx+j7BSQ1MoS27VWMOQ==
+X-Received: by 2002:a05:6512:a96:b0:5bf:fc1b:561 with SMTP id 2adb3069b0e04-5c1b74acaf4mr3644137e87.0.1795475186305;
+        Mon, 23 Nov 2026 15:06:26 -0800 (PST)
+Received: from Swift-SFG16-72 ([141.105.129.181])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3ae8055106asm36984711fa.32.2026.11.23.15.06.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 15:06:24 -0800 (PST)
+From: Ivan Borovyk <saref012@gmail.com>
+To: dakr@kernel.org,
+	ojeda@kernel.org
+Cc: abdiel.janulgue@gmail.com,
+	daniel.almeida@collabora.com,
+	robin.murphy@arm.com,
+	a.hindborg@kernel.org,
+	boqun@kernel.org,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	aliceryhl@google.com,
+	tmgross@umich.edu,
+	tamird@kernel.org,
+	acourbot@nvidia.com,
+	work@onurozkan.dev,
+	driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ivan Borovyk <saref012@gmail.com>
+Subject: [PATCH v2] samples: rust_dma: add missing newline in dev_info! call
+Date: Tue, 24 Nov 2026 01:06:17 +0200
+Message-ID: <20261123230618.375172-1-saref012@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261123010430.365536-1-saref012@gmail.com>
+References: <20261123010430.365536-1-saref012@gmail.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -57,52 +112,42 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.200.71.1.16\))
-Subject: Re: [PATCH v7 00/10] drm/tyr: add VM and BO ioctl support
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20261122-tyr-ioctls-v7-0-3a2af624b992@linux.dev>
-Date: Mon, 23 Nov 2026 19:25:42 -0300
-Cc: Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Tamir Duberstein <tamird@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>,
- =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Lyude Paul <lyude@redhat.com>,
- David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Johan Hovold <johan@kernel.org>,
- Sami Tolvanen <samitolvanen@google.com>,
- rust-for-linux@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- driver-core@lists.linux.dev,
- Ke Sun <sunke@kylinos.cn>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <1103933C-C9A7-48C8-8890-449313716EB5@collabora.com>
-References: <20261122-tyr-ioctls-v7-0-3a2af624b992@linux.dev>
-To: Alvin Sun <alvin.sun@linux.dev>
-X-Mailer: Apple Mail (2.3901.200.71.1.16)
-X-ZohoMailClient: External
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Alvin, can we have your thoughts on this [0]?
+The dev_info! call in PinnedDrop::drop() lacks a trailing newline in its
+format string, unlike the other dev_info!() calls in the file. End the
+format string with '\n' for consistency with the dev_*!() and pr_*!()
+macro conventions.
 
-See my reply, which is directly applicable to your patchset [1].
+Fixes: 5444799d701c ("samples: rust: dma: add sample code for SGTable")
+Suggested-by: Miguel Ojeda <ojeda@kernel.org>
+Link: https://github.com/Rust-for-Linux/linux/issues/1139
+Signed-off-by: Ivan Borovyk <saref012@gmail.com>
+---
+ Changes in v2:
+- Correct the commit message: the modified call is in PinnedDrop::drop(),
+  not in probe()
+- Reword the rationale: consistency with the pr_*!()/dev_*!() macro
+  conventions rather than log concatenation
+- Add Fixes: tag
 
-=E2=80=94 Daniel
+ samples/rust/rust_dma.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[0] =
-https://lore.kernel.org/rust-for-linux/084F476A-BD3F-4FAA-B47C-E875B542AA1=
-B@collabora.com/T/#m14abaa8f4cffe0475a8ee9c1387d61c077ff7533
-[1] =
-https://lore.kernel.org/rust-for-linux/084F476A-BD3F-4FAA-B47C-E875B542AA1=
-B@collabora.com/
-
+diff --git a/samples/rust/rust_dma.rs b/samples/rust/rust_dma.rs
+index ffb693544673..b4b161896517 100644
+--- a/samples/rust/rust_dma.rs
++++ b/samples/rust/rust_dma.rs
+@@ -129,7 +129,7 @@ fn drop(self: Pin<&mut Self>) {
+         for (i, entry) in self.sgt.iter().enumerate() {
+             dev_info!(
+                 self.pdev,
+-                "Entry[{}]: DMA address: {:#x}",
++                "Entry[{}]: DMA address: {:#x}\n",
+                 i,
+                 entry.dma_address(),
+             );
+-- 
+2.53.0
 
