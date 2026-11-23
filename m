@@ -1,147 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=198.175.65.10
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795462154;
-	b=2992TWo9OfyhNjj232XIOKqqxY6HQPkQucrpu4FCA+XZxYkvYMff0eDTVd3Cf+b4//Wn
-	 hs4tpdLrQt4feR7ZziT8fnyY24zbdHjrFhjp4e52ykAPwGoPGmD0cb70qHbBlke8niVF2
-	 A5Sitp/pe6+6VYTnvFmFwP9Zt0TJwVRTkAjB27UDYsddpq1fARK6oB/m6yHIzBmfSuaue
-	 eYvkvPyLRLo3XdrG1bW+JDPv2waLDr2PshMR8ZMkbNP/yygaw6ztkiaznF9wBbCFqfMPi
-	 xHNftA4fWEzh4ivw2WIqjDAKdPEa1RigwZK17GEFNLErdRIFQAh6WL/OkSEwSVry69g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795462154;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
-	 Received:DKIM-Signature:Received:Received:Message-ID:Date:User-Agent:
-	 Subject:To:CC:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=uZ0k6beVZQu218nmFTQMMlvzZ30cdV2uRd57GEvg+5A=;
-	b=flJ4r0+E5I5ixhJ45YkpuM9G8wvNE7Rn+Oe/VXKbXIRKi3GDfQF/dnV2jkFTJWZhfM6s
-	 ToYFTY0GAY7sr46IASVjIn2Nbmg/MGWiIdunx+SLlJLcD/27qw7kdTwAJ9m45QMaT/p/1
-	 EKTc1O1pzmQnPLE9w+wKj3qZYBVUcI6k6X8spdG207TTpPYTs6meBFlxVr01jCdc7Qgzm
-	 hq0G1svX4wipwsnqattNGhmNikSpgOB5ys/azmZCosLufEcN4pg4QZpry7Qi/E+hR9IUm
-	 5LyKvNA/Asr0gbMIBC5erg3jJe7xX7O8RGz2+dDfkOCEGeFw0klY9Q+QmJ1cdgI1GQw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mqe3axXM;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=selector1 header.b="jwjlE/jA";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.203
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795466399;
+	b=IwwmuddHKyu1l3jJsPF+d/1mxrOogeaMBoUCPFYLcXjWx72t6JSjVD+jzwwGrupNpzeI
+	 t+vy5iLgdFLQ2spqmXoRGrfMrmZTwK4PHjg+ParWtECnSbKyt7K9hCcTxxcHr+E//M9Lr
+	 RE4Rx4AKb6cwDRjUf1CzOpG+gcKnahRVoZJkgh/iiM8w4hR5d65nVoVGy2LDpkIELhtCp
+	 WY56YxZ/fXc6xPqJgvLFwAxuAsgQdtvPh9QwMCWIoOZS9pJMV9iHXoxAAJ68WW99JEBZL
+	 I/5j47cNinNe1LHDTIxKkJS8j0JuFNj0QSyGFupmvlleQOJl5AuhXVzW78IQociqI7g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795466399;
+	h=DMARC-Filter:From:X-Lima-ML-UUID:DKIM-Signature:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=9sRygfI478ReQS4jggrfUOfHyMsuPDOymzkw2vVTUa0=;
+	b=Zixmcq2Uoumdd13JKS//CndMqlxLXsDK/zcBvd7GQoleFxyr2MKqmgXKKfFlftrf1+aL
+	 5QXWlgio99+Dm+tz7XDJlxO/G5+n7pQWuAY6Wre+wVpSPhNfn1YMUhc/9khf4AQA1YN8k
+	 YqRJH9z7duyfjKfQcNDfF0Mir7D3H008p0khlykMvW12vd97/+SfCQhgzfr+3Oz7JvuAj
+	 NpFJeGEqUNvAcE9pyg5leb+BTH2UGO1ySnMqQkcuKdSgJ2xYgfYQFy/Hu8IhEHyQI4jJ6
+	 xkx5dYaTvzTVHI4R/x/QL4fWoImdbsg1pmuXX4fsZgHsAcSxI7fc1xY7ZGeTi26Wgog==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=matt3o12.de;
+	spf=pass smtp.mailfrom=matt3o12.de;
+	dkim=pass header.d=matt3o12.de header.i=@matt3o12.de header.a=rsa-sha256 header.s=securedbylima-20230709 header.b=XB19kjQM;
+	arc=none smtp.remote-ip=91.216.248.203
+Received: from mx1.mail-out.lima-city.de (mx1.mail-out.lima-city.de [91.216.248.203])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 400F7606A31E
-	for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 19:29:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 400F7606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA133606A321;
+	Mon, 23 Nov 2026 20:39:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DA133606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matt3o12.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matt3o12.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mqe3axXM;
-	dkim=pass (1024-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=selector1 header.b=jwjlE/jA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795462153; x=1826998153;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=f9SjSSjaJkRCFQQ2Olo1KyFegN/kn9cINHAJnbaucAU=;
-  b=mqe3axXMox5EzQNYv/ST1BD6amvl8YZwDODlUTNZt0iGYHpMDW44AvPc
-   SI2eQESzL3P4dmcWSK1In+uB8BVjuPqWl5+1pRFC6nlMTximJLy/rxUuW
-   Av47ejSZ4qjCI77ZNZu781PZlP0DcXxwL4K7/ooLP2IZHFQdEdtjIMmla
-   qtEuNNUlt/1C1CzNmhymL4Z+daEGg1f3e1nQDxqO0d1nB2xiIkj6qnW+b
-   x1FccYwUsfisv6ItPFUoCPWf4H6LYYVu90j8lcqxgz9mrIclBf8mHyeKZ
-   sgSNSCv5CLaOJ74M7xcG/W+uhW7di/dVQpxNkWGaTWPiuolcUGwDYShB/
-   g==;
-X-CSE-ConnectionGUID: kBmi7oEbTwyffSyo80JXoA==
-X-CSE-MsgGUID: EpLirBtcQBCBGMS5RNst6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4193951"
-X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="4193951"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 11:29:13 -0800
-X-CSE-ConnectionGUID: arPWtJMzQIGRqftgzE33wQ==
-X-CSE-MsgGUID: FPucJXzwSrW2E/rh1JOlFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,229,1787036400"; 
-   d="scan'208";a="13071795"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa012.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 11:29:12 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.57; Mon, 23 Nov 2026 11:29:11 -0800
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.57 via Frontend Transport; Mon, 23 Nov 2026 11:29:11 -0800
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.7) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Mon, 23 Nov 2026 11:29:11 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sZSIQruSfZs+uyuCXUIkGumwDtiYkpKV4cxyR2JtK+ie75ZNRUevNueRN1AgEknc7PbdOsjD5/Lr1icZgmWffW1KmOgLxGbQyKzTDq7UKCL2mJlP6cfq4fTLPUdp8yfyoCik4Qyr6Oz7EuXsDCBk+GJqacmq1Vcfq1E5C1UvqkT8qGsADFPR3IKhxE/CfFxfU1g9NQffX+8Z11MoxkzsID2ncpXqJt5AeIHY/dDIokPu66LeOtzhz9PB3krXgOd9UUan2ANEDa95pDcrehejEN17wouu09LfHxH0sQnE13thdPlWrGBMtmv4DJI7/QDh4SVeljKH0pmgfMTJ756ZJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uZ0k6beVZQu218nmFTQMMlvzZ30cdV2uRd57GEvg+5A=;
- b=NkcPs+hIvXgntesqqaoE6a6hgqa8os3JOddrVHWR2K4/9pV/xgtzRstL4372PuWv1+nkIQ6pvFK1Wzox8q3D6ev3KBNSXhN2fthi87wBcpz6YukMqACEf4XFR336vDnjP5iT8gLm01q58DKVMKnqO5UE04issWI763w4BwGD8WTV7w7RZq+HZnCJdRzKXw+w/A+HoyNHP8IprC4L5Lf8ir6TXguQ++uAjMxaRBMr1D1nMznaZBGXvIDzxLiAT8vBytkaceis5dSU/KpUxD7T18hK9scBXX082bF+p1kNepE8i8H43OQqR/4TRPX8G/+B9aLH1nBSQDnnV7ehNVZ7UA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uZ0k6beVZQu218nmFTQMMlvzZ30cdV2uRd57GEvg+5A=;
- b=jwjlE/jAcVSI60ZZ9OlJkRC6O1xi/UEkzKcvCB2iFSh76wNjq9tTWkm8kWO0HP5MUQKc+gqINhc9CmPgmLbdNa5jYiF1NiHmLgr+Wlxd5gyndGrIszuJg6BEYnzk6TVmGvNW3Fq5IyP3hEWsoFmGdCrUa+khN1GO8j5BH/OwXTw=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB8451.namprd11.prod.outlook.com (2603:10b6:a03:56e::20)
- by SA2PR11MB5081.namprd11.prod.outlook.com (2603:10b6:806:118::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.14; Mon, 23 Nov
- 2026 19:29:08 +0000
-Received: from SJ2PR11MB8451.namprd11.prod.outlook.com
- ([fe80::7d5f:b2ba:92d4:5f3c]) by SJ2PR11MB8451.namprd11.prod.outlook.com
- ([fe80::7d5f:b2ba:92d4:5f3c%4]) with mapi id 15.21.0639.011; Mon, 23 Nov 2026
- 19:29:08 +0000
-Message-ID: <7717b2d7-b72e-40ff-82ad-54d0fbd8c36e@intel.com>
-Date: Mon, 23 Nov 2026 11:29:06 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3] driver core: auxiliary bus: Fix IRQ sysfs directory
- cleanup
-To: Tariq Toukan <tariqt@nvidia.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
-	"Danilo Krummrich" <dakr@kernel.org>, Johan Hovold <johan@kernel.org>
-CC: <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<netdev@vger.kernel.org>, <linux-rdma@vger.kernel.org>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky
-	<leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, Amir Tzin
-	<amirtz@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, Shay Drory
-	<shayd@nvidia.com>, Parav Pandit <parav@nvidia.com>, Przemek Kitszel
-	<przemyslaw.kitszel@intel.com>, Gal Pressman <gal@nvidia.com>, "Leon
- Romanovsky" <leonro@nvidia.com>
-References: <20261112081319.3466442-1-tariqt@nvidia.com>
-From: Jacob Keller <jacob.e.keller@intel.com>
-Content-Language: en-US
-In-Reply-To: <20261112081319.3466442-1-tariqt@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0313.namprd04.prod.outlook.com
- (2603:10b6:303:82::18) To SJ2PR11MB8451.namprd11.prod.outlook.com
- (2603:10b6:a03:56e::20)
+	dkim=pass (2048-bit key, unprotected) header.d=matt3o12.de header.i=@matt3o12.de header.a=rsa-sha256 header.s=securedbylima-20230709 header.b=XB19kjQM
+From: Matteo Kloiber <kernel@matt3o12.de>
+X-Lima-ML-UUID: 81470204-daba-453d-acff-0be0cfd12c6f
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=matt3o12.de;
+	s=securedbylima-20230709; t=1795466389;
+	bh=9sERvGdC+WVq6w/5sPGXEVVunS+nVPCtaCo9cY0jLE8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=XB19kjQMutSa+j7g+dgUGuSi9cb4aLGdx+NxbL+etQfWT1U4lhXSzbr0pTBO/g1bj
+	 Jrav7AG1bUsIPERTEBMYAnPrAmcF5BF8XbPHlxZmNSu58kOQ3KPMQYucequ3XxWkbl
+	 1Gwhw85+ADfMMJjLzFZxzLbXn+yyPZe4Yg9spZq0mXhCfbPgLGlkrWj3iHLniDqEvj
+	 om6KaaGVQt5cGifXnnc1BkE0kp/61640dxqxKJXujkdRLGyXw69cpdHFA2PVP+jplo
+	 ZaOmzawBtbR2fmAEVWV/7kkkD9Y5kzapCz8u62l1c6P8FC75m3rdytSN+GYqDmKpna
+	 zLJZu4Idy1thQ==
+To: Danilo Krummrich <dakr@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Gary Guo <gary@garyguo.net>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	rust-for-linux@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	nova-gpu@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Matteo Kloiber <kernel@matt3o12.de>
+Subject: [RFC PATCH 0/3] rust: dma: require device configuration before DMA
+Date: Mon, 23 Nov 2026 21:39:23 +0100
+Message-ID: <20261123203926.1787169-1-kernel@matt3o12.de>
+X-Mailer: git-send-email 2.51.2
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -151,159 +77,127 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB8451:EE_|SA2PR11MB5081:EE_
-X-MS-Office365-Filtering-Correlation-Id: 53477da5-d482-41c2-4416-08df49980b22
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|1800799024|7416014|376014|366016|261102123227099003|261026140227099003|261022105027099003|261028144727099003|261021121427099003|261021123027099003|10067099003|11063799006|56012099006|260925021911599003|260925022911599003|260925021311599003|261009223027099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: iDjCGIvPPUGUT98Dn6VGQ6A3KEHb2r1hQveomoepk3FZzuZOwpvAXGv+CZafWCVhF0sONQq5G4G+9JfV2XG5ilU1uCGU7/vVecuk9tGkbhFTiYvepid3tY4C6ETf+IG70SU/RZqTHsA3TjVgLrj+Pq1D8WAQDFVsN2/kFOWLfBZ3tCCLVH6w/Gd9lRtFfeD7lWAg6Tf81pQgzqPpe48dFnY+B9eF8hguWlm7m+AgbOc9atqG35VbsZP9u7NcwPZjIoPsMm0E9N614iljXqU4S7sNXvz927KxRHIceQSCEChVX5zpztXstR4HhxEnkL/Zo4aMBCW4+PVI7bUM9Onl7m4u62FZ/yVW7wQtdNBxahFBSCOPYGnYX00tcfiHtwS+CYsW6OWKBlTE7uusoKlEnhXnxhj9+W2iYv3ByxKZ8efDDo5cibtWDa3LAf0iWosv411MEkDrpPiD4uJ2aD+22x80sB6PaI8JxjSFjmP2RDwTKyeSseze5eW1CkJ/13v+fvyfOzC2xo6VB2g8wbxYX0aY2iE+Fsh5lwIScvcOXSTjcJrfSRlAa/WP7oGWwZwKpHwd5SbY1K55iDz6bStq45nY7O1L6MyvsJtQ1jfQBSn+rOeAqsJRtSZESldQVvf6
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8451.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(7416014)(376014)(366016)(261102123227099003)(261026140227099003)(261022105027099003)(261028144727099003)(261021121427099003)(261021123027099003)(10067099003)(11063799006)(56012099006)(260925021911599003)(260925022911599003)(260925021311599003)(261009223027099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VGNUUFFMOXRMQ2RzRGcrRXVTd0RlanhJSHBBemU4UC9qaXVzakUvckxKclZn?=
- =?utf-8?B?RGt1bWhTUnhUVjgvUTUxZ2paZ0twRkFidWVHNlRuTFRCdkJUczNRaHYzc0M0?=
- =?utf-8?B?ZHA5VkxFYjg3bHZGbXpycnVCckdPLzBKbUNnVkg0SEYybzRqNncrRHV5bWNl?=
- =?utf-8?B?RUlHRjN6bnAzbStTcEhGUDBTTmZTeW1oNVZsY1dYYnI4S05wQ0pWMVV2N2RM?=
- =?utf-8?B?RUNrZU5pWTJnOU81MGpyNWVCK3A3ckZUVDlwblZDQ1RWMVpjMmxHUFRIWDB6?=
- =?utf-8?B?L2ZCU1FNenlvV01EYnZLMEVxOFhac3N6Mzc2cW14TTkrUnFoZTlqRHo3dzJT?=
- =?utf-8?B?SnRiTGhOemZKR3k2MXNHYVpxcGxNK3V1MFlYMXFaUVNVa3NHQjQ1ZEhLL0RK?=
- =?utf-8?B?eTltazB2NG5uU1VzYnVrODFiS0ZMSU1GWW9NdHBIcXZ3WmpqSVQzWTU4bVlh?=
- =?utf-8?B?c2xPTzlyaXZkSjIvRVF5TUlubVIyejlsdnJ4MWxVYUxMWThEejduOWdHNk5T?=
- =?utf-8?B?NFRzRWpHdHAwckpSV1pvZ1VaRi9DTG9VY2doKzhkWkFmU2tERHVVbjI4VHNL?=
- =?utf-8?B?ZldRZ2RvU2dESVV5VDB5amQ4RmVoY3plSWQwOXNqSFlsMmhJMmN5NXB3ZzZC?=
- =?utf-8?B?YmZBampBVXhjTm5yYVdKdHNCenkrNGZKOWs4Mk9jMFJmZnErRUd6RGVaekRX?=
- =?utf-8?B?enVtOUhXb29iNmxGQXhiOVlIbFl1YkJRdjJpM01ka3V2akY4OTFsY1VEMWli?=
- =?utf-8?B?QmVvTWl3N0t0RXlDdUw1dEVPd3J1RWVESGRrbGhoMVF4b1VncUJHYUhraXNT?=
- =?utf-8?B?OHFxK0pGT0ltZUx2MzF0OHl3NUJ5UFk3TktnMXJLa2Y1ci9QV0NjbWJKMkNM?=
- =?utf-8?B?dzhCNEdQSU9RM2d5cC9WZzVFbU5MQ0NtMWdsQWNjcWgzK0xVVWcrUjVKbWhw?=
- =?utf-8?B?eC80b1hBVVRzYlpxRk1DdUg1anNDT0kwaERnbVppUkNOS2hHcXN4eHRLdlh6?=
- =?utf-8?B?QlBEMTA4QmR6TDNyYWUzMzNsRlU5TlNuNHpwcTI4VUtONXJNdjE3UTBVenIr?=
- =?utf-8?B?eS9uM2NWTkwvcndJK1YySm00TEpMTHgvYU0yRVNUQkxRVTd5anpkWjNPRDBk?=
- =?utf-8?B?V0xkemttbDBYUElXampYSmhPYXMxRi9NTUVLZDl6ajQyTURvS0NEcnFPOHl1?=
- =?utf-8?B?dXZuWkJhaURjdlNteThobWplSm9oZUhqTHB3YVY5OFdUWXRsL1ZBVHRLOGZL?=
- =?utf-8?B?a0ZzQ0c2WXl0SisyVG9mLzZKY3loOWhRS2RuQjFObloxWHFtWm5sbTVkUDVX?=
- =?utf-8?B?U1gyWndQaHFhVGpKcGxrKzJFQktxcWtEZjZkLzczellUUTBOcGVtU1VlL1FL?=
- =?utf-8?B?dUxtVllKbDFDVm9LNHJ4MlBaYUhuL2FuQlBxSkhPMDVCVUJJRjVUcGY2ck80?=
- =?utf-8?B?SFdIdDVEQU0wZys5cDMrc041WjZGajJ5SmQ5YUNIUlNLQVJkTGJSWFdrMW10?=
- =?utf-8?B?dUptY2RzWERzMFhlYStML29TdWpwdEJtTHB5TUpnWjA1ZXhCajE4OXZaRGFr?=
- =?utf-8?B?SDRiM0pMdWd3ZTN6UjU0cWk4MitnanFlV2RPckpQckdLZHAzQ1hvdi9JRVBE?=
- =?utf-8?B?SHJvZVlXcUVlOFErRVJIWGIwR0kwZVlVL1JmQnJzbis0Y0ZJZzQ0YkloeDVv?=
- =?utf-8?B?UVJEWk5KSWpoUGE1QW11TWFCTFNtc2FCUnpnNjRIMEJJT0toL0trcDlqZU54?=
- =?utf-8?B?NHBCRy82MzRMU1BaQUZBQ1pjVW5OcHVUZDd4bzExcWIyc3NNZlIyTUFpbGdU?=
- =?utf-8?B?VWRMZ2xlSTZtaUNBWG5FSzZlVmc3M3huTXllK2pnYlZOL3drTWViM3FWU3Qw?=
- =?utf-8?B?a0VhK01YRkVDdjJMejMya1VaUHoxQWlCUkxqbzFIc1RYdUNsRk1MRUFjdS9L?=
- =?utf-8?B?ZE5UZ1BWSzEyV0dwOEJnNUR6TWprcEczaWFVMHpTTTg5czBoRklpZC9MRi8w?=
- =?utf-8?B?MDQ2aWdEeEd0L3pRZW5XY1hkNjFRQzB1NGlxMjEraWpHaWxXYVQveHNROUtJ?=
- =?utf-8?B?Tjd5aG11aGN4WGhEc2dhQ2ExQlZGZ3kyYnNxOWFuY2g0aHdWT0k2VTlBUloz?=
- =?utf-8?B?a2IzcEZBSWVUcXpPV1JOTXdqanBteC8yNUpUd2lZNHk2ZUVrRmxURDcyQU4w?=
- =?utf-8?B?WjlNNmMxRFU3VmJiRndxVkxPV0o2eFhEaXRzSnN4UlZtYUV2cHBvbEtOaXl6?=
- =?utf-8?B?bUN1bkM1RzlKYi9BZ1FNVXl1Q3dxdy9vNjJkNFgrcWFNaVF4SDNOVGFaNlAz?=
- =?utf-8?B?S1BXTmo0QXZQa0QzZWNvUThFUjdhK3JLUS9JT1VLMDRXUFkwWDQvVEgvRUxo?=
- =?utf-8?Q?/+alJLb8R6kKASe4=3D?=
-X-Exchange-RoutingPolicyChecked: IoC/5INqWJHr6qejJ7hdQxcf2AnWvVW2lYCXhlnLiHQwKWBryLMWwcdzUVX8w2tLrpYVrFhRHKHKjh+th2PbfAG6UFZvYC8ABnhPjeXJoibI5YInaswwsP3S4wJ3HShPHjunRWaXSnqeTgXVBcy2hZi+ymVP9qMvEo0glBXQv5C8FufO5cuhnhEVjzgs2qI+OZFKZZC5xylwqccvK+CiIoFE4SQtzgEemMYr67VIi3COF6Eh04uiKG4sAnOLNkYbTAQdgslHyxpGThGagIhBEo0Y9xO05zQlTOD7aQd7VWmUIwG5tvNNoKp0wF2K9TFoehSZIGwJc4MyQ9TZ6n+y7A==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53477da5-d482-41c2-4416-08df49980b22
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8451.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2026 19:29:08.2869
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dOjP1HZU2kvV0x6GCpPOHZo76qQJM4O+LWF1puLxNXSMiEQ/VwxuZO1XXRwn6waqcdAxI+hYaUniFFUwPk9x1PTWTJVzJCU/7lPI0IlLB1M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5081
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-On 11/12/2026 12:13 AM, Tariq Toukan wrote:
-> From: Amir Tzin <amirtz@nvidia.com>
-> 
-> In case an auxiliary device with IRQs directory is unbound, the
-> directory is released, but auxdev->sysfs.irq_dir_exists remains true.
-> This leads to a failure recreating the directory on bind.
-> 
-> [] mlx5_core.sf mlx5_core.sf.2: mlx5_irq_affinity_request:167:(pid 1939):
->    Failed to create sysfs entry for irq 56, ret = -2
-> [] mlx5_core.sf mlx5_core.sf.2: mlx5_eq_table_create:1195:(pid 1939):
->    Failed to create async EQs
-> [] mlx5_core.sf mlx5_core.sf.2: mlx5_load:1362:(pid 1939):
->    Failed to create EQs
-> 
-> The irqs directory state is described by three pieces: the sysfs group,
-> the irq_dir_exists flag and the irqs xarray. Currently, only the sysfs
-> group removal is managed by the devres API, and on unbind the group is
-> removed while the flag and xarray are left intact. Thus, a subsequent
-> bind sees irq_dir_exists still set and skips recreating the directory.
-> 
-> Manage all three under a single release function passed to
-> devm_add_action_or_reset(), so the whole directory state is created and
-> destroyed as a unit.
-> 
-> Fixes: a808878308a8 ("driver core: auxiliary bus: show auxiliary device IRQs")
-> Suggested-by: Danilo Krummrich <dakr@kernel.org>
-> Signed-off-by: Amir Tzin <amirtz@nvidia.com>
-> Reviewed-by: Mark Bloch <mbloch@nvidia.com>
-> Reviewed-by: Leon Romanovsky <leonro@nvidia.com>
-> Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
-> ---
->  drivers/base/auxiliary_sysfs.c | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
-> 
-> V3:
-> - New approach.
-> - Retitle, and add Danilo's Suggested-by.
-> - Drop Jacob's Reviewed-by, as the approach changed.
-> 
+This is the RFC that came out of the max_seg_size discussion [1]. It
+implements the DMA setup token Alexandre proposed there, passed to
+probe() through the InitTokens struct that he and Danilo suggested in
+[2].
 
-This is much better since the existing behavior already relied on
-devm/devres, and this avoids needing a lot of changes throughout.
+A driver now has to configure DMA before it can allocate or map
+anything:
 
-Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
+    let pci::InitTokens { dma: setup, .. } = tokens;
 
-> V2:
-> https://lore.kernel.org/all/20260219210435.1769394-1-tariqt@nvidia.com/
-> 
-> V1:
-> https://lore.kernel.org/all/1761200367-922346-1-git-send-email-tariqt@nvidia.com/
-> 
-> diff --git a/drivers/base/auxiliary_sysfs.c b/drivers/base/auxiliary_sysfs.c
-> index dea7f46f7dd0..656ba057dc98 100644
-> --- a/drivers/base/auxiliary_sysfs.c
-> +++ b/drivers/base/auxiliary_sysfs.c
-> @@ -22,21 +22,32 @@ static const struct attribute_group auxiliary_irqs_group = {
->  	.attrs = auxiliary_irq_attrs,
->  };
->  
-> +static void auxiliary_irq_dir_release(void *data)
-> +{
-> +	struct auxiliary_device *auxdev = data;
-> +
-> +	xa_destroy(&auxdev->sysfs.irqs);
-> +	auxdev->sysfs.irq_dir_exists = false;
-> +	sysfs_remove_group(&auxdev->dev.kobj, &auxiliary_irqs_group);
-> +}
-> +
->  static int auxiliary_irq_dir_prepare(struct auxiliary_device *auxdev)
->  {
-> -	int ret = 0;
-> +	int ret;
->  
->  	guard(mutex)(&auxdev->sysfs.lock);
->  	if (auxdev->sysfs.irq_dir_exists)
->  		return 0;
->  
-> -	ret = devm_device_add_group(&auxdev->dev, &auxiliary_irqs_group);
-> +	ret = sysfs_create_group(&auxdev->dev.kobj, &auxiliary_irqs_group);
->  	if (ret)
->  		return ret;
->  
->  	auxdev->sysfs.irq_dir_exists = true;
->  	xa_init(&auxdev->sysfs.irqs);
-> -	return 0;
-> +
-> +	return devm_add_action_or_reset(&auxdev->dev,
-> +					auxiliary_irq_dir_release, auxdev);
->  }
->  
->  /**
-> 
-> base-commit: b71c101bbb9814d163c00234d43c41f0a17907d4
+    let dma = setup.configure(dma::Params {
+        streaming_mask: Some(mask),
+        coherent_mask: Some(mask),
+        max_seg_size: Some(NonZeroU32::MAX),
+    })?;
+
+    let buf = Coherent::<u64>::zeroed(dma, GFP_KERNEL)?;
+
+configure() consumes the token and returns a copyable dma::Handle.
+Coherent allocations, SGTable::new(), IoPageTable::new() and the shmem
+sg_table() take that handle instead of a device, so they cannot be
+called before configuration and the parameters cannot change
+afterwards. The unsafe dma::Device setters are gone. Drivers that do no
+DMA ignore the token.
+
+- Patch 1 adds InitTokens to the PCI and platform probe() signature.
+  It is mechanical and the only patch that touches drivers without DMA.
+- Patch 2 reshuffles Gpu::new() in nova-core so that patch 3 has no
+  reindentation in it.
+- Patch 3 is the actual change.
+
+Design decisions (feedback welcome):
+
+- Params has no Default, so adding a field later requires updating every
+  in-tree DMA driver. Because the kernel is a mono repo, I think this is the
+  right tradeoff. It forces a deliberate choice between None and an explicit
+  value for each driver rather than silently preserving existing behaviour.
+  InitTokens is #[non_exhaustive] because most drivers will not care about
+  unrelated tokens.
+
+- configure() consumes the token even on error, so a driver cannot retry
+  with a different mask. dma-api-howto.rst states that drivers should
+  fail probe if setting the mask fails, and consuming the token enforces
+  that. If a driver ever needs to probe supported masks first, a
+  separate query method fits better than returning the token on error.
+
+- Only PCI and platform probe() hand out a token. An auxiliary driver
+  that performs DMA on behalf of its parent should receive the parent's
+  dma::Handle rather than configuring DMA itself. No in-tree auxiliary
+  driver needs this yet.
+
+- Tyr keeps its current segment size (max_seg_size: None, with a TODO).
+  Panthor sets UINT_MAX for the same hardware, so Tyr probably should
+  too, but I left that out to avoid behaviour changes in this series. I
+  can either send this as a separate patch or include it for the final
+  patch.
+
+One limitation: DRM C callbacks that map memory on the driver's behalf
+do not go through the handle. For those the ordering is documented on
+drm::Registration::new() but not enforced.
+
+Every patch builds with CLIPPY=1, and the Rust KUnit suites and
+doctests pass on each of them (x86_64, QEMU). nova-core and Tyr are
+compile-tested only.
+
+An LLM assisted with the design, implementation, including writing all comments
+and text. I have reviewed all of it.
+
+Based on drm-rust-next.
+
+[1] https://lore.kernel.org/DLHH0K25NLX5.616R4D860TXU@nvidia.com
+[2] https://lore.kernel.org/DLR1JCUWS824.35QJU45D2W9ZE@nvidia.com
+
+Matteo Kloiber (3):
+  rust: pci, platform: pass InitTokens to probe()
+  gpu: nova-core: build Gpu inside pin_init_scope
+  rust: dma: require device configuration before DMA
+
+ drivers/cpufreq/rcpufreq_dt.rs                |   1 +
+ drivers/gpu/drm/tyr/driver.rs                 |  18 +-
+ drivers/gpu/drm/tyr/fw.rs                     |  11 +-
+ drivers/gpu/drm/tyr/mmu/address_space.rs      |   7 +-
+ drivers/gpu/drm/tyr/vm.rs                     |  28 +-
+ drivers/gpu/nova-core/driver.rs               |   4 +-
+ drivers/gpu/nova-core/falcon.rs               |  13 +-
+ drivers/gpu/nova-core/fb.rs                   |  11 +-
+ .../nova-core/firmware/fwsec/bootloader.rs    |  13 +-
+ drivers/gpu/nova-core/firmware/gsp.rs         |  18 +-
+ drivers/gpu/nova-core/firmware/gsp_fmc.rs     |  10 +-
+ drivers/gpu/nova-core/firmware/radix3.rs      |  17 +-
+ drivers/gpu/nova-core/firmware/riscv.rs       |  11 +-
+ drivers/gpu/nova-core/fsp.rs                  |  20 +-
+ drivers/gpu/nova-core/gpu.rs                  | 241 ++++++++--------
+ drivers/gpu/nova-core/gsp.rs                  |  19 +-
+ drivers/gpu/nova-core/gsp/boot.rs             |   2 +-
+ drivers/gpu/nova-core/gsp/cmdq.rs             |  14 +-
+ drivers/gpu/nova-core/gsp/hal/gh100.rs        |   9 +-
+ drivers/gpu/nova-core/gsp/hal/tu102.rs        |  24 +-
+ drivers/gpu/nova-core/gsp/logbuffer.rs        |  23 +-
+ drivers/pwm/pwm_th1520.rs                     |   1 +
+ rust/helpers/dma.c                            |   6 -
+ rust/kernel/cpufreq.rs                        |   1 +
+ rust/kernel/dma.rs                            | 264 +++++++++---------
+ rust/kernel/drm/driver.rs                     |   4 +
+ rust/kernel/drm/gem/shmem.rs                  |  23 +-
+ rust/kernel/io/mem.rs                         |   2 +
+ rust/kernel/iommu/pgtable.rs                  |  24 +-
+ rust/kernel/pci.rs                            |  20 +-
+ rust/kernel/platform.rs                       |  20 +-
+ rust/kernel/scatterlist.rs                    |  20 +-
+ samples/rust/rust_debugfs.rs                  |   1 +
+ samples/rust/rust_dma.rs                      |  18 +-
+ samples/rust/rust_driver_auxiliary.rs         |   1 +
+ samples/rust/rust_driver_pci.rs               |   1 +
+ samples/rust/rust_driver_platform.rs          |   1 +
+ samples/rust/rust_i2c_client.rs               |   1 +
+ samples/rust/rust_soc.rs                      |   1 +
+ 39 files changed, 514 insertions(+), 409 deletions(-)
+
+-- 
+2.51.2
 
