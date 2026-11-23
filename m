@@ -1,51 +1,71 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795443152;
-	b=h69w7DZRlR9X9/itFvvPCPWVpMHCekq7G65eLZYSNdwvNaowhylbZo6gaVe5oS35RP5O
-	 ZsrvP67031YdggQkDhY1nEq74WnxlH97vkMjUQevpI73zxn0KkGYUivNq88C68t5Qsd0b
-	 eftaKvDJEFhHC1KxMWSv1FAZcwEgCTRpWg4ZHPA5L7+mdtY0rS7ySCIFcD1/+90QBbzwf
-	 DTNQS800ePiUmuDdwQPYJzm3kBEPmsOUADSsEQr5c/S9YN4zOBEIjep4WpjuRZc68AFWf
-	 a91FDstQNmSetOPX0kHMU4ztJFGqRaaZ35p5ccWVR9NMMUDEvnr6G8SuMSP1WO8sJqQ==
+	t=1795444026;
+	b=i1cxoIHUAZjkOX22IUVCMFV4yeBazPpwC9OfTCcd8yhcXgaQIYkLSixY8NEIlRqHqRvf
+	 1lYVluLlnu3DfUDkUnaxf3gPVCgy3/ton3CsfnojzZd3QKmxRDNRWw2CEuBU9vPuMXwRL
+	 /GVsupLANvFheQNfY8L1wVDBBxccr+GUt/3N8gV4qEv3opkIQZn1J11Ghwu7q7mMlKZvH
+	 NyVL2K8zx7bqe1i0fdjm6Hnhz4sIMowYtZUH/nu0aBF8/76aHaTen/AFfDQxTpdogxXLQ
+	 mtCDAgNiHwUsd5qFzjY7x1e3ndzx1eiq5Ap97qcbSO1zQuqxxvttJftqkU9rdVncR1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795443152;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795444026;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=YmajtzA/VPMAycjOs7WerX1NLQIQDrQX0FH28untWyI=;
-	b=fGC24TncBdweoDbvpaHM/8lj5wGjqv71qzO+pjdpWEfVGXa0jiJ2fuHyZltFqtG4WSN+
-	 WLfCWoGDJPoO2cB0jj7GlpUEiKQRBBvNj25tKmbeeePCE4uD6Fgqnzl2c+u1KyTc4TSRM
-	 HyKc3SXjG+oFa364CfK+kpdUdX59aK3tPgwwHjqGLgIYt9W1ARZOxDyArlMUrU3HWuJ3S
-	 evWTfzeWaKNZdE2xZsh2OPQlir11HzdwSfETFFIr94QEb6/bBc9E5ymdxLodlikbah2wM
-	 HNU2nZhJQG3cwowiKXOZNTqM4whuQrVhuw38hoH+Teecz8ukwnb5VikCSnZv3oHAOOg==
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=2oJdV17KIZUZasV35CEvbX1/9MgA6Fm/bZE/QeZLfdk=;
+	b=OhOJCTdURrZtVmiNpLy8Mvt29H+VzX+RUYHOpkF8LqXUm8vLSTZP+I3BHFOcAt84bQxc
+	 JHYyDFLhzf/1/6p2Ga6W+3U/tBUdoeRi/nntj03MQ2gCh8A2maw2xXAiC6MxJb8wA5i1O
+	 vOXLOcXxPw0fQYWbtV4iftgFqVjI2SOuPLLLgkQjvlXzyCdWR2zHmM40tAWE20f4uDqBL
+	 WqG0EPJtA43uHSXoplCGtfDy3W4A9J43IvvmTeFoTb2ZnBFe7WRaNr92NOgEoaSF+EXb5
+	 cZTWuLj71WXGdNkJxuXJ2+PeGiUzI5BEIN3LAAXKp0rqC8anONQAiDoMA7pdS2TxKyg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=svaO8rbJ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="E7YJwu/t";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B47B606A31A;
-	Mon, 23 Nov 2026 14:12:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E72606A31A;
+	Mon, 23 Nov 2026 14:27:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=svaO8rbJ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69D491F000C4;
-	Mon, 23 Nov 2026 14:12:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795443152;
-	bh=YmajtzA/VPMAycjOs7WerX1NLQIQDrQX0FH28untWyI=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E7YJwu/t
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF61B1F000CF;
+	Mon, 23 Nov 2026 14:27:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795444026;
+	bh=2oJdV17KIZUZasV35CEvbX1/9MgA6Fm/bZE/QeZLfdk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=svaO8rbJvmwp7Ramp3OoQFA5RT3Hnj09FRmT+Zf23/d7+rJPF1jBaPQ2ldVjaAwE7
-	 HAKqTE1gxOH8iN0KD5ApNPVmScYhlmxnJMxfVbw8zpE5YpvD6uKwqgycBrh/28jGzL
-	 64T4YoMdpflz9uOkO+uU9h27L8RjHZWHaVhZ0Ong=
-Date: Mon, 23 Nov 2026 15:12:53 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: =?iso-8859-1?Q?=D6mer?= Mete Kaya <omermetekaya0@gmail.com>
-Cc: rafael@kernel.org, dakr@kernel.org, akpm@linux-foundation.org,
-	edumazet@google.com, brauner@kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] kobject: fix use-after-free in tagged uevent broadcast
-Message-ID: <2026112346-oboe-alto-7313@gregkh>
-References: <20261123132246.220476-1-omermetekaya0@gmail.com>
+	b=E7YJwu/tt5HLoe4Fm1DuHMFT6R/8PllezXlnn2sgTYRc8GbaCMFUtuRDw9aHl2nnf
+	 3SmwP+ULPEU655DZfUriz7QR0arv5Wd/dW5inCUGP+cWKf3QejQKHOyfprTeYV55B3
+	 jlFlGveLiQoN1/MM4yVQBILuWbEPGsfkN/UiaehYLNHuvVTZMlJrbYY4f7Kw6FABma
+	 mdYPsbFnSdvGYBOiFu1FydX73fRdtGRT3+PC5j9LyEBinMJGrZbw3L2OYXx8Qn9XLe
+	 8t9ByqBH1hlkoXFH+nAtgIdXCh73I+0P5qXOdD4Npvnri4p+Fkgu9HJbGB2d6y7YKb
+	 EnJe1mQ5A3jUw==
+Date: Mon, 23 Nov 2026 08:27:03 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Johan Hovold <johan@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-acpi@vger.kernel.org, Daniel Scally <djrscally@gmail.com>,
+	Kees Cook <kees@kernel.org>, linux-hardening@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Len Brown <lenb@kernel.org>, linux-gpio@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>
+Subject: Re: [PATCH v2 05/10] of: property: implement the
+ .property_get_names() fwnode operation
+Message-ID: <179544402303.2319923.12244969864693220730.robh@kernel.org>
+References: <20261113-fwnode-for-each-prop-v2-0-4edc23d5cf50@oss.qualcomm.com>
+ <20261113-fwnode-for-each-prop-v2-5-4edc23d5cf50@oss.qualcomm.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -55,47 +75,20 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261123132246.220476-1-omermetekaya0@gmail.com>
+In-Reply-To: <20261113-fwnode-for-each-prop-v2-5-4edc23d5cf50@oss.qualcomm.com>
 
-On Mon, Nov 23, 2026 at 04:16:50PM +0300, Ömer Mete Kaya wrote:
-> kobject_uevent_net_broadcast() accesses net->uevent_sock->sk without
-> protection in the tagged (namespace-aware) path. During network namespace
-> teardown, uevent_net_exit() frees the uevent_sock while a concurrent
-> kobject_uevent_env() call can still reference it, causing a
-> use-after-free.
+
+On Fri, 13 Nov 2026 16:47:05 +0100, Bartosz Golaszewski wrote:
+> Implement the property_get_names() callback from the fwnode interface
+> for OF nodes.
 > 
-> Extend uevent_sock_mutex to cover the tagged broadcast path and the
-> netlink receive path, serializing them with teardown: in
-> uevent_net_exit(), set net->uevent_sock to NULL under the mutex before
-> releasing the socket. In the tagged broadcast path and in
-> uevent_net_rcv_skb(), check for NULL under the same mutex before
-> accessing the socket.
-> 
-> Closes: https://syzkaller.appspot.com/bug?extid=7db35adbc02c5b86d4e0
-> Fixes: 5c0941c55e5f ("kobject: reduce uevent_sock_mutex scope")
-> Signed-off-by: Ömer Mete Kaya <omermetekaya0@gmail.com>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 > ---
-> v2: Add Closes: tag.
+>  drivers/of/property.c | 34 +++++++++++++++++++++++++++++++++-
+>  1 file changed, 33 insertions(+), 1 deletion(-)
 > 
->  lib/kobject_uevent.c | 30 ++++++++++++++++++++++--------
->  1 file changed, 22 insertions(+), 8 deletions(-)
-> 
-> diff --git a/lib/kobject_uevent.c b/lib/kobject_uevent.c
-> index ddbc4d7482d2..fd61307c045e 100644
-> --- a/lib/kobject_uevent.c
-> +++ b/lib/kobject_uevent.c
-> @@ -411,9 +411,15 @@ static int kobject_uevent_net_broadcast(struct kobject *kobj,
->  						    devpath);
->  	else {
->  		const struct net *net = container_of(ns, struct net, ns);
-> +		struct uevent_sock *ue_sk;
->  
-> -		ret = uevent_net_broadcast_tagged(net->uevent_sock->sk, env,
-> -						  action_string, devpath);
-> +		mutex_lock(&uevent_sock_mutex);
 
-guard()?
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
