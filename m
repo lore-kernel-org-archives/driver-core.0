@@ -1,78 +1,70 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795468113;
-	b=ueJ1f5maJQcvEooVQnUSZttBFYH081Z25fhyVRPTFaGYxgM6fFqlD+dcasFUFBT73fNT
-	 /mTrKFs7S8C5TEgLe6UnDOpnEhyQcm7w06ZhXNv/PJdSmvD14JNCUbbO4hZzWxiPtA7It
-	 V6G3Eg3ExV7BYkxsewizIyYbKPp8TjGenWCTXY99KbjqcGy06ZBvBrAdnoFbhSZzaGbU8
-	 kfa5jlYIcEs+IXkaInTXbd+vqQqCjtpvQxz3uHPXD4is/szwxFstIXA4G4HkusOBs74r6
-	 Mk4odJk0oLRXZk1n/CGUUBHmgXxbPBykx7tPC9rWL7/Z7Ih5SspQ1bGeZoknpDMdaGA==
+	t=1795472338;
+	b=PsSCrNOdC/DcI3a5tTwfV7KaK2209mMfGGkEfxd/dwzIIhGZAHRfvZDqtgUCthq+CCcp
+	 xunM9PbWCySQnUUiLXYAr0+KDDviayW9s088fZHMIcck58+HapvFrJXWO315CN+ggDarF
+	 IZHUVduyP9y6GmrJQ5SXy+CffrdkgfitFlHYPMlpC9PgRx5dvpkJwuC1DHkbVUJH/8xCq
+	 n0TwfKyvEbZwKllsUnjIgSdCPaipJKPBwoyYX3+39BZ8E4lRxXVfkmbChGUHxpeKVTbnu
+	 4OKLNJLjBQRzwMB+F39+cyp/O10NEuXnOwcH9hlnMaXEEoVFEENnwepivGMz5vO8MkA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795468113;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:X-Patch-Reply:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=EO4uQX/7/bcKRhbS3udTzj/oZQeNEQAhUDG89AzCYmg=;
-	b=J2VztNhsipZiCbVeQTuYED5clAj58gfigsLB6nsbdofFriqmuPVfOkksPhO4Tmi/QFEm
-	 0IBDyWrg7/DUNusfJhv7Z6GzknywcOptp51U/WA7RYxbkccXYJuMolEqbl35GJr5mna3Y
-	 egyfU0nE7Lwktr0sfOAk1hPsdx1xiz6SIaaEtGNZfbiuvwV+cE0/taODIe/wETghkjq2z
-	 VErF1+2pqku1n4BqEB798HLQDPPhJHCjygj0L+qN3JgH00a1aFhzEINQ9k7Y5mYutCyrw
-	 ceq3uSF2379eMJQDjsgyQCqq6eh0qMPk8TbEJGSGpNbMfNboNuVOrI+jyoKsb3thprQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795472338;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=YNpY5R5+Z9kOj9iFoPNkKtuTlJgBDahWNmiFIL4yAAg=;
+	b=cUtzrOAde4849Lm1jZUqpnQ5N02KjQMGl9M7XrxHqW9EzuebM8Q10gfqjcGyfDsLzmzI
+	 BWtrmAkYE7pxf9EpigXI3AdhwbyWiNt6uleA0e2tZn5uEM0PCqaJnbU3acCoNZb38r1RA
+	 m1D3tnWuEyliSWVvfmRcsUaoNSRjRwMn4q2Qy05vcRbWd+LsdYki+dMzwtq24EaCskddD
+	 jQwltpoNlM8afUi31tMdfLyxB5dSrkivZClfXZ9KhPyYDdAfWOmvleUbanT8Tj+eGkMik
+	 owRRuHYda/qsrPUPVJ9ojRSomh1Mq/oWtQm9SQVjI1HHq4d1lrZc8hl6loWbqbEKqjA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B9dR51uW;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=isDwKzIs;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE88606A321;
-	Mon, 23 Nov 2026 21:08:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFA4606A31E;
+	Mon, 23 Nov 2026 22:18:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B9dR51uW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A4341F000C0;
-	Mon, 23 Nov 2026 21:08:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=isDwKzIs
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DF4B1F000CA;
+	Mon, 23 Nov 2026 22:18:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795468113;
-	bh=EO4uQX/7/bcKRhbS3udTzj/oZQeNEQAhUDG89AzCYmg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=B9dR51uWHHhVnYeoZ2b4EvD3DV6CDpRIaSZhavQoeKruWyn1VjlSYp3z0MeMmFXIz
-	 dnxJWN2Y0emDlLuOHTboMMkrbMYjxXnaq3k0REAyZI1OvKFPwA6db2/GxgbdlAzRm9
-	 ydq/AvG8zu+YusmwusMa1b4x17S9r3VNddXatiLNlvXjvPXCA2+KQGOkf3KS1DhOHv
-	 eLM9kyw1pTzMksWmMXLOoYMQFA8ElQIhN9JEwbYziCv28+U6Ems49iEwONKwXOcxaw
-	 QQOJhe4FhLpbrp7JTxw4M9Im4vjuRRgX7XZAd1K+qVE2EzQokJPT2rdhirXOJ6JtFd
-	 r5E2LY9yoMYAg==
-From: Danilo Krummrich <dakr@kernel.org>
-To: Tariq Toukan <tariqt@nvidia.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Mark Bloch <mbloch@nvidia.com>,
-	Amir Tzin <amirtz@nvidia.com>,
-	Moshe Shemesh <moshe@nvidia.com>,
-	Shay Drory <shayd@nvidia.com>,
-	Parav Pandit <parav@nvidia.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Gal Pressman <gal@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>
-Subject: Re: [PATCH V3] driver core: auxiliary bus: Fix IRQ sysfs directory cleanup
-Date: Mon, 23 Nov 2026 22:08:26 +0100
-Message-ID: <20261123210826.1625426-1-dakr@kernel.org>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261112081319.3466442-1-tariqt@nvidia.com>
-References: <20261112081319.3466442-1-tariqt@nvidia.com>
-X-Patch-Reply: applied
+	s=k20260515; t=1795472337;
+	bh=YNpY5R5+Z9kOj9iFoPNkKtuTlJgBDahWNmiFIL4yAAg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=isDwKzIsdk/vyOxgxLodfDlw2VRkT+LfkwevOXmwG/pe8ENUlkfKCeDU3BLeMcsNh
+	 0SuTSXVCFVefMhj+57tNTiYh85lTqaWQLZXwEi8SeFKTswko544Q0f5C8d2foLTVzT
+	 wPwr2pTkOoHLH7uqArmv7M269bPyjg/cTF7ymQIuMdfI9Ga+M3Cr+4DZhYNijWvsHQ
+	 ISsjrqAU4VeeKeqNp9ps/PW65ndv+zxiD0XPIFw/5KzmQQAdaKDKUEvyyAft/jj4vE
+	 2FJY3OdYDvQTQ9wy8GANDHg/1WSaoJh6CfwGvYrMAEI+kgasdDry6FC4O3OE3FNRpv
+	 M73dOUDblBqYA==
+Date: Mon, 23 Nov 2026 16:18:48 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: linux-acpi@vger.kernel.org, Saravana Kannan <saravanak@kernel.org>,
+	driver-core@lists.linux.dev, Andy Shevchenko <andy@kernel.org>,
+	Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>, devicetree@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-hardening@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Johan Hovold <johan@kernel.org>, Len Brown <lenb@kernel.org>
+Subject: Re: [PATCH v3 05/10] of: property: implement the
+ .property_get_names() fwnode operation
+Message-ID: <179547232789.2860658.13356602121797700590.robh@kernel.org>
+References: <20261120-fwnode-for-each-prop-v3-0-808e304dc73e@oss.qualcomm.com>
+ <20261120-fwnode-for-each-prop-v3-5-808e304dc73e@oss.qualcomm.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -82,22 +74,20 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261120-fwnode-for-each-prop-v3-5-808e304dc73e@oss.qualcomm.com>
 
-On Thu, 12 Nov 2026 10:13:19 +0200, Tariq Toukan wrote:
-> [PATCH V3] driver core: auxiliary bus: Fix IRQ sysfs directory cleanup
 
-Applied, thanks!
+On Fri, 20 Nov 2026 13:46:42 +0100, Bartosz Golaszewski wrote:
+> Implement the property_get_names() callback from the fwnode interface
+> for OF nodes.
+> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
+>  drivers/of/property.c | 34 +++++++++++++++++++++++++++++++++-
+>  1 file changed, 33 insertions(+), 1 deletion(-)
+> 
 
-  Branch: driver-core-testing
-  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-[1/1] driver core: auxiliary bus: Fix IRQ sysfs directory cleanup
-      commit: b0404f6af48d
-
-The patch will appear in the next linux-next integration (typically within 24
-hours on weekdays).
-
-The patch is in the driver-core-testing branch and will be promoted to
-driver-core-next after validation.
