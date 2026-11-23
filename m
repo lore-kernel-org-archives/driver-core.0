@@ -1,88 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795438671;
-	b=jzln/6MdXz6rjPJq2LEaLf+r0LzVzKdgT5bGXhw8aPCe4DNgv1+kLz4GdbWuYNB4AwL4
-	 p2OKzBkAoEVr51Oi8/hawtaoVyiB7bv9claGrP3Z8rSr1Vi3UnVmJIrzIEdgCPBAvUY4h
-	 ga+35P36L28bXMc6/Z+bBAAnUWyxv7pxt3S4+6Gw/4HYwr0HcnG1q2lb8uiz1XwoJDMdA
-	 qMP/KWEvS40n4zmiUrmL/JIfDFSnX4HyDbj0+pCaGw2ePH1AmNw6+s7AofE9rL4HDqHS+
-	 g4uPkbqAdKf+UwX4wO1eiS2Pp5sOz1B0liAGkbGwfN59mJuEg2MDqFB/KMsSzqsjuxA==
+	t=1795440185;
+	b=iTi6JPNZ6rgP5Ko/4DKNdH8dFQVVsfVDTsNR4nwvg78kFA28gz2cHc5FNO8EFWXt3Oaz
+	 huKth+JTEfXrerFNuHY+P7bheHh5T9tJGPRQEokNVHGcOit9b2SVyL07l+AQ4oUJbreiR
+	 K14sZ9KNnN66gMjR8E8YgIxQBnTafYULyHISMP/bYLO95kLVkPxezKyf3YOEtixti3frA
+	 m2RvK3Q8YuHuCi7m4eX3jUtULtRxYXBqMomXcwjo4jPcyFeDjW24cO/XPNSQoiyfWPRp7
+	 rNLcDyQc9yaV4FhkYVtjSA78pU9Usn3ACZPr70V8oOgMyrBlHEKeocdibPx/kgS8yUA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795438671;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795440185;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=sndCEp07Frht52v60gUrZGuFNtLHoYQT26fBAkqgHK8=;
-	b=MuRwqqxQPRVRbBpzpELAoWBSHkR2kA9ErbY2vUPnKfJjJNl77oBvU8FqsuR0pvaDDGtz
-	 ifqdfgCtN6BpM4UzeCVNi4hDfMLiA+nai5kbMUTi06IkR2lTSNpE1c7FoHCcmQ770PKum
-	 03ErycTFO5VPWURwWKvz7bu333QfREGCnPqIgRLbzftm6W55fQQy+iFFjXIm0sp1ZE1iK
-	 0kqq8JCwWE76ybTCH7/rHCUOtsc0QQnId6cKatSqKRKsMDU+QCMf1/FManp7RVV2Im7ho
-	 hnmUWnJo+BtuFMbrjUflh96xvj1hBbkcRkGiE1Tjv2MGIR7RVfZneYgRZRrd0csl+FQ==
+	bh=nbErdJW+SNaylfayVOIrJtXlUrIgwuZjphA4JlETuDE=;
+	b=OSKvg5BZzEGNcKdodPDzu4O9bVmTZPBZHs+U1BjQuUsw75EGN1jeDPjCtSxGK4PVjyEd
+	 8cnbOtqgynMuPBlRWopnk2s3ZilnmNO3RQstRIBGmIWQtolgTp/r1l2wOEnXZ0MsWniSH
+	 MHb/1xBaEI8tJ31RXFy39R/P7Zxncuet+Bu3RlyWaDbTXQ44Z0SXK6yPUfzxCcEHITbTd
+	 C4aFzTpyIaF+rI8MhYsp1qfAvz/EU1aQRhE+EMAeojKY12CIucrnCNMBwvDPrHDyhF34z
+	 hzBI14m8NZ0wZz6pQcqm/D1nysEz9rG399gkfUvmlB2wlAIgEleLByc9VbE/3kKt3EQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Vijmt1Yk;
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BHYHWbZP;
+	arc=none smtp.remote-ip=209.85.128.45
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F5E606A32D
-	for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 12:57:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12F5E606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535BB606A31E
+	for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 13:23:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 535BB606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Vijmt1Yk
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4bb72b44a97so27403435e9.0
-        for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 04:57:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BHYHWbZP
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a5177d78c7so31778755e9.2
+        for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 05:23:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795438669; x=1796043469; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1795440184; x=1796044984; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=sndCEp07Frht52v60gUrZGuFNtLHoYQT26fBAkqgHK8=;
-        b=Vijmt1YkvNGQo+zg6e9Vlq9ITcwKSRpkluy1lVe/6nmFAwpZSDO76mUBP+ehA9veuV
-         gsAhGjkLBZbNPac8+sm/UskIXlJl3h1GX97rfNrnswNMz3tv6+NiyPMOoPqwsb7QCm1N
-         hEpIc9UqEwNK6t2gPjHt7YPUBrDQGEdnVz0ogBOeoxprjtLu3jFnX7LRvoec5oUHUCMu
-         sG5EGINNw82MtivVCkSDF2e5qPohakuJvCFqTwDo6SmTaeQYLjNmB3S3OCs3UNPesCic
-         H5v1vAk0rfg5c3CbJEzw/2IhFIHw2p5+0qq4tEG78SDOQqkPPKyJ/5wybPDFdyk8IwB1
-         xdSg==
+        bh=nbErdJW+SNaylfayVOIrJtXlUrIgwuZjphA4JlETuDE=;
+        b=BHYHWbZPA7q98PqiX+RS6nOxSjbZmwD9NXf1IL02Exn9LWX6CUyzmAbw5Da3j91R2s
+         sUaLU82SejR3QjPChWQU+5s2vClQSuTszhDAY3hs0JN9HknJU3mfvBXiilf4jy67iV0N
+         mnOBI5lMX4oXKujZKD0czT7OfGeVMGCbKDma/Cj7x0wettF7qBHXMxvkE883OkKVr+92
+         JCKo2yeZ2xh+hmp/0CBqNVHVK2lhzZOefoo8DQIKv4Zf6JgFMV7byV0fX7gBHHNLytJU
+         JEDJHuI3MDTtWxIJmvrSxXtNW/MXdeDpiQKEiIkBkm0/VSSe04Qur6zVweeaWgubA2RL
+         +e9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795438669; x=1796043469;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=sndCEp07Frht52v60gUrZGuFNtLHoYQT26fBAkqgHK8=;
-        b=ZZnVm2a8rSgWK4xi5TBISzfdENuszQL9/Jylm8s5pIz8gfCNqO5IzLf0QTk7NiEanR
-         mPKAQXdUqfhV+g8Ldq4YEV4qF4tu9rdXGR/0yYuROVa3nvWOfSyI3Lp9onIi6pi/np/R
-         7QfSGS6Jlm2TPqYxMyUjG3EfC33Pki9SXDPym5Vg3HXW8i879gBiRZ/tZ0JRBngNBv5m
-         LGt5OySpt54SGv1Sfc4FSZTb8dLL+BGDMQLBPEnhOpUMyjMGlWvFpZbMZdf0zbFEr79r
-         u/Om1y7FGwAglBA9Hu+/kPW4N7ceGDaKRp4YT0WGLtRel7nWrqr0IR/0u+EaSDKvyWb3
-         uZ4w==
-X-Forwarded-Encrypted: i=1; AL+hErFlPBSXpe4k6cvGLIfgCI8oXxZlNEK3DNchu2Agtqli9oUCBo0abXXZFpuPPzh21wXEEgn3nziJO5yMmw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+9WAn63Fmzs7yhc93ZJp9kLKPG1viCylUr6/UZ+P5qI9UMqtZs
-	2aD8Ia1vM7MpDd09pV3+BMgHdR+IiQUjZt9722MPsI01wUycXcTfOH3n
-X-Gm-Gg: AZFdTZeMT3J+7CrvqjVoGTlgBUzLbvBG+qjT1cEBnYC2L0S2itN7zQXx3mnITdQO/bh
-	ab79BO0XhXutN8OxWkg/LehVjZ4pu2L43SQugScEeOkvh+Upu4p9E7DaLRcptploE4+mD7LmsNY
-	ki/I7E30s1st+u2A7mV2dcC9coC0QnV5yuB7iviyHA7RgIu/pciU8zXtLQVAMjkhu1T6FD1oMyk
-	3eYn8+hz3OfHqJGk7VmAV2/dS5dGfpAhWBtKwjtiVVYjrEcwNbaSvfcMnY6zoTAD9rgdZ1Bwl6j
-	SCI+NMmFa3YNoE+77zocibnVamni0btfcHtMCiUTsdOAzdEPLzPvHf1nZgtJ4gEFQj/YNm1m9z1
-	XUFx30J3d333fOCb5H7jMZedZpIc89TK0SyL2exnE/0T0yz073B5ayOWXjj9Vt3tv8apgNOn6ZJ
-	mK7GDlXrdoraejSU40qjTVR5IT7rac35htXaT/IAumFE4iIvLRiBFFh5KkuBTPtbHw7QFR7obyz
-	3GArP/ntw0eHY3O/BDRSy0GJbcjAC1e2lOUOBjlemhAqAgK3pjINDh8yt81QtMi/QSz0CGenI8Q
-	wRrIfv+g4P5xvHffavf2p8VapLZrQ46+RjA+amU=
-X-Received: by 2002:a05:600c:4f4b:b0:49f:fd2d:23c7 with SMTP id 5b1f17b1804b1-4bb888226c0mr278120335e9.27.1795438669332;
-        Mon, 23 Nov 2026 04:57:49 -0800 (PST)
-Received: from [192.168.18.21] ([46.197.185.3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb9067846esm197171515e9.4.2026.11.23.04.57.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Nov 2026 04:57:48 -0800 (PST)
-Message-ID: <6d2bb264-c1c6-42be-869b-4548fe697f59@gmail.com>
-Date: Mon, 23 Nov 2026 15:57:47 +0300
+        d=1e100.net; s=20260707; t=1795440184; x=1796044984;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=nbErdJW+SNaylfayVOIrJtXlUrIgwuZjphA4JlETuDE=;
+        b=zS37s/fCTdb5t8JUFCOanm+4Vj84R95RC++zHc2OppWDXr7PC43d0OOJsN4J7bdtzC
+         I7RL46FTkezbIfxOWH0cluwaZkD0SBcELBpVy7G7fucT7mlVrkpNMnnPRvtPGFWh9bGn
+         L63818R6BvotdI/APcU00k+Ade8e2JAiC5XEEhwNDv7QMjPVE+4fwWULsx6fhy1MXdFg
+         mndRpv7HPGNUzeqLDrLBNR4qjaSkW8vBrdJu07xAJZBE4wJ70xcYlZJSxMTC4PyktPhd
+         daj8rgtAXLXiJyDED/Gsm0ntm3aBuqI3qlzRwPN2ltJJMahTLFiLifDSS2DIKXW76kNP
+         aTDA==
+X-Forwarded-Encrypted: i=1; AL+hErEh1g3t8wykaQl/3YUyAQwbo8i1sh+xpJ4CeYgKfu8qapWJefq3eND1QNm1TwFScIhpfZ9Q4+A4Hl/zTg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+BmOGPPpP42nX0FPSy48wV5OEyTiD4y1jAY2/3L81eu32rhx88
+	E1a0AQQ8ZzoFSx1wpuj1LL2B4Ht6nsBxfoKifNAIQzHEfY35E3zP6Zoh
+X-Gm-Gg: AZFdTZeBlYlSF7dgMpVUdzxI+KmSxOtP6B0jqj3aiKB2wvyW7P6SkpcwMaZ024GOvhb
+	dOvGSXvJWm+zhU64CVM5sx2/TpZ8BdlGho7sRcPBzhjEFMKQqHs8oWERbYWFHia4nNfAWqbVqm9
+	G5Lf5oM97DdVo69ZzlDvpd02B75FeGn0xPlp3tBld9eb3JA5186UdF5aLJyOC8SWHh8TGF26tja
+	lbIeT49APxiJRVu9Tcyc8lNQLYDVahq5EM7R3gL3dC4fkdYUAThTxMKGibN2zDuEv/9RsKOVdMZ
+	8EGF5n9AmegtbwZOECNYusiulH7z9VgdOVbLLbSWq0uvvERHA9Z0nCiMU2+9grq9HHs6rfmFyoC
+	BCM9K/5dce6wCUQsWrREMgAth2KQMuZC/CDKTSOtwp4cuZWXBh9M49fAR39IN2rpsVNsTHoW5bF
+	xdtjqO1bIVh821/kMGW3FNp1y+3hehA/veZmJUm36oYgCfEOIbbbKGQtXofyrw6NvfZU1bsDX43
+	qiW2fYtE+Sni88YBvx0p8OqWSZh0ijbTXOBTsijYyCaExPN8giktQcusaV4KY7exd8v192HiuE9
+	ycRx54YPx4WEadLgG0FBME5ZAG5FsmYJNAFk/JoEA8/0RMA=
+X-Received: by 2002:a05:600c:4f4a:b0:4bb:6752:8413 with SMTP id 5b1f17b1804b1-4bb8880015bmr267550845e9.8.1795440183501;
+        Mon, 23 Nov 2026 05:23:03 -0800 (PST)
+Received: from metepc ([46.197.185.3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884b8429sm546674425e9.14.2026.11.23.05.23.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 05:23:03 -0800 (PST)
+From: =?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	dakr@kernel.org
+Cc: akpm@linux-foundation.org,
+	edumazet@google.com,
+	brauner@kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>
+Subject: [PATCH v2] kobject: fix use-after-free in tagged uevent broadcast
+Date: Mon, 23 Nov 2026 16:16:50 +0300
+Message-ID: <20261123132246.220476-1-omermetekaya0@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -92,33 +101,96 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kobject: fix use-after-free in tagged uevent broadcast
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: rafael@kernel.org, dakr@kernel.org, akpm@linux-foundation.org,
- edumazet@google.com, brauner@kernel.org, driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20261122061751.178540-1-omermetekaya0@gmail.com>
- <2026112237-delegate-neon-7b4c@gregkh>
-Content-Language: en-US
-From: =?UTF-8?Q?=C3=96mer_Mete_Kaya?= <omermetekaya0@gmail.com>
-In-Reply-To: <2026112237-delegate-neon-7b4c@gregkh>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+kobject_uevent_net_broadcast() accesses net->uevent_sock->sk without
+protection in the tagged (namespace-aware) path. During network namespace
+teardown, uevent_net_exit() frees the uevent_sock while a concurrent
+kobject_uevent_env() call can still reference it, causing a
+use-after-free.
 
+Extend uevent_sock_mutex to cover the tagged broadcast path and the
+netlink receive path, serializing them with teardown: in
+uevent_net_exit(), set net->uevent_sock to NULL under the mutex before
+releasing the socket. In the tagged broadcast path and in
+uevent_net_rcv_skb(), check for NULL under the same mutex before
+accessing the socket.
 
-On 11/22/26 12:41, Greg KH wrote:
+Closes: https://syzkaller.appspot.com/bug?extid=7db35adbc02c5b86d4e0
+Fixes: 5c0941c55e5f ("kobject: reduce uevent_sock_mutex scope")
+Signed-off-by: Ömer Mete Kaya <omermetekaya0@gmail.com>
+---
+v2: Add Closes: tag.
 
->> Discovered by Sashiko, not triggered, not runtime tested.
-> 
-> Please test and get a reproducer before attempting such a change.
-> 
-> thanks,
-> 
-> greg k-h
+ lib/kobject_uevent.c | 30 ++++++++++++++++++++++--------
+ 1 file changed, 22 insertions(+), 8 deletions(-)
 
-Sorry, this is a syzbot KASAN bug that is already triggered, I confused
-it with another commit I did. here is the link :
-https://syzkaller.appspot.com/bug?extid=7db35adbc02c5b86d4e0 I will
-resend it with properly.
+diff --git a/lib/kobject_uevent.c b/lib/kobject_uevent.c
+index ddbc4d7482d2..fd61307c045e 100644
+--- a/lib/kobject_uevent.c
++++ b/lib/kobject_uevent.c
+@@ -411,9 +411,15 @@ static int kobject_uevent_net_broadcast(struct kobject *kobj,
+ 						    devpath);
+ 	else {
+ 		const struct net *net = container_of(ns, struct net, ns);
++		struct uevent_sock *ue_sk;
+ 
+-		ret = uevent_net_broadcast_tagged(net->uevent_sock->sk, env,
+-						  action_string, devpath);
++		mutex_lock(&uevent_sock_mutex);
++		ue_sk = net->uevent_sock;
++		if (ue_sk)
++			ret = uevent_net_broadcast_tagged(ue_sk->sk, env,
++							     action_string,
++							     devpath);
++		mutex_unlock(&uevent_sock_mutex);
+ 	}
+ #endif
+ 
+@@ -743,6 +749,7 @@ static int uevent_net_broadcast(struct sock *usk, struct sk_buff *skb,
+ static int uevent_net_rcv_skb(struct sk_buff *skb, struct nlmsghdr *nlh,
+ 			      struct netlink_ext_ack *extack)
+ {
++	struct uevent_sock *ue_sk;
+ 	struct net *net;
+ 	int ret;
+ 
+@@ -760,7 +767,13 @@ static int uevent_net_rcv_skb(struct sk_buff *skb, struct nlmsghdr *nlh,
+ 		return -EPERM;
+ 	}
+ 
+-	ret = uevent_net_broadcast(net->uevent_sock->sk, skb, extack);
++	mutex_lock(&uevent_sock_mutex);
++	ue_sk = net->uevent_sock;
++	if (ue_sk)
++		ret = uevent_net_broadcast(ue_sk->sk, skb, extack);
++	else
++		ret = -ENODEV;
++	mutex_unlock(&uevent_sock_mutex);
+ 
+ 	return ret;
+ }
+@@ -804,13 +817,14 @@ static int uevent_net_init(struct net *net)
+ 
+ static void uevent_net_exit(struct net *net)
+ {
+-	struct uevent_sock *ue_sk = net->uevent_sock;
++	struct uevent_sock *ue_sk;
+ 
+-	if (sock_net(ue_sk->sk)->user_ns == &init_user_ns) {
+-		mutex_lock(&uevent_sock_mutex);
++	mutex_lock(&uevent_sock_mutex);
++	ue_sk = net->uevent_sock;
++	net->uevent_sock = NULL;
++	if (sock_net(ue_sk->sk)->user_ns == &init_user_ns)
+ 		list_del(&ue_sk->list);
+-		mutex_unlock(&uevent_sock_mutex);
+-	}
++	mutex_unlock(&uevent_sock_mutex);
+ 
+ 	netlink_kernel_release(ue_sk->sk);
+ 	kfree(ue_sk);
+-- 
+2.56.0
+
