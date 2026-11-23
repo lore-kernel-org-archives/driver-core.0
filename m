@@ -1,92 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795441614;
-	b=v88pR1ws9fQa8YWMc0nr5DYxeUPutzuy1ed7H9EQh1kPJR8RJL8j2OXjN7YwRIHGBmzd
-	 OXY6MQLRBv5G+5GZ8U0XhBb2p9ud183bUXkKe5qS8DMsGXz+SrwJmAGAlY3gzu9C1o2Mz
-	 1M2SlAegHzirY5q155nIBHz3ZhsuS0U5ByV11wQRYMtsgATig0bs9m3cDXti5rYTABgKh
-	 7JFig8rLqwn2+TFXzaedeag5u6vrpPKjzODzxbqGzOfzp+h6a5kl7oQFfkwiIvhG3WUyx
-	 6NtWFLjEQGnSlsQ0UtAKeRdhdCxYabGCSu8+4x1x/V0/VwdeapbExr2Ugh2ohH12VAg==
+	t=1795442040;
+	b=1AISl8nYEexBShni9i1cAIGv2S1n0XWDVyPIDggirLMllWXBtCIWmgt7Wohl41KfdXql
+	 lykJA41PSSdHt3+ngUoHEmmM9H9j6r57LZ8wMY0ILcCSuHTaXBctd6Lm+cG74rWO6BAWi
+	 iNflNOLVfj+05uLdsqAr9yK8o5dVSxuZlrvsSmGJ2Vh/1Cu2abEG0B77JWmtsKacMgcZy
+	 dbTab0hQ6BP0wYcaKgsXXJke1oliwIYKv5oSq5osTLERQ6Li4aWyXbwGngKZ1+RLpL6x5
+	 nXcne9zQOlLeik+PD+lq0vg+LhDbyVeWSoh9iF84m/tTpStSGBPjLJi058a8eJOo+bw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795441614;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795442040;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=oM3xVs7K0+cGhkDXcxAVD5yhKjuUtv/5wSCqKlsYXus=;
-	b=ZBVwy7lK9PLLl9C5TZdBtwBEeAmcAA/+kHVDkUWVQ1XfAOC67Txddj3kOHj98hlNF4lf
-	 xCv8b5y3StQDpLfxSwB8MLPxS33tbEpQKlVC55H8Kixwha6t5rCP/oXTM+E+llQaHrFeK
-	 fsx+JZeF6T9NMVNzmFpgLozm1bo0fBlgbLRj212OR6Hq26Loony3F9mX5Ubnh2xmI+ueQ
-	 TopHLD/1QFgcXX0xeAW8oMNyqViybov8tFBUyvheTdS0qsAzpXkcz8A6EEmVj60VY5jL4
-	 e3p89eWURbBEwh2JKqDwzTgfSzRCoKicQcgkz4qXcYUMES48n02nTzoZVgHTbDAI+FQ==
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
+	 In-Reply-To;
+	bh=MOqSPuzgFkgUUA2YNUWCC5n6SqQAFa4aMwyIiBrPSGc=;
+	b=dmT2OmWVJp/iqFjYFEpeB1YFKd7RHgRxymyJxB5sOipaqKD5ZE5Bd1932y0dnzdM7f6E
+	 UBa70zOj38hSlRtr4xbl64BOpfBwV1DCS/hxJ6eGpQKyjmsqTKg976MW7Qh3tLDM3/FCo
+	 CAzunSOGLOWthR8QKr7oN072CnGQG0/6hA61E4O7QWyEtQFIRYGH0+CgBwsMj6sbqcMzF
+	 jngSjMMNC0jVmah9cx8XvbPguRcp4KBfSiKr+z0HvxEW3x3cNhhcysa1e1V1SeSk9CAOa
+	 loLhCMlAgQhfufWpDkCnRfvkshSdSSdm8BhIJqu5Yi9wAS02Iog/9oUszLoR23UMmmQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=L94Ky05N;
-	arc=none smtp.remote-ip=209.85.160.172
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=SaGQtaPj;
+	arc=none smtp.remote-ip=209.85.214.169
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162CB606A327
-	for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 13:46:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 162CB606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC274606A31F
+	for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 13:53:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EC274606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=L94Ky05N
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-55be673e029so372571cf.1
-        for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 05:46:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=SaGQtaPj
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2f048bc09d7so98325ad.0
+        for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 05:53:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795441612; x=1796046412; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=oM3xVs7K0+cGhkDXcxAVD5yhKjuUtv/5wSCqKlsYXus=;
-        b=L94Ky05N7i6SqquvD219sexsUwNglv2JFZn/CGi2qTtgR94YxlPCTlWl3pzXn1SyDF
-         +2qyrPDLcrIVYT+ta1D6hFPlTGrn1r6+IU58MTUKfG/LhfrSmvGCoMUZtaXxEhURL0xl
-         PcDwELb6UkXUnY8eE04U1hMtedZ9970AgaHFN3oFyQ5j7Rcjx5PRw9xCaV/UVXK0ReRl
-         Cgi+NP45Hr5/mJGbMzWPVppDWYkr1VCX9dhd/DfI2jmtch+VYqR22nD2ONUBAIQucJh3
-         ggrCNfuPo/Qa2JYg/TVY3jr+Lk1zvJYT59OBisBBVw8hJldCCQFvWbUSHmxEtZScmFcy
-         PNnQ==
+        d=google.com; s=20260707; t=1795442039; x=1796046839; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MOqSPuzgFkgUUA2YNUWCC5n6SqQAFa4aMwyIiBrPSGc=;
+        b=SaGQtaPjyQqTzIS0HQBIVTfCrjBLwcBrJeB/jkbZyIdihQqnWziI2ZxcCy4tAUIkPp
+         JAN6UGKbznOQKsoS/rP8wbuN31V/811bI573fePxHFER9+VFpMPDvZbDzIELrEg2tK+q
+         lQ7Co2YtXEpPXvXlUsGXfYo4nzgUB378G2pKuxL3uMPlerN9PYDr/u9QlT2YpDjlxfkN
+         yZIUU1NILjL03DCipg705AIWu28rMNHsenvWNM2Rqf6pWtOj69FjkPpkoFPPzvUMhyHl
+         ZYXV6oK62Q/OAwJI2bl5SmpwsAVgCI+QWGhQ7Vd3TFnhKkzKXySTjcDqPRJNYbjqKeri
+         kXaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795441612; x=1796046412;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oM3xVs7K0+cGhkDXcxAVD5yhKjuUtv/5wSCqKlsYXus=;
-        b=mBtIbpfIDiAOOgpeAAYa1OlOAhwk8euPaWoWnqdfd3sAuFotvUI/JJs+1ETsp699oJ
-         GA9f5X219yzFrO7qr6JEygLbXDr7bRXd6wX5jcc3pRrsZDF/flDccameZAYt106i2Eje
-         tar3QxVYd+bobvGLWA/6JPs97yVoliezEIcgMKojh0YSoiiMGSbhwP3bbjEVYTbPeeRx
-         scAW8qM3JDVgAaHe+fkodcT32f60WlIKiCFCKYCerwlghaOdkkobCD9ToO+bywldVXxr
-         H3kaZCOgJmW6/ymJH5R8y4KiEcTt99OGMwJVtzswo/m4O8xDZTLQi7pDF+97HReCMlWK
-         KX7w==
-X-Forwarded-Encrypted: i=1; AL+hErEnaTOhim+cIhYp8TmIwOT5rF2mFA2f7lP16FtETDQvVesF9u25h3NWUfnC3EqLFb6SjvBmmkIz7YyYcA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9/786gY8gadKBtfraE0dmuOh5Ky7P+VkDcHblIIr29JfqysTkU
-	Pd7iV+JG6qsqE7tSzCKlHJmWR533s/TO+t64/gjQ1PjdUctLvyZIweaZtwIybAK+Tg==
-X-Gm-Gg: AZFdTZfwqVA03FupN5Hb1gXcRwTROWWOW5nQG+wcjHlLgF3lWwd7R3atwrosz4qeqmy
-	F9E/81MTDxmoroXVWFYEfFpKtOMmcCCEpNbSETjTmhMtj29orEA3yH8f5bKexU4j9weaquAISG9
-	ZwnWe29IcfPVOZEPp8ywZAVD6vUzeO+LTeE7b/LTJA/Y+Zpjr/RoLD2cwoD7pE51p+/fZmawkxf
-	Y7Gi9c9Ec2CSZCSreixb87XMxpFsfDGChgAZH7cIAyczE6LC1oarXXIUIvF3iLJX6c0VW7I8t82
-	ZzLhtPiVBwPTEwTzPUt1H7Bx+rrVhGzWvaWK/SCbvonED/aouN+CHy/wpSFh77sEe+4fNmunGBl
-	n0PkfSxBx4affTMDEnup4XVrNNcmBx5iB/fUvwxKEQzz+mVvx3b+jiUVGEr7raPhisW5oq9tR+C
-	01HHoM2CeILK0c3dapLgnkGyynkNxmRgXi6QgVafMH4KDnzJq3tc1takLiwnGYSraCEnSYW25xg
-	7v2hdihQaHfXiDlsvdZnOya2+EZpweTWh0k7HsXhcAyuQHRgjom+QF1yXRd7nhd/68MsMFkOEbd
-	Pk5+j7h08YZ0Z0TLgmlsJKj3Paa8jS3WL8Wj5S2zj6Kk3Zu3J9aS4Ix9/CM4Y7IHsKn/
-X-Received: by 2002:a05:622a:5817:b0:536:78de:775f with SMTP id d75a77b69052e-55d8909c85amr32019921cf.15.1795441611495;
-        Mon, 23 Nov 2026 05:46:51 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795442039; x=1796046839;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=MOqSPuzgFkgUUA2YNUWCC5n6SqQAFa4aMwyIiBrPSGc=;
+        b=P6/VFbkYZikB6D3zqanGcIglMTp1M/J1wmR9VT8oRjL5ayr3koruS58OwkPL/6yThM
+         aNV3XGwAGHEgRcC4aQLcnSwYyFYWIHrqkxX1UmCU6Ggk+ESrZYZ4Dz8Kcy6P8apbNOYZ
+         2iyUFPijtQ7EnXcXV9b2+eAjrzb+UHSMwO5IpPKfidUd87ZkrCl4ovpT618ezbNkQwVF
+         hBPE50+MWrjUrRktPx3ZtL8l9ei0qEE+wZb2AWymjc67mRsO5Fe5ULhjWHab9Iv+pMUD
+         4zuss2sjcJBEEgnQRUpsQhLA1yBOtS87uBNMoOesckuqg/l772ZXKIE/fOnmZ5BslFel
+         lUzA==
+X-Forwarded-Encrypted: i=1; AL+hErHKo8xssDbqL0JqAEVT50MuhlbPwe+U+j9ArCGOBLZcap0TkLkX8yC19hL18Bwi7WypOKXJxVyXPsW/Xw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9Z3tGvQXyslmVXWsUSm9rGM7wRfEoKN4YYatH4CgNl5gS7Zb/k
+	9klCApiEtQa9D0WFp6EQ7Q2JJePxc+MdLxM9yG89+Gn1WOVB0Ou2dL7NoD/PYT+4VA==
+X-Gm-Gg: AZFdTZcSx8yqHIBEUbGTMrzYVRypvRKw3LJmruZVOwvB8bXRNiADrGVJXM5a1pxXHr9
+	6HWcNltv/9BTBTQS7yE5h4pjJvTzAC5FwKeD1nZrIQBgPoKoZxBT8fdy3PuNnuQwpQwrcIK7NPa
+	j4ey+C1rFaqy6NElk/AwRyB2e7t0/LQ/Vrr039Q1wuYyW8P6d59GC0gfMxhdP1nUC85b5MujxiO
+	K/zZm4G3PUpv3TjMmcuth2bD2YmJe/eG9/Se2WWHBnx/1HpmEpvu0tP88haR1mXIf3VTy2AJtbe
+	8OUhRiNHsyR21ghRk0s2QrczNRaFE+e+NxrnTd/9QQkczqAbQ9eNhh4nY+9N6aBp5gtIDoVHdng
+	iY8nVIrK51dhZfN8yjJA/tzVD1o9tZqHSa5Vc7mmAkybFaFxYVPuw56QaBMfJ3vG/Ma9HlVGWzw
+	QTrUdRv0LRnzZqpeYpLfdeSpun//xG+7yZmj4GxteK9ep735sZOidHOtPPmWTrk9sgcjT/Vbc/6
+	yGmHiKR5OhIvx+da/OAPQcrOn6ZZqxZvIt1FknTNL2PLko09q3Vt0y5B8t/khVmC7OcQkowZaJT
+	MlG3lMb+Exp84bX+XOPTFXPkHk3g4Pi2y136+5tF8a+daDzKoS9b5KPLQqdoVuaqFTk=
+X-Received: by 2002:a17:903:3c6b:b0:2ca:4bb4:4bd with SMTP id d9443c01a7336-2f062bd72b9mr7103195ad.5.1795442038751;
+        Mon, 23 Nov 2026 05:53:58 -0800 (PST)
 Received: from google.com (105.211.142.34.bc.googleusercontent.com. [34.142.211.105])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-57a35055486sm8586840b6e.12.2026.11.23.05.46.46
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b44b73b2b3sm7836326a91.2.2026.11.23.05.53.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 05:46:50 -0800 (PST)
-Date: Mon, 23 Nov 2026 13:46:43 +0000
+        Mon, 23 Nov 2026 05:53:58 -0800 (PST)
+Date: Mon, 23 Nov 2026 13:53:51 +0000
 From: Pranjal Shrivastava <praan@google.com>
-To: John Garry <john.garry@arm.com>
-Cc: iommu@lists.linux.dev, Will Deacon <will@kernel.org>,
+To: Daniel Mentz <danielmentz@google.com>
+Cc: Will Deacon <will@kernel.org>, iommu@lists.linux.dev,
 	Joerg Roedel <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>,
 	Jason Gunthorpe <jgg@ziepe.ca>, Mostafa Saleh <smostafa@google.com>,
 	Nicolin Chen <nicolinc@nvidia.com>,
-	Daniel Mentz <danielmentz@google.com>,
 	Ashish Mhetre <amhetre@nvidia.com>,
 	linux-arm-kernel@lists.infradead.org,
 	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
@@ -96,10 +96,12 @@ Cc: iommu@lists.linux.dev, Will Deacon <will@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev
 Subject: Re: [PATCH v11 11/16] iommu/arm-smmu-v3: Add CMDQ_PROD_STOP_FLAG to
  gate CMDQ submissions
-Message-ID: <awRDwxkrZjouy9b9@google.com>
+Message-ID: <awRFb6Q6WW1Ys0vq@google.com>
 References: <20260929034510.2023173-1-praan@google.com>
  <20260929034510.2023173-12-praan@google.com>
- <0fe0d909-a01b-4f4f-9faa-c533b8925f25@arm.com>
+ <asZSQRSYBjbUaaH0@willie-the-truck>
+ <atXTtaxz0z-U-XSJ@google.com>
+ <CAE2F3rDd23TcWELEu0hNZiw+At==HZjZ=4KWGc-KPoZ4YiFxSg@mail.gmail.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -109,98 +111,84 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <0fe0d909-a01b-4f4f-9faa-c533b8925f25@arm.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAE2F3rDd23TcWELEu0hNZiw+At==HZjZ=4KWGc-KPoZ4YiFxSg@mail.gmail.com>
 
-On Fri, Oct 23, 2026 at 09:17:26AM +0100, John Garry wrote:
-
-Hi John!
-
-> On 9/29/26 04:45, Pranjal Shrivastava wrote:
-> > Introduce a new bit flag, CMDQ_PROD_STOP_FLAG (bit 30), in the command
-> > queue's producer index to safely gate command submissions during device
-> > suspension.
-> > 
-> > The flag embeds the suspend state directly into the existing global state
-> > The flag is checked in the cmpxchg loop in arm_smmu_cmdq_issue_cmdlist(),
-> > which acts as a Point of Commitment, ensuring that no indices are
-> > reserved or committed once the SMMU begins suspending.
-> > 
-> > This prevents a situation of "abandoned batches" where indices are
-> > incremented but commands are never written, which would otherwise
-> > lead to timeout during the drain poll.
-> > 
-> > Update queue_inc_prod_n() to preserve this flag during index
-> > calculations, ensuring that any in-flight commands that successfully
-> > passed the point of commitment can proceed to completion while the
-> > flag remains set.
-> > 
-> > Suggested-by: Daniel Mentz <danielmentz@google.com>
-> > Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
-> > Signed-off-by: Pranjal Shrivastava <praan@google.com>
-> > ---
-> >   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 35 +++++++++++++++++++--
-> >   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  5 +++
-> >   2 files changed, 38 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> > index a123810fac57..7f89e2306942 100644
-> > --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> > +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> > @@ -218,7 +218,8 @@ static int queue_sync_prod_in(struct arm_smmu_queue *q)
-> >   static u32 queue_inc_prod_n(struct arm_smmu_ll_queue *q, int n)
-> >   {
-> >   	u32 prod = Q_POS(q, q->prod) + n;
-> > -	return Q_OVF(q->prod) | Q_POS(q, prod);
-> > +
-> > +	return Q_OVF(q->prod) | Q_STOP(q->prod) | Q_POS(q, prod);
-> >   }
-> >   static void queue_poll_init(struct arm_smmu_device *smmu,
-> > @@ -726,13 +727,42 @@ int __arm_smmu_cmdq_issue_cmdlist(struct arm_smmu_device *smmu,
-> >   	do {
-> >   		u64 old;
-> > +		/*
-> > +		 * If the SMMU is suspended/suspending, any new CMDs are elided.
-> > +		 * This loop is the Point of Commitment. If we haven't cmpxchg'd
-> > +		 * our new indices yet, we can safely bail. Once the indices are
-> > +		 * committed, we MUST write valid commands to those slots to
-> > +		 * avoid indefinite polling in the drain function.
-> > +		 */
-> > +		if (Q_STOP(llq.prod)) {
+On Wed, Nov 18, 2026 at 12:27:58PM -0800, Daniel Mentz wrote:
+> On Mon, Oct 19, 2026 at 1:24 AM Pranjal Shrivastava <praan@google.com> wrote:
+> >
+> > On Wed, Oct 07, 2026 at 03:08:01PM +0100, Will Deacon wrote:
+> > > On Tue, Sep 29, 2026 at 03:45:05AM +0000, Pranjal Shrivastava wrote:
+> > > > diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+> > > > index deefb17e31eb..794b258550dd 100644
+> > > > --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+> > > > +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+> > > > @@ -394,6 +394,11 @@ static inline unsigned int arm_smmu_cdtab_l2_idx(unsigned int ssid)
+> > > >  #define CMDQ_ERR_CERROR_ATC_INV_IDX        3
+> > > >
+> > > >  #define CMDQ_PROD_OWNED_FLAG               Q_OVERFLOW_FLAG
+> > > > +#define CMDQ_PROD_STOP_FLAG                (1U << 30)
+> > >
+> > > I'm unsure about this. Bit 30 of the cmdq prod register is RES0, so it's
+> > > plausible that the architecture allocates that bit for something in future.
+> > > For example, if the index field was extended, then I think that would
+> > > cause problems for the driver.
 > 
-> I know that there has already been other comments on this "stop" flag and
-> whether to use it in this way... but, if CONFIG_PM is unset, could Q_STOP()
-> ever return true?
+> Let's cross that bridge when we come to it. I think that for the
+> driver's internal llq.prod, we can deviate from the layout that the
+> architecture defines for SMMU_CMDQ_PROD, and as Pranjal pointed out,
+> we are already doing that. If the architecture eventually consumes the
+> current RES0 bits, we could save them in a separate variable and only
+> overlay them when writing to SMMU_CMDQ_PROD. If the index field is
+> extended, we could artificially limit the index width in this driver
+> or transition to a 64-bit type for llq.prod. Also, it appears unlikely
+> for the index field to be extended beyond 24 bits, because
+> SMMU_CMDQ_CONS allocates bits [30:24] for SMMU_CMDQ_CONS.ERR
 > 
 
-No, the flag is only ever set from the suspend path. Since I'm moving
-the PM bits under CONFIG_PM in v12 anyway (per Will's comment), I'll
-make Q_STOP() evaluate to false at compile time when CONFIG_PM is unset,
-i.e. IS_ENABLED(CONFIG_PM) && (p & CMDQ_PROD_STOP_FLAG), so all of these
-checks (including the one in queue_inc_prod_n()) just compile away. Does
-that sound good?
+Agreed. Thanks for pointing out the CONS.ERR part, it does make
+extending index beyond bit 24 less likely, although I think non-index
+fields can still use it?
 
-> And it would be nice to not add extra logic in this loop. It is very timing
-> sensitive, and adding extra checks can increase the chance that the cmpxchg
-> fails (bad for performance).
+I like the idea of extending to 64-bits with an overlay thought.
+
+> > >
+> > > Do we have to put the stop flag in the producer value, or can it just be
+> > > a flag elsewhere in memory?
+> > >
+> >
+> > Fair point, but the flag is SW-only, i.e. it's always stripped via
+> > CMDQ_PROD_IDX_MASK before anything reaches the HW and only ever tested
+> > via Q_STOP(). It's the same deal as CMDQ_PROD_OWNED_FLAG, which already
+> > uses bit 31 (also RES0 in SMMU_CMDQ_PROD, IHI0070 section 6.3.27) as a
+> > SW-only marker in llq.prod.
+> >
+> > Keeping it in prod is what makes the check + slot reservation atomic in
+> > the cmpxchg.. with a separate flag, a CPU could check it, then suspend
+> > sets it and samples the target, and the CPU would still reserve slots
+> > beyond that target.
 > 
+> I think that the suspend thread needs to ensure that potential users
+> of the command queue either (a) observe the stop flag (or some variant
+> of it) or (b) are accounted for such that the suspend thread can wait
+> for them to conclude their command queue operations. For this type of
+> synchronization, I believe we do need some variable that both the
+> suspend thread and the command queue users access with cmpxchg or a
+> similar operation. I guess that in some alternative design, we could
+> use a combination of refcount_inc_not_zero in the command queue user
+> threads and refcount_dec_if_one in the suspend thread, and I believe
+> one of Pranjal's earlier patches used a similar method. The beauty of
+> the current proposal is that we re-use existing synchronization
+> primitives and don't introduce any new variables that we need to
+> access using cmpxchg.
 
-That's a fair concern. A couple of things here:
-
-     - The check is on our local llq copy, which we've already loaded, so
-       it's a bit test + a (not-taken) branch, with no extra memory access
-       before the cmpxchg.
-
-     - Per Will's suggestion, I'm making arm_smmu_cmdq_poll_until_not_full()
-       bail out on the STOP flag, which lets me drop the check at the top of
-       the loop and the extra READ_ONCE(), leaving a single unlikely() check
-       right before the cmpxchg.
-
-It does need to stay in the loop though, since the cmpxchg is the only
-point where checking the flag and reserving the slots is atomic.. a
-check any earlier (e.g. in arm_smmu_get_cmdq()) could race with the
-suspend path setting it.
+Agreed, and that also matters for the perf concern John raised.. a
+refcount based approach would add two extra atomic RMWs on a shared
+cache line to every command submission, whereas with the flag in prod,
+the hot path only gains a bit test on the llq copy it has already
+loaded, right before the cmpxchg it was doing anyway.
 
 Thanks,
 Praan
