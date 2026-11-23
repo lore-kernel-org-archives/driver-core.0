@@ -1,49 +1,69 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795424866;
-	b=dxCocHCYpReaCD4CC07Zb4I7ro6xGj7U05NkXOxRde8UHlsVqi6HMxBFKM11qoyXrkgt
-	 ej0mLqwtKrYiwME+04DsxUKrxJnzX7V3bLgljbCge7wqrogIZ38ZU50Xdz6JU4C+jM2RG
-	 gFR8mZiSI627/wTIofK96ClsGDH875q65BEHDs6RrKbev3xQHou5vNwD2nk33Eg5kROs4
-	 /WTsWPu8oipvP23Co/+OBPZqSVqxLktbiVaWJgZmMT+ZU/JkPzwFNOo+XCXXwXiwWRsws
-	 5s22KndQ+LxdSWq95NJsPbhOUsoB5g6MIFhXbBhRjbfjZ2QZr27bnT3hFegyVF3BZzg==
+	t=1795427002;
+	b=kme8u+pXqDfXKsR/+0ndLb8bet+v1MgQtAvIamL748LoU0VETaPln45INkkxqbK2CjYL
+	 ktptDwv8XOwzcjRTcAgh1Pdqu9mZqhzu2NaUc3pdAgtM9tMjXxWVbKEOQW7iAaqPecirc
+	 6Oyk5BSHP8TjU5oFYt3/zsSMRBHsgh6UUtG0dSUch2ks7pEwMBIulXkm3iMYpQHRb3oNt
+	 mCadP7LSp5TtwmkYQj85NGqZkKfMhr9z1zf2peaz7P0bwKQNcZrivssxPSzN+ijFAZpTs
+	 FwBIsFynUEU4k4L1XsZUxkd9IVlINf8fPWnTaz5mNsDREKkWQab9JjWfx26y+BBdUiw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795424866;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=oNXJQGvVV/3UPi9v0oDuHfYKtoUPiyJRV7OzaEpjHoA=;
-	b=Vmr2txh8+7CfQBr0dhf9W0awFiYBOYCqobxXu9PswLA1rp+A1fG4H1Ey9OQikExCqrPA
-	 hY/yul4CNHMvG1kBrMRCxvfEfUQhRvztmi0xYbShp7s9Mix/emgGsAXyN7DNqSvdegjuq
-	 tH9g/JW4M/CB2EPiLdwdqb04tT0Oex+k3WjsP9IveXtYTxNOSkRFrQcvBeVGsAb3cFutO
-	 K69E3XTLC1aQq5hHGrZGXr2QG6d/lVNhpTc71+Q497AEBUflXnMgN5z5N525vuG9Fm5cK
-	 ZCp1+ObPO4MdEELu1rQWQueGWP/cQkfYC5+kaAwk8I4HvtoxXKe/6wgIR7RffqPLRUw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795427002;
+	h=Received:DKIM-Signature:X-Mailer:From:To:Cc:Subject:In-Reply-To:
+	 References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=ovTZpuEFEoWoBniAauFNolmkozpPhbGaZO8n0GhWEtw=;
+	b=l1zpcriE/T38qTfvruvXA8v8FqBONOxtRa7Vl5m8pbfZrVvCqLptgmaZB94+YW8mpp/g
+	 D4PfluwYYz581Jzd7EvS6ZdW5ZXoIDIeZ8ZQ+hhnBgRnwFjffecqeLtl8ton5wi7XvK8E
+	 dm4L9oVGg2C0of27vMHcrr4vohOE8QR47EVBJPHrCgxX9Sag14/gg3k4YSn3FJ2k/+KmC
+	 3SLnxsUFPfXt1YkaGvH7gqSBD5YZVzb6MA617u4AdCpwQFZh80hRvuBZyfW9f1poin85a
+	 WFWC8F/OjkdLwBnBMbnuaGOB1Aww2tUFj3VKJlY+gJYeMHSk1+V3Fo5XJW1PB6p/Cnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="i/ChAMHa";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=orv0xpNT;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C73606A321;
-	Mon, 23 Nov 2026 09:07:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58B2606A31A;
+	Mon, 23 Nov 2026 09:43:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i/ChAMHa
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FED01F000EE;
-	Mon, 23 Nov 2026 09:07:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=orv0xpNT
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FFB21F000D0;
+	Mon, 23 Nov 2026 09:43:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795424865;
-	bh=oNXJQGvVV/3UPi9v0oDuHfYKtoUPiyJRV7OzaEpjHoA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=i/ChAMHaAVAEX1mCk7y1cARyEnHREMLA0F1tcKlLOXHrjLYbNCF9AD4pNoaMhuHTZ
-	 r968Oh4VRzQnx7X6Tom0qISMgpfRf2JKLGjk5ODKfEKJIh9mflq4ox5lOTNbXpmXtD
-	 +pqwt6vpKaH+l5TiOJK+6vrIjfyiR2sZJlasXU7oNPiPL3lkL4wH64rso30C7ViC2c
-	 MEIjdBeqQGfDAGFZbYI9D47tykZy8bMKlFEP14C6/g8qGQIyceHCq+4HHa9kcWGeq4
-	 AbSS8IgxgAM9jbz9Zx+Irp/jGtyAoTSinX/aR36eQbshdMtEDUsqZ9gc5d0Mo/NIMp
-	 Al5dAfCNvpcJg==
-From: Joshua Crofts <crofts@kernel.org>
-Date: Mon, 23 Nov 2026 10:06:55 +0100
-Subject: [PATCH v3 2/2] PM: runtime: add debugfs entry for
- pm_runtime_summary
+	s=k20260515; t=1795427002;
+	bh=ovTZpuEFEoWoBniAauFNolmkozpPhbGaZO8n0GhWEtw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=orv0xpNTXOq+Hp2bUGf2xot20ap+p8J9/WaqyVRXto96awU4Yf/gQHFGtkG2rKN/l
+	 QXNxbcpqxfpeV70kidCicmpZ4CwNXlXbGAzxj8dUMM8Mk1BRBmeqIqjCHlC8kuVaWh
+	 wuLb3ZSEH0gv69+b2Ae/+lnpWTpqk53dHAiYAkAIeJvqsNsQjZRwdRXjHIQBAlcxJf
+	 5+tKU0Wxwe4Uh7Y0jbOJdbvx7WssEGSiGZxxutLlpq5q0o2K//pKtKz/M80jRHEccF
+	 +ycfRBr08AO3EYKHdeAJgggQ+sgnf4g9NaFcWMaCwglHb8nA2Y50liAZ+djH7DRR4O
+	 dl1cyWBw42D0g==
+X-Mailer: emacs 31.1 (via feedmail 11-beta-1 I)
+From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-coco@lists.linux.dev, Dan Williams <djbw@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Xu Yilun <yilun.xu@linux.intel.com>,
+	Alexey Kardashevskiy <aik@amd.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Ashish Kalra <ashish.kalra@amd.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, patches@lists.linux.dev
+Subject: Re: [PATCH v1 00/10] PCI/TSM: Support guest TSM drivers
+In-Reply-To: <20261123090623.GK14811@unreal>
+References: <20261123083337.2731019-1-aneesh.kumar@kernel.org>
+ <2026112325-emit-squeezing-5d96@gregkh> <20261123090623.GK14811@unreal>
+Date: Mon, 23 Nov 2026 15:13:13 +0530
+Message-ID: <yq5a7bi3riha.fsf@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -53,137 +73,69 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261123-pm-runtime-summary-v3-2-81a966953a81@kernel.org>
-References: <20261123-pm-runtime-summary-v3-0-81a966953a81@kernel.org>
-In-Reply-To: <20261123-pm-runtime-summary-v3-0-81a966953a81@kernel.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, 
- Samuel Wu <wusamuel@google.com>
-Cc: linux-pm@vger.kernel.org, driver-core@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Joshua Crofts <crofts@kernel.org>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795424856; l=3387;
- i=crofts@kernel.org; s=20260422; h=from:subject:message-id;
- bh=S7OuVKaOgmvGLK4rr9ywmeDW06K1LMn3jHlpz+GhhIY=;
- b=NdpQ3pMxnQa48BeasZARLuJQq9gpY5DlITypl6vGsWSBsEc3IziEJ2GonqIWL3plrcKRPIbi1
- Us861fg2X0EDNhDMOHt4K02n8RkhR3UZXPChX3Awj+rzS7xvZbSokEP
-X-Developer-Key: i=crofts@kernel.org; a=ed25519;
- pk=Xd+UVoRPiiI0K3LHQ2XIcXmO0jvVuFTv9eTx3lgBphI=
+Content-Type: text/plain
 
-Add a debugfs entry for showing the runtime statistics for devices with
-PM runtime enabled.
+Leon Romanovsky <leon@kernel.org> writes:
 
-Signed-off-by: Joshua Crofts <crofts@kernel.org>
----
- drivers/base/power/runtime.c | 86 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 86 insertions(+)
+> On Mon, Nov 23, 2026 at 09:40:55AM +0100, Greg Kroah-Hartman wrote:
+>> On Mon, Nov 23, 2026 at 02:03:27PM +0530, Aneesh Kumar K.V (Arm) wrote:
+>> > This series adds the PCI/TSM support needed by a TEE Security Manager
+>> > (TSM) driver in a confidential guest. It adds device lock/unlock,
+>> > helpers for recording device acceptance and parsing MMIO reports, and
+>> > DMA callbacks used during PCI driver attachment. The guest TSM driver and
+>> > attestation commands using these interfaces are in follow-up series.
+>> > 
+>> > This series is based on Dan Williams' "[PATCH v2 00/19] PCI/TSM: TEE I/O
+>> > infrastructure" posting [1], particularly the guest LOCK/UNLOCK, ACCEPT
+>> > and MMIO report work [2-4]. It retains device_cc_accepted() and the
+>> > confidential-device acceptance model from that posting, with changes
+>> > adapted to the current PCI/TSM structures and reference APIs. Dan's
+>> > device-core acceptance helper and per-host-bridge IDE stream reporting
+>> > patch are also included.
+>> > 
+>> > This series does not adopt the Device Trust changes from Dan's "Device
+>> > Evidence and Trust for PCI Security Protocol (TDISP)" [5]. That work is
+>> > being developed separately in Leon Romanovsky's "driver core: Authorize
+>> > device trust before driver binding" series, [6]. Confidential-device
+>> > acceptance is kept separate from that driver-binding trust policy.
+>> 
+>> But it should not, as you are making driver core changes that will
+>> mirror the same thing that that patchset is attempting to do.  Please
+>> work together on this.
+>
+> +10000000,
+>
+> Greg,
+>
+> This series came as a surprise to me given the fact that device trust
+> series is exactly for that - allow confidential computing.
+>
+> Adversarial is equal to the "cc_accepted".
 
-diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
-index 17aee68366cf..cf657251633e 100644
---- a/drivers/base/power/runtime.c
-+++ b/drivers/base/power/runtime.c
-@@ -14,6 +14,8 @@
- #include <linux/pm_runtime.h>
- #include <linux/pm_wakeirq.h>
- #include <linux/rculist.h>
-+#include <linux/debugfs.h>
-+#include <linux/seq_file.h>
- #include <trace/events/rpm.h>
- 
- #include "../base.h"
-@@ -2223,3 +2225,87 @@ bool pm_runtime_need_not_resume(struct device *dev)
- }
- 
- #endif /* CONFIG_PM_SLEEP */
-+
-+#if defined(CONFIG_DEBUG_FS) && defined(CONFIG_PM_SLEEP)
-+static void rpm_summary_show_dev(struct device *dev, void *data)
-+{
-+	struct seq_file *s = data;
-+	unsigned long flags;
-+	u64 active_time, suspended_time;
-+	u64 last_sleep, min_sleep, max_sleep;
-+	u64 resumes, suspends;
-+	const char *status_str;
-+	bool enabled;
-+
-+	spin_lock_irqsave(&dev->power.lock, flags);
-+
-+	enabled = pm_runtime_enabled(dev);
-+	if (!enabled && !dev->power.resume_count && !dev->power.suspend_count) {
-+		spin_unlock_irqrestore(&dev->power.lock, flags);
-+		return;
-+	}
-+
-+	update_pm_runtime_accounting(dev);
-+
-+	switch (dev->power.runtime_status) {
-+	case RPM_ACTIVE:
-+		status_str = "active";
-+		break;
-+	case RPM_SUSPENDED:
-+		status_str = "suspended";
-+		break;
-+	case RPM_SUSPENDING:
-+		status_str = "suspending";
-+		break;
-+	case RPM_RESUMING:
-+		status_str = "resuming";
-+		break;
-+	default:
-+		status_str = "unknown";
-+		break;
-+	}
-+
-+	active_time = dev->power.active_time;
-+	suspended_time = dev->power.suspended_time;
-+	resumes = dev->power.resume_count;
-+	suspends = dev->power.suspend_count;
-+	last_sleep = dev->power.last_suspended_time;
-+	min_sleep = dev->power.min_suspended_time;
-+	max_sleep = dev->power.max_suspended_time;
-+
-+	spin_unlock_irqrestore(&dev->power.lock, flags);
-+
-+	do_div(active_time, NSEC_PER_MSEC);
-+	do_div(suspended_time, NSEC_PER_MSEC);
-+	do_div(last_sleep, NSEC_PER_MSEC);
-+	do_div(min_sleep, NSEC_PER_MSEC);
-+	do_div(max_sleep, NSEC_PER_MSEC);
-+
-+	seq_printf(s, "%-32s %-12s %8llu %8llu %12llu %12llu %10llu %10llu %10llu\n",
-+		   dev_name(dev), enabled ? status_str : "disabled",
-+		   resumes, suspends, active_time, suspended_time,
-+		   last_sleep, min_sleep, max_sleep);
-+}
-+
-+static int pm_runtime_summary_show(struct seq_file *s, void *unused)
-+{
-+	seq_printf(s, "%-32s %-12s %8s %8s %12s %12s %10s %10s %10s\n",
-+		   "Device", "Status", "Resumes", "Suspends",
-+		   "Active(ms)", "Suspend(ms)", "Last(ms)", "Min(ms)", "Max(ms)");
-+	seq_puts(s, "--------------------------------------------------------------------------------------------------------------------------\n");
-+
-+	dpm_for_each_dev(s, rpm_summary_show_dev);
-+
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(pm_runtime_summary);
-+
-+static int __init pm_runtime_debugfs_init(void)
-+{
-+	debugfs_create_file("pm_runtime_summary", 0444, NULL, NULL,
-+			    &pm_runtime_summary_fops);
-+
-+	return 0;
-+}
-+late_initcall(pm_runtime_debugfs_init);
-+#endif /* defined(CONFIG_DEBUG_FS) && defined(CONFIG_PM_SLEEP) */
+I think the confusion stems from this thread:
 
--- 
-2.47.3
+https://lore.kernel.org/all/yq5amrr8yldi.fsf@kernel.org
 
+Based on that discussion, I understood TRUST and eligibility for private
+DMA to be complementary attributes. Device acceptance determines whether
+a device may access private memory, while trust determines whether the
+core must enforce additional restrictions. I understood that supporting
+an accepted but adversarial device would require either a private IOTLB
+to restrict its access or an IOMMU.
+
+Therefore, with this series, a request to enable private memory DMA is
+handled as follows:
+
+	if (!device_cc_accepted(&pdev->dev)) {
+		ret = -EACCES;
+		goto out;
+	}
+
+	/* Adversarial devices are unsupported for confidential DMA. */
+	if (device_is_adversarial(&pdev->dev)) {
+		ret = -EOPNOTSUPP;
+		goto out;
+	}
+
+
+-aneesh
