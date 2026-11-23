@@ -1,97 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795440185;
-	b=iTi6JPNZ6rgP5Ko/4DKNdH8dFQVVsfVDTsNR4nwvg78kFA28gz2cHc5FNO8EFWXt3Oaz
-	 huKth+JTEfXrerFNuHY+P7bheHh5T9tJGPRQEokNVHGcOit9b2SVyL07l+AQ4oUJbreiR
-	 K14sZ9KNnN66gMjR8E8YgIxQBnTafYULyHISMP/bYLO95kLVkPxezKyf3YOEtixti3frA
-	 m2RvK3Q8YuHuCi7m4eX3jUtULtRxYXBqMomXcwjo4jPcyFeDjW24cO/XPNSQoiyfWPRp7
-	 rNLcDyQc9yaV4FhkYVtjSA78pU9Usn3ACZPr70V8oOgMyrBlHEKeocdibPx/kgS8yUA==
+	t=1795440281;
+	b=kYVUsq7h/196KNz2xNKeQSxWTAd78R/A3PsePCW0FJVddKkJ+MXW3py8tVXUHVkKMcdt
+	 VZPC4e6xg3W3GtE6xVHIyE6yNWJsJA5papZ0A87is7x9SaoOVtDcZ16FzuXJqcjV0kSnp
+	 aQzxe9LpoWgjK7PwRa2Wl130gtCt6bRC8ydw4cxlgRvD/ocR14mgpun/ImCnAAoVaMUO/
+	 qAVEuh7cs8lx2CoCMGkUqhM3O2ZjbSmr52mZ9uGwI7d0Lvj7DONBMToQqFn0h6nGV98R6
+	 oXtlYFDCGELCyXFlVZYlvE2DJGm3IIM6zyxk1jo5ryut+fAR24EavVaZfC0/NC+zrlg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795440185;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=nbErdJW+SNaylfayVOIrJtXlUrIgwuZjphA4JlETuDE=;
-	b=OSKvg5BZzEGNcKdodPDzu4O9bVmTZPBZHs+U1BjQuUsw75EGN1jeDPjCtSxGK4PVjyEd
-	 8cnbOtqgynMuPBlRWopnk2s3ZilnmNO3RQstRIBGmIWQtolgTp/r1l2wOEnXZ0MsWniSH
-	 MHb/1xBaEI8tJ31RXFy39R/P7Zxncuet+Bu3RlyWaDbTXQ44Z0SXK6yPUfzxCcEHITbTd
-	 C4aFzTpyIaF+rI8MhYsp1qfAvz/EU1aQRhE+EMAeojKY12CIucrnCNMBwvDPrHDyhF34z
-	 hzBI14m8NZ0wZz6pQcqm/D1nysEz9rG399gkfUvmlB2wlAIgEleLByc9VbE/3kKt3EQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795440281;
+	h=Received:DKIM-Signature:X-Mailer:From:To:Cc:Subject:In-Reply-To:
+	 References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=jLv9CLcIu1QdSA1kmYNp8Rb0YGi/d/JwNxve0vmO/sU=;
+	b=cDHvuXiMJWiEo92c7yzgitiTiqgWh+GQRR4Bgx8ix3pBc83Jds+eCbN96uc7QFiluU2i
+	 MTlEQZ6E+YXWZTruzb9jhtGP8IS1t6z26+Bt2KftpTZi+pzKqenhYJqkZkHe6PBtKtq19
+	 EoCdQBg4hy26y8Z2g4YTY7SHTk3Q9p55t0gOCAaJMGnyPg7B+53XgvjoSBj9yP0ZbNljN
+	 oeuw0OCYQ4u2TbdHH7pWiz8yqas+aMQloSn/MNH+i8hjFxCwkNz8N5iZT/MWJ5qYIVUSh
+	 k+RFE8ohdsxd8eNETCHaQL68CZR/o1D5U7Gj93Vu+q2NGhhWHISK/FKY4tAU3Ro8fug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BHYHWbZP;
-	arc=none smtp.remote-ip=209.85.128.45
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iaAgsD65;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535BB606A31E
-	for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 13:23:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 535BB606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4337606A31F;
+	Mon, 23 Nov 2026 13:24:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BHYHWbZP
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a5177d78c7so31778755e9.2
-        for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 05:23:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795440184; x=1796044984; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nbErdJW+SNaylfayVOIrJtXlUrIgwuZjphA4JlETuDE=;
-        b=BHYHWbZPA7q98PqiX+RS6nOxSjbZmwD9NXf1IL02Exn9LWX6CUyzmAbw5Da3j91R2s
-         sUaLU82SejR3QjPChWQU+5s2vClQSuTszhDAY3hs0JN9HknJU3mfvBXiilf4jy67iV0N
-         mnOBI5lMX4oXKujZKD0czT7OfGeVMGCbKDma/Cj7x0wettF7qBHXMxvkE883OkKVr+92
-         JCKo2yeZ2xh+hmp/0CBqNVHVK2lhzZOefoo8DQIKv4Zf6JgFMV7byV0fX7gBHHNLytJU
-         JEDJHuI3MDTtWxIJmvrSxXtNW/MXdeDpiQKEiIkBkm0/VSSe04Qur6zVweeaWgubA2RL
-         +e9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795440184; x=1796044984;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=nbErdJW+SNaylfayVOIrJtXlUrIgwuZjphA4JlETuDE=;
-        b=zS37s/fCTdb5t8JUFCOanm+4Vj84R95RC++zHc2OppWDXr7PC43d0OOJsN4J7bdtzC
-         I7RL46FTkezbIfxOWH0cluwaZkD0SBcELBpVy7G7fucT7mlVrkpNMnnPRvtPGFWh9bGn
-         L63818R6BvotdI/APcU00k+Ade8e2JAiC5XEEhwNDv7QMjPVE+4fwWULsx6fhy1MXdFg
-         mndRpv7HPGNUzeqLDrLBNR4qjaSkW8vBrdJu07xAJZBE4wJ70xcYlZJSxMTC4PyktPhd
-         daj8rgtAXLXiJyDED/Gsm0ntm3aBuqI3qlzRwPN2ltJJMahTLFiLifDSS2DIKXW76kNP
-         aTDA==
-X-Forwarded-Encrypted: i=1; AL+hErEh1g3t8wykaQl/3YUyAQwbo8i1sh+xpJ4CeYgKfu8qapWJefq3eND1QNm1TwFScIhpfZ9Q4+A4Hl/zTg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+BmOGPPpP42nX0FPSy48wV5OEyTiD4y1jAY2/3L81eu32rhx88
-	E1a0AQQ8ZzoFSx1wpuj1LL2B4Ht6nsBxfoKifNAIQzHEfY35E3zP6Zoh
-X-Gm-Gg: AZFdTZeBlYlSF7dgMpVUdzxI+KmSxOtP6B0jqj3aiKB2wvyW7P6SkpcwMaZ024GOvhb
-	dOvGSXvJWm+zhU64CVM5sx2/TpZ8BdlGho7sRcPBzhjEFMKQqHs8oWERbYWFHia4nNfAWqbVqm9
-	G5Lf5oM97DdVo69ZzlDvpd02B75FeGn0xPlp3tBld9eb3JA5186UdF5aLJyOC8SWHh8TGF26tja
-	lbIeT49APxiJRVu9Tcyc8lNQLYDVahq5EM7R3gL3dC4fkdYUAThTxMKGibN2zDuEv/9RsKOVdMZ
-	8EGF5n9AmegtbwZOECNYusiulH7z9VgdOVbLLbSWq0uvvERHA9Z0nCiMU2+9grq9HHs6rfmFyoC
-	BCM9K/5dce6wCUQsWrREMgAth2KQMuZC/CDKTSOtwp4cuZWXBh9M49fAR39IN2rpsVNsTHoW5bF
-	xdtjqO1bIVh821/kMGW3FNp1y+3hehA/veZmJUm36oYgCfEOIbbbKGQtXofyrw6NvfZU1bsDX43
-	qiW2fYtE+Sni88YBvx0p8OqWSZh0ijbTXOBTsijYyCaExPN8giktQcusaV4KY7exd8v192HiuE9
-	ycRx54YPx4WEadLgG0FBME5ZAG5FsmYJNAFk/JoEA8/0RMA=
-X-Received: by 2002:a05:600c:4f4a:b0:4bb:6752:8413 with SMTP id 5b1f17b1804b1-4bb8880015bmr267550845e9.8.1795440183501;
-        Mon, 23 Nov 2026 05:23:03 -0800 (PST)
-Received: from metepc ([46.197.185.3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884b8429sm546674425e9.14.2026.11.23.05.23.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 05:23:03 -0800 (PST)
-From: =?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	dakr@kernel.org
-Cc: akpm@linux-foundation.org,
-	edumazet@google.com,
-	brauner@kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>
-Subject: [PATCH v2] kobject: fix use-after-free in tagged uevent broadcast
-Date: Mon, 23 Nov 2026 16:16:50 +0300
-Message-ID: <20261123132246.220476-1-omermetekaya0@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iaAgsD65
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1536A1F000C4;
+	Mon, 23 Nov 2026 13:24:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795440281;
+	bh=jLv9CLcIu1QdSA1kmYNp8Rb0YGi/d/JwNxve0vmO/sU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=iaAgsD653MyS8Dnstwa+FbDv4hWrojjI4EITadwmhB+lk0rlHlPSgISzz4VZXsj0B
+	 aUBYSS1Fd3kB8+FB8eFw0ca2BEFoI+FUA1TVrSE4ovO4V7n8YEuBOwKsdObHNKOjVe
+	 zdyfy41Uvq3BsBBtQ8gAOQ9Ro02DLpQkEzyy9gixsfnqGmQEcNU3AuZK2/FqCeuoQf
+	 Tn+6pTYDNXo5Ednau3nWFteuMPi6jgmv23qOKdW9AsencEo5EQ2oCvrw1mFv4+JYkC
+	 e6l3DoY4td/NLn9orESZtZey6ebiOcaV2GyJGyGHiZzZWjVO4Ks8z6P14k7EN4dCgo
+	 9wCiGLStuvCrw==
+X-Mailer: emacs 31.1 (via feedmail 11-beta-1 I)
+From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-coco@lists.linux.dev, Dan Williams <djbw@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Xu Yilun <yilun.xu@linux.intel.com>,
+	Alexey Kardashevskiy <aik@amd.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Ashish Kalra <ashish.kalra@amd.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, patches@lists.linux.dev
+Subject: Re: [PATCH v1 00/10] PCI/TSM: Support guest TSM drivers
+In-Reply-To: <20261123115803.GN14811@unreal>
+References: <20261123083337.2731019-1-aneesh.kumar@kernel.org>
+ <2026112325-emit-squeezing-5d96@gregkh> <20261123090623.GK14811@unreal>
+ <yq5a7bi3riha.fsf@kernel.org> <20261123115803.GN14811@unreal>
+Date: Mon, 23 Nov 2026 18:54:31 +0530
+Message-ID: <yq5awlq3pto0.fsf@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -101,96 +74,90 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-kobject_uevent_net_broadcast() accesses net->uevent_sock->sk without
-protection in the tagged (namespace-aware) path. During network namespace
-teardown, uevent_net_exit() frees the uevent_sock while a concurrent
-kobject_uevent_env() call can still reference it, causing a
-use-after-free.
+Leon Romanovsky <leon@kernel.org> writes:
 
-Extend uevent_sock_mutex to cover the tagged broadcast path and the
-netlink receive path, serializing them with teardown: in
-uevent_net_exit(), set net->uevent_sock to NULL under the mutex before
-releasing the socket. In the tagged broadcast path and in
-uevent_net_rcv_skb(), check for NULL under the same mutex before
-accessing the socket.
+> On Mon, Nov 23, 2026 at 03:13:13PM +0530, Aneesh Kumar K.V wrote:
+>> Leon Romanovsky <leon@kernel.org> writes:
+>> 
+>> > On Mon, Nov 23, 2026 at 09:40:55AM +0100, Greg Kroah-Hartman wrote:
+>> >> On Mon, Nov 23, 2026 at 02:03:27PM +0530, Aneesh Kumar K.V (Arm) wrote:
+>> >> > This series adds the PCI/TSM support needed by a TEE Security Manager
+>> >> > (TSM) driver in a confidential guest. It adds device lock/unlock,
+>> >> > helpers for recording device acceptance and parsing MMIO reports, and
+>> >> > DMA callbacks used during PCI driver attachment. The guest TSM driver and
+>> >> > attestation commands using these interfaces are in follow-up series.
+>> >> > 
+>> >> > This series is based on Dan Williams' "[PATCH v2 00/19] PCI/TSM: TEE I/O
+>> >> > infrastructure" posting [1], particularly the guest LOCK/UNLOCK, ACCEPT
+>> >> > and MMIO report work [2-4]. It retains device_cc_accepted() and the
+>> >> > confidential-device acceptance model from that posting, with changes
+>> >> > adapted to the current PCI/TSM structures and reference APIs. Dan's
+>> >> > device-core acceptance helper and per-host-bridge IDE stream reporting
+>> >> > patch are also included.
+>> >> > 
+>> >> > This series does not adopt the Device Trust changes from Dan's "Device
+>> >> > Evidence and Trust for PCI Security Protocol (TDISP)" [5]. That work is
+>> >> > being developed separately in Leon Romanovsky's "driver core: Authorize
+>> >> > device trust before driver binding" series, [6]. Confidential-device
+>> >> > acceptance is kept separate from that driver-binding trust policy.
+>> >> 
+>> >> But it should not, as you are making driver core changes that will
+>> >> mirror the same thing that that patchset is attempting to do.  Please
+>> >> work together on this.
+>> >
+>> > +10000000,
+>> >
+>> > Greg,
+>> >
+>> > This series came as a surprise to me given the fact that device trust
+>> > series is exactly for that - allow confidential computing.
+>> >
+>> > Adversarial is equal to the "cc_accepted".
+>> 
+>> I think the confusion stems from this thread:
+>> 
+>> https://lore.kernel.org/all/yq5amrr8yldi.fsf@kernel.org
+>> 
+>> Based on that discussion, I understood TRUST and eligibility for private
+>> DMA to be complementary attributes. Device acceptance determines whether
+>> a device may access private memory, while trust determines whether the
+>> core must enforce additional restrictions. I understood that supporting
+>> an accepted but adversarial device would require either a private IOTLB
+>> to restrict its access or an IOMMU.
+>
+> I reached a completely different conclusion from that discussion.
+>
+> Device trust does little beyond preventing driver binding and recording the
+> trust decision in "struct device". The missing piece, which I would expect
+> you to address, is ensuring that the IOMMU and private DMA are configured
+> only after the trust level has been decided or as part of that decision,
+> rather than beforehand, as they are today.
+>
 
-Closes: https://syzkaller.appspot.com/bug?extid=7db35adbc02c5b86d4e0
-Fixes: 5c0941c55e5f ("kobject: reduce uevent_sock_mutex scope")
-Signed-off-by: Ömer Mete Kaya <omermetekaya0@gmail.com>
----
-v2: Add Closes: tag.
 
- lib/kobject_uevent.c | 30 ++++++++++++++++++++++--------
- 1 file changed, 22 insertions(+), 8 deletions(-)
+I agree that the trust decision must precede DMA configuration and
+driver probe. My integration tree shared in the cover letter already
+includes your trust framework, with PCI/TSM DMA setup following that
+decision.
 
-diff --git a/lib/kobject_uevent.c b/lib/kobject_uevent.c
-index ddbc4d7482d2..fd61307c045e 100644
---- a/lib/kobject_uevent.c
-+++ b/lib/kobject_uevent.c
-@@ -411,9 +411,15 @@ static int kobject_uevent_net_broadcast(struct kobject *kobj,
- 						    devpath);
- 	else {
- 		const struct net *net = container_of(ns, struct net, ns);
-+		struct uevent_sock *ue_sk;
- 
--		ret = uevent_net_broadcast_tagged(net->uevent_sock->sk, env,
--						  action_string, devpath);
-+		mutex_lock(&uevent_sock_mutex);
-+		ue_sk = net->uevent_sock;
-+		if (ue_sk)
-+			ret = uevent_net_broadcast_tagged(ue_sk->sk, env,
-+							     action_string,
-+							     devpath);
-+		mutex_unlock(&uevent_sock_mutex);
- 	}
- #endif
- 
-@@ -743,6 +749,7 @@ static int uevent_net_broadcast(struct sock *usk, struct sk_buff *skb,
- static int uevent_net_rcv_skb(struct sk_buff *skb, struct nlmsghdr *nlh,
- 			      struct netlink_ext_ack *extack)
- {
-+	struct uevent_sock *ue_sk;
- 	struct net *net;
- 	int ret;
- 
-@@ -760,7 +767,13 @@ static int uevent_net_rcv_skb(struct sk_buff *skb, struct nlmsghdr *nlh,
- 		return -EPERM;
- 	}
- 
--	ret = uevent_net_broadcast(net->uevent_sock->sk, skb, extack);
-+	mutex_lock(&uevent_sock_mutex);
-+	ue_sk = net->uevent_sock;
-+	if (ue_sk)
-+		ret = uevent_net_broadcast(ue_sk->sk, skb, extack);
-+	else
-+		ret = -ENODEV;
-+	mutex_unlock(&uevent_sock_mutex);
- 
- 	return ret;
- }
-@@ -804,13 +817,14 @@ static int uevent_net_init(struct net *net)
- 
- static void uevent_net_exit(struct net *net)
- {
--	struct uevent_sock *ue_sk = net->uevent_sock;
-+	struct uevent_sock *ue_sk;
- 
--	if (sock_net(ue_sk->sk)->user_ns == &init_user_ns) {
--		mutex_lock(&uevent_sock_mutex);
-+	mutex_lock(&uevent_sock_mutex);
-+	ue_sk = net->uevent_sock;
-+	net->uevent_sock = NULL;
-+	if (sock_net(ue_sk->sk)->user_ns == &init_user_ns)
- 		list_del(&ue_sk->list);
--		mutex_unlock(&uevent_sock_mutex);
--	}
-+	mutex_unlock(&uevent_sock_mutex);
- 
- 	netlink_kernel_release(ue_sk->sk);
- 	kfree(ue_sk);
--- 
-2.56.0
+What I am still trying to understand is how you view the DMA allocation
+and mapping paths determining whether a device can access private
+memory. Paths such as force_dma_unencrypted() and SWIOTLB receive a
+struct device pointer and need to decide whether to use private memory
+or shared buffers.
+
+We could move cc_accepted into struct pci_tsm_devsec, outside driver
+core. How would you expect the generic DMA code to obtain that
+information? Adding another flag to struct device would effectively
+recreate the state we are trying to remove.
+
+This goes back to my question here:
+https://lore.kernel.org/all/yq5amrr8yldi.fsf@kernel.org/
+
+If we remove device_cc_accepted(), what should those callers use
+instead? How do you see your trust framework supporting that decision?
+
+-aneesh
 
