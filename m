@@ -1,70 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795442204;
-	b=nHsgZCibnH14OPTB7YZH+mcyMdlVvBrqoFrZxDNFjlckaQ1z9mPkSusbS6otmgKTdadR
-	 IuMVjnyoIwkBLW0p/DwQ5EzGX4t79gdRfyuOR3XKdcaiwMTwwbBOcF1IBEMcFtxw6cY5V
-	 7MFFi/C2wfB1fchiTLnHV8G5fZdICLVEdXj26onYHzua0si93CghA5yaDwoM8ABOUEs/3
-	 n3yzGkQZUnFRDndApWpJlVUM9uiIHeRzPW6UEAfxRlOto+g/XKrun0G68M3N1C3xiinFb
-	 cCy+palGSGCTIcXN69MCu2aQeb+QhWn7c8jxrqYJmOypICn5Y/ekBkhZSQVJTBTFagA==
+	t=1795442486;
+	b=uJB8SoeLMMf8BO2KxdynGFzIhLAxqSPk5A3ceFHQDLycxfnuOrl8GHOtbtxRAMiR28p7
+	 tXS38/tS1kAZ+HbL0tSHDuAA6RVGPg9/xPvYdYZFdyjpEl8j2BGZ7D7bYLNd+aPbueGhe
+	 fev/v3XbQnqbKKXw+V5HM4gFiVnGAnOpF0ibC2UUPnC+sNbZIqQWfLmspnliHhZJwJw5o
+	 8+2QzHriMHt3YeG9sG9mrZdbFej5/oay2vFKoSaNcw+j+iBDMyPmwHezIXl4IzBx6kvbm
+	 Dm5QOW11pEg6Gkp8/29QYzlGL9FHx72GcknxVveXuSDmx1zMvztyYde2aS4dLeVqhNw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795442204;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=YvJuJhFp5l2kJagzPQ2SnYyg6xkop1iejbQq4U7qdYc=;
-	b=bH2vbH7Wof1GriRGy4hhtXQjx0avuEg/agOcK84LezT3fyCI3YQWL0pgBQS0kmbPHKf4
-	 f2MSW69hG9tf2dR6Cm6n6THKpn+iRSP2eUmlwzC55oElIZ8MUMeeZUIJCVsYb13lXA4DA
-	 XmsD/kaoIxXB9LNLQcFJCoFcs7n2VRNApnoV+Nx1kQvukpo4aeR0KIdXqKR+6febl3J/h
-	 SMt8C3NdN4Ka/Nwee/HiH5fDvQ+yIPUvapt6MP/GsDUwEfd2DYMuOTM8g3gnd0QNZW0Qn
-	 J6V/pCRm0K/Gu5uQfgscbU7bz8OzzKuWQikLkwwg7nFggTFBTAe6YOGg/uMPx4OzyxA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795442486;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=vG8DGIHiY7DMGeo+eA0u14jrv8r12vq2uH5/qp0e+4w=;
+	b=uvyUB87mBhX+EqaqSUNvbXgVh2tLUFguB8p+OhualixOOOYKJD20L9x07x9MKw2IgQMB
+	 u7pGby13sRabg5eCsy9iITQIiximHA+XWTmsHCEbeoilDtHrHdwkbhXcIuTSgOQxHLYBu
+	 1gWWhAoq84HToBNKIZFY8OfBR4FZxIK1ZrO0vO4eih/OxMC5Zcf1t4/75jV6vcat407lc
+	 020ML5q+vw90eyQxfa9Zs/2jHfTpfsK/YRngL8+pmpFSDHyT806oWoiLYk4i0B/22x+Z/
+	 kUEuwYqniNfjav2ZrpUea4cUl1HCHecOxb5CnEIBj7jH+nkPzzVyaAOZlKdSzACaXEw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eUBIT6ZK;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=q8bGqa60;
+	arc=none smtp.remote-ip=209.85.160.176
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1036C606A31F;
-	Mon, 23 Nov 2026 13:56:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01865606A331
+	for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 14:01:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 01865606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eUBIT6ZK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 993FB1F000D0;
-	Mon, 23 Nov 2026 13:56:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795442203;
-	bh=YvJuJhFp5l2kJagzPQ2SnYyg6xkop1iejbQq4U7qdYc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eUBIT6ZKbzq+Bc9lN79cX0NuNYT/6SfEdlBwvpzcUIY7OSqN21qmPUdmVBJX5KGP4
-	 HasU6uQJJYARzZeImuxEd3H3OPBFWct3ME1vzMKYLmJj+j/7GOk91V0UiieaHPVujm
-	 Z4J0GGf54gKjlkpyrfejJ2pYvy9U5yPljBqj1zm5opqk3IfbOD4SfaTCRp8VFCgbuV
-	 Apmt1QapavcCY4qK/VBVFICq4PVNYuu7wgh+IPPL2ELiFGGfM05AoAYyWPQCB5JrGY
-	 JV1cYVFnBTdPAYQGSOKQ0bzo9KDJ+hppLFp7MvYDRk7oGieN/9KBLWPZFDSJ960sHg
-	 5rU5hQMu2VrQw==
-Date: Mon, 23 Nov 2026 15:56:38 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-coco@lists.linux.dev, Dan Williams <djbw@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>,
-	Alexey Kardashevskiy <aik@amd.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Lukas Wunner <lukas@wunner.de>, Ashish Kalra <ashish.kalra@amd.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH v1 00/10] PCI/TSM: Support guest TSM drivers
-Message-ID: <20261123135638.GO14811@unreal>
-References: <20261123083337.2731019-1-aneesh.kumar@kernel.org>
- <2026112325-emit-squeezing-5d96@gregkh>
- <20261123090623.GK14811@unreal>
- <yq5a7bi3riha.fsf@kernel.org>
- <20261123115803.GN14811@unreal>
- <yq5awlq3pto0.fsf@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=q8bGqa60
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-55d2d380f6aso38940441cf.2
+        for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 06:01:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1795442485; x=1796047285; darn=lists.linux.dev;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=vG8DGIHiY7DMGeo+eA0u14jrv8r12vq2uH5/qp0e+4w=;
+        b=q8bGqa60ntCrElCV5H+yJq6B03U7STKlFxrqE0EGnfgaHxfULq4p+WeDBY9wBqL7Vw
+         JQOzbIyvs+iby1BRj/RhQnM2pg0ZoRUNKomO+UzmOAfYudOzLYNOebuDrWahy2txalcW
+         RsDdrr355wKIm9lC3fbnZt71fo1nT+WBkYOnN3y8TYTD8At/QMt3TFQC7BmvDD4B2m51
+         ZDcTxw4+qPnBb/UQgx9i9rFJOTvClGIiyuGhuQsvCTbu/LfolHgmcwMu5lpnfa+h1gaZ
+         AdePO2lZM/bQVfhwGRhCCkiGU+Kwwhxzs6gwQ75KT6WOt/3bbn17VyrOQyYOOBtghONh
+         yIPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795442485; x=1796047285;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vG8DGIHiY7DMGeo+eA0u14jrv8r12vq2uH5/qp0e+4w=;
+        b=Qm2MF5szQcbXZDACtfW7YPmyxlF7+QFFVusoCvSrpzkraaOcuWNHv6FcdajLR6231l
+         wr0ej+wkYF/iyZtRQk1eD6V1xan6F7Cur9ODZyU1eCQ9NQEc56wV38Y39mQpDILOWX8M
+         O7r5Qec00SM4FmLX0HApH02ZVlcOApJpVrR9OmONWBD3ed/2S6DeninKBTHJk3YNjVrt
+         93olSQ2lv7Bn3Wth5VnlUoGxu0E601W2tFF4p9Nwo1R2JL1CKpm+mCe5iw2Jiunmk1sU
+         VB6iofvoRi7SKftv59qu5l2Bc5/8vylIHs6gqv/5S+5n1eBmRW/EmsGRhoSvxXII8KFH
+         15xA==
+X-Forwarded-Encrypted: i=1; AL+hErG2FGlApwO6cTKIzCsjGuW+6Yl0owQfWeCHywIFkSeTMvX4gGeKhEqu7g7eKeNgY19ifcomNdiIn+xMkA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9LTEvU2JSFo3YoSiTI5jRhIxJKuKNOZ31H6qmOV+2wFLHQSagr
+	RSntySzQE7GJkhy4QccV90AkMcrUonWNWIwmDTHrQecraBMIQqW2mJjdbkex5xb+oAc=
+X-Gm-Gg: AZFdTZfJuOFxk86cuV34Tp1uj/vPPRupMtqYcFqemQHvHF8I029EVPEWSidImw4kydr
+	F4UIPJ49CqW9XpnUpo9zuMFfQ0WZjzl8Op6nABI+V6FLrSJjdD5QRWa0Qc5hLfr1f9wixF0LljK
+	aS6jsDk5ODt/vXGnyAyfm84kaABpS5wx4OoFHLBF1YqWBm308C/dJ7A+0EGGjhPw4fDwF0cgBkX
+	BXMHdkDkWFkqnGm3w/TLhObwzdQgyzh7jIfIjJS5bTobhOP3c4iETD+cxGfuFToTJR4+Rlb6kO2
+	+WmJaDBiBfJ5PSsijD4JreStseSq4NTV+9Qmu/Vi4/UIO0seQ0L4tklKsbUqPydBw6Ls7D0qE9v
+	UAGCc0uIyzyoobdJ9o9z28Am0qeNh0PYR47sxHR+z8aOzmOoMo412AWPYnpeIm1i4HGQCJQEEzy
+	1JV+75pptZEppHh5B9uTWRrlcr2W7b+IX8a6wlXPfUdZVO2fYHNspmD61JMpKrqDtRzec78ckhq
+	Kw1KSjfZFzpnSfvAyKtxuzYFpbFsQNU0fQ7EbImrmhUveOPmLfhRpEnV0KWmVxWmnwSRFkKVEKp
+	9Ymzih77uurGBEjH5owkl7RUdRIxpatHAQkMDsmUfiYV75QvGY4hIkjtrgZbRCpdqVhXvYSPXYz
+	GZU/ZR1o=
+X-Received: by 2002:a05:622a:8413:10b0:55d:8475:aafb with SMTP id d75a77b69052e-55d8475ad43mr113506371cf.71.1795442484804;
+        Mon, 23 Nov 2026 06:01:24 -0800 (PST)
+Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d788074desm99999281cf.7.2026.11.23.06.01.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 06:01:24 -0800 (PST)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -74,107 +89,142 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <yq5awlq3pto0.fsf@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 01/60] nodemask: add node-state iterators
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: Yury Norov <ynorov@nvidia.com>
+Cc: gourry@gourry.net, Yury Norov <yury.norov@gmail.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ David Hildenbrand <david@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Oscar Salvador <osalvador@suse.de>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Suren Baghdasaryan <surenb@google.com>, 
+ Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Johan Hovold <johan@kernel.org>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+ Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, 
+ Matthew Brost <matthew.brost@intel.com>, Byungchul Park <byungchul@sk.com>, 
+ Alistair Popple <apopple@nvidia.com>, SJ Park <sj@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ K Prateek Nayak <kprateek.nayak@amd.com>, Kees Cook <kees@kernel.org>, 
+ Kairui Song <kasong@tencent.com>, Barry Song <baohua@kernel.org>, 
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Michal Hocko <mhocko@kernel.org>, David Rientjes <rientjes@google.com>, 
+ Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
+ Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, 
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+ Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
+ Lorenzo Stoakes <ljs@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
+ Jann Horn <jannh@google.com>, Chris Li <chrisl@kernel.org>, 
+ Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+ Youngjun Park <youngjun.park@lge.com>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Waiman Long <longman@redhat.com>, Ridong Chen <ridong.chen@linux.dev>, 
+ Tejun Heo <tj@kernel.org>, 
+ =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Dan Williams <djbw@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+ Dave Jiang <dave.jiang@intel.com>, 
+ Alison Schofield <alison.schofield@intel.com>, 
+ Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org, 
+ driver-core@lists.linux.dev, damon@lists.linux.dev, 
+ linux-pm@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ cgroups@vger.kernel.org, nvdimm@lists.linux.dev, 
+ linux-kselftest@vger.kernel.org
+In-Reply-To: <awMK9V6TbU9Xtzn9@yury>
+References: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
+ <20261120-private_nodes_v6-v1-1-74f5f9a115c2@gourry.net>
+ <awMK9V6TbU9Xtzn9@yury>
+Date: Mon, 23 Nov 2026 09:01:22 -0500
+Message-Id: <179544248227.412063.16491857533875192357.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-On Mon, Nov 23, 2026 at 06:54:31PM +0530, Aneesh Kumar K.V wrote:
-> Leon Romanovsky <leon@kernel.org> writes:
+On 2026-11-22 10:32 -0500, Yury Norov wrote:
+> On Fri, Nov 20, 2026 at 01:08:52PM -0500, Gregory Price via B4 Relay wrote:
+> > From: "Gregory Price (Meta)" <gourry@gourry.net>
+> > 
+> > Add first_node_state() and next_node_state(), so callers can walk any
+> > node state the way first_memory_node and next_memory_node walk N_MEMORY.
+> > 
+> > Add for_each_node_mask_state(), which iterates a nodemask intersected
+> > with a node state using the bitmap intersection helpers, without a
+> > temporary nodemask.
+> > 
+> > Signed-off-by: Gregory Price (Meta) <gourry@gourry.net>
+> > ---
+> >  include/linux/nodemask.h | 17 +++++++++++++++++
+> >  1 file changed, 17 insertions(+)
+> > 
+> > diff --git a/include/linux/nodemask.h b/include/linux/nodemask.h
+> > index 607373bd83ee..90bdcffa42ea 100644
+> > --- a/include/linux/nodemask.h
+> > +++ b/include/linux/nodemask.h
+> > @@ -411,6 +411,11 @@ enum node_states {
+> >  
+> >  extern nodemask_t node_states[NR_NODE_STATES];
+> >  
+> > +/* Iterate the nodes in a mask that also belong to the specified state. */
+> > +#define for_each_node_mask_state(node, mask, state)			\
 > 
-> > On Mon, Nov 23, 2026 at 03:13:13PM +0530, Aneesh Kumar K.V wrote:
-> >> Leon Romanovsky <leon@kernel.org> writes:
-> >> 
-> >> > On Mon, Nov 23, 2026 at 09:40:55AM +0100, Greg Kroah-Hartman wrote:
-> >> >> On Mon, Nov 23, 2026 at 02:03:27PM +0530, Aneesh Kumar K.V (Arm) wrote:
-> >> >> > This series adds the PCI/TSM support needed by a TEE Security Manager
-> >> >> > (TSM) driver in a confidential guest. It adds device lock/unlock,
-> >> >> > helpers for recording device acceptance and parsing MMIO reports, and
-> >> >> > DMA callbacks used during PCI driver attachment. The guest TSM driver and
-> >> >> > attestation commands using these interfaces are in follow-up series.
-> >> >> > 
-> >> >> > This series is based on Dan Williams' "[PATCH v2 00/19] PCI/TSM: TEE I/O
-> >> >> > infrastructure" posting [1], particularly the guest LOCK/UNLOCK, ACCEPT
-> >> >> > and MMIO report work [2-4]. It retains device_cc_accepted() and the
-> >> >> > confidential-device acceptance model from that posting, with changes
-> >> >> > adapted to the current PCI/TSM structures and reference APIs. Dan's
-> >> >> > device-core acceptance helper and per-host-bridge IDE stream reporting
-> >> >> > patch are also included.
-> >> >> > 
-> >> >> > This series does not adopt the Device Trust changes from Dan's "Device
-> >> >> > Evidence and Trust for PCI Security Protocol (TDISP)" [5]. That work is
-> >> >> > being developed separately in Leon Romanovsky's "driver core: Authorize
-> >> >> > device trust before driver binding" series, [6]. Confidential-device
-> >> >> > acceptance is kept separate from that driver-binding trust policy.
-> >> >> 
-> >> >> But it should not, as you are making driver core changes that will
-> >> >> mirror the same thing that that patchset is attempting to do.  Please
-> >> >> work together on this.
-> >> >
-> >> > +10000000,
-> >> >
-> >> > Greg,
-> >> >
-> >> > This series came as a surprise to me given the fact that device trust
-> >> > series is exactly for that - allow confidential computing.
-> >> >
-> >> > Adversarial is equal to the "cc_accepted".
-> >> 
-> >> I think the confusion stems from this thread:
-> >> 
-> >> https://lore.kernel.org/all/yq5amrr8yldi.fsf@kernel.org
-> >> 
-> >> Based on that discussion, I understood TRUST and eligibility for private
-> >> DMA to be complementary attributes. Device acceptance determines whether
-> >> a device may access private memory, while trust determines whether the
-> >> core must enforce additional restrictions. I understood that supporting
-> >> an accepted but adversarial device would require either a private IOTLB
-> >> to restrict its access or an IOMMU.
-> >
-> > I reached a completely different conclusion from that discussion.
-> >
-> > Device trust does little beyond preventing driver binding and recording the
-> > trust decision in "struct device". The missing piece, which I would expect
-> > you to address, is ensuring that the IOMMU and private DMA are configured
-> > only after the trust level has been decided or as part of that decision,
-> > rather than beforehand, as they are today.
-> >
+> for_each_node_state_and? We've got for_each_node(), and we've got
+> for_each_node_state(), so let's figure out consistent naming.
 > 
+> Did you check the codebase for exsisting candidates for this helper?
 > 
-> I agree that the trust decision must precede DMA configuration and
-> driver probe. My integration tree shared in the cover letter already
-> includes your trust framework, with PCI/TSM DMA setup following that
-> decision.
-> 
-> What I am still trying to understand is how you view the DMA allocation
-> and mapping paths determining whether a device can access private
-> memory. Paths such as force_dma_unencrypted() and SWIOTLB receive a
-> struct device pointer and need to decide whether to use private memory
-> or shared buffers.
 
-After the IOMMU cleanup, I expect we’ll be able to create a cyclic
-trust-level state machine that lets us reset the trust level when a
-driver is unbound. We can then add internal states to the trust-level
-FSM, which DMA/SWIOTLB can check.
+for_each_node_mask_and() would be more consistent, change just requires
+passing node_state[N_MEMORY_X] instead of just the node state bit.
 
-In theory, we could make this final improvement before the IOMMU cleanup.
-However, the risk of creating a mess is higher than if we follow a
-straightforward, sequential engineering approach.
+> > +	for_each_and_bit(node, nodes_addr(mask),			\
+> > +			 nodes_addr(node_states[state]), MAX_NUMNODES)
+> > +
+> 
+> Please use nr_node_ids instead of MAX_NUMNODES.
+> 
 
-Thanks
+I followed for_each_node_mask() which uses MAX_NUMANODES but let me
+look.
 
+> >  #if MAX_NUMNODES > 1
+> >  static __always_inline int node_state(int node, enum node_states state)
+> >  {
+> > @@ -435,6 +440,12 @@ static __always_inline int num_node_state(enum node_states state)
+> >  #define for_each_node_state(__node, __state) \
+> >  	for_each_node_mask((__node), node_states[__state])
+> >  
+> > +#define first_node_state(state)	first_node(node_states[state])
+> > +static __always_inline unsigned int next_node_state(int nid, enum node_states state)
+> > +{
+> > +	return next_node(nid, node_states[state]);
+> > +}
 > 
-> We could move cc_accepted into struct pci_tsm_devsec, outside driver
-> core. How would you expect the generic DMA code to obtain that
-> information? Adding another flag to struct device would effectively
-> recreate the state we are trying to remove.
+> At least the following {first,next}_{online,memory}_node must be
+> switched to the new helpers. Can you check through the rest of the
+> kernel to make sure all candidates of the proposed helpers are
+> converted?
 > 
-> This goes back to my question here:
-> https://lore.kernel.org/all/yq5amrr8yldi.fsf@kernel.org/
-> 
-> If we remove device_cc_accepted(), what should those callers use
-> instead? How do you see your trust framework supporting that decision?
-> 
-> -aneesh
-> 
-> 
+
+I originally intended to delete first/next_memory_node, to make
+usage of N_MEMORY a bit more obviously, but dropped it to save an
+extra patch or two.  I will probably add that back in.
+
+But yeah i can update these otherwise.
+
+-- 
+~Gregory
+
