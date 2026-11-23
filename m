@@ -1,112 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795448110;
-	b=hhuazCJJ5hv4CTaqNQBm35kjJVgg07P9GKSt0VsssS2ifCmkh0MQgo++5/glwDpvQtrj
-	 feIPVym5IzfS9hyoxQCtmA8YFnDy382+nhFTkFCvu8fyTMV1Npp51El8afYv081paUVDN
-	 Tq/vvkOshx2lf4Drh2vPo+7ZA0vSQh21VsUUy1/N+EhftYwGISGimftXaOunE1uRq4QRL
-	 bHuW3th7Qu7BA8KGd1T4nEDJCmertjkD2S6YwvirUMd+N2NTQ/00CDIplfzyZ/WimWYoA
-	 1qI5Elh8Re45FKoyjd4o3x01/eQYZP1MwLPywb7c0/n34CYkZYiIlrFNKyBWrOjx5vw==
+	t=1795450012;
+	b=Bsl0MCLfbKbH9qxcVTgWZ66C+89649LixfyHDpDEwoo9uPphDCnmGr7uH3l774gY0yyN
+	 AozAn/N87s92wY3WYGD+ECaLOzZa6GlJoo8emDWVszColTa763Vek5PGlIW5vTfvh3qOB
+	 +Xy/prShd4cOVYAHYBEmsDwDlDzknB+aXz8QFvZEAUdPszDe9oFcc91+/RQvXxe7ZyP06
+	 B495z+WcAcegiTUlqWK1Pl0horUHuQNCP7ZxZAPdxh9AdGT5RzNu+zbFL3to+OvDz0it9
+	 CPlRGcvpPJ+PbWE5TOiOH+Bq1aP2EIrwIDkVBmgw6DVXotsW3onnAy6I7PHfReOEBqQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795448110;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795450012;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=jVozDBZgp+27gMR99l+UaMITrh6vU8pxKuFZh102SrU=;
-	b=Lca0yNY84RZ4yIgJ4mpACs00bANPELtYh+9IifJPJyICyr18xgbCC9LcGO/oz/OyjWzF
-	 bigKDM7PV1WM0sgqs+ZcCXcNCbfH4+0VPj/OBCCdPgHkNwfOG5oxNM7v1wamqT85Lj9bN
-	 rMxIwEhYcRiHgERHMTtztAIwWeyrhAQZEqbwwiO9hAfir9Xv66+I2OYhjIC2klNY4BxEH
-	 P6SFWuIKa6rBdz95xvMhiPouTca8TejPi2T84mwq2Zx6nDa/s1yFgZj433OgvSuAqFL1N
-	 8jYj2oYA6I7Ujd5JnyAeit/3s9xjNynE7JXQJeJCFB90iAGn5LTnoFJSH95k1XvISWw==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=GzTD9WH9/UERM7DubWsp4AE37bmITVN0W6tIx9FHUTE=;
+	b=b+JvqafyRwug73tN11POLA/FkM6Q1fPY8+7oSBnGgiL7jJTQgoT7hWwyc3xhwVyNlOhc
+	 H+v+96vwCPVgFR8OcomFH7B6PpVj14V3dmbFZqMiwm1LZgkP3tshWt++EOPhFVu0U9ZJB
+	 ZF3x4qTFEMPLzLgKIQL+vrQQI9Zj5R40hE4pRI80kyUJ1AlgAnaLPfDKpgXQI6zu8z2LF
+	 52xx17J7iR5+UaDZafSff+Qr1c0NXiFyjPjgNR/+lx5fHXaO3A7tKm/CnlfQofK6CQ4TG
+	 LvGN3DBhVj2PCQZlmaDR/VlGq2b4KS2wPfKaXM0tVY6eLGTSSC554PX7QlYOx4wUUmA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b="i/FamW0d";
-	arc=none smtp.remote-ip=209.85.217.50
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0jxOFE+V;
+	arc=none smtp.remote-ip=209.85.221.47
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807DA606A333
-	for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 15:35:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 807DA606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E657606A31F
+	for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 16:06:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E657606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=i/FamW0d
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-77bf892b496so1150920137.0
-        for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 07:35:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0jxOFE+V
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4a7b8abe209so2668894f8f.0
+        for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 08:06:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1795448109; x=1796052909; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=jVozDBZgp+27gMR99l+UaMITrh6vU8pxKuFZh102SrU=;
-        b=i/FamW0dqItDKDcrh3YbiVAMzqFr59iuN2XqiRyjTzhAwQfMU8S6oLV6LTanYRcOVM
-         ilZo1vYlPgRc3m6Uteam1cUHRpNMKm0mA+C3rDE4hX8ygwywpxz6Ew+0kxiEy/p2UIQd
-         kUGakSNyZ7uEE86lr3JK+gSbvNpoV2cq6gVc5fru5/0SpvBBi9JMyKnhtyAIi41j5Rvz
-         1oFEiPIbHhai+HGhF73sb2slrwFLc/dSSqvKreY/Q59Yse6N8opLHTxR+29KvuadJH88
-         16JY4LYooSm8rdutY3D2aa46c1tJgBhBcjI8P42I2mrI/Zoe1P+mn2duVw2Cc3alcQTq
-         QSsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795448109; x=1796052909;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1795450010; x=1796054810; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=jVozDBZgp+27gMR99l+UaMITrh6vU8pxKuFZh102SrU=;
-        b=ZuyKYk9C4V7lyTQE0hbS8di8tArGGraZDIDcvukrcOyuKzfYsJ/1w6US8Da+7Z2Oaf
-         EJOV2D3RBHtgYQ4/uHlHW2ZTJTqnmsBTChBs4nbVQ6Xy5CkzsBpWvs4kWpi2xP72hdc/
-         ZtLC9Yjzq8hW6r7LXROBtMp8wh5kg1piSWUtoYCTzVin1SonEunre1QesXFHaZkZ8KE5
-         Ycv7X5wF1WRecX6SeZoEbErBg6P4Sy2w7jn9qW5v6mY7Es6S5lCu+rbqx4kChE084Fo6
-         OxrLvIlMm+nXH6e2RDuXRTvfi1/gYtrd5vy4EaY6q2W3WJjaX7XFmFcLxlmY1+67qL14
-         ocUQ==
-X-Forwarded-Encrypted: i=1; AL+hErGkF8CvvyQYHBwxN45uCvt+OobplZPxWzigjzVYOXgdopTk4xWRJRmKGt+gnZLlkljbrB6R/pORjoh9HA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8QaycoJ8xDcko+RX72Lm3rE50VOWGesn/i+NU+POtWSHuDQxml
-	yituB3+0oyrBpogWK8/ylUpeNZxd/++dJA0UHxrD+xeJn6LXEEy9LWg8Fz9HWY/X9OU=
-X-Gm-Gg: AZFdTZedT73GjnraZfeZCf5uVMNSs3mXQ/0kZNYlf+nmMTxsj5ReftGlrw+eEtA+uSf
-	tHCQnDgRshHaQmaC4sqj+KEjjSYRJR09n2xdOGB4kOVztJscpXnGEUmUA5Y4jALJtsUe9Keqt/r
-	ktPDlV/PjTqlKpawHGTWvqGUmoUdZ6MM9XCNOGFFGFKMJ26tvHPGY79jWvkAhMeNbS1uxtwreR+
-	DNnvl4/N5MFmPW1O1o0Il5buLuXIoBN0WlL5ba3mOou6oz8f9Zp+SAEfdrknUzl+7G0fXkY3KNF
-	wLL+8SMxmMwziymrJ3C8C+2Nwt6CuKi8VafCaYWcyZ7zu1XWqb+GSF4qkUqEhaihzBZIIsXoMqA
-	j1MVj38O6AeqkQ/0QNLdrrX+oq5h2nuQQaXGsB5rgtXTDmtv4XMSGJGyzpsEGjUiSHfRhvIui2j
-	eBeJa1VIUzMWfzQoYZXMAczok3mbaQ32Sj79hn7DevDhkWWhcOig7fzI6ykSKJ8skkD4WkxVW3G
-	+9RM5i+hvkfKcdAWeNcdPtcZmRWfLR9R32ttOy4k4YrHz07vBifJ0TTdSjHXN+YSQLvfLl2sT0P
-	L+jbQa/0FyQJkTY74xHTVSgHbiwCVbPKOpWJiy44VP15swaE5qYotjjm7akrgP1vnB6PKxQ2Bnk
-	cl34=
-X-Received: by 2002:a05:6102:5811:b0:7d2:76af:fcce with SMTP id ada2fe7eead31-7d7393c88e2mr5087905137.9.1795448108741;
-        Mon, 23 Nov 2026 07:35:08 -0800 (PST)
-Received: from ziepe.ca (stjhnbsu6iw-159-2-142-59.dhcp-dynamic.fibreop.nb.bellaliant.net. [159.2.142.59])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-949bb0315f4sm823500485a.3.2026.11.23.07.35.08
+        bh=GzTD9WH9/UERM7DubWsp4AE37bmITVN0W6tIx9FHUTE=;
+        b=0jxOFE+VvdEwOytx/bVEm7xS5aGJlYro2kjE3YtL1iz9AP5PTGzWRUkMehmvOEJi7b
+         AQvXI4mGR/aJ29GGnnWmlO9Qg/1Y9jmZSiJAGqlY0YxA9QgHLtzVlpNC4KlFL1NJi/ff
+         BIayySo3Po4InEJYWyZfHhmRBC4iyqPd5UkldBUrmn95BRNNDjYyY5zuAfwMerF6tvUv
+         AqNjpvQ5/Zo00iWiXgGcJKyzVZZ2v40omypHFIlsHubrXS0qVM3ugmtq8x+nuGW0slFW
+         goltPVjZSbPpC5H6DHrwxs0SBkV/r3+eRtLCNiNtJjHrIO0NPTeu+7sxZucouBC6lc/x
+         9bKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795450010; x=1796054810;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=GzTD9WH9/UERM7DubWsp4AE37bmITVN0W6tIx9FHUTE=;
+        b=BT+iH9cGaq3BpmngABo7TLJwDGSONmItaRcA2xjBXAXA9rBMEr5ZyWuB9s3gSHq23m
+         esnBVTTBzzEdBYOgnal3iB2agnUlxvzrSuZ1W/g3sOwPSIC/MmlsRQdjlZK+u853DwLa
+         jgYRE+25cRbXL0D8WFPVBb+NfBxhx4++Tvv7nnwYbdDWcV1BYhsp7GuGmSp58FwIVoEL
+         PpUv9NlzTTmgfiJtDb0FfTJajy2eZDrsQbVJq1O6vuqDhbJzrx3VECzwyl74+uuepffH
+         S/+k2AZ0vTfsTEAUeuN5rJVD5C3inpE1tE/2kDwmTmiK0DNpcBoDZ5Bu/ZF1RFyj1FLQ
+         bEXQ==
+X-Forwarded-Encrypted: i=1; AL+hErHIKrr5EpXqd5Rz481y48vXGgMsZHfFz8ArGrU8eZzmuO0HQao3DNLFleNmbuEVG8bxTVchxq/XsGLwcg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/K51FSB7GLIA7iuhpylysUARFEAGuwLWNdJkAU2EFcRc1zyhUW
+	kG0eNloqGDDhvm5M/2bd9h6hJQwSeCirkZHKjODRTB10pBwVsVZMUqGW
+X-Gm-Gg: AZFdTZdmj3bIKAhF5QyWp9KsDvjWhYw/GiT5mlzVp19NtZ+mmyvGwbM4AZsZaZjyzt1
+	Owk7vlfiRzx3WqVQ04Rp9HchlHvqtRzhsZzt1l9mnj+feXaYxiJzF/9kMcGifs4TkV5HQ2SR81y
+	XMZkT8Q9DmHLK7VKUyv4DIJPn/4wnBfwR29nD7qo7SO2ukvWrWcti6b1uUWDDOZNNC9CWRIeC20
+	2aCKG0onleq36VR8E2XxvuFfTvHIIVNQbPuuToAnPRz/IwLxi0RBl5jz2QW806djwkZHmtpZpCr
+	fUPB+nH/rDSe9TC+53RMEKcppa3TguXiyKnroyA0tU7FeiW8b/zoXefNZ+zrMYgMMHFyZs3h6sv
+	OMvP1nq0LSQ7REU4Men/I464oRzdMKDvAoFP9UsjG8YwXD7lp3wAQTcAL3e+qJKOG9feZJjktIJ
+	lrPEE0ZTbHBopBKDT/magg6kAyewCYPUMagAb3C6idMhyFBhDPMg9C+yi5+A6qhpMqyJ24KS3ub
+	nx8QL4GT60HFn8TCGT+HVPo4Lwfh2CHTyY1SkyVjWNjfS8Wxilc4rF6N4ruoxmq4PUnHPuN7PX9
+	z8gvEj2L0arl7HU5WYI9roCaSw==
+X-Received: by 2002:a05:6000:2c05:b0:4a7:ed95:7c9f with SMTP id ffacd0b85a97d-4abb19c16a4mr23817893f8f.22.1795450009406;
+        Mon, 23 Nov 2026 08:06:49 -0800 (PST)
+Received: from metepc ([46.197.185.3])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab65cb42absm24580960f8f.1.2026.11.23.08.06.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 07:35:08 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xVW4R-00000000swq-2uP1;
-	Mon, 23 Nov 2026 11:35:07 -0400
-Date: Mon, 23 Nov 2026 11:35:07 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>
-Cc: linux-coco@lists.linux.dev, Dan Williams <djbw@kernel.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>,
-	Alexey Kardashevskiy <aik@amd.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Lukas Wunner <lukas@wunner.de>, Ashish Kalra <ashish.kalra@amd.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH v1 05/10] PCI/TSM: Add association locking helpers for
- evidence acceptance
-Message-ID: <20261123153507.GH179082@ziepe.ca>
-References: <20261123083337.2731019-1-aneesh.kumar@kernel.org>
- <20261123083337.2731019-6-aneesh.kumar@kernel.org>
+        Mon, 23 Nov 2026 08:06:48 -0800 (PST)
+From: =?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	dakr@kernel.org
+Cc: akpm@linux-foundation.org,
+	edumazet@google.com,
+	brauner@kernel.org,
+	stable@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>
+Subject: [PATCH v3] kobject: fix use-after-free in tagged uevent broadcast
+Date: Mon, 23 Nov 2026 19:03:16 +0300
+Message-ID: <20261123160615.1074229-1-omermetekaya0@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -116,41 +102,115 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261123083337.2731019-6-aneesh.kumar@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 23, 2026 at 02:03:32PM +0530, Aneesh Kumar K.V (Arm) wrote:
-> Later attestation patches let userspace finish device setup through
-> evidence-accept after host sysfs connect or guest sysfs lock returns.
-> Those commands use a saved struct pci_tsm and must prevent disconnect or
-> guest unlock from changing pci_dev::tsm or freeing the saved structure
-> while setup is in progress.
-> 
-> Add pci_tsm_trylock_association() to acquire pci_tsm_rwsem for write and
-> check that pci_dev::tsm still points to the saved structure. For a TSM
-> implementing devsec_ops, first take device::mutex to prevent driver
-> attachment during MMIO validation and device acceptance. This matches
-> the device-mutex-before-rwsem order used by PCI DMA preparation.
+kobject_uevent_net_broadcast() accesses net->uevent_sock->sk without
+protection in the tagged (namespace-aware) path. During network namespace
+teardown, uevent_net_exit() frees the uevent_sock while a concurrent
+kobject_uevent_env() call can still reference it, causing a
+use-after-free.
 
-This doesn't seem the API I'd expect here.
+Extend uevent_sock_mutex to cover the tagged broadcast path and the
+netlink receive path, serializing them with teardown: in
+uevent_net_exit(), set net->uevent_sock to NULL under the mutex before
+releasing the socket. In the tagged broadcast path and in
+uevent_net_rcv_skb(), check for NULL under the same mutex before
+accessing the socket.
 
-When we trigger SPDM session start AKA lock through the CTLV it needs
-to capture some kind of 'session cookie' for this locked that ties
-back to whatever the TSM is using to prevent a hostile host from
-locking/unlocking while we are working.
+Closes: https://syzkaller.appspot.com/bug?extid=7db35adbc02c5b86d4e0
+Fixes: 5c0941c55e5f ("kobject: reduce uevent_sock_mutex scope")
+Cc: stable@vger.kernel.org
+Signed-off-by: Ömer Mete Kaya <omermetekaya0@gmail.com>
+---
+v3: Switch from explicit mutex_lock/unlock to guard(mutex) and
+    scoped_guard(mutex, ...)
 
-That cookie should be held in the attestation driver and when we get
-to acceptance it should be presented to confirm that nothing has been
-tampered with.
+ lib/kobject_uevent.c | 34 +++++++++++++++++++++++-----------
+ 1 file changed, 23 insertions(+), 11 deletions(-)
 
-It is a further reason why we can't have lock under sysfs control.
+diff --git a/lib/kobject_uevent.c b/lib/kobject_uevent.c
+index ddbc4d7482d2..768540433c7f 100644
+--- a/lib/kobject_uevent.c
++++ b/lib/kobject_uevent.c
+@@ -14,6 +14,7 @@
+  */
+ 
+ #include <linux/spinlock.h>
++#include <linux/cleanup.h>
+ #include <linux/string.h>
+ #include <linux/kobject.h>
+ #include <linux/export.h>
+@@ -411,9 +412,14 @@ static int kobject_uevent_net_broadcast(struct kobject *kobj,
+ 						    devpath);
+ 	else {
+ 		const struct net *net = container_of(ns, struct net, ns);
+-
+-		ret = uevent_net_broadcast_tagged(net->uevent_sock->sk, env,
+-						  action_string, devpath);
++		struct uevent_sock *ue_sk;
++
++		guard(mutex)(&uevent_sock_mutex);
++		ue_sk = net->uevent_sock;
++		if (ue_sk)
++			ret = uevent_net_broadcast_tagged(ue_sk->sk, env,
++							     action_string,
++							     devpath);
+ 	}
+ #endif
+ 
+@@ -743,6 +749,7 @@ static int uevent_net_broadcast(struct sock *usk, struct sk_buff *skb,
+ static int uevent_net_rcv_skb(struct sk_buff *skb, struct nlmsghdr *nlh,
+ 			      struct netlink_ext_ack *extack)
+ {
++	struct uevent_sock *ue_sk;
+ 	struct net *net;
+ 	int ret;
+ 
+@@ -760,7 +767,12 @@ static int uevent_net_rcv_skb(struct sk_buff *skb, struct nlmsghdr *nlh,
+ 		return -EPERM;
+ 	}
+ 
+-	ret = uevent_net_broadcast(net->uevent_sock->sk, skb, extack);
++	guard(mutex)(&uevent_sock_mutex);
++	ue_sk = net->uevent_sock;
++	if (ue_sk)
++		ret = uevent_net_broadcast(ue_sk->sk, skb, extack);
++	else
++		ret = -ENODEV;
+ 
+ 	return ret;
+ }
+@@ -794,9 +806,8 @@ static int uevent_net_init(struct net *net)
+ 
+ 	/* Restrict uevents to initial user namespace. */
+ 	if (sock_net(ue_sk->sk)->user_ns == &init_user_ns) {
+-		mutex_lock(&uevent_sock_mutex);
++		guard(mutex)(&uevent_sock_mutex);
+ 		list_add_tail(&ue_sk->list, &uevent_sock_list);
+-		mutex_unlock(&uevent_sock_mutex);
+ 	}
+ 
+ 	return 0;
+@@ -804,12 +815,13 @@ static int uevent_net_init(struct net *net)
+ 
+ static void uevent_net_exit(struct net *net)
+ {
+-	struct uevent_sock *ue_sk = net->uevent_sock;
++	struct uevent_sock *ue_sk;
+ 
+-	if (sock_net(ue_sk->sk)->user_ns == &init_user_ns) {
+-		mutex_lock(&uevent_sock_mutex);
+-		list_del(&ue_sk->list);
+-		mutex_unlock(&uevent_sock_mutex);
++	scoped_guard(mutex, &uevent_sock_mutex) {
++		ue_sk = net->uevent_sock;
++		net->uevent_sock = NULL;
++		if (sock_net(ue_sk->sk)->user_ns == &init_user_ns)
++			list_del(&ue_sk->list);
+ 	}
+ 
+ 	netlink_kernel_release(ue_sk->sk);
+-- 
+2.56.0
 
-It should be attestation that provides a general purpose lock that
-serializes all attestation operations including lock/unlock so we
-don't need a TSM lock like this.
-
-The driver should rely on that lock and use its internal mechanism to
-process the cookie.
-
-Jason
