@@ -1,106 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795396018;
-	b=TXzfBmpxueQQlqrjvmBRQoZy7R9Kwx6ghZ4ygIUID0I0Adwc6Vq2wvFIEgqMVg8AxlXR
-	 2PVynpVsgbaEFmI79fSQw4F5qIQnPVyCa5dPoP360d0FkPVyRr6fAuxdqu2liGVrZjAyc
-	 BXgiifYv0okc6Q3DJaU1MZY6GDNXQF4OvYKYTLKL29rInniiqZy33hGw6vK3KrRglBhCX
-	 wqhsp0NSEofGEhK/zVrYG4Ejnot0AIBjs8vfDW/QVLxxSnjOWXLGq18cdIPe67M00Ypdr
-	 2g57R2s9pggBxn3+gU6Cm8j1eZrYj5/e+AhFyr66fq2rBTUe+ooUwww0CCqXmyvgKgQ==
+	t=1795397169;
+	b=pIpPluAy9acLMGluHclJMOuiUaMY1JnUs07O19oVa1ZtiBdXk/lfeRFN/5iY1mF7IMRa
+	 TMsUSngkv8uyktMExpBRH+2s1w4hZUnbm/MWR7VoPt3fT6iW9T9njbrSuks3l3pMh48x3
+	 PNNtv9Vf3m4nfkbiN5BR/snTapd4hIplIEGhfNHmsXQyBq1j6Jk/wQ/66ROon/b4Epv+X
+	 iztWkkEbXEm0a04F44x7hFCb18+B1GhZSzGUgn6p3hRbmDYON+QbbgASE6Nt3EZ6ci5Ns
+	 PSnknvqlN6w7Iiv4WSp/gGzAi+HnFNlJIyn5waUDGeE+iMmqntS2hYlzUIC2euTik1A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795396018;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795397169;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=kk1s82CtUNmO2iiWD/0nnFEsWGck88S3i8ao4k82+pM=;
-	b=Co6UNmnKTtmcrVSwCVIqPUBAsifzG1vedp3mVOBSj6O8Ovd/ebiQSw37d6PMO/PEvb19
-	 hGTR4cAxCirOzWagSAlUFMbkX9v0XP/3dN3k/MKxDdffhrnqFZhS295QNoQZAA3Pw9FqE
-	 Tw5Azwo8zIO9oJxrS2Gzw6vASXFrGToS6RQnI0HBUKaXQ1Zv7Q9kgu4zk2g64DfwKYq4w
-	 rTn0jq2FB5lSbuw52ErpK6+h+ubTySwm4/ZmEKwKXtyvNp+tlgGISWREopS3QpO+jAU3E
-	 df11Ax/zfmg6GXUrnxWMK47O93SKC0+5GpmB8o+zZUFfVLfE6VhDo/0k1TaMitK0ing==
+	bh=Cimu9nETKTzANnWKl7CZH/+vQCY817P3+er3bcrePiY=;
+	b=J8zBvqmwSU4164uQihlG641q5hekymxe3hDLpYQp2icBEP8+Qvkmw9SN8f5Sr9H3KqR6
+	 wMNbEM7Kj4ObT17GSs6jPPZAprnyCQgGUDzqqQigdJBsPmBY2/zp/KnamVvXLoQjkELec
+	 zo85Gf20IXZFLlIL+EghCnq+f5X210dPa9+Y4XAWEqQ++rHlFZ/xJsWApc9DcULZSli7m
+	 k1I54qyXdBxh+m0bj+zDQDdV3yy5O7QTkXfFfja0FZaWQRaDJIaWx917XIVic18pNftNc
+	 hzK+M5zTjYjCR7W6qnHEWR38iVXFsWASl6f36cx2ENrnH/N+tBiNQPinzkl3lK9RXMA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ThwpEhCl;
-	arc=none smtp.remote-ip=209.85.208.170
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rku+s9Ue;
+	arc=none smtp.remote-ip=74.125.82.173
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870B8606A31D
-	for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 01:06:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 870B8606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4BD606A31D
+	for <driver-core@lists.linux.dev>; Mon, 23 Nov 2026 01:26:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4C4BD606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ThwpEhCl
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3ae85add4ceso17355891fa.0
-        for <driver-core@lists.linux.dev>; Sun, 22 Nov 2026 17:06:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rku+s9Ue
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-385d8a00598so3738254eec.1
+        for <driver-core@lists.linux.dev>; Sun, 22 Nov 2026 17:26:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795396016; x=1796000816; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795397168; x=1796001968; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kk1s82CtUNmO2iiWD/0nnFEsWGck88S3i8ao4k82+pM=;
-        b=ThwpEhClyJf/q6ccjeRVtsKJ6V1jwwpzThLDiCBW5O63qQ84tiaVMxx+6ATPMCmGN0
-         FbJMkNXQuavbyO7LNJhWJUETp4JgELyL3aZK0Egn2I4Nfun6WHsd3ZoaDjw/oK1490EB
-         OusEZjwqI7p8tOoaVDUe54OX5XpaxUql6y/LobtciqsI7o3MUdwE8gUK8mdG68rmse54
-         sZcK6F0snbH2WbhHE158x0ATdC4jyigG8fqMicblRuE1bVRFxyapl7RMyR09jfp8pTf5
-         6kHrjDZ2Bl8mrCasgy+5+o64STg26SoCgFkwLmnumwa9eBAmX/LOoET/X1sj2/ajVILl
-         G2lw==
+        bh=Cimu9nETKTzANnWKl7CZH/+vQCY817P3+er3bcrePiY=;
+        b=rku+s9UeXU0vg2ingkmaEOKTy9FR0IA906L9yr483Wq3JfITJMC+s8/oVP3rWWGF59
+         UPKL2Ud0+TGI0FP72uNclSC3KeXDQOB3i79hm9nH5Q4nx3Qebw/q406PvBbgdgbEhsUi
+         WG2pr1+miV63vrV0CNMCfw0XG3348zTjb5VrooN6r/i3/bL9iV5W7sGJQ+W4Z8POkEdQ
+         2TfGT+/4b+Y/tYFPGCdqGbT3tqxwa+erED3NXfUaT5puAdy2ru2ThbCiLgB86kDc89KT
+         LwYMVYkFS61b/7r15hyZUE0Z7L582n77GzaROnOe7lZWTc2gRm3X5bUwAMjHc9Gp1tpu
+         mjow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795396016; x=1796000816;
+        d=1e100.net; s=20260707; t=1795397168; x=1796001968;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=kk1s82CtUNmO2iiWD/0nnFEsWGck88S3i8ao4k82+pM=;
-        b=tittzYZ7BzB8HN1Ww2zVwy703znTUUH/h0I0xQS1+rwLNLnwVX08PsatC9IX8Vs3TS
-         UAlD8yLPdXThHNKwlCXtap3zFwr/cg9/e0Aq8Ct6T4QFMHVSwUB3UylsU+iDjjzCqcIo
-         7tCzUfpztz/+CC97MtuYwNpJ8ZDUv16m7uNsQ8K3P9Xf3BLCMcXvDBaEl58z2X2NpDmY
-         tNzUqNX9eT/lPQCbS7JzRwsnJSHhOjc1k7tjPNi3S07a36X6AN3UJlm9+6y67JFDgA8H
-         Lv+tqL8vdpVstkHOp3EHU4oj03XvDqisjblolVrPZ1j4LhvQ4Yq5KRGPpUka7ygDd5nj
-         4c4w==
-X-Forwarded-Encrypted: i=1; AL+hErG01OHU4Rd2STfbAVSd4dVmfL3UmRhY8WZ5QfPvMM1zjGUxIE22U/o4cKloamMCyqEIQU+dDJlaFWynYQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8UacBjsBeFGGh0DdMWzp4zHKtz+NkeCcj+0eLpQMMXBrcxmJ+e
-	Cm12VIsjwhCu5/EgPnVkJJVxwUVb4d3lx/y2IWAynmBvRbyaJsxrPLKo
-X-Gm-Gg: AZFdTZdWtGsmtVWuHnndcA+9aKFtMAZ9pAkbpLzDPWmrprEm4IAYdXmu7cPTx7lMbH9
-	KVhni3CZl/yAvc+4iCHp5Y/kn4gNOhD42TMx0lcuPaZzXRK9xcm4pidpg+6V4V+kRV3RPDsRVzr
-	KJeZdhf7rLxaniCgHbyLeVUEzIb7S1MCpP8E24BGVA+c/RdIxAN6B3L7vWfK04nEfdvnksl1xeo
-	w6zZRyQiqDf2XbCzpUt1QUglObclG4TMD4Dri2BHS5RhtHT6OrISqNkjCPT/GLHOaKWp/aElAbL
-	KA0w3z59/GLi716M8+wEY4/6uLFWY7CV9CXHBulWxJ/Tu6+psljNjdJ+HalthZWlg2VJ4xhly0+
-	Dq9gPGnXKQIU3Qyh6o9/aCVy8ytIFO1T8ExiUqEFlF/wITBI0hh47JUwU/flskG+Khwxfi9AeJQ
-	3wLfXOwZ6/06eHeVYJMRD6dq3Gv7OOOIn3SNnDhwDdh+c/f9zivMpfmsFxI6WyF7/goJMm38bbg
-	VCQfYqBD0Y7NtPZyZIl1kgMzm+noBseiD050aCEXb6F2kfjoj9zMY053ru/w9TEQ26ITwlKkGrL
-	PfIkrvbbZMoXQZXOzAQZNESO3ApEYnXG
-X-Received: by 2002:a05:651c:a144:b0:3a9:a1ed:634a with SMTP id 38308e7fff4ca-3ae7fa3d16emr24469201fa.21.1795396015482;
-        Sun, 22 Nov 2026 17:06:55 -0800 (PST)
-Received: from Swift-SFG16-72 ([141.105.129.181])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3ae805751f4sm29257771fa.40.2026.11.22.17.06.52
+        bh=Cimu9nETKTzANnWKl7CZH/+vQCY817P3+er3bcrePiY=;
+        b=RCnWXdVzvO6NJ05XPehqmIBQSPleQjqFolSlNDFXMO8/3WB0HIARKLlEUuSp2WORZk
+         J3+T7SIJuM56V198aQwZp6lzd6h1d7WIulKDYAnvbQd6OoDwMwzJy4viD8MBmIKxTPiQ
+         q5382DQyA47ANMzdQVhege+7PJ5dndcuYxIWAV4sKj8n4zkoyjW7CoEupG90ti2NTtq+
+         6PBT4/qH+wlYui7NwmNGIxrgJqhD9CuXVFYBCiy57zFQjk6b1rN7NcWyrHda5I0v5bC3
+         CDwpuc8vmveg1+LES8aLUFZBnQclz4ErYuVqMUwKOTY8WEYdiXpPcs0tcNfYi910qI8X
+         utWg==
+X-Forwarded-Encrypted: i=1; AL+hErFvYnKdc5iiCYmbablxM9EWDjwNVDb3G5+rrAHvI9SIXw+emzAm7fipD6XqTC7UzVzdko/pTpPp883S3w==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/Ub32v2ra/FRIJji9+y9u9tSs6aFKytJ7jEtcvxIC8nv35Y9Kz
+	uD+oyxNDpdsF6G74QWR3ghAScuKXq6bBLw72fQmGq8zh4iuUl3zP5vfW
+X-Gm-Gg: AZFdTZcmUWrvr1CJEuo4H0sYa279uJlP+Y947zSHjkp8yBMtb8b2+DsNQWGLElGx9d6
+	so5EXrEAv2bn6hzIPrlxQTRP4K5aZANtFkbFN0wJlXY+Jzui+uB3sEvUB9XcnVuAVeAF7wPtRn2
+	3rZv4Hne11O7e+vlZHQZWeJ2NBNLLP3FdwW3wSzgFqDUX8OhSGIFFOEWtp1nkvCCJm0mLN84tYs
+	D2lvBZGuq5snJIBDFQCDdXEzUnhPENbPU7VRwGf9rEQ/yiE/s50OoKC55zkOK+T3y16qMKKDAFI
+	JxpNAhq47LkSwMc9tJd4a2AZIOP8CD6Gl7K1l75DSQj9R+wnFzAfPDZTNdkr6+8dTHyHn90dOcg
+	kYiuVK56lvoafHnc0ztzA9Ih0I2US70D4ELzA58Cyj4qMbPAd+AF3pGyWvhfzpr5gJXbPmGT5L8
+	VILD5YU5r3rVcuNdYe5CUNraFalGLYRw54l6zbRAv3J+C77cA9FHCUuw7RSZ/CAOVLZNwNHOz7m
+	S21nRXY2HFP4M5f2upuR1huQT5aBIm4EwsfNvM8f0kgA3AH/8/ulpUZXIZjSRQy7LFGUrh7YUZH
+	HFlZtC03om8kcxxYkioAokNux5fDLO7roB5s1X1P3nDhiQ1ulxHSvLTLHwoVVBkn2Ml6joJ/YMu
+	wrlZmFLTraolYuTR9jw==
+X-Received: by 2002:a05:693c:42d1:b0:386:b0ea:327d with SMTP id 5a478bee46e88-386b0ea3549mr1277906eec.5.1795397168161;
+        Sun, 22 Nov 2026 17:26:08 -0800 (PST)
+Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:f002:4621:aeeb:e0e7])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385f68bc0adsm26992160eec.13.2026.11.22.17.26.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 17:06:53 -0800 (PST)
-From: Ivan Borovyk <saref012@gmail.com>
-To: dakr@kernel.org,
-	ojeda@kernel.org
-Cc: abdiel.janulgue@gmail.com,
-	daniel.almeida@collabora.com,
-	robin.murphy@arm.com,
-	a.hindborg@kernel.org,
-	boqun@kernel.org,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	aliceryhl@google.com,
-	tmgross@umich.edu,
-	tamird@kernel.org,
-	acourbot@nvidia.com,
-	work@onurozkan.dev,
+        Sun, 22 Nov 2026 17:26:07 -0800 (PST)
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>,
 	driver-core@lists.linux.dev,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ivan Borovyk <saref012@gmail.com>
-Subject: [PATCH] samples: rust_dma: add missing newline in dev_info! call
-Date: Mon, 23 Nov 2026 03:04:30 +0200
-Message-ID: <20261123010430.365536-1-saref012@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] driver core: fix race between bus_remove_driver() and dev_driver_uevent()
+Date: Sun, 22 Nov 2026 17:26:04 -0800
+Message-ID: <20261123012604.3882115-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.56.1.750.gf70dc682cf-goog
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -112,30 +100,76 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The dev_info! call in the probe function lacks a trailing newline in
-its format string, which makes the message run together with the next
-line in the kernel log. Add the missing newline.
+When a device driver is being removed, bus_remove_driver() removes the
+driver from the bus klist before detaching it from bound devices. If
+dev_driver_uevent() runs concurrently on another CPU, it may acquire the
+bus klist lock after the driver has been removed from the list, read the
+still-valid driver pointer from the device, and access the driver's name
+while bus_remove_driver() proceeds to free the driver structure.
 
-Suggested-by: Miguel Ojeda <ojeda@kernel.org>
-Link: https://github.com/Rust-for-Linux/linux/issues/1139
-Signed-off-by: Ivan Borovyk <saref012@gmail.com>
+To close this race window, acquire and immediately release the bus
+drivers klist lock after all devices have been detached. This ensures
+that any in-flight uevent generation that observed the driver pointer
+before device detachment completed finishes reading the driver name
+before the driver structure is destroyed.
+
+Fixes: 18daa52418e7 ("driver core: fix potential NULL pointer dereference in dev_uevent()")
+Assisted-by: LLM
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- samples/rust/rust_dma.rs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/samples/rust/rust_dma.rs b/samples/rust/rust_dma.rs
-index ffb693544673..b4b161896517 100644
---- a/samples/rust/rust_dma.rs
-+++ b/samples/rust/rust_dma.rs
-@@ -129,7 +129,7 @@ fn drop(self: Pin<&mut Self>) {
-         for (i, entry) in self.sgt.iter().enumerate() {
-             dev_info!(
-                 self.pdev,
--                "Entry[{}]: DMA address: {:#x}",
-+                "Entry[{}]: DMA address: {:#x}\n",
-                 i,
-                 entry.dma_address(),
-             );
+v2:
+- Updated the comment above dev_driver_uevent() in drivers/base/core.c
+  to explain the new synchronization with bus_remove_driver(), per
+  Danilo Krummrich's suggestion.
+
+Extremely unlikely to hit so I would not worry about backporting to
+stable.
+
+ drivers/base/bus.c  | 9 +++++++++
+ drivers/base/core.c | 9 ++++++---
+ 2 files changed, 15 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+index 396097fdb316..e7616d0ca854 100644
+--- a/drivers/base/bus.c
++++ b/drivers/base/bus.c
+@@ -849,6 +849,15 @@ void bus_remove_driver(struct device_driver *drv)
+ 	driver_remove_file(drv, &driver_attr_uevent);
+ 	klist_remove(&drv->p->knode_bus);
+ 	driver_detach(drv);
++
++	/*
++	 * Ensure that any concurrent dev_driver_uevent() that observed
++	 * dev->driver before driver_detach() cleared it, finishes
++	 * accessing drv->name.
++	 */
++	scoped_guard(spinlock, &sp->klist_drivers.k_lock) {
++	}
++
+ 	module_remove_driver(drv);
+ 	kobject_put(&drv->p->kobj);
+ 
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index cbe05197d4a0..cc6a1016c251 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -2705,9 +2705,12 @@ static const char *dev_uevent_name(const struct kobject *kobj)
+  * risky as driver pointer is transitioning to NULL, so READ_ONCE() should
+  * be used to make sure we are dealing with the same pointer, and to
+  * ensure that driver structure is not going to disappear from under us
+- * we take bus' drivers klist lock. The assumption that only registered
+- * driver can be bound to a device, and to unregister a driver bus code
+- * will take the same lock.
++ * we take the bus' drivers klist lock. During driver unregistration,
++ * bus_remove_driver() acquires and releases this lock after detaching
++ * all devices and clearing their driver pointers. This waits for readers
++ * that observed the old pointer to finish accessing the driver name
++ * before the driver can be freed. Readers acquiring the lock afterward
++ * cannot observe the removed driver.
+  */
+ static void dev_driver_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ {
 -- 
-2.53.0
+2.56.1.750.gf70dc682cf-goog
 
