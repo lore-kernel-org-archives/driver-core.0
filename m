@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795520183;
-	b=rt8nx+gJCnEaHRTTpFTzLQeiN1twwAG7LEj7oyDY+FQAuHmyWkEhHZbBrfdH1pxKncx3
-	 +7ZjIlcm4agbx2MW/JGPOLm7Gxtq/a87mXs/ZsQL9pukYCNcFREuVS+BQ0W0oGfof7idn
-	 Xjw8FS6gRwiPSyI2248YXoZBDcceEFM1iJPdGCliIzz+hyMvFmtEZ6wYa7nDXOVagWekr
-	 cWq5zFphnFBHCrOikjt0KSjeCX/gr3iGvyIGdduMR3pPxL7bmo05KLWXPGCQDFEOdyfR5
-	 ZoBNhk9eMxIJlnfsAOBoYjx0VvgZb5BRxyoZ2PzPsCQvU8zTYQ8Bt5NAadN9kPFeP1A==
+	t=1795520188;
+	b=F4Xb+ewXzox5Yld7ayHFfWL6VuAlO2m9wQTUgugcF++wzwo36YvZPsi0+TGf6P0tbeHk
+	 vPjEvNpKsIAWsuzq1rKhaN04gWr3XojDTIr7p2C2UHqxrLd7xitK3d2EIt/vk/f1eGyI/
+	 wwjW78ZWdSBeg6X9J9DBb2bFHY4/n1hGMdyqbt2CRrEr2N5/nHfT5O06sAadEP4aLsWvg
+	 K6+HOqpRQsB0iTINdT97t6UAc+do1PRQ2gwCnbTw9lqEnQNAwh7xub+uczUYilWazLS0W
+	 EVejhJJMQSV78LjAHyWseV9bKwH6zwKD7UCRbXSPmbxLl6jwGWhHw6mgS86Kr+07GOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795520183;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795520188;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=bkfFNcZNr1xtI726kQ+MdCMSiSANG76hQ61zNt//wtQ=;
-	b=L3vC1ehio/Z/kz5rSztiof7Huo0/yRrwDOlixrOY+Qstx7KR34n4E1oWzrb+L3h457TY
-	 juA8o6RQFV4qP4+XkIv+hKsZADLJQpfnN3A+FzIGzOzyGqT7TVamw892v2nMdo/qHr4FM
-	 yDO8GaitiT6u8ghZjmgluj26wy4w0+DGN/KbdijlxduVCsvoKYYHsVDKu0elRfnfrDJQt
-	 uCaLdazxE1ebTx6bVtTeQI4cc9HNvV/v+lIVS7JUai956VZNAqV3RxhHUrEryWClAdUrq
-	 4Wddu37HDYE8y1uNVfTWw9xf8k0WbHtHcMB2zILyiQdWl+Ger6R1kh5a7W7naSvcICQ==
+	bh=yjkaFmMB/EOjRsxFRMCL6eH/Ahn9j6F0qkTMZyl7g/4=;
+	b=HItFMkoEWgM8tflircY7OzpemcZV2gB5Mpot50/ySTByELM3Nh4um2HPkdnhlYeU3fJp
+	 4Moa93DE/j5yfvlWx97zFZeLfRFbrQGk/YpajeS6SytF18bQ120+oFyVMODqKogQ+mFFU
+	 WQkbJraj8DdVeeWeLZozHdvgektsF9D51CirfW1jvHqTQrHaxTxMeKvQZL1+QCsAZd6N4
+	 qrpGar6DwIV3p/FFuMBfbpna8VBh0lQhxEKFIIQDUJMye3XQAU6M3rXeQRrBGa948utI+
+	 tWUcdmdAey3jeq/WqphGNQ8mjl8D69yACXKSPHQC62at5fMz478FMxC1p3P2Ix4gEZg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=arm.com;
 	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=JliSP9kV;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=oPfsPL9p;
 	arc=none smtp.remote-ip=217.140.110.172
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5D69606A322
-	for <driver-core@lists.linux.dev>; Tue, 24 Nov 2026 11:36:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5D69606A322
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C759E606A321
+	for <driver-core@lists.linux.dev>; Tue, 24 Nov 2026 11:36:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C759E606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=JliSP9kV
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=oPfsPL9p
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 525EE339;
-	Tue, 24 Nov 2026 03:36:19 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4ABAE1595;
+	Tue, 24 Nov 2026 03:36:24 -0800 (PST)
 Received: from e143943.arm.com (unknown [10.57.70.100])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8A1113F86F;
-	Tue, 24 Nov 2026 03:36:17 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A02013F86F;
+	Tue, 24 Nov 2026 03:36:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795520182; bh=5xqs0IHuK3xrnnJlcwySoPn1Md64FE2QsPCP6FKsw98=;
+	t=1795520187; bh=TeduYDtsc0fp7HuojRA+mdJj2cMUWG0JMpMHLy/kQ7Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JliSP9kVvBj6sWswKPviiTTZPcrvCDxmq7qe57TPnPQUIsUWSyppguxP3jVnayl1H
-	 sYw4YuVY9TQprZMtRjkeUmTu94/zsBA0imMpkCmzBG6WuHJUNS+Sk2vKMpSRe5qp67
-	 Os4EC/mgQ5O3wKOMbqUwgJpkCSW6nc2hlA/1OCLA=
+	b=oPfsPL9p/qYKOAZaE0L25gRUd/9OIvj3/4MdCMTcIxuBesHWFAVwa9EdOwVDw+eg0
+	 EcSNCeBrg6J8/NMYFabYou7K030Xhfiw3xVYyhdjun6PzKEWgm7jaNShuakYw4LFgU
+	 NlHQE8zZFoJR8txbVQPEGYtTRmGm4MMjhxgwC1ZQ=
 From: Beata Michalska <beata.michalska@arm.com>
 To: ojeda@kernel.org,
 	dakr@kernel.org,
@@ -63,9 +63,9 @@ Cc: boqun@kernel.org,
 	driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-pm@vger.kernel.org
-Subject: [PATCH v6 2/3] rust: platform: wire runtime PM callbacks
-Date: Tue, 24 Nov 2026 12:34:13 +0100
-Message-ID: <20261124113555.2480381-3-beata.michalska@arm.com>
+Subject: [PATCH v6 3/3 DO NOT MERGE] drm/tyr: enable runtime PM
+Date: Tue, 24 Nov 2026 12:34:14 +0100
+Message-ID: <20261124113555.2480381-4-beata.michalska@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261124113555.2480381-1-beata.michalska@arm.com>
 References: <20261124113555.2480381-1-beata.michalska@arm.com>
@@ -80,110 +80,343 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Allow platform drivers to provide Rust runtime PM callbacks by exposing
-typed `dev_pm_ops` through the platform driver trait and installing them
-via the generated `platform_driver`.
-
-Add a platform-specific constructor for `pm::Ops` that ties the
-PM callbacks to `platform::Adapter<T>` and requires callbacks to use
-a bound platform device. This keeps the unsafe generic PM ops constructor
-internal while letting platform drivers opt into runtime PM without
-affecting drivers that do not use it.
-
-The platform glue only wires the callback table into the C driver model;
-ownership of the callback payload and runtime PM teardown remain with
-the pm module.
+Add runtime PM support to the Tyr platform driver. Move the clocks
+and regulators used by runtime suspend and resume into the PM
+payload, register the PM callbacks, configure autosuspend,
+and let DRM paths take a PM usage reference while querying
+device state.
 
 Signed-off-by: Beata Michalska <beata.michalska@arm.com>
 ---
- rust/kernel/platform.rs | 35 +++++++++++++++++++++++++++++++++--
- 1 file changed, 33 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/tyr/driver.rs | 220 +++++++++++++++++++++++++---------
+ drivers/gpu/drm/tyr/file.rs   |   7 +-
+ 2 files changed, 169 insertions(+), 58 deletions(-)
 
-diff --git a/rust/kernel/platform.rs b/rust/kernel/platform.rs
-index ac0a012ae1bb..c9f2bd3d9aad 100644
---- a/rust/kernel/platform.rs
-+++ b/rust/kernel/platform.rs
-@@ -10,7 +10,8 @@
-     container_of,
-     device::{
-         self,
--        Bound, //
-+        Bound,
-+        pm, //
+diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
+index c2b99d67369f..c82f31e2d2b4 100644
+--- a/drivers/gpu/drm/tyr/driver.rs
++++ b/drivers/gpu/drm/tyr/driver.rs
+@@ -9,7 +9,11 @@
+         Bound,
+         Core,
+         Device,
+-        DeviceContext, //
++        DeviceContext,
++        pm:: {
++            self,
++            *,
++        }, //
      },
-     driver,
-     error::{
-@@ -72,6 +73,11 @@ unsafe fn register(
-             None => core::ptr::null(),
-         };
+     dma::{
+         Device as DmaDevice,
+@@ -21,17 +25,13 @@
+         poll,
+         Io, //
+     },
+-    new_mutex,
+     of,
+     platform,
+     prelude::*,
+     regulator,
+     regulator::Regulator,
+     sizes::SZ_2M,
+-    sync::{
+-        Arc,
+-        Mutex, //
+-    },
++    sync::Arc,
+     time, //
+ };
  
-+        #[cfg(CONFIG_PM)]
-+        let pm_ops = T::DEV_PM_OPS.map_or(core::ptr::null(), |ops| ops.as_raw());
-+        #[cfg(not(CONFIG_PM))]
-+        let pm_ops = core::ptr::null();
-+
-         // SAFETY: It's safe to set the fields of `struct platform_driver` on initialization.
-         unsafe {
-             (*pdrv.get()).driver.name = name.as_char_ptr();
-@@ -79,6 +85,7 @@ unsafe fn register(
-             (*pdrv.get()).remove = Some(Self::remove_callback);
-             (*pdrv.get()).driver.of_match_table = of_table;
-             (*pdrv.get()).driver.acpi_match_table = acpi_table;
-+            (*pdrv.get()).driver.pm = pm_ops;
-         }
+@@ -55,35 +55,59 @@
  
-         // SAFETY: `pdrv` is guaranteed to be a valid `DriverType`.
-@@ -194,6 +201,7 @@ macro_rules! module_platform_driver {
- /// impl platform::Driver for MyDriver {
- ///     type IdInfo = ();
- ///     type Data<'bound> = Self;
-+///
- ///     const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> = Some(&OF_TABLE);
- ///     const ACPI_ID_TABLE: Option<acpi::IdTable<Self::IdInfo>> = Some(&ACPI_TABLE);
- ///
-@@ -205,7 +213,7 @@ macro_rules! module_platform_driver {
- ///     }
- /// }
- ///```
--pub trait Driver {
-+pub trait Driver: Sized {
-     /// The type holding driver private data about each device id supported by the driver.
-     // TODO: Use associated_type_defaults once stabilized:
-     //
-@@ -223,6 +231,9 @@ pub trait Driver {
-     /// The table of ACPI device ids supported by the driver.
-     const ACPI_ID_TABLE: Option<acpi::IdTable<Self::IdInfo>> = None;
+ pub(crate) struct TyrPlatformDriver;
  
-+    /// Provides driver's PM callbacks, if any.
-+    const DEV_PM_OPS: Option<pm::AdapterOpsRef<'static, Adapter<Self>>> = None;
++#[pin_data]
++pub(crate) struct TyrHW<'bound> {
++    /// Firmware sections.
++    pub(crate) fw: Firmware<'bound>,
 +
-     /// Platform driver probe.
-     ///
-     /// Called when a new platform device is added or discovered.
-@@ -587,3 +598,23 @@ unsafe impl Sync for Device {}
- // SAFETY: Same as `Device<Normal>` -- the underlying `struct platform_device` is the same;
- // `Bound` is a zero-sized type-state marker that does not affect thread safety.
- unsafe impl Sync for Device<device::Bound> {}
++    /// GPU MMIO register mapping.
++    pub(crate) iomem: Arc<IoMem<'bound>>,
 +
-+#[allow(clippy::new_without_default)]
-+impl<T> pm::Ops<T>
++     /// GPU information read from hardware during probe.
++    pub(crate) gpu_info: GpuInfo,
++}
++
++
+ #[pin_data(PinnedDrop)]
+ pub(crate) struct TyrPlatformDriverData<'bound> {
+     #[pin]
+-    _reg: drm::Registration<'bound, TyrDrmDriver>,
++    #[uses('pm: invariant, 'hw)]
++    _reg: drm::Registration<'pm, TyrDrmDriver>,
++    // This needs to be dropped after drm::Registration as that one
++    // borrows PMContext.
++    #[pin]
++    #[uses('hw: invariant)]
++    pub(crate) pm: pm::Registration<'hw, TyrPlatformDriver>,
++    #[pin]
++    hw: TyrHW<'bound>,
++}
++
++#[pin_data]
++pub(crate) struct TyrPMRegistrationData<'pm>
 +where
-+    T: Driver + pm::PMOps<
-+        Adapter = Adapter<T>,
-+        DeviceType = crate::platform::Device<device::Bound>,
-+    >,
++    exists<'bound>: 'pm,
 +{
-+    /// Creates a platform driver's runtime PM callbacks for `T`.
-+    ///
-+    /// This constructor is available only when `T` is a platform driver and
-+    /// its runtime PM callbacks accept a bound platform device.
-+    #[inline]
-+    pub const fn new() -> Self {
-+        // SAFETY: `Adapter<T>` is the platform bus adapter for `T`, and the
-+        // bound above forces PM callbacks to receive a platform bound device.
-+        unsafe { pm::Ops::new_unchecked(pm::PMContext::<T>::PM_OPS) }
++    #[uses('bound: invariant)]
++    pub(crate) hw: &'pm TyrHW<'bound>,
+ }
+ 
++
+ /// Data owned by the DRM [`Registration`].
+ ///
+ /// This data can have references tied to the parent platform device binding scope
+ /// and is accessible only while the DRM device is registered with userspace.
+ #[pin_data]
+-pub(crate) struct TyrDrmRegistrationData<'drm> {
++pub(crate) struct TyrDrmRegistrationData<'drm>
++where
++    exists<'bound>: 'drm,
++{
+     /// Parent platform device.
+     pub(crate) pdev: &'drm platform::Device<Bound>,
+ 
+-    /// Firmware sections.
+-    pub(crate) fw: Firmware<'drm>,
+-
+-    #[pin]
+-    clks: Mutex<Clocks>,
+-
+-    #[pin]
+-    regulators: Mutex<Regulators>,
+-
+-    /// GPU MMIO register mapping.
+-    pub(crate) iomem: Arc<IoMem<'drm>>,
+-
+-    /// GPU information read from hardware during probe.
+-    pub(crate) gpu_info: GpuInfo,
++    /// Runtime PM context owned by the PM Registration
++    pub(crate) pm: PMContext<'drm, 'drm, TyrPlatformDriver>,
++    #[uses('bound: invariant)]
++    pub(crate) hw: &'drm TyrHW<'bound>,
+ }
+ 
+ fn issue_soft_reset(dev: &Device, iomem: &IoMem<'_>) -> Result {
+@@ -113,6 +137,7 @@ impl platform::Driver for TyrPlatformDriver {
+     type IdInfo = ();
+     type Data<'bound> = TyrPlatformDriverData<'bound>;
+     const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> = Some(&OF_TABLE);
++    const DEV_PM_OPS: Option<pm::OpsRef<Self>> = Some(TYR_PM_OPS.pm_ops());
+ 
+     fn probe<'bound>(
+         pdev: &'bound platform::Device<Core<'_>>,
+@@ -130,6 +155,22 @@ fn probe<'bound>(
+             let mali_regulator = Regulator::<regulator::Enabled>::get(pdev.as_ref(), c"mali")?;
+             let sram_regulator = Regulator::<regulator::Enabled>::get(pdev.as_ref(), c"sram")?;
+ 
++            let runtime_payload = TyrRuntimePMPayload {
++                clks: Clocks {
++                    core: core_clk,
++                    stacks: stacks_clk,
++                    coregroup: coregroup_clk,
++                },
++                _regulators: Regulators {
++                    _mali: mali_regulator,
++                    _sram: sram_regulator,
++                },
++            };
++
++            let mut pm_configs = KVec::<PMConfig>::with_capacity(2, GFP_KERNEL)?;
++            pm_configs.push(PMConfig::AutoSuspend(true), GFP_KERNEL)?;
++            pm_configs.push(PMConfig::AutoSuspendDelay(300), GFP_KERNEL)?;
++
+             let request = pdev.io_request_by_index(0).ok_or(ENODEV)?;
+ 
+             let iomem = Arc::new(request.iomap_sized::<SZ_2M>()?, GFP_KERNEL)?;
+@@ -150,41 +191,59 @@ fn probe<'bound>(
+ 
+             let unreg_dev = drm::UnregisteredDevice::<TyrDrmDriver>::new(pdev, Ok(()))?;
+ 
+-            let mmu = Mmu::new(pdev.as_ref(), iomem.as_arc_borrow(), &gpu_info)?;
+-
+-            let firmware = Firmware::new(
+-                pdev.as_ref(),
+-                iomem.clone(),
+-                &unreg_dev,
+-                mmu.as_arc_borrow(),
+-                &gpu_info,
+-            )?;
+-
+-            firmware.boot()?;
+-
+             Ok(try_pin_init!(TyrPlatformDriverData {
+-                // SAFETY: `_reg` is stored in `TyrPlatformDriverData` and dropped when the
+-                // driver is unbound; it is never forgotten.
+-                _reg <- unsafe { drm::Registration::new(
+-                    pdev.as_ref(),
+-                    unreg_dev,
+-                    pin_init!(TyrDrmRegistrationData {
+-                        pdev,
+-                        fw: firmware,
+-                        clks <- new_mutex!(Clocks {
+-                            core: core_clk,
+-                            stacks: stacks_clk,
+-                            coregroup: coregroup_clk,
+-                        }),
+-                        regulators <- new_mutex!(Regulators {
+-                            _mali: mali_regulator,
+-                            _sram: sram_regulator,
+-                        }),
+-                        iomem,
+-                        gpu_info,
+-                    }),
+-                )},
+-                _: { dev_dbg!(pdev, "Tyr initialized correctly.") },
++                    hw <- {
++                        let mmu = Mmu::new(pdev.as_ref(), iomem.as_arc_borrow(), &gpu_info)?;
++
++                        let firmware = Firmware::new(
++                            pdev.as_ref(),
++                            iomem.clone(),
++                            &unreg_dev,
++                            mmu.as_arc_borrow(),
++                            &gpu_info,
++                        )?;
++
++                        firmware.boot()?;
++
++                        pin_init!(TyrHW {
++                            fw: firmware,
++                            iomem,
++                            gpu_info
++                        })
++                },
++                pm <- {
++                    // SAFETY: `pm` is owned by the driver data and remains accounted for
++                    unsafe {
++                        pm::Registration::new(
++                            pdev.as_ref(),
++                            &TYR_PM_OPS,
++                            None,
++                            Some(pm_configs),
++                            pin_init!(TyrPMRegistrationData{hw: hw.get_ref()}),
++                            pm::RuntimeStatePayload::Active(runtime_payload)
++                        )
++                    }
++                },
++
++                _reg <- {
++                    // SAFETY: `_reg` is owned by the driver data and is not forgotten.
++                    unsafe {
++                        drm::Registration::new(
++                            pdev.as_ref(),
++                            unreg_dev,
++                            pin_init!(TyrDrmRegistrationData {
++                                pdev,
++                                pm: pm.get_ref().get_ctx(),
++                                hw: hw.get_ref(),
++                            }),
++                        )
++                    }
++                },
++
++                _: {
++                    pm.get_ctx().enable(RuntimePMState::Active)?;
++                    dev_dbg!(pdev, "Tyr initialized correctly.");
++                },
+             }))
+         })
+     }
+@@ -239,3 +298,52 @@ struct Regulators {
+     _mali: Regulator<regulator::Enabled>,
+     _sram: Regulator<regulator::Enabled>,
+ }
++
++pub(crate) struct TyrRuntimePMPayload {
++    clks: Clocks,
++    _regulators: Regulators,
++}
++
++static TYR_PM_OPS: pm::Ops<TyrPlatformDriver> = pm::Ops::new();
++
++#[vtable]
++impl PMOps for TyrPlatformDriver {
++    type Adapter = platform::Adapter<TyrPlatformDriver>;
++    type DeviceType = platform::Device<kernel::device::Bound>;
++    type RegistrationData<'a> = TyrPMRegistrationData<'a>;
++    type ActivePayload<'a> = TyrRuntimePMPayload;
++    type SuspendedPayload<'a> = TyrRuntimePMPayload;
++
++    fn runtime_suspend<'a>(
++        _dev: &'a Self::DeviceType,
++        _reg_data: &'a Self::RegistrationData<'a>,
++        payload: Self::ActivePayload<'a>,
++    ) -> Result<Self::SuspendedPayload<'a>, (Self::ActivePayload<'a>, Error)> {
++        payload.clks.coregroup.disable_unprepare();
++        payload.clks.stacks.disable_unprepare();
++        payload.clks.core.disable_unprepare();
++        Ok(payload)
++    }
++    fn runtime_resume<'a>(
++        _dev: &'a Self::DeviceType,
++        _reg_data: &'a Self::RegistrationData<'a>,
++        payload: Self::SuspendedPayload<'a>,
++    ) -> Result<Self::ActivePayload<'a>, (Self::SuspendedPayload<'a>, Error)> {
++        if let Err(e) = payload.clks.core.prepare_enable() {
++            return Err((payload, e));
++        }
++
++        if let Err(e) = payload.clks.stacks.prepare_enable() {
++            payload.clks.core.disable_unprepare();
++            return Err((payload, e));
++        }
++
++        if let Err(e) = payload.clks.coregroup.prepare_enable() {
++            payload.clks.stacks.disable_unprepare();
++            payload.clks.core.disable_unprepare();
++            return Err((payload, e));
++        }
++
++        Ok(payload)
 +    }
 +}
+diff --git a/drivers/gpu/drm/tyr/file.rs b/drivers/gpu/drm/tyr/file.rs
+index 9f60a90d4948..28a78ed17e5a 100644
+--- a/drivers/gpu/drm/tyr/file.rs
++++ b/drivers/gpu/drm/tyr/file.rs
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0 or MIT
+ 
+ use kernel::{
++    device::pm::PMProfile,
+     drm::{
+         self,
+         Registered, //
+@@ -37,10 +38,12 @@ pub(crate) fn dev_query(
+         devquery: &mut uapi::drm_panthor_dev_query,
+         _file: &TyrDrmFile,
+     ) -> Result<u32> {
++        // Runtime suspend called when pm_scope gets dropped
++        let _pm_scope = reg_data.pm.get(PMProfile::new())?;
+         if devquery.pointer == 0 {
+             match devquery.type_ {
+                 uapi::drm_panthor_dev_query_type_DRM_PANTHOR_DEV_QUERY_GPU_INFO => {
+-                    devquery.size = core::mem::size_of_val(&reg_data.gpu_info) as u32;
++                    devquery.size = core::mem::size_of_val(&reg_data.with_hw(|hw| hw.gpu_info)) as u32;
+                     Ok(0)
+                 }
+                 _ => Err(EINVAL),
+@@ -54,7 +57,7 @@ pub(crate) fn dev_query(
+                     )
+                     .writer();
+ 
+-                    writer.write(&reg_data.gpu_info)?;
++                    writer.write(&reg_data.with_hw(|hw| hw.gpu_info))?;
+ 
+                     Ok(0)
+                 }
 -- 
 2.43.0
 
