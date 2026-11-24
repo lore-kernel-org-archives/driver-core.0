@@ -1,49 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795539636;
-	b=CO0DIDTVsqi2qxIfha5FCHcSBJ76Vy1Jd6clT96qoZTCQ0cHOUBOhzunC0UNCCB+RLS5
-	 UF2K4FBPyPUVk7AWssIw8df0/+2vtYgBs9yyg5/eiamb5sH6kzRwk6KxlCLewzuKT2QWl
-	 BVZdyYexNxKQdX7zKcFjhyByZuMVBWXLTN+M+WbTKzEwuE93e/RajdDrk7QmQl0AGZdTa
-	 8aVfylHzGwpN6854FRik7s+4IG++CqVqoW44EE17y7GccqgbQEM9GMeV3Q4rQCTmA+Vwu
-	 ICzupLzQkht/D21b/V8s01UoM+/O5rb6OBdE86uCMkWiUKN56gWIpmRnOzhK0bKuKkg==
+	t=1795540076;
+	b=muonHAWZ1hbcaWsLHanR+IoC87yVxw0sKh9BHwClHQRKPQMyz8QCh9DuihY9xi+iJVug
+	 8lr2GpVEd4olVRUPcuCrr/3UVvKO8rtFO5S65RyZHq1ipm47B2TDzY+QXF/2Z6aw//tMr
+	 M+1UmLatX6pZ94IRHmBEPfWTyf2WFCYzdhDx6SUt7eInR7jD+K+oetooIcdCdB+LNcU5D
+	 ihR5oPOCYaXGyL77M1cHVJuMU6d1Bq2xcUDNafNynGQIAbD4fQvheUbUIgmdyKtgN92BC
+	 SbdQ6k+Fic0S58svlWvt1qCREBGG7//n3NcdClJyxyxc6zd+362CLNeJfspFqNADn+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795539636;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=0II4ljEDv0KUEOXTn1IfR+YqrPY597L6UYRDSKuHB+Y=;
-	b=r4Nga4IrIFuml8DdymZne8iIoZn9rTf+uBS8ZnmI+NfEvMDbTJKHGpU66/qQK9yyEUFj
-	 DpnL4V5XPIMHBQgu5bAQqDVcyh7TAaiwDW/uF1GrV/7KV1ZE+dauxa954SWt7/M5avj9/
-	 C9pKqtGLJqK2nabwXWljD8sJKk8/1z6XdS1E/S3v9cLsgwm/9fD7HBGMc79btXJdOHn5N
-	 WdKYQGABai4DNpjcPQKkthFiETHrPOucNw4WRg0dLVTrGDmdWxpzxInn790i3xVeFXi7c
-	 rLctxKsHxqN6WAsbXyJRD397VlX+P8dSx/V/pVTkGyhJiNgzZFKUkG9G2HlByRh5yIw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795540076;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=u9RNgucBnI08qUwk1iWfTQpaGbeV2FiwOEeQoPQxy0A=;
+	b=MXzHGq3PVPYM7XIKjOZDy8C8UX5tqV8OES1TI+/XTn7EMzj2nGakTBXX9wBcVMyR0QbT
+	 gO+IXRoXoX2eKr4CBy/MoSHU1MOVcqfOWilTQTx1a2BbcXtksTQsVt9hOJDnAvoUK58Hc
+	 M4sG0+rXIDbGYe+7DNui7PneReUVGNezpYJHjLkMCXDQxlAZeODkS95hhAZ+5l/wop8jd
+	 A+GCTfTfxMxhx7GJOIxadKzuUt4zjJnAdGtrJMGTy47/apLMozbatx3SrC90/8uPesnQ9
+	 VOtnKuwOK8zR7YTUr7pxSjC7Z3p9wijzqxkYKHmQw6Qsc1pjxL/wJTZGkqAwa7k/5Bg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Gri3ywFb;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3E20606A330;
-	Tue, 24 Nov 2026 17:00:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3E20606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=a7uxdXId;
+	arc=none smtp.remote-ip=209.85.217.53
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A3E606A326
+	for <driver-core@lists.linux.dev>; Tue, 24 Nov 2026 17:07:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 50A3E606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Gri3ywFb
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3ADFF339;
-	Tue, 24 Nov 2026 09:00:31 -0800 (PST)
-Received: from [10.2.212.23] (e121345-lin.cambridge.arm.com [10.2.212.23])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B60893F86C;
-	Tue, 24 Nov 2026 09:00:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795539634; bh=z8lJkegZYqKQAhYH3KELOe4ZmkhKnWLIUsCGvv6e6b0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Gri3ywFb6diRQ/1inXrBODLn5+HfbiqgZrEtYtH5OIFleXzz7NfhPbLJqA5kJXMG0
-	 ivaGIl5DoCe3Phi1oADie/3IcidpAvWvZ8mK348FK1nqLEHJ/vZoF8CUgRuCxcDdC+
-	 TY0AWUaBpMoNftMAh9ag9otVAmaFl/UJRP8WFJZk=
-Message-ID: <090c12e4-2331-4d6f-be30-65303c5731d0@arm.com>
-Date: Tue, 24 Nov 2026 17:00:30 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=a7uxdXId
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-7d2ca055399so1398416137.3
+        for <driver-core@lists.linux.dev>; Tue, 24 Nov 2026 09:07:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1795540075; x=1796144875; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=u9RNgucBnI08qUwk1iWfTQpaGbeV2FiwOEeQoPQxy0A=;
+        b=a7uxdXIdscfFP6MO7kegi9TO0eRGMDCqklhQrwLvdboZ5LuIN8fiGRsiJYuaJC2zEM
+         flASYZ1eyha8gk14nzPwKSJYQwyyP0WJ7BY3JrzJ60taGXCf5oD7blz1DWhT9ywSbXM+
+         FUDM9E5OC906ySVup+NEHB92Hr+giMTpoDcD9L3FGQGrLHlPU4iXnuxdASeVbWpQDWJj
+         rVD1639CuvBybqSHg9MgO8/LlbbsLVqVuAhmWHMGiwaFHM+GGaYcycI2dB1xNJoOqu4w
+         D94hPVb/rnL3vTdBG2LGKCisIkUkz6TfWkCL0trNWiqGgUplmNviSCBN/TpXJSw/WFGP
+         UxOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795540075; x=1796144875;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=u9RNgucBnI08qUwk1iWfTQpaGbeV2FiwOEeQoPQxy0A=;
+        b=f56WkbecMmQyTxK1nq1PIQyJWlH8dSAauYzlIAqRC/W1EDSyct6RBehFc2788rDB+Q
+         27VLoAxED+fGEkDK6Thnse9dawXwCTWOeBe+ZNVe17ZcVsYD9E56xqvYM6BLOzDQujhK
+         ymt8ptmy2NrSd7Ru3dQiaD0ow2Hb0Ua64pL7XL3JIsY9ZnCeEgpHk5hsV7xiXw79elmX
+         ZbineRhofRuFtThcg2mTrpLQmHgNOu07FD5lqchQiI+z8M8fR21DgtdCnlkcHoyshLZQ
+         dOFtGcNxQtKnm9jt508EbbF3/KaPnYfXve81spfOSMnSeYxScz3wzhmGmMsxndydLVwE
+         0CXw==
+X-Forwarded-Encrypted: i=1; AL+hErEJXTM6/U84fj/Ny/DQx5R9BHc7otMsTjvqoys4WhxynDIWsHMJtZThapHmP33XPTjK8Gvvh4RcfxHuVg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/tOkAIxDlGRxxoS8n8ODsVj6R7iWE9RydHV4zlK9f/bLhB+T3G
+	3EYWqsf2MadIuT1vRCLJkq98lhH4Mw5S6ulIGn0pDF6TkKEAJPkpLvvQ0yezX5Hdn3A=
+X-Gm-Gg: AZFdTZfKOIgYvfGu4QbZA4iSm5+58zsFtDD+ZQ3J0k1YyleiYiHUphBLbz0cXaXKpJb
+	4ASTw634KKjfwRMCKzxK469jJVKs5v7DTxriDg90tTkRzDy6TQl0FG7xuaXL4DLru4SkDKoHvON
+	zba6CQrTveNWx0K1ouKnGfvKxQPGNA3Z/mXrahytICH5Dx+4oCmqzlX0DZM8CR9rJc4fQtSUG4R
+	58g3QL9A9nqvJqfn4TfgjXy/EtCPu/DYivY6SBt10W90q7zEYUZ2LA1E8HwuiTooay2gSMQ7FsO
+	noN1A2SDlI9aw6CuuuJae27dSwwVPVdKZt57suPYsBEgFQxhFcLskbCRuVKFwydMIawqGll9E6K
+	+3K0obelEl8CJDQsWs+EF8XO8HhTEKIMJkf+rhntLbD9wLqMMCcAnZtZkThUsQjhzsUHOMWI5lP
+	lZkR9IYpZ6mkDHnfh69bWcSywPsH0cEyc+Rt8mUs9pF8Kn3vv3fyhq68LgrxVKpP4QtIAhBNisM
+	eWzjGbDzYJghSuR2OTQ0s+OV49Tx3K5/Q5Zdg2wwk+QElwQNjV0+zkbjYUj4spCV0ClJfVR2p9o
+	38TzLQ==
+X-Received: by 2002:a05:6102:688c:b0:7ce:a69d:b020 with SMTP id ada2fe7eead31-7d72b36164amr6731183137.5.1795540075186;
+        Tue, 24 Nov 2026 09:07:55 -0800 (PST)
+Received: from ziepe.ca ([142.177.118.84])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921366d853esm132634586d6.27.2026.11.24.09.07.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 09:07:54 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xVtzm-00000000uyF-0Lng;
+	Tue, 24 Nov 2026 13:07:54 -0400
+Date: Tue, 24 Nov 2026 13:07:54 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Alexey Kardashevskiy <aik@amd.com>
+Cc: "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
+	linux-coco@lists.linux.dev, Dan Williams <djbw@kernel.org>,
+	Leon Romanovsky <leon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Xu Yilun <yilun.xu@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Lukas Wunner <lukas@wunner.de>, Ashish Kalra <ashish.kalra@amd.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, patches@lists.linux.dev
+Subject: Re: [PATCH v1 02/10] coco: tsm: Register the TSM class before device
+ drivers
+Message-ID: <20261124170754.GB114530@ziepe.ca>
+References: <20261123083337.2731019-1-aneesh.kumar@kernel.org>
+ <20261123083337.2731019-3-aneesh.kumar@kernel.org>
+ <20261123152903.GG179082@ziepe.ca>
+ <9f92f7ed-5198-45aa-9cef-515ccbf98398@amd.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -53,120 +117,28 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] PM: runtime: Eliminate __pm_runtime_put_autosuspend()
-To: "Rafael J. Wysocki" <rafael@kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>
-Cc: Linux Driver Core Development <driver-core@lists.linux.dev>,
- Will Deacon <will@kernel.org>, "Joerg Roedel (AMD)" <joro@8bytes.org>,
- iommu@lists.linux.dev, Brian Norris <briannorris@chromium.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Ulf Hansson <ulf.hansson@oss.qualcomm.com>
-References: <13014755.O9o76ZdvQC@rafael.j.wysocki>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <13014755.O9o76ZdvQC@rafael.j.wysocki>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9f92f7ed-5198-45aa-9cef-515ccbf98398@amd.com>
 
-On 24/11/2026 4:36 pm, Rafael J. Wysocki wrote:
-> From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+On Tue, Nov 24, 2026 at 11:40:16AM +1100, Alexey Kardashevskiy wrote:
+> On 24/11/26 02:29, Jason Gunthorpe wrote:
+> > On Mon, Nov 23, 2026 at 02:03:29PM +0530, Aneesh Kumar K.V (Arm) wrote:
+> > > Register the built-in TSM class with subsys_initcall() so it exists
+> > > before a platform TSM driver probes, independently of object link order.
+> > > CONFIG_TSM is boolean; remove the unused module exit path.
+> > 
+> > Why isn't it modular? This is going to force alot of stuff to be
+> > non-modular.
 > 
-> There are two users of __pm_runtime_put_autosuspend(),
-> pm_runtime_put_autosuspend() and arm_smmu_rpm_put(), but
-> the latter duplicates the code from the former.
+> The TSM core registers a class. The platform TSM drivers register
+> TSM devices of that class. If a platform module loads before the TSM
+> code - the class is not registered yet so it fails. We could either
+> teach modprobe or have dependencies in the module or do this:
 
-Aha, indeed it was only this way to minimise conflicts with Sakari's 
-original refactoring, since that led us to realise that we did actually 
-want the mark_last_busy behaviour here anyway[1]. Evidently it missed 
-anyone's to-do list to come back and clean it up post-merge - thanks for 
-finally sorting it!
+I understand that and Aneesh's patch is fine to solve that problem.
 
-> Fold __pm_runtime_put_autosuspend() into pm_runtime_put_autosuspend()
-> and make arm_smmu_rpm_put() call the latter.
-> 
-> No intentional functional impact.
+I'm asking why it isn't modular. They don't conflict, using
+subsys_initcall works just fine as a module.
 
-Reviewed-by: Robin Murphy <robin.murphy@arm.com>
-
-[1] https://lore.kernel.org/all/ZxpnFPsk2OBC8vqd@google.com/
-
-> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> ---
->   Documentation/power/runtime_pm.rst    |    1 -
->   drivers/iommu/arm/arm-smmu/arm-smmu.c |    7 ++-----
->   include/linux/pm_runtime.h            |   26 +-------------------------
->   3 files changed, 3 insertions(+), 31 deletions(-)
-> 
-> --- a/Documentation/power/runtime_pm.rst
-> +++ b/Documentation/power/runtime_pm.rst
-> @@ -338,7 +338,6 @@ It is safe to execute the following help
->   - pm_runtime_put_noidle()
->   - pm_runtime_put()
->   - pm_runtime_put_autosuspend()
-> -- __pm_runtime_put_autosuspend()
->   - pm_runtime_enable()
->   - pm_suspend_ignore_children()
->   - pm_runtime_set_active()
-> --- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> @@ -79,11 +79,8 @@ static inline int arm_smmu_rpm_get(struc
->   
->   static inline void arm_smmu_rpm_put(struct arm_smmu_device *smmu)
->   {
-> -	if (pm_runtime_enabled(smmu->dev)) {
-> -		pm_runtime_mark_last_busy(smmu->dev);
-> -		__pm_runtime_put_autosuspend(smmu->dev);
-> -
-> -	}
-> +	if (pm_runtime_enabled(smmu->dev))
-> +		pm_runtime_put_autosuspend(smmu->dev);
->   }
->   
->   static void arm_smmu_rpm_use_autosuspend(struct arm_smmu_device *smmu)
-> --- a/include/linux/pm_runtime.h
-> +++ b/include/linux/pm_runtime.h
-> @@ -588,30 +588,6 @@ static inline void pm_runtime_put(struct
->   }
->   
->   /**
-> - * __pm_runtime_put_autosuspend - Drop device usage counter and queue autosuspend if 0.
-> - * @dev: Target device.
-> - *
-> - * Decrement the runtime PM usage counter of @dev and if it turns out to be
-> - * equal to 0, queue up a work item for @dev like in pm_request_autosuspend().
-> - *
-> - * Return:
-> - * * %1: Success. Usage counter dropped to zero, but device was already suspended.
-> - * * %0: Success.
-> - * * %-EINVAL: Runtime PM error.
-> - * * %-EACCES: Runtime PM disabled.
-> - * * %-EAGAIN: Runtime PM usage counter became non-zero or Runtime PM status
-> - *   change ongoing.
-> - * * %-EBUSY: Runtime PM child_count non-zero.
-> - * * %-EPERM: Device PM QoS resume latency 0.
-> - * * %-EINPROGRESS: Suspend already in progress.
-> - * * %-ENOSYS: %CONFIG_PM not enabled.
-> - */
-> -static inline int __pm_runtime_put_autosuspend(struct device *dev)
-> -{
-> -	return __pm_runtime_suspend(dev, RPM_GET_PUT | RPM_ASYNC | RPM_AUTO);
-> -}
-> -
-> -/**
->    * pm_runtime_put_autosuspend - Update the last access time, drop usage counter
->    * and request autosuspend.
->    * @dev: Target device.
-> @@ -635,7 +611,7 @@ static inline int __pm_runtime_put_autos
->   static inline int pm_runtime_put_autosuspend(struct device *dev)
->   {
->   	pm_runtime_mark_last_busy(dev);
-> -	return __pm_runtime_put_autosuspend(dev);
-> +	return __pm_runtime_suspend(dev, RPM_GET_PUT | RPM_ASYNC | RPM_AUTO);
->   }
->   
->   DEFINE_GUARD(pm_runtime_noresume, struct device *,
-> 
-> 
-> 
-
+Jason
