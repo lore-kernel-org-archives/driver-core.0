@@ -1,74 +1,118 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795520188;
-	b=F4Xb+ewXzox5Yld7ayHFfWL6VuAlO2m9wQTUgugcF++wzwo36YvZPsi0+TGf6P0tbeHk
-	 vPjEvNpKsIAWsuzq1rKhaN04gWr3XojDTIr7p2C2UHqxrLd7xitK3d2EIt/vk/f1eGyI/
-	 wwjW78ZWdSBeg6X9J9DBb2bFHY4/n1hGMdyqbt2CRrEr2N5/nHfT5O06sAadEP4aLsWvg
-	 K6+HOqpRQsB0iTINdT97t6UAc+do1PRQ2gwCnbTw9lqEnQNAwh7xub+uczUYilWazLS0W
-	 EVejhJJMQSV78LjAHyWseV9bKwH6zwKD7UCRbXSPmbxLl6jwGWhHw6mgS86Kr+07GOw==
+	t=1795526204;
+	b=f4QC8Pv1U+mmB1+c9t27ztcjpxpbGNjJc0wcWu6BU2MeHnPgmMmFicfkDpmLHXHFNwNQ
+	 GcS+WFrzochURZkAkeffPytyDMzDpqeiFsLDw0HVT6ngY/9guJju/3ewsh988MgiuHaSr
+	 hJW8XMeQhzzcsxSA60RCBdIDuO6DwxmmfYvfZC8jcfEoX1PDkIj84sK4mJeqZmhBCp99z
+	 +6W+6n2aJPvPQ/GqA3EUEcXVYbVfFi2D9iGMmT+M/NqcvtWh6j4MguRW//rpqBxH1Z7ps
+	 kNs+KAg2lB1wRXogDX+ey24gvddCu1hx8PqrrmjOR76/r8sXgTgXNg6SavmGtdp35+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795520188;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=yjkaFmMB/EOjRsxFRMCL6eH/Ahn9j6F0qkTMZyl7g/4=;
-	b=HItFMkoEWgM8tflircY7OzpemcZV2gB5Mpot50/ySTByELM3Nh4um2HPkdnhlYeU3fJp
-	 4Moa93DE/j5yfvlWx97zFZeLfRFbrQGk/YpajeS6SytF18bQ120+oFyVMODqKogQ+mFFU
-	 WQkbJraj8DdVeeWeLZozHdvgektsF9D51CirfW1jvHqTQrHaxTxMeKvQZL1+QCsAZd6N4
-	 qrpGar6DwIV3p/FFuMBfbpna8VBh0lQhxEKFIIQDUJMye3XQAU6M3rXeQRrBGa948utI+
-	 tWUcdmdAey3jeq/WqphGNQ8mjl8D69yACXKSPHQC62at5fMz478FMxC1p3P2Ix4gEZg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795526204;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=0prXWPyKnaONv+XVyeK4p1EFWEfFGuwvhH1CWWabhJE=;
+	b=uSHsy/qHJSZleHXx+XIcdKWJnEQrEbAGwFa9mAU2z6ZIqMJ4ySbMV0b6DunJ+olFgFty
+	 rKRop1XUf6WmnOUx8Dkhm1iTIDQGtiWxIcQwcbcuub1FSgpYemI0PT8roKKLNSDFRLRzt
+	 SjfXvamHD5c8j5WS07NB4g6TwSRiAnejgySzdm/bM6Ro+gwoVUnksbm2Nr8tXAklYCaA1
+	 ayVsr5IfvnX6NxZjGiUBxbjIUnGfKZG1qPhfNEjk5zAP+5Ui0CMAW/3lAuCcW7iDa0tiE
+	 sGeh2slGkjJDi58M08vqUTLoqUi926qh2n7OG280WHzxII3KBqguG0MIxvvZ1EU1JAw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=oPfsPL9p;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C759E606A321
-	for <driver-core@lists.linux.dev>; Tue, 24 Nov 2026 11:36:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C759E606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=J4uJFFk0;
+	arc=none smtp.remote-ip=74.125.224.52
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C64606A31E
+	for <driver-core@lists.linux.dev>; Tue, 24 Nov 2026 13:16:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 32C64606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=oPfsPL9p
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4ABAE1595;
-	Tue, 24 Nov 2026 03:36:24 -0800 (PST)
-Received: from e143943.arm.com (unknown [10.57.70.100])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A02013F86F;
-	Tue, 24 Nov 2026 03:36:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795520187; bh=TeduYDtsc0fp7HuojRA+mdJj2cMUWG0JMpMHLy/kQ7Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oPfsPL9p/qYKOAZaE0L25gRUd/9OIvj3/4MdCMTcIxuBesHWFAVwa9EdOwVDw+eg0
-	 EcSNCeBrg6J8/NMYFabYou7K030Xhfiw3xVYyhdjun6PzKEWgm7jaNShuakYw4LFgU
-	 NlHQE8zZFoJR8txbVQPEGYtTRmGm4MMjhxgwC1ZQ=
-From: Beata Michalska <beata.michalska@arm.com>
-To: ojeda@kernel.org,
-	dakr@kernel.org,
-	gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	aliceryhl@google.com
-Cc: boqun@kernel.org,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	tmgross@umich.edu,
-	daniel.almeida@collabora.com,
-	boris.brezillon@collabora.com,
-	work@onurozkan.dev,
-	samitolvanen@google.com,
-	acourbot@nvidia.com,
-	rust-for-linux@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Subject: [PATCH v6 3/3 DO NOT MERGE] drm/tyr: enable runtime PM
-Date: Tue, 24 Nov 2026 12:34:14 +0100
-Message-ID: <20261124113555.2480381-4-beata.michalska@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261124113555.2480381-1-beata.michalska@arm.com>
-References: <20261124113555.2480381-1-beata.michalska@arm.com>
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=J4uJFFk0
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-67df3b1ca06so4998572d50.2
+        for <driver-core@lists.linux.dev>; Tue, 24 Nov 2026 05:16:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1795526203; x=1796131003; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0prXWPyKnaONv+XVyeK4p1EFWEfFGuwvhH1CWWabhJE=;
+        b=J4uJFFk0mntqXD0jfAznYbPniXa8DWEftiyUdzaBg0Qcljpc4/bQBLckmTm/jWh+RS
+         W6rBbFYOuw12GhmMihNykU/Bn0iCP0bUf9qTJ6jTjiGfpHITrGR9BdA4zESfMp1lpdmM
+         wIsa/Pg1EMjeOydb/vXNTnud6urcnZpQOsRaAmQTXFTSZ/EjWJDIUyI5cafz9HAgj4h6
+         9XEdZ87gLYsQTdHeMiBDtIV/LX59mzcoAMEGVGy5ihAlq4dkXF49imXFVOj6+HDk5Vv8
+         HAMVhl9PZoYyKRtObPqht0mtagh6/dtcbL6HQ1szljyOcarCixfNW8hL30S7GmaKiWKX
+         NZLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795526203; x=1796131003;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0prXWPyKnaONv+XVyeK4p1EFWEfFGuwvhH1CWWabhJE=;
+        b=xBS7KALe1hgL/1pyLlOprhxfXqKxC8kTKdCwElWTBdcgvgnapQSQnylH8c1o08x15S
+         +Pvegc/Q1shfy3RTJVxnldoE/2D2a/5lYUZWm1hxdb3g5ozXJNj5rCNfQbnf7kKz6KXM
+         +BFCxhrbxwxK0Zxk1GLKbLYhenijXe79MX2ggKx29HduLLNe5A/Qkl1WB5PaIOOyqDkd
+         +LYGaque4vqezJxZgT0Az4zDeQWaiweq9eH9SR7Kg1j1bhmRo/qhyRlyuYCmhHjjb4SD
+         mdZHw6igC6NF27hlzvdRfBM3EBdcvNw7hTWegOebHtfPXgdOA73wKmOfphnRJf+arPfS
+         SDlg==
+X-Forwarded-Encrypted: i=1; AL+hErHFdCldB8HVEr1tyizWwgTATr/kDmYFTmnUtvKfeycaZW6N92Suf043lEjm3vDuQv47IoKZ7kaPtpwq4g==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9EY876Uvf6cDON5JaIH/Gu0WwPaUk57SezbNepRZule4c9vAIg
+	LtupW+XJYoRSINTR8StDxkHdm2zEHL3vZva7x8LJ4/8iv4Nk0wb/AVIjSO81VkSLyVc=
+X-Gm-Gg: AZFdTZc88r0Glg3RLcm+u9DPwpyF5GSKNk58fZyecy7YCTvt3Xxnrx7Pap/EiAjRvAr
+	BcKQ3hTUPh4rIbUAYcfiKmdTv4hhyo9uKHUbxuTycrA1paNUAVEHjx9QbZ8aNZin7AuYw6ujHeA
+	H0s4iZjKfQgqQ8AX6fqBHrNZflIswdkHwRZjIj8kRlc5Xdit3wllAPpsWcqsYW8vBVdfLXykvtg
+	mA6AaW+RH7wGN1FxIn1ZV4rF2WcVgXQUVSBFhlhqpieIhbobnKvvHwh6bffk2sONfa7MVIkrKro
+	QlcW4O1CxorpfdDoXP0DrPAyACkOukiPNDUufXpLG5slUO76obGdscYMWZzZZkASCp2p6JS9c+I
+	plhv6c6HPw73o23D9ueRsN9jzLGB01enpjGteAVfX5KmUn0U9aRI4XNGWTSnpn2SAMh6fYWO/9a
+	nHEwKUcRVr0ufhH3DqqYfV3ao6LmQbqNUiZS38hZT00Q0sZCQVkDHZ+LVHIirccNRGkJEVhm84g
+	5anZNIsoxZsz0nVzRx+n1UZZHNeTua2MX5z5X0aOYz/vkZBfY5Z7K2Gq98/Q5XvcodsbVS5IFub
+	h8U4nA==
+X-Received: by 2002:a05:690e:813:10b0:67c:11c9:2d10 with SMTP id 956f58d0204a3-67df449142amr3986970d50.89.1795526203028;
+        Tue, 24 Nov 2026 05:16:43 -0800 (PST)
+Received: from ziepe.ca ([142.177.118.84])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-949bb38322csm1037775085a.17.2026.11.24.05.16.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 05:16:42 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xVqO1-00000000P3N-3lUT;
+	Tue, 24 Nov 2026 09:16:41 -0400
+Date: Tue, 24 Nov 2026 09:16:41 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Leon Romanovsky <leon@kernel.org>,
+	Nicolin Chen <nicolinc@nvidia.com>, linux-coco@lists.linux.dev,
+	Dan Williams <djbw@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Xu Yilun <yilun.xu@linux.intel.com>,
+	Alexey Kardashevskiy <aik@amd.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Lukas Wunner <lukas@wunner.de>, Ashish Kalra <ashish.kalra@amd.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, patches@lists.linux.dev
+Subject: Re: [PATCH v1 00/10] PCI/TSM: Support guest TSM drivers
+Message-ID: <20261124131641.GE9566@ziepe.ca>
+References: <20261123083337.2731019-1-aneesh.kumar@kernel.org>
+ <2026112325-emit-squeezing-5d96@gregkh>
+ <20261123090623.GK14811@unreal>
+ <yq5a7bi3riha.fsf@kernel.org>
+ <20261123115803.GN14811@unreal>
+ <yq5awlq3pto0.fsf@kernel.org>
+ <20261123135638.GO14811@unreal>
+ <20261123152533.GE179082@ziepe.ca>
+ <yq5aik1n4iz3.fsf@kernel.org>
+ <2026112429-expansion-wilder-a0c2@gregkh>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -78,345 +122,38 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026112429-expansion-wilder-a0c2@gregkh>
 
-Add runtime PM support to the Tyr platform driver. Move the clocks
-and regulators used by runtime suspend and resume into the PM
-payload, register the PM callbacks, configure autosuspend,
-and let DRM paths take a PM usage reference while querying
-device state.
+On Tue, Nov 24, 2026 at 07:44:03AM +0100, Greg Kroah-Hartman wrote:
+> > @@ -617,6 +619,7 @@ enum struct_device_flags {
+> >  	DEV_FLAG_OF_NODE_REUSED = 7,
+> >  	DEV_FLAG_OFFLINE_DISABLED = 8,
+> >  	DEV_FLAG_OFFLINE = 9,
+> > +	DEV_FLAG_DMA_CC_PRIVATE = 10,
+> 
+> Again, NO!  No "cc" nonsense for device states please.  That's an insane
+> policy decision that will be driven by userspace crazyness, NOT
+> in-kernel stuff.  The kernel will give userspace the tools to enforce
+> this type of policy if someone so desires.
 
-Signed-off-by: Beata Michalska <beata.michalska@arm.com>
----
- drivers/gpu/drm/tyr/driver.rs | 220 +++++++++++++++++++++++++---------
- drivers/gpu/drm/tyr/file.rs   |   7 +-
- 2 files changed, 169 insertions(+), 58 deletions(-)
+This may be the wrong place to put it, but this is not a *policy*.
 
-diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
-index c2b99d67369f..c82f31e2d2b4 100644
---- a/drivers/gpu/drm/tyr/driver.rs
-+++ b/drivers/gpu/drm/tyr/driver.rs
-@@ -9,7 +9,11 @@
-         Bound,
-         Core,
-         Device,
--        DeviceContext, //
-+        DeviceContext,
-+        pm:: {
-+            self,
-+            *,
-+        }, //
-     },
-     dma::{
-         Device as DmaDevice,
-@@ -21,17 +25,13 @@
-         poll,
-         Io, //
-     },
--    new_mutex,
-     of,
-     platform,
-     prelude::*,
-     regulator,
-     regulator::Regulator,
-     sizes::SZ_2M,
--    sync::{
--        Arc,
--        Mutex, //
--    },
-+    sync::Arc,
-     time, //
- };
- 
-@@ -55,35 +55,59 @@
- 
- pub(crate) struct TyrPlatformDriver;
- 
-+#[pin_data]
-+pub(crate) struct TyrHW<'bound> {
-+    /// Firmware sections.
-+    pub(crate) fw: Firmware<'bound>,
-+
-+    /// GPU MMIO register mapping.
-+    pub(crate) iomem: Arc<IoMem<'bound>>,
-+
-+     /// GPU information read from hardware during probe.
-+    pub(crate) gpu_info: GpuInfo,
-+}
-+
-+
- #[pin_data(PinnedDrop)]
- pub(crate) struct TyrPlatformDriverData<'bound> {
-     #[pin]
--    _reg: drm::Registration<'bound, TyrDrmDriver>,
-+    #[uses('pm: invariant, 'hw)]
-+    _reg: drm::Registration<'pm, TyrDrmDriver>,
-+    // This needs to be dropped after drm::Registration as that one
-+    // borrows PMContext.
-+    #[pin]
-+    #[uses('hw: invariant)]
-+    pub(crate) pm: pm::Registration<'hw, TyrPlatformDriver>,
-+    #[pin]
-+    hw: TyrHW<'bound>,
-+}
-+
-+#[pin_data]
-+pub(crate) struct TyrPMRegistrationData<'pm>
-+where
-+    exists<'bound>: 'pm,
-+{
-+    #[uses('bound: invariant)]
-+    pub(crate) hw: &'pm TyrHW<'bound>,
- }
- 
-+
- /// Data owned by the DRM [`Registration`].
- ///
- /// This data can have references tied to the parent platform device binding scope
- /// and is accessible only while the DRM device is registered with userspace.
- #[pin_data]
--pub(crate) struct TyrDrmRegistrationData<'drm> {
-+pub(crate) struct TyrDrmRegistrationData<'drm>
-+where
-+    exists<'bound>: 'drm,
-+{
-     /// Parent platform device.
-     pub(crate) pdev: &'drm platform::Device<Bound>,
- 
--    /// Firmware sections.
--    pub(crate) fw: Firmware<'drm>,
--
--    #[pin]
--    clks: Mutex<Clocks>,
--
--    #[pin]
--    regulators: Mutex<Regulators>,
--
--    /// GPU MMIO register mapping.
--    pub(crate) iomem: Arc<IoMem<'drm>>,
--
--    /// GPU information read from hardware during probe.
--    pub(crate) gpu_info: GpuInfo,
-+    /// Runtime PM context owned by the PM Registration
-+    pub(crate) pm: PMContext<'drm, 'drm, TyrPlatformDriver>,
-+    #[uses('bound: invariant)]
-+    pub(crate) hw: &'drm TyrHW<'bound>,
- }
- 
- fn issue_soft_reset(dev: &Device, iomem: &IoMem<'_>) -> Result {
-@@ -113,6 +137,7 @@ impl platform::Driver for TyrPlatformDriver {
-     type IdInfo = ();
-     type Data<'bound> = TyrPlatformDriverData<'bound>;
-     const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> = Some(&OF_TABLE);
-+    const DEV_PM_OPS: Option<pm::OpsRef<Self>> = Some(TYR_PM_OPS.pm_ops());
- 
-     fn probe<'bound>(
-         pdev: &'bound platform::Device<Core<'_>>,
-@@ -130,6 +155,22 @@ fn probe<'bound>(
-             let mali_regulator = Regulator::<regulator::Enabled>::get(pdev.as_ref(), c"mali")?;
-             let sram_regulator = Regulator::<regulator::Enabled>::get(pdev.as_ref(), c"sram")?;
- 
-+            let runtime_payload = TyrRuntimePMPayload {
-+                clks: Clocks {
-+                    core: core_clk,
-+                    stacks: stacks_clk,
-+                    coregroup: coregroup_clk,
-+                },
-+                _regulators: Regulators {
-+                    _mali: mali_regulator,
-+                    _sram: sram_regulator,
-+                },
-+            };
-+
-+            let mut pm_configs = KVec::<PMConfig>::with_capacity(2, GFP_KERNEL)?;
-+            pm_configs.push(PMConfig::AutoSuspend(true), GFP_KERNEL)?;
-+            pm_configs.push(PMConfig::AutoSuspendDelay(300), GFP_KERNEL)?;
-+
-             let request = pdev.io_request_by_index(0).ok_or(ENODEV)?;
- 
-             let iomem = Arc::new(request.iomap_sized::<SZ_2M>()?, GFP_KERNEL)?;
-@@ -150,41 +191,59 @@ fn probe<'bound>(
- 
-             let unreg_dev = drm::UnregisteredDevice::<TyrDrmDriver>::new(pdev, Ok(()))?;
- 
--            let mmu = Mmu::new(pdev.as_ref(), iomem.as_arc_borrow(), &gpu_info)?;
--
--            let firmware = Firmware::new(
--                pdev.as_ref(),
--                iomem.clone(),
--                &unreg_dev,
--                mmu.as_arc_borrow(),
--                &gpu_info,
--            )?;
--
--            firmware.boot()?;
--
-             Ok(try_pin_init!(TyrPlatformDriverData {
--                // SAFETY: `_reg` is stored in `TyrPlatformDriverData` and dropped when the
--                // driver is unbound; it is never forgotten.
--                _reg <- unsafe { drm::Registration::new(
--                    pdev.as_ref(),
--                    unreg_dev,
--                    pin_init!(TyrDrmRegistrationData {
--                        pdev,
--                        fw: firmware,
--                        clks <- new_mutex!(Clocks {
--                            core: core_clk,
--                            stacks: stacks_clk,
--                            coregroup: coregroup_clk,
--                        }),
--                        regulators <- new_mutex!(Regulators {
--                            _mali: mali_regulator,
--                            _sram: sram_regulator,
--                        }),
--                        iomem,
--                        gpu_info,
--                    }),
--                )},
--                _: { dev_dbg!(pdev, "Tyr initialized correctly.") },
-+                    hw <- {
-+                        let mmu = Mmu::new(pdev.as_ref(), iomem.as_arc_borrow(), &gpu_info)?;
-+
-+                        let firmware = Firmware::new(
-+                            pdev.as_ref(),
-+                            iomem.clone(),
-+                            &unreg_dev,
-+                            mmu.as_arc_borrow(),
-+                            &gpu_info,
-+                        )?;
-+
-+                        firmware.boot()?;
-+
-+                        pin_init!(TyrHW {
-+                            fw: firmware,
-+                            iomem,
-+                            gpu_info
-+                        })
-+                },
-+                pm <- {
-+                    // SAFETY: `pm` is owned by the driver data and remains accounted for
-+                    unsafe {
-+                        pm::Registration::new(
-+                            pdev.as_ref(),
-+                            &TYR_PM_OPS,
-+                            None,
-+                            Some(pm_configs),
-+                            pin_init!(TyrPMRegistrationData{hw: hw.get_ref()}),
-+                            pm::RuntimeStatePayload::Active(runtime_payload)
-+                        )
-+                    }
-+                },
-+
-+                _reg <- {
-+                    // SAFETY: `_reg` is owned by the driver data and is not forgotten.
-+                    unsafe {
-+                        drm::Registration::new(
-+                            pdev.as_ref(),
-+                            unreg_dev,
-+                            pin_init!(TyrDrmRegistrationData {
-+                                pdev,
-+                                pm: pm.get_ref().get_ctx(),
-+                                hw: hw.get_ref(),
-+                            }),
-+                        )
-+                    }
-+                },
-+
-+                _: {
-+                    pm.get_ctx().enable(RuntimePMState::Active)?;
-+                    dev_dbg!(pdev, "Tyr initialized correctly.");
-+                },
-             }))
-         })
-     }
-@@ -239,3 +298,52 @@ struct Regulators {
-     _mali: Regulator<regulator::Enabled>,
-     _sram: Regulator<regulator::Enabled>,
- }
-+
-+pub(crate) struct TyrRuntimePMPayload {
-+    clks: Clocks,
-+    _regulators: Regulators,
-+}
-+
-+static TYR_PM_OPS: pm::Ops<TyrPlatformDriver> = pm::Ops::new();
-+
-+#[vtable]
-+impl PMOps for TyrPlatformDriver {
-+    type Adapter = platform::Adapter<TyrPlatformDriver>;
-+    type DeviceType = platform::Device<kernel::device::Bound>;
-+    type RegistrationData<'a> = TyrPMRegistrationData<'a>;
-+    type ActivePayload<'a> = TyrRuntimePMPayload;
-+    type SuspendedPayload<'a> = TyrRuntimePMPayload;
-+
-+    fn runtime_suspend<'a>(
-+        _dev: &'a Self::DeviceType,
-+        _reg_data: &'a Self::RegistrationData<'a>,
-+        payload: Self::ActivePayload<'a>,
-+    ) -> Result<Self::SuspendedPayload<'a>, (Self::ActivePayload<'a>, Error)> {
-+        payload.clks.coregroup.disable_unprepare();
-+        payload.clks.stacks.disable_unprepare();
-+        payload.clks.core.disable_unprepare();
-+        Ok(payload)
-+    }
-+    fn runtime_resume<'a>(
-+        _dev: &'a Self::DeviceType,
-+        _reg_data: &'a Self::RegistrationData<'a>,
-+        payload: Self::SuspendedPayload<'a>,
-+    ) -> Result<Self::ActivePayload<'a>, (Self::SuspendedPayload<'a>, Error)> {
-+        if let Err(e) = payload.clks.core.prepare_enable() {
-+            return Err((payload, e));
-+        }
-+
-+        if let Err(e) = payload.clks.stacks.prepare_enable() {
-+            payload.clks.core.disable_unprepare();
-+            return Err((payload, e));
-+        }
-+
-+        if let Err(e) = payload.clks.coregroup.prepare_enable() {
-+            payload.clks.stacks.disable_unprepare();
-+            payload.clks.core.disable_unprepare();
-+            return Err((payload, e));
-+        }
-+
-+        Ok(payload)
-+    }
-+}
-diff --git a/drivers/gpu/drm/tyr/file.rs b/drivers/gpu/drm/tyr/file.rs
-index 9f60a90d4948..28a78ed17e5a 100644
---- a/drivers/gpu/drm/tyr/file.rs
-+++ b/drivers/gpu/drm/tyr/file.rs
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0 or MIT
- 
- use kernel::{
-+    device::pm::PMProfile,
-     drm::{
-         self,
-         Registered, //
-@@ -37,10 +38,12 @@ pub(crate) fn dev_query(
-         devquery: &mut uapi::drm_panthor_dev_query,
-         _file: &TyrDrmFile,
-     ) -> Result<u32> {
-+        // Runtime suspend called when pm_scope gets dropped
-+        let _pm_scope = reg_data.pm.get(PMProfile::new())?;
-         if devquery.pointer == 0 {
-             match devquery.type_ {
-                 uapi::drm_panthor_dev_query_type_DRM_PANTHOR_DEV_QUERY_GPU_INFO => {
--                    devquery.size = core::mem::size_of_val(&reg_data.gpu_info) as u32;
-+                    devquery.size = core::mem::size_of_val(&reg_data.with_hw(|hw| hw.gpu_info)) as u32;
-                     Ok(0)
-                 }
-                 _ => Err(EINVAL),
-@@ -54,7 +57,7 @@ pub(crate) fn dev_query(
-                     )
-                     .writer();
- 
--                    writer.write(&reg_data.gpu_info)?;
-+                    writer.write(&reg_data.with_hw(|hw| hw.gpu_info))?;
- 
-                     Ok(0)
-                 }
--- 
-2.43.0
+This is a "DMA property" like dma_mask, coherent_dma_mask,
+bus_dma_limit, dma_range_map, dma_params and so on.
 
+The name mirrors the DMA API name for a related idea:
+DMA_ATTR_CC_SHARED
+
+Unlike the other DMA properties this one is changable dynamically
+depending on how the HW is configured. The TSM is in control of this
+HW block.
+
+The userspace policy input is how to configure the HW, but once
+changed the DMA API switches to following the new HW parameters.
+
+Nicolin, can you put this in its own patch with a good commit message
+so we can have a discussion where it should live?
+
+Jason
