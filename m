@@ -1,63 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795620146;
-	b=2L3YZ1crm8zdR6jMioBfJ5T8v9V4rPOT5AW1O8jU06aJgbGKuWXPzqx2jwtw6Dl+XFPn
-	 YgELHGEze2u3EOUggvxfOJpiGiPjK5/HCbORJRQSkWs6sjWcfB5TgA0/utejR0qQI7ndC
-	 HLGC8aSdsLwefKY79XK8rPypaE8oLsZgyr4pzDITNQrft5MIGCZKr+RUf2UeI5n/o+DBK
-	 pFZEc8geF03BVBFKCK1KbNs7wbBgrck0GDSbOAdLT5sIYuvrUhkSAEpGa2ZqNe9ErFval
-	 Txyx5jiveoLAHTkJV3x9F7xmRf8czDgG1p+HOwPP+MeM2grYnn8Dr4uFJkZa9mD+N+A==
+	t=1795620170;
+	b=pgo/KiZ/Fp1tD8EHZ3sLI386hZxylX3VhtqAYc2GafUolW4DZ4dh8W9FqdzLhxcaSSIr
+	 cN0LtMfYmBE5ejMbsvnGu7QMIzOewfhyYfmiYoFGY8+/KtEHh8kUr6tmXtHXkwlw3VN8y
+	 TGgIXJLB4R503dNhl3+U70oGczznrdeWKAZRM1xgJIg7CYxOe0uYCBi+O2BmJIZk2Sv+1
+	 GroT3/9kgnikfkkF5uKMDtULrWyGBCTibmIZ8GOv0Eqfjxh6NH3XkxRO6g1uOJrQBZKrJ
+	 JvlFEsJsJDr1rxOU7VnKVHY5T3s1z4lLWOU4ZH3EHEIxWVK7sltCWnH1sXce9epYNBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795620146;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=WPm5f6o6q9fQoFUXqZTkOjGUojfVjYLnzIwjI2iGOZA=;
-	b=H0x1tqDZSjp3A+YnyKCAxZ4Vh3bvxwXJLr3RhJGYZswECwDPKIBqDGWbJ53gFV+yZWTH
-	 3kPPco7e3TPD329pB1BUpm1LD0AkgmNUsIEUu3J3QTd/38CDbAmCk2tgA2dKsEG2eLSWy
-	 LwSXIdMynWXYesERhr8YXJaWYT62aO9tSFA/KKaNfaxET+/WVYXZuYWPnv6acazXsYYAp
-	 KioweFWIePvZplJHhQdaGAMInx1RJ9fGLIE0snGQaN7M54uuS9Uku1u46b8oBbMa9q0/7
-	 oPzRgEXCsQ52V3Udd2zSUjJOo0ZwMehrRtzw1Jw1HdBwJLXiGIH7ITezm3kJThBN15g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795620170;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=SLu1wneeXD4cJMfNUKzRuKmXcrHvbSKhGvp27m7wiOs=;
+	b=tO2daDBtoC67eszb1zBRmajChfRLOMU+nfsgwlGdrsju9x8ElbCNq20Z/U3zkDT63cyb
+	 bUFanUNGNfzf5yi0nP4HxchKqWkL4xTHckbEGW/WeqvRDazcarBjiMkulGl1NjjMaYD7k
+	 JfuIJIqy4dAv+dTcWEUmld1+szPlz6bYzYK6tyNGYjSXMPctd1buX5Qw44OWw1Moic5lx
+	 FF8DAylPKdlSV/0AseRPMJ8o3wi4LV7zH1rE10VK9UrkmHoxSH7f4EVZtlKkTwktikbCo
+	 1QcacV5hHa/tYhf4vIJAdX2Nw5SBvy8lzX/QVkHFXuF1At57Kea8FzyLqWidLUXaXxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iirkhZsk;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dpi1hwEM;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8521606A31E;
-	Wed, 25 Nov 2026 15:22:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCBC8606A32C;
+	Wed, 25 Nov 2026 15:22:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iirkhZsk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74C911F000C0;
-	Wed, 25 Nov 2026 15:22:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dpi1hwEM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B73FB1F000C4;
+	Wed, 25 Nov 2026 15:22:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795620146;
-	bh=WPm5f6o6q9fQoFUXqZTkOjGUojfVjYLnzIwjI2iGOZA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=iirkhZskCFEGY5EgYsFyvEtuayDf13fe1TB9VZlGBLo63US3MpFkmWHz4LxlPfedb
-	 LfZyvNlGEk0m0Ao3tNxrWy/uKsQrUzrWa8j1dSDjL7J3R92pmrWBNuERT9LG2iS2hR
-	 uWYZiLkNlLNSbP2xouJYCetuy65y5siHjM33ZszIaBKkfqv5674aOja7y0UEVca8U5
-	 RK7Ct15GNb8toAnGWx7f7QnSu95a4n3DvSsh218HDL+gle6tM8MEyH2y8byhbDfBpN
-	 4auyymDP7u3CfBsTLd9RMuepu53iGhwlu/6cqQmamXbWhUhODAHaH4VwPZEgcTejXU
-	 gphu0cY239okw==
-Date: Wed, 25 Nov 2026 15:22:20 +0000
+	s=k20260515; t=1795620170;
+	bh=SLu1wneeXD4cJMfNUKzRuKmXcrHvbSKhGvp27m7wiOs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=dpi1hwEMja/XyxBa/tUy/m0J4qeFN1GPKUiyz1UXQCWX/+AEbkF5rGndm1F0e7PnP
+	 ny/tcmRfKMhrr2HwRj496uoKtFOVAD3U7/h4T1x7BygCvryqPq7yaXqD3zJZmRafIS
+	 ttZ99sH4FKfYwvuGaxzKqEYcG+rGdpWOW8/10V3QjUZSsxGtWHZV8DTWrXN4fjSGds
+	 uw4gqmd5quTm1tM9lkD91ciTqd6Bw9PaiFfS5ecJ1fkF+WSjI775YY7CA36YOWdSXj
+	 OuLFQfM4lbnHQP9Tl9LkvCDLQy9HB9GwkqMk8N6/v2bAsPoJLkLDHz5uhqY57Qd007
+	 C7rAH8WtrFTdQ==
 From: Mark Brown <broonie@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: raffaele.tranfaglia@gmail.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-sound@vger.kernel.org, Neo Chang <YLCHANG2@nuvoton.com>
-Subject: Re: [PATCH v2 1/3] ASoC: codecs: nau8360: set val_bits to the widest
- register size
-Message-ID: <1c55d4cc-bd67-4344-8727-0017fd5b79f7@sirena.org.uk>
-References: <20261125-regmap-kunit-val-bits-v2-0-81db3b79cd3f@gmail.com>
- <20261125-regmap-kunit-val-bits-v2-1-81db3b79cd3f@gmail.com>
- <awbhwVw52eSTTmiu@ashevche-desk.local>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Johan Hovold <johan@kernel.org>, Peng Fan <peng.fan@linux.dev>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+ Peng Fan <peng.fan@nxp.com>
+In-Reply-To: <20261121-regmap-improve-2nd-v1-0-6b5fd59451ed@nxp.com>
+References: <20261121-regmap-improve-2nd-v1-0-6b5fd59451ed@nxp.com>
+Subject: Re: [PATCH 0/3] regmap: 2nd clean up and improve __regmap_init()
+Message-Id: <179554600460.947306.3310654390179422300.b4-ty@b4>
+Date: Tue, 24 Nov 2026 18:46:44 +0000
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -67,42 +60,58 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2vhTjSjPcqbwGTMA"
-Content-Disposition: inline
-In-Reply-To: <awbhwVw52eSTTmiu@ashevche-desk.local>
-X-Cookie: -- Owen Meredith
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1620; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=yVz1RXlb+qiu+HRQRGCg9y93n2KoY7fb4Ix7Zb4W4Ws=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLZ/rofqF0Z/vGKl1HoEgHjhB0MhUdPrOTX2cvHlVz9a
+ tLrp9IyHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZjI8j0M/ysWyNTlycRd3OXZ
+ tSeuwtAn886f2NcrU7tmru/cxrTpqRDDfxeDwtZbM78v7Dv5i3216YG6BAGHqUoFu5/bHj/gdJR
+ Jjg8A
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Sat, 21 Nov 2026 20:44:18 +0800, Peng Fan wrote:
+> regmap: 2nd clean up and improve __regmap_init()
+> 
+> This is a re-post of patch 8-10 from [1] with addressing Mark's comments
+> to patch 8 [2]
+> 
+> [1] https://lore.kernel.org/all/20261113-regmap-improve-v2-0-5dfd6a89078f@nxp.com/
+> [2] https://lore.kernel.org/all/179510759875.116416.1025341724543668395.b4-review@b4/
+> 
+> [...]
 
---2vhTjSjPcqbwGTMA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Wed, Nov 25, 2026 at 03:25:21PM +0200, Andy Shevchenko wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-7.5
 
-> Hmm... While it works, it might be not the best approach. In cases like this
-> elsewhere we create two regmaps (one per each val_bits size) and choose them
-> based on the register offset.
+Thanks!
 
-Either approach works fine, neither is particuarly elegant - you do end
-up with a bit of open coding with the register I/O functions, but
-equally it causes surprises elsewhere to have multiple register maps for
-the same device and that's also error prone so there's something to be
-said for putting the special casing in the two functions.
+[1/3] regmap: drop regmap_bus::free_on_exit
+      https://git.kernel.org/broonie/regmap/c/ebdd2afe9fb1
+[2/3] regmap: use cleanup API in __regmap_init()
+      https://git.kernel.org/broonie/regmap/c/bc6647f5e8cf
+[3/3] regmap: kunit: add test for regmap_bus::init_limits
+      https://git.kernel.org/broonie/regmap/c/68bdabf0eed1
 
---2vhTjSjPcqbwGTMA
-Content-Type: application/pgp-signature; name="signature.asc"
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
------BEGIN PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmsG/SwACgkQJNaLcl1U
-h9CQkQf+JBrJ5QV/gQV+1O7tzRwKf4d0vznu88UTJU3Xytz1LKQzUFrihlew+uMc
-hkIe6ghvi2S6VC237c1JQNbGQ3S0hrEDKRlA7YlatPEPU4WZMSsCphiCwH2qityO
-n4JXaihCtV/x2X9bvz5VfKF6aHvJiPMDDaaPpwplKXr9fbwFY7awuoBs+NIvlFgy
-fBCmNfr+oShutTvPJvUqafAiLeBzNHkkH7BWK3LijyAmC/BdjTSM0BNYhdUfZIhN
-A9i07xVWjt5Kw7qgEYMlRf04oZ/85j9R7oKbxRbFNqxh26fXqO1OkOwb5/bL7BE/
-3M88cALi3Xc+VFF3YSmJQeafm9S2Bw==
-=1vm1
------END PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---2vhTjSjPcqbwGTMA--
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
