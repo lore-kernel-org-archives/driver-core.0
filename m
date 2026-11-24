@@ -1,113 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795540076;
-	b=muonHAWZ1hbcaWsLHanR+IoC87yVxw0sKh9BHwClHQRKPQMyz8QCh9DuihY9xi+iJVug
-	 8lr2GpVEd4olVRUPcuCrr/3UVvKO8rtFO5S65RyZHq1ipm47B2TDzY+QXF/2Z6aw//tMr
-	 M+1UmLatX6pZ94IRHmBEPfWTyf2WFCYzdhDx6SUt7eInR7jD+K+oetooIcdCdB+LNcU5D
-	 ihR5oPOCYaXGyL77M1cHVJuMU6d1Bq2xcUDNafNynGQIAbD4fQvheUbUIgmdyKtgN92BC
-	 SbdQ6k+Fic0S58svlWvt1qCREBGG7//n3NcdClJyxyxc6zd+362CLNeJfspFqNADn+w==
+	t=1795543415;
+	b=qgreaIUvhNfpnf8XHH1fmfv/HLECL7AbYSUTBe7EAv8w4toNxAdQnXUTMzMqNhUISvmb
+	 feeSt1+TzX8bJYFZDJHMWAOrApF3yX/Qh8cXeDOscMZkmgQb1nn+3QecVWKrYUOV4W/wA
+	 3T8QUfyRfp0f5hBqK2YZ5s2+AAk4QafdqErauQP0afto1Zp1vhe9U8nqoa4ImoW2NKgRg
+	 +RvNdJxspSlmHxWe3SX3fQo5IFpWaT//LqVoMKr654+YTh01O9AyumRvwx7EFdC4ViZm3
+	 bJ4HZz4mbKQ2YocjhCr8VCV+H7uxddNPqUNs5698VR3qrQOlHVFxp3D5yRXdzLg9KEQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795540076;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795543415;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=u9RNgucBnI08qUwk1iWfTQpaGbeV2FiwOEeQoPQxy0A=;
-	b=MXzHGq3PVPYM7XIKjOZDy8C8UX5tqV8OES1TI+/XTn7EMzj2nGakTBXX9wBcVMyR0QbT
-	 gO+IXRoXoX2eKr4CBy/MoSHU1MOVcqfOWilTQTx1a2BbcXtksTQsVt9hOJDnAvoUK58Hc
-	 M4sG0+rXIDbGYe+7DNui7PneReUVGNezpYJHjLkMCXDQxlAZeODkS95hhAZ+5l/wop8jd
-	 A+GCTfTfxMxhx7GJOIxadKzuUt4zjJnAdGtrJMGTy47/apLMozbatx3SrC90/8uPesnQ9
-	 VOtnKuwOK8zR7YTUr7pxSjC7Z3p9wijzqxkYKHmQw6Qsc1pjxL/wJTZGkqAwa7k/5Bg==
+	bh=NhTEfKWb6DbluRd1mldD3BYSLbGgDbbN8zaDAjpM6uw=;
+	b=CbTwqla8XhbO+AoX8RY+zTHF0w69JVo8hi9jI9R6Ht83bU9Reg8/j0UZKJviJIR2TqOW
+	 NAAQBSK9YC+nAXYHvex39EiScv0JXoPRJYmbeF6b7w1fJuO3gxvJH303PqtKiCCw4oXo4
+	 t9/pIUPjZRJ6+o161HeAreCeoN8HcltFh1hVmTrRt313qC/MYnAfUM+tA/c1Q2xvX3PFU
+	 hnB8eK3REej2UJZdw+jWqhpBT+qCAIe66tMWev0QeXqBHQ9tqhlQivY5Xnz4SUgt2wwnk
+	 x8S0G//0dsePjpPVkhpnNkKrJq6OWj2lxOnGJFKAu//ph7ANOA4Eu0atdJ3OyVNBPLw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=a7uxdXId;
-	arc=none smtp.remote-ip=209.85.217.53
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+	dmarc=pass header.from=chromium.org;
+	spf=pass smtp.mailfrom=chromium.org;
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=lAqaTRNM;
+	arc=none smtp.remote-ip=74.125.82.45
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A3E606A326
-	for <driver-core@lists.linux.dev>; Tue, 24 Nov 2026 17:07:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 50A3E606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4750606A327
+	for <driver-core@lists.linux.dev>; Tue, 24 Nov 2026 18:03:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A4750606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=a7uxdXId
-Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-7d2ca055399so1398416137.3
-        for <driver-core@lists.linux.dev>; Tue, 24 Nov 2026 09:07:56 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=lAqaTRNM
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-1b50a4bd2f3so1865482c88.1
+        for <driver-core@lists.linux.dev>; Tue, 24 Nov 2026 10:03:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1795540075; x=1796144875; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1795543414; x=1796148214; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=u9RNgucBnI08qUwk1iWfTQpaGbeV2FiwOEeQoPQxy0A=;
-        b=a7uxdXIdscfFP6MO7kegi9TO0eRGMDCqklhQrwLvdboZ5LuIN8fiGRsiJYuaJC2zEM
-         flASYZ1eyha8gk14nzPwKSJYQwyyP0WJ7BY3JrzJ60taGXCf5oD7blz1DWhT9ywSbXM+
-         FUDM9E5OC906ySVup+NEHB92Hr+giMTpoDcD9L3FGQGrLHlPU4iXnuxdASeVbWpQDWJj
-         rVD1639CuvBybqSHg9MgO8/LlbbsLVqVuAhmWHMGiwaFHM+GGaYcycI2dB1xNJoOqu4w
-         D94hPVb/rnL3vTdBG2LGKCisIkUkz6TfWkCL0trNWiqGgUplmNviSCBN/TpXJSw/WFGP
-         UxOQ==
+        bh=NhTEfKWb6DbluRd1mldD3BYSLbGgDbbN8zaDAjpM6uw=;
+        b=lAqaTRNMsaoB2X4JdnC5Ko+7kI5vulLvS0HoYck/rHL6NvYsqoTCws5qQG2u7RQ7Ga
+         bjGXARD/pM+rmShZtxqsa7eylZaUt4nD792NYpwdeQC15sKf9Qs6IKVzeGPwS2+O+6mY
+         +78FN1W8cRH4a1f7hGQ1/xquukktVdgrB2B8c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795540075; x=1796144875;
+        d=1e100.net; s=20260707; t=1795543414; x=1796148214;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=u9RNgucBnI08qUwk1iWfTQpaGbeV2FiwOEeQoPQxy0A=;
-        b=f56WkbecMmQyTxK1nq1PIQyJWlH8dSAauYzlIAqRC/W1EDSyct6RBehFc2788rDB+Q
-         27VLoAxED+fGEkDK6Thnse9dawXwCTWOeBe+ZNVe17ZcVsYD9E56xqvYM6BLOzDQujhK
-         ymt8ptmy2NrSd7Ru3dQiaD0ow2Hb0Ua64pL7XL3JIsY9ZnCeEgpHk5hsV7xiXw79elmX
-         ZbineRhofRuFtThcg2mTrpLQmHgNOu07FD5lqchQiI+z8M8fR21DgtdCnlkcHoyshLZQ
-         dOFtGcNxQtKnm9jt508EbbF3/KaPnYfXve81spfOSMnSeYxScz3wzhmGmMsxndydLVwE
-         0CXw==
-X-Forwarded-Encrypted: i=1; AL+hErEJXTM6/U84fj/Ny/DQx5R9BHc7otMsTjvqoys4WhxynDIWsHMJtZThapHmP33XPTjK8Gvvh4RcfxHuVg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/tOkAIxDlGRxxoS8n8ODsVj6R7iWE9RydHV4zlK9f/bLhB+T3G
-	3EYWqsf2MadIuT1vRCLJkq98lhH4Mw5S6ulIGn0pDF6TkKEAJPkpLvvQ0yezX5Hdn3A=
-X-Gm-Gg: AZFdTZfKOIgYvfGu4QbZA4iSm5+58zsFtDD+ZQ3J0k1YyleiYiHUphBLbz0cXaXKpJb
-	4ASTw634KKjfwRMCKzxK469jJVKs5v7DTxriDg90tTkRzDy6TQl0FG7xuaXL4DLru4SkDKoHvON
-	zba6CQrTveNWx0K1ouKnGfvKxQPGNA3Z/mXrahytICH5Dx+4oCmqzlX0DZM8CR9rJc4fQtSUG4R
-	58g3QL9A9nqvJqfn4TfgjXy/EtCPu/DYivY6SBt10W90q7zEYUZ2LA1E8HwuiTooay2gSMQ7FsO
-	noN1A2SDlI9aw6CuuuJae27dSwwVPVdKZt57suPYsBEgFQxhFcLskbCRuVKFwydMIawqGll9E6K
-	+3K0obelEl8CJDQsWs+EF8XO8HhTEKIMJkf+rhntLbD9wLqMMCcAnZtZkThUsQjhzsUHOMWI5lP
-	lZkR9IYpZ6mkDHnfh69bWcSywPsH0cEyc+Rt8mUs9pF8Kn3vv3fyhq68LgrxVKpP4QtIAhBNisM
-	eWzjGbDzYJghSuR2OTQ0s+OV49Tx3K5/Q5Zdg2wwk+QElwQNjV0+zkbjYUj4spCV0ClJfVR2p9o
-	38TzLQ==
-X-Received: by 2002:a05:6102:688c:b0:7ce:a69d:b020 with SMTP id ada2fe7eead31-7d72b36164amr6731183137.5.1795540075186;
-        Tue, 24 Nov 2026 09:07:55 -0800 (PST)
-Received: from ziepe.ca ([142.177.118.84])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921366d853esm132634586d6.27.2026.11.24.09.07.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 09:07:54 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xVtzm-00000000uyF-0Lng;
-	Tue, 24 Nov 2026 13:07:54 -0400
-Date: Tue, 24 Nov 2026 13:07:54 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Alexey Kardashevskiy <aik@amd.com>
-Cc: "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
-	linux-coco@lists.linux.dev, Dan Williams <djbw@kernel.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Lukas Wunner <lukas@wunner.de>, Ashish Kalra <ashish.kalra@amd.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH v1 02/10] coco: tsm: Register the TSM class before device
- drivers
-Message-ID: <20261124170754.GB114530@ziepe.ca>
-References: <20261123083337.2731019-1-aneesh.kumar@kernel.org>
- <20261123083337.2731019-3-aneesh.kumar@kernel.org>
- <20261123152903.GG179082@ziepe.ca>
- <9f92f7ed-5198-45aa-9cef-515ccbf98398@amd.com>
+        bh=NhTEfKWb6DbluRd1mldD3BYSLbGgDbbN8zaDAjpM6uw=;
+        b=zp38NmlKuiXzh+hvTjQIATSzXEWHDTUIV0j/YrhdNCIH9WJlQ90EOHaqM67vpgSzea
+         9QABrwnbSeKAl1yCXHSLKUjZ4nZ/qVxnD3vrHx9xR3xStXCBZdOGt7tyuaf9Cer0u9QP
+         UGJKI3tYwOf9mjExMzxiiCCbbtfu06GGAiQAMuyWYn5Gk7QJ9TcM2SFl798ESJc+C8Ql
+         CwtOHtxOng0WuGdqiqpfZCI6218WKkpCedLL8/vmLxCFPQt93rjYx446z7iiaaVW4roX
+         lAAqEGslndbRRslEdnhjFTIvgGioiiLQG6wadYudIRZ5tcp3SGAKePhEfSZouG0tsQnn
+         nRWg==
+X-Forwarded-Encrypted: i=1; AL+hErEmRSzxoT5AuLPKkAQNxSex7orw1t/n09PAwEdFmg/AN0O3+/CkPUiGX0JlwZBdmKaEq8zHEZ1E2Nqwig==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/YUA84OYV+XGt5Xxqdb0QoBvHZ3gMIbyP1ZIG8sbMwNE3XX7Kw
+	dadu9AqHHfKknk/aaRkMZQomkiFkSJZFXP1K90nqwRVi8s8Y07w2/9HsFVfnfpbXKw==
+X-Gm-Gg: AZFdTZfJwWIhL9cJWwLsQKLcU/cB+9agkHP2gnAKnh5WKE8iylpCMnxG7MUxcyr0EPN
+	0iGyXaBhCiTXlz2yGKsuqtHlQuRz20HOdvUrVcjMn97FAlqr7311Prsj/TzRQXusxYetOr2GJDp
+	WLdriCQtHtzP5vTrC1yhmdXPbBJDHx+rKtDuKDJxRginHaf+AwgUqZwIvtikiX+wDBmdPva5MPn
+	lgSB3SgGak4SLCUx3fTzQFU0bhDdyS/AyVTEWFnAmNAV/2XQeH4Xj/XS/pX2wiWoTxNtHBTII97
+	nEGP3N9v8DF39ial5wE7zNM6njH2MlFReppe/rZ9FbYcY7Bd5C4hjayKu62QOuqTxRrcrYGJwrH
+	JWruSzsFHY6VNzr+pOTCDLOndGoRi6K/BLlkfedDTxOki3eqx84LiYP3rEdALtw1FrL6sx2zScC
+	jyiB6i16X7dOhddiVfuuwXaS4QVwg6ZC+vq+s5r+8PrI6zGWw3NulDtSkCk3X/bQ+B1bbHVvG25
+	k9zsMrh1vNaNGhkS+E6aEsiEZ58uGtb3S/nagdt+Arya//WRQeuwJeoS64sLAkOtuGAnop7LRsX
+	HRaOd/R8FywGG9jN+P5ECO7n44BCLhujeMdYfvH6qvhpIrBOLx9NeadM8AGap4euX+HsF4KVoPN
+	PbdZtf+KpVCj/xg==
+X-Received: by 2002:a05:7023:a41:b0:1b2:649d:dc23 with SMTP id a92af1059eb24-1b556901b95mr16214334c88.35.1795543413661;
+        Tue, 24 Nov 2026 10:03:33 -0800 (PST)
+Received: from localhost ([2a00:79e0:2e7c:8:6ad2:8ba0:aedd:5a84])
+        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-385666e99fdsm58381434eec.5.2026.11.24.10.03.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2026 10:03:33 -0800 (PST)
+Date: Tue, 24 Nov 2026 10:03:31 -0800
+From: Brian Norris <briannorris@chromium.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Linux PM <linux-pm@vger.kernel.org>,
+	Linux Driver Core Development <driver-core@lists.linux.dev>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>, iommu@lists.linux.dev,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Ulf Hansson <ulf.hansson@oss.qualcomm.com>,
+	Prakash Gupta <prakash.gupta@oss.qualcomm.com>
+Subject: Re: [PATCH v1] PM: runtime: Eliminate __pm_runtime_put_autosuspend()
+Message-ID: <awXRc5mqhe6h6MGi@google.com>
+References: <13014755.O9o76ZdvQC@rafael.j.wysocki>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -119,26 +101,23 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9f92f7ed-5198-45aa-9cef-515ccbf98398@amd.com>
+In-Reply-To: <13014755.O9o76ZdvQC@rafael.j.wysocki>
 
-On Tue, Nov 24, 2026 at 11:40:16AM +1100, Alexey Kardashevskiy wrote:
-> On 24/11/26 02:29, Jason Gunthorpe wrote:
-> > On Mon, Nov 23, 2026 at 02:03:29PM +0530, Aneesh Kumar K.V (Arm) wrote:
-> > > Register the built-in TSM class with subsys_initcall() so it exists
-> > > before a platform TSM driver probes, independently of object link order.
-> > > CONFIG_TSM is boolean; remove the unused module exit path.
-> > 
-> > Why isn't it modular? This is going to force alot of stuff to be
-> > non-modular.
+On Tue, Nov 24, 2026 at 05:36:41PM +0100, Rafael J. Wysocki wrote:
+> From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
 > 
-> The TSM core registers a class. The platform TSM drivers register
-> TSM devices of that class. If a platform module loads before the TSM
-> code - the class is not registered yet so it fails. We could either
-> teach modprobe or have dependencies in the module or do this:
+> There are two users of __pm_runtime_put_autosuspend(),
+> pm_runtime_put_autosuspend() and arm_smmu_rpm_put(), but
+> the latter duplicates the code from the former.
+> 
+> Fold __pm_runtime_put_autosuspend() into pm_runtime_put_autosuspend()
+> and make arm_smmu_rpm_put() call the latter.
+> 
+> No intentional functional impact.
+> 
+> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-I understand that and Aneesh's patch is fine to solve that problem.
+Ah, it's about time. I was thinking Prakash's patches would handle this
+semi-naturally eventually, but they seem to be stalling.
 
-I'm asking why it isn't modular. They don't conflict, using
-subsys_initcall works just fine as a module.
-
-Jason
+Reviewed-by: Brian Norris <briannorris@chromium.org>
