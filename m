@@ -1,158 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.194.2
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.11
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795554025;
-	b=lL+6Mv6ptD1zH+w+MgAjGdOU7Je6d6299T0VwYZvu6OyrWXfLLOFi17kh9UYh/w2c0La
-	 dyZne1nnh3EwLVetamLTt3vDpBAHPUj6gnPifSgH1XbrDRg4Y38DQbZ9S1kH6+KiCZg/f
-	 5C1h8vFiwA708E6kPLz0pHsqeLeyYsSobqFNQoQWpNekzKxIlRB2002catcpTvy1ZpE3i
-	 tZMk8VNya/xdmNTrSqup4jtx4jcJ8H9YL+VVYWV1O2Vp7OfdmqDpBtCdDTKf0isK8hhyQ
-	 UQvi+DIPKnLscwA9VK8jYygDwNKqOacMNuB983W45eyBnfqIRlWff0AOTuYyEwODRpg==
+	t=1795563685;
+	b=3aqzEJEn7/Trf9p7Mm6yHRLc+f8rBV1DOoZ0B6zo3VBxAvI1+YORHTa33ZudnyMqej6+
+	 +27S9O6CPU6+tlasYcfVxvZ9fV0QAM9FwCr84eEISJ8pSBgzOZjIEm0VnOV+4vOUoDk6N
+	 U+D4JuqQF1oBHq8PQslYY/dpoSiljR7UTGB2loZzTZFr7/PhqDXYK2E1v7eER8dUzkvOS
+	 Z9bAPKiS5oGJFlzuQqzi6UbF/nDa0YS+3cnpei3PW1GOy259zaqHn2SEVHLo66kQGIMlT
+	 PShI07Q2XoXy4aRSSYUX77AWlJ3MTH2z/iJS63JIxy/kWGMWHCx9rMHZTFKjfpVn2AA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795554025;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=jjv1mIIKh04y4Zd7iYGk4WPmgR8svfKmyDKnirK3Tdw=;
-	b=W4XJMzLeIWAr36QScw1a+0FQR4JqfJczgzKxO/Ply+5KY6D6hI3PyjavhNyYYyQhvIFT
-	 eXan52JzhYa/mQKYJ6C50ziQsrnnQ0rMPPW6+9Rj9/MiZZPPx5g9HfqZ4EWEI/JkH3nVd
-	 8N6DbWURXAQg+4LuwnoSQTIlfudYheFyevCQ+Mn32tPHWfGbEssr7ro0a2ThmHv2p/Ux9
-	 Jy1EjSGUdVGP030fs+IUw62ljjavEwwDYbQEQUzP8pplM553G5CwDsxMedc4EE0hu8nN+
-	 ZPBhTMK58LYAJi87D36L04GJg9d02xbF8kiA4Wv/obvoymBvC2z81mVuJVs7i04tzJA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795563685;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Zoho-Virus-Status:X-Zoho-AV-Stamp;
+	bh=uPz04prT7e+1rJ49AYIgujbHeWdmEuPm8fUU/5/3Q5Y=;
+	b=3Nd/6ebbwvvlFwH7+YB/uKRCH2KKkfUb1fDQxjAD4CCOV+xL9PvRBp81tURwHDFUSMo+
+	 sKmbm5IK5XsyLvnQ/wH/obIHIxF2g7GXMGv/gMDKPoPSv7omHTcryJNAyinpWWtOdJ/Ny
+	 Bf/inPMlP5UdsFIYRHXNkDvfTjWPmW3rSskxg5/O+gee4npXrzlG4VJ+HTCdgvTaE9VGI
+	 TMLLNKEbU9F0ub7Y2TfPimyVBC3y9dAPZ2C8xc/AGkOQ/UNLeBvzcgN/sP3hc5GvW5hRM
+	 ybQy7zNfoAwFJqesfYipICzW1ZsNdANS7TngrETvrDE8KOMwfTaEmtty89unCIOh6nA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=s3l6xpxK;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.194.2
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011002.outbound.protection.outlook.com [40.93.194.2])
+	dmarc=pass header.from=collabora.com;
+	spf=pass smtp.mailfrom=collabora.com;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b="f/OG1SuH";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.11
+Received: from sender5-op-o11.zoho.com (sender5-op-o11.zoho.com [165.173.182.11])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A314C606A33C;
-	Tue, 24 Nov 2026 21:00:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A314C606A33C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C2B606A31E
+	for <driver-core@lists.linux.dev>; Tue, 24 Nov 2026 23:41:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B3C2B606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=s3l6xpxK
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wzA/PFwNEYjYE62OyeMNBApiaqqduK4V0Ev1iac1jZtoH43rkf9+gtjXfkyHxK1FcWGYnVPvs8O8+a+iNMfZpLiedmxE5Lkr50pYF1bZ1QTQOpkc+yj0YibUvpuPOf+X2S69o8KBgc5v/Xh8Z/sCHUc4WI6Ub+fLp5Cdq5Dgc+Dfq/w3s3tNzGxPWBsIzIAs1RNzeC3mgrCiimK7gOHgBq7qV+uiqPWKiwkH+i06naZcd6kl60xbc3gzWPaeqrC2MLzyQ1NNhLX7WrJD0ZChSYKXRia3Swo0Pb5RYFkrVHs20D5UFNEWBRdITKM7fSdTzGMS2XH2q22FBAux/8K+GA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jjv1mIIKh04y4Zd7iYGk4WPmgR8svfKmyDKnirK3Tdw=;
- b=YQwppcOu7iMkg+OsEZ05kUkzpStC4NKsxmcJGLjWtB+rkAChL8O8xNd+Ut/MlfaYxLM4wD+ir8CrKh6M3HAGgofF7s3o76/lrsAOFzjaKAEvn5OoUDch/Pf996KQ8UqItFL90Vz+XRUF0KXEoxy9ZYvkB1QOEJWRWsJg6Gv6WhIespinTRUZBD3872Km3FTKq1iKv1nrz9FsprKGr9k04nlgWyI7nAj5rp+uch41VZTtrd+VehhxAvdi1EcqhjWN+v10vxFXLd+GPqITqss21askUl7UdTGUF3AFHgihMfJJKTmb/XY4K5WigASIburqiIsIKpQu0sV1KQ4c5ip7zw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jjv1mIIKh04y4Zd7iYGk4WPmgR8svfKmyDKnirK3Tdw=;
- b=s3l6xpxKdMnMnkuz9VhhUc/A7JThxawOeRqHcd7Ixq0xbwJPnOdbmmtgUk0XpkxFycDyfsWCGCUrEx7QSAEQY1650XvNOUBogVd1AcW+3PYPM/ecQMh8WxRGRh/H+qzJfztlgYbORrlF1zizIw7LWMuIfoeBVHuvmByF8khzQ6iwiwY3j4RFiBq3xQTLJYaJQ8HX7e60BXhKG4JHLctBPVnzCry7h8xIW6VxCdGS6gKTw3TW4ulq3nJfkwAtWmMPUxhk8Kp3/ohh3Ou2cUHDtNPGXT0MjljKwAkYrr2q9VTEJc3TUZNh+5AAdE9z0b/q0ABhSWL89uBgT1TQ/FcasQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SN6PR12MB2814.namprd12.prod.outlook.com (2603:10b6:805:72::33)
- by SA1PR12MB9245.namprd12.prod.outlook.com (2603:10b6:806:3a7::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Tue, 24 Nov
- 2026 21:00:12 +0000
-Received: from SN6PR12MB2814.namprd12.prod.outlook.com
- ([fe80::9a18:413c:9702:8f59]) by SN6PR12MB2814.namprd12.prod.outlook.com
- ([fe80::9a18:413c:9702:8f59%6]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
- 21:00:12 +0000
-Date: Tue, 24 Nov 2026 16:00:10 -0500
-From: Yury Norov <ynorov@nvidia.com>
-To: "Gregory Price (Meta)" <gourry@gourry.net>
-Cc: Yury Norov <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	David Hildenbrand <david@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Oscar Salvador <osalvador@suse.de>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Brendan Jackman <brendan.jackman@linux.dev>,
-	Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=f/OG1SuH
+ARC-Seal: i=1; a=rsa-sha256; t=1795563664; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=YV/GT10TmGXdns188D2h9bphw3bBozb1keIgrejD0q8XGakTPwEjq8+oXEOg+K8fB68WdPDgnw5Dh2vhT3ApAcsCWB1gzpLELPUYe4w3BH+flHBs2KW0qZvtodCzGxOup22w0NqJAY8PyC2+pQKapJppOQe3IMBWQsi3fQFoBFE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1795563664; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=uPz04prT7e+1rJ49AYIgujbHeWdmEuPm8fUU/5/3Q5Y=; 
+	b=epvNpY3Xy82uXrSeuWSBn5NOkmDTvrgUCjv01p0NrOv8xFDYvXU9ECWO3H1eKzg/qLuRpIbd3KW2X9dHKuwcHiScvxgsiAdoE7ee0qM5g4OCuO/D4gLQCZwXJQY2wtAli3cvKcsGzJ2Uro/CRClPP0WhjdjuVgD+czBQf88L2sM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
+	dmarc=pass header.from=<deborah.brouwer@collabora.com>
+DKIM-Signature: a=rsa-sha256; b=f/OG1SuHbcVzG18SmK+j6FqUNPg9GjIXhLH9NmNK6wuZAPKaDpXv07faBJtFufktr3j8fo74f9Ee36NrasUjsq99ZDxzkI6biEov+ZI6M/SN7KIFQQ+bGHgu6do30fe0NduCvg0lqgWezAOKaQAcFRyLSqzOYT41ACIWliscbhs=; c=relaxed/relaxed; s=zohomail; d=collabora.com; v=1; bh=uPz04prT7e+1rJ49AYIgujbHeWdmEuPm8fUU/5/3Q5Y=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
+Received: by smtp.zohomail.com with SMTPS id 1795563661145885.3869878891551;
+	Tue, 24 Nov 2026 15:41:01 -0800 (PST)
+Date: Tue, 24 Nov 2026 16:40:55 -0700
+From: Deborah Brouwer <deborah.brouwer@collabora.com>
+To: Alvin Sun <alvin.sun@linux.dev>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Alistair Popple <apopple@nvidia.com>, SJ Park <sj@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Kees Cook <kees@kernel.org>, Kairui Song <kasong@tencent.com>,
-	Barry Song <baohua@kernel.org>, Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Michal Hocko <mhocko@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
-	Nico Pache <nico.pache@linux.dev>,
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
-	Lance Yang <lance.yang@linux.dev>,
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
-	Xu Xin <xu.xin@linux.dev>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	Lorenzo Stoakes <ljs@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
-	Jann Horn <jannh@google.com>, Chris Li <chrisl@kernel.org>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Youngjun Park <youngjun.park@lge.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>, Waiman Long <longman@redhat.com>,
-	Ridong Chen <ridong.chen@linux.dev>, Tejun Heo <tj@kernel.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Dan Williams <djbw@kernel.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
-	damon@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 01/60] nodemask: add node-state iterators
-Message-ID: <awX62m6zlghC05jo@yury>
-References: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
- <20261120-private_nodes_v6-v1-1-74f5f9a115c2@gourry.net>
- <awMK9V6TbU9Xtzn9@yury>
- <179544248227.412063.16491857533875192357.b4-reply@b4>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <179544248227.412063.16491857533875192357.b4-reply@b4>
-X-ClientProxiedBy: BN9P220CA0004.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:408:13e::9) To SN6PR12MB2814.namprd12.prod.outlook.com
- (2603:10b6:805:72::33)
+	Johan Hovold <johan@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	driver-core@lists.linux.dev, Ke Sun <sunke@kylinos.cn>
+Subject: Re: [PATCH v7 07/10] drm/tyr: add VM-related ioctls
+Message-ID: <awYgh-A8JtN899eB@um790>
+References: <20261122-tyr-ioctls-v7-0-3a2af624b992@linux.dev>
+ <20261122-tyr-ioctls-v7-7-3a2af624b992@linux.dev>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -162,81 +82,628 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR12MB2814:EE_|SA1PR12MB9245:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9347f340-d6f3-4f83-827a-08df4a6dee49
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|10070799003|366016|23010399003|10067099003|56012099006|11063799006|4143699003|261021121427099003|261102123227099003|22082099003|6133799003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	fgkd3OzRnSAvoGcdjsAe3uNhI9s9Pbkslz2vW2/gxCqtyreRamJ2IEIGocp7bKFVCUUzwImeXhoOXqEjICUQZ+0VS3YTaggEXQ+ybQ71vhmLLKVAHIcqh7vW3BLVckhC53mQNhJWjauP3V6U2QyWEuY7pcYJYZYHEh6tBsgTO2gPGVhZE6FcRsF0hdhrhvbGE2v+5gZdQOPMy7R/owlf4rFWCDcN59R4js1v/nxYDlYZhWMnSkUlPY7K6oFxlWZLncFaOLvlSvzxtbL+odvJ+CzN7PdYy152kBxZRKzEK2HAWmlCg9XZJ4ArbJYWl/OtTPulx4FbMpR+DXT9ap9Pm5KGiLoE0FTmrWgeVLA2IccXTPWWS36bbEnkf6WLno8kipjQ0/w1PuGUYGwVX7oE3XBdjCwbtphnpnFaC1hBEMbxvgbefy3FWMdMOWhbKX2BbHoTrTOW18UtQrvLaRgYlFs599BEGbUANwRgljg+JObzxx1B4SoHLkmWY+OupVOvFDzeXxsvF2n4PwtbyhmZeeSi50RBU+SM4+ZQ0MWr4/8qDCm/L4J0KDSZvdZZIwxQKlx+xVtMUmSigligQmC8FgKSW3nAwKfQDf0VylGNB10clDcd4CtzmxKGDB0vWO8Gt46ur31yp68z5h7u8LHSw1yVzLOOuQ/Y/syaFKYKVxY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR12MB2814.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(10070799003)(366016)(23010399003)(10067099003)(56012099006)(11063799006)(4143699003)(261021121427099003)(261102123227099003)(22082099003)(6133799003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?lyl85Xv3fhesIPLeycCkaFybRKJ34uQuDibWvKU5AY6uZlXfBQ65O1p7YvAG?=
- =?us-ascii?Q?PkyYgYLe7iNzqCCPgouRZrXlsuUaxZWn/pg6HOmqNZZj0h83jSf2cP/uxgIW?=
- =?us-ascii?Q?CCW86034F5qiPat10OCStCeS8Pmw+N9phXIdZscpIhYGYlmc7/TDqWPV0Xa4?=
- =?us-ascii?Q?Ay/4f0zLF5jAdeXsTenIkBeOiv/ut4olLduwNbNSJl2TTgPkzSaLYRWP0/kA?=
- =?us-ascii?Q?hOb4NZDxEi6vaq8bbwPoBI9R0MpPOM0atXpQ2M+DAgxNj9mdVesy1b4R3xRe?=
- =?us-ascii?Q?Q93KsVu0zUbKxGKE6Z7hvzWVFMEk+xor0nppHHmV6xIFev/WGys4uWD7DdAl?=
- =?us-ascii?Q?4lLNoiMxqHNl+RZ4FGZzc+OtiRRxYRPwT96Aw2QArtjLH5h/uxUFnIIzn7Rc?=
- =?us-ascii?Q?scJJqyETQUmL5ah4aV7Q7Vif//BGaeeQuwBWjQqU6LxkVh4jZ5RUb4YGMiQp?=
- =?us-ascii?Q?Kpln2LC+2ABGY2qgLKdT5kCqlbODnNbD8+nEuLEFMnciIOzh3yUFDoa7C5jc?=
- =?us-ascii?Q?DbTFnKCKtAhpZxEYRCtFWTGcVQToTwWKT7NrUoTCsfnMFK1pX6jEw3RRueha?=
- =?us-ascii?Q?X0svnLqYHz5u4LYrR0oWMcn+gzkF5Vp9HEZdkCFNhgg5Hl5wbxhFsjs358vH?=
- =?us-ascii?Q?qa8+l8k2v4d1TXGv1t+R0SYRN0be2/+/oSZrdEmtxqStWYay53nm/MsRb18n?=
- =?us-ascii?Q?p3/oYrKkxuORNlvDS8QItuWk2ajNrLlYz3Gvg5tspRPyk8lgeyuwV9xZ897M?=
- =?us-ascii?Q?ONO3Gai7AbbsN15couN2omI5YeVUCXtKU1aL1L37Ii36SnXZi2THlk9ceKZL?=
- =?us-ascii?Q?wvur6EzfSvWZt4kdtZc/6gpTjUd+e5q9obOzoC0KiNBfkqPBv9vkMl/Pf/7L?=
- =?us-ascii?Q?eepALf6IZ30Loo7UPUyyje+Gt7x6kAffBTxUYbjGI/4pPkW9oKaVKo8LibOY?=
- =?us-ascii?Q?Ln9jPBAk8ilf6MMeZTdGUTfWxInVn90V4LtpLM9AZkS8DOhYWukNSv3ldb7I?=
- =?us-ascii?Q?6J+sfvHqn7e/qWlxunjU+4HyyygCQjKApug2uTMwDKWrxOuYS1/XQA1hXkV8?=
- =?us-ascii?Q?V2qs7+i1zHykjxqKc2R4ptj5vKrXOzEWe+GPbHWVO51OnKW2NPxqlP57h21J?=
- =?us-ascii?Q?KwfHVSDevPLTvE1SX1qbbkUSAKl25oRpxc2rjZSmSmapwEbRdCItTwAN6x+1?=
- =?us-ascii?Q?Cq2dwAZf7jP4KgTbeBY98+CM6dFeDgbOE8EUlEoEDYxulnVaU79MJKpWXCD2?=
- =?us-ascii?Q?oGlYkVTbl/ElTR8Y4cEpDWh5BgInuYr31HXSrDr24oEmmd94wTUHBfxIo5KI?=
- =?us-ascii?Q?7Jf4N7tpUdAUl9rrJHcuTCDmOhualHiC7p8OoWo8rMouvSXKObFrQwvR3Ynj?=
- =?us-ascii?Q?twIRQ2At4jyhqolbnUbAOE+yka0pcYEqb3DSOk/oMzti9YviNMtNPN0Sw/m2?=
- =?us-ascii?Q?MTZo9pE4mgiuTUjJ+XIUGFN3oJ2RJuA1TJs/nrTDFzkpjhG5lq4ekFeR5M+n?=
- =?us-ascii?Q?dMFiskhcVUHefgqFrW2wcLDnqRKwqRSczA3CRily70aAWDXGN18AsPF1Txq3?=
- =?us-ascii?Q?Jy4PIWNhDR0XSDr8al9oxwjbG0vdvv6oMzF+Vn4GynRVnqILtthkDd7Fen7U?=
- =?us-ascii?Q?H9GRUbN5AMU5sNEtUickR07I0RbYVlUtBJV2eWldR/9CS/aOCqJoSv4P9JrX?=
- =?us-ascii?Q?7Y2jWpAs6jwzDijrncu+unJVOGm4mtQHgzjnGVq2SePKHry8SQgJq/rqXjpT?=
- =?us-ascii?Q?DgnIhSzHDbmmsMeba/3xSNfuhWNJ6TxcCs90NEspDOvzRA5+6TB8?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9347f340-d6f3-4f83-827a-08df4a6dee49
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2814.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 21:00:12.1844
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7d9nWnGlSsha9Mzyfzuo8O1ajjPwmA5+pwYtPFzuTfGiKubPpUn4hBTm3tooE3DqsNdJIJImecJef72UZzrs3g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB9245
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261122-tyr-ioctls-v7-7-3a2af624b992@linux.dev>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-0.2.13.1.5.4/295.549.79
 
-On Mon, Nov 23, 2026 at 09:01:22AM -0500, Gregory Price (Meta) wrote:
-> On 2026-11-22 10:32 -0500, Yury Norov wrote:
-> > On Fri, Nov 20, 2026 at 01:08:52PM -0500, Gregory Price via B4 Relay wrote:
-> > > From: "Gregory Price (Meta)" <gourry@gourry.net>
-
-...
-
-> for_each_node_mask_and() would be more consistent, change just requires
-> passing node_state[N_MEMORY_X] instead of just the node state bit.
+On Sun, Nov 22, 2026 at 08:50:26PM +0800, Alvin Sun wrote:
+> Implement VM_CREATE, VM_DESTROY, VM_BIND and VM_GET_STATE. VM_CREATE
+> hands the new VM to the per-file pool and, on insertion failure, the
+> caller tears it down, so an aborted creation never leaks a VM.
+> VM_DESTROY removes the VM from the pool and kills it, even if in-flight
+> jobs still hold references (matching panthor: such jobs are expected
+> to fault). VM_BIND runs synchronously for now.
 > 
-> > > +	for_each_and_bit(node, nodes_addr(mask),			\
-> > > +			 nodes_addr(node_states[state]), MAX_NUMNODES)
-> > > +
-> > 
-> > Please use nr_node_ids instead of MAX_NUMNODES.
-> > 
+> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
+> ---
+>  drivers/gpu/drm/tyr/driver.rs |  10 +-
+>  drivers/gpu/drm/tyr/file.rs   | 295 ++++++++++++++++++++++++++++++++++++++++--
+>  drivers/gpu/drm/tyr/gem.rs    |   1 -
+>  drivers/gpu/drm/tyr/vm.rs     |  90 ++++++++++---
+>  4 files changed, 369 insertions(+), 27 deletions(-)
 > 
-> I followed for_each_node_mask() which uses MAX_NUMANODES but let me
-> look.
+> diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
+> index 46caf7b336d93..ba03cc4c52539 100644
+> --- a/drivers/gpu/drm/tyr/driver.rs
+> +++ b/drivers/gpu/drm/tyr/driver.rs
+> @@ -73,6 +73,9 @@ pub(crate) struct TyrDrmRegistrationData<'drm> {
+>      /// Firmware sections.
+>      pub(crate) fw: Firmware<'drm>,
+>  
+> +    /// Memory management unit for address space slots.
+> +    pub(crate) mmu: Arc<Mmu<'drm>>,
+> +
+>      #[pin]
+>      clks: Mutex<Clocks>,
+>  
+> @@ -171,6 +174,7 @@ fn probe<'bound>(
+>                      pin_init!(TyrDrmRegistrationData {
+>                          pdev,
+>                          fw: firmware,
+> +                        mmu,
+>                          clks <- new_mutex!(Clocks {
+>                              core: core_clk,
+>                              stacks: stacks_clk,
+> @@ -209,7 +213,7 @@ fn drop(self: Pin<&mut Self>) {}
+>  impl drm::Driver for TyrDrmDriver {
+>      type Data = ();
+>      type RegistrationData<'drm> = TyrDrmRegistrationData<'drm>;
+> -    type File<'a> = TyrDrmFileData;
+> +    type File<'a> = TyrDrmFileData<'a>;
+>      type Object = Bo;
+>      type ParentDevice<Ctx: DeviceContext> = platform::Device<Ctx>;
+>  
+> @@ -218,6 +222,10 @@ impl drm::Driver for TyrDrmDriver {
+>  
+>      kernel::declare_drm_ioctls! {
+>          (PANTHOR_DEV_QUERY, drm_panthor_dev_query, ioctl::RENDER_ALLOW, TyrDrmFileData::dev_query),
+> +        (PANTHOR_VM_CREATE, drm_panthor_vm_create, ioctl::RENDER_ALLOW, TyrDrmFileData::vm_create),
+> +        (PANTHOR_VM_DESTROY, drm_panthor_vm_destroy, ioctl::RENDER_ALLOW, TyrDrmFileData::vm_destroy),
+> +        (PANTHOR_VM_BIND, drm_panthor_vm_bind, ioctl::RENDER_ALLOW, TyrDrmFileData::vm_bind),
+> +        (PANTHOR_VM_GET_STATE, drm_panthor_vm_get_state, ioctl::RENDER_ALLOW, TyrDrmFileData::vm_get_state),
+>      }
+>  }
+>  
+> diff --git a/drivers/gpu/drm/tyr/file.rs b/drivers/gpu/drm/tyr/file.rs
+> index 933a365cb016e..901c0fb951adf 100644
+> --- a/drivers/gpu/drm/tyr/file.rs
+> +++ b/drivers/gpu/drm/tyr/file.rs
+> @@ -3,37 +3,58 @@
+>  use kernel::{
+>      drm::{
+>          self,
+> +        gem::BaseObject,
+>          Registered, //
+>      },
+> +    num::casts::FromSafeCast,
+>      prelude::*,
+> +    sizes::SizeConstants,
+> +    transmute::FromBytes,
+>      uaccess::UserSlice,
+>      uapi, //
+>  };
+>  
+> -use crate::driver::{
+> -    TyrDrmDevice,
+> -    TyrDrmDriver,
+> -    TyrDrmRegistrationData, //
+> +use crate::{
+> +    driver::{
+> +        TyrDrmDevice,
+> +        TyrDrmDriver,
+> +        TyrDrmRegistrationData, //
+> +    },
+> +    vm::{
+> +        UserVaRequest,
+> +        Vm,
+> +        VmBindOpType,
+> +        VmMapFlags,
+> +        VmPool, //
+> +    }, //
+>  };
+>  
+>  #[pin_data]
+> -pub(crate) struct TyrDrmFileData {}
+> +pub(crate) struct TyrDrmFileData<'a> {
+> +    reg: &'a TyrDrmRegistrationData<'a>,
+> +
+> +    #[pin]
+> +    vm_pool: VmPool<'a>,
+> +}
+>  
+>  /// Convenience type alias for our DRM `File` type.
+>  pub(crate) type TyrDrmFile = drm::file::File<TyrDrmDriver>;
+>  
+> -impl drm::file::DriverFile<'_> for TyrDrmFileData {
+> +impl<'a> drm::file::DriverFile<'a> for TyrDrmFileData<'a> {
+>      type Driver = TyrDrmDriver;
+>  
+>      fn open(
+>          _device: &TyrDrmDevice<Registered>,
+> -        _reg_data: &TyrDrmRegistrationData<'_>,
+> +        reg_data: &'a TyrDrmRegistrationData<'a>,
+>      ) -> impl PinInit<Self, Error> {
+> -        Ok(Self {})
+> +        try_pin_init!(Self {
+> +            reg: reg_data,
+> +            vm_pool <- VmPool::new(reg_data.pdev.as_ref())?,
+> +        })
+>      }
+>  }
+>  
+> -impl TyrDrmFileData {
+> +impl TyrDrmFileData<'_> {
+>      pub(crate) fn dev_query(
+>          _ddev: &TyrDrmDevice<Registered>,
+>          reg_data: &TyrDrmRegistrationData<'_>,
+> @@ -65,4 +86,260 @@ pub(crate) fn dev_query(
+>              }
+>          }
+>      }
+> +
+> +    pub(crate) fn vm_create(
+> +        ddev: &TyrDrmDevice<Registered>,
+> +        _reg_data: &TyrDrmRegistrationData<'_>,
+> +        vmcreate: &mut uapi::drm_panthor_vm_create,
+> +        file: &TyrDrmFile,
+> +    ) -> Result<u32> {
+> +        if vmcreate.flags != 0 {
+> +            dev_dbg!(
+> +                ddev.as_ref(),
+> +                "Invalid VM create flags: {:#x}\n",
+> +                vmcreate.flags
+> +            );
+> +            return Err(EINVAL);
+> +        }
+> +
+> +        let ret: Result<u32, Error> = file.inner_with(|pfile| {
+> +            let vm = Vm::new_for_user(
+> +                pfile.reg.pdev.as_ref(),
+> +                ddev,
+> +                pfile.reg.mmu.as_arc_borrow(),
+> +                &pfile.reg.gpu_info,
+> +                UserVaRequest::from_uapi(vmcreate.user_va_range),
+> +            )?;
+> +            let user_va_range = vm.layout.user.end;
+> +            let id = pfile.vm_pool.add(vm).map_err(|e| {
+> +                e.vm.kill();
+> +                e.error
+> +            })?;
+> +            vmcreate.user_va_range = user_va_range;
+> +            vmcreate.id = id;
+> +
+> +            Ok(0)
+> +        });
+> +        ret
+> +    }
+> +
+> +    pub(crate) fn vm_destroy(
+> +        ddev: &TyrDrmDevice<Registered>,
+> +        _reg_data: &TyrDrmRegistrationData<'_>,
+> +        vmdestroy: &mut uapi::drm_panthor_vm_destroy,
+> +        file: &TyrDrmFile,
+> +    ) -> Result<u32> {
+> +        if vmdestroy.pad != 0 {
+> +            dev_dbg!(
+> +                ddev.as_ref(),
+> +                "Invalid VM destroy pad: {:#x}\n",
+> +                vmdestroy.pad
+> +            );
+> +            return Err(EINVAL);
+> +        }
+> +
+> +        let ret: Result<u32, Error> = file.inner_with(|pfile| {
+> +            pfile.vm_pool.remove(vmdestroy.id)?;
+> +            Ok(0)
+> +        });
+> +        ret
+> +    }
+> +
+> +    pub(crate) fn vm_bind(
+> +        ddev: &TyrDrmDevice<Registered>,
+> +        _reg_data: &TyrDrmRegistrationData<'_>,
+> +        vmbind: &mut uapi::drm_panthor_vm_bind,
+> +        file: &TyrDrmFile,
+> +    ) -> Result<u32> {
+> +        let async_flag = uapi::drm_panthor_vm_bind_flags_DRM_PANTHOR_VM_BIND_ASYNC;
+> +
+> +        if vmbind.flags & !async_flag != 0 {
+> +            dev_dbg!(
+> +                ddev.as_ref(),
+> +                "Invalid VM_BIND flags: {:#x}\n",
+> +                vmbind.flags
+> +            );
+> +            return Err(EINVAL);
+> +        }
+> +
+> +        if vmbind.flags & async_flag != 0 {
+> +            dev_dbg!(ddev.as_ref(), "Async VM_BIND not supported\n");
+> +            return Err(EOPNOTSUPP);
+> +        }
+> +
+> +        let count = usize::from_safe_cast(vmbind.ops.count);
+> +        if count == 0 {
+> +            return file.inner_with(|pfile| {
+> +                pfile.vm_pool.get(vmbind.vm_id).ok_or(EINVAL)?;
+> +                Ok(0)
+> +            });
+> +        }
+> +
+> +        // Panthor allows larger strides; UserSliceReader::read needs an exact one.
+> +        if vmbind.ops.stride as usize != size_of::<VmBindOp>() {
+> +            dev_dbg!(
+> +                ddev.as_ref(),
+> +                "Invalid VM_BIND op stride {} (expected {})\n",
+> +                vmbind.ops.stride,
+> +                size_of::<VmBindOp>()
+> +            );
+> +            return Err(EINVAL);
+> +        }
+> +        // TODO: support variable strides with copy_struct_from_user()
+> +        // semantics: zero-pad shorter structs, reject non-zero trailing bytes.
+> +
+> +        let total_len = size_of::<VmBindOp>().checked_mul(count).ok_or_else(|| {
+> +            dev_dbg!(ddev.as_ref(), "VM_BIND ops length overflow\n");
+> +            EINVAL
+> +        })?;
+> +        let mut reader =
+> +            UserSlice::new(UserPtr::from_addr(vmbind.ops.array as usize), total_len).reader();
+> +        let mut ops = KVec::new();
 
-This is my glitch - I have a series switching the codebase to the
-runtime nr_node_ids, but didn't merge it yet. So please continue using
-MAX_NUMNODES. I'll add you in CC for that series, so you'll be aware.
+Hi - fyi I was able to reproduce sashiko's concern that if we have a
+vmbind.ops.count >= 65537 then this does trigger a warning for
+___kmalloc_large_node for exceeding KMALLOC_MAX_SIZE which for me at
+least is configured to 4MiB by default.
+
+Using KVmalloc does solve the problem and it's also what panthor does:
+  KVVec::with_capacity(count, GFP_KERNEL)?;
+
+> +        for _ in 0..count {
+> +            ops.push(reader.read::<VmBindOp>()?, GFP_KERNEL)?;
+> +        }
+> +
+> +        let ret: Result<u32, Error> = file.inner_with(|pfile| {
+> +            let vm = pfile.vm_pool.get(vmbind.vm_id).ok_or_else(|| {
+> +                dev_dbg!(ddev.as_ref(), "Invalid VM_BIND vm_id: {}\n", vmbind.vm_id);
+> +                EINVAL
+> +            })?;
+> +
+> +            for (i, op) in ops.iter().enumerate() {
+> +                if let Err(e) = vm_bind_exec_op(&vm, file, op) {
+> +                    dev_dbg!(ddev.as_ref(), "VM_BIND op {} failed: {:?}\n", i, e);
+> +                    vmbind.ops.count = i as u32;
+> +                    return Err(e);
+> +                }
+> +            }
+> +
+> +            Ok(0)
+> +        });
+> +        ret
+> +    }
+> +
+> +    pub(crate) fn vm_get_state(
+> +        ddev: &TyrDrmDevice<Registered>,
+> +        _reg_data: &TyrDrmRegistrationData<'_>,
+> +        vmgetstate: &mut uapi::drm_panthor_vm_get_state,
+> +        file: &TyrDrmFile,
+> +    ) -> Result<u32> {
+> +        file.inner_with(|pfile| {
+> +            let vm = pfile.vm_pool.get(vmgetstate.vm_id).ok_or_else(|| {
+> +                dev_dbg!(
+> +                    ddev.as_ref(),
+> +                    "Invalid VM_GET_STATE vm_id: {}\n",
+> +                    vmgetstate.vm_id
+> +                );
+> +                EINVAL
+> +            })?;
+> +            vmgetstate.state = if vm.is_unusable() {
+> +                uapi::drm_panthor_vm_state_DRM_PANTHOR_VM_STATE_UNUSABLE
+> +            } else {
+> +                uapi::drm_panthor_vm_state_DRM_PANTHOR_VM_STATE_USABLE
+> +            };
+> +            Ok(0)
+> +        })
+> +    }
+> +}
+> +
+> +fn vm_bind_exec_op(vm: &Vm<'_>, file: &TyrDrmFile, op: &VmBindOp) -> Result {
+> +    if op.syncs.count != 0 {
+> +        dev_dbg!(vm.dev(), "VM_BIND op syncs not supported\n");
+> +        return Err(EINVAL);
+> +    }
+> +
+> +    if op.size == 0 {
+> +        return Ok(());
+> +    }
+> +
+> +    let end = match op.va.checked_add(op.size) {
+> +        Some(end) => end,
+> +        None => {
+> +            dev_dbg!(vm.dev(), "VM_BIND op VA range overflow\n");
+> +            return Err(EINVAL);
+> +        }
+> +    };
+> +    if op.va < vm.layout.user.start || end > vm.layout.user.end {
+> +        dev_dbg!(
+> +            vm.dev(),
+> +            "VM_BIND op VA range {:#x}..{:#x} outside user range\n",
+> +            op.va,
+> +            end
+> +        );
+> +        return Err(EINVAL);
+> +    }
+> +
+> +    if (op.va | op.size | op.bo_offset) & (u64::SZ_4K - 1) != 0 {
+> +        dev_dbg!(vm.dev(), "VM_BIND op not GPU-page-aligned\n");
+> +        return Err(EINVAL);
+> +    }
+> +
+> +    match VmBindOpType::try_from(op.flags) {
+> +        Ok(VmBindOpType::Map) => {
+> +            // Once the VM is unusable only MAP ops are rejected; UNMAP
+> +            // stays available for cleanup (see the UAPI docs).
+> +            if vm.is_unusable() {
+> +                dev_dbg!(vm.dev(), "VM_BIND map op on unusable VM\n");
+> +                return Err(EINVAL);
+> +            }
+> +
+> +            let map_flags = match VmMapFlags::try_from(op.flags & !VmBindOpType::MASK) {
+> +                Ok(flags) => flags,
+> +                Err(_) => {
+> +                    dev_dbg!(vm.dev(), "VM_BIND op invalid map flags {:#x}\n", op.flags);
+> +                    return Err(EINVAL);
+> +                }
+> +            };
+> +            let bo = crate::gem::lookup_handle(file, op.bo_handle).map_err(|_| {
+> +                dev_dbg!(vm.dev(), "VM_BIND op invalid BO handle {}\n", op.bo_handle);
+> +                EINVAL
+> +            })?;
+> +            // Validate the BO window before mapping.
+> +            let bo_size = u64::from_safe_cast(bo.size());
+> +            if op.size > bo_size || op.bo_offset > bo_size - op.size {
+> +                dev_dbg!(vm.dev(), "VM_BIND op BO range out of bounds\n");
+> +                return Err(EINVAL);
+> +            }
+> +            vm.map_bo_range(&bo, op.bo_offset, op.size, op.va, map_flags)
+> +        }
+> +        Ok(VmBindOpType::Unmap) => {
+> +            // Unmap must not carry map-specific flags or BO references.
+> +            if op.flags & !VmBindOpType::MASK != 0 || op.bo_handle != 0 || op.bo_offset != 0 {
+> +                dev_dbg!(
+> +                    vm.dev(),
+> +                    "VM_BIND UNMAP carries flags/BO refs: flags={:#x} bo_handle={} bo_offset={}\n",
+> +                    op.flags,
+> +                    op.bo_handle,
+> +                    op.bo_offset
+> +                );
+> +                return Err(EINVAL);
+> +            }
+> +            vm.unmap_range(op.va, op.size)
+> +        }
+> +        Err(_) => {
+> +            dev_dbg!(
+> +                vm.dev(),
+> +                "VM_BIND op type {:#x} not supported\n",
+> +                op.flags & VmBindOpType::MASK
+> +            );
+> +            Err(EINVAL)
+> +        }
+> +    }
+> +}
+> +
+> +#[repr(transparent)]
+> +struct VmBindOp(uapi::drm_panthor_vm_bind_op);
+> +
+> +impl core::ops::Deref for VmBindOp {
+> +    type Target = uapi::drm_panthor_vm_bind_op;
+> +
+> +    fn deref(&self) -> &Self::Target {
+> +        &self.0
+> +    }
+>  }
+> +
+> +// TODO: use zerocopy FromBytes when these traits are derived for bindings.
+> +// SAFETY: `VmBindOp` contains only integers, so any bit pattern is valid;
+> +// the `#[repr(transparent)]` wrapper has the same layout as the UAPI struct.
+> +unsafe impl FromBytes for VmBindOp {}
+> diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
+> index 0e0989a48678f..60f6363995a5a 100644
+> --- a/drivers/gpu/drm/tyr/gem.rs
+> +++ b/drivers/gpu/drm/tyr/gem.rs
+> @@ -77,7 +77,6 @@ pub(crate) fn new_object(ddev: &TyrDrmDevice, size: usize, flags: u32) -> Result
+>  }
+>  
+>  /// Look up a GEM object by handle for a DRM file.
+> -#[expect(dead_code)]
+>  pub(crate) fn lookup_handle(file: &TyrDrmFile, handle: u32) -> Result<ARef<Bo>> {
+>      Bo::lookup_handle(file, handle)
+>  }
+> diff --git a/drivers/gpu/drm/tyr/vm.rs b/drivers/gpu/drm/tyr/vm.rs
+> index 029a08051a87e..45e42e210de29 100644
+> --- a/drivers/gpu/drm/tyr/vm.rs
+> +++ b/drivers/gpu/drm/tyr/vm.rs
+> @@ -55,6 +55,11 @@
+>      },
+>      sync::{
+>          aref::ARef,
+> +        atomic::{
+> +            Acquire,
+> +            Atomic,
+> +            Release, //
+> +        },
+>          Arc,
+>          ArcBorrow,
+>          Mutex, //
+> @@ -174,7 +179,6 @@ pub(crate) enum UserVaRequest {
+>  
+>  impl UserVaRequest {
+>      /// UAPI boundary normalization: `0` -> [`Auto`](Self::Auto).
+> -    #[expect(dead_code)]
+>      pub(crate) fn from_uapi(v: u64) -> Self {
+>          match NonZeroU64::new(v) {
+>              Some(size) => Self::Fixed(size),
+> @@ -183,6 +187,38 @@ pub(crate) fn from_uapi(v: u64) -> Self {
+>      }
+>  }
+>  
+> +/// Operation type, packed into the top nibble of
+> +/// `drm_panthor_vm_bind_op::flags`.
+> +#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+> +pub(crate) enum VmBindOpType {
+> +    /// Map a BO range into the VM.
+> +    Map,
+> +    /// Unmap a VA range.
+> +    Unmap,
+> +}
+> +
+> +impl VmBindOpType {
+> +    /// Bits occupied by the op type in `drm_panthor_vm_bind_op::flags`.
+> +    pub(crate) const MASK: u32 =
+> +        uapi::drm_panthor_vm_bind_op_flags_DRM_PANTHOR_VM_BIND_OP_TYPE_MASK as u32;
+> +}
+> +
+> +impl TryFrom<u32> for VmBindOpType {
+> +    type Error = Error;
+> +
+> +    fn try_from(flags: u32) -> Result<Self, Self::Error> {
+> +        const MAP: u32 = uapi::drm_panthor_vm_bind_op_flags_DRM_PANTHOR_VM_BIND_OP_TYPE_MAP as u32;
+> +        const UNMAP: u32 =
+> +            uapi::drm_panthor_vm_bind_op_flags_DRM_PANTHOR_VM_BIND_OP_TYPE_UNMAP as u32;
+> +
+> +        match flags & Self::MASK {
+> +            MAP => Ok(Self::Map),
+> +            UNMAP => Ok(Self::Unmap),
+> +            _ => Err(EINVAL),
+> +        }
+> +    }
+> +}
+> +
+>  /// Final user/kernel VA layout for a VM.
+>  pub(crate) struct VmLayout {
+>      /// Full GPU VA range covered by this VM.
+> @@ -425,6 +461,8 @@ pub(crate) struct Vm<'drm> {
+>      gpuvm: ARef<GpuVm<GpuVmData<'drm>>>,
+>      /// VA layout for this VM.
+>      pub(crate) layout: VmLayout,
+> +    /// Whether the VM is unusable.
+> +    unusable: Atomic<bool>,
+>  }
+>  
+>  impl<'drm> Vm<'drm> {
+> @@ -446,7 +484,6 @@ pub(crate) fn new_for_fw(
+>      }
+>  
+>      /// Creates a user VM, splitting the GPU VA range per `user_va`.
+> -    #[expect(dead_code)]
+>      pub(crate) fn new_for_user(
+>          dev: &'drm Device<Bound>,
+>          ddev: &TyrDrmDevice,
+> @@ -513,6 +550,7 @@ fn new_internal(
+>                  gpuvm,
+>                  gpuvm_unique <- new_mutex!(gpuvm_unique),
+>                  layout,
+> +                unusable: Atomic::new(false),
+>              }),
+>              GFP_KERNEL,
+>          )?;
+> @@ -543,6 +581,7 @@ fn deactivate(&self) -> Result {
+>  
+>      /// Kills the VM by deactivating it and unmapping all regions.
+>      pub(crate) fn kill(&self) {
+> +        self.mark_unusable();
+>          let _ = self.deactivate();
+>          let _ = self
+>              .unmap_range(
+> @@ -554,6 +593,15 @@ pub(crate) fn kill(&self) {
+>              });
+>      }
+>  
+> +    /// Marks the VM unusable.
+> +    fn mark_unusable(&self) {
+> +        self.unusable.store(true, Release);
+> +    }
+> +
+> +    pub(crate) fn is_unusable(&self) -> bool {
+> +        self.unusable.load(Acquire)
+> +    }
+> +
+>      /// Executes a virtual memory operation.
+>      ///
+>      /// This handles both map and unmap operations by coordinating between the
+> @@ -648,6 +696,14 @@ pub(crate) fn map_bo_range(
+>  
+>          let va_end: u64 = va.checked_add(map_size).ok_or(EINVAL)?;
+>  
+> +        let mut resources = VmOpResources {
+> +            preallocated_gpuvas: [
+> +                Some(GpuVaAlloc::<GpuVmData<'drm>>::new(GFP_KERNEL)?),
+> +                Some(GpuVaAlloc::<GpuVmData<'drm>>::new(GFP_KERNEL)?),
+> +                Some(GpuVaAlloc::<GpuVmData<'drm>>::new(GFP_KERNEL)?),
+> +            ],
+> +        };
+> +
+>          let req = VmOpRequest {
+>              op_type: VmOpType::Map(VmMapArgs {
+>                  vm_bo: self.gpuvm.obtain(bo, ())?,
+> @@ -656,16 +712,24 @@ pub(crate) fn map_bo_range(
+>              }),
+>              region: va..va_end,
+>          };
+> -        let mut resources = VmOpResources {
+> -            preallocated_gpuvas: [
+> -                Some(GpuVaAlloc::<GpuVmData<'drm>>::new(GFP_KERNEL)?),
+> -                Some(GpuVaAlloc::<GpuVmData<'drm>>::new(GFP_KERNEL)?),
+> -                Some(GpuVaAlloc::<GpuVmData<'drm>>::new(GFP_KERNEL)?),
+> -            ],
+> -        };
+>          let result = {
+>              let mut gpuvm_unique = self.gpuvm_unique.lock();
+> -            self.exec_op(gpuvm_unique.as_mut().get_mut(), req, &mut resources)
+> +            // Check under the GPUVM lock, which the kill path also takes to
+> +            // unmap, so this serializes against a concurrent teardown.
+> +            if self.is_unusable() {
+> +                dev_err!(
+> +                    self.dev,
+> +                    "Failed to map VA {:#x}..{:#x}: VM is unusable\n",
+> +                    req.region.start,
+> +                    req.region.end
+> +                );
+> +                // Drop the vm_bo reference before the deferred cleanup
+> +                // below runs; otherwise the vm_bo would leak.
+> +                drop(req);
+> +                Err(EINVAL)
+> +            } else {
+> +                self.exec_op(gpuvm_unique.as_mut().get_mut(), req, &mut resources)
+> +            }
+>          };
+>          // We flush the defer cleanup list now. Things will be different in
+>          // the asynchronous VM_BIND path, where we want the cleanup to
+> @@ -1100,9 +1164,7 @@ pub(crate) struct VmPool<'drm> {
+>  /// Error returned when a VM cannot be added to the pool. The caller
+>  /// owns the teardown of the VM in [`AddError::vm`].
+>  pub(crate) struct AddError<'drm> {
+> -    #[expect(dead_code)]
+>      pub(crate) error: Error,
+> -    #[expect(dead_code)]
+>      pub(crate) vm: Arc<Vm<'drm>>,
+>  }
+>  
+> @@ -1112,7 +1174,6 @@ impl<'drm> VmPool<'drm> {
+>      /// The pool is sized for [`MAX_VMS_PER_FILE`] IDs on all architectures,
+>      /// including 32-bit builds where `IdPool::new()` would only hold 31 IDs
+>      /// because `find_unused_id(1)` skips bit 0 of an inline bitmap.
+> -    #[expect(dead_code)]
+>      pub(crate) fn new(dev: &'drm Device<Bound>) -> Result<impl PinInit<Self>, AllocError> {
+>          let ids = IdPool::with_capacity(MAX_VMS_PER_FILE + 1, GFP_KERNEL)?;
+>          Ok(pin_init!(Self {
+> @@ -1128,7 +1189,6 @@ pub(crate) fn new(dev: &'drm Device<Bound>) -> Result<impl PinInit<Self>, AllocE
+>      /// returned in an [`AddError`] so the caller owns the teardown.
+>      // TODO: allocate IDs with the XArray directly (once it grows range
+>      // allocation, the equivalent of C's `XA_LIMIT`) and drop the IdPool.
+> -    #[expect(dead_code)]
+>      pub(crate) fn add(&self, vm: Arc<Vm<'drm>>) -> Result<u32, AddError<'drm>> {
+>          let id = (|| {
+>              let mut ids = self.ids.lock();
+> @@ -1178,7 +1238,6 @@ pub(crate) fn add(&self, vm: Arc<Vm<'drm>>) -> Result<u32, AddError<'drm>> {
+>      }
+>  
+>      /// Removes and kills the VM with the given ID.
+> -    #[expect(dead_code)]
+>      pub(crate) fn remove(&self, id: u32) -> Result<()> {
+>          let mut vms = self.vms.lock();
+>          let vm = match vms.remove(usize::from_safe_cast(id)) {
+> @@ -1195,7 +1254,6 @@ pub(crate) fn remove(&self, id: u32) -> Result<()> {
+>      }
+>  
+>      /// Gets a shared reference to the VM with the given ID.
+> -    #[expect(dead_code)]
+>      pub(crate) fn get(&self, id: u32) -> Option<Arc<Vm<'drm>>> {
+>          let vms = self.vms.lock();
+>          let borrow = vms.get(usize::from_safe_cast(id))?;
+> 
+> -- 
+> 2.43.0
+> 
+> 
