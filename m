@@ -1,82 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795597798;
-	b=r59mcy2UcYB/lruf+LfbA5cU24YAYOYh/+upkDmEHpA5CPKeMp1E/BDMnwrBqJFSHfNJ
-	 8HuRiBGJikPnkd1eG9+oBrrk4eBVWdgvE8N3fKE4DkI4S5fjIItYsERmo4QDvJPncI5Lx
-	 fn+/svq61/gaj671F2H0QqvTNk5pfTVUw+loTbzUWycZtC8ac0HDu+8Nn4GWxx2GMkJZM
-	 PfT//RRp/fMW+NQow1yVtRmFBgGK84s6PMsLGQ5MQo6borU70+EU2+JZ8oha+j9x1GID6
-	 FJXAGQD4o5Y2gPwKcwPT5Se7virGKIB61uqbfEn9IbUEsaYmHjGGMfNz03tv8wpHHKg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795597798;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:From:To:Cc:References:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
-	 X-Proofpoint-Reinject:X-Authority-Analysis:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=m20c+6zRaKa6S8P+owjFoXEJMPBcudIxx1JLpQyKEU4=;
-	b=CdgdrdZ2fWnw+oiXur+yLPs/BgmtFQosrhEZXnp9qoSTu4Q+AATUsIuQYS0qNYAtXqAw
-	 Rqf1FVEXHWllt7rEndza7yjhR5D6xotOmL+KeU6lEgzKg5BLW4UdAqbUEQrqkqh8I8cwE
-	 8SwtTN//+VC8weh6PL9HAzA/YODzfkp7+jm65smzz/cqatujTnDY6ST73sxlHxWUF9tum
-	 nPrkHnMCBgvvY60eOa0AyrtrgzdJsVCYGs0xbrPK/uJgSKL+qgqKkTdbEiP8lBAvl39LN
-	 OX+z19f05giFfar8cVx5PStK2a1wg5gwnJz6Ax/k2lIchB4y0wKijTu4ctcaLt70huQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.ibm.com;
-	spf=pass smtp.mailfrom=linux.ibm.com;
-	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=kSGfSTkY;
-	arc=none smtp.remote-ip=148.163.156.1
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.173
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795597999;
+	b=D2zGLTd2ZFGCTicRY1D9PFtF3nj7l//JiE57Jjto3/MBheWF8ddBJbRPIh+colYDCVao
+	 AhPs6zp984R+hnwAHRMqJPS+v0KRs5RQ8yQYAPNI8x7EYRVZDjxpmRmM3L6RSvOBdscSK
+	 ZjGYrJtk9irrP84pPrSWIUUDqHPl7MbhP6FgRA0UJzdnnE2RchfRUZR9VIadKk05ZWMkR
+	 Fs6RHM/BIr33rEZScX6zZg7bKCjc4N8vYoJ+SrMiRGCVaxbWm6qLddwy94CMqi2hD1keZ
+	 HOYrHhGJJzVAP10PXjJDN44f9GmvT+DzKU+pv4cI9miDMz4WGV470micMzBH9xBLK9g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795597999;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=yRz68tdfn4TGisWgdo2hcs3mIZ3ELB14oWICAHVfZ0g=;
+	b=g7R2N0MvYrAR+ak6v+9JWjUHuwX6Tvogq94dz15WIh2RyTn7pF9r9/uW7dnyRuVxAvg7
+	 W28sv+i7UAx8O6dnBF13EMSEQfPGMfnHlqufa7OeBofuqqunOMdzJtliuo4dlkKEBOJgt
+	 RHw/yXpMQ97N9Xqb8mJyTvORdaJUn5ZS8SNHf/KI9j7d/BseoJlzTZQNOMlsm6646ARLq
+	 1dVNVvAScqluId+1g+aIuqAmmXixPsy/Fv+qmmbtr8lM0Sdv5NJwuoK/UIIVy56b/8gIU
+	 /JKgB+2LdGKUUcB9oqhDOwfUhEgpnt6lEw7wyBtQe68k8Jr9A7q8QcZlHAsENiO7lBA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aNGtQCKE;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.173
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E054606A31E
-	for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 09:09:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E054606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CAB3606A333
+	for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 09:13:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1CAB3606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=kSGfSTkY
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AP6YoSD3109893;
-	Wed, 25 Nov 2026 09:09:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=m20c+6
-	zRaKa6S8P+owjFoXEJMPBcudIxx1JLpQyKEU4=; b=kSGfSTkYFsiGWseM3O9V9W
-	MTx3PdUY51wN5PqOY1+I3RAKFz4+dlgrc1sBAcybzErRr1y7V9aYW7H53/QQ82Yl
-	QKh0Ra3Xx3RTLDhE41nRRyIgJW2sB3oykGjxyRdh6B45msGgkRk8dsTlKDzpOtug
-	ONn5UH//sY6jqXOiptsgOCTasj33PNsTPVPfqkt3ygGgsMyxBH+sEn3JOa8+IrWp
-	TObSjGSzkMkFaCxGqhhg9EoFvYrGNnVLh6oxMKz51lhj0ZE8MGkJkVCwMvwsIllw
-	D2MzOcstOA6JYygUC5QDf+oxT4dSBD4DIcINjn7+iVJH+waYZUhHEUgW4wxY4rHg
-	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j34g3bmxc-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 25 Nov 2026 09:09:40 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AP6JKt6408283;
-	Wed, 25 Nov 2026 09:09:40 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4j5dcuttsy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 25 Nov 2026 09:09:39 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AP99c3m39518536
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 25 Nov 2026 09:09:38 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 339D22004E;
-	Wed, 25 Nov 2026 09:09:38 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9701D2004B;
-	Wed, 25 Nov 2026 09:09:34 +0000 (GMT)
-Received: from [9.39.29.113] (unknown [9.39.29.113])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 25 Nov 2026 09:09:34 +0000 (GMT)
-Message-ID: <35d3d17a-15ef-4204-a038-a9018e561535@linux.ibm.com>
-Date: Wed, 25 Nov 2026 14:39:33 +0530
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aNGtQCKE
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-53634b8328eso52841741cf.0
+        for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 01:13:18 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795597998; cv=none;
+        d=google.com; s=arc-20260327;
+        b=JUraviWnEvm3RSxpy55EQm/GePNidT/PRa1Njhi/OjDP3ZC67ZdM4TSul61JUhE8jj
+         /4d8f8u/wLyYaB8DI72hFqXyBq/xv5IwWQOcp9PhCbf0WL21sWCb0k+/+HEwxautRddG
+         MtuTCEK1JTAFHJZLsxjVzTomSUh9lFmi+9cDSCM44EhY2vF8yAprIHsfGGmESNpY3v+v
+         mFloi+8bl5rWh+f5mBmqG4KYwEM+H1PpyhEKSKHnPQ8+dhdMq3B8cBXtvl5HgY9pznay
+         5veXPl6xbLYZNucCmtxIJ01TSjGjDfgFr1UqqcBF0Upeps+1DmyLdSOWBUnEkd7SjNlI
+         7i6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=yRz68tdfn4TGisWgdo2hcs3mIZ3ELB14oWICAHVfZ0g=;
+        fh=qJBQES9xU0MV8nmBdu03P7N52MAvI/l9Byj/hozWqBE=;
+        b=nrpmBd6Km5k+g7MYSNh71EdCjalCLBtzDDmk0etTNHTi61VdV01qlwzcqvGbmtsDcR
+         vYSQMpT3NvLUqVDh0lRotCtGT5gpu2DAOJqk2QhAuq42a+tWaiNVdgWmObVbMX5AHMxO
+         q9EpxCLa9tEEAEjlT+GfJJdqJQJuphwmqhd8ROeGWZbSODVibGmfa8ZKkPDuHqBKBmCj
+         DEznPw7/lVfe7OMmbWW3tdLrBjdoaziPMI7ulP1Jxmwjdonvo92e9SwP1zQshauMy8p3
+         VpU8vO/UUi7eo/+qLx/pnCtHRRSLWNQ0ezSnulK6/flUyHa6yJ3R1EmeLcc3Nq5vgWnM
+         EN1A==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795597998; x=1796202798; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=yRz68tdfn4TGisWgdo2hcs3mIZ3ELB14oWICAHVfZ0g=;
+        b=aNGtQCKEAJN0ukxXF8m5uVg5C9ayXxLFcM3kLuUZVtcrv13WH9HxyLcDh8e2jqllo+
+         5pdTBB8GxlCcNBD7rOP/HEpbaXX93W3Q014TL78yCdqQM8lTB+v+FyvpewtFfBe/CGCh
+         jek2qcvK3rp8XibZ6sdblygwuf7iuwl5pH4EJB3TFse9Ma5I4FUM6QQDchlti/XaRbuE
+         ehJXvuzjQTNc/qNziaee9/3yzCWubhPhYHwwKeejWZ7XqDNNP3wTvx4vT5s3xbKUUXLq
+         hLpYiONmrSzZtDUGW6ESL08LPXw0h665kr0F+bjjpwoQBdWdFhi4hq1h57EerMn+RVOI
+         GTKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795597998; x=1796202798;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yRz68tdfn4TGisWgdo2hcs3mIZ3ELB14oWICAHVfZ0g=;
+        b=j38b5CBFmLuf+Lspk/+Ac8S+30gfjn53Qxke3dm7VmBUSENMksiP+6N9+PQYfHN4T9
+         uzvHBNC3MsU7eGMcfG53ICKRU9/Wmd05bhobWir/Fk4qYYbpZ3TT1M8uDjbA7VIet5pL
+         uwaFO7GjX7zZP0WJyxUP03L5zu31OfsUBnPOQk9EJpKYf0GR4a1BaOdS71Ifz5jsNFuw
+         7SK9U56pqBmVGuUhdhYGd4JAMk0SMyh+wU0W6/n0vXAv6zWPZTQbYLurXFCGDbq/a3Gg
+         3k3PCz7QipIM3s6gxwZfygZoj3zzbKQd3IL3Xx6rJh4ZdmnyVw+E0OQr6xSPF7V/u+Lz
+         +4mA==
+X-Forwarded-Encrypted: i=1; AL+hErGMg5BEQD4pmbPk33QFottkY8/ynt7vltonSP+GNxWKXzre6uMkVFbVBZZ5+39io2U3r+9uQinQc3XTbg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/aUMwo7ejaGI20MepNo98iRvS2fKfB3KNhxI68isL8qlqX1nE+
+	Sw0ZvDHOIxAElaNRsyCKg0zQZdwjFFAewmyHHEdGY+/x3/K0h0lyCyEMJFQpY61LE7Z90Krp/fH
+	xaNUWiQOpBs6y5euSOFkgvHIBqdPGe8U=
+X-Gm-Gg: AZFdTZdXG8k+xOTVH/zMuU4pNYSQRDuxYYUQ1TZVy7y2lsf5tCA0gtUksqmqdVCHl4O
+	IMy1BynVgQH4+C9SLVlFd169t0SOsqvfRb1wE+d6xOYK2cHrHSa6YwxxASC6baACvX3LKCI3rOx
+	2HmczDFAnQbuUijhWgj0wN/Zun7fmPafHe9sizGhxmmyI58nYqjddwte/T31ki18QJ2Wa5MmRiT
+	J6xqBbj6XniC/ZZpahhT/vw6rLXWoFhQROCwWF/GMqs7wqt6k/IaswKBAvQaOyH2gHNMF7pGC60
+	rwTcmZW7I2tirbeh0merbo2tCIBHO0G1KtghPJq9JH6kKRdm+Z+M1wqOZC4iVuYY3K2he81fkU0
+	7QvMnWpJNde4BqK8AMWKxDEcs0cbIoey2a/+RHw==
+X-Received: by 2002:a05:622b:283:10b0:55d:846f:ca79 with SMTP id
+ d75a77b69052e-55d846fd63dmr196434691cf.55.1795597998017; Wed, 25 Nov 2026
+ 01:13:18 -0800 (PST)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -86,117 +104,110 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] cacheinfo, powerpc: Move powerpc to generic cacheinfo
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-To: linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        driver-core@lists.linux.dev
-Cc: christophe.leroy@csgroup.eu, maddy@linux.ibm.com,
-        gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
-        johan@kernel.org, sudeep.holla@kernel.org, ritesh.list@gmail.com,
-        tim.c.chen@linux.intel.com, yu.c.chen@intel.com
-References: <20261118163639.890546-1-sshegde@linux.ibm.com>
- <a2bd3564-0990-47ab-b922-6793dd1de144@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <a2bd3564-0990-47ab-b922-6793dd1de144@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=SoQFe/O0 c=1 sm=1 tr=0 ts=6b06a5d5 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=GSrg8US4fy1um4TZnF8A:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI1MDAzNiBTYWx0ZWRfXyQFVIiHOeKqk
- DiXtQl9oH9DILas27WIDntJeGq6g4W0Yoro5k/6Wgqx2fg8YLWxfk5yuiZPIrskuRw//4WOkw9w
- Ls1Ryz7jSf2h80qv4WC6L+FxQBq3NZU=
-X-Proofpoint-ORIG-GUID: d0_GswMIP1KdKSs4UAf-MTjOSVRT_Wh4
-X-Proofpoint-GUID: K8a83gD0EIMhDPmoKpesw_nBKKA6SZMt
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI1MDAzNiBTYWx0ZWRfX5w8YAC8MHUUX
- ponakBauIM4NhqcAd13fsdc+efG8tRxZES3svuf0PDwjw9NYtW8doGhYQzyizKeks46oesnG93r
- 5ih4ijPR2os5/9jiQ9g7TPoUzmLNAVz9fbgVTJVh1Rc0VYqnUJpAbr4CgUI6o/XgM6y764QPRbK
- O5dq98DuFmcWcEKNvtBUW7bTlpdFPZJF/+ukxiuDYMHYGGgSsSDzSsmOzj9RsPckXfvy2Ib7a+s
- laSwIT6kaVcjsbew8EqoLtVLwWwQyIjzNI9B7RYYSaCYniMMdKRPPZQAekw94WG8it8FHzO8cRn
- KL4DCq+AYSqu6b61VGvwHzv+yPwPrFTT+oojd3GCJCk/wjuKZWKEuX++b2hp7q20EG5Y9CD6yRc
- EbUYSr2/kfYTyanmJ7r4r07xt3B185zKzB4PmdlB2F2cXZXgjrfMXHBLvp1Ki2W9tw1NaMYfcyQ
- Ky8IAV6uUraCL0GQ1RA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-25_02,2026-11-23_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 spamscore=0 bulkscore=0 adultscore=0
- lowpriorityscore=0 clxscore=1015 malwarescore=0 impostorscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611250036
+References: <cover.1795426787.git.caoruide123@gmail.com> <cd35c5682ebe0f5a58fa6beed90bb7d0e7d5e9a2.1795426787.git.caoruide123@gmail.com>
+ <2026112301-jingle-multiply-c72d@gregkh>
+In-Reply-To: <2026112301-jingle-multiply-c72d@gregkh>
+From: Ruide Cao <caoruide123@gmail.com>
+Date: Wed, 25 Nov 2026 17:13:08 +0800
+X-Gm-Features: Aa3M54o65lMpJ4o_dEHDRpARkVHBRUf-4JdPMQgcl94JF9PJoJIOfS7VpbR3FMU
+Message-ID: <CACveakTAopfuvAVQnbzzU3c6z2efTgySV5xo7330KAD6nMSxYQ@mail.gmail.com>
+Subject: Re: [PATCH driver-core 1/1] kobject: reserve an envp slot for the terminator
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Ren Wei <weir@nebusec.ai>, linux-kernel@vger.kernel.org, 
+	driver-core@lists.linux.dev, rafael@kernel.org, dakr@kernel.org, 
+	johan@kernel.org, akpm@linux-foundation.org, kay.sievers@vrfy.org, 
+	vega@nebusec.ai
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Greg,
 
->>
->> If this approach does not work, then I am afraid we might have to fallback to
->> arch_llc_bytes.
-> 
-> Well, though it worked for normal boot and hotplug, LPM is broken and DLPAR is likely
-> a problem too if the logical CPUid is reused with different device tree node.
-> 
-> So I am afraid it is not straightforward to port.
-> 
-> The current PowerPC implementation owns references to the device-tree cache nodes
-> and destroys and rebuilds its cache objects during LPM. It also releases cache
-> objects as CPUs are removed during DLPAR.
-> 
-> Generic cacheinfo has a different lifetime model. Its per-CPU info_list is retained
-> across CPU offline, and the leaves continue to contain fw_token pointers to the
-> device-tree cache nodes. Replacing or freeing those leaves safely is not straightforward
-> because scheduler and page allocator users can access them concurrently. Handling this properly
-> would need a broader lifetime and synchronization mechanism in generic cacheinfo.
-> 
-> Doing all that heavy lifting for the case of LPM/DLPAR is likely going to be overkill.
-> That may still be worth doing independently, but it is substantially more involved than
-> what is needed here.
-> 
-> So I am planning to resort to something like below. Introduce a new arch
-> specific hook (cacheinfo_get_arch_llc_info) to get the cache size and
-> cpus of that cache.
-> 
-> Hopefully should be able to send it out soon. Now would be the good to wake me up if
-> there is a better way!!
-> 
+You are right to be suspicious of this one, thanks. v1 was not good
+enough: the "- 1" lowers the limit for every uevent from 64 to 63,
+including events that never go near the usermode helper. In testing,
+a currently valid 64-variable event was rejected (with the "too many
+keys" WARN) on v1, on both the helper and the netlink-only path.
 
-After auditing the code again, the scope appears narrower.
+The underlying bug is still real: when env->envp[] is completely full
+there is no slot left for the NULL terminator, so with
+CONFIG_UEVENT_HELPER the helper's envp is not terminated and
+kernel_execve() walks past the array (KASAN: strnlen <-
+copy_string_kernel <- kernel_execve, then panic).
 
-The scheduler and page allocator consume cacheinfo only while refreshing
-cached state during topology updates. their runtime paths use sd->llc_bytes and
-PCP flags rather than retaining cacheinfo pointers.
+v2 keeps the 64-variable capacity and instead adds one dedicated
+terminator slot (envp[UEVENT_NUM_ENVP + 1]), writes NULL after every
+successful add_uevent_var(), and also after zap_modalias_env() drops
+MODALIAS. struct kobj_uevent_env is kernel-internal, so the only
+visible change is 8 bytes.
 
-The other runtime users relevant to this conversion participate in
-CPU hotplug read-side locking, while early scheduler-domain construction cannot
-overlap LPM or DLPAR.
+Tested on 7.4-rc4 (b6a9fa34ce41) in x86 QEMU, 2 GB RAM, KASAN,
+CONFIG_UEVENT_HELPER=3Dy, systemd-udevd 257:
+ - unpatched: reproducer triggers the KASAN report above
+ - v2: no crash, no WARN
+ - exactly 64 variables: helper receives all 64 followed by NULL;
+   netlink-only delivery unchanged; the 65th variable is rejected
+   as before
+ - boot + udevadm trigger/settle, virtio_net unbind/bind: no
+   "too many keys" in dmesg
+ - unbind with the helper enabled (MODALIAS removal path): envp
+   stays NULL-terminated
 
-So, let me give this approach another try to see if it holds good for LPM.
+v2 is here: https://lore.kernel.org/all/39d1eae0d7c8b235f5d4b68d94205b70832=
+ab786.1795506878.git.caoruide123@gmail.com/
 
-> 
-> @@ -XXX,15 +XXX,23 @@ static unsigned long get_effective_llc_bytes(int cpu,
->                            struct sched_domain *sd)
->   {
->       struct cacheinfo *llc;
-> +    unsigned long size;
->       unsigned int hw_weight;
-> 
->       llc = get_cpu_cacheinfo_llc(cpu);
-> -    if (!llc)
-> -        return 0;
-> +    if (llc) {
-> +        size = llc->size;
-> +        hw_weight = cpumask_weight(&llc->shared_cpu_map);
-> +    } else if (cacheinfo_get_arch_llc_info(cpu, &size, &hw_weight)) {
-> +        return 0;
-> +    }
-> 
-> -    hw_weight = cpumask_weight(&llc->shared_cpu_map);
-> -    if (!hw_weight)
-> +    if (!size || !hw_weight)
->           return 0;
-> 
-> -    return llc->size * sd->span_weight / hw_weight;
-> +    return size * sd->span_weight / hw_weight;
-> 
+You mentioned this "simple" change caused problems before. I found
+7eff2e7a8b65, which reserved a terminator slot, but if you meant
+another earlier attempt, could you point me to it so I can make sure
+v2 does not repeat it?
+
+thanks,
+Ruide
+
+Greg KH <gregkh@linuxfoundation.org> =E4=BA=8E2026=E5=B9=B411=E6=9C=8823=E6=
+=97=A5=E5=91=A8=E4=B8=80 20:57=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Mon, Nov 23, 2026 at 08:16:37PM +0800, Ren Wei wrote:
+> > From: Ruide Cao <caoruide123@gmail.com>
+> >
+> > add_uevent_var() currently allows envp_idx to reach ARRAY_SIZE(envp).
+> > This fills the final pointer slot without leaving room for the NULL
+> > terminator expected by usermode helper consumers.
+> >
+> > A synthetic uevent can supply enough variables to make this happen.
+> > When CONFIG_UEVENT_HELPER is enabled, kernel_execve() then scans beyond
+> > the array while counting the environment and may dereference arbitrary
+> > data as a string pointer.
+> >
+> > Reserve the final slot so an environment is always terminated.
+> >
+> > Fixes: 7eff2e7a8b65 ("Driver core: change add_uevent_var to use a struc=
+t")
+> > Cc: stable@vger.kernel.org
+> > Reported-by: Vega <vega@nebusec.ai>
+> > Signed-off-by: Ruide Cao <caoruide123@gmail.com>
+> > Signed-off-by: Ren Wei <weir@nebusec.ai>
+> > ---
+> >  lib/kobject_uevent.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/lib/kobject_uevent.c b/lib/kobject_uevent.c
+> > index 1d29378d4f55..f7aa67d6ee54 100644
+> > --- a/lib/kobject_uevent.c
+> > +++ b/lib/kobject_uevent.c
+> > @@ -673,7 +673,7 @@ int add_uevent_var(struct kobj_uevent_env *env, con=
+st char *format, ...)
+> >       va_list args;
+> >       int len;
+> >
+> > -     if (env->envp_idx >=3D ARRAY_SIZE(env->envp)) {
+> > +     if (env->envp_idx >=3D ARRAY_SIZE(env->envp) - 1) {
+> >               WARN(1, KERN_ERR "add_uevent_var: too many keys\n");
+> >               return -ENOMEM;
+> >       }
+>
+> As "simple" as this looks, I think there's been problems with it in the
+> past.  Have you tested this?
+>
+> thanks,
+>
+> greg k-h
