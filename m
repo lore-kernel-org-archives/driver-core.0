@@ -1,96 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.15
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795594636;
-	b=qzo0oAQ8piSEAHnxTS6OzfsJV42iPJiFexJOA13SOZMDN+yxVmPLmppAN7rfPfgdQsAs
-	 4ivUjM9dgHeCOTpU9P0L8+mzKY8tjmHG+dx8cweTM1ZEb6W2irZW6pl/JaRoWewZ7QtZ1
-	 BpiO/zh2cB9svyeF+f7USn/VSW6WCkOq50bsrwuOwexidDoN0fqjU6DmBxX7X0o/AsZbE
-	 b5PFVjm7tHjQ45TehjAB0Bb/hWRyO7vuJXNsxa9oWP64sK1WGyykORF6PowUVJOZZJQTf
-	 qdirNHXxrVtjkJP7qF2QO+u1Uw/hYjYCPCY8nCLghtSz+P8ETrSf/27E2SeSg0g+BBg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795594636;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:To:Cc:Subject:
-	 From:References:In-Reply-To:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:
-	 X-MS-Exchange-AntiSpam-MessageData-1:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=9XhOIV9r8f6FBYErVp7Q569PaN64NzZjl0QnfuWIqyU=;
-	b=TyRR/0tybdQ9342PNesWBfykbJ2tZ8/qAEtx2d7hATf+Z/Lrpsy477Yuly0sMjr6VbaE
-	 DKLb6FZ0MQgCJDCnF13DpJrFnxp7hqiGj0BQ3+H37pRtBRwjZlR6O+OXEPZU1JbRtB32v
-	 BwcdeR3lJZZ/ZwzfZXxy0/YGFaHxpmu7ZbCNW7WbRcELmKPSb7cViyUf+REnj7y89T03o
-	 d+pWUGZ+AUvL0bX5gL3vl99S8t8gkEOR0+DGc56VCAJcO+OUEFALwaHdmb/kHD84oFwam
-	 W363T/0uTG1pIM+iH1ZCDyfBw98otDPRZMyFun0Pax47ps6avinQrsEfrpXKZMEDihw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=NWAmVNeA;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.15
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013015.outbound.protection.outlook.com [40.93.201.15])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795594987;
+	b=1VFf6YSdwPyZBc1UmHGSjwuxtByS5guX+0RfyHdVNqZjnVrWXhhbwUhAo9/oyfucLSfP
+	 5iP1hGsev+1Jzn03qTyfJBPzWeUygxrGCNkg4qDgNjUH407AA85D6D6kpYzdD372FNuV/
+	 h1eDx6pP1kc8+EKT/r4ePfQxVRngxV4Vvd2uKefxF1EJ++eFjDOACPZ8kse5rBJ5ivpf/
+	 vPVgRT5GDP87W4T1oI73PlIaneaoiTGqoQnYoSK8bwx8JdzylAa/oZsNaT6XxNkhWFhw6
+	 CZm+7el/BOGjCrlszzy5RLZC8XzLtpLU5pxFXmIPmzJ2m8zIs9a2L1GvsP8Jnq40PHQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795594987;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:Date:From:To:
+	 Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Last-TLS-Session-Version;
+	bh=uNybJMbMTjSA7ZZcWlQYQU8MlFHRVpDuABhvHlqOToo=;
+	b=NLO5fhtNeVHtwiOetiKNnpQBuH3EHP7OUblBtx2Th5J8IiEBP/Ap4drOKSNxq5OHlKRU
+	 vB/TSlXEMty87+4UOATN3+WVZmncwHkEU8H7jKNzv1gj6Vhjzmb5DKSooE+y2mBY0yAwF
+	 vZMqxh+NTGkHNG6Hfzlm8Vkm1xC7LXVRAV1aS86n5Ji2l9VrzOm0riGyixvHR+LdNh9E8
+	 bCzLPvmBF/ozl53pYi9KaOzXMtnedVO9A5UTTbJP3BeRLp4mBNpERnxEVsrTepJJtleQo
+	 j0vQMt/g8XyUcd5igIak5maHS1OPzD+x00eEGsxU6XAwaJcnkX7t2ZIccDcWgTPUzQw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=Hx+CY+Md;
+	arc=none smtp.remote-ip=185.171.202.116
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7BD1606A323
-	for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 08:17:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7BD1606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD9C606A330
+	for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 08:23:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CBD9C606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=NWAmVNeA
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KQ2FvlyZ1fNbfpUPQqTsmS0SjLEqGtng9R5R5PjSIDIm2laQa7eNxvRSLoe2urhsk72AJQOTZ2hDgL8N4AstmV41TU7Tx35zfkDBkTxjXAFPI8Q12OwattSNnHPWB4/30nt83m/VFsQOyGPnPezxrBPWtQigNezoYln9z0bhs3XUoaV9zW9D4glSYPYscUX/lWnP0rytUWPmcH83k0Vls8uZsokFiDpbATZu45nSeN+I3AppT6ofbF7IGWAsNOb0lDD2dQr3br31aQprJPyvemAoJoPIpEcGcv/lSLirhA+Z9tz4wjBxfAJmYl5LhAyUMb0WiUtpVHBdjtCkB3NMfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9XhOIV9r8f6FBYErVp7Q569PaN64NzZjl0QnfuWIqyU=;
- b=L5KZ6i2Xc/1BquY/323IXbow42PSUTygliYRPdmYc8jaw3ryjWaJwpE1S/ZrNJ0tROrVN9a2K1fk2X+xTIIqziOUmXqfhIPm3zaeA7dpGxA1taIDRSmkgqXA6M1bFw4VnZPDhKJjoRXek8qPAUto95wYOdr/aJ1k0cAiYAbJFmaIPlZA+pZBWJAA8SHueQ1ZOuq/cQrlQWp7V6eKdA6xlgU0SYffTdlIJn0y2tL0m0y95DLscByw2DbWPgXUdH98hLuTZtBUmohEB2wlxsxlF+D0szeCxgjjaLZyswEpaNpb9IdlmEv5L2ZNJ8SY/iiperMoMxflrZlmlP9pVzon8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9XhOIV9r8f6FBYErVp7Q569PaN64NzZjl0QnfuWIqyU=;
- b=NWAmVNeArrDUMYrDXJdy+cSP+F/did+EAdaJny1Ync3iwRlSZINb9moHOZlyDBkP+1yPqWR7DqurBNDCp7A/5U7vMdJznroErkQqvU1fjyJ905wqihkC2P6Dk5Gt60eM7Ck9WAeZM5vIKT6HwQFiMLB1m+0KU4P77HGN3RNe7iQvqUSUK/seHHO+J3/24sSrZuPKHUrE58J4EArhqXZ366Yr1Emzi20UoZmvElIxrtqFA9sLJwyzuqQc9IrPlhig448NFV/0Xa2r/I8NliDn+0LCYW+avfVO3w18sJn7olN78dhGEUgz44earzETYJ1orWN+Myi92gmvZ73KcKOWrg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MW4PR12MB6873.namprd12.prod.outlook.com (2603:10b6:303:20c::17)
- by DS2PR12MB767817.namprd12.prod.outlook.com (2603:10b6:8:3c2::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Wed, 25 Nov
- 2026 08:17:11 +0000
-Received: from MW4PR12MB6873.namprd12.prod.outlook.com
- ([fe80::a338:bd2c:3a38:ece1]) by MW4PR12MB6873.namprd12.prod.outlook.com
- ([fe80::a338:bd2c:3a38:ece1%5]) with mapi id 15.21.0662.001; Wed, 25 Nov 2026
- 08:17:11 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 25 Nov 2026 17:17:08 +0900
-Message-Id: <DN4568LP2RLG.2JSXGDQ8M5ETL@nvidia.com>
-To: "Danilo Krummrich" <dakr@kernel.org>
-Cc: <abdiel.janulgue@gmail.com>, <daniel.almeida@collabora.com>,
- <robin.murphy@arm.com>, <a.hindborg@kernel.org>, <ojeda@kernel.org>,
- <boqun@kernel.org>, <gary@garyguo.net>, <bjorn3_gh@protonmail.com>,
- <lossin@kernel.org>, <aliceryhl@google.com>, <tmgross@umich.edu>,
- <tamird@kernel.org>, <work@onurozkan.dev>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] samples: rust_dma: construct driver data by value
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-References: <20261122171610.967066-1-dakr@kernel.org>
-In-Reply-To: <20261122171610.967066-1-dakr@kernel.org>
-X-ClientProxiedBy: TY4P286CA0043.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:36e::10) To MW4PR12MB6873.namprd12.prod.outlook.com
- (2603:10b6:303:20c::17)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=Hx+CY+Md
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id B0B45C2BB3E;
+	Wed, 25 Nov 2026 08:23:11 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B77A960480;
+	Wed, 25 Nov 2026 08:23:03 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F2F3A11E6929F;
+	Wed, 25 Nov 2026 09:22:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1795594981; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=uNybJMbMTjSA7ZZcWlQYQU8MlFHRVpDuABhvHlqOToo=;
+	b=Hx+CY+MdlcBHskvgsPz/EZoyN+RpIKBjjgZ1d8pt+Uzc62IQAftvqcbYZc4buUfDHHIlcb
+	iLOWhlJuYSoYowQrRUwFv0od2eHHVOFj+rNLHW+1iYWk+S6tVqoFYqXiZMqexCI7NvAaCq
+	kkgp5Wq2jhuQAABmvbd50+kpEQIy4ULwV/wygKSj4T35++WLTBnXXx05S9hkMH2hFYX3yg
+	/yLpXIGZTENyxHO72+HdSRcC7C+MCJ9XmsRB/tqnU6lz8TeRyY5tMp+hDQGIKJJru+E0FN
+	musR9Hk9FSDzVa1rPfF7hXkK+BlG1U3m+Ovc/z6r8jID84oI06p5fsmqpiTgxQ==
+Date: Wed, 25 Nov 2026 09:22:40 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: Abdurrahman Hussain <abdurrahman@nexthop.ai>, Richard Cheng
+ <icheng@nvidia.com>, Andrew Lunn <andrew@lunn.ch>, Rob Herring
+ <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Johan Hovold
+ <johan@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, David Rhodes
+ <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, Linus Walleij
+ <linusw@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>, Heikki Krogerus
+ <heikki.krogerus@linux.intel.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, Len
+ Brown <lenb@kernel.org>, Davidlohr Bueso <dave@stgolabs.net>, Jonathan
+ Cameron <jic23@kernel.org>, Dave Jiang <dave.jiang@intel.com>, Alison
+ Schofield <alison.schofield@intel.com>, Vishal Verma
+ <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>, Ira Weiny
+ <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>, Herve Codina
+ <herve.codina@bootlin.com>, Lizhi Hou <lizhi.hou@amd.com>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, Allan Nielsen
+ <allan.nielsen@microchip.com>, Horatiu Vultur
+ <horatiu.vultur@microchip.com>, Daniel Machon
+ <daniel.machon@microchip.com>, Steen Hegelund
+ <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v14 00/10] lan966x pci device: Add support for SFPs, PCI
+ part
+Message-ID: <20261125092240.43499f8f@bootlin.com>
+In-Reply-To: <20261103155540.365294-1-herve.codina@bootlin.com>
+References: <20261103155540.365294-1-herve.codina@bootlin.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -100,76 +96,208 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR12MB6873:EE_|DS2PR12MB767817:EE_
-X-MS-Office365-Filtering-Correlation-Id: fc350f1f-0f1e-4593-2ce7-08df4acc8129
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|23010399003|10070799003|18002099003|22082099003|10067099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	fzr1VqY1RUf8osjIWIgIThNP/9ZR9TSvaC3ezdFQWWoXnAFRAf3jbia/3+HGt+GySu8GUwtoBfKOFkpsqAWtFpYkPE1GY6Bw8+Wx/7yKEgbbM2L8OCgIUq+UQroyaonabI230NRf10GmPaDW49nc/UWLXRePtKc1DtC0kFjoNH5KHZhV0iPhHJ/VrgiQblF9aY2/9Oi0NGAQzod4joPdMtzLDWs9UQKQdZN8dbIOcZkinJYpub5utk8ILHSr7l1JcgNXuqtuhYMSjO43vsXR/z4/dzJUqiEKR2B09vPIpOOufZAeXDCUtwnqfgMp5mqgVlnGRnQGvHwxKFe8R5UutwbUsMVNsmRS8udlr4p4qGftaslY5xbNXGTQP0aWHcNAJbZchS6geFBYNxL7ebUwomPBwnqDA6vEFOC0+a5Y6XUbEt82LDtzjkRNNxdCfnwOm/R6i0NmyPq25ckqfACEcHxc4Z4fynNxEda1Jx2aPFfTXj/sbI7XXF2MwXeZNeZlH5jGE//6kjCYzeoz7qK/GJxhVc3QF5iJhxPeRMcinfxpPWnm7O0+vMnTWvhhurjwFH37zh3zBqJ9p+KQf3Ayn8w2sgBcn5FXrQ4IDYmwtw5I8lxG2coZ8DKpxDgbLzU2rCSikqlkLBe1Sk6UE0wfyn9w99B+5RuRTEkmjKKqNS4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR12MB6873.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(23010399003)(10070799003)(18002099003)(22082099003)(10067099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QVVBZC93aEJMOHdXTEcrbHJmTHc1N0ZUeTVYZ3ZBSnlKeWFTcHM4MzhSUFJJ?=
- =?utf-8?B?SnpWQUljUGNRMTR2VEhqa1hLazV2cnVQM0dlVjdWaFZRaFY4eWdseUZDSlRj?=
- =?utf-8?B?V2lvUTE3WVZleFFWcFV4MmVkYzNLT21wQzA5MHJhZ0p1ZGJYUGxKNHNiK3R1?=
- =?utf-8?B?TFk0TUZMM1d1K0kwcHJUbndsMnk1cTNLV1V3YThXTmpwVkcwUHJhYnAyaitV?=
- =?utf-8?B?MDFzdlhITHNpUlRIajF5VFJWdVdDVGhzUlRld29uWkVmeS9JdUhsQjlGM2tD?=
- =?utf-8?B?OSs0bWl5ckVKTndTSHVmczJoRVY0encwWUtFd25FZ1NZTDBzZVZHaXlveWlW?=
- =?utf-8?B?Q3BGQWQ5QTB1L3ZMVWV3c0VxckQ2N3NCTUpUeW9nWXo0b081WVpURlFBQ0Ev?=
- =?utf-8?B?WDl1R2psK0l0d0RzU25YcDUyMmVzZVpPT0pxdlRhbXZBWHJWbHVDNTNwdk1P?=
- =?utf-8?B?VVV2dEJ4TkJ4Z3YyT2k3TWttNnc3WjVFV2NkUnVpSGlZMEZxNTVGWFVVRHRZ?=
- =?utf-8?B?dlBIeWNKM3JMSG0waXJ2eEd1WkkvY3ZjNkZDWkhHMEZOS2pKaS9QZ1JnTkg5?=
- =?utf-8?B?MWVteFQyVVQ1OXZRZWdFdmlwQ2NOaXdJRUlUcE5MKzBEMXhNWlA3L3p0RWxx?=
- =?utf-8?B?aGNvdlBzSVF1NWZRQUg0ZGJVajNNVE9EZUVyVjJBT3k5VUJWQm81SFFUNytL?=
- =?utf-8?B?N0ZRVnJrUG9UT2pnbHQ0N0tKeEJqTjhZQlFuRFQwT3M2T0MrUnQwMWpCQW5D?=
- =?utf-8?B?ei9qMVFvQnJnZFV2aU54cmVLcUY1TXl2TUcxb1pScEFJbDVIZUJ1Wll2cEsz?=
- =?utf-8?B?dmdvaFR6UDZLd0xQUys0TG5LZUdNaTN2dEY2dWRKZllFVEhtdDlrVU94eVFh?=
- =?utf-8?B?ZFdpQ3lTS1M0RHpMZ2xWa3JUS1Z4a010TllkWGVzQzIzWjdwT2NUdE9iZFZ5?=
- =?utf-8?B?VU0yRUFrbFZJZ0VPbGNEcXYzVHN2ejdudWVNbXY5UE40UFAvQnRYY3kyNjBS?=
- =?utf-8?B?WUhkY2EvVXhYaWh5OXZDQnJWQVFXcGlyVmE0c1lRNS9lUWR1ZWFvZkZHdEtl?=
- =?utf-8?B?OUFzcXZtaTZ5bVRmU3VDT2REbjlFdW56VDFPdXFlNUtpQUVLOXA1RWV0clRS?=
- =?utf-8?B?YVhuZ2ljdDErN3lUSTg3cHhpMnFNZkdHR2dGR0dtd3lBUHc2QWV0RVRaWHJP?=
- =?utf-8?B?UFhyU2tHbHhFMXZxMWRZSHpkd00vNUtQcTRxK0pMb1NXVW9LbnpUbXFxZ253?=
- =?utf-8?B?RjZOSDhXbFhEWkNrdWxoakR4dGE1Z2EzUGZaSFRpYVFTWFdEZEl4M0srRFA1?=
- =?utf-8?B?ZlVDb0pWZXBoYU1QTFBha1dPb3kzYmdHL1RRT3Fjb2krMGQ3L0hkb3FmNTlJ?=
- =?utf-8?B?ZVhKdDNCTno3Y0RmbG1nSmlnVHR5K1lYaUYyMWNVVnR5N0d3YjdCSHM1L0x6?=
- =?utf-8?B?bE44d0VSamlMNTBacVNVR29HOVFaejBkNGFRS2gzWHpIM3Ezd1NMRWJ6Qmo1?=
- =?utf-8?B?UHgzeXlSSVd6M04velZvSFdaRHRwdXhKZVhUVmN5ZzB2VHptTVJvQVZVYzRD?=
- =?utf-8?B?UFJacWN1YS8reWI4aEFSWHZTcXlTZ00zZUwyVG1KU0QxWUVaTzRKNE1tYXJi?=
- =?utf-8?B?MnBqSFNNMkhqVTB5ckxJUCt3QUZxN2ZJS1drc0tTLysvNWg3Z2RzakRQVTVW?=
- =?utf-8?B?eDFya2J6ckhnbVlFTWJDU2Ezd2I5S3B0bjUzUGN1Z2ljNUxUNEtUY25XZzVN?=
- =?utf-8?B?c2FpUjhwcmpGMitwZ0VrRGVhMjhzbThJUG1rT0dUd2R5VzQ4bk1zMjNjWGo3?=
- =?utf-8?B?cGVPd0FYSzVuNzRpQ21Ka3VLQmg0MlRNckQ1T0ZhZzIyZ3BHY3F5VUNvMkRm?=
- =?utf-8?B?UWJVeUtOS0R6UHpic0lhd08wTmdySHhmYVI4M0JWbnNOWEFLTmw1MEppZytv?=
- =?utf-8?B?ZU1QL1ZiSFVWRVFOZ0Z6Q05FNGNCdTV5SUp2dWxrNmpGTkpsRncxbHdjVWVZ?=
- =?utf-8?B?THBvNk1sNHNQM09BRzlaaktjTER6MDBtb1JVdnViV3pkNVMwS0pwaU94Wjl6?=
- =?utf-8?B?dkQ2clF2Q2M3UTM2V1dTeDJWbGJJSVZmVURUdGpvVVIwdGhSamJvVDFnb1Bj?=
- =?utf-8?B?ZFdsb0J2Y2w4SEhkL3M0cmFJbFYzdEZIY0R2VnU1SXh3cnp3WUl0N3VuRmwx?=
- =?utf-8?B?M0pCZUI4Q2NIeHBkU2k1M01rb1NkQzlxdExzZlZkdFpBU09DL3JZYzB0NlZF?=
- =?utf-8?B?NDlmTFdUdnBaVk9IVWhMWGtGaFNUR05XRUc0SnJhT3BUdWQrSHUyK0hLSzla?=
- =?utf-8?B?SEpUczQvcDA5M3VXTEQrRWxGdCtWakpMOXN1dkF6MnJZaGd4aFF0d0I2QjJL?=
- =?utf-8?Q?jF1v7GL+AunKbIGj/BEi+I6KHbQWD2V8c88dZPs7Ku1gQ?=
-X-MS-Exchange-AntiSpam-MessageData-1: 6DvOKJK26bQ8pw==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc350f1f-0f1e-4593-2ce7-08df4acc8129
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB6873.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2026 08:17:11.2629
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P8dKXJ2XH5PCtbcSZl+e80SjlqyL2PwLMJ6J4WjlCc6vzYhm9qR0Fv67of657cGHBfq0S8kyv3YzRZZ8z7i9vA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB767817
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon Nov 23, 2026 at 2:15 AM JST, Danilo Krummrich wrote:
-> Now that SGTable no longer requires pinning, construct DmaSampleData by
-> value and replace PinnedDrop with Drop.
->
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+Hi Bjorn, Maintainers,
 
-Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+Just a gentle ping on this series, as it has been three weeks since it was
+posted and hasn't received any feedback yet.
+
+Please let me know if any changes or clarifications are needed from my side,
+or if it looks good to be applied.
+
+Best regards,
+Hervé
+
+
+On Tue,  3 Nov 2026 16:55:06 +0100
+Herve Codina <herve.codina@bootlin.com> wrote:
+
+> Hi,
+> 
+> Previously, I sent a big picture series adding support for SFP ports
+> available on the LAN966x PCI device [0].
+> 
+> In this series patches touch several parts and sub-system in the kernel.
+> Reviews have be done and it makes sense to split the series and send
+> parts separately.
+> 
+> This current series is the extraction of patches related to issues in
+> the PCI subsystem. It has to be seen as a continuation of the big
+> picture series but related to this specific core part.
+> 
+> Patches 1 to 6 introduce and use fw_devlink_set_device() in already
+> existing code. No functional change but the introduction of the
+> fw_devlink_set_device() wrapper.
+> 
+> Patch 7 avoids a dangling pointer.
+> 
+> Patches 8 and 9 fix fw_devlink issues specific to PCI and the
+> device-tree nodes created during enumeration.
+> 
+> Patch 10 avoids the usage of np->data and adds guards to prevent
+> incorrect nodes removal.
+> 
+> [0] https://lore.kernel.org/all/20260325143555.451852-1-herve.codina@bootlin.com/
+> 
+> Best regards,
+> Hervé
+> 
+> Changes:
+> 
+> v13 -> v14
+>   v13: https://lore.kernel.org/all/20261012142826.159178-1-herve.codina@bootlin.com/
+> 
+>   Rebase on top of v7.4-rc1
+> 
+>   - Patches 1, 2, 6, 8, 9
+>     Add 'Tested-by: Abdurrahman Hussain'
+> 
+>   - Patch 10:
+>     Add 'Acked-by: Bjorn Helgaas'
+> 
+>   - Other patches:
+>     No changes
+> 
+> v12 -> v13
+>   v12: https://lore.kernel.org/all/20261001142815.277550-1-herve.codina@bootlin.com/
+> 
+>   - Patches 1 to 9
+>     No changes
+> 
+>   - Patch 10
+>     Split a test condition into two distinct checks as suggested by
+>     Andy. No functional change but readability improvement. Split done
+>     in both of_pci_remove_node() and of_pci_remove_host_bridge_node().
+> 
+> v11 -> v12
+>   v11: https://lore.kernel.org/all/20260909080114.591938-1-herve.codina@bootlin.com/
+> 
+>   - Patches 1 to 7
+>     Add 'Reviewed-by: Bartosz Golaszewski'
+> 
+>   - Patches 8 and 9
+>     No changes
+> 
+>   - Patch 10
+>     Add a NULL check for the retrieved OF node in removal functions to
+>     avoid any NULL pointer dereferences.
+>     Robustify the guard setting cset to NULL after freeing it.
+>     Those issues have been reported by Shashiko:
+>     https://lore.kernel.org/all/20260909081755.444E91F00A3A@smtp.kernel.org/
+> 
+> v10 -> v11
+>   v10: https://lore.kernel.org/all/20260717145147.823749-1-herve.codina@bootlin.com/
+> 
+>   Rebase on top of v7.3-rc1
+> 
+>   - Patches 1 to 5
+>     Add 'Reviewed-by: Richard Cheng'
+> 
+>   - Patches 6, 7 and 8
+>     Add 'Reviewed-by: Richard Cheng'
+>     Add 'Acked-by: Manivannan Sadhasivam'
+> 
+>   - Patch 9
+>     Add 'Reviewed-by: Richard Cheng'
+> 
+>   - Patch 10
+>     Rework removing np->data usage in the PCI devicetree node creation
+>     and removal.
+> 
+> v9 -> v10
+>   v9: https://lore.kernel.org/all/20260708100302.517792-1-herve.codina@bootlin.com/
+> 
+>   - Patches 1 to 6
+>     No changes
+> 
+>   - Patch 7
+>     Clear fwnode->dev also on error path.
+> 
+>   - Patch 8
+>     Clear fwnode->dev also on error path.
+> 
+>   - Patch 9
+>     No changes
+> 
+>   - Patch 10 (New patch in v10)
+>     Guard against node removal with incorrect np->data.
+> 
+> v8 -> v9
+>   v8: https://lore.kernel.org/all/20260630102804.413563-1-herve.codina@bootlin.com/
+> 
+>   - Patch 7 (new patch in v9)
+>     Clear fwnode->dev during root bridge node removal (avoid a dangling
+>     pointer).
+> 
+>   - Patch 8 (patch 7 in v8)
+>     Clear fwnode->dev during PCI device node removal.
+> 
+> v7 -> v8
+>   v7: https://lore.kernel.org/all/20260511155930.34604-1-herve.codina@bootlin.com/
+> 
+>   Rebase on top of v7.2-rc1
+> 
+>   - patches 4 and 5
+>     Add 'Reviewed-by: Andy Shevchenko'
+> 
+>   - Other Patches
+>     No other changes
+> 
+> v6 -> v7
+> 
+>   Rebase on top of v7.1-rc1
+> 
+>   - Patch 1
+>      Add Cc stable. Needed for patches 11 and 12
+> 
+>   - Patches 2 to 5
+>     No changes
+> 
+>   - Patch 6
+>      Add Cc stable. Needed for patch 13
+>      Add 'Acked-by: Bjorn Helgaas'
+> 
+>   - Patch 7
+>      Fix a typo in commit log
+>      Add Fixes tag + Cc stable
+>      Add 'Acked-by: Bjorn Helgaas'
+> 
+>   - Patch 8
+>      Add Fixes tag + Cc stable
+>      Add 'Acked-by: Bjorn Helgaas'
+> Older iterations:
+>   Patches 6 to 13 in the big picture series
+>   https://lore.kernel.org/all/20260325143555.451852-1-herve.codina@bootlin.com/
+> 
+> Herve Codina (10):
+>   driver core: fw_devlink: Introduce fw_devlink_set_device()
+>   drivers: core: Use fw_devlink_set_device()
+>   pinctrl: cs42l43: Use fw_devlink_set_device()
+>   cxl/test: Use device_set_node()
+>   cxl/test: Use fw_devlink_set_device()
+>   PCI: of: Use fw_devlink_set_device()
+>   PCI: of: Clear fwnode->dev during root bridge node removal and error
+>     path
+>   PCI: of: Set fwnode device of newly created PCI device nodes
+>   PCI: of: Remove fwnode_dev_initialized() call for a PCI root bridge
+>     node
+>   PCI: of: Avoid np->data usage for the node changeset
+> 
+>  drivers/base/core.c                      |  4 +-
+>  drivers/pci/of.c                         | 52 ++++++++++++++++--------
+>  drivers/pinctrl/cirrus/pinctrl-cs42l43.c |  2 +-
+>  include/linux/fwnode.h                   |  6 +++
+>  include/linux/pci.h                      | 11 +++++
+>  tools/testing/cxl/test/cxl.c             |  4 +-
+>  6 files changed, 58 insertions(+), 21 deletions(-)
+> 
+
+
+
+-- 
+Hervé Codina, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
