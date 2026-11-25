@@ -1,99 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.172
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795573504;
-	b=z+ztoBWKiOmk6cb9+d+BEuoD76ya3WJRWO/1lDjH2Lf1WWPKqn4XhH9a/4mx+DpaKIve
-	 djQ2MAHfkE3lNhQnBUtU12d+9VdKprW7BJRj6PNUfCyFNVHk/bZsSRBONDFnW0xMZGVAt
-	 0l1oSTUACOdoizKqWwk8rdXUzPPNUjbPwLJXtVrAV+eG3vuoa6j5B67gatUVm136E+HEQ
-	 ZfCqpunGoZUzSGPVvmqe/khghBmfno3NPjQ+WRVKxQ1CqmPGfWL9Nb4bW1vKp4DIDwUcw
-	 DApAHB9to1P3I+UuBtOpqGoJZbQKa7xV+G+AhkDwt3mVh83g4Yw594YsDziRRhtuYxQ==
+	t=1795573964;
+	b=q34LKvIBZG1XpfFuCgxTHbQqQPvBrLr0JoMGn7Rc5peM8XsHbR1M2aqgw//BsX5XLiAs
+	 LRaNgwwZOnsPFeu9p3Jlh7G0Wja9iZE8L/0DJKAZn7kV+5/Q/Qfoufam/fn8t+hKw+w6h
+	 Wbb/T8UdneCEHBnmTgbMIxjdZMSzXdnNZTNDeljDsKqDdEy+SjBOA5ws4WvXrxq+ypNnC
+	 JdgCjjSe+PGL8PjYElati5BvVsksW9gdBbvU8mAzSBtAb1l4RNi0/KeUX144O7zn1g+mf
+	 71pFGsiZkzLMqx2fcifzbyOx1f6Hhmt0nCLD9AvAzAS68a0+QuHKSJyi2Mr+Is9/88w==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795573504;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795573964;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=RoVdVJuanm6IY9SbdoTW0HDKXtpUnzxojZdIdcKrd9Y=;
-	b=37oy2juD6TzxVWxl85VcRVStxRFJAK0amKV2+q/Jf5uoD/v8VO8nTEM57CUJfOggXMNU
-	 eF3rRANkiMfvGH2TytLr6E9DomZfk5m5wPoxMvbgVrqAPYJHR3h06PnKqoxHiKWWoYkFA
-	 1kcvshzEIcFkAWX//i5vN2lwBtGBaZCzZyV2+QH5T7+lvOKiir3oCmbCqEyBXqy7rnbeY
-	 UK+0YDulqtZGC8ztvrdO3KY4SxVZpMol4aLuMiQlu1t0QwPZL1jZcVeqtaUYt/UA3M7sP
-	 F/MKnC6+YaWSL006NwzynVSGA+PqH5tO42rLouYuA1nFd45g0q2wOf9PBESn0f2ssmQ==
+	bh=ZON3wd5LTh6DpO3AOL2NcXrQXtyEk2i6wBI9GQETg9A=;
+	b=S/5w5Spp3dCPIzlu3bC6cD65qWD4MH1GwqWEqHXJ74xJjcOvunE8Sb+8NaZigThjboy2
+	 nCbD0Rkyr4Xm4TE3N0VhCAhy1giWGs/E40/BIvN7G7gryQA0jfPALD9RG+YGuUOaRMr4d
+	 mtoWjkoa755fdKJNLioxcJa5xt4NJHtc754Uwj/IO4E8UTeHLwQQdd8tWFyDmNpgstCSP
+	 u+RU3xPZnHXp51OV4O5zGxj5uZcIOFQNzIUQYe98yJvM83rwfpoekcQaPT8uY/Lo2lGxJ
+	 fcUTHco2XJPpraoKurpkWaYuX1OliXN6lmCMNQvBOx2/nIys33oqD2mlq3s8ULrV6sA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JMxYTRYt;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.177
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WB4mjqMN;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.172
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47ED0606A326
-	for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 02:25:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47ED0606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816EC606A327
+	for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 02:32:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 816EC606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JMxYTRYt
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-3adff684a52so42905621fa.1
-        for <driver-core@lists.linux.dev>; Tue, 24 Nov 2026 18:25:03 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795573502; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WB4mjqMN
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-3ab3b29a1d4so41634021fa.1
+        for <driver-core@lists.linux.dev>; Tue, 24 Nov 2026 18:32:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795573963; cv=none;
         d=google.com; s=arc-20260327;
-        b=e5ogGdYlefX/q/1EONulmh3Ign0+IwOsyf74WhFlbbjOzjQa+PPJaEkx+Dixp+RFgZ
-         xH41TUslIMvtucG8FT/3FrAtjLOnKtgRkLINm+qhvzdD9llrpGwuwHeub5SFOHfb30kK
-         gb0sLA4+4ReAi6nOSaBtRxEZH1rmQloOjSxFt0vmhPm73icXMj4qoMN2+zTWFPOSmKVd
-         Yw51NjZLczlISNuoBpYdAUudRaJ9CLseS+fqldPclK8jv4ksn/Xx081Xmd4/hVnjAs9N
-         AEGuIk+K1y/noCkxI1T/YiDkQ+7VXbohBsawJUCP7OJlSvVqjw3KZcbiiDIIhl0z3hqF
-         4PLw==
+        b=Xc1esp4c27Y0Z3q2fR2FZK9eq9sY1uvlcdbSPHIHFMRyWHL1siram3cJr4FAthwLGK
+         phNpyVexJhJ6ElOxB46QUNyB0P06dh1LqdVfLg+53WAGhkpe4MVSLVGu5QtZPZZ3KOZx
+         LEeFRmPstKCeRBDKhX0ynWthSzfXIdqCzMPAXxzPrBUP5uRKvx9eUTCIUT6QRh6LsFGb
+         r92Ly1abcPL60Suh3o0yq3aEfwB7Ub1Q/hRY9B7Z/KQxgDjQSX8HF7FAxnfVrlPFYvNY
+         o8HmJef13TRB/jf7MV/8sAkHw5JwX5/2T0YpwF+Tbf1MUS1UpLgwAOhsPoGhqrX2sXh3
+         fBlg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=RoVdVJuanm6IY9SbdoTW0HDKXtpUnzxojZdIdcKrd9Y=;
-        fh=oNzvsqtI0lLTo1ZIFzVYmP6MHaGbEljzM0RaUg44rF4=;
-        b=ZM9T4vflK0qs8OZB+C6ownnDZ3DbDD5onHlrrIKNh5/bNn5ahSlNoIwHkp29BL2Mok
-         6HfJTlKT/R21Q+fGNHLRaZ9bt6Ab8Vgoh6pyemqWZ97DGgmkalPknkFiaBV+pnUQzRDl
-         FLRpmVuiV0NERPWocui/9GPFzcQjYYd6GN00GlamRCt1VC5x5Z7zefbYu1ELAYWUnW7a
-         xVaQ7LKS+I4tg4MVLYRVOkrhjp/+lqR7HD5vuy6ODRBzxSrp9pGxTi2sxNN7+KlqPCtF
-         mJ9iuEv7ieHmFQbLbdwYivtoIV2GT7Dz0fKj7t4FyLVj8ud84EYyCdAocN11rKF8k1cI
-         FmiQ==;
+        bh=ZON3wd5LTh6DpO3AOL2NcXrQXtyEk2i6wBI9GQETg9A=;
+        fh=2HdLspNdcM/a/fguHAEkQzKyZHr0Wf3a0AgS20S0P5Y=;
+        b=qI5Sqds62ljSI4XDG538okAGQ3c8Z6cQsFCCcpXKkEfejzoq69BAJeUqt1DCsC5PDO
+         qew4vP/7RQvsTUD7B4MtQh5IbROis7z4hw5/R0llYMgqNSQuiYdrPDDR1amd9xPzfNsx
+         T9OycJsDnRfZmdM94wLfYj75ibVsKQti80yLbManb6rnQYxrXXe+MnstVWwGLZKEIol6
+         PxhEBSZno8/DFive6lBV0id3WWABIX3v9LF4uGn6bxpOYNJMyLamCi1SRIWMskAnH2rr
+         Gs7G64Ueq04gPj/28G/0CYCccRorR+f7nAEktn2zs5IujXrTRgvAD6Jz2lpf+pZ4I5oJ
+         JscA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795573502; x=1796178302; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795573963; x=1796178763; darn=lists.linux.dev;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=RoVdVJuanm6IY9SbdoTW0HDKXtpUnzxojZdIdcKrd9Y=;
-        b=JMxYTRYt1n2MWJILjLlVXCCN2ui5O6AZ0cP5kUYTB+KbNGXbAr0yZChRSp5zzDBdVN
-         FTYGjfZEDpxHHR+tQ+PICycuv7N897FBITHqkWPFvO3rfK/M+Qwpz7IJXm3Tl6ijyMLX
-         nGzbBfcAG48HCVBFrMkLc/6x5UPtnw+RJ2aaaMNQT5OX/Rusf/8iOzVvoNUKLsB507TO
-         MchBTIn29Ud8uj/BJTTkr87IyaDGUHdj5EURASSM5QhMUgAw/qcCb3PvPpdNuyllJyxb
-         IOBj4zkjq+bbDTxtmr2hK1uSf+qLvYJb3/73DG8Y0f59psns/giA0RveM4IhrgaUGbJf
-         417Q==
+        bh=ZON3wd5LTh6DpO3AOL2NcXrQXtyEk2i6wBI9GQETg9A=;
+        b=WB4mjqMNpWnVX82FGLvxmZPBBMFu80si7lANj2FqPTFpsJB6E4cYB53ymd/s0vAzLV
+         AeVZYDzkqN2zgmLIGkuRLae+g8vfHPAVXroqcnKTsjnCs/5B4HWWX7dK+IA/CxZN47gk
+         PymfT7T675CyG7r96PSo5tGu4DbgFidsO8j0cYfapOLTtYm1DoU5ky6ZSuayaidL6bQX
+         clTE1gSUd9UjdX6cNwPMPsSP3wEjQrvimhhjXm2M9DsvBnQKekW/O8l9ZVFCYx6f5SvG
+         pkUhLzrLIKWV+5Jr0wKHtmndWXsXV4jeRvrCRpl5HkY9HzHTJTfnZLVOoVutj07qfd/1
+         rMDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795573502; x=1796178302;
+        d=1e100.net; s=20260707; t=1795573963; x=1796178763;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=RoVdVJuanm6IY9SbdoTW0HDKXtpUnzxojZdIdcKrd9Y=;
-        b=DyA9ZJO4iy19ZM4AqrJJDuGXyrESdjG7OSCWe3HH1muk8ta8veW6TIFVpG7evZYTD5
-         WMU3xEV7W/f9EDIa3kOoZDvxJ5E1xM4M2fFRi24lNy8o5NodyjRYg4HojYQiLePCws+Y
-         5hHwFaMbtYr5Hhe0u4YepWnw3B/F7si8gVHe5TuCOA/EXz8GL67kgPUgxkdHRixTsGbX
-         /sU4L1bpRGrHqrDlflxkoAkvlN1OGCkKJZfm28hzTgYFms0SZ/5z05d7Is84MIdACCS4
-         WYYUOmKg9V9uX4rRw1xvoU08LeRwVYLSBYwoi9EwJDCcbmce/6sohSciZ2dDEkxLYD9P
-         9eAA==
-X-Forwarded-Encrypted: i=1; AL+hErHMhY8GHuluSeiaTQGZ7GFiQeJMpBAgwXkYnhGWC4ziR3LL8Dix2mtOdZslaGiFiUzN+WrO1WJ1bj3hTQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/b3afOXw3odniW3ligdPJ5DzMtSFXPdc6Mu9wM/GSXXHJxFS5P
-	9QCOzMELpqmVVcUFjys99KKkovIXffsnlrL/N66qf0Iz5DHEixKEarJYVs4SDy0W8VO0tC7pE75
-	GqOyER5h5krzrP0ORGwREf6IZYCfRRRY=
-X-Gm-Gg: AZFdTZdFOw6CxDLpF/CxXHOqU8O/u9emGGDwwe9dWhHfHQTZ529fYxUgKQPxrBsw0yq
-	cKA7a2mbXfWaJgqKXJF3xyzSUs+IWfql6LCwXzVX1hxz+2thNhJYitsqTiD7P/x+mlw6W65bopb
-	59fo6ShV3n6X6klqM41DMYs8IXyOSXCxsMcuH6WnIfoGyjDIZ7CaVyx1DiJuZRl3m+uq1PmZWDh
-	Egn6NLSjxJp1e5KPNkFbnhfk8o2kzjcpewRDI5qTQBoFQhs/g26lY/jHymWPdqr5nr/+S7cPeOF
-	3AEZJhQAqs95oGiCvIhYTcEL1+HeEeNpGfsm8cqV+7tv/tkKg4knE6pEkGILZmE/Oyu9ZZasUP6
-	u96IBiUilVEzIIinfrH4wksThLuqQBfMR5Bfs
-X-Received: by 2002:a05:651c:160c:b0:3ad:ff5d:19b1 with SMTP id
- 38308e7fff4ca-3ae7b7fbe41mr38238951fa.20.1795573502123; Tue, 24 Nov 2026
- 18:25:02 -0800 (PST)
+        bh=ZON3wd5LTh6DpO3AOL2NcXrQXtyEk2i6wBI9GQETg9A=;
+        b=fxy0XT2hF2EypORFqPk1FWVeTvwG1nXKRamv2ZQKh0f9TTx7SoN1hLAN6YWX/iIRmW
+         CSDVnX0Cly8V6sOsr9xQ1r7s+eg6e/Q4GViukehT2wbK7Ygj0BqV5wHu/t8XpNuwQ1O/
+         7xcWkcEsfFQV+cM8VuUh6Vd1IHyJcLizso7CPsvonC9KUGSVN4e84kFAx7rospT1Z/BZ
+         /jxKG74kp8uZgEgvmocW8PrqCfOdn8wpsVFhVODg4V5YplK7gpQlb0xo2i8yHZMtyNFr
+         BdlH9FCiGAvR5RCpGfexnAiBjriGY05jXf30wBZSGp6WSD9G2PDW0VxGb87iSLGiMWp0
+         zR7w==
+X-Forwarded-Encrypted: i=1; AL+hErHHcqzPQGib/ZqdsLmpgC2GrjpkXSQ/gimuqPxndDkZVvIMBvGmWo2O2HThycpWlGNXX+HeJ1Bz4xs00g==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8UNCRn1j78n5RmCad7McEb31tQVYlMKStGYbVziX1q794t+/NG
+	Vj8nWJhW5OTnAvqlN0xYbA4r4B8CZRRVjb/KaOeaguQbPhiq4GRhgdlXJsFIRRsh047gOAK2Q8p
+	dWPPjc02u6zOT07dPwJ29FZC9+fmOIMf74C6tS0Y=
+X-Gm-Gg: AZFdTZefwBmUUAvSPrPQJcx6E/IuiKQo14UpEThvJgsEaOg7akN1doRYcnryi7R09BV
+	1tuBzoiTtczH172yOsw8qk/t4/2Rsy/rZBjlYOc9H1sfFw+mzN+sWvL1TmWIhlvx7aetDV16def
+	CIXHzuJr4eYQH+CoZaoMvHxx+HhMkqIqfYA8GrJ6ddtxULlVrKPiBMI9PHXNmKl9FUDZIGKSMVG
+	KUdey5UBKbYRPbDi0GI/J7mVPjzfVhFBSM0bogHsn3ELtxi1ay+Ah51H1lPexKyM6QZS4LVZ2K6
+	1LcLbBNSu4NVOzqZflxpfqi0K1KYhG34NGg8Awn2l8xdh17L9El+Tlmi+OKtgQvyAzDZCYLGjf2
+	+JAe2k8A7VLPP0QE8vUxq9TkwbH4ULUd4A01I
+X-Received: by 2002:a2e:a98b:0:b0:3ad:f236:a652 with SMTP id
+ 38308e7fff4ca-3ae7fa6ce1cmr44004651fa.25.1795573962416; Tue, 24 Nov 2026
+ 18:32:42 -0800 (PST)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -104,44 +104,44 @@ List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 References: <20261109155743.83740-1-muchamadcoirulanwar@gmail.com>
- <20261109155743.83740-4-muchamadcoirulanwar@gmail.com> <179538281024.9825.4132712997497273037@linux.dev>
-In-Reply-To: <179538281024.9825.4132712997497273037@linux.dev>
+ <20261109155743.83740-3-muchamadcoirulanwar@gmail.com> <947615fd284c416891ac6de5d16cdd00ec5267ab.camel@posteo.de>
+In-Reply-To: <947615fd284c416891ac6de5d16cdd00ec5267ab.camel@posteo.de>
 From: Muchamad Coirul Anwar <muchamadcoirulanwar@gmail.com>
-Date: Wed, 25 Nov 2026 09:24:50 +0700
-X-Gm-Features: Aa3M54rxCZafdUbvRb9-vw6Ll7Se68ZBnBVHsI0xIW9ramLI50wU4YKTZItQkks
-Message-ID: <CAO26r3Tn95hm8SCEcP13wXE7p+iQpJ0O2n_tyhQvYUTkG813cA@mail.gmail.com>
-Subject: Re: [RFC PATCH v7 3/4] rust: add minimal IIO subsystem abstractions
-To: Igor Korotin <igor.korotin@linux.dev>
+Date: Wed, 25 Nov 2026 09:32:30 +0700
+X-Gm-Features: Aa3M54rr1ufHp2-DDunLUXvNfYN2DvOkdEG5zZTIMyDI3WVeYzjwx6EaEbPlUvU
+Message-ID: <CAO26r3QL4R_h4DGWE9CpYE_=6PW5LXo_qy+xKgxZndSUcpbGwQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v7 2/4] i2c: rust: implement SMBus access via IoBackend
+To: Markus Probst <markus.probst@posteo.de>
 Cc: Jonathan Cameron <jic23@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	Alice Ryhl <aliceryhl@google.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Mark Brown <broonie@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, Shuai Liu <847807867@qq.com>, 
-	linux-iio@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+	Igor Korotin <igor.korotin@linux.dev>, Danilo Krummrich <dakr@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Alice Ryhl <aliceryhl@google.com>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Mark Brown <broonie@kernel.org>, 
+	Andi Shyti <andi.shyti@kernel.org>, Shuai Liu <847807867@qq.com>, linux-iio@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 23 Nov 2026 at 04:26, Igor Korotin <igor.korotin@linux.dev> wrote:
+On Sun, 22 Nov 2026 at 20:34, Markus Probst <markus.probst@posteo.de> wrote:
+> Hi,
 >
-> Clippy shows two issues in iio.rs:
+> please add me to CC.
 >
-> 1. Line 332 -- ..unsafe { zeroed() } in VTABLE. The SAFETY reasoning is
->    already written above the const, but clippy's undocumented_unsafe_blocks
->    wants its own comment immediately above that specific line.
+> Could you make `I2cClient<device::Bound>` Sync in this patch?
 >
-> 2. Line 408 -- unsafe { (&*priv_ptr).channels() }, drop the &:
->    unsafe { (*priv_ptr).channels() }. needless_borrow, no semantic change.
+> `I2cClient<device::Normal>` already implements Sync. Functions exposed
+> only for `I2cClient<device::Bound>` should be thread safe.
+>
+> I will need this patch (including the change mentioned above) for a
+> future driver.
 
-Hi Igor,
+Hi Markus,
 
-Thanks for the review.
+I added `Sync` for `I2cClient<device::Bound>`.
+Thanks for pointing this out. I'll Cc you on v8.
 
-I plan to use `pin_init::zeroed()` instead, since `iio_info` implements
-`Zeroable`. That removes the need for the unsafe block.
-I also removed the explicit borrow, as you suggested.
-
-Cheers,
+Thanks,
 Coirul
 
-> Cheers
-> Igor
+> Thanks
+> - Markus Probst
+>
