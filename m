@@ -1,55 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795600806;
-	b=ZuDWfDZzExBiF2qW0cmsLeWytyRbOgdgizUPkR0R1QyV2+bO2cH8NeA6AkvsUroe0EhZ
-	 34pxNIvk/X9x3B9wh8XlncJGcTjNKw60lhGnbntbU/9ycIQzTjfNpj4or/6YLlhRx2y6+
-	 wlFL5J8L2+dPn/AVhFp2U7vzVepXS8MEFi7PQBJew04DxfEo0TySocwxxyUBPAbX1zud8
-	 y5orjyy/QVOezRR433/Hyyt/IDSUZcopx83QeXBp/5/LRk22ZfRM/4pnFDEmR43lU6yn5
-	 iYskwnxXdI6vla9sEPJdocny2xuqD/CW9E/WRy+u2E8e7hCE8R9etkRyJdct5rpFoHA==
+	t=1795600809;
+	b=DkZsbupQyGQBR4HSHmtlubh/40wKFxVQHMs2/1Yqr8sGH94Z8g5kcNvgcBU6M81nUARc
+	 WejU7dFro0EbpwG1fI0dMzlxxo6k50cCJYPZ2kHZhiJuzobY8JvIpXUW1E0tx0G7V+qRP
+	 NSu0wqpvfFmNaoKzfTSVeSjK6COyWgAsuAG7GtssPq2p32PBBLt0l+qTTFDbzTXQCPbjF
+	 4RhE/yZHpX9SjSnXVJIKuwd4i011swH3NMLT7rhjEqRcV7KDGqsrC6+KB9PuM+BbGJuI+
+	 fAxnDHaI5rR35HhP/puzmAjIHdhdlyeNzr2OZHwVZIu/0AKc9HGALY6G7y+MuGhQ0pw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795600806;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795600809;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=X3VoFCx8PJpGcFa9PdGQhv7PDVInlxKQ0D5DE1R51Rc=;
-	b=J7ltC9lgW3U/QMuO63wNwqu07bixuRcmDti/N2RqwRGs9RKgBYy4XJNNVR6ZKq616qWb
-	 2oHKzMmNP/ueYgQeDdO0Pm/eoXYuhOULFTrHXIyn1ZeUNjSr3GtzGvu2uAZ4m4RAQeQtO
-	 oiRE/ch7gJBS7CUye3smtCwhV9JqW39HAYVa87wJCbnLVBbb57MCUcMnrgjrtaxscyb9v
-	 1glmAmAS2DUmP6KM8JqrjozRYBb+EzmxsaCaV+F1MMfkGylZp++l7fboublXsS3kbvpu8
-	 B30vyHLSA7tax4f0JTUfpUvH/FJj2cE7XZdiVyndO6SRKh48muajKM7z+uzgu/JlvrQ==
+	bh=6XEY/5UNTdET1ago5mcIAs9GRKA4D2xpcpHWI8rlZEU=;
+	b=3mWeRzbGa+fbeQuYpk5No58R7M5uMsITnjlvIpDLpNd0bkO5E5mmsatoh848V63U1SN9
+	 twheUET0ry7awNX0mV+n5x3kX3cFPeIWtz/tBxA+fAKnouS+fZTJz6P/QnXF7vjHkGazQ
+	 zUCk6KTO/ADaA7yzxcVf31ljPvBqCND1WMlD1Y6OnP0Q68gZ17AQuCQI3SVtHGkx432SN
+	 rptmY0EGF/N+7DzlRNRk2fgqLxcDDB2KtpYlbz01lXwBNBU80Te08mcvP0SlRzN/1Ikff
+	 Rw8nvIjlOdqOtNlKtQsMsGoCJgrHmGs7yyKLOKOiJovA0W2nMeiI2C4rhmC6iXJZ3Kw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=DgHrnK2N;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=sLIMBY27;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B3B606A331;
-	Wed, 25 Nov 2026 10:00:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF81606A680;
+	Wed, 25 Nov 2026 10:00:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=DgHrnK2N
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D5B91F000CF;
-	Wed, 25 Nov 2026 10:00:05 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=sLIMBY27
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81F7A1F000D4;
+	Wed, 25 Nov 2026 10:00:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795600805;
-	bh=X3VoFCx8PJpGcFa9PdGQhv7PDVInlxKQ0D5DE1R51Rc=;
+	s=korg; t=1795600809;
+	bh=6XEY/5UNTdET1ago5mcIAs9GRKA4D2xpcpHWI8rlZEU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DgHrnK2Nc4sQPx52EHWMvpRx0vVo4o4rFQl+tDoywNUWnNH+SWiako/bHjpdVW5P0
-	 BPps9MUEmDPGwR24Gjva5hsO1S2wkXtNUsnVAMLKjyDyzGhYzgY5h6/zGGVjAArjll
-	 ev+BqFtz4fXqhZWlG2eNzsK+FMQ2I2BN8y32jngs=
-Date: Wed, 25 Nov 2026 10:59:17 +0100
+	b=sLIMBY27tP2BNwxfpp3V6Nzk0btbUqWVVqDZhfb0SeKMHTqG13/u8K87bYJPf/Prd
+	 20IzPR/ZPTblAXnQfFc7dyAg9TsZMaPzLNSq5dVrhOk8ZUx0hS3qhwx3eSpxdE+C9G
+	 0BakdYrwpC4E2nLL3uWQz414K+xLcbVkjlE/ZWEA=
+Date: Wed, 25 Nov 2026 10:59:54 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Ruide Cao <caoruide123@gmail.com>
-Cc: Ren Wei <weir@nebusec.ai>, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev, rafael@kernel.org, dakr@kernel.org,
+Cc: Ren Wei <weir@nebusec.ai>, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, rafael@kernel.org, dakr@kernel.org,
 	johan@kernel.org, akpm@linux-foundation.org, kay.sievers@vrfy.org,
 	vega@nebusec.ai
-Subject: Re: [PATCH driver-core 1/1] kobject: reserve an envp slot for the
- terminator
-Message-ID: <2026112518-dynamic-trustee-d86e@gregkh>
-References: <cover.1795426787.git.caoruide123@gmail.com>
- <cd35c5682ebe0f5a58fa6beed90bb7d0e7d5e9a2.1795426787.git.caoruide123@gmail.com>
- <2026112301-jingle-multiply-c72d@gregkh>
- <CACveakTAopfuvAVQnbzzU3c6z2efTgySV5xo7330KAD6nMSxYQ@mail.gmail.com>
+Subject: Re: [PATCH driver-core v2] kobject: terminate the uevent helper
+ environment
+Message-ID: <2026112521-anywhere-abacus-249c@gregkh>
+References: <39d1eae0d7c8b235f5d4b68d94205b70832ab786.1795506878.git.caoruide123@gmail.com>
+ <2026112516-germicide-viewing-3a9f@gregkh>
+ <CACveakRWUr73N5WZ4a=07QQdiK3+=Ct=BSB89TS3wnx6Yen+kg@mail.gmail.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -61,8 +60,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACveakTAopfuvAVQnbzzU3c6z2efTgySV5xo7330KAD6nMSxYQ@mail.gmail.com>
-
+In-Reply-To: <CACveakRWUr73N5WZ4a=07QQdiK3+=Ct=BSB89TS3wnx6Yen+kg@mail.gmail.com>
 
 A: http://en.wikipedia.org/wiki/Top_post
 Q: Were do I find info about this thing called top-posting?
@@ -77,34 +75,21 @@ Q: Should I include quotations after my reply?
 
 http://daringfireball.net/2007/07/on_top
 
-On Wed, Nov 25, 2026 at 05:13:08PM +0800, Ruide Cao wrote:
+On Wed, Nov 25, 2026 at 05:40:04PM +0800, Ruide Cao wrote:
 > Hi Greg,
 > 
-> You are right to be suspicious of this one, thanks. v1 was not good
-> enough: the "- 1" lowers the limit for every uevent from 64 to 63,
-> including events that never go near the usermode helper. In testing,
-> a currently valid 64-variable event was rejected (with the "too many
-> keys" WARN) on v1, on both the helper and the netlink-only path.
+> Sorry. We took your comments seriously and did not mean to skip the discussion.
 > 
-> The underlying bug is still real: when env->envp[] is completely full
-> there is no slot left for the NULL terminator, so with
-> CONFIG_UEVENT_HELPER the helper's envp is not terminated and
-> kernel_execve() walks past the array (KASAN: strnlen <-
-> copy_string_kernel <- kernel_execve, then panic).
+> I wanted the reply to include a lore link to the new patch, so that
+> you could look at the change and the explanation together.
+> 
+> Going forward, I will always reply on the thread first and only then
+> send any follow-up patch.
+> 
+> Please find our reply to your previous questions here:
+> https://lore.kernel.org/all/CACveakTAopfuvAVQnbzzU3c6z2efTgySV5xo7330KAD6nMSxYQ@mail.gmail.com/
 
-This is an ai-response.  {sigh}
-
-Please do this work yourself.
-
-> v2 keeps the 64-variable capacity and instead adds one dedicated
-> terminator slot (envp[UEVENT_NUM_ENVP + 1]), writes NULL after every
-> successful add_uevent_var(), and also after zap_modalias_env() drops
-> MODALIAS. struct kobj_uevent_env is kernel-internal, so the only
-> visible change is 8 bytes.
-
-What does this mean?  Again, think about the problem, come up with a
-valid solution, and write this all in your own words.
-
-thanks,
+Ok, let's take it there, and PLEASE do not just use AI to respond to my
+questions, that's rude for all of us involved...
 
 greg k-h
