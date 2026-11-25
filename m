@@ -1,114 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.174
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795617527;
-	b=g+aUaoARD37kVEhYAY2UYRm1eYGKfhMps3yfZ4CDEZwnb+pzwTzl3QyrS7V/sVmp+Y+F
-	 A/S/f2bgiEdxdIitj4nLg0SurpSUtiJc0WsFVGDy7bOWeZutgYs+/017Rtp0FNQ1/drWU
-	 CL0hkVkpwqpVcotWI/LW6TW4EGyceAXxv78iPBQeTRikE6PjlBj9+fBLy3yuDi8NYksCD
-	 soDGLC5SsuZf3VSs+5Wkeqc3zYn9LUru8Hcbvk1OxFXnNtYYLwpu74Ot9pFUv5CTnzf+s
-	 pUBXmq2lO373/f/TOlRv2PW/3Zf7NZnfawmqXogkecLz4pLHMQTP+KOoVEOK1i9Vb+g==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795617527;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=dCtVGEXy/TUgxCZ9qLhPI3rUEmqk4eMQKQPU17VUyZ0=;
-	b=auRMfIY5wIHq4wf0pHpiP3Ducagu+dJIBqOURVIK7/AkUJOcwYQDOZ4t4ZJW+cgfh/87
-	 JHC6SQ7NMmOdsnJCqRYtR2DJNHXahar/Bfh/fu9NyW9AdIOirI/0xDAcDRdicNoCU1CTW
-	 xGfCZ9mGU6Ks1Kxt9K36cnHSv4DjMPn7sjEH5jlZUmxwmSICBjars7Wk+XfHfAbnIp4+Q
-	 yOcvYUudcCaIUmAaT8rzw73KuyLA3MaBeTAFqaTQ6EOsRRONtMPV3EuTipBf91WHteEOc
-	 8DqKFAli+YPx8xwrCrbjPovH3CPsHE4lDYU4yFNx9xOwBEEuCFhzYelrvHbo/0W8hDA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b="Ef/me8xz";
-	arc=none smtp.remote-ip=209.85.221.174
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.11
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795617973;
+	b=sburl/1/MDWMF+hl9ST6Fz8cwilRy1KduVwruOP2r0W/0N32XqHM62J2ufbqdJoiivXu
+	 9az37XOjR6wUnuvi79NOPhvFe9apQqv46zpd7aybqNmF/zxHaVXvLOQ1xB6eIxr/0ZNdY
+	 PM0W+Ka7nyN6jmeLkd5dstTfJgRGBxAt3sbQQy18I6Mqi1R7xg1lE2OGWtMkk0t9nbTur
+	 mbeve+W0zNuRyx7BwrlBji5mS/QDSQUVPfoUUx+LvbZb5bdpNREMj1ofBWq9xV14sH5c9
+	 PYac2oRXLIAJ4MMC3JaR67EobaMFCp10khNuUMTJo7IZ3mIoMMssWOvRjONQ+fJGokA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795617973;
+	h=DMARC-Filter:DKIM-Signature:Received:Content-Type:Mime-Version:
+	 Subject:From:In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:
+	 References:To:X-Mailer:X-ZohoMailClient;
+	bh=gecQT3QLi8h5ZT5ZD/aRrNShcev3mt0RHoczYfYtb44=;
+	b=1s5bH78rP0FElqK67N8Bs6qdpg2nP1CrZS7RiOMra+eW1VWAYi21dylGkjMvtUcAbUGw
+	 O4PvpYxLY0ynEziwooXL2FnJO5j6bVLXIYQjdiCwsVnoSYPTpjHceOB3HtH36u2b7UMCS
+	 ff/d8F2PQArPBG8mJWshbH3LQ4q3fKjoKZkN8glpopSa/Bbsm5I9hG3jzhsxio5Qqm4bB
+	 l1CSZbwWkeJLhFxhtsRzISSw8Dpp7iNbHhOb1Jt3P7JOk9q1LzxkY4sq7RtwRziFNWLfU
+	 BxN56Qjelv3qZnvIoRapHmwJQWk9X0/q/8waNLCOpcz+oTb+uFEzVPulK3CfrpxwjbA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=collabora.com;
+	spf=pass smtp.mailfrom=collabora.com;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=K9AfYPfP;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.11
+Received: from sender5-op-o11.zoho.com (sender5-op-o11.zoho.com [165.173.182.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529BC606A32A
-	for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 14:38:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 529BC606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94432606A321
+	for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 14:46:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94432606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=Ef/me8xz
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5eac01ff101so2129800e0c.2
-        for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 06:38:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1795617526; x=1796222326; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=dCtVGEXy/TUgxCZ9qLhPI3rUEmqk4eMQKQPU17VUyZ0=;
-        b=Ef/me8xz4f56k95vG/I1VgHqJFLRI9TmsTgvV7BXRI9xAowekSDWXzmrpjFSSceQ38
-         ZMRgrUj0Q0ujWsdyl5K3T28rrrD0nMcI0NhrpQ7gWkSHRkzFDVQk+EQXLLmTYuuRmDdf
-         qkc5i+X9HdDPUSBA/fZ4FU63+ZC4XPHEYxyIo2WlmD3ZU5j7/VX17XabD/usqzt5m1Rz
-         YAYBAXF78zxJO67qF9nUiScLzEnpww9E1a/xJcxoVMpqRqwSoYvKhb4rrTlg04o9BlBv
-         mQ8QFyNjw3AD/qB7Ci+JGG2t8hJThjX5CeAf+OjZ8J9KdV9iYGsa3fa8jvZjXQ07fmyn
-         Nz2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795617526; x=1796222326;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dCtVGEXy/TUgxCZ9qLhPI3rUEmqk4eMQKQPU17VUyZ0=;
-        b=wtsV3iCEDj8gR5xmMSp3EJaoiGfm9MH4V+f0FRJJwLxQQFBe0uDFyZpCGIHS5EDCbH
-         eyj9tUQsik7lQJ3Xl+Gm7zSYYc8fcYlDUzLItlsecMANSHYGHty3ItT6dSCau+uoVZmu
-         KLorH0j3K8+G/0loOzA0BHpJ7l7SyRmAOcG4I0sFySxh6yYDWxT49VY006VHYjmdlOfR
-         WBi0Xfgh6ZnWHDIf6LqXIm+HprDiHfQaLdLFxBgyrJU+DiGZDPcPJgatBvp80S8FAe1u
-         jlePuXluYM80IH8n4GenHmJDuwcsGRAOCtvvZWMeCYUChxjSq76yghwvBODTWNvqMQ3q
-         HHBA==
-X-Forwarded-Encrypted: i=1; AL+hErEhq4W767jwkosBuySnxBWC7/mtNkzJMhH8eKcc6rsoJnk0r9E0plJIvd9a9mOi+1p3LvzauUjyNgdGxQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z91CSftURKEP7XF9LAWjmGs2AC1DXlnxKUJH6TPOVXpbyEolV35
-	3euLYcy2JTY27ssUQzXp2I8DQtUvnXS67AKhzLOv5QpTXwlFopW6/qQpxsEBXGxgRjM=
-X-Gm-Gg: AZFdTZcO3Vn+wm1wJGR2Wzb/TTNtd1RXEpkqXZkSrd2TjMxaKW5N/daUFHN+36I5IS3
-	V++CokZHXAtkkfsA1ZodsnJCDl38lbkbWq26b5x3YtRzyl7X5Tfc52BYMLE0eXi86P/597tWONB
-	XY28HCvNm/BJxjYOxnXAXGilO1hHjO+IhmYKnCY4FSVsJDOKXjM1K8kS7fjezD7m0hRyC7USKMH
-	deXE3QXf6Ebe8OX9o25lM8QqvmspJ/pRGzO6OUjAncYRV6zHBpSWEE4y6OivzHRh7t/PnaXaTsg
-	H1O+IXrgaNfBLzQLtcRdd4qTSVk7h49vhNHwoC3Wkgn5KPURc6tyEkiIUIdkkPP0Q5q8WK98ky8
-	6lEhSzHgSyTUTvWS5Px0TrOxfbGo/QesN3XzgUNEh42Bcv41QcAI3H935qK6LhKRIQLwjdnwg0e
-	CRcJbE+Gk12Xl/0eO2eoEUPkDHGYpziyOofI0q+wgACLqGMjEFjd1MT3kUPTF+jTfJG+wKgPm+j
-	kVMM475sSo6lIxSedDT/Ndc7sk3u7bnPqpZZZXO7HKqx6i8L9Wtk83bH3lGjgMHXnahD1VJuUd7
-	h+urGA==
-X-Received: by 2002:a05:6122:1816:b0:5ec:4112:6839 with SMTP id 71dfb90a1353d-5ee8af18034mr9201283e0c.15.1795617526133;
-        Wed, 25 Nov 2026 06:38:46 -0800 (PST)
-Received: from ziepe.ca ([142.177.118.84])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921349d383asm163086316d6.22.2026.11.25.06.38.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 06:38:45 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xWE8z-00000001lnK-03Mz;
-	Wed, 25 Nov 2026 10:38:45 -0400
-Date: Wed, 25 Nov 2026 10:38:45 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
-Cc: linux-coco@lists.linux.dev, Dan Williams <djbw@kernel.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>,
-	Alexey Kardashevskiy <aik@amd.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Lukas Wunner <lukas@wunner.de>, Ashish Kalra <ashish.kalra@amd.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH v1 05/10] PCI/TSM: Add association locking helpers for
- evidence acceptance
-Message-ID: <20261125143845.GG246011@ziepe.ca>
-References: <20261123083337.2731019-1-aneesh.kumar@kernel.org>
- <20261123083337.2731019-6-aneesh.kumar@kernel.org>
- <20261123153507.GH179082@ziepe.ca>
- <yq5ald6h9r1g.fsf@kernel.org>
- <yq5aa4mx9nsj.fsf@kernel.org>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=K9AfYPfP
+ARC-Seal: i=1; a=rsa-sha256; t=1795617952; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=WdFZ7dTQSE6DloQWRHknD0sHffPMBtgWIXFcwAGszfKcB9giPTleHE+3x2TaDsOpkgxZy4ywugRKioGaYy0KjdCyJYP/+JLA4bi+lWCwwX+KOepigOUKA/HfeV96RA0ZXxTTRqX2BS5yukkCgu3VL+l9Gwblnq2IOEDkh8XG/0Q=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1795617952; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=gecQT3QLi8h5ZT5ZD/aRrNShcev3mt0RHoczYfYtb44=; 
+	b=AI9P4+hGOhqE+eLF6V1/AFbKTEqg04X7e4hLxipgMsvyv8gmIXBMOAUrvyvQorXEvpMScn8dFiFvLBf90QWhvnA7w/sz0ssmrBaqnQa4fp+GzBhczF+0XsuxDGd+Bd2hiMFT/gTodpQ1zjIA0O9Zv/7pEsJdjWtBAD7hOsa8ovE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+	dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: a=rsa-sha256; b=K9AfYPfPCP+VPlWTakRCodr/whi0V4yvFOpTnpk8xvcmzNssrcgDKZ9Gs0kBe4omEQ8n3SaS1RvoOOT+XANCtLJSvoWRKPVmUicpbOQEBMcxlUP429H1dS2FkgCA1WXee9rMG/Zg4xepyn86F8t+gk8jhkld3JEE1yIcTteypQ8=; c=relaxed/relaxed; s=zohomail; d=collabora.com; v=1; bh=gecQT3QLi8h5ZT5ZD/aRrNShcev3mt0RHoczYfYtb44=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
+Received: by smtp.zohomail.com with SMTPS id 1795617950182446.68809450599986;
+	Wed, 25 Nov 2026 06:45:50 -0800 (PST)
+Content-Type: text/plain;
+	charset=us-ascii
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -117,25 +57,126 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <yq5aa4mx9nsj.fsf@kernel.org>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.200.71.1.16\))
+Subject: Re: [PATCH v7 02/10] rust: task: add task_size()
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20261122-tyr-ioctls-v7-2-3a2af624b992@linux.dev>
+Date: Wed, 25 Nov 2026 11:45:32 -0300
+Cc: Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>,
+ Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Tamir Duberstein <tamird@kernel.org>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ Lyude Paul <lyude@redhat.com>,
+ David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Johan Hovold <johan@kernel.org>,
+ Sami Tolvanen <samitolvanen@google.com>,
+ rust-for-linux@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ driver-core@lists.linux.dev,
+ Ke Sun <sunke@kylinos.cn>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <332FBBF2-CC76-4A2C-BCB7-DCFC296B035A@collabora.com>
+References: <20261122-tyr-ioctls-v7-0-3a2af624b992@linux.dev>
+ <20261122-tyr-ioctls-v7-2-3a2af624b992@linux.dev>
+To: Alvin Sun <alvin.sun@linux.dev>
+X-Mailer: Apple Mail (2.3901.200.71.1.16)
+X-ZohoMailClient: External
 
-On Wed, Nov 25, 2026 at 04:32:36PM +0530, Aneesh Kumar K.V wrote:
-> Even then, wouldn't we still need pci_tsm_trylock_association() at
-> spdm-start? Once spdm-start completes, we can ensure that the
-> association remains stable until spdm-end, but that still does not
-> eliminate the need for this API, does it?
 
-If you have a valid attestation device for the TSM then the TSM is
-guarenteed to be alive.
 
-That is the invariant we need to create to have a sensible subsystem.
+> On 22 Nov 2026, at 09:50, Alvin Sun <alvin.sun@linux.dev> wrote:
+>=20
+> From: Sami Tolvanen <samitolvanen@google.com>
+>=20
+> A DRM driver that lets userspace pick GPU virtual addresses needs the
+> address space size of the calling task, so it can offer a GPU range
+> that the CPU can map at the same addresses. TASK_SIZE_OF() is a macro,
+> so reading it from Rust needs a helper.
+>=20
+> Add CurrentTask::task_size(). It is bound to the current task because
+> TASK_SIZE_OF() falls back to TASK_SIZE on architectures that do not
+> define it, and TASK_SIZE describes current.
+>=20
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> [ Add the <linux/mm.h> include, needed where TASK_SIZE is defined in
+>  <asm/pgtable.h> (e.g. riscv). - Alvin ]
+> Co-developed-by: Alvin Sun <alvin.sun@linux.dev>
+> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
+> ---
+> rust/helpers/task.c |  6 ++++++
+> rust/kernel/task.rs | 12 ++++++++++++
+> 2 files changed, 18 insertions(+)
+>=20
+> diff --git a/rust/helpers/task.c b/rust/helpers/task.c
+> index b46b1433a67e8..b49bd40027154 100644
+> --- a/rust/helpers/task.c
+> +++ b/rust/helpers/task.c
+> @@ -1,6 +1,7 @@
+> // SPDX-License-Identifier: GPL-2.0
+>=20
+> #include <linux/kernel.h>
+> +#include <linux/mm.h>
+> #include <linux/sched/task.h>
+>=20
+> __rust_helper void rust_helper_might_resched(void)
+> @@ -13,6 +14,11 @@ __rust_helper struct task_struct =
+*rust_helper_get_current(void)
+> return current;
+> }
+>=20
+> +__rust_helper unsigned long rust_helper_current_task_size(void)
+> +{
+> + return TASK_SIZE_OF(current);
+> +}
+> +
+> __rust_helper void rust_helper_get_task_struct(struct task_struct *t)
+> {
+> get_task_struct(t);
+> diff --git a/rust/kernel/task.rs b/rust/kernel/task.rs
+> index a733816fd5dd4..1978f54fe5897 100644
+> --- a/rust/kernel/task.rs
+> +++ b/rust/kernel/task.rs
+> @@ -317,6 +317,18 @@ pub fn mm(&self) -> Option<&MmWithUser> {
+>         Some(unsafe { MmWithUser::from_raw(mm) })
+>     }
+>=20
+> +    /// Returns the size of the userspace address space of the =
+current task.
+> +    ///
+> +    /// This is the first address above the userspace range, so it is =
+smaller
+> +    /// for a task running in compat mode than for a native one. See
+> +    /// `TASK_SIZE_OF()` in =
+[`include/linux/sched.h`](srctree/include/linux/sched.h).
+> +    #[doc(alias =3D "TASK_SIZE_OF")]
+> +    #[inline]
+> +    pub fn task_size(&self) -> usize {
+> +        // SAFETY: FFI call without preconditions, valid in any =
+context.
+> +        unsafe { bindings::current_task_size() as usize }
 
-The session cookie, combined with a revoked/disassociated attestation
-FD guarentees that userspace cannot be confused by a TSM host
-plug/unplug. It will simply see the attestation FD it has open stop
-working entirely.
+Do we need this cast?
 
-Jason
+> +    }
+> +
+>     /// Access the pid namespace of the current task.
+>     ///
+>     /// This function does not touch the refcount of the namespace or =
+use RCU protection.
+>=20
+> --=20
+> 2.43.0
+>=20
+>=20
+
