@@ -1,55 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795611675;
-	b=DktqJV1sCkDMDgtsxbh8WZ14yzMMMCo0UD9nq8nzL23N4tjQ34DVGF65Hgd8YrpYtM8Z
-	 weP7FQTNjMQh4hfJvDJHuZE8d0Mt1Wpplvmn+VlWuXIHLbClbj/AtgHNBOun4+1tcBUJl
-	 pOTUoFnVySi+PTMLXNPWg5erdBPOyKs2/BWY3Pj+6e5ZhNGwMCi8MuqqwWLFaF4T1l+ZK
-	 nOzFi8qBFDVof1glktGPkYIx700mW3ZUDBn2obzzl6PlXUx5gBGrKUcgvazC7ntzFYLse
-	 AyZj29/b9hXYgSUUzD8hG1BPLLq7DOUCFvn6aPNHHVRLRmWIHmS6o1hzd4/3T0bfJyw==
+	t=1795613128;
+	b=KNp0Un9fJMxcJcgZpvp7NO2vQP34n+HdVwU5s4f2ecFTARVjuITblkQFGQB78Bt0FE4y
+	 pt8yR6bjC69mkskOvzeAbjEVYEODkLDUgU0Upby2NK7M+KIrq29jO7qquaZlam9KdwCxH
+	 gnR0/4hF7J0KTyNOvw4MD/Z+ErnGlLdM0hrQ680PRSrynppbKQq/z42b7rAkb//jOKZyR
+	 ZQ0yjE+YE40CTYXydecPffAtBZBqC/13Sd0a5NLKUzG28Qg5X4JrK1v2e9K82OssBhAOL
+	 WSngq7PtJM/u3eOGZOp5vz2kk31yqth22Sp/AolqoFRaGsybYVyhTYBMVe0YaQ19sZA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795611675;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=s4z1Ffojaf9vgBuZCxjV4xyWv+c033IP30jHE3CryFk=;
-	b=xflViqwHzsPJBEcNZ/7a+R9PdDB880M5m55tTRChKf6xurP7yfGYO+DWxL0bGxiVrRoH
-	 Xj9c4JbpSqJOZL/N7rG40v8iiaiWHjM2Mtrqa0W5kM/+Tzu76qV7jyu0rDHbu1YZInXUQ
-	 scV3jDX6r5O6vw9ZKJ0T4RxUhiR3Zmz+jh2R3V4fiDhlwoHF80J4whwmplz4WIhzAUylu
-	 AEabCYyLv5c+CtGpgoKfX2St3T/o3U3OlVoxbQmFYb+s6FiA9uxOrOfdFnICD6UigDvD6
-	 PgmJsD+lkxIq/2S5SnuBHt3oidq66A/+76A+RQISehByBMoyJoJr6a1H4Y4+HYhYKpg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795613128;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=5U/mp5/J7rf6LX70zikAzH7TB74AYfK5GV/BpPX9uL0=;
+	b=fSL1djE0snm8TThJHUKklNQWENFCZXkdbOW0xMl1bXYsjTRrePVAC7PhpEGRP0dAHwJ1
+	 BkVSwmgM/LdXaDnXfvOKNTEsUMdE2zsHEC9zThOG9nxkSz/4EPL/I1FMYnw/A3y2tonrw
+	 Eto8B7YhoaUFonxgY6kIi4rVkxmYz1juNvYOX83wCaUkgLgj1jio1SlxE2OogrjQDDD2m
+	 jp4yp+fI81VQKkKLq9nV2xKk5r89qMy+DCXg3bPOIptE2x9d/LKJqJLgaQa3HScg2R3pM
+	 wty4AsInWNtUA1Oz8TezEcM3MpX3GPiHHgLy7jWsi9yzpFQKNPGc7wFYY52BRTsj3iw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jj7v6ZK8;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EqPz7M0C;
+	arc=none smtp.remote-ip=198.175.65.20
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EAC1606A326
-	for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 13:01:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC45606A68E
+	for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 13:25:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ECC45606A68E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jj7v6ZK8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F35A31F000D4
-	for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 13:01:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795611675;
-	bh=s4z1Ffojaf9vgBuZCxjV4xyWv+c033IP30jHE3CryFk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=jj7v6ZK8vjVARoMeNQWH3qgat+zbzdL2pRP0vCtAl8RWHd1H7iwPpNQN2VXsPeB3G
-	 ovpgOR1oV86Z+F49E/KBXC75/w1XNIRD6RlMtKUMyBrsKfARecjT9r9Ei4Dkau4Fds
-	 /YPJ1K5+VZgnAoAHW6gN/7Xc3qkb+L0+oVsmtejwCkEbICSMr/u0yRp01t2A3A3LIS
-	 QfUwT98gLI1P2BvCCn4GNAuApewXZ9mYCpsNzo+/PD6FnS5ejADDEFgRAPXTq0pb0T
-	 NxForsRI95MY6m2RsZ6fMYojL0JRlVuCbPt/hn3qkAljdvW+ttZaAO3Y4S8q3/pGhG
-	 wxHCSiK65G69w==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5c1b8120565so3531268e87.3
-        for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 05:01:14 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErF6fXYvDwIgdGw8Nnqo7r3VFaEySVsImgVSMZURVgizgBm9n22cM83EVuhK2HagXyyXdmfa0ekmfcBK7g==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/bf6JfVg09fIuZvmkcDrH5vsz5A16Hl8aksfUPR6oz7MKqkQdz
-	P8RH4IWrUYGo0CxuF1deknc60Mgz+69WtbAmKGsM+wjI80jltqbOwkiQjG5VfhClhrIcTQnDLvQ
-	3mVto+LHW1x5sANV/DkIPJBts8FktEm0=
-X-Received: by 2002:a05:6512:10cd:b0:5c1:ae60:9b12 with SMTP id
- 2adb3069b0e04-5c1bc89ee76mr4870782e87.60.1795611673387; Wed, 25 Nov 2026
- 05:01:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EqPz7M0C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795613128; x=1827149128;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Sbyp9Cexn5uiAeoq3vI339ckZZ4d+ijki69mJ+9LbDI=;
+  b=EqPz7M0ClP2StPEby/K+/qSTnVl+nWW1U0kBiw7iVJTMIHgVyWx6GEMo
+   ntj1COyX9cCtDcZFTzp1N4KkvEDj8K7Z5tZU5czkjrcLlGG1vrrlpxMKB
+   2NW6UZ6m2cjoFHPyQO7XOGV9rvih5vtP8Ohh0xdMwcN0/9Ls+zUIHYqgb
+   o4y3ETS4vEAoB4FjuXASq01t91q7KxSWnjzwKCFiIpToDY7XkJ6aRW/Zk
+   Yhy690tbeBvJPWGh1yEMAIAKa+6IG042d+FX4Q2+9LFY1UN7yJulUwbWJ
+   zl4Gsfpj453wL/Ea3UwiKBqvOS+miWjnKjZdHI/wmugpakA3rZrhmGHqO
+   g==;
+X-CSE-ConnectionGUID: MDr862fbTZ2MY4UMBggj5Q==
+X-CSE-MsgGUID: nrCdGzVQQDWVWq4ZUtflPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4550751"
+X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
+   d="scan'208";a="4550751"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 05:25:27 -0800
+X-CSE-ConnectionGUID: bhz0XBWYQGus/daFs/vtDg==
+X-CSE-MsgGUID: E+U9n7IJRQuFe+9S/9Idbw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
+   d="scan'208";a="11858296"
+Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.73])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 05:25:24 -0800
+Date: Wed, 25 Nov 2026 15:25:21 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: raffaele.tranfaglia@gmail.com
+Cc: Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-sound@vger.kernel.org, Neo Chang <YLCHANG2@nuvoton.com>
+Subject: Re: [PATCH v2 1/3] ASoC: codecs: nau8360: set val_bits to the widest
+ register size
+Message-ID: <awbhwVw52eSTTmiu@ashevche-desk.local>
+References: <20261125-regmap-kunit-val-bits-v2-0-81db3b79cd3f@gmail.com>
+ <20261125-regmap-kunit-val-bits-v2-1-81db3b79cd3f@gmail.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -59,146 +87,30 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261123-pm-runtime-summary-v3-0-81a966953a81@kernel.org> <20261123-pm-runtime-summary-v3-2-81a966953a81@kernel.org>
-In-Reply-To: <20261123-pm-runtime-summary-v3-2-81a966953a81@kernel.org>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Wed, 25 Nov 2026 14:01:00 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0iJ2ytkT2-JJTONCvYx3s-kOOtxopFkdbtGzHNQWOwJgg@mail.gmail.com>
-X-Gm-Features: Aa3M54rBrqs5vJZYDvCdW7zNfFxUBVdg8rbR2V3HBHj6z7GBr6vpKn8rCF1Z5qc
-Message-ID: <CAJZ5v0iJ2ytkT2-JJTONCvYx3s-kOOtxopFkdbtGzHNQWOwJgg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] PM: runtime: add debugfs entry for pm_runtime_summary
-To: Joshua Crofts <crofts@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Johan Hovold <johan@kernel.org>, Samuel Wu <wusamuel@google.com>, linux-pm@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261125-regmap-kunit-val-bits-v2-1-81db3b79cd3f@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Nov 23, 2026 at 10:07=E2=80=AFAM Joshua Crofts <crofts@kernel.org> =
-wrote:
->
-> Add a debugfs entry for showing the runtime statistics for devices with
-> PM runtime enabled.
->
-> Signed-off-by: Joshua Crofts <crofts@kernel.org>
-> ---
->  drivers/base/power/runtime.c | 86 ++++++++++++++++++++++++++++++++++++++=
-++++++
->  1 file changed, 86 insertions(+)
->
-> diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
-> index 17aee68366cf..cf657251633e 100644
-> --- a/drivers/base/power/runtime.c
-> +++ b/drivers/base/power/runtime.c
-> @@ -14,6 +14,8 @@
->  #include <linux/pm_runtime.h>
->  #include <linux/pm_wakeirq.h>
->  #include <linux/rculist.h>
-> +#include <linux/debugfs.h>
-> +#include <linux/seq_file.h>
->  #include <trace/events/rpm.h>
->
->  #include "../base.h"
-> @@ -2223,3 +2225,87 @@ bool pm_runtime_need_not_resume(struct device *dev=
-)
->  }
->
->  #endif /* CONFIG_PM_SLEEP */
-> +
-> +#if defined(CONFIG_DEBUG_FS) && defined(CONFIG_PM_SLEEP)
+On Wed, Nov 25, 2026 at 08:09:30AM +0000, Raffaele Tranfaglia via B4 Relay wrote:
+> 
+> The regmap is configured with val_bits = 16, but the two DSP registers
+> are 32 bits wide: nau8360_reg_write() sends four bytes for them, and the
+> DSP messages written with snd_soc_component_write() use all 32 bits.
+> 
+> This works because the driver provides its own reg_read() and
+> reg_write() and regmap passes the value through unmodified. As regmap is
+> going to mask values to val_bits, set it to 32, the size of the widest
+> register. The size of each access is still selected in the driver's
+> reg_read() and reg_write().
 
-Why do you want to make it depend on CONFIG_PM_SLEEP?
+Hmm... While it works, it might be not the best approach. In cases like this
+elsewhere we create two regmaps (one per each val_bits size) and choose them
+based on the register offset.
 
-There's nothing related to system sleep in it AFAICS.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-> +static void rpm_summary_show_dev(struct device *dev, void *data)
-> +{
-> +       struct seq_file *s =3D data;
-> +       unsigned long flags;
-> +       u64 active_time, suspended_time;
-> +       u64 last_sleep, min_sleep, max_sleep;
-> +       u64 resumes, suspends;
-> +       const char *status_str;
-> +       bool enabled;
-> +
-> +       spin_lock_irqsave(&dev->power.lock, flags);
-> +
-> +       enabled =3D pm_runtime_enabled(dev);
-> +       if (!enabled && !dev->power.resume_count && !dev->power.suspend_c=
-ount) {
-> +               spin_unlock_irqrestore(&dev->power.lock, flags);
-> +               return;
-> +       }
-> +
-> +       update_pm_runtime_accounting(dev);
-> +
-> +       switch (dev->power.runtime_status) {
-> +       case RPM_ACTIVE:
-> +               status_str =3D "active";
-> +               break;
-> +       case RPM_SUSPENDED:
-> +               status_str =3D "suspended";
-> +               break;
-> +       case RPM_SUSPENDING:
-> +               status_str =3D "suspending";
-> +               break;
-> +       case RPM_RESUMING:
-> +               status_str =3D "resuming";
-> +               break;
-> +       default:
-> +               status_str =3D "unknown";
-> +               break;
-> +       }
-> +
-> +       active_time =3D dev->power.active_time;
-> +       suspended_time =3D dev->power.suspended_time;
-> +       resumes =3D dev->power.resume_count;
-> +       suspends =3D dev->power.suspend_count;
-> +       last_sleep =3D dev->power.last_suspended_time;
-> +       min_sleep =3D dev->power.min_suspended_time;
-> +       max_sleep =3D dev->power.max_suspended_time;
-> +
-> +       spin_unlock_irqrestore(&dev->power.lock, flags);
-> +
-> +       do_div(active_time, NSEC_PER_MSEC);
-> +       do_div(suspended_time, NSEC_PER_MSEC);
-> +       do_div(last_sleep, NSEC_PER_MSEC);
-> +       do_div(min_sleep, NSEC_PER_MSEC);
-> +       do_div(max_sleep, NSEC_PER_MSEC);
-> +
-> +       seq_printf(s, "%-32s %-12s %8llu %8llu %12llu %12llu %10llu %10ll=
-u %10llu\n",
-> +                  dev_name(dev), enabled ? status_str : "disabled",
-> +                  resumes, suspends, active_time, suspended_time,
-> +                  last_sleep, min_sleep, max_sleep);
-> +}
-> +
-> +static int pm_runtime_summary_show(struct seq_file *s, void *unused)
-> +{
-> +       seq_printf(s, "%-32s %-12s %8s %8s %12s %12s %10s %10s %10s\n",
-> +                  "Device", "Status", "Resumes", "Suspends",
-> +                  "Active(ms)", "Suspend(ms)", "Last(ms)", "Min(ms)", "M=
-ax(ms)");
-> +       seq_puts(s, "----------------------------------------------------=
-----------------------------------------------------------------------\n");
-> +
-> +       dpm_for_each_dev(s, rpm_summary_show_dev);
-> +
-> +       return 0;
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(pm_runtime_summary);
-> +
-> +static int __init pm_runtime_debugfs_init(void)
-> +{
-> +       debugfs_create_file("pm_runtime_summary", 0444, NULL, NULL,
-> +                           &pm_runtime_summary_fops);
-> +
-> +       return 0;
-> +}
-> +late_initcall(pm_runtime_debugfs_init);
-> +#endif /* defined(CONFIG_DEBUG_FS) && defined(CONFIG_PM_SLEEP) */
->
-> --
-> 2.47.3
->
+
