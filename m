@@ -1,113 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795617407;
-	b=lFhr9yLaEnGrO7J4jd0KbSLlRQXDRgGilEn4RzIfJpUn4dc72HW3UGKCRblCN//wbWzR
-	 Z/mgscjXgPkmKWTj2cjNDZl/SGDrwHrrMV8jnM/7PAAuCnCaUkgwTbbD1mee2RROeyXYG
-	 w3j89U1mI7/t8X88AUCP6kJ4T+0j7A87J6RBk7t37nHrvnSlwR0NTEz1pkjwtCvTvnNci
-	 liFziUP2siZ1NpZ+XwClmvo46Nj+LwkWkbx9sSH8qez0UY6h51HqhjFLc5HiEPxTOoJf1
-	 Tygx/1DjlNvgUvp+IfusmW7wRlt5T4a4R/nJEGYpxo/I7zRldmdsGDJVNLaB8hTUvzQ==
+	t=1795617515;
+	b=uclEExIriPtDTQC7TfK5OR3zzQ4ylRVJA9WAy0IMUz9xUw7TI4cmFlX5m7pS2YP+0Jg6
+	 KpafkniBNeU5KB4Qt46EMq/V1INDc2PovsIEAaxI8DLaDhNvz8F3cBDQZbYBoYohaNSG5
+	 50pepI5zlRHEWk/bpvXuw+9fVz1tbQHWiqEVjQUdpJ4B7UqD7wymaYn2qpBlNvXLCHJgl
+	 BvPOcCQQsiCoIAr4EyID/TS9Ph8/SQZsAgX+wgtYPsj9+Lqpefbl/NGR5aoLVlCU1X3Pq
+	 um3rjBc5/9Q/Q21OCtiL1Xvcerwu6CAWtH9D7or7TrkebHzNYtnW0PESFClm+NlZkWg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795617407;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=jZ0ODJBUI26+BRK0bblrmNavhVVExfleUfyE4pxTCBs=;
-	b=oP5YLAS5iwY8nfAduebP9cswJOxwyrQYhyMfKMK4dIxEJ1z5CAUdegE6Pc/F7zAEcVDy
-	 CcsLmiGaFoG8OCtpIjZJb8SMzh4WkZGXjJntj5nqKEEQF4moUYF5NuTVUHGRXqRmYDJ5H
-	 q9Osvy6D5OZvKCoXZDhPWySqAgVi7FrI7QnAunVobRaSwyrfhRaFsBTLGlzbkB3T5vKk4
-	 EbeW7bJ/LCMlTeSzcGSq+KXf3cPDlWCOd33KTIyXsNXITp3yDvqqrH6XnhR3ve/TVs31U
-	 X62YGw4K8mP2tdpnzM53x0EFIE0BcZNIvnsd60NvwL4OaUdPT7AG7oCJNTFFwGo/+gg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795617515;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=0Gc9tYtRb19MW0h+QBmLaneRf2CSlYjfdbqau2neOto=;
+	b=FFLh5sYB/o8p0RKHgSRTrvupRxxmDV7iwDspdokVtVG7jRed8GvSLjV9c+4kebbSiWDU
+	 rr2kmquXxeQOOhpVpTMnC4xfAVV9AmWvu0quGpLo2ENtIRCvoSTDqYlf576Paa3xe5GSz
+	 j4K5Ezg7vZ53KuvKEWh1/qHv0On16qxJ4HKasZhF09quvJ/Ng3F1j1Z/cpx/8Fi3tp8Zz
+	 uqXomBSYKxq4XiYop97Kn3R72vNy+Fb4UMcAAiSofUa5vWzhcPCwOvPQsW9SajwRN73+k
+	 HLY4AQj3WFkLhLOaRTdyjuwpNaL34F4C/cpP19Y5dXJ8H15S21f3h8yPYBi+sSXFmYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=nNufUi+b;
-	arc=none smtp.remote-ip=209.85.160.173
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ho2gnp0X;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94AAB606A327
-	for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 14:36:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94AAB606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6E6606A330;
+	Wed, 25 Nov 2026 14:38:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=nNufUi+b
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-5365f9a04c5so42717991cf.1
-        for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 06:36:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1795617405; x=1796222205; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=jZ0ODJBUI26+BRK0bblrmNavhVVExfleUfyE4pxTCBs=;
-        b=nNufUi+b+idZrCGl8AZNlJJQ45+Bhfbsofh/RKlszlAZnTI0y6uIgecAwkabYJyyWb
-         Uas9Ae4A1wiY80p8PJZ3C1s6fOQxUW5XcRs58VCysSvzjk9bgoJjk3aIJpkw0FBXOS4s
-         rnbfI9LezAcxyjFFLRzxe/9Pkd0pG1JbiyC4deR6nK+NEZSTqnoAzcKEXJSFESYpoR3G
-         XLJdE93E0lt8gDRWC2ZhGtGxGdv4KUCbDM5TKwNgJtVMHuIXr2k7EdWUVAkVyKljxqTI
-         4UfXDl4OCQAyWvNe45HYCBW419byzZjag0eGFpFJbvvyHszt1xn5r75f0IqG/EoUeMKh
-         SnrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795617405; x=1796222205;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jZ0ODJBUI26+BRK0bblrmNavhVVExfleUfyE4pxTCBs=;
-        b=Zq437odVzdSg7+ZRtN3A8yqAy2o44X9AIamYJTAPFDbfYC3c54AWEgRMvBTOtSxW8B
-         P/5EIC+prqPtdKOc0t8f/mNFnZ0PSf+z2ykUq4HLnKawAX9eavNV+Tgvvo4SwRReJ/Zg
-         NwmroGsXoZyQYzcce+E5GIfgIVb7/2AaqG/HXoGEfJdHCnog7k4crPPhwSlFSgTZy3PT
-         9VQYalJw9Jj1UyjAEU/bFxZGLyzXQSkbLvKNZ108/svOEC9FwzIWPqEaTF1tPajfrXan
-         hqJmwvdM1RxMEQ2shsSLTCvTCpN925Ffk+emfUCfbeoRc/l+H6+WdXdy1oVd7ypyVIkU
-         Jojw==
-X-Forwarded-Encrypted: i=1; AL+hErEkxyvy0+Q2hUWIgj03IPh8iuF6HtrE0f0+KgLe1HCOOdlP+GpFWNqll9idIQmdtRiuWBLufxxC7AcFMg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+wI5rcce0ctEqkiwqB+S+S6IshsPeiI0K0V2Xrq239XXAYutjQ
-	ybfNYS/sCZWiOLSgdembL6cvLJiRzuTXOpPE9bac0MYaAbM/4uGSjNaQwt792CLyuqg=
-X-Gm-Gg: AZFdTZc1aKHs/gRWAARlFGSboPcsY5d7HZ4Od8HSV7cqKj5XCSlCfBxwjVyufsYUxW6
-	tT2Q5uPt1XbCUwnUx3q1NTHnbXDRTbe9DmMUjb6z1f50xD92iY+FuBzQ8/Q5mYQAUEgIaoFfSRw
-	D2oC0h3Ib5/gTGNysqyWovrCeHaPcXFLiDj1pROFdU/vYCzPuJraxPgRA3USydTO7E3hQakUlwb
-	NydR5p27rPTez6M3KRP+q3+WLZgeBvZql8XAL6TK5S0y1OgJ5xoy9ZiysRuK26eClyyEGpsWvp0
-	dSNxeqVDG1obAYUhys04KFXV7Ytwx/6/TOJm4XllHZtZXssXwrOx6GFMoLKBjitsFLsJdjBSQPt
-	IRI3SsxvyogYUpl4TOPGlZ+ewZS5/DdU5NRNDBjXfcpkCBVh9mb2e0KI37HYY5Rsh+GaO7IJ3QA
-	IgNnL+4lUKUxmFLgst5oJUYuowKGGX99ZvSW+q985n4SC24dTwsddjxTUfxWublYSnCienMGOe/
-	lH+nsM/LkMDwFfjO97Y3H+vU6/jZrO0iEWYj4CssUGXtWkmTW/3VYNTmX0sHOvftpIFGT9JW0jx
-	9dWZeA==
-X-Received: by 2002:ac8:5e53:0:b0:536:699d:9a22 with SMTP id d75a77b69052e-55d76aa8754mr328840131cf.57.1795617405368;
-        Wed, 25 Nov 2026 06:36:45 -0800 (PST)
-Received: from ziepe.ca ([142.177.118.84])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d78880604sm157945401cf.24.2026.11.25.06.36.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 06:36:44 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xWE72-00000001la3-15Li;
-	Wed, 25 Nov 2026 10:36:44 -0400
-Date: Wed, 25 Nov 2026 10:36:44 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
-Cc: linux-coco@lists.linux.dev, Dan Williams <djbw@kernel.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>,
-	Alexey Kardashevskiy <aik@amd.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Lukas Wunner <lukas@wunner.de>, Ashish Kalra <ashish.kalra@amd.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH v1 05/10] PCI/TSM: Add association locking helpers for
- evidence acceptance
-Message-ID: <20261125143644.GF246011@ziepe.ca>
-References: <20261123083337.2731019-1-aneesh.kumar@kernel.org>
- <20261123083337.2731019-6-aneesh.kumar@kernel.org>
- <20261123153507.GH179082@ziepe.ca>
- <yq5ald6h9r1g.fsf@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ho2gnp0X
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98E641F000EF;
+	Wed, 25 Nov 2026 14:38:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795617514;
+	bh=0Gc9tYtRb19MW0h+QBmLaneRf2CSlYjfdbqau2neOto=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Ho2gnp0XzfNdjWNXAJI/Axure0NT2HpjLyaJjBNjOip3PlqKh+gXsp7of7DnVaO0p
+	 GOCi8+D1NytiFBxi27DxpjC7f4cwkMslXpl8XUY45OzXh5u4s8lqNaYHeAKfZI2nOj
+	 WaM7Df1ddsZa3MAbU9KVGatNjlldVIGokNkhYsNKNkzCOwT2a1ARQEq6Ui0+FRPFsU
+	 NQmktrraq8ErCoiF0ewL5Z1S4bd+x0dm9cwLycMZnNLw5nVVA3NiLhTdwBNXfTYKgT
+	 QwukmWm3KAr0EwvuyQbk+qfNWTUR3a9SWkIMy+sDhDRknuZQtFEfUkPqAZk3Zkf4RV
+	 mXqdHam9FB1dw==
+Message-ID: <5387130c-df43-41d7-9ff8-8ee549e6e97f@kernel.org>
+Date: Wed, 25 Nov 2026 15:38:30 +0100
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -117,62 +51,133 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <yq5ald6h9r1g.fsf@kernel.org>
+Subject: Re: [PATCH v3 1/2] PM: runtime: add additional suspend/resume metrics
+To: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Cc: Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+ Samuel Wu <wusamuel@google.com>, linux-pm@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20261123-pm-runtime-summary-v3-0-81a966953a81@kernel.org>
+ <20261123-pm-runtime-summary-v3-1-81a966953a81@kernel.org>
+ <CAJZ5v0hpnoGw89WHyofLr3SxnrJNs99LnhndeOv245y_LgGWXQ@mail.gmail.com>
+Content-Language: en-US
+From: Joshua Crofts <crofts@kernel.org>
+In-Reply-To: <CAJZ5v0hpnoGw89WHyofLr3SxnrJNs99LnhndeOv245y_LgGWXQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 25, 2026 at 03:22:27PM +0530, Aneesh Kumar K.V wrote:
-
-> > That cookie should be held in the attestation driver and when we get
-> > to acceptance it should be presented to confirm that nothing has been
-> > tampered with.
+On 25-Nov-26 13:54, Rafael J. Wysocki (Intel) wrote:
+> On Mon, Nov 23, 2026 at 10:07 AM Joshua Crofts <crofts@kernel.org> wrote:
+>>
+>> The current implementation only logs the total accumulated time a device
+>> spends in suspended or active states.
+>>
+>> Add tracking for:
+>> - resume_count : number of successful transitions to active
+>> - suspend_count: number of successful transitions to suspended
+>> - last_suspended_time: duration of the most recent sleep cycle (ns)
+>> - min_suspended_time / max_suspended_time: shortest and longest sleep
+>>   cycle durations to help detect power thrashing (ns)
 > 
-> We already do something like this on lock, we track the cookie as part
-> of CCA and use that during accept. Sure if every architecture supports
-> this at firmware level we can abstract that to attestation layer. Yes
-> and this protect from hostile host.
+> I would mention that they would be only reachable through a debugfs interface.
+> 
+>> Signed-off-by: Joshua Crofts <crofts@kernel.org>
+>> ---
+>>  drivers/base/power/runtime.c | 93 +++++++++++++++++++++++++++++++++++++++++---
+>>  include/linux/pm.h           | 16 +++++++-
+>>  2 files changed, 103 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
+>> index 4e9c23059a40..17aee68366cf 100644
+>> --- a/drivers/base/power/runtime.c
+>> +++ b/drivers/base/power/runtime.c
+>> @@ -5,6 +5,8 @@
+>>   * Copyright (c) 2009 Rafael J. Wysocki <rjw@sisk.pl>, Novell Inc.
+>>   * Copyright (C) 2010 Alan Stern <stern@rowland.harvard.edu>
+>>   */
+>> +#include <linux/pm.h>
+>> +#include <linux/timekeeping.h>
+>>  #include <linux/sched/mm.h>
+>>  #include <linux/ktime.h>
+>>  #include <linux/hrtimer.h>
+>> @@ -103,11 +105,70 @@ static void update_pm_runtime_accounting(struct device *dev)
+>>                 dev->power.active_time += delta;
+>>  }
+>>
+>> +#ifdef CONFIG_DEBUG_FS
+>> +static void rpm_account_suspend(struct device *dev)
+>> +{
+>> +       dev->power.suspend_time = dev->power.accounting_timestamp;
+>> +       dev->power.suspend_count++;
+>> +}
+>> +
+>> +static void rpm_account_sleep_end(struct device *dev)
+>> +{
+>> +       u64 duration;
+>> +
+>> +       if (!dev->power.suspend_time)
+>> +               return;
+>> +
+>> +       if (dev->power.accounting_timestamp <= dev->power.suspend_time)
+>> +               return;
+>> +
+>> +       duration = dev->power.accounting_timestamp - dev->power.suspend_time;
+>> +       dev->power.last_suspended_time = duration;
+>> +
+>> +       /* Update min/max extrema at the exact same moment as last_suspended_time */
+>> +       if (!dev->power.min_suspended_time || duration < dev->power.min_suspended_time)
+>> +               dev->power.min_suspended_time = duration;
+>> +
+>> +       if (duration > dev->power.max_suspended_time)
+>> +               dev->power.max_suspended_time = duration;
+>> +}
+>> +
+>> +static void rpm_account_resume_complete(struct device *dev)
+>> +{
+>> +       dev->power.resume_count++;
+>> +       dev->power.suspend_time = 0;
+>> +}
+>> +#endif /* CONFIG_DEBUG_FS */
+>> +
+>>  static void __update_runtime_status(struct device *dev, enum rpm_status status)
+>>  {
+>> +#ifdef CONFIG_DEBUG_FS
+>> +       enum rpm_status old_status = dev->power.runtime_status;
+>> +#endif /* CONFIG_DEBUG_FS */
+>> +
+>>         update_pm_runtime_accounting(dev);
+>>         trace_rpm_status(dev, status);
+>>         dev->power.runtime_status = status;
+>> +
+>> +#ifdef CONFIG_DEBUG_FS
+>> +       if (dev->power.disable_depth > 0) {
+>> +               if (status == RPM_ACTIVE)
+>> +                       dev->power.suspend_time = 0;
+>> +               return;
+>> +       }
+>> +
+>> +       if ((old_status == RPM_SUSPENDING || old_status == RPM_ACTIVE) &&
+>> +           status == RPM_SUSPENDED)
+>> +               rpm_account_suspend(dev);
+>> +       else if (old_status == RPM_RESUMING && status == RPM_SUSPENDED)
+>> +               dev->power.suspend_time = dev->power.accounting_timestamp;
+>> +       else if (old_status == RPM_SUSPENDED && status != RPM_SUSPENDED)
+>> +               rpm_account_sleep_end(dev);
+>> +
+>> +       if ((old_status == RPM_RESUMING || old_status == RPM_SUSPENDED) &&
+>> +           status == RPM_ACTIVE)
+>> +               rpm_account_resume_complete(dev);
+>> +#endif /* CONFIG_DEBUG_FS */
+> 
+> Please move the code under CONFIG_DEBUG_FS in this function to a
+> separate function called by it and defined as an empty stub if
+> CONFIG_DEBUG_FS is unset.
 
-Every arch has some solution, but the critical part is the cookie must
-be tied to and exposed into userspace.
+Ack, this patch is messy...
 
-start returns some cookie ID, and accept only works if that cookie is
-still the current session.
+Also Sashiko still isn't happy with the way I calculate these metrics.
 
-Since we have a uAPI that allows multiple userspace threads to open
-attestation this cookie prevents trouble if something else open/closes
-the session from userspace.
-
-Doing it transparently in the kernel isn't protective enough, IMHO.
-
-> But this patch is about keeping pdev->tsm stable in the guest. We need a
-> mechanism to associate a TSM with a pci_dev. Currently, the host uses
-> sysfs 'connect', while the guest uses sysfs 'lock'. It is not clear that
-> we were proposing to remove that mechanism.
-
-Everything uses connect.
-
-Once connected the attestation FD is created and its internal locking
-and disassociation scheme will prevent any issues with TSM hot remove.
-Basically when TSM is hot removed it unregisters attestation FD and it
-is attestation subsystem's problem to lock that, not TSM.
-
-Once the viommu is created then the ref mechanism you build prevents
-TSM host remove while the viommu object exists.
-
-Together these mechanisms should encompass the entire uAPI we see
-right now, so we shouldn't have or need yet another layer of locking.
-
-It is why these sysfs's are looking more and more troubled since they
-are existing outside the natural object and locking model that is
-emerging here.
-
-> Are you suggesting that the TSM association remain under sysfs control,
-> while IDE teardown and TDISP unlock become CTLV operations, and that
-> sysfs disconnect or unlock be prevented until the above CTLV operations
-> have completed?
-
-That is roughly what I'm describing above, it should fall out
-naturally from building attestation subsytems lifecycle model
-correctly.
-
-Jason
+-- 
+Kind regards,
+Joshua Crofts
