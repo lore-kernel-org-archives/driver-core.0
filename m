@@ -1,71 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795600357;
-	b=y4B//F7Cm+sTx2Va7qsDL62dkCWxJ0XxDahE7ZB3X6283MNnQ7KPQ732tOVYkZEfaWUI
-	 r9O1ddBZ2eCi1Auakh2c62++qoe3YY7mKL0rhv9NT9lTBBtEnVfIwE72KaymAHa8/i4x/
-	 ltNnG6EJB02uzLFGaa97RChLKMEm5xQhH7geMpQM0ZCeTjuuR639GBY7OLqf0W08smnwF
-	 1PkwXlvC62YLZITwDBHwHiaGTvxd4KoObw9B9bnBkCd3FoOWYLby26YM18QxLI2Ty7UVK
-	 6KxgMY0YwSeNMMDZKvfTms4oiGGavyqzF7bWujirOSaGxnze161ZaAS24rSgMfzk5gg==
+	t=1795600806;
+	b=ZuDWfDZzExBiF2qW0cmsLeWytyRbOgdgizUPkR0R1QyV2+bO2cH8NeA6AkvsUroe0EhZ
+	 34pxNIvk/X9x3B9wh8XlncJGcTjNKw60lhGnbntbU/9ycIQzTjfNpj4or/6YLlhRx2y6+
+	 wlFL5J8L2+dPn/AVhFp2U7vzVepXS8MEFi7PQBJew04DxfEo0TySocwxxyUBPAbX1zud8
+	 y5orjyy/QVOezRR433/Hyyt/IDSUZcopx83QeXBp/5/LRk22ZfRM/4pnFDEmR43lU6yn5
+	 iYskwnxXdI6vla9sEPJdocny2xuqD/CW9E/WRy+u2E8e7hCE8R9etkRyJdct5rpFoHA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795600357;
-	h=Received:DKIM-Signature:X-Mailer:From:To:Cc:Subject:In-Reply-To:
-	 References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=lxNxo0WViVlcLa7SPdP8MGDphVxbnRRV9YfIs2LmfLM=;
-	b=ocEQTmQXj6r4kRld3ITBobEjOWt2NzMtX4tQyIc6goKcUmzhJy53CAmDkx914dMxs0F7
-	 qwwf6NDxHVXFv8BNoW5oO5OL+0GppgzS9A6mLyklu5hkeVwYtdSMQtlGl33UVxuj88VbX
-	 t9e6rPcQCjLYUM3qOPptD+1f3CN9nDz622Wxx9KqNrwd/03G51+4tac5Zd0N/OkHqCNCn
-	 t5UlOTd8iJHG40AM/zYGXK9JY5OWtA8lWTYJ/U5puBef/jXFTWFIVj0fMpaTmUTDRG6MD
-	 gHopaOSK9DAQdEK0vFs+NaMafbHsPYnDs7kVkQQ8k3gWp0JLVej4vDseWJ9eZp9NOMg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795600806;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=X3VoFCx8PJpGcFa9PdGQhv7PDVInlxKQ0D5DE1R51Rc=;
+	b=J7ltC9lgW3U/QMuO63wNwqu07bixuRcmDti/N2RqwRGs9RKgBYy4XJNNVR6ZKq616qWb
+	 2oHKzMmNP/ueYgQeDdO0Pm/eoXYuhOULFTrHXIyn1ZeUNjSr3GtzGvu2uAZ4m4RAQeQtO
+	 oiRE/ch7gJBS7CUye3smtCwhV9JqW39HAYVa87wJCbnLVBbb57MCUcMnrgjrtaxscyb9v
+	 1glmAmAS2DUmP6KM8JqrjozRYBb+EzmxsaCaV+F1MMfkGylZp++l7fboublXsS3kbvpu8
+	 B30vyHLSA7tax4f0JTUfpUvH/FJj2cE7XZdiVyndO6SRKh48muajKM7z+uzgu/JlvrQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ORQuLAwS;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=DgHrnK2N;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951AF606A32C;
-	Wed, 25 Nov 2026 09:52:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B3B606A331;
+	Wed, 25 Nov 2026 10:00:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ORQuLAwS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D79321F000C0;
-	Wed, 25 Nov 2026 09:52:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795600357;
-	bh=lxNxo0WViVlcLa7SPdP8MGDphVxbnRRV9YfIs2LmfLM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=ORQuLAwSSWGXRALu58+wnUib77buu3jlPY89IwQjKGbXEltJKVewClrN9SJSfNKRk
-	 zhFH3pUS/pP1RP2FJJc5pQcXcL0BQnYogOT6ZVJ1AuAVefppeErhwObhLH1fTZFGKE
-	 W7ipM1xnSYSEWWCRhUmq35MgBF0f5lB8h3U75CZXpTLSU59TrRETuag5gCtTX1EU2S
-	 +sLD0HatHQoM9l/Mfi2hyvR9O63zEJQHbcBUWkY+7XfHU2en+kZGt6kuxWtHsTrAmd
-	 +FzWNZ0OqKbQwDNx9vS7waGnfTaCJF37U2XRPBpZG3yD5+CaVBH38SwTWf/cF5UrsI
-	 gZWIH1XuSEvWA==
-X-Mailer: emacs 31.1 (via feedmail 11-beta-1 I)
-From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: linux-coco@lists.linux.dev, Dan Williams <djbw@kernel.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>,
-	Alexey Kardashevskiy <aik@amd.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Ashish Kalra <ashish.kalra@amd.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH v1 05/10] PCI/TSM: Add association locking helpers for
- evidence acceptance
-In-Reply-To: <20261123153507.GH179082@ziepe.ca>
-References: <20261123083337.2731019-1-aneesh.kumar@kernel.org>
- <20261123083337.2731019-6-aneesh.kumar@kernel.org>
- <20261123153507.GH179082@ziepe.ca>
-Date: Wed, 25 Nov 2026 15:22:27 +0530
-Message-ID: <yq5ald6h9r1g.fsf@kernel.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=DgHrnK2N
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D5B91F000CF;
+	Wed, 25 Nov 2026 10:00:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1795600805;
+	bh=X3VoFCx8PJpGcFa9PdGQhv7PDVInlxKQ0D5DE1R51Rc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=DgHrnK2Nc4sQPx52EHWMvpRx0vVo4o4rFQl+tDoywNUWnNH+SWiako/bHjpdVW5P0
+	 BPps9MUEmDPGwR24Gjva5hsO1S2wkXtNUsnVAMLKjyDyzGhYzgY5h6/zGGVjAArjll
+	 ev+BqFtz4fXqhZWlG2eNzsK+FMQ2I2BN8y32jngs=
+Date: Wed, 25 Nov 2026 10:59:17 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Ruide Cao <caoruide123@gmail.com>
+Cc: Ren Wei <weir@nebusec.ai>, linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev, rafael@kernel.org, dakr@kernel.org,
+	johan@kernel.org, akpm@linux-foundation.org, kay.sievers@vrfy.org,
+	vega@nebusec.ai
+Subject: Re: [PATCH driver-core 1/1] kobject: reserve an envp slot for the
+ terminator
+Message-ID: <2026112518-dynamic-trustee-d86e@gregkh>
+References: <cover.1795426787.git.caoruide123@gmail.com>
+ <cd35c5682ebe0f5a58fa6beed90bb7d0e7d5e9a2.1795426787.git.caoruide123@gmail.com>
+ <2026112301-jingle-multiply-c72d@gregkh>
+ <CACveakTAopfuvAVQnbzzU3c6z2efTgySV5xo7330KAD6nMSxYQ@mail.gmail.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -75,70 +59,52 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACveakTAopfuvAVQnbzzU3c6z2efTgySV5xo7330KAD6nMSxYQ@mail.gmail.com>
 
-Jason Gunthorpe <jgg@ziepe.ca> writes:
 
-> On Mon, Nov 23, 2026 at 02:03:32PM +0530, Aneesh Kumar K.V (Arm) wrote:
->> Later attestation patches let userspace finish device setup through
->> evidence-accept after host sysfs connect or guest sysfs lock returns.
->> Those commands use a saved struct pci_tsm and must prevent disconnect or
->> guest unlock from changing pci_dev::tsm or freeing the saved structure
->> while setup is in progress.
->> 
->> Add pci_tsm_trylock_association() to acquire pci_tsm_rwsem for write and
->> check that pci_dev::tsm still points to the saved structure. For a TSM
->> implementing devsec_ops, first take device::mutex to prevent driver
->> attachment during MMIO validation and device acceptance. This matches
->> the device-mutex-before-rwsem order used by PCI DMA preparation.
->
-> This doesn't seem the API I'd expect here.
->
-> When we trigger SPDM session start AKA lock through the CTLV it needs
-> to capture some kind of 'session cookie' for this locked that ties
-> back to whatever the TSM is using to prevent a hostile host from
-> locking/unlocking while we are working.
->
->
-> That cookie should be held in the attestation driver and when we get
-> to acceptance it should be presented to confirm that nothing has been
-> tampered with.
->
+A: http://en.wikipedia.org/wiki/Top_post
+Q: Were do I find info about this thing called top-posting?
+A: Because it messes up the order in which people normally read text.
+Q: Why is top-posting such a bad thing?
+A: Top-posting.
+Q: What is the most annoying thing in e-mail?
 
-We already do something like this on lock, we track the cookie as part
-of CCA and use that during accept. Sure if every architecture supports
-this at firmware level we can abstract that to attestation layer. Yes
-and this protect from hostile host.
+A: No.
+Q: Should I include quotations after my reply?
 
->
-> It is a further reason why we can't have lock under sysfs control.
->
-> It should be attestation that provides a general purpose lock that
-> serializes all attestation operations including lock/unlock so we
-> don't need a TSM lock like this.
->
-> The driver should rely on that lock and use its internal mechanism to
-> process the cookie.
->
 
-But this patch is about keeping pdev->tsm stable in the guest. We need a
-mechanism to associate a TSM with a pci_dev. Currently, the host uses
-sysfs 'connect', while the guest uses sysfs 'lock'. It is not clear that
-we were proposing to remove that mechanism.
+http://daringfireball.net/2007/07/on_top
 
-We also have a single sysfs teardown operation: 'disconnect' on the host
-and 'unlock' on the guest. This tears down IDE, unlocks the guest
-device, and disassociates the TSM from pdev->tsm.
+On Wed, Nov 25, 2026 at 05:13:08PM +0800, Ruide Cao wrote:
+> Hi Greg,
+> 
+> You are right to be suspicious of this one, thanks. v1 was not good
+> enough: the "- 1" lowers the limit for every uevent from 64 to 63,
+> including events that never go near the usermode helper. In testing,
+> a currently valid 64-variable event was rejected (with the "too many
+> keys" WARN) on v1, on both the helper and the netlink-only path.
+> 
+> The underlying bug is still real: when env->envp[] is completely full
+> there is no slot left for the NULL terminator, so with
+> CONFIG_UEVENT_HELPER the helper's envp is not terminated and
+> kernel_execve() walks past the array (KASAN: strnlen <-
+> copy_string_kernel <- kernel_execve, then panic).
 
-How do we ensure that pdev->tsm remains stable across the different
-operations?
+This is an ai-response.  {sigh}
 
-As described in the commit message, this patch takes the lock to prevent
-a sysfs unlock from running concurrently with evidence-accept.
+Please do this work yourself.
 
-Are you suggesting that the TSM association remain under sysfs control,
-while IDE teardown and TDISP unlock become CTLV operations, and that
-sysfs disconnect or unlock be prevented until the above CTLV operations
-have completed?
+> v2 keeps the 64-variable capacity and instead adds one dedicated
+> terminator slot (envp[UEVENT_NUM_ENVP + 1]), writes NULL after every
+> successful add_uevent_var(), and also after zap_modalias_env() drops
+> MODALIAS. struct kobj_uevent_env is kernel-internal, so the only
+> visible change is 8 bytes.
 
--aneesh
+What does this mean?  Again, think about the problem, come up with a
+valid solution, and write this all in your own words.
+
+thanks,
+
+greg k-h
