@@ -1,93 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795616188;
-	b=SQnHtb6i2BALVZf53G91Inf8vJYIffFuktjPOnfkVZ44wggJlbUWBpbuNKKyaOzEMkIM
-	 r4UacRrD5xNWizAbt708mguImNc9ijyzbLqBdatX2pGNS59/M4BqPWu7CMTvGes6TRQ4w
-	 icqnuTgxYEdotn9Zz8ErVZNRfcXh/pQ5skgZHiytHoMoJcUaudVU9lYAYeIGnoVPUR1NK
-	 JwV9fhU4Cgih/rAJWZqbyuvMcril4/ZSWsvXXc7CAW6kctr+pfhfqqjq4lGKJd359YBKv
-	 KSzQ7/DPnUxCZEEXWbzqPx0mUf5176r4nWT3mahmXkVjyY8D5gGCF/rygw0NAJg56dQ==
+	t=1795616245;
+	b=EZmOIYrgpvTPdqQfSlFJ43IYGCB690S2wVTnT1zbA87EzBd2+Nvo0hGhte2C4Hyh81Vx
+	 u8EJdpCeU3G9uWSvfYLklf5qb6gPs6O7+ndNYKAPuyjapt1J2iTQs1YPQJS8QnNdDzByA
+	 O4/zc0B1GsfZ0fGtfUow8psJ4A2KDeH9r8w+KEjOgQs6x9dMOyP+jO+wziioOf6N+v7D/
+	 WnnOapJzD7nzE1txRBc7p8VPjnu1xBeLzyoOateCOv4xl8HqTAA6XYaJmcFarOu8c9GyZ
+	 1Mx0nqDHpUzQssoNILio96RTV9B3Gb3hWkEAiNti8Tcl1zfobZ7859jLy3vr7rawD6A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795616188;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795616245;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=i/jrBB7rLlSUxUEPdi3kz4rjRXIQytYo5vvcwBrT/JI=;
-	b=Q/y5GbcgS3ZGAJYO/O+yfDtH2rQKylEP+XhAWexTOeSiG2kj073yDh/gFUthD5/9WrFF
-	 /g/+OyVdR0vJ3QspJL13aiU1Y/XTooEUWk6XOGhpiOrly2n0RRQSC++gTjEmI7/ENEfw3
-	 705hBqhO/09fYmRY8yBAvYlR5m1UMu9d8T88ipla/I+bunbrybCLo2OhZ+TbBDcVBU7qA
-	 07FDjKmbF8BAL8eMPbx1qtMXwCSpensT3DvCJ5cW+aoGEyvHm5jQR/ELaCZL/40I3oWMt
-	 nmdoEPbgzN+iv8LrCwubYhkTA8dm3mpyQzxBil2MIYu64z78B4etANVdIBsY+9LTifQ==
+	bh=82OlthbTcf764s1+nsFlIqp1XEt+X8IqMsOwsuhDROg=;
+	b=gLMRyeYyrlGn0yx9Zo+xMZZGjjEY56jxwY0K9zkPnGclJ5aQrlcLwPhjwRzomhI+R6yg
+	 LtQRgF3CCVDuCi5L2N0iHR3cUSy508h16aH/DrmPkGLxSrbIIJ0MLSlYXxVjaHI3bUc4U
+	 d8O863i1Nx9RXF6baQg5HhTX0Ljn5D0OUsMM1xMo4hBMyhtsr/cL9OksBlyYoiHz4NxIv
+	 mmy8lSXviPATsd7WcLWzEv4hy/gJkHRJZ2Wwe51Tli0gSwo0OUpkR7srwCkcT/G054c/3
+	 40YV2A/DzoJL5Kos5jpVRM8fMqvqQYk5QhReLh37l4LHxr0747s8SELdUiTrOJf1+1A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=ziepe.ca;
 	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=c6McCBIX;
-	arc=none smtp.remote-ip=209.85.219.43
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=aWoAz+MR;
+	arc=none smtp.remote-ip=209.85.217.54
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97729606A32C
-	for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 14:16:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97729606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92EE7606A326
+	for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 14:17:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92EE7606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=c6McCBIX
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-9217800e7f3so11202476d6.0
-        for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 06:16:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=aWoAz+MR
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-7cc0ccc2fddso2172928137.1
+        for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 06:17:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1795616186; x=1796220986; darn=lists.linux.dev;
+        d=ziepe.ca; s=google; t=1795616243; x=1796221043; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=i/jrBB7rLlSUxUEPdi3kz4rjRXIQytYo5vvcwBrT/JI=;
-        b=c6McCBIXAxfLw4s25EbkG9zoFP6msVqRL8V5KjgDJW1iXYHyByTdPIShm5EPJyHos2
-         HwZBtz5AE5GjelgQp6B/Zhb0DAQkNLCv6AfEaqixwvDdPBExor6wI4cXwkkMoohMs3vP
-         2l3iUUCSdc7fr/zLY/FeUIn59HuCWN4yD3z10qeT1gK52npjipIEoOdqvr9x3E6FY38Y
-         d5k9qyar+uFHNfZKFclxY1bjE6FW9WolR9X3V01NkN7cGQv9/wPIFZK/YIbySQECPiwM
-         +KqDqC8m6N667bfunMih5yEBJ2CYftI1JGdOMBJLuL2OEWiJGFZekOIEnyYLCVQ+NgGj
-         VyYQ==
+        bh=82OlthbTcf764s1+nsFlIqp1XEt+X8IqMsOwsuhDROg=;
+        b=aWoAz+MRKJ7ZzjVoomqnIi8F7xtWVif6B6xrm3ZiQN3LCsHrIzjNoksJDeqVFfgfZ0
+         6ScroIcQtVKUDNtBAPGV3gBj1UTZMu23rMtu12tc/NKzM+VSVgiTAJHQz/giCI3WIIPW
+         D3V5eEeiuCWiaqpKsWTt6RB7RwSlyGVaGakyOvMA5iAKnNz3viOiWz9xJ2v134dF/Dcw
+         2ZGCZ8UJR/qejGtBWQuimnD+roaYurUturyOREBMHnebxmuHrypMEyhHLVlTe2fICpGc
+         vbkIPICxUyAtihDBln18T9TX69g6GVFbyxkgqC+M9b26nATNNGftaQdMySjfeaQApBTR
+         0rJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795616186; x=1796220986;
+        d=1e100.net; s=20260707; t=1795616243; x=1796221043;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=i/jrBB7rLlSUxUEPdi3kz4rjRXIQytYo5vvcwBrT/JI=;
-        b=oM4Hn9MxRRMrx0fNmGIpfhtrN7vGTn42pz+gvBe2y+1Kq8vujhqVouePi7sCbVJGRj
-         RbPDMdNXdyDlMDAcBsfGR0rAcYLsHL5Q0HZuiMEwJ861CEspuZj+GGUQ1ppbzC2MoUQX
-         +Nf0BLli9cOdKMbmLpC48ltYz5Nr8fPZb5VLGzwNhK7e2zQSHcKFGQNSDHjT93KLtJWI
-         mqqEr+tvXJbb8H/L3x6GHESWiFBrybrVviN3FHA6il1QjGEHY0rdsTptcnPeMNVo9WcV
-         RpGkkpT9WV8A3GQAVlOTXM5VpjvxX0B82yEYuVyuwYPNscifHxUR4jDpZZjLZKnexZbl
-         JMHA==
-X-Forwarded-Encrypted: i=1; AL+hErHqAcSdXiICe4A/bDbqc+3ZG0kdIFduN5lmg2hS2iNwllTM0vEvssIE6/vxbwbQFhvAOXZBoSmoT7o5Zg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/sbjDG+tatuwFLQGgxyKmZK8HTNuTPFBWMuIw6XnqQYOmu9I4i
-	Np4nD7UfgoOatBtRKvql2Rlkzsd1IFwuo7laWk0qNkZxXkZRz5FFTWnwJPFCZA8emzY=
-X-Gm-Gg: AZFdTZfTOd3za7DW39LqQtDBudPVgZUnfoZzN3WXOTG0ijjInkdyQF+vLFgbGS+fUgI
-	xWv0RfNCYm0g+BMLax1gZv6vfVDOcYkHMV9r0NUnl6fWr26IjtPBcMBmaurafKryUNzg5q6ZSmK
-	6LYa9JvkuOpRoxKuZNTsN12+9xhlDyyq+FIaIo/R8oaAh4qTDpMmKBOG43a+zlv9wyEE5pJSPMn
-	9J4gO1/79U/Xz5nSpXz0GABvWd/iIx6unLNDl8cB6qqGqgixpEh33cTwb2Gmh7mm5EUM7qSRSd+
-	ZtjzSVncfIbXajZpBOFGGQB/atcnuUjYn+Ekj0RE0PfGyYkqeIu9R5chP1MMgoM0cEhYFinQvd/
-	WGCoCsLByvHieWEgWbM2+cWRexBQ9405VulY1iszdUePuv9woSWhrmvna+0hMbf19ga8Sa6d1rc
-	hfKf+vrIvJaCl+GbIQuJH/Qu5PRUgy+RQaDpr6yaCEtTNUZ4CHdcB5AkHvy+NcT5HUA44t2u6/b
-	j/dp9KA5m2oWntTTTBDxud/p+jErcxLvwaWkcGLIDLNHNDVkO+yAOgXQ7/hTLv85bfTP+YcVgSg
-	Q6CfZIApJM6rt4C6kkx9BVSz04U=
-X-Received: by 2002:a05:6214:2f08:b0:921:5102:6b02 with SMTP id 6a1803df08f44-92151026b60mr217389976d6.38.1795616186267;
-        Wed, 25 Nov 2026 06:16:26 -0800 (PST)
+        bh=82OlthbTcf764s1+nsFlIqp1XEt+X8IqMsOwsuhDROg=;
+        b=vphfm2UdmSp2Zqv9N+bikcojXa2aBgeTQXOGLoqlck7QL8lH5KhQjlEb5E0sfxz6BW
+         nnvIiMoRjgUp0yX/z10xgjuPivtzR0GhDMoa4w7biCvJaejw9JH0nrS8J9K46AHJdn1m
+         8ctYHN34gDLor2LGvxsY8/yZvhryXFkXFF4aQ6NexIT5ZeAlorQ1sKoMMAHCR6psBzoe
+         nE9YJDPP1usw22ABDzdPngla3ov4VGvf+5xEjL6BOMr6ZWwjNLJJAr95F5cv4iKAqzeM
+         xlPL0RGD65lkQcEMJO+WA93BsX6n17ncfqSNMf2qlYpYuQr10ThoNtjRjCMcG5OlBap9
+         cdow==
+X-Forwarded-Encrypted: i=1; AL+hErF48zCUTKsvHFYvW2Huzf4Zjo+I5vbzqes9PM6CHBbxRYyZudEsryA0GNd6dh4zFjF0vVq7jmvIPEhbjQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/9RrNCiMu8p6ayHSyrOp7EY9kjhiDWBZtm1s7N9xjH4vMl68k+
+	7/YVx9N2XLD7UudFnHMhObDUUFfWlGC1DP+VWM/4826kV4ZHX4tEh0yE22q6LObIAXM=
+X-Gm-Gg: AZFdTZd8NjUklIccgKhW/c6YH/JTxQHSI0P+TbZqMe85Mhnd7TDaxOIsvCSCPVkPJOJ
+	Ib2lvWCINCZUKTioLK5ZQNKQ3sT9IhoLBleYrYyY5CWGFWyhrhvW4YqOvGKGtPc5J3Fa/J37mNP
+	d1vGp0mflWAGnYlAxqBuchYyU8f/zwuf6G2Ks9oZ7k2q90rWEeQBPlTqCCPw2/Ru77j2ZNIm3rR
+	SPpvz14+q3SCT2V5eZwEM6MH5GzKRXnL165JvJ0WUjKEtxVgsCgw5BZbsxbDo1woPUenS3XPa3Q
+	36pZVx91v/WStmfe6C20mnTHCBV9BwPtTq+8gAvhugeDL5CAex2jmrtDC+VgIbTtCUnhUGO68WL
+	xHFN1LitYwnO8TM113aglSLBUxa9VtY3Rz64C4wj8Bk1/tOGH3+DaeiPmCyLfi17vFfTWMAMX0l
+	i4G9rNnD6twWrmUcF+J/0UrNzCmabxg6WzZkI1ccfn7O4zgApAYXVfmz6x5RDb0CMstp/Nl/Lc8
+	datmAU6HWmtJiqvhImtP5t93Qy+FkKSFKml2GjCKOJ/He592BqV9DGg5m4x9xJ84wRwKWsmxYIL
+	5xzIpw==
+X-Received: by 2002:a05:6102:374c:b0:7c1:75c5:c4c with SMTP id ada2fe7eead31-7d739570939mr8150077137.25.1795616243315;
+        Wed, 25 Nov 2026 06:17:23 -0800 (PST)
 Received: from ziepe.ca ([142.177.118.84])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9217fd18b2asm6696336d6.21.2026.11.25.06.16.25
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921645f50f3sm60805116d6.24.2026.11.25.06.17.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 06:16:25 -0800 (PST)
+        Wed, 25 Nov 2026 06:17:22 -0800 (PST)
 Received: from jgg by wakko with local (Exim 4.97)
 	(envelope-from <jgg@ziepe.ca>)
-	id 1xWDnN-00000001jAp-0WzE;
-	Wed, 25 Nov 2026 10:16:25 -0400
-Date: Wed, 25 Nov 2026 10:16:25 -0400
+	id 1xWDoI-00000001jMI-14hV;
+	Wed, 25 Nov 2026 10:17:22 -0400
+Date: Wed, 25 Nov 2026 10:17:22 -0400
 From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
-Cc: Alexey Kardashevskiy <aik@amd.com>, linux-coco@lists.linux.dev,
-	Dan Williams <djbw@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+To: Alexey Kardashevskiy <aik@amd.com>
+Cc: "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
+	linux-coco@lists.linux.dev, Dan Williams <djbw@kernel.org>,
+	Leon Romanovsky <leon@kernel.org>,
 	Bjorn Helgaas <bhelgaas@google.com>,
 	Jonathan Cameron <jonathan.cameron@huawei.com>,
 	Xu Yilun <yilun.xu@linux.intel.com>,
@@ -99,16 +100,16 @@ Cc: Alexey Kardashevskiy <aik@amd.com>, linux-coco@lists.linux.dev,
 	Tom Lendacky <thomas.lendacky@amd.com>,
 	Herbert Xu <herbert@gondor.apana.org.au>,
 	driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, patches@lists.linux.dev,
-	Dan Williams <dan.j.williams@intel.com>
-Subject: Re: [PATCH v1 01/10] PCI/TSM: Report active IDE streams per host
- bridge
-Message-ID: <20261125141625.GA246011@ziepe.ca>
+	kvm@vger.kernel.org, patches@lists.linux.dev
+Subject: Re: [PATCH v1 02/10] coco: tsm: Register the TSM class before device
+ drivers
+Message-ID: <20261125141722.GB246011@ziepe.ca>
 References: <20261123083337.2731019-1-aneesh.kumar@kernel.org>
- <20261123083337.2731019-2-aneesh.kumar@kernel.org>
- <f377271d-353f-4c8e-94d5-98159a66ab28@amd.com>
- <20261124024842.GB9566@ziepe.ca>
- <yq5azeux9xxm.fsf@kernel.org>
+ <20261123083337.2731019-3-aneesh.kumar@kernel.org>
+ <20261123152903.GG179082@ziepe.ca>
+ <9f92f7ed-5198-45aa-9cef-515ccbf98398@amd.com>
+ <20261124170754.GB114530@ziepe.ca>
+ <17ee3598-9cc3-45d8-b068-31fafa06268a@amd.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -120,96 +121,44 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <yq5azeux9xxm.fsf@kernel.org>
+In-Reply-To: <17ee3598-9cc3-45d8-b068-31fafa06268a@amd.com>
 
-On Wed, Nov 25, 2026 at 12:53:33PM +0530, Aneesh Kumar K.V wrote:
-> Jason Gunthorpe <jgg@ziepe.ca> writes:
+On Wed, Nov 25, 2026 at 02:34:38PM +1100, Alexey Kardashevskiy wrote:
+> On 25/11/26 04:07, Jason Gunthorpe wrote:
+> > On Tue, Nov 24, 2026 at 11:40:16AM +1100, Alexey Kardashevskiy wrote:
+> > > On 24/11/26 02:29, Jason Gunthorpe wrote:
+> > > > On Mon, Nov 23, 2026 at 02:03:29PM +0530, Aneesh Kumar K.V (Arm) wrote:
+> > > > > Register the built-in TSM class with subsys_initcall() so it exists
+> > > > > before a platform TSM driver probes, independently of object link order.
+> > > > > CONFIG_TSM is boolean; remove the unused module exit path.
+> > > > 
+> > > > Why isn't it modular? This is going to force alot of stuff to be
+> > > > non-modular.
+> > > 
+> > > The TSM core registers a class. The platform TSM drivers register
+> > > TSM devices of that class. If a platform module loads before the TSM
+> > > code - the class is not registered yet so it fails. We could either
+> > > teach modprobe or have dependencies in the module or do this:
+> > 
+> > I understand that and Aneesh's patch is fine to solve that problem.
+> > 
+> > I'm asking why it isn't modular. They don't conflict, using
+> > subsys_initcall works just fine as a module.
 > 
-> > On Tue, Nov 24, 2026 at 11:11:49AM +1100, Alexey Kardashevskiy wrote:
-> >> On 23/11/26 19:33, Aneesh Kumar K.V (Arm) wrote:
-> >> > From: Dan Williams <dan.j.williams@intel.com>
-> >> > 
-> >> > The first attempt at an ABI for this failed to account for naming
-> >> > collisions across host bridges:
-> >> > 
-> >> > Commit a4438f06b1db ("PCI/TSM: Report active IDE streams")
-> >> > 
-> >> > Revive this ABI with a per host bridge link that appears at first stream
-> >> > creation for a given host bridge and disappears after the last stream is
-> >> > removed.
-> >> > 
-> >> > For systems with many host bridge objects it allows:
-> >> > 
-> >> >      ls /sys/class/tsm/tsmN/pci*/stream*
-> >> > 
-> >> > ...to find all the host bridges with active streams without first iterating
-> >> > over all host bridges. Yilun notes that is handy to have this short cut [1]
-> >> > and from an administrator perspective it helps with inventory for
-> >> > constrained stream resources.
-> >> > 
-> >> > Link: http://lore.kernel.org/aXLtILY85oMU5qlb@yilunxu-OptiPlex-7050 [1]
-> >> > Reviewed-by: Xu Yilun <yilun.xu@linux.intel.com>
-> >> > Signed-off-by: Dan Williams <dan.j.williams@intel.com>
-> >> > Signed-off-by: Aneesh Kumar K.V (Arm) <aneesh.kumar@kernel.org>
-> >> > ---
-> >> >   Documentation/ABI/testing/sysfs-class-tsm | 13 ++++
-> >> >   drivers/pci/ide.c                         |  4 +
-> >> >   drivers/virt/coco/tsm-core.c              | 95 +++++++++++++++++++++++
-> >> 
-> >> I'll take to the tsm tree, thanks!
-> >
-> > Lets not take any new sysfs APIs please. These all need a careful
-> > thing and we are not having a good history right now on any of these.
-> >
-> > I'm not even sure what this is supposed to be for, is it debugging?
+> it "works" because it is module_init() in include/linux/module.h:
 > 
+> #ifndef MODULE
+> #else /* MODULE */
+> [...]
+> #define subsys_initcall(fn)             module_init(fn)
 > 
-> I think this helps users identify active IDE streams and determine how
-> many secure streams remain available on the host bridge. I would not
-> classify it as a debugging-only aid.
+> and then the dependency problem again. Do I miss something?
 
-It looks like debugging to me..
+What have you done to make that a "dependency problem"
 
-> A sample output for a toplogy given below
-> # lspci -t   
-> -[0000:00]-+-01.0-[01]--+-00.0
->            |            \-00.1
->            +-02.0-[02]----00.0
->            \-03.0-[03]----00.0
-> # 
-> 
-> # pwd
-> /sys/class/tsm/tsm0/pci0000:00
-> # ls
-> 0000:00:01.0  0000:00:03.0              pci_bus  stream0.0.0  trust_policy
-> 0000:00:02.0  available_secure_streams  power    trust        uevent
-> # cat available_secure_streams 
-> 255
-> # ls -al stream0.0.0
-> lrwxrwxrwx 1 root root 0 Jan  1 00:48 stream0.0.0 -> 0000:00:02.0/0000:02:00.0
-> # 
-> 
-> Here, I have set up an IDE stream with 0000:02:00.0.
-.
-> The previous discussion cited in the cover letter indicated a need for
-> this because the number of streams available at the host bridge level is
-> limited.
+The module loader chases the symbol graph and orders the module_init
+calls based on a depth first ordering of the graph.
 
-So explain how the imagined "systemd device acceptd" is supposed to
-use this automatically?
-
-Explain how it works with the future need for a more complex P2P
-scenario
-
-Explain how it works inside a guest to accept IDE streams setup by the
-host.
-
-IMHO we are no where near understanding streams well enough to have a
-uAPI implementation, nor it is even clear sysfs will be enough to get
-us what is needed for everything.
-
-I would prefer we focus on the things we are starting have a consensus
-on, there are so many right now, lets try to get them merged before
-opening up even more topics.
+How do you get things out of order in that world?
 
 Jason
