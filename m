@@ -1,54 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795619738;
-	b=4A+VXhBuCXL4dcFeBErApZb10tevlNwn/JKtuJ2Psi8u/5yAiZ30g/d96N1Nm5+odSQ9
-	 D6TLAVoX9pP4Kdx1fOf22eldlNbV62dtXNjFN10vtKNcEJ7wJQAutUlhPipYkZEzQqNvW
-	 CaYQboIM57crR6811qwEE0RjQkmR+yD3dhdWkay65m5eK2E2ki7cX5j219/B0LVyP7l+Y
-	 Si6/jZoGyu/jZSvatKmPXwWq4ulPsDwrZ3Yqs8jsT9DnZxHJEqMOJyDLFrPzHZi34zKq9
-	 VCpVL2CBL2gPvgSE1gGTaAyJWufGN71NyLXYBlGqi+ooJD4Nyji84cww4ZYz4Dtjm9g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795619738;
-	h=DMARC-Filter:DKIM-Signature:Received:Content-Type:Mime-Version:
-	 Subject:From:In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:
-	 References:To:X-Mailer:X-ZohoMailClient;
-	bh=KsKOL1LBuE5DwahQvnWhjgMjkWGirzDL40wWzqc9Jsg=;
-	b=UKRZQDBuPbXIIgmd/MOdazC/bMlM932cYCsvkAast15JF8KsQuFzEFgxoireO23lHlii
-	 utTGoaHR02vY8eg9Y3DUvOgcolNhnHjzs0VvgdVLUb2x0I+X2TgSpMMT+LWxbKJDTYBrt
-	 xzn0MhHsmKTuJ0GatSlYJL6v+/GMJcoLhDrHMVYNd+bj2aTJJC8ACr08WdZHe10FRO38I
-	 GGu/YDE1HYp+3X4GpGteSpTwyUAb0/5/Vgzz/43XmRQG92pVARgM6uC/N8PFMxy943N0E
-	 6nibkskpZ8JANEFbxwPQiwRHtk4mBDzo9BH+JlCNeN29rgIFWnrPWXKBcKi+DT65mNA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=collabora.com;
-	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=XawzcFH9;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
-Received: from sender6-op-o11.zoho.com (sender6-op-o11.zoho.com [165.173.180.11])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795620146;
+	b=2L3YZ1crm8zdR6jMioBfJ5T8v9V4rPOT5AW1O8jU06aJgbGKuWXPzqx2jwtw6Dl+XFPn
+	 YgELHGEze2u3EOUggvxfOJpiGiPjK5/HCbORJRQSkWs6sjWcfB5TgA0/utejR0qQI7ndC
+	 HLGC8aSdsLwefKY79XK8rPypaE8oLsZgyr4pzDITNQrft5MIGCZKr+RUf2UeI5n/o+DBK
+	 pFZEc8geF03BVBFKCK1KbNs7wbBgrck0GDSbOAdLT5sIYuvrUhkSAEpGa2ZqNe9ErFval
+	 Txyx5jiveoLAHTkJV3x9F7xmRf8czDgG1p+HOwPP+MeM2grYnn8Dr4uFJkZa9mD+N+A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795620146;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=WPm5f6o6q9fQoFUXqZTkOjGUojfVjYLnzIwjI2iGOZA=;
+	b=H0x1tqDZSjp3A+YnyKCAxZ4Vh3bvxwXJLr3RhJGYZswECwDPKIBqDGWbJ53gFV+yZWTH
+	 3kPPco7e3TPD329pB1BUpm1LD0AkgmNUsIEUu3J3QTd/38CDbAmCk2tgA2dKsEG2eLSWy
+	 LwSXIdMynWXYesERhr8YXJaWYT62aO9tSFA/KKaNfaxET+/WVYXZuYWPnv6acazXsYYAp
+	 KioweFWIePvZplJHhQdaGAMInx1RJ9fGLIE0snGQaN7M54uuS9Uku1u46b8oBbMa9q0/7
+	 oPzRgEXCsQ52V3Udd2zSUjJOo0ZwMehrRtzw1Jw1HdBwJLXiGIH7ITezm3kJThBN15g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iirkhZsk;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B99C606A31E
-	for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 15:15:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B99C606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8521606A31E;
+	Wed, 25 Nov 2026 15:22:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=XawzcFH9
-ARC-Seal: i=1; a=rsa-sha256; t=1795619717; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=dmHhvP8wb97y9f62jf0DPLoyvfiAnOnZFwXN5jnlnLGlCujIivZX7DyauLLuXidx0hO+GCcZL6qOb8HMwsLU+bN5jGPYYiOLVnny5j9qLcnq3d8blBo4lJ07xFe/20Rb5lRjlX9fEJ401b0zg5hWfp1ljtVwkBnTzJzJkkm7bS8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1795619717; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=KsKOL1LBuE5DwahQvnWhjgMjkWGirzDL40wWzqc9Jsg=; 
-	b=M+MGlnaHjtNdkUnvZPzHWcMYhWt61AGBuGr4aMVCDkVvm1ojyDoYZPDKZQMfjkxtAfYldoh1E5J8GViV6PnhwFb+xmtwpSgltjzVgQuQjzetDZTdkXDBMA90fhDw5kbgTIQjXIr+7R4Of5uQi7dLWKfBn3Fv/fgllCrFlxmDT0o=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: a=rsa-sha256; b=XawzcFH99NAGaEH4Fv59nI+nfcNk0o+a54DiHyLysYi1R0WU7e+NRpifdM1OtXtiT80i/ajYPBeXSDhP5h60uKYqIvLJmw15F3FQUhHSCK8pNqf1fsDRjFKQxhxtIF0tUi5t3GUBEb4jJQ3yj8qfWX89JzpYb95MnFnOXye0FjA=; c=relaxed/relaxed; s=zohomail; d=collabora.com; v=1; bh=KsKOL1LBuE5DwahQvnWhjgMjkWGirzDL40wWzqc9Jsg=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
-Received: by smtp.zohomail.com with SMTPS id 1795619715408617.2203218784065;
-	Wed, 25 Nov 2026 07:15:15 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iirkhZsk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74C911F000C0;
+	Wed, 25 Nov 2026 15:22:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795620146;
+	bh=WPm5f6o6q9fQoFUXqZTkOjGUojfVjYLnzIwjI2iGOZA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=iirkhZskCFEGY5EgYsFyvEtuayDf13fe1TB9VZlGBLo63US3MpFkmWHz4LxlPfedb
+	 LfZyvNlGEk0m0Ao3tNxrWy/uKsQrUzrWa8j1dSDjL7J3R92pmrWBNuERT9LG2iS2hR
+	 uWYZiLkNlLNSbP2xouJYCetuy65y5siHjM33ZszIaBKkfqv5674aOja7y0UEVca8U5
+	 RK7Ct15GNb8toAnGWx7f7QnSu95a4n3DvSsh218HDL+gle6tM8MEyH2y8byhbDfBpN
+	 4auyymDP7u3CfBsTLd9RMuepu53iGhwlu/6cqQmamXbWhUhODAHaH4VwPZEgcTejXU
+	 gphu0cY239okw==
+Date: Wed, 25 Nov 2026 15:22:20 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: raffaele.tranfaglia@gmail.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-sound@vger.kernel.org, Neo Chang <YLCHANG2@nuvoton.com>
+Subject: Re: [PATCH v2 1/3] ASoC: codecs: nau8360: set val_bits to the widest
+ register size
+Message-ID: <1c55d4cc-bd67-4344-8727-0017fd5b79f7@sirena.org.uk>
+References: <20261125-regmap-kunit-val-bits-v2-0-81db3b79cd3f@gmail.com>
+ <20261125-regmap-kunit-val-bits-v2-1-81db3b79cd3f@gmail.com>
+ <awbhwVw52eSTTmiu@ashevche-desk.local>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -57,295 +66,43 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.200.71.1.16\))
-Subject: Re: [PATCH v7 04/10] drm/tyr: add per-file VM pool
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20261122-tyr-ioctls-v7-4-3a2af624b992@linux.dev>
-Date: Wed, 25 Nov 2026 12:14:54 -0300
-Cc: Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Tamir Duberstein <tamird@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>,
- =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Lyude Paul <lyude@redhat.com>,
- David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Johan Hovold <johan@kernel.org>,
- Sami Tolvanen <samitolvanen@google.com>,
- rust-for-linux@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- driver-core@lists.linux.dev,
- Ke Sun <sunke@kylinos.cn>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <27D1AE72-927B-4F2E-B2E3-E5226626ABB8@collabora.com>
-References: <20261122-tyr-ioctls-v7-0-3a2af624b992@linux.dev>
- <20261122-tyr-ioctls-v7-4-3a2af624b992@linux.dev>
-To: Alvin Sun <alvin.sun@linux.dev>
-X-Mailer: Apple Mail (2.3901.200.71.1.16)
-X-ZohoMailClient: External
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2vhTjSjPcqbwGTMA"
+Content-Disposition: inline
+In-Reply-To: <awbhwVw52eSTTmiu@ashevche-desk.local>
+X-Cookie: -- Owen Meredith
 
 
+--2vhTjSjPcqbwGTMA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> On 22 Nov 2026, at 09:50, Alvin Sun <alvin.sun@linux.dev> wrote:
->=20
-> Userspace needs multiple independent GPU address spaces per file,
-> addressed by ID through the VM ioctls as in panthor. Store them in an
+On Wed, Nov 25, 2026 at 03:25:21PM +0200, Andy Shevchenko wrote:
 
-Can you please capitalize Panthor?
+> Hmm... While it works, it might be not the best approach. In cases like this
+> elsewhere we create two regmaps (one per each val_bits size) and choose them
+> based on the register offset.
 
-> IdPool (capped at 32 for panthor parity) plus an XArray. On failure
-> the caller receives the VM for teardown through the returned error,
-> whether the un-stored clone or the original on an ID conflict, so an
+Either approach works fine, neither is particuarly elegant - you do end
+up with a bit of open coding with the register I/O functions, but
+equally it causes surprises elsewhere to have multiple register maps for
+the same device and that's also error prone so there's something to be
+said for putting the special casing in the two functions.
 
-Perhaps =E2=80=9Cnot yet stored=E2=80=9D? Although a native English =
-speaker is
-probably in a better position to judge this.
+--2vhTjSjPcqbwGTMA
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> aborted creation never leaks a VM. The pool kills every VM still
-> stored when the file closes.
->=20
-> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
-> ---
-> drivers/gpu/drm/tyr/vm.rs | 145 =
-+++++++++++++++++++++++++++++++++++++++++++++-
-> 1 file changed, 144 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/tyr/vm.rs b/drivers/gpu/drm/tyr/vm.rs
-> index 1dd11b2b12532..e67a6efcf451b 100644
-> --- a/drivers/gpu/drm/tyr/vm.rs
-> +++ b/drivers/gpu/drm/tyr/vm.rs
-> @@ -11,6 +11,7 @@
-> use core::ops::Range;
->=20
-> use kernel::{
-> +    alloc::AllocError,
->     device::{
->         Bound,
->         Device, //
-> @@ -33,6 +34,7 @@
->         }, //
->     },
->     fmt,
-> +    id_pool::IdPool,
->     impl_flags,
->     io::PhysAddr,
->     iommu::pgtable::{
-> @@ -41,6 +43,7 @@
->         ARM64LPAES1, //
->     },
->     new_mutex,
-> +    num::casts::FromSafeCast,
->     prelude::*,
->     sizes::{
->         SZ_1G,
-> @@ -53,7 +56,11 @@
->         ArcBorrow,
->         Mutex, //
->     },
-> -    uapi, //
-> +    uapi,
-> +    xarray::{
-> +        AllocKind,
-> +        XArray, //
-> +    }, //
-> };
->=20
-> use crate::{
-> @@ -947,3 +954,139 @@ fn pt_unmap(dev: &Device, pt: &IoPageTable<'_, =
-ARM64LPAES1>, range: Range<u64>)
->=20
->     Ok(())
-> }
-> +
-> +/// Maximum number of VMs a single file may hold, matching panthor's
-> +/// `PANTHOR_MAX_VMS_PER_FILE`.
-> +const MAX_VMS_PER_FILE: usize =3D 32;
-> +
-> +/// Per-open-file pool of VMs.
-> +#[pin_data(PinnedDrop)]
-> +pub(crate) struct VmPool<'drm> {
-> +    /// Parent device, for error reporting.
-> +    dev: &'drm Device<Bound>,
-> +    #[pin]
-> +    ids: Mutex<IdPool>,
-> +    #[pin]
-> +    vms: XArray<Arc<Vm<'drm>>>,
-> +}
-> +
-> +/// Error returned when a VM cannot be added to the pool. The caller
-> +/// owns the teardown of the VM in [`AddError::vm`].
-> +pub(crate) struct AddError<'drm> {
-> +    #[expect(dead_code)]
-> +    pub(crate) error: Error,
-> +    #[expect(dead_code)]
-> +    pub(crate) vm: Arc<Vm<'drm>>,
-> +}
-> +
-> +impl<'drm> VmPool<'drm> {
-> +    /// Creates a new [`VmPool`].
-> +    ///
-> +    /// The pool is sized for [`MAX_VMS_PER_FILE`] IDs on all =
-architectures,
-> +    /// including 32-bit builds where `IdPool::new()` would only hold =
-31 IDs
-> +    /// because `find_unused_id(1)` skips bit 0 of an inline bitmap.
-> +    #[expect(dead_code)]
-> +    pub(crate) fn new(dev: &'drm Device<Bound>) -> Result<impl =
-PinInit<Self>, AllocError> {
-> +        let ids =3D IdPool::with_capacity(MAX_VMS_PER_FILE + 1, =
-GFP_KERNEL)?;
-> +        Ok(pin_init!(Self {
-> +            dev,
-> +            ids <- new_mutex!(ids),
-> +            vms <- XArray::new(AllocKind::Alloc),
-> +        }))
-> +    }
-> +
-> +    /// Stores the VM and returns the allocated ID.
-> +    ///
-> +    /// On failure - ID space exhausted or a store failure - the VM =
-is
-> +    /// returned in an [`AddError`] so the caller owns the teardown.
-> +    // TODO: allocate IDs with the XArray directly (once it grows =
-range
-> +    // allocation, the equivalent of C's `XA_LIMIT`) and drop the =
-IdPool.
-> +    #[expect(dead_code)]
-> +    pub(crate) fn add(&self, vm: Arc<Vm<'drm>>) -> Result<u32, =
-AddError<'drm>> {
-> +        let id =3D (|| {
-> +            let mut ids =3D self.ids.lock();
-> +            let unused =3D ids.find_unused_id(1).ok_or(ENOSPC)?;
-> +            if unused.as_usize() > MAX_VMS_PER_FILE {
-> +                return Err(ENOSPC);
-> +            }
-> +            Ok(unused.acquire())
-> +        })();
-> +        let id =3D match id {
-> +            Ok(id) =3D> id,
-> +            Err(error) =3D> return Err(AddError { error, vm }),
-> +        };
-> +
-> +        let mut vms =3D self.vms.lock();
-> +        match vms.store(id, vm.clone(), GFP_KERNEL) {
-> +            Ok(prev_vm) =3D> {
-> +                if let Some(prev_vm) =3D prev_vm {
-> +                    // An existing VM at the freshly allocated slot =
-means the
-> +                    // IdPool and the XArray are out of sync: the =
-stored VM is
-> +                    // a pool entry, so the pool kills it and the =
-caller's VM
-> +                    // is returned for teardown.
-> +                    drop(vms.remove(id));
-> +                    drop(vms);
-> +                    prev_vm.kill();
-> +                    self.ids.lock().release_id(id);
-> +                    dev_err!(
-> +                        self.dev,
+-----BEGIN PGP SIGNATURE-----
 
-VMs already have a dev() accessor. For the time being
-I don=E2=80=99t think we need to store dev here too.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmsG/SwACgkQJNaLcl1U
+h9CQkQf+JBrJ5QV/gQV+1O7tzRwKf4d0vznu88UTJU3Xytz1LKQzUFrihlew+uMc
+hkIe6ghvi2S6VC237c1JQNbGQ3S0hrEDKRlA7YlatPEPU4WZMSsCphiCwH2qityO
+n4JXaihCtV/x2X9bvz5VfKF6aHvJiPMDDaaPpwplKXr9fbwFY7awuoBs+NIvlFgy
+fBCmNfr+oShutTvPJvUqafAiLeBzNHkkH7BWK3LijyAmC/BdjTSM0BNYhdUfZIhN
+A9i07xVWjt5Kw7qgEYMlRf04oZ/85j9R7oKbxRbFNqxh26fXqO1OkOwb5/bL7BE/
+3M88cALi3Xc+VFF3YSmJQeafm9S2Bw==
+=1vm1
+-----END PGP SIGNATURE-----
 
-> +                        "IdPool/XArray out of sync at VM pool id {id} =
-(stored VM conflict)"
-
-Missing newline here. Also, could you please improve this message? =
-Someone
-seeing this on dmesg has no idea what is going on. How about:
-
-"VM id {id} marked free but still in use\n"
-
-?
-
-
-> +                    );
-> +                    return Err(AddError { error: EBUSY, vm });
-> +                }
-> +                Ok(id as u32)
-
-Please remove this cast. Use as_u32() instead.
-
-> +            }
-> +            Err(err) =3D> {
-> +                // Drop the XArray spinlock before acquiring the =
-`ids` mutex.
-> +                drop(vms);
-> +                // Release the pooled id; the VM never entered the =
-pool, so it
-> +                // is returned to the caller for teardown.
-> +                self.ids.lock().release_id(id);
-> +                Err(AddError {
-> +                    error: err.error,
-> +                    vm: err.value,
-> +                })
-> +            }
-> +        }
-> +    }
-> +
-> +    /// Removes and kills the VM with the given ID.
-> +    #[expect(dead_code)]
-> +    pub(crate) fn remove(&self, id: u32) -> Result<()> {
-
-Result<()> -> Result=20
-
-> +        let mut vms =3D self.vms.lock();
-> +        let vm =3D match vms.remove(usize::from_safe_cast(id)) {
-> +            Some(vm) =3D> vm,
-> +            None =3D> return Err(EINVAL),
-> +        };
-> +        // Drop the XArray spinlock before killing, since `kill()` =
-may sleep.
-> +        drop(vms);
-> +        // Kill the VM before handing the id back to the pool, so a =
-VM is
-> +        // never reusable while still alive.
-> +        vm.kill();
-> +        self.ids.lock().release_id(usize::from_safe_cast(id));
-> +        Ok(())
-> +    }
-> +
-> +    /// Gets a shared reference to the VM with the given ID.
-> +    #[expect(dead_code)]
-> +    pub(crate) fn get(&self, id: u32) -> Option<Arc<Vm<'drm>>> {
-> +        let vms =3D self.vms.lock();
-> +        let borrow =3D vms.get(usize::from_safe_cast(id))?;
-> +        Some(Arc::from(borrow))
-> +    }
-> +}
-> +
-> +#[pinned_drop]
-> +impl PinnedDrop for VmPool<'_> {
-> +    fn drop(self: Pin<&mut Self>) {
-> +        // Kill every VM left in the pool. The ID range is bounded by
-> +        // `MAX_VMS_PER_FILE`, so this loop is cheap and runs at file =
-close.
-> +        for id in 1..=3DMAX_VMS_PER_FILE {
-> +            // Release the XArray lock guard before killing: `kill()` =
-may sleep.
-> +            let vm =3D self.vms.lock().remove(id);
-> +            if let Some(vm) =3D vm {
-> +                vm.kill();
-> +            }
-> +        }
-> +    }
-> +}
->=20
-> --=20
-> 2.43.0
->=20
->=20
-
-
-With the fixes above + the fixes Deborah asked for:
-
-Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>=
+--2vhTjSjPcqbwGTMA--
