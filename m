@@ -1,70 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795595848;
-	b=r44hRd52i4pfMbVde6/OTqbdDPa21RjW2BaFFY0nGYZ3PdFjYfSuuFTVHwKDrdWFGvRZ
-	 oTIVuI5k7yktBeRAQsxCKNquEbuuOBasp6bkN7b3kwH1Idw9ZfhfM9C3DTA40OBtA2bbO
-	 3odPZaAA9aVyFXF9djWO94tmS2sBDhBnWZuKH/BJC9Y6XKkT8qpwTk8kBEpahuRbi6SPg
-	 7U4jOYHF7uXbFO/RkuOooO7QhX5JkiiTVBAiNQpy1E/nSmmjl+6AMcOP7GdBRrB7O0qt3
-	 x3ONZ3z/6hB5v2X7hvbdn3cFCn1sp4/OI1ohFYAwCL1si9W40L67W7yEVDmoIJcDszA==
+	t=1795596419;
+	b=qo1V+Ply7BTXYCHPsVa6BKCwIODumlQ2AVKuKVPOYQgLG7oRTyUM8wYIMz+Y7MbWIDWw
+	 43Vr/2oGVMebRGvw2Pd4W3PCL4bUEBPgcyv9QeIa9YSpB3t+8rSr6+73x9nUaVQGCF76x
+	 HnNeVeM1EQ2ZaA0qN572SOSN380voLTALlC3z94tC49jw4S4IV8GSBOiMCAwM2XHAEmX1
+	 +dFMaLRshc0USj87ov3siamkzXH5UTbxqBCNLRTGvuo+qSArM9f5gU+6xaS1acfH7ouVO
+	 uBA7bsOlyFp/qgRyftkPSq+DDIV5yY8FIidX1sPKTshsWxL9lo/WvjlbJ5+J2eaIYXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795595848;
-	h=Received:DKIM-Signature:X-Mailer:From:To:Cc:Subject:In-Reply-To:
-	 References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=zPQ6zQ8uV4eKmUcVRQ1hIv+A3D6QwvcOfGuZSPbSW+c=;
-	b=C1qWGQA5ObvF6y1ajc1HniZ/Yjv3Q+h27GEojHQi7C5Ndd/Uq69q2ASdGXlArAIyQtnb
-	 mlb9dcjcusob57Ls32EQWaFDdySFWkk7kgqkj6BGUEKx3z0leNXqEYzh6HFyVWzztHo71
-	 3OqKemj2V5xtk//scH9R3ONG3esy3zcacjHde+/5OYVe5dEZPacn4YDnS2gfczzJsPhoi
-	 QSni4Fni14+PS4ifsCsONFf2i0D0VDypwcT3wM+H4sfBg3Rhi7uwAj8Kk/HTClIGfo20L
-	 V3/ARfCvVsUMwuMgNg+q9AkZRUUvcVqz0rLFRVbpj0QPlvXekDyClUPpCpPfp4im7rA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795596419;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:
+	 Organization:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=46LJk3TZobukCFqYlnEQoPn8+XtFKOEqqL5lCkoAPWQ=;
+	b=t0ZewKyQg6NPhDOuUG9lJu6wLhe3Cez5L4iGv2NCnA8TzhAEnWfbji68AOUzCKxy00/5
+	 A6PCyAM0nD04aAWDIH/JnH0b+11TO2tUOnk9NDKtR1eEo2fHt/ODcTmVu9FT22nGiGzw/
+	 hssnvGSTppUOJLQx49Tb07Kl5DBlRIP30JCBADREpiSDUFm2mb9IIXOECQEgtqSpzZuAy
+	 Qs0XvjmD2c63hjdfBvaGXR8X5kLf4SPMuJLtpyuvaU/DBDbGWHEvS5Xk1JL2OurWUp4xY
+	 kDYDx1ZoRjem/tOHYYA6ZdwkYrcctmcHoonCdh3vSOP/sli6XcZGJW6QgKxSIDzVfJQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RqwuNeO+;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NOc9sUet;
+	arc=none smtp.remote-ip=198.175.65.12
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41CB1606A326;
-	Wed, 25 Nov 2026 08:37:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7D1606A337;
+	Wed, 25 Nov 2026 08:46:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9D7D1606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RqwuNeO+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 378A21F000C0;
-	Wed, 25 Nov 2026 08:37:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795595848;
-	bh=zPQ6zQ8uV4eKmUcVRQ1hIv+A3D6QwvcOfGuZSPbSW+c=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=RqwuNeO+en6ylIrQjzIoRLSLJhqQ/ZEyfYT8SJDHB3wI2f2OzxEgKMPBIlvgaqk1h
-	 c6xRRn988L/1TZNfg9RGOfrRNNLhx1dMzqvvTtj6c7Loysu62HBh/uAKDr5B3KbF6y
-	 p0Z+DNpiOhk02aH8n36HkVQmg0/jgCIaJUWy2a9uWWel2U0JlbonYZV9CjE+eZjCda
-	 4eEbSnB40uO4ASwHyxUjLcYHzrPtrCG3FGcNIgX1MpH9N9fkfCCW2QcEEvpp8c/yjw
-	 bFMpMfj49pN8fXhTM8egt0MwzWw8FMZoyQ9nwPNeG1rHL1dQ5NaC2jopXjoxN4Gttf
-	 2U9by7pYmIEkA==
-X-Mailer: emacs 31.1 (via feedmail 11-beta-1 I)
-From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
-To: Alexey Kardashevskiy <aik@amd.com>, linux-coco@lists.linux.dev
-Cc: Dan Williams <djbw@kernel.org>, Leon Romanovsky <leon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Ashish Kalra <ashish.kalra@amd.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH v1 04/10] PCI/TSM: Defer TSM vDEVICE allocation until
- device setup completes
-In-Reply-To: <5e04323f-dfdc-4956-acee-bcc09926726d@amd.com>
-References: <20261123083337.2731019-1-aneesh.kumar@kernel.org>
- <20261123083337.2731019-5-aneesh.kumar@kernel.org>
- <5e04323f-dfdc-4956-acee-bcc09926726d@amd.com>
-Date: Wed, 25 Nov 2026 14:07:19 +0530
-Message-ID: <yq5aqzg99uio.fsf@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NOc9sUet
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795596419; x=1827132419;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=H9lc7gaOvAIKawIbRVS6ojxGIJsVi/jj/Se/VsDrnTU=;
+  b=NOc9sUethe16ktmcnd4LVZyXoRF7ccqW25GeXmlKOwYPXsgpr4fARI1U
+   gtyG1FMNWOkbH+byCKMBVc9z22pRLqDyapu5m18od4I4QoJb0lAhKaupY
+   a7Ff5p2+mKq8E6QwSfwOlzivXx0Z/E/2zTeg/BnIsP3G/A7fbCB462un9
+   vca7vTLNyju7/oKfVaF0Mdu7q46Yihef18FLZN/t3gXQ1CDJO+cCc2+dY
+   nfS8yqtoYDham+7CcGeXfFbtKKpfneAk3YDumlzPOiwHbhduR7/cxeT3F
+   477DonUOBk5EAzh1dNQNtOjptoEXCGEyeKkEJJYedoHInkfmcYedeyFb5
+   A==;
+X-CSE-ConnectionGUID: fwAEquF/Qr2n8ZApwQQzkg==
+X-CSE-MsgGUID: HfCv7XHYTDeRGz+ICjriiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4365839"
+X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
+   d="scan'208";a="4365839"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 00:46:59 -0800
+X-CSE-ConnectionGUID: tJDNE9WfTyGMmWtXvp2Vsw==
+X-CSE-MsgGUID: E2tDNko3SO+ToIriwzOtlQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,232,1787036400"; 
+   d="scan'208";a="13591526"
+Received: from alekseim-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.36])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 00:46:56 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id A429E121B6D;
+	Wed, 25 Nov 2026 10:46:59 +0200 (EET)
+Date: Wed, 25 Nov 2026 10:46:59 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Linux PM <linux-pm@vger.kernel.org>,
+	Linux Driver Core Development <driver-core@lists.linux.dev>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>, iommu@lists.linux.dev,
+	Brian Norris <briannorris@chromium.org>,
+	Ulf Hansson <ulf.hansson@oss.qualcomm.com>
+Subject: Re: [PATCH v1] PM: runtime: Eliminate __pm_runtime_put_autosuspend()
+Message-ID: <awagg6rPEkkJR6nJ@kekkonen.localdomain>
+References: <13014755.O9o76ZdvQC@rafael.j.wysocki>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -74,59 +86,29 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <13014755.O9o76ZdvQC@rafael.j.wysocki>
 
-Alexey Kardashevskiy <aik@amd.com> writes:
+Hi Rafael,
 
-> On 23/11/26 19:33, Aneesh Kumar K.V (Arm) wrote:
->> A successful connect does not necessarily complete the checks and setup
->> needed to assign a device to a confidential guest. Authentication and
->> userspace evidence acceptance may still be required.
->> 
->> Add pci_tsm_pf0::ready and pci_tsm_set_ready(). While ready is false,
->> pci_tsm_context_get() returns -EACCES, preventing TSM virtual device
->> (vDEVICE) allocation.
->> 
->> Initialize ready to true to preserve existing TSM driver behavior. A
->> follow-up CCA patch will clear ready during connect and set it after
->> evidence-accept completes the required device setup.
->
->
-> If the host is not yet happy with the device, it can simply not pass
-> it through to a VM, what is the value of doing this blocking in the
-> kernel? I'd drop this one. Thanks,
->
->
+On Tue, Nov 24, 2026 at 05:36:41PM +0100, Rafael J. Wysocki wrote:
+> From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+> 
+> There are two users of __pm_runtime_put_autosuspend(),
+> pm_runtime_put_autosuspend() and arm_smmu_rpm_put(), but
+> the latter duplicates the code from the former.
+> 
+> Fold __pm_runtime_put_autosuspend() into pm_runtime_put_autosuspend()
+> and make arm_smmu_rpm_put() call the latter.
+> 
+> No intentional functional impact.
+> 
+> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
+Thanks! This is a nice cleanup.
 
-That is what this patch does. If IDE setup is not complete but the
-device already has tsm0 attached and connected, pci_tsm_context_get()
-returns an error from cca_vdevice_init(), preventing the device from
-being assigned to the VM.
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-static int cca_vdevice_init(struct iommufd_vdevice *vdev)
-{
-.......
-	ret = pci_tsm_context_get(pdev, viommu_tsm_dev);
-	if (ret) {
-		if (ret == -EOPNOTSUPP)
-			return 0;
-
-		return ret;
-	}
-}
-
-int pci_tsm_context_get(struct pci_dev *pdev, struct tsm_dev *tsm_dev)
-{
-	down_read(&pci_tsm_rwsem);
- ....
-	pf0 = to_pci_tsm_pf0(pdev->tsm);
- 	mutex_lock(&pf0->lock);
-	if (!pf0->ready) {
-		rc = -EACCES;
-		goto out_unlock_mutex;
-	}
-
-}
-
--aneesh
+-- 
+Sakari Ailus
