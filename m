@@ -1,54 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.11
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.101.73
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795623295;
-	b=hjpGjF5hbFt8wlY1chXpp1BLFBaYiFSB644eV6++5mV1HhCtd82QeRQwh+f3pt4jkB5n
-	 2Pbswayns7sRL6TKBnmphp9NZdgH3wT/T5mByoCIArZIPCpoly7yI6CXMJjYDJN95H31A
-	 tJbENxckVKUMsEdKRdun+H012ZkUGs7f7/odipHX8r0MvLX+X7QUb9g46CyFKyt6Q1pqj
-	 NhCHLaxJBnd5htgsRWh8Zr36nfOitZlu632rcUqmbNZ3z6R2UhgIiE/v6lJeEbzjDCR8e
-	 uVZPXnNwQWme53MnLTjdWHMAjP36fYZG3UeLA+e5J6XeNJVxgaFqB3l2AeoC+wuQ4CA==
+	t=1795624786;
+	b=zbM95lSAugyux4mP7fwkdbRvu1LO9Y5bGHG0iuSYFkh28DpveN5CXlKl4ZimYHHkWNBv
+	 vPlxZBd1FPv5Qh0uOhLo/4Fv6XAhpsO68uBVUxt/gi9cPkLSB57dLUDnPfutObw7xvVco
+	 sInY5Hd7t5DiARC1n+dIMzY2CVdhxIAqoTQImsISzoTtBdhxjzSc3K/aFSdIiKetq5tw8
+	 AykjmsSeqKnP/215zfZy9l1AZdeREb62FtTnkH3FYsL7X6+oQQ8chAqzMUN1cUKtlqDQC
+	 rHBavIFL4mH+Wiwj1amMMf+rzpy9Nhrymo5fUccbERFbxZy14L7Bdqqn9Bp5JsDPa6Q==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795623295;
-	h=DMARC-Filter:DKIM-Signature:Received:Content-Type:Mime-Version:
-	 Subject:From:In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:
-	 References:To:X-Mailer:X-ZohoMailClient;
-	bh=/LfAVqp4tu/EhbNroPShyI2fdXpjBbXDjj/7F6kfCyc=;
-	b=jmZXwEJkDINhSDVCWszsnmtBzY0/kUOehSr+DBkOPn1d9B4MbERb040XxIlDCpMDk8r7
-	 6N7VJ07E93ZSoAFQOxwI+w23YkNz6RSfxAVHhmZ8f+tfoZ7QY/3hTM294kOsitBQgxQKO
-	 DXI4G88KWdgRStCItOkK11611odT+a1Fu90apLjSrfbejjoJzoIM4bv37g9h6h+cTdQ/R
-	 3tCtZMXTGwQUIwH9AAYszbWTW3HK28eebFR3eUIEgBGgyFOBRB8FfK4NA0vewBtSsJ3BR
-	 FmnR3zmMhm5dNpAIxb/mf2YZ8WOFT5l4kUkaZQgVgeoljRQDL3lK4x1wYAPGILSBlaA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795624786;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:To:Cc:Subject:
+	 From:X-Mailer:References:In-Reply-To:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=vjSh/XuGaG/4bjbawpBDsLwTmKGX6H8ELcrXGH1hncw=;
+	b=4DaBeUUxH4X2+OsYZRqujsLnVVN0ZRD2XA8g6TyPh+nQPaTTfPgHWUrWe/q/ePVgryXH
+	 oG+hQxJbbWQ7qbZTGizxiL5QHWZ/RLptW+j17/X07/hwO4Tjh9AU7BR0ChURzeAo5Y6mP
+	 OBsQ4PBVX+HuqanRJNi8XNFsggRGnsfJbcWZzBppA/HTX/dEgWOd0y7UoXQPtCGAzFE9L
+	 zAy02KTvW07iECqgK/zt6VaDRYLRBtGqBgmOw2+0+sGF0gwcpxQctrAC2OwsUkiTv+YeW
+	 Ev/u9uPPnDIAmuuXRb9ZPxnvR6XMNM0ymIdoa6zz7IX9HYh/Q1FaHOtO/SwGWs3Y2mg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=collabora.com;
-	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b="TN+Yw/Wd";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.11
-Received: from sender5-op-o11.zoho.com (sender5-op-o11.zoho.com [165.173.182.11])
+	dmarc=pass header.from=garyguo.net;
+	spf=pass smtp.mailfrom=garyguo.net;
+	dkim=pass header.d=garyguo.net header.i=@garyguo.net header.a=rsa-sha256 header.s=selector1 header.b=bpvnuCec;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.101.73
+Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022073.outbound.protection.outlook.com [52.101.101.73])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084C6606A31E
-	for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 16:14:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 084C6606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78DB8606A33C
+	for <driver-core@lists.linux.dev>; Wed, 25 Nov 2026 16:39:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 78DB8606A33C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=TN+Yw/Wd
-ARC-Seal: i=1; a=rsa-sha256; t=1795623255; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=AvWEkyhmNjIPWBxVOgk8kwKJhfeojEUeIZSZrO16VQO6Dv+OfAUE57pfw8Hib5Lj5VXbnlsvtyvSvqBczekhAK3T8AAjBjutD/7gwEMb3LKMamZpcS0SPavvmkLaBRRr24M1wbcudhOLNAvOZWiI9pQacC36N4+cdHWEo6rNkSU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1795623255; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=/LfAVqp4tu/EhbNroPShyI2fdXpjBbXDjj/7F6kfCyc=; 
-	b=X4Mc8X2ntQpDU4LoIAywE49THhM89nezm3jtVGXQCJyvQFIoVJPrvVJiLFmdHOd56uOZ1LIWLayaa4FEbZj4lxQFvgeXp8CLHMtqTpGVziRE+M1JTVdQ6a4qcHWjQUONYW0QehYSbmtyiSorhzA4YJHG3gCmg9vraytFcvEEQwY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: a=rsa-sha256; b=TN+Yw/Wd9UaoCNPAZfw1srqtNuTItCwZlueVwBj0rPpAzSorRoAb66EOlBViLXWTPhMmmyawG/ZIwdd6BMcxuFSQXKQtnbTGnKFclPncGnxhCVjm8zgYVIHJRN6mNNXY9AXlwNNClDPmJGeFjO+AgDTzKX4xxGFDUDAhXhCWObc=; c=relaxed/relaxed; s=zohomail; d=collabora.com; v=1; bh=/LfAVqp4tu/EhbNroPShyI2fdXpjBbXDjj/7F6kfCyc=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
-Received: by smtp.zohomail.com with SMTPS id 1795623252604897.3662674032689;
-	Wed, 25 Nov 2026 08:14:12 -0800 (PST)
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (1024-bit key, unprotected) header.d=garyguo.net header.i=@garyguo.net header.a=rsa-sha256 header.s=selector1 header.b=bpvnuCec
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bxXWwQrAeNP5OGMyIzHCjqozQhOq5BYJR3ZiRa+CUhaJ9jJx5YyxPQJ+bBWrGdek7kOdlzs5SmrK7ra/Gffr+zkDbUipsGDks+ADPY9n7KsbsoaqZi6osDulW+swdKEX3VI1Zfuo4XF7Y6GXw1lciNIGMZYydEsaOmaDj5VcesVKj5ArfuA4c+BhBEv/OQVTCMoZj+wDDKy9ZQRtAljRTg6hyootnSIC3DH4Pgqiqz9l0e0BUS+KlY1hTnOwVnwzB6PeTcZh+5AnHRuop/Ah+hAR4BvAdfaRMCfvQ4iBiA7DD2FDsKRz1Lm9wcUlqQBm+Vuj9tOd/3T3isvbbjtXEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vjSh/XuGaG/4bjbawpBDsLwTmKGX6H8ELcrXGH1hncw=;
+ b=qtftymRmSIOIbbpxDwvHWY9oJQYEV5rPb64f4s41jYFctifJ7CrQ2QoT7fvLqpxcfo4JOQgDu0Kg5oUagI6lz0cNX1pePygXNj0f8VSVftv3GQuTqV8UI+OAyG+cTbdPhVcfKk1NJpO7vmI7FK+w4q2m7QfnmIiVq67CxOlzRDfal2nNBqYkucrFRY3dIRdzmGIJDlPpaJ/2rBhpSQTtVyfh1IP5x0iy0ouwv33Z4m17ATCU/BVa+5diMZHPB+YDbvOw3JIy5Twj6chYUiSDj+aqUzz8p47QcoTHPHfm/6i7BFZIBEhNNOkwwDGsk7uk3Q+nPkgsgNFC3fHoO1OMqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vjSh/XuGaG/4bjbawpBDsLwTmKGX6H8ELcrXGH1hncw=;
+ b=bpvnuCecr8MYIFMNbqBS2dhh6lDQUwnqQ1A682D1NKxzYg8iWFUr2U+yaVBYK7B58LYmw5YZem1BbxzGUjDtqF96TqzMq4wVIx1D4fskitCyjDeDqtKkiYW71ZOnsHiWwxHD3vEvSboHQ2DSHw6e6zb8QDuxP+zap2/OcJjBTK4=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1cb::9)
+ by CWLP265MB2386.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:66::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.6; Wed, 25 Nov
+ 2026 16:39:41 +0000
+Received: from CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::55f6:f98b:7fad:c6e3]) by CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::55f6:f98b:7fad:c6e3%2]) with mapi id 15.21.0662.004; Wed, 25 Nov 2026
+ 16:39:41 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 25 Nov 2026 16:39:41 +0000
+Message-Id: <DN4FV0JM8LYR.VJWXQ4AYC1Z9@garyguo.net>
+To: "Daniel Almeida" <daniel.almeida@collabora.com>, "Gary Guo"
+ <gary@garyguo.net>
+Cc: "Ivan Borovyk" <saref012@gmail.com>, <dakr@kernel.org>,
+ <ojeda@kernel.org>, <abdiel.janulgue@gmail.com>, <robin.murphy@arm.com>,
+ <a.hindborg@kernel.org>, <boqun@kernel.org>, <bjorn3_gh@protonmail.com>,
+ <lossin@kernel.org>, <aliceryhl@google.com>, <tmgross@umich.edu>,
+ <tamird@kernel.org>, <acourbot@nvidia.com>, <work@onurozkan.dev>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] samples: rust_dma: add missing newline in dev_info!
+ call
+From: "Gary Guo" <gary@garyguo.net>
+X-Mailer: aerc 0.22.0
+References: <20261123010430.365536-1-saref012@gmail.com>
+ <20261123230618.375172-1-saref012@gmail.com>
+ <DN3II6MGM5KW.364GAZDJSKNMU@garyguo.net>
+ <6D2642C7-8293-4E9F-9DB4-3199A20B0CF2@collabora.com>
+In-Reply-To: <6D2642C7-8293-4E9F-9DB4-3199A20B0CF2@collabora.com>
+X-ClientProxiedBy: LO4P123CA0185.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1a4::10) To CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:400:1cb::9)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -57,395 +105,120 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.200.71.1.16\))
-Subject: Re: [PATCH v7 05/10] drm/tyr: add user and MCU VM specifications
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20261122-tyr-ioctls-v7-5-3a2af624b992@linux.dev>
-Date: Wed, 25 Nov 2026 13:13:53 -0300
-Cc: Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Tamir Duberstein <tamird@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>,
- =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Lyude Paul <lyude@redhat.com>,
- David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Johan Hovold <johan@kernel.org>,
- Sami Tolvanen <samitolvanen@google.com>,
- rust-for-linux@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- driver-core@lists.linux.dev,
- Ke Sun <sunke@kylinos.cn>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <C65C5C96-FF29-41F9-B2F5-66F62BB937F4@collabora.com>
-References: <20261122-tyr-ioctls-v7-0-3a2af624b992@linux.dev>
- <20261122-tyr-ioctls-v7-5-3a2af624b992@linux.dev>
-To: Alvin Sun <alvin.sun@linux.dev>
-X-Mailer: Apple Mail (2.3901.200.71.1.16)
-X-ZohoMailClient: External
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP265MB6051:EE_|CWLP265MB2386:EE_
+X-MS-Office365-Filtering-Correlation-Id: a29f0c9d-1c3f-4331-66a7-08df4b12b44d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|376014|23010399003|10070799003|366016|4143699003|22082099003|261009223027099003|18002099003|10067099003|56012099006|261026140227099003|261026121527099003|261022105027099003|261021121427099003|261028144727099003|261102123227099003;
+X-Microsoft-Antispam-Message-Info:
+	gskSW81F+kEEDa7nC/1TayCQlw73e4pn028NoFrcEY99Thz61CZUidcZMvd9tyoTk2JowL0sE148bEPVhcuEdMc7CJ97r7a84SpMDUV1MsJ+XkvPzZ8CsW4x3/2Vd+NeZSyyOTcrSE6bUikdqoixy+BJ9iVP1bwAK8cX383IoR+LDM/UO4/bYbvvFMRgRvr3J8bEELxWZupg9VRAqhmd+dDLbfPJ8imlmQB3uaVnEcmAuesMyL3CmlpxcX5smC71ywwFNiArNiIvgn1Cf4KIuUjQroSRoTOLsyeiH2d4WkUgcod5QyOH2yQae/lx8C0scmIF0aFwUxpJQGuu4YJcAcXMebLAMAB73Zs1IsbHPRMoizQcAV5sbbp3GOoulxcYBTS/MxufYB953M/9iw6yRRJJl3pTqLYJyIoU5veho5NFPDsn9jWO2ZVkGMciDPDGrllzi9aB8y2T9ZShCiNieOCP0mxuq66bLZvxtRpPkdfHA78khtwH1UDT5IyordOLK38EZQ3OAW1QNglgOvt34Pfd1do+h9df2a6VSrPbFlqLnstQAPhPnb+5aOqcXB3IfaySNSg6oDgMGSrpQFULMTBgJslsJzcdxL7m8Ku+QWg2WPRz305SjTX4TP1LB9bh
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(23010399003)(10070799003)(366016)(4143699003)(22082099003)(261009223027099003)(18002099003)(10067099003)(56012099006)(261026140227099003)(261026121527099003)(261022105027099003)(261021121427099003)(261028144727099003)(261102123227099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Q0JkSG9LNzJNdi9LUXJESjFBdW5kVGk3a080N20zbWFpYWs0d2ZLNWdFcVVp?=
+ =?utf-8?B?b2lORnJsVzlBckRhWDlCY3M2eHVUZkN5UFVrOVJuRFpqZHlvNXp6c3pMbmFi?=
+ =?utf-8?B?eWMwVkhnZVZpV1lDUitrYWg0OStGTmNSNXl6bFJNak5Za0ExWXRFd1hscDVW?=
+ =?utf-8?B?a0xEcDJ4M2tMYkgrN0QvL3VMRzJJcjBERFFhWnhCbkpGTERGK2VEcDlaakF3?=
+ =?utf-8?B?MmdqMWp4WEdsK21jN1VFZVRUUXVNQ3dBc3pBenJFanhDVnYzcUsvT0RIeTQr?=
+ =?utf-8?B?RDdHeVNFOXQ2dU82S3RkUUJhK0FncUg4YkRpbXVXYitrZjBvak1MRmpOc3Mr?=
+ =?utf-8?B?U1M5cEx0enc0L044Y3NHejhLWUc2d1JESzdja1NUTUMxK0IrSHNiQUxISTR2?=
+ =?utf-8?B?b2F3MlNlSXBPYmptKzd2bGNMQjd5clBxeEgxdlFKYi9WdllZV0Q1cTRXNHhp?=
+ =?utf-8?B?NUxMdlpPc3FkNU0xcEhSVU9pV0JLZFdEemZER3M0ODNRaWNydVllWlN0S3ZJ?=
+ =?utf-8?B?S1czMWVjY3Ftc3lTc0RYK1gzZjVaZ09zdldSdk9kSUNReUI1aStEdDRkOU0x?=
+ =?utf-8?B?QVIvQTRzakxhaDB4bkVXSDNZWE1HK3RscDVpbkhWdGtSdXZaTWpyd0pIend5?=
+ =?utf-8?B?Q2RTdkNvb09aVlNWbC9oaTMrZWMwRzc0cElMWENJTXBHZUl5OEt0NndLdGsx?=
+ =?utf-8?B?UlNsNk5TNUE3UDBwei9qb0lwTG9Dd1pHWkNHdUZ6WEtCVkJJTGQyb0JscGpV?=
+ =?utf-8?B?clF6ZzkxZXhwK21iamQzZjBMVyt6S0NjWkJEVlRoaWpBTVlxSWEvNEZUVmlq?=
+ =?utf-8?B?S3BseXpteUNUZGQ3N3hhWWFEdm55d3p4YW9wL2RDb2sra0lyZkw4KzR6SjQx?=
+ =?utf-8?B?VEJGdlh6aktmK2taUW1GMitwVGJZVytZaGdVbUdJUXpNeTBGbVYzMVk0d2Zv?=
+ =?utf-8?B?QVdaREt6Y3JGQVYwdDlTUWh4TjlyYm5Td3AyNTRVbUtCeDdnQ1BaZStJTWdt?=
+ =?utf-8?B?dE4xaEJVbUNBR3IyNTRKQnUwY1lhdEhhVHg2RXozclZyTVlHUC92cEt1a1Zx?=
+ =?utf-8?B?d3JIVEJad3paa0dPL2svd1k5OW5rdG9TVitDYndVbXBPRUNVQUpadDVmZWVn?=
+ =?utf-8?B?T3ZFYUFTRm8veC9oWTRFWWhMaUVDSFBKYk9kN0dhcU9rYkVWalljU2U5U3lY?=
+ =?utf-8?B?M3R2L24vZThYMkNrSXJjOW9SMkE3aU41dklRZS81MXpEN0JZNVFCVUMvcTBO?=
+ =?utf-8?B?Q3N2QUxEemZSdXBDM1RDVWVmbHJnMUVIcDhlU241cWJUT2hmdm9TZ1pHTUdQ?=
+ =?utf-8?B?ZWx6QVJqV2UzL0oyV2FDU2NzMm5OQXc2K1hVblFIWGIrZlQxdXdxZFU4RkhT?=
+ =?utf-8?B?WUthL3h5ZnJnek11bEc0bWh3Vm9RYitXVWE4VFZxcXVFWEpLUmFzR0NXVWxk?=
+ =?utf-8?B?VzFJaXFQRUpkMGdXdUhGN1U2M0tObFFBbjR1a2tYclNOeERYcnZld0NMem92?=
+ =?utf-8?B?RHpTa3d6YzJCUnhTcm13Q0FEbFFnb2o5OXJOTk0yTE9iNklENjJYRGlUbk51?=
+ =?utf-8?B?bE5WbVZ6SGtnbEU5TTNIanQrUTJGeDhxT3Q5azhFdHQ4ZlFVUmhrN1JYdktC?=
+ =?utf-8?B?Yk9WaGFNTkhlcjBibnMxK2VIVEhsajJtYmIrQ1hPT2libTVQeFIrSm9vYXFF?=
+ =?utf-8?B?YW9JMGVEbHdIRllMZWc5eFhtWDRoZlhwVEsrc3dVL0tJSUtQQzdQcWdCV1FK?=
+ =?utf-8?B?THp2V1Y2d2F6UDFVU0VaSkhXc0ZRQzZOaWhGSTlBTnhDcDhOOGVCMXk2NVE1?=
+ =?utf-8?B?Vk1vS2J0ckxWSzF1dHBvbHJLbjBkNS8rcFhvTW5yenJsQXRpV2VzbXl0S3FO?=
+ =?utf-8?B?WFVTMHZsR1VRRStaZU9URjF6T21yRitjWmdGTyt2N1RiMkZYZTRtRGRYUEtL?=
+ =?utf-8?B?VUZKR3prMHdIVFFRR2JSTFlNTE5GM3ZHSEdLUWdHMHhBZUMyTWVJWHpxWDVC?=
+ =?utf-8?B?ZjhkeTExV0l3aVZvcEpYYnhySXl2Tld0b3p6OWM1U3FsZFp1YTlSNGo1M2VF?=
+ =?utf-8?B?WGRrOVVKMTd1K252aWVwWm1Vb3lIaU9HYWhuWUdubFJYZnczNUtZenR2TlY1?=
+ =?utf-8?B?N21GYUtNSzc3alRIOVAvWDIvVXBYaXA1YWRjSjFmbjEwUW4xU1BPR3B5QVJa?=
+ =?utf-8?B?aFJRMjVrTHpjTjE0OFpDT2I5Tll2VmdTRVc1ZlFyY2NKaFVDaFZBbkZFN0g4?=
+ =?utf-8?B?YVJ0dkpjdzlpZHRYNkV0cHlCZUs1UU5iVHZaYU51ZTBQOSttSTNoZkEyZklY?=
+ =?utf-8?B?U2JaQ3JxanEyWUxWdXU1ZGV4U1BMa3NJZUhIWDc4azRVUzBmS1VDZz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: a29f0c9d-1c3f-4331-66a7-08df4b12b44d
+X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2026 16:39:41.7427
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6IWAYjmff15oGVYZuA8M6KXI2PfxgHPh8mN54hZPzBmuxnC466lpMR5ERJfBqo/t+T6YHoOgDmZJsAx38216+A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB2386
 
-Hi Alvin,
+On Tue Nov 24, 2026 at 4:14 PM GMT, Daniel Almeida wrote:
+>
+>
+>> On 24 Nov 2026, at 11:31, Gary Guo <gary@garyguo.net> wrote:
+>>=20
+>> On Mon Nov 23, 2026 at 11:06 PM GMT, Ivan Borovyk wrote:
+>>> The dev_info! call in PinnedDrop::drop() lacks a trailing newline in it=
+s
+>>> format string, unlike the other dev_info!() calls in the file. End the
+>>> format string with '\n' for consistency with the dev_*!() and pr_*!()
+>>> macro conventions.
+>>>=20
+>>> Fixes: 5444799d701c ("samples: rust: dma: add sample code for SGTable")
+>>> Suggested-by: Miguel Ojeda <ojeda@kernel.org>
+>>> Link: https://github.com/Rust-for-Linux/linux/issues/1139
+>>> Signed-off-by: Ivan Borovyk <saref012@gmail.com>
+>>=20
+>> FWIW I have a series that would make trailing newline optional (although=
+ I've
+>> not got any feedbacks about whether people would like that):
+>>=20
+>> https://lore.kernel.org/rust-for-linux/20260728-printk-v1-5-855606634d70=
+@garyguo.net/
+>>=20
+>> Best,
+>> Gary
+>
+> IIRC, there were some discussions about this, where people asked the Rust=
+ side
+> to not deviate from the C side in this regard. It=E2=80=99s been a while =
+though, so take it
+> with a grain of salt.
 
-> On 22 Nov 2026, at 09:50, Alvin Sun <alvin.sun@linux.dev> wrote:
->=20
-> The MCU and user VMs need different VA layouts. Give each a dedicated
-> constructor: new_for_fw() builds the kernel-only 4G layout, while
-> new_for_user() splits the address space by task_size or a =
-user-provided
-> size, rejecting oversized requests rather than clamping. The resulting
-> user range is what VM_CREATE reports back as user_va_range.
->=20
+I initially proposed requiring newline to be omitted, but people don't like=
+ it
+because they might have habit of writing "\n" if they write a lot of C kern=
+el
+code.
 
+On the other hand, people write a lot of Rust userspace code would have the
+habit of not writing "\n" because that's how `log` and `tracing` library wo=
+rk.
 
-I think we should be a bit more thorough in the commit messages, since =
-reading
-them is a major indicator of how the code evolved and of the reasons =
-behind its
-current state.
+So in that version I changed it to accept either and behave the same. The
+newlines are stripped by printk anyway and gets turned into a non-continuab=
+le
+marker and is not actually a newline, because printk keeps records as oppos=
+ed to
+plain texts.
 
-This is a mere example of what I would have written instead:
-
----
-drm/tyr: add VA layouts for the MCU VM and user VMs
-
-Vm::new() creates a VM that spans the whole GPU address range,
-0..1 << va_bits. Its only caller creates the MCU VM.
-
-User VMs, which VM_CREATE adds later in this series, cannot use that
-range as is, because the uAPI splits a user VM in two. User space gets
-the lower part, and the kernel keeps the rest for objects it maps into
-the VM. The MCU VM does not need the whole range either, since firmware
-sections are mapped at 32-bit addresses and panthor creates this VM
-with a 4 GiB range.
-
-Add VmLayout, which holds the full range of a VM and its user part, and
-replace Vm::new() with two constructors:
-
-- Vm::new_for_fw() covers 0..4G and has no user part.
-- Vm::new_for_user() covers the whole GPU range and splits it with
-  VmLayout::compute().
-
-The split follows panthor_vm_create_check_args() and leaves the kernel
-at least 256 MiB.
-
----
-
-
-> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
-> ---
-> drivers/gpu/drm/tyr/fw.rs |   3 +-
-> drivers/gpu/drm/tyr/vm.rs | 157 =
-+++++++++++++++++++++++++++++++++++++++++-----
-> 2 files changed, 143 insertions(+), 17 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/tyr/fw.rs b/drivers/gpu/drm/tyr/fw.rs
-> index aea151ff1f934..196ffc96d9d99 100644
-> --- a/drivers/gpu/drm/tyr/fw.rs
-> +++ b/drivers/gpu/drm/tyr/fw.rs
-> @@ -51,7 +51,6 @@
->         KernelBoVaAlloc, //
->     },
->     gpu::GpuInfo,
-> -
->     mmu::Mmu,
->     regs::{
->         gpu_control::{
-> @@ -219,7 +218,7 @@ pub(crate) fn new(
->         mmu: ArcBorrow<'_, Mmu<'drm>>,
->         gpu_info: &GpuInfo,
->     ) -> Result<Firmware<'drm>> {
-> -        let vm =3D Vm::new(dev, ddev, mmu, gpu_info)?;
-> +        let vm =3D Vm::new_for_fw(dev, ddev, mmu, gpu_info)?;
->         vm.activate()?;
->=20
->         let result =3D (|| {
-> diff --git a/drivers/gpu/drm/tyr/vm.rs b/drivers/gpu/drm/tyr/vm.rs
-> index e67a6efcf451b..029a08051a87e 100644
-> --- a/drivers/gpu/drm/tyr/vm.rs
-> +++ b/drivers/gpu/drm/tyr/vm.rs
-> @@ -8,6 +8,7 @@
-> //! mapped into hardware address space (AS) slots for GPU execution.
->=20
-> use core::marker::PhantomData;
-> +use core::num::NonZeroU64;
-> use core::ops::Range;
->=20
-> use kernel::{
-> @@ -46,6 +47,8 @@
->     num::casts::FromSafeCast,
->     prelude::*,
->     sizes::{
-> +        LargeSizeConstants,
-> +        SizeConstants,
->         SZ_1G,
->         SZ_2M,
->         SZ_4K, //
-> @@ -161,6 +164,90 @@ fn try_from(value: u32) -> Result<Self, =
-Self::Error> {
->     }
-> }
->=20
-> +/// User VA size request for a user VM.
-> +pub(crate) enum UserVaRequest {
-> +    /// Split based on `task_size()` and the GPU VA range.
-> +    Auto,
-> +    /// Caller-specified size; construction guarantees `> 0`.
-> +    Fixed(NonZeroU64),
-> +}
-> +
-> +impl UserVaRequest {
-> +    /// UAPI boundary normalization: `0` -> [`Auto`](Self::Auto).
-> +    #[expect(dead_code)]
-> +    pub(crate) fn from_uapi(v: u64) -> Self {
-> +        match NonZeroU64::new(v) {
-> +            Some(size) =3D> Self::Fixed(size),
-> +            None =3D> Self::Auto,
-> +        }
-> +    }
-> +}
-> +
-> +/// Final user/kernel VA layout for a VM.
-> +pub(crate) struct VmLayout {
-> +    /// Full GPU VA range covered by this VM.
-> +    pub(crate) full: Range<u64>,
-> +    /// User-accessible VA range. Empty for MCU VMs.
-> +    pub(crate) user: Range<u64>,
-> +}
-> +
-> +impl VmLayout {
-> +    /// Kernel VA range, reserved for future kernel object =
-allocation.
-> +    #[expect(dead_code)]
-> +    pub(crate) fn kernel(&self) -> Range<u64> {
-> +        self.user.end..self.full.end
-> +    }
-> +
-> +    /// Compute a user/kernel split for a user VM from the full GPU =
-VA range and
-> +    /// a user request.
-> +    pub(crate) fn compute(full: Range<u64>, req: UserVaRequest) -> =
-Result<Self> {
-> +        // Minimum VA space reserved for kernel objects (heaps, ring =
-buffers, ...).
-> +        const MIN_KERNEL_VA: u64 =3D u64::SZ_256M;
-> +
-> +        if full.end <=3D MIN_KERNEL_VA {
-> +            return Err(EINVAL);
-> +        }
-> +
-> +        let user_max =3D full.end - MIN_KERNEL_VA;
-> +
-> +        let user_end =3D match req {
-> +            UserVaRequest::Fixed(v) =3D> {
-> +                let user_size =3D v.get();
-> +                if user_size > user_max {
-> +                    return Err(EINVAL);
-> +                }
-> +                user_size
-> +            }
-> +            UserVaRequest::Auto =3D> {
-> +                let task_size =3D current!().task_size() as u64;
-
-Can we please remove this cast? Try FromSafeCast instead.
-
-> +                let candidate =3D if task_size < full.end {
-> +                    task_size
-> +                } else {
-> +                    // If the range exceeds 4G, split it in two so =
-CPU and
-> +                    // GPU share the same addresses (SVM).
-> +                    if full.end > u64::SZ_4G {
-> +                        full.end / 2
-> +                    } else {
-> +                        user_max
-> +                    }
-> +                };
-> +                candidate.min(user_max)
-> +            }
-> +        };
-> +
-> +        let delta =3D full.end - user_end;
-> +        // Pick a kernel VA range that's a power of two, to have a =
-clear split.
-> +        let kernel_va_range =3D 1u64 << delta.ilog2();
-> +        let kernel_va_start =3D full.end - kernel_va_range;
-> +        let full_start =3D full.start;
-> +
-> +        Ok(Self {
-> +            full,
-> +            user: full_start..kernel_va_start,
-> +        })
-> +    }
-> +}
-> +
-> /// Arguments for a virtual memory map operation.
-> struct VmMapArgs<'drm> {
->     /// Access permissions and caching behavior for the mapping.
-> @@ -336,26 +423,64 @@ pub(crate) struct Vm<'drm> {
->     /// Non-core part of the GPUVM. Can be used for stuff that doesn't =
-modify the
->     /// internal mapping tree, like GpuVm::obtain()
->     gpuvm: ARef<GpuVm<GpuVmData<'drm>>>,
-> -    /// VA range for this VM.
-> -    va_range: Range<u64>,
-> +    /// VA layout for this VM.
-> +    pub(crate) layout: VmLayout,
-> }
->=20
-> impl<'drm> Vm<'drm> {
-> -    /// Creates a new GPU virtual address space.
-> +    /// Creates the MCU/firmware VM.
->     ///
-> -    /// The VM is initialized with a page table configured according =
-to the GPU's
-> -    /// address translation capabilities and registered with the =
-GPUVM framework.
-> -    pub(crate) fn new(
-> +    /// The MCU VM is entirely kernel-managed: it has no =
-user-accessible range.
-> +    pub(crate) fn new_for_fw(
-> +        dev: &'drm Device<Bound>,
-> +        ddev: &TyrDrmDevice,
-> +        mmu: ArcBorrow<'_, Mmu<'drm>>,
-> +        gpu_info: &GpuInfo,
-> +    ) -> Result<Arc<Vm<'drm>>> {
-> +        // As in panthor: the CSF MCU is a Cortex-M7 and can only =
-address 4G.
-> +        let layout =3D VmLayout {
-> +            full: 0..u64::SZ_4G,
-> +            user: 0..0u64,
-> +        };
-> +        Self::new_internal(dev, ddev, mmu, gpu_info, layout)
-> +    }
-> +
-> +    /// Creates a user VM, splitting the GPU VA range per `user_va`.
-> +    #[expect(dead_code)]
-> +    pub(crate) fn new_for_user(
->         dev: &'drm Device<Bound>,
->         ddev: &TyrDrmDevice,
->         mmu: ArcBorrow<'_, Mmu<'drm>>,
->         gpu_info: &GpuInfo,
-> +        user_va: UserVaRequest,
-> +    ) -> Result<Arc<Vm<'drm>>> {
-> +        let mmu_features =3D =
-MMU_FEATURES::from_raw(gpu_info.mmu_features);
-> +        let va_bits =3D mmu_features.va_bits().get();
-> +        let range =3D 0..(1u64 << va_bits);
-> +
-> +        let layout =3D VmLayout::compute(range.clone(), =
-user_va).inspect_err(|_| {
-> +            dev_dbg!(
-> +                dev,
-> +                "Failed to split GPU VA range {:#x}..{:#x} into user =
-and kernel regions\n",
-> +                range.start,
-> +                range.end
-> +            );
-> +        })?;
-> +        Self::new_internal(dev, ddev, mmu, gpu_info, layout)
-> +    }
-> +
-> +    /// Initializes a VM with the given layout.
-> +    fn new_internal(
-> +        dev: &'drm Device<Bound>,
-> +        ddev: &TyrDrmDevice,
-> +        mmu: ArcBorrow<'_, Mmu<'drm>>,
-> +        gpu_info: &GpuInfo,
-> +        layout: VmLayout,
->     ) -> Result<Arc<Vm<'drm>>> {
->         let mmu_features =3D =
-MMU_FEATURES::from_raw(gpu_info.mmu_features);
->         let va_bits =3D mmu_features.va_bits().get();
->         let pa_bits =3D mmu_features.pa_bits().get();
->=20
-> -        let range =3D 0..(1u64 << va_bits);
->         let reserve_range =3D 0..0u64;
->=20
->         // dummy_obj is used to initialize the GPUVM tree.
-> @@ -367,7 +492,7 @@ pub(crate) fn new(
->             c"Tyr::GpuVm",
->             ddev,
->             &*dummy_obj,
-> -            range.clone(),
-> +            layout.full.clone(),
->             reserve_range,
->             GpuVmData::<'drm> {
->                 _phantom: PhantomData::<&()>,
-> @@ -387,7 +512,7 @@ pub(crate) fn new(
->                 mmu: mmu.into(),
->                 gpuvm,
->                 gpuvm_unique <- new_mutex!(gpuvm_unique),
-> -                va_range: range,
-> +                layout,
->             }),
->             GFP_KERNEL,
->         )?;
-> @@ -418,10 +543,12 @@ fn deactivate(&self) -> Result {
->=20
->     /// Kills the VM by deactivating it and unmapping all regions.
->     pub(crate) fn kill(&self) {
-> -        // TODO: Turn the VM into a state where it can't be used.
->         let _ =3D self.deactivate();
->         let _ =3D self
-> -            .unmap_range(self.va_range.start, self.va_range.end - =
-self.va_range.start)
-> +            .unmap_range(
-> +                self.layout.full.start,
-> +                self.layout.full.end - self.layout.full.start,
-> +            )
->             .inspect_err(|e| {
->                 dev_err!(self.dev, "Failed to unmap range during =
-deactivate: {:?}", e);
->             });
-> @@ -558,14 +685,14 @@ pub(crate) fn unmap_range(&self, va: u64, size: =
-u64) -> Result {
->=20
->         let end =3D va.checked_add(size).ok_or(EINVAL)?;
->=20
-> -        if va < self.va_range.start || end > self.va_range.end {
-> +        if va < self.layout.full.start || end > self.layout.full.end =
-{
->             dev_err!(
->                 self.dev,
->                 "Unmap range {:#x}..{:#x} exceeds VM range =
-{:#x}..{:#x}",
->                 va,
->                 end,
-> -                self.va_range.start,
-> -                self.va_range.end
-> +                self.layout.full.start,
-> +                self.layout.full.end
->             );
->             return Err(EINVAL);
->         }
-> @@ -575,7 +702,7 @@ pub(crate) fn unmap_range(&self, va: u64, size: =
-u64) -> Result {
->             region: va..end,
->         };
->=20
-> -        let full_vm =3D va =3D=3D self.va_range.start && end =3D=3D =
-self.va_range.end;
-> +        let full_vm =3D va =3D=3D self.layout.full.start && end =3D=3D =
-self.layout.full.end;
->=20
->         let mut resources =3D VmOpResources {
->             preallocated_gpuvas: if full_vm {
->=20
-> --=20
-> 2.43.0
->=20
->=20
-
-With the fixes above:
-
-Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
-
+Best,
+Gary
