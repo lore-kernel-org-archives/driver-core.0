@@ -1,93 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795679833;
-	b=t9HG8/j/bMO0WjK8fDkq1PRZz+wxBX2/Su5HxptSVW2K7aHz/mHpdcFHOO5+W+UBGlQG
-	 brouglP1N0Uacd5O3NAvLmtkVlZQWHf5QyNC1ruomtcKvaAbwA1eH0xhIfSj2ahZkdUpe
-	 h9V41xQTnOxdMETcLWFqHyT7qiNOCJeTEnGJwOkBsxRpMcIrwvkrx4D7YUQlOy+S5bTjb
-	 eeAT0xc3qCnSF9N8+ZCh5cgVJyincQDeOrEw16u3OPBxLQdDkafwqDeIZGV1+HytuW23x
-	 qSK/ai7vfn6H88HmY6HUhzlw6nDn+pvH6WMQO+DZ2S27Q47ky5pcpEVO/ni0TZBilSg==
+	t=1795681288;
+	b=oN4oVVX+oKC4bbA8fkFlKdhqqaIu9UAJu+v/AFAoiIHTXqRuko04dB9kEjnn1Fc7t/X+
+	 Omt/dyH6C30OxOs95J9DuUAaJwawcC/dPZAoylUbKBtgPHHNHDXQSUfKvllGQzQiCrexb
+	 v3TjqCn1BRB2ykZ+rntLAk2l2jOuvQ5Z2Awugo4LH8ipCVD08X5wyiSjPVB54qIhMWghc
+	 5kkXyYb5R4SpmBLOe75PruDHTQ8lfAPDcQ4c76dHvr93nx8f95K+jM5H+c2rRI9/sKavb
+	 XIr9H2idnv4RdY1+k3u0S2hjsqrY3nk2p9DS9ibuJEI4Hnfwt4gFsvdRrfGvmXpjurw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795679833;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=kvqxuyKdqOZIctZ1RVDJiTTys7XqmGboeKGR0Mb/Lz0=;
-	b=jIeG3E6c42/fO8N/XgRY7h00OJCynukwwQiykRXXrZNqhG3sGxjJJKLoJ86i7w0cIIRp
-	 lFijadeVCEyTpZBOTQL+tLiRFgZh6LeHbJpR9zpY82yAgWd0uDEi4E5Mm6hbkCkbXOnuL
-	 AwY508zNiAwcZ4wrv9xGbSpbqbEQaWi1pdeY6kkZHqn0eXm9KrOGk22LSHBfKv67PzSEV
-	 G4FfqshWG6gXo4acwnlsPlDn3wufxI6aSIl2zpS3gsRu2JRcihVHabKQIVaL2b95T7Yb8
-	 yDEHJSGEC5yMhCzyZZaTGpqYMNJcX40jut+YSzsmUCLYuDTTUDVwWfqaJVMKHXK0Hlg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795681288;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Content-Disposition;
+	bh=wBOZvbV/Ao3pnBzrcXZtW9CD2639Ae7gzM3oEey/+58=;
+	b=0gOYFhizuwioHDFmX3ChmzDxfSzr2hnpZwhl+afWQ5BHIGYJ5fwVoQ3TVbjsS9aP49mn
+	 L3HhSEQA+CkZyCn6QJ3+COALMr/IreVO7NLo6dXzZIu1WGifikja+nrMUAoBsbdZRAxZA
+	 kE8xQyi207fL1EZIg+rJD2/brYtBzuS0bZ1YV4g12lXsqDId60tghIKTVANthy1/3uw8l
+	 JJZOoKpVNtktDDdhaK1AKRk7orBXUo0043UAb7129o5govYRCZUqKHZmcXkSQp0WgOYPj
+	 hqg1d2blCjJRlEqrPRwtzTfp6K0PlS7sAZdTYQQiNg7poqSylOYMR8naN0RfWzcQHow==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GVKL0CWE;
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VT5YFz80;
+	arc=none smtp.remote-ip=74.125.82.179
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02723606A31C;
-	Thu, 26 Nov 2026 07:57:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02723606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7921F606A691
+	for <driver-core@lists.linux.dev>; Thu, 26 Nov 2026 08:21:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7921F606A691
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GVKL0CWE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795679832; x=1827215832;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7gqO7mtbAkU5IaNVQpE0KYsTeEo00WqOION0Mo8l5RQ=;
-  b=GVKL0CWEFGDvI0s36/UX/xO8hKFVpwEIhE6S4vfUyI/75GmNN+rJRBq8
-   0wMZXHYKBq1dkDTUzLeTKUFGXoKBh8tyhy/dn96jJwQjZ0j8iH2r7K4yh
-   JMvZ5z5kX1XJ/7UtNulMh5ZXOEYLykCU1ZDk+69ezj+Q+0xCLDFuuXSQj
-   Qm0Kellht+VWiFXwk/FJ8nwPy+x+qqjDSnepuXoUuWGtyLpFMzzjji4Sz
-   7wDmnTR1cmPeXDmAwl09W0C0LrovZHZO53P+i8XdvBfv7eBDBSicfx1W0
-   t3SvxCwyomuU6rNFh4GE++dScWhfWqP2AoZ2lQGtJFWSnfaVEsFZGLmgi
-   g==;
-X-CSE-ConnectionGUID: 7X5HWC0wQ8+GpK6freeyDw==
-X-CSE-MsgGUID: BCeYRk6CSvqsEjt49/W5ug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4567265"
-X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
-   d="scan'208";a="4567265"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 23:57:11 -0800
-X-CSE-ConnectionGUID: itKbRMG2R9iWVRnaqlN10Q==
-X-CSE-MsgGUID: sN7xmylnSZSZMY9a4fnawA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
-   d="scan'208";a="12152074"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 25 Nov 2026 23:57:06 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xWULm-00000001TZw-2xrc;
-	Thu, 26 Nov 2026 07:57:02 +0000
-Date: Thu, 26 Nov 2026 15:56:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alice Ryhl <aliceryhl@google.com>, Tejun Heo <tj@kernel.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	Alice Ryhl <aliceryhl@google.com>
-Subject: Re: [PATCH v4 4/5] rust: workqueue: add creation of workqueues
-Message-ID: <20261126154348.RP9PjaYR-lkp@intel.com>
-References: <20261119-rust-workqueue-v4-4-707c68994940@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VT5YFz80
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-38431138772so8758277eec.1
+        for <driver-core@lists.linux.dev>; Thu, 26 Nov 2026 00:21:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795681288; x=1796286088; darn=lists.linux.dev;
+        h=content-disposition:content-transfer-encoding:content-type
+         :mime-version:references:in-reply-to:subject:cc:to:from:message-id
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wBOZvbV/Ao3pnBzrcXZtW9CD2639Ae7gzM3oEey/+58=;
+        b=VT5YFz80FVLcnnW0ORY4nJEdSA/8QL4UtGdVPvyCchP2Ipb+Kurqj8CDRBNcR2t0bs
+         vHOXjEAjMXk85p1vluLpbGy+IlUOMLfWCe+9FvyRA2e/OiQ7sOCvCvBe/kVd+pKAEvr2
+         hFMTw0oKO4UsDHu9mQzqbzMlwmNwjipgMxqUy91JLhm5Qf+vRA5EVMtpaZcVhOc3Q0ZP
+         tJIHfBKMq6169+3x/9VE3V910YLgtpk6o9gzfHKfCT6q47pjjML9l0vJKPoYAm70dzth
+         lYCrI15reGeacGPf9yep0oT1oovUtfIqw+ikSoQsQYppVY+ad1TXna/KU0OES2wjh80x
+         0fgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795681288; x=1796286088;
+        h=content-disposition:content-transfer-encoding:content-type
+         :mime-version:references:in-reply-to:subject:cc:to:from:message-id
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=wBOZvbV/Ao3pnBzrcXZtW9CD2639Ae7gzM3oEey/+58=;
+        b=VcXD4iK4OebpUw89ROSJk2hoYaDW1uGyty+qSmdlssAg+M/xKDruq1N4eDl0KOYO6/
+         ZymvAwW1oQlKhpaWWdmRrdHzC5RRSUlHEgFdpc8n7gkysL5FB54VLGFrshstw72yZsyd
+         5WMs2WvCZ9VWOc+FHQvVLVQPhmSlrdWn/qw4mWwv+STaBnyRdeuZo6EZBN/n8g00Xoxn
+         kWQKwH4uTE3GvtZhIugNZH+KCd9JOWlXKQHQgRWSzvnS/MIjJ8Yqanpjyzm7GFS1T+cj
+         J/8w+3W/09WVayDLJlcs2k92LuznrB8bjsMzJoASMRmJQO05EigXQPXlsgrOhRbus3SG
+         kZIw==
+X-Forwarded-Encrypted: i=1; AL+hErFvsGVcUnvUh0upVn6Lyiotn0q4dDK/jQzXskiO1jY4GFMjqHZ5yKFJRpFr8Op+qzf1KHD/7Xpan1X9wA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/M7ntUk2rX3rQE6epKtWw0xiia5iJC4RzsHj9FROeyyKdhOJmJ
+	7a51gwm29WrbyLudFZMgtZ8yfAC1ImierqDPDiMzhuD4gEsdjXcDBS1OHRyGKA==
+X-Gm-Gg: AZFdTZdc7sj6OnTw0oCQYTQszpH/BiG94vGArFb/XFWoeNL9GFHCukIOCYMFl6pIXau
+	FsCJ2iWeV56WnbaVxSeIe7prVjuIryy0kRldQJQznCjmOalbSEEKZEkiwMRr0Bbbe7K21ezuDdw
+	WS0IL7CFXq8ySYD0YGuXTkHrX8DUzQ1P+NKmo6B7+0Pp8lJDo/2d7xlLykAV/QSOMR6ueQVoiiK
+	8kVPUj9ZVhI1eGj+yuoHVloO89+shCzAFtYrBfo49uZXBe+RzAN3K1peMWlTE90qwUS43EAPWN3
+	vKytOSp5vtc1e0ozlqRHO0kFX1XQAjtZGzONBUPtXIquhanmdkxy/MHnc0Ec0OI2J/odgZhZVQH
+	M+intIOktuAvqRQ7j6fetti2Q42o61ebZo3yzfUHElqF/F6qbKZXgYumZcv3b9ZGZ4jByF4MS2K
+	kBQc09YFIGccUEKic7E7EaWOQrrW9lzn61fizGoITo1lPcQdm1tayItwyfRNeSuiQl+ANLUPbvu
+	ER6pYN1/eO0bFYxIKAuXluhv9jVhhCsYS3hmvRzJXP0NjQ9O933pi0S2bx64m3zi0stlAJ5i+CO
+	6e9tn6FH1ipamv14R7x2S7RisvMi34PcizvRk3Nd6ux+qkmSQCnHlF4oSsM8A/e5uLogZQ==
+X-Received: by 2002:a05:7300:ac82:b0:385:4b9:18f2 with SMTP id 5a478bee46e88-3857093f077mr31004036eec.21.1795681287254;
+        Thu, 26 Nov 2026 00:21:27 -0800 (PST)
+Received: from localhost ([2a00:79e0:2ebe:8:f528:8797:fe51:9f7e])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-38567cafec4sm68602910eec.26.2026.11.26.00.21.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Nov 2026 00:21:26 -0800 (PST)
+Date: Thu, 26 Nov 2026 00:21:25 -0800
+Message-ID: <8497d7101dc7524be91edbaa5a9face5@gmail.com>
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Prasanth R <ragaprasanth@gmail.com>
+Cc: linux-input@vger.kernel.org,
+	Hans de Goede <hansg@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Support Opensource <support.opensource@diasemi.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	linux-pm@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH 0/3] Input: clear the wake IRQ on unbind
+In-Reply-To: <20261125072124.2997511-1-prasanth.r@lineo.co.jp>
+References: <20261125072124.2997511-1-prasanth.r@lineo.co.jp>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -98,64 +113,36 @@ List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
-In-Reply-To: <20261119-rust-workqueue-v4-4-707c68994940@google.com>
 
-Hi Alice,
+Hi Prasanth,
 
-kernel test robot noticed the following build warnings:
+On Wed, Nov 25, 2026 at 04:21:21PM +0900, Prasanth R wrote:
+> These drivers set a wake IRQ with dev_pm_set_wake_irq() and never clear
+> it. After unbind and bind, dev_pm_set_wake_irq() warns "wake irq already
+> initialized" and returns -EEXIST.
+>
+> Switch them to the device-managed helpers.
 
-[auto build test WARNING on aebb7274476403040d582c61478df8f4a7bf9cd3]
+Adding PM and driver core maintainers to the thread.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alice-Ryhl/rust-workqueue-support-stack-allocated-work-items/20261119-141242
-base:   aebb7274476403040d582c61478df8f4a7bf9cd3
-patch link:    https://lore.kernel.org/r/20261119-rust-workqueue-v4-4-707c68994940%40google.com
-patch subject: [PATCH v4 4/5] rust: workqueue: add creation of workqueues
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261126/20261126154348.RP9PjaYR-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126154348.RP9PjaYR-lkp@intel.com/reproduce)
+I wonder why clearing the wake IRQ cannot be done automatically for all
+drivers on unbind, for example in device_unbind_cleanup() alongside
+pm_runtime_reinit() and dev_pm_set_driver_flags().
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/20261126154348.RP9PjaYR-lkp@intel.com/
+The only case I see where a wake IRQ is attached at device registration
+time rather than by a bound driver (or bus probe()) is PCI OF WAKE# in
+drivers/pci/of.c:pci_configure_wake_irq(). That could be distinguished
+by checking dev->driver when attaching the wake IRQ, or via an explicit
+flag, so device_unbind_cleanup() only clears driver-bound wake IRQs.
 
-All warnings (new ones prefixed by >>):
+Handling this in the core would save us from having to hunt down and
+convert individual drivers to devm_pm_set_wake_irq() across the tree,
+and would also fix buses like SPI that set up wake IRQs in probe() but
+do not clear them on remove.
 
-   In file included from rust/helpers/helpers.c:110:
->> rust/helpers/workqueue.c:27:9: warning: diagnostic behavior may be improved by adding the 'format(printf, 1, 4)' attribute to the declaration of 'rust_helper_alloc_workqueue' [-Wmissing-format-attribute]
-      23 | __rust_helper
-         | __attribute__((format(printf, 1, 4))) 
-      24 | struct workqueue_struct *rust_helper_alloc_workqueue(const char *fmt, unsigned int flags,
-      25 |                                                      int max_active, const void *data)
-      26 | {
-      27 |         return alloc_workqueue(fmt, flags, max_active, data);
-         |                ^
-   include/linux/workqueue.h:519:76: note: expanded from macro 'alloc_workqueue'
-     519 | #define alloc_workqueue(...)    alloc_hooks(alloc_workqueue_noprof(__VA_ARGS__))
-         |                                                                               ^
-   include/linux/alloc_tag.h:270:31: note: expanded from macro 'alloc_hooks'
-     270 |         alloc_hooks_tag(&_alloc_tag, _do_alloc);                        \
-         |                                      ^
-   include/linux/alloc_tag.h:256:9: note: expanded from macro 'alloc_hooks_tag'
-     256 |         typeof(_do_alloc) _res;                                         \
-         |                ^
-   rust/helpers/workqueue.c:24:26: note: 'rust_helper_alloc_workqueue' declared here
-      24 | struct workqueue_struct *rust_helper_alloc_workqueue(const char *fmt, unsigned int flags,
-         |                          ^
-   1 warning generated.
-
-
-vim +27 rust/helpers/workqueue.c
-
-    22	
-    23	__rust_helper
-    24	struct workqueue_struct *rust_helper_alloc_workqueue(const char *fmt, unsigned int flags,
-    25							     int max_active, const void *data)
-    26	{
-  > 27		return alloc_workqueue(fmt, flags, max_active, data);
+Thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Dmitry
