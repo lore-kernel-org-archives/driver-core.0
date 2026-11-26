@@ -1,101 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.51
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795697003;
-	b=Bjc+/JpYb79OejomUAbsRR1icRPDfimKTLaRESzAsVRfxds4DqDYkpG2fQLpDPA4HXjS
-	 Vh5EOiYRfOdrg+5vVu+kDwTw6lKc/pqauX27HPSJbWeXQ9fknQks0O5r691f9pRl7DOSH
-	 w3YB9Fim5B5iE+YUwdYXtDIsFd0biPU14gyvUA3KsRJkFWIklu04cBWyhhbrsq2GjsUrz
-	 sQG635o8FEuWJ6a91icqHlnzMIHrjd14BDqGnD9vN/PsnI9iA8zDXoPwptkhJj8oM+l6y
-	 tGZUPcVKbnY5Hk8LAAcaJrxnPzlgavIGGPzUnjvUiTnaa54hW1rrZxAJQKNDe8Jnn7g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795697003;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=o9Abx8wExLURdMx+3brBY5biSd8oqBfJ6pvMSMTyXjw=;
-	b=eypFtDoJ7Mbdj5fmAVqBnJQuD1n99oYeGcxh0H8gOaQRAicptGkQ7ntt/ya/3QOIENGp
-	 CtaamYnGOQZIIHHw/LWGiuw872xJ5ZtDrbTojUmyH274tKNJWqG29xpwxKyts6fgNTmYN
-	 MFCndPWWfbzpLh90/5wk53Ua/T7TUowZpQjzMEzfkDwCllnpwX1atVgmwcOnoUWyRXRyO
-	 lbZ1EistRHf1HE3lv3DcBFtdTerawGb8yu6HEtMkeGqZEPhnAalRRLZwKqRXdS0uT63p/
-	 sHQuNAlLMgFtggkqFuzrDi43EP5jvwPRhai33HvWf16q5TRSEwQJ3RxA1Q2LMFadsJg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Gnt8U5XE;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.51
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795697471;
+	b=yUSm3qgPeIYzOQqxNW7rQNUs6ogLnZcZAkwS5u2TueSV1PBJTTG/8AlmyBLyugAart53
+	 zkR04OwNT5KOXdzWnRQmHfzi0l8KT8OI1anFOHyWJylw2RU9JxxqV3YTxQyNZMlzHUGF/
+	 5TWenwoPWUSwkNLyVkxL92zw4LvVjWEYUL5VZfS/1O6cLJJBtL2pJePii/tPZrq9jofte
+	 oSIAoqhwIaUi8/Et2XF6un7QtxBu/8Rdqh6799fLP2ukdkCQJtOC6/f2ISeyXnV7hHAaw
+	 fY+nTkKBYL+DOpFFb7EI5DZQ7PETNZF2PdUCFsaZJnzrHiGuoOp39MBBj2d6G+9lN2w==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795697471;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=q16GF0njlSdP7LoxbGpcMFaYQri5fmeNaCUnRRlaTx0=;
+	b=sMyNaLb5y92kFzdoLrcakKAIQGLdxnLID3uEzwiiY51KtfXNNGry0lQaO9DplCVsh4rV
+	 GGhjSaR0pHAg5a1zp8bvpGYjp2nGHsLAXMb/9waXU65MSvw+q1OI+o+q5bzrcFWEDaRk2
+	 fUZysG5Ymk+sgrEIkYzL6qRH4KbPo77D5INYs3i9zOq9HQ4XpN33Es+NG2uLPxIvbU63r
+	 s3MjzT+t2DpbJhQekL4YrpU67O11huTBsVaR7dl7X7qd0TY0MNH170YE9mgO0dncL0kwJ
+	 i5xBTry7tLxU/0X53hKbM3CUBgSvrx/7JND1DD7UDtrMBtv7YZblzsmSK5R3uFuwxTA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CuM+B0Tr;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC54606A326
-	for <driver-core@lists.linux.dev>; Thu, 26 Nov 2026 12:43:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ABC54606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4BA606A31C
+	for <driver-core@lists.linux.dev>; Thu, 26 Nov 2026 12:51:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Gnt8U5XE
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-491846221ffso6061234f8f.3
-        for <driver-core@lists.linux.dev>; Thu, 26 Nov 2026 04:43:22 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795697001; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Pqr78FvZMMh0c1jPyvUMixMT24c3YXEur93Ez94ooB5wJ6RvwDW0lpzPoABYoCENFp
-         xnOCBFeYq5SMd8svvhJ3psYbWBn+/ZMOWv+t2q+wk1Hhy3Grm3kUIFZL2aCrKm8IQbSN
-         CmWhs9T8q7WuH8yPgFFVwH4SsZHXxnkIVsszXqf4LQT2AbHJONRoGsSvUm7AZfYjq/bo
-         EI1bYN54f9OupLnfuzGUDY2mhldSqfg5r9l/ptsMRw2HRdldMyGvzWf4+8Zr5PTFqTQ0
-         JCFksutmWNjnP8e7HWeVrODKpwBl2cpk0fgGRcLzHAzaL1H0XFShUk4kkNCW+zvQR2zW
-         zNeg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=o9Abx8wExLURdMx+3brBY5biSd8oqBfJ6pvMSMTyXjw=;
-        fh=nPR6yZnSo5CVx1zwFQ0iAvC0iTL3uozZEhuB/64UVI0=;
-        b=ZmynTQmhxSIa489NaA8JDN5fjXAMFbs3FVbSLcA0Wz9WEnvikzGh1mNK4BByt7b+5B
-         h6U49FJViN8BrFiHsjo59gVe6S1CYilZZfHwLDuUqe8M9FU3XDsWHQexhfNt+RBgjbjP
-         mfjZIAWVNmUYU6f8mZtftRZxq+hLqVQroFkcdNzbzWTRIDcxn04vyjdE1EaPEbujKi8j
-         oFNSnAQ9oE400Hi36tIixCAZsCUEv4hHoGq3DZKl3fKty2YZLerOA3MslV9NiQfGFDyc
-         POjKdD3619EM0aMAWS7sK6sbsgphlQlZZlJE7WkST9VMf+O3IX9zYvLYBsZENMvp3/Zb
-         DVHw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795697001; x=1796301801; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=o9Abx8wExLURdMx+3brBY5biSd8oqBfJ6pvMSMTyXjw=;
-        b=Gnt8U5XE21LaPwTdM52KBMkpbig2VZ35D8t7fBqDl+FoDhej1t5gTBVFYC6XW+ID9a
-         j70Jx3GWid1RzAGwrnNnA6HK8ewC4bVz1TlcCLnlh67D2J8Oeiw85MQOzNozcDnEibs7
-         FFrTYndpImit/ZA3xfQ+ZOZ8yxAb8lssMUPF2ohiUauoxt+Sb0ba3fX0noOdYtPvK3Kr
-         fdtYcadRw1E01GBoCu0L1RlKALsQucQv98LGqwPCsP7pFJu1UATgCbKB6FJ5rq+DVvHY
-         vDf01uiVQSAMVL69v65OqjuVcGcfUmyJb2oW58EeB6PyQcRqvikS06d82eofnRjRS6XL
-         CReg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795697001; x=1796301801;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=o9Abx8wExLURdMx+3brBY5biSd8oqBfJ6pvMSMTyXjw=;
-        b=Vv/u8bWW/hFyZYUxT5d0riVi6f7Y2y6PrEnN4t8M/qnDsprc5ca/R/KVavPXEMm6hB
-         fHYfUgVyrukvTtPaeNIW/jp7qhlDXI2uZ9njJ2l56UyGaRyyemJGWwdbdJ8mtozTSRQp
-         tghBCp2LeS85leABSlSxIMj8t/RS2KzxT0Axbb9YQUB3pMhTR88OSPBvioOs6TK+bXRX
-         7TF1WlrU10ji34+nLOa4STfdvdr4dgyCQDEpbk07MmwKX3/lhB+PFCpaQunR0EF1IoGu
-         S0lGQq0phdcp6mYJdoi9ZBC/Q94WxJGDSAwhsFceWaBwkAC+QfrM/MuRA/z90CFHQuBF
-         jXCw==
-X-Forwarded-Encrypted: i=1; AL+hErEOBAFgRuINNHjVfvakfmXri1Ze8L9jQ/DO2q4tMtmjyC/Ro/yaQsUCYvhVVI6/oKk/CqWkeKhwKNtADQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9N7FlnNYfMXTuHzYLFH4JfeF8xrPP5NlssxHmg9tQ6i9WYFpcA
-	Ck0GE5flSlvSsDxIBOvuWoqlFS0bt9AiQ7s7Ns8CooKyRMRHhaiVK74+8YgmQNZYLQp188c/2DX
-	BEbFBQGptYyEyEkrPCJvMUer6YvOeQcFOtDUytOet
-X-Gm-Gg: AZFdTZelKlR+Q1KhhLIy5SxeUtUvoHTxL4RpoQLnIojBFv7hCG61dTsrIyXNsQ/AzSX
-	LeBxwAuQ7FR4ZApfyHE7Qn8WMx4OVXo/O2PDVt4nQSqYFCnMMh0PWtLA5rrJbVL59QsbxQ3yT9u
-	MUfYslsXd2Kzew/xaajPT2ShvKQ5Dio+WPX56PKshHFAxE/tpz1YtyIIstoUP4b7KzvSz3ANDyX
-	V1kilYAPFfdv6HhrpmNpD90aCwUWcksPtGrXoaSOBiTQycKhqTPztOqribJTxaCjT15RMFUylQR
-	KiLD6m1a3kmohUg/WglGsv2HNzQmzgq66K2vi9a+dBk2783XtrJ+U6d/0NKukMnA57Brg4VXWS0
-	lWR7h2gN4hLeSgJ/6Pks4DdItYfNew27mJJSHHJB4S/UUb57bNNCibEPIp+YeRLEP0HOGOmur+9
-	9isvuQhF7RIP+DlgdxuKGcLMeypYsoZCe+cRbg26HIAex8
-X-Received: by 2002:adf:e00f:0:10b0:491:d224:aa78 with SMTP id
- ffacd0b85a97d-4abb27275e7mr29748444f8f.26.1795697000100; Thu, 26 Nov 2026
- 04:43:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CuM+B0Tr
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ABBE1F000D2
+	for <driver-core@lists.linux.dev>; Thu, 26 Nov 2026 12:51:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795697471;
+	bh=q16GF0njlSdP7LoxbGpcMFaYQri5fmeNaCUnRRlaTx0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=CuM+B0TrgcpGtPRfYJrU7EUCnd7OgXWQ2QX07sEI1w8m7LzIyZrcTd3sOo9e1Tj2I
+	 AbdvhCmos7JLecctVIu2bwTnw0rNwiL/eu/eYOq8l61tvUDUOn2QfG61piloWAPlxa
+	 8/ByKD8/7nCKYHF11ivb0P1cZOeRFNLEPqLd174Hv52scmHM3aGJqCqbJQrIFU2wSG
+	 71zU+2QgQIIH91HKlWcywBChe0hZVGA06qmYvBFxHeArvHpU6uC9SNYKg2aFFVdOvL
+	 MQnvcykOA8PXAc3OcDR/WfBq3XrWmCEl0QF248ysLvWSOQcLNsxZCPd3WDgVBxPWfk
+	 Ma4RtCfNwm79Q==
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5c31cdbeec9so2213877e87.2
+        for <driver-core@lists.linux.dev>; Thu, 26 Nov 2026 04:51:10 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErEBm7ipKrtPAT3cPU9zanMF/p3MQ31UUQ2/ufUXi0RCdqPmlr6cf7PHptMxhoE88xT/WYbFnBErKq9hHA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8xpLF1rQ5ep0hQj3gWHRntuqWPcloYIOVqqFpTsGCLiKIt/OC5
+	6P2o2yPKEfl4dJ8yhbmaIF/wJaUqec0mX/NBU+AoMVsRiosoEXwEzvVnJNGdnnYJ6Ur9whodzpL
+	gSQXb1eWqMWE9L/70lZ9hkspPyDKFmYw=
+X-Received: by 2002:a05:6512:3d29:b0:5c1:47d6:8258 with SMTP id
+ 2adb3069b0e04-5c1bc80120bmr6196876e87.41.1795697469357; Thu, 26 Nov 2026
+ 04:51:09 -0800 (PST)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -105,85 +59,118 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261119-rust-workqueue-v4-0-707c68994940@google.com>
- <20261119-rust-workqueue-v4-5-707c68994940@google.com> <5eec17370f67438e43bb1c82b1d6a16b@kernel.org>
- <20261125181752.2027207-1-aliceryhl@google.com> <f9d8ff6a6c4a4d098e0d461da4e40474@kernel.org>
-In-Reply-To: <f9d8ff6a6c4a4d098e0d461da4e40474@kernel.org>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Thu, 26 Nov 2026 12:43:07 +0000
-X-Gm-Features: Aa3M54p00DMhUzh_tewZfWZ2hi0LG_ZMSKy1ua0nr0PKeO0HqjITQRZNecEPYTM
-Message-ID: <CAH5fLgjvFXX6oZRkH9OFCun4eNGWKkmoeCfVK3_16Yc75dfRkw@mail.gmail.com>
-Subject: Re: [PATCH v4 5/5] rust: workqueue: add ScopedWork for non-'static
- work items
-To: Tejun Heo <tj@kernel.org>
-Cc: Lai Jiangshan <jiangshanlai@gmail.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	John Hubbard <jhubbard@nvidia.com>, Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
+References: <4779892.LvFx2qVVIh@rafael.j.wysocki> <CAPx+jO8d-25kLQw9X0wW4i3YV4Jn+2Zr7_ZOT9rE10D99kPU_Q@mail.gmail.com>
+In-Reply-To: <CAPx+jO8d-25kLQw9X0wW4i3YV4Jn+2Zr7_ZOT9rE10D99kPU_Q@mail.gmail.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Thu, 26 Nov 2026 13:50:57 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0j5M7fax8_XP1G4oENykq6vg-hgiW4JPaqf=AvRiY-xFA@mail.gmail.com>
+X-Gm-Features: Aa3M54rqPc231r6BvV4IGlb68jllf8ooObFsk4opHGBD8naBN0eygsdnIo8Ab08
+Message-ID: <CAJZ5v0j5M7fax8_XP1G4oENykq6vg-hgiW4JPaqf=AvRiY-xFA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] PM: runtime: Fix issues related to autosuspend
+To: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Linux PM <linux-pm@vger.kernel.org>, 
+	Brian Norris <briannorris@chromium.org>, Alan Stern <stern@rowland.harvard.edu>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Linux Driver Core Development <driver-core@lists.linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 26, 2026 at 12:22=E2=80=AFPM Tejun Heo <tj@kernel.org> wrote:
+On Thu, Nov 26, 2026 at 12:51=E2=80=AFPM Ulf Hansson
+<ulf.hansson@oss.qualcomm.com> wrote:
 >
-> Hello, Alice.
+> On Tue, Nov 24, 2026 at 4:40=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.=
+org> wrote:
+> >
+> > Hi All,
+> >
+> > This is a follow-up series for
+> >
+> > https://web.git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git=
+/commit/?h=3Dlinux-next&id=3D26236a3e8803f7e1ace104020d7f006edb220116
+> >
+> > which is in linux-next and it replaces
+> >
+> > https://lore.kernel.org/linux-pm/3076901.e9J7NaK4W3@rafael.j.wysocki/
+> >
+> > (hence v2).
+> >
+> > First of all, there is a potential issue with respecting autosuspend de=
+lays
+> > in pm_runtime_put_autosuspend() and pm_runtime_put_sync_autosuspend() t=
+hat
+> > existed before the above commit, which is addressed in the first patch,
+> > and that fix is relevant for the other patches in the series.
+> >
+> > Second, the commit above overlooked some cases in which a running autos=
+uspend
+> > timer may trigger between dropping a runtime PM reference to a device a=
+nd
+> > updating its last_busy timestamp, which may cause the device to suspend
+> > without respecting its autosuspend delay.  Those cases are addressed by
+> > the second patch.
+> >
+> > Next, I was mistaken when I wrote this in the changelog of the above co=
+mmit:
+> >
+> >  Updating the last_busy timestamp when rpm_idle() returns an error
+> >  without calling rpm_suspend() is not useful because the device is then
+> >  going to remain active for an unknown amount of time and its autosuspe=
+nd
+> >  delay needs to take effect later.
+> >
+> > There actually is a reason for doing this which is that an autosuspend =
+timer
+> > (left behind by an intermediate runtime resume) may be running when rpm=
+_idle()
+> > runs and that autosuspend timer needs to be prevented from using a soon=
+-to-be-stale
+> > last_busy timestamp value.  That is addressed by the 3rd patch.
+> >
+> > Finally, the last patch updates a kerneldoc comment that has become out=
+dated after
+> > the commit above.
+> >
+> > For details, please see the patch changelogs.
+> >
+> > Thanks!
+> >
+> >
+> >
 >
-> On Wed, Nov 25, 2026 at 06:17:52PM +0000, Alice Ryhl wrote:
-> > What I'd say is that this isn't the only way to spawn work on the
-> > workqueue. This utility is intended for use-cases where it's convenient
-> > to do it like that (e.g. because the queue is defined before the work
-> > item in the same struct). We already have another way of spawning work
-> > that uses different ownership rules (e.g. self-freeing work) and that
-> > mechanism would not go through ScopedWork.
+> Again, thanks for working on this! For the series, please add:
 >
-> This is your design and you know this area far better than I do, so pleas=
-e
-> take this with a grain of salt. That said, I wonder whether the interface
-> is more tortured and twisted than it needs to be.
+> Reviewed-by: Ulf Hansson <ulfh@kernel.org>
 
-Always happy to discuss! Thanks for the question.
+Thank you!
 
-> Workqueue lifetime seems to add a layer of ugliness, at least going by th=
-e
-> restrictions on ScopedWork. Wouldn't that be relatively easy to solve by
-> adding a percpu refcnt to the Rust wrapper of workqueue and tying work an=
-d
-> delayed work items to it? Dropping the workqueue would wait until nothing
-> is pending, and cancelling delayed work items before that would be up to
-> the user. Work and delayed work items would then behave the same way and
-> be usable on any workqueue.
+> As somewhat also proven by the subject $series, there are some churns
+> that we need to deal with in regards to the intermediate rpm_idle()
+> phase. I am wondering if it perhaps may be the time to consider
+> removing it altogether, unless we still think it's useful of course.
 
-I'll take a step back for one moment. The previous version of this
-patchset did not have the lifetime in question. Adding a percpu
-refcount doesn't resolve the issue that made me add it, unfortunately.
+I don't think that the rpm_idle() phase is super-useful.
 
-The problem is: if we drop a ScopedWork early, then once
-cancel_work_sync() returns, we may free resources used by that work
-item. Obviously if the work item is still executing on some workqueue
-after cancel_work_sync() returns, that would be bad, as it would use
-resources now freed.
+Of course, eliminating it would require getting rid of the runtime
+idle callbacks in the first place, but we all seem to agree that this
+should be doable and probably worth doing.
 
-Originally I did not think this was an issue. I assumed that if
-cancel_work_sync() returns, and there was no concurrent resubmission,
-then it would no longer be running. However, this is not true:
-https://lore.kernel.org/all/20261118-ordered-wq-cancel-v1-2-916e01f9affe@go=
-ogle.com/
+> In the past we have discussed introducing support for *multiple* (a
+> dynamical amount based on what the device supports) low power states
+> to runtime PM. When I started looking into how to implement it, I
+> stumbled over the rpm_idle() thing, which kind of prevented me from
+> moving forward at that point.
+>
+> What do you think?
 
-My fix for this issue was to add a &Workqueue field to ScopedWork and
-enforce that the scoped work item can only ever be scheduled to that
-one workqueue. By only ever using it with one workqueue, I know the
-non-reentrance conditions hold, and so I know that when
-cancel_work_sync() returns, the work item is not running anywhere, and
-hence it's safe to perform cleanup.
+Here I have some doubts.
 
-Of course, there may be other ways to enforce the non-reentrance
-conditions hold, which could let me get rid of the lifetime. But the
-lifetime is there to handle the cleanup before destroy_workqueue() is
-called case, so a percpu refcount does not come into play.
+I'm not sure if there is a single model covering multiple idle states
+that can be applied to every device in every system.
 
-
-Alice
+There are different semantics and different requirements.  For
+example, you may consider "clock gate" and "power gate" states for
+some devices, such that a device needs to go to "clock gate" first and
+then to "power gate".  On the way back, it would need to go to "clock
+gate" before reaching full power.  However, this is not how PCI or
+ACPI PM works: There you can go from shallower to deeper, but to go
+the other way around you need to transition straight to full power.
