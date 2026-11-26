@@ -1,129 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=148.163.150.75
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795683369;
-	b=jE9xzghil2HbaWXS++s3MlFEr8VXQK/c05avYwspehKjmPG0y9MdRcFByFjK62LD3LX0
-	 lyvnYo5lxhh+kvMXyp6CYV+z9Ke7Ceez409eWw5MJPoO7Irn48hMCwbuJ1+SR1I31xcj6
-	 wXjbF4RY8rINrvzwPMtHuVv1cPXQjP7D83brU4eu9NY73lPa/XJ+FpEu63DYcBw1GZgnm
-	 cFTxHVXlccsdcXa3R9kNv6YVN5WpTTc8olD+2VPErMpmX/+idD1dUeubKCWVO4hxST8C9
-	 M1kBIL14y/3ODBVok1pXczxPFttdagm9yPy11XNtDRm2VpPMreYDZ+GpKROUSHMWdXw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795683369;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
-	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
-	 Received:Received:Received:Received:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:CC:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=k42k+geJzawg3w4e53lp9hkcYfZ0uHoFHWcFHGk5jCg=;
-	b=3ixL+0dyhnetvTcvetv3riOSV25bRdxsllD0GcVckbmis832CJm4PFRPtLFs5v1TxZig
-	 Gv0g85gZ+gdk+6OLGYJmJF0ldEUG2gVQ72thlVaMpsVzlw4ilBhF/0/iNEqhcFfXNKyD2
-	 YlA8K12iLKdc0kgz7deCVUfAMIhYdQqBCqx7kVzJK2d7Mpoou1tg4me/ytGQp/8qykBQ1
-	 XmHzkauS0l8+85yKDLkTbYgcY9VU+/1sBTM7o9Zj6lSLPgi6NphhCZ/u+1jpuJd8d3SUo
-	 ySZ7gKRVzghgeUMIkFh5ziS1CzpWd14XCbJCwx60s3uv+S9Ffq/wm+B5B0dhjBC+uaQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ti.com;
-	spf=pass smtp.mailfrom=ti.com;
-	dkim=pass header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=proofpoint-05-2026 header.b=frUtwdBR;
-	dkim=pass header.d=ticloud.onmicrosoft.com header.i=@ticloud.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-ticloud-onmicrosoft-com header.b=G8fxhFyD;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=148.163.150.75
-Received: from mx0a-0002e601.pphosted.com (mx0a-0002e601.pphosted.com [148.163.150.75])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.173
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795683657;
+	b=UNukeuAh1qzyShvfPUxVnBwGKeHLtz4tIpq7bp0KQ1beKpGBG5sFN4SrFJ2E/bIu9j7e
+	 1hWiMUOGoqbuJ+PouVTdUrylb7RMkCMFXsf8bSk7nvII8GaTWy54GTffgZu+KpKQIN2YP
+	 2OGZg77ganqfNEdB465YSd9dIIB0n7cUY7KTUgDiN3CInRG+g7gpFlL1v4zzlcBgYmM/O
+	 47DTcY3TDKKmO5biVl+KM7kwE+zgYllAud+8WxE6j/qLRIyG6Mag+9+O+yjEJuQdyvTws
+	 EQGBd7unAo+y64WNrRsAPP+EFp8zYYKceoNzkO9hjxXIysrZ3oimNYNwtP3/wLhjtHw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795683657;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
+	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=LQC7n5UB+twTmoKbhuhV7McngclJ8wPtfQsYLymxWtQ=;
+	b=r0nnEQCUqu4aJp9UjSWcbG9x/cm2Xa+IY6mq5X/+Z7c/JAgZ62UMrvOJ37sCxwvJ5sEc
+	 6EIqdliZ4di9SLLTCAUU/UtK1GZFEqlRNU6fzz5VtUHnS5PAJdJUKF2YzwEphnCJgc5Lx
+	 fFh7Nzfh40itcHPfMPsnlbVHLvTN71jiql0jryqIBY751//IBxwDyBZfS7pD+p4pbiJR2
+	 Pl04Yvytm9SYHwjkBxMmELM/nvkKWry/uM/mkBMMvEW5gXNsN+7zri5gaEEXR4YyzAhnq
+	 xspn7Cus6oXpC7Rt1+2HCGgjJCcpNncWvUU7kBKyzHTc4DbuD2qovROHNJQkYz21eXA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=fail header.from=linux-m68k.org;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.167.173
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4847606A31E
-	for <driver-core@lists.linux.dev>; Thu, 26 Nov 2026 08:56:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4847606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=proofpoint-05-2026 header.b=frUtwdBR;
-	dkim=pass (1024-bit key, unprotected) header.d=ticloud.onmicrosoft.com header.i=@ticloud.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-ticloud-onmicrosoft-com header.b=G8fxhFyD
-Received: from pps.filterd (m0384305.ppops.net [127.0.0.1])
-	by m0384305.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 6AQ7Bclc3007657;
-	Thu, 26 Nov 2026 02:55:59 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	proofpoint-05-2026; bh=k42k+geJzawg3w4e53lp9hkcYfZ0uHoFHWcFHGk5j
-	Cg=; b=frUtwdBRzwY2O7iJyBzJDhM4rgP6sukKjLkEB+3xtYdWytCM98w4G4LjN
-	1GhcBdcGqHF762Dqp0UvHQC9z3Cq+Vu8/0OBeKLjlAevFtZ/RbqhBZerWefEx/60
-	8WmJvDUDQv0yupA6DJYAQWertdzgkKejpitQI1fnhDSAMDu7/NwYn7yrEF+aSzOn
-	uxmCuFm3iFzqUtxxQRgwd8xvIM0n9LTIXXRgPGq4q306l1wbi3xNkmGbIbgDZ9pK
-	p4BIRxfwzlaUZa02zRJsRrQwHuxrvMdXmVgD3vKlbY0eyWj7un3x2mzfceXgI0r4
-	5uFaM1Fuqqi2AF06o9harkiGDkr9Q==
-Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11011040.outbound.protection.outlook.com [40.93.194.40])
-	by m0384305.ppops.net (PPS) with ESMTPS id 4j606fdwkh-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 26 Nov 2026 02:55:59 -0600 (CST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=okOVfZIJ0GOKuQRSjVeqRZBJZMmC/QiwaDFFVhY4zTo7qJ9syzcuzKX4rnyctEs8UgeGahD96OamUZF8CBQ6+G/SbdnEkJ9BkM8R7Av5pctS8ADqbkhQ4NlyR4SEPI5KLwcptbMzJ6lq5yxmPXFEt9Z3QG+vetntoWs6BiiomF4GLmVIKe9hNQbs6Zh5NLEg9xiYqcg01oAG9Wdq9qAYumK5oOSMo09twTSxmyXxngNerVcWVlYF5pVYstDG+xl4DdcW6D4/8aGrpViHg51D7jWn7N+n6KfzNMcmhQFTJkP+HOgpeQr+OFjUJ6rC7anmMbTWWYTeKtNQKKlPwOR5uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k42k+geJzawg3w4e53lp9hkcYfZ0uHoFHWcFHGk5jCg=;
- b=O0cRQFfwdCu6nkH1MBA6aVobQz+wQkda1xAEq+MC4iXre2EKQCAjhYQriC6c2VuiIsfrYodmmiFCZVcBrw3Kuue2Jj2kE8B7lGabNU4LRE91/KL5ivI/dImqQ8xJ7P4CUB8qECHHp7W/HwMGXyyEeUjnbOc6nMGtea8fxDBXWIF4LBAqdmTTDhqvGqVw+MocSaY0Z/7GAVhUiUgWSEkAbfmX7NWgNbP5HVrLKzWwZ40E89bWKDn9dx6rbtXEyiuMHkUe5ckZCP1uX3SyEAN6SfODpKZ9BAQ0FqHgrKg0hTmuPYusUuzCZsvM8rekNYJ6kzg5E8iJhM0QNYvvs3+2yg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ticloud.onmicrosoft.com; s=selector1-ticloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k42k+geJzawg3w4e53lp9hkcYfZ0uHoFHWcFHGk5jCg=;
- b=G8fxhFyDt6REwBgQNlG0bjm+PhFeP9cn8qNx3Sq6sZ4gpq8UvLLB89/QrXSX358Xf9gAKvhoaa0aqPYz5WCf36vD/PmFHoO+4H5G0V6rW0E6oemaNRQJzT6mAB2Qa+77HV9edpWkxAyFxkBGSGkrSe+ZzVN3tqaT1unYkbqpbAc=
-Received: from DS1PR03CA0014.namprd03.prod.outlook.com (2603:10b6:8:450::11)
- by CH3PR10MB7702.namprd10.prod.outlook.com (2603:10b6:610:1a9::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.7; Thu, 26 Nov
- 2026 08:55:56 +0000
-Received: from CY4PEPF000392DA.namprd03.prod.outlook.com
- (2603:10b6:8:450:cafe::6c) by DS1PR03CA0014.outlook.office365.com
- (2603:10b6:8:450::11) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.662.7 via Frontend Transport; Thu, 26
- Nov 2026 08:55:56 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 198.47.23.195) smtp.mailfrom=ti.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- CY4PEPF000392DA.mail.protection.outlook.com (10.167.247.120) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.662.3 via Frontend Transport; Thu, 26 Nov 2026 08:55:55 +0000
-Received: from DLEE202.ent.ti.com (157.170.170.77) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 26 Nov
- 2026 02:55:35 -0600
-Received: from DLEE203.ent.ti.com (157.170.170.78) by DLEE202.ent.ti.com
- (157.170.170.77) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 26 Nov
- 2026 02:55:34 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE203.ent.ti.com
- (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45 via Frontend
- Transport; Thu, 26 Nov 2026 02:55:34 -0600
-Received: from [10.24.50.162] (uda0510294.dhcp.ti.com [10.24.50.162])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 6AQ8tU8d1369862;
-	Thu, 26 Nov 2026 02:55:30 -0600
-Message-ID: <4b4ebff0-9c30-4541-94fb-4e49edf2bd55@ti.com>
-Date: Thu, 26 Nov 2026 14:25:29 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92DEF606A323
+	for <driver-core@lists.linux.dev>; Thu, 26 Nov 2026 09:00:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92DEF606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-53ec9237600so3130967b6e.3
+        for <driver-core@lists.linux.dev>; Thu, 26 Nov 2026 01:00:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795683656; x=1796288456;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LQC7n5UB+twTmoKbhuhV7McngclJ8wPtfQsYLymxWtQ=;
+        b=ycVoKIxOuXeYcYmebzDZoGwu2j6PHtTbNwAqKm0jVUJ307QolpL+l8ZpRPQDCxYnjv
+         QnH9to7Ho1YbF6j+YX1vfdHCULPT+VMopOdkzhilkF9SQuWO3HdtEHJWuNMuqaQIcc4v
+         jXV7OdH56uwLrQccQtMcuw0srfLxvLYqyIFqrUVXL75kh6ZWUEKD31nDLLihLZt6vh37
+         hQxKebLdFH0u4cPOUR615cROP9CV9ojHd84eSA9bcgRZYbm8B4h3m1zf1Ov3xmB+Xm6+
+         6pwJJU2W2VFA32EWi1QvpjTuqFifFZHQaj3Al6aGkV+9bjggi9C0lHpQjYX6j6iABoj6
+         pHWw==
+X-Forwarded-Encrypted: i=1; AL+hErEmiIPvLW1bCgrO3abp1Ntsckm0UyNEXHKvYf55d4XLlwyEmv1g4r4tKhfokBRANtkKdmqaTsUx3L79qw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+vbGbgtUfFBI0VlAG+MuVU4nTO9Pv/Uwi0H3ms0SKSxR0d0Yfy
+	3ecgCA1W5HuHW20JxWswoYoFBFwyxwTlNyP6ZlF4Oj+Y49sDjfDdPE7GsQrVSyXe
+X-Gm-Gg: AZFdTZevVFTlv7nmShrC/ANsCNCjeXebdeWOJRS5P06KKH8CkpgKYWuwFS/XubfvWyB
+	BzCWz/cxN34aUFthDHVtk0l6mNg8BM+jUFqmyhYovsYaWuJm1dD/uxuKw1Tz7tsTRYV9cQ67NL1
+	5FVEpGL8CbKWOKuSA0tiOxppjZs6uMobJBgDME5vxElb8ubnmyaWBSkgm8DQDUJQs42H/iHN1Bp
+	6SzaysH7KA4ZLRxNhzNHQ4KHNnD81PJL/gY3rbYgfyBu98zWVd5tVdp7sI87Ge2/Dr947EQSoGe
+	LBVWGT1ZGEB65goFguPo0SywlGFi2dd2xPguyLsqGn4fke65mR3LHrhVYv3FBAu3pWKFQ/CEF8p
+	q3TzXTS97jiy8xE9WitPp/Z2jYUpqtdXa9rDyerdNVjWzcVkKWQYVlEFHPrwfJxo4Xa7Cj65Aqq
+	bDLPoGTjb9j2/208BOYKUj235q6gZGVidksoVO9HAKZqV1icnAKDKm4Z9mYCav1kCds1YudDVm0
+	HJCOkToG+O1CkclwOFSvrfD11418SoSLlQi8XUYtK387crh0QDHfYZlHLDFJT7VbrkY3SFtLfGZ
+	P7pl3eEcRtJjDtQa8J5U63NXJWFcXX6IQvY8VfFNjaMtS5EGI5n/fQFssfo38SOG8aw=
+X-Received: by 2002:a05:6808:c1ac:b0:573:680:4bc3 with SMTP id 5614622812f47-57a0c7cd6d0mr21248455b6e.58.1795683656387;
+        Thu, 26 Nov 2026 01:00:56 -0800 (PST)
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com. [209.85.210.49])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-57a362575fbsm16488907b6e.17.2026.11.26.01.00.55
+        for <driver-core@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Nov 2026 01:00:56 -0800 (PST)
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-84a248254f4so4085698a34.0
+        for <driver-core@lists.linux.dev>; Thu, 26 Nov 2026 01:00:55 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErHNPocZjYGwDMDVTc/bAR6FVZQcq68+EtEvKAdNkaNjJ+eRqcJFQPxUAVLsBErkbpLjcNRuRVGJLZ6fwg==@lists.linux.dev
+X-Received: by 2002:a05:6122:e16c:b0:5ea:bfe3:6035 with SMTP id
+ 71dfb90a1353d-5ee8aecb450mr12178985e0c.8.1795683175291; Thu, 26 Nov 2026
+ 00:52:55 -0800 (PST)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -133,166 +81,110 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] driver core: platform: Allow drivers to skip PM
- domain power-on at probe
-To: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
-CC: <gregkh@linuxfoundation.org>, <rafael@kernel.org>, <dakr@kernel.org>,
-        <johan@kernel.org>, <pavel@kernel.org>, <lenb@kernel.org>,
-        <ulfh@kernel.org>, <sid9.karanam@gmail.com>, <afd@ti.com>, <nm@ti.com>,
-        <vigneshr@ti.com>, <u-kumar1@ti.com>, <driver-core@lists.linux.dev>,
-        <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>
-References: <20261123084218.673382-1-b-padhi@ti.com>
- <20261123084218.673382-3-b-padhi@ti.com>
- <CAPx+jO9LhihGLHYSFR4Wd8GhOu_AC7tE49OJxrVEVAJyEDHhiw@mail.gmail.com>
-Content-Language: en-US
-From: Beleswar Prasad Padhi <b-padhi@ti.com>
-In-Reply-To: <CAPx+jO9LhihGLHYSFR4Wd8GhOu_AC7tE49OJxrVEVAJyEDHhiw@mail.gmail.com>
+References: <cover.1795639368.git.alx@kernel.org> <396395e1d02ca080da67cfd91a1c49058b2676b6.1795639368.git.alx@kernel.org>
+ <awdaYz9NNVv5fHv9@ashevche-desk.local> <awddHt_xvc-lIygA@devuan>
+In-Reply-To: <awddHt_xvc-lIygA@devuan>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 26 Nov 2026 09:52:44 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX9gnV0beBEoh65FzPCwrQy=WpGtK5qKsOF3Tsv9iUj0w@mail.gmail.com>
+X-Gm-Features: Aa3M54rOnub7bCh_NzEEm3acSwF_6HJABwfoziM7rtzTMFRTInpGyKc2wQ19vKo
+Message-ID: <CAMuHMdX9gnV0beBEoh65FzPCwrQy=WpGtK5qKsOF3Tsv9iUj0w@mail.gmail.com>
+Subject: Re: [PATCH v7 4/4] device property: Fix fwnode_name_eq() for empty
+ node names
+To: Alejandro Colomar <alx+linux-hardening@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Alejandro Colomar <alx@kernel.org>, 
+	linux-hardening@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, 
+	"Maciej W. Rozycki" <macro@orcam.me.uk>, Andreas Schwab <schwab@linux-m68k.org>, 
+	Andy Shevchenko <andy@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Daniel Scally <djrscally@gmail.com>, 
+	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Joe Perches <joe@perches.com>, 
+	Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Len Brown <lenb@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Linus Walleij <linusw@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Saravana Kannan <saravanak@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF000392DA:EE_|CH3PR10MB7702:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce34b025-006c-4817-4493-08df4b9b1556
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|36860700016|7416014|376014|1800799024|82310400026|10067099003|56012099006|5023799004|261026121527099003|261026140227099003|261028144727099003|261021123027099003|261021121427099003|261022105027099003|261022075727099003|261102123227099003|261009223027099003|18002099003|22082099003|4143699003|6133799003|13003099007|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	56RbzHwvrWjqjbsnFVfAs9sZRJU5EczhzMpZbwxbkL1YNhEdp5uqfdmkKZ3sF80yTZttfkWyujb+kw+M37NY3EAAu03l9gOhtg7Z4Pf+xnT/lVoE9hWH+tAe5mQChr+l8RD7EHRS//rQOiRJp5UV3S3WZuzi4PIZiZCHHXmatzFe9RdHOqeFwHi3hMpLdcn817/Cbmc8U2VnXzWiFDQT8JTAA0AAHZ/r8ZNPwPi6jj1e6W863zJgKJ1E+q4/pUAFhGDMufvbPYyhb/KkrVHYzl0dQEEe4yMHfy5hTWE8/QumUPD+C4V3PdT3tqgkcFfA32P9gyeCrKgbIagIbeySFgz4oDWWtwQU5MF0AGXTiVC22D4IIoEHYj43s8cf1TNQFaitKBrkwWnism6+hqXS41d9/+G645PRU+RqfqbsuN4BlQt/KAn3im2ENBknlPOWm9dgWeHigo9buBtdvjEnf4wuV8DabtaXoLRW3S8O37JPp2+NVY2JpoV+qJiAffaZPi1MtRtT70dHPw8RX+2WSCv8leiGsC6zMJlrGKj1bzLHMZZuGtzfVCf4ebC848ph2Av+aUqSPns7q/uJ/nD1okyzRa6++tFWev+mnyeQh6wOY/dUWpGQ/GvPmSDn2FNT2ui7okeXscgoJ3wuRnq13iYcolxJ/N66oE+C9LdttVQ=
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(7416014)(376014)(1800799024)(82310400026)(10067099003)(56012099006)(5023799004)(261026121527099003)(261026140227099003)(261028144727099003)(261021123027099003)(261021121427099003)(261022105027099003)(261022075727099003)(261102123227099003)(261009223027099003)(18002099003)(22082099003)(4143699003)(6133799003)(13003099007)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	MlZQgR2D4qLJ+p8kg9yOVLEcug3za4LgkDr0Gdd0H5K1j/HQ6gPa6S1cYoD1OiGkU1wyQ3LKRAuGuqg24he4HZhFZK3L35JWnHE8nzs1aJSVb+Tzk8biB98wd/uo4CWTMAK33Qf8QltJ0IWIKUQrS6gZjU7/xUSwuZdr7VrGRsRPa+kh1vAklke3V5zbSyuer/MwNuAI9Zvcqm37Yg3yBs3Xr9ljnSF6cK0QkNMqdwywEg2+H42mvwVorHBCGdN5jEdhInc4ntUCjI8nm4mLuseoLFwpPUzzFkW57SqQ0kJc3DsOxbgwHZq/P6YoCi7QBmYv6xvRRcsA1LtRDRV+Yxzp9AAnayWgTaNyFoMSTkqKXwYBwEXxRSJ7VHshoDk57ItZ8PoJnQDFJGWuvUuRcEPj/4dx/Pw/NfxcmwKIQPA1BMMBkuPbXS6gROtKLuON
-X-Exchange-RoutingPolicyChecked:
-	kS+1B8W0vKsELckvOE5pd50+4ocTmaurfb/PQJtkrmrktNoMPdYIgFkb6FPySCRut9qgSWmosaLSe1KSBL20NecrPf8qYK/qhg/1tDRa+USugIlIMA4OOJPfzP4IYsCUVIqfORy7qPDEtqpjgbrP80mHOE3KaHhh2hTldoMuZeeqMmttP3T5JkN8rLUMK5lb+TEebth7KgDgZKTpgzwwH2cP5N9/ywW6JEsHnGwZet5C/cUB+ugdi20E8c4ci0JFl3JO4B+iImeuM55TGzr31W7sMqAi9rD+nqck9qfq3CIml55nyUN/RE4RBeAEGtckqN+uamqVZdjcKxmm/2KF0A==
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2026 08:55:55.9048
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce34b025-006c-4817-4493-08df4b9b1556
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF000392DA.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7702
-X-Proofpoint-GUID: fr2f3vnI-M7gzeYDStmJ1JDvcsXPpEpA
-X-Proofpoint-ORIG-GUID: fr2f3vnI-M7gzeYDStmJ1JDvcsXPpEpA
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI2MDAzNCBTYWx0ZWRfX+LXuENmcMpva
- kN6kwMfRSRtXFESZROGFqlXQhVItCXhpdqa8Ts4NgTiQumw2lIzdh9peR1lj0r+Cq68Gnff3l+B
- R9MY249Ecq1mx5amXShKwHG1y6rqe78=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI2MDAzNCBTYWx0ZWRfXyfhmaua+3iZY
- ePg76wi9oMJND705Ji38NnWlH2O31wwWPyAawGHJOdti7ZgMnRNSZG+E6UMYzmjkQJJTKpd4wHj
- nOKZXVAXMcaDFXPNxgGCXpKDQO4ZgAFvUQjpa9GSgIMdxZh5KcnIlZNyBsG1m2D0ZsIcIFIUzQ+
- eEmmAKEwV1jUd7CW3RvSS8aJ4CfcWETYdLAN1XahwFk0yic/Aenq4dKY3pkGS/hd4p2UzX084sZ
- BjK/78rmLg6OU8b6fv4rXbflS720Ng4lhbH1PZwzN/umUBIBIAmG3y6Hs1l9b81Td1aEJV/ZTE6
- E/QJTT5K+4u9nYCKPwH/FvrhiTpXRWF51JiJad9Lf0WroQdyyedX1l6SEvC6jHE4HWIfFWK41zf
- CKvO7wzWZ4n8nxFeQOgDIw4PpeuQv4jH1usUeIoLMAkoi2qFB+BYe22C2OmOSHMbba1YW9Wh5lw
- hH8Dzfr9UyYhLNjIpFg==
-X-Authority-Analysis: v=2.4 cv=Ss4Fe/O0 c=1 sm=1 tr=0 ts=6b07f41f cx=c_pps
- a=lexSm1xfraBw67q2grWtcw==:117 a=f+v6EHfkeJbVwR46tk4DMg==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
- a=s63m1ICgrNkA:10 a=AlMIdn_sM9wA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Z8NIEmU8O1QQgoT56wFK:22 a=taLDd7a_hP9WKsMzeGRc:22 a=VwQbUJbxAAAA:8
- a=sozttTNsAAAA:8 a=tUiGmE7SqUV3IHiY2B0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-26_02,2026-11-25_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 lowpriorityscore=0 clxscore=1011 bulkscore=0
- phishscore=0 priorityscore=1501 impostorscore=0 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611260034
+Content-Transfer-Encoding: quoted-printable
 
+Hi Alejandro,
 
-On 25/11/26 20:58, Ulf Hansson wrote:
-> On Mon, Nov 23, 2026 at 9:43 AM Beleswar Padhi <b-padhi@ti.com> wrote:
->> Currently, platform_probe() attaches the PM domain to the device and
->> powers the domain on before calling the driver's probe. This works for
->> most cases, but would be erroneous for devices that must be configured
->> before they can be powered on.
->>
->> One example is the C66x/C7x remote processors on TI K3 SoCs like AM62A.
->> Such a remote core's local reset must be asserted before the device is
->> powered on, otherwise the core can start running bogus instructions
->> whatever happens to be in its memories at that point.
->>
->> dev_pm_domain_attach() lets its caller skip the power-on by not passing
->> PD_FLAG_ATTACH_POWER_ON. So, add a pm_domain_no_power_on flag to struct
->> platform_driver by which platform drivers can opt out of the power-on
->> at attach. Drivers that set it must power on the PM domain themselves.
->>
->> Signed-off-by: Beleswar Padhi <b-padhi@ti.com>
->> ---
->> No changes since RFC.
->>
->> Link to RFC:
->> https://lore.kernel.org/all/20261027140751.2465743-3-b-padhi@ti.com/
->>
->>  drivers/base/platform.c         | 7 +++++--
->>  include/linux/platform_device.h | 8 ++++++++
->>  2 files changed, 13 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/base/platform.c b/drivers/base/platform.c
->> index 979593e5cca15..6e7b803a50ab2 100644
->> --- a/drivers/base/platform.c
->> +++ b/drivers/base/platform.c
->> @@ -1482,6 +1482,7 @@ static int platform_probe(struct device *_dev)
->>  {
->>         struct platform_driver *drv = to_platform_driver(_dev->driver);
->>         struct platform_device *dev = to_platform_device(_dev);
->> +       u32 pd_flags = PD_FLAG_DETACH_POWER_OFF;
->>         int ret;
->>
->>         /*
->> @@ -1498,8 +1499,10 @@ static int platform_probe(struct device *_dev)
->>         if (ret < 0)
->>                 return ret;
->>
->> -       ret = dev_pm_domain_attach(_dev, PD_FLAG_ATTACH_POWER_ON |
->> -                                        PD_FLAG_DETACH_POWER_OFF);
->> +       if (!drv->pm_domain_no_power_on)
->> +               pd_flags |= PD_FLAG_ATTACH_POWER_ON;
->> +
->> +       ret = dev_pm_domain_attach(_dev, pd_flags);
->>         if (ret)
->>                 goto out;
->>
->> diff --git a/include/linux/platform_device.h b/include/linux/platform_device.h
->> index 3bd0f1f0d8704..4d1679c4ea78e 100644
->> --- a/include/linux/platform_device.h
->> +++ b/include/linux/platform_device.h
->> @@ -292,6 +292,14 @@ struct platform_driver {
->>          * to setup and manage their own I/O address space.
->>          */
->>         bool driver_managed_dma;
->> +       /*
->> +        * By default the PM domain of a platform device is powered on before
->> +        * the driver's probe is invoked. Drivers that need to configure the
->> +        * device (e.g. hold it in reset) before its PM domain can be powered
->> +        * on must set this flag, and are then responsible for powering on the
->> +        * PM domain themselves.
->> +        */
-> I would appreciate it if we could be more to the point. We should not
-> need an entire book to explain what one variable is for. :-)
+On Wed, 25 Nov 2026 at 23:18, Alejandro Colomar
+<alx+linux-hardening@kernel.org> wrote:
 
-
-That's fair, I can do it in v2 :)
-
-I was trying to follow the comment style for "driver_managed_dma" variable.
-
-Thanks,
-Beleswar
-
+> > Date: 2026-11-26 00:00:03+0200
+> > From: Andy Shevchenko <andriy.shevchenko@intel.com>
+> >
+> > On Wed, Nov 25, 2026 at 10:03:55PM +0100, Alejandro Colomar wrote:
+> > > str_has_prefix() returns the prefix length on match and 0 on mismatch=
+,
+> > > so the mistmatch case can't be told from "empty prefix matched an emp=
+ty
+> > > string".
+> > >
+> > > For instance: the OF root node's name as returned by
+> > > fwnode_get_name() is "" and will return 0 for any name matched agains=
+t
+> > > it and since len is 0 too, fwnode_name_eq() will return true.
+> > >
+> > > Let's use strprefix() instead, which also makes this function simpler=
+.
+> >
+> > ...
+> >
+> > > Message-ID: <avrSUUM3HMgxTNpl@kekkonen.localdomain>
+> > > Message-ID: <nat4ilqmzzpuyrjbuahl367ip22tfnmjorydlppuwqiscxaujo@kf63j=
+4lb3flk>
+> > > Message-ID: <nat4ilqmzzpuyrjbuahl367ip22tfnmjorydlppuwqiscxaujo@kf63j=
+4lb3flk>
+> >
+> > What is this?
 >
->> +       bool pm_domain_no_power_on;
->>  };
->>
->>  #define to_platform_driver(drv)        (container_of((drv), struct platform_driver, \
->> --
->> 2.34.1
->>
-> Kind regards
-> Uffe
+> git-am(1) has --message-id and the corresponding am.messageId, which
+> stores the Message-ID from the email header field from which the patch
+> is taken, to document where the patch was taken from.  It is stored by
+> git-am(1) right below the last trailer tag from the patch (which should
+> be the 'Signed-off-by' of the author), and before the 'Signed-off-by'
+> appended by git-am(1) itself.
+>
+>         $ MANWIDTH=3D64 man git-am | grep -A5 messageId
+>              am.messageId
+>                  Add a Message-ID trailer based on the email header to
+>                  the commit when using git=E2=80=90am(1) (see git=E2=80=
+=90interpret=E2=80=90
+>                  trailers(1)). See also the --message-id and
+>                  --no-message-id options.
+>
+> It's useful to document where those tags come from, in case it's
+> historically useful.
+>
+> I've extended its use to other tags I take from emails.
+>
+> > Is it documented tag nowadays?
+>
+> It is not documented in the kernel, AFAIK.  It is documented in
+> git-am(1).  I included it, because I find it useful.  Feel free to drop
+> it if it's not wanted (I can remove in in v8 if it's not wanted).
+
+Please drop them, the tooling (b4) can find the origin regardless.
+
+BTW, the kernel way to link to emails in commits is using Link:-tags, e.g.
+Link: https://lore.kernel.org/avrSUUM3HMgxTNpl@kekkonen.localdomain
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
