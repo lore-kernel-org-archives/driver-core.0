@@ -1,132 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.195.94
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.44.91
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795659213;
-	b=Gv1W6wlnyZdRNmpiZExZZ9jCQP07V+9q6IR6p3Kv4pbQzP6chn12FwjQ+Nql3Q2lsRia
-	 OkdyNPTIZQPoj14eCY22nUzcT5OtEJXZg2IIC23QtmF7y9WQq3BT7qExNDgaYhHUyD+5J
-	 SBWBXkQEiB4szY/HouEx3vZMvRmeo3PHm9aHbwFkv2GBZHcptVbdPF6RechIWABF8omkG
-	 0KqLM2kXfVOCGsJaISi2mpVte5ijzrjxBayk5dCj2Kd4W83Tc33muIxrqGPFeRx31qSw/
-	 5VPBaHwuJ8a1JtDtZN1PN95NwKtgQSjkL/chRKpNvrePvXoz2rN7Pn91KU0S046DvsA==
+	t=1795659311;
+	b=HJKM5of4nGgNUuiorVFhB5IcmW8iMz5B9TVyu24HblcLktgf6K02YhXEJB4ACQM+F6tL
+	 n7QrXLJbwxL0YUEtpB0CSCsNAopuAKTYJ7ku/DgN9vWlbVPq7vNU6CJYkTPJTzs/NH1gx
+	 YMSMNMHf4UvcPF3vwxXPG0s9TppeNasPfxlvZRUsqbf5OYbp41pY0iY8Y8BlW5JadBiz3
+	 g4QQKcZrRv8aeA2+GUdkoOXbLcDTQRCzbBY/jgS4QBGcHLbqoOKxYO5kvDKkVO+QwqYFi
+	 Er3WEZz87DxScYbqwsMuFseueilgPLuX1y/TaJu1b0MGMezMjwOYm4W5UEgS2/6F0rA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795659213;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Cc:Subject:
-	 From:To:X-Mailer:References:In-Reply-To:X-ClientProxiedBy:
-	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795659311;
+	h=DMARC-Filter:Received:Received:X-MS-Exchange-Authentication-Results:
+	 Received-SPF:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
 	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
 	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
 	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
 	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=wQAgwCFtaZYw/5H0dfCkFCzjH+zjuUeaUjo67Lp/viA=;
-	b=4EFQHeh511TlZsNL1sht7R4vTyDVN/5iuex/qfaMUGZByjjxh8/ZqY2INbbM9cq8zVa1
-	 JPuSgfUZzuPJyRC9QJbg5WXe2pxTHFb7dbm4ygrC+M+o/LfWILRcgHCOxYdhdj+ioMCx3
-	 dpmNsT+JrzSIzMQSgqcJa0KFqB5fTN9H3ysQqiJvjbtV0Zczk4nAPi+xwHQdzIvCa6rc1
-	 zysrjgGxc9F8wL5DaA02vcGBAPetl8hlqqqC87TfErtMLiDaJ6Q2ANfSqBo0ESf9duy9q
-	 sf8+90w52Yia4piQMoxdqy1Jb4UoEMai/GGoYoQPPTtqksFZd1V7mMa4+Lrrznco8Vw==
+	bh=bNfk7c7XhNw0g064mxJvGOAQMtmgbxf7d5d8trfqvpg=;
+	b=dQ/awb7GdaXlzLq7Nh5k+lr8Sv9ykaZSWoDD2e88csrY4d/l/HuZPQzojSJufyAaohYF
+	 eFJOzU3hngTYhRUdulhka+Bj8g0PeTpwMvouNTx0EsYh/oQl0emzViXU3e8wv9lC7lQKb
+	 zWIcvi9tpv50imJHN2GtMMjaW9uVr6bfWHUym4Ks+X6qCwAyWlOVYdMvHIPPjc+oeQYXq
+	 9uqFkv/FJOK5p+vpXTA0HQv8BtJZqnX1wXYl2inL7q8V7YtR7He0YOf4YsmHk1Som+/N9
+	 5uJFWX2RCsMQgoOE+s2VH1jyuF6QdLb2J7aIBTUHQD+sEm/8YwSBfj/0RS4a2zwGkCA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=garyguo.net;
-	spf=pass smtp.mailfrom=garyguo.net;
-	dkim=pass header.d=garyguo.net header.i=@garyguo.net header.a=rsa-sha256 header.s=selector1 header.b=mqkdCmOj;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.195.94
-Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020094.outbound.protection.outlook.com [52.101.195.94])
+	dmarc=none header.from=cixtech.com;
+	spf=pass smtp.mailfrom=cixtech.com;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.44.91
+Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11023091.outbound.protection.outlook.com [40.107.44.91])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FAD606A323;
-	Thu, 26 Nov 2026 02:13:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02FAD606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=garyguo.net header.i=@garyguo.net header.a=rsa-sha256 header.s=selector1 header.b=mqkdCmOj
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3832C606A32A
+	for <driver-core@lists.linux.dev>; Thu, 26 Nov 2026 02:15:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3832C606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uWMk9HwoOb5/uKfhwWFo9V26Uz2ItM+pNe5HJW7ZqsQz0DTbpjE8wrtAGKNsW48Evuf0c/nfBMtxRVxhb05JKukmUyhBubfDkzJxwIeT6BIzW0sdsVR0GzZPvSi7U8kSUl/TpN7s0wFymKZS7w48D0oCqmk/uifz6iDNm0D7Zvsa4ipx7fXilio4GKVMvUp0TM4zGQ+pQuhDEwCs1Fa9Aq7rNS480+IVO0bCknFBD/IChaser8R5XTHzMJsUHt5hZ/6i7PrjNlQ7OBKrZS74uGPWqf84Y8TXl1iG3UKnsTd4iP+yIWeBpSt8o9y9SecIyCIXpoknYWjqxG82YvgyjA==
+ b=PfZBcfN4gI8xvGxNOkefr9WrNIn9Vw5oyDycp1AcZkN+P/5Np0fyj4KYLEFxYHs9Y0GRi3L7rzYHUBiEnnpl4k71e8OGJtr/k/2F5aw3xvlvGxVjvPCPW9WKjC5OwMyJMJjdrOkqIRdY/PHW+Ny8dPzzZJCNSv/3nOcAcXDou/e+FNjjwBrRjrb/DbFfLeZQ2tilkXwRLRHlaHfbjWKdKt5pRuoWRbihcbLIeFp+KBSBimgdirEt+Wb/UomRhIyz6O4NdOyjnBX6EOb9/kYWAdkgWXx5X9GHNxe4PaEKdpbsRNmIQe0riePe1dwmChiZtR2lV8VNvNCONtuwJ2DxJg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wQAgwCFtaZYw/5H0dfCkFCzjH+zjuUeaUjo67Lp/viA=;
- b=pdEDSExfGWlBhhk2/+hC5Zvzdc9yqzPxzF84F2vIXeIzSVio1MaGCuON2diZ6iUdPTjXj895kYahtgfTGmF9+F102FKsMXQHZ+tpCB3gajnpo4OMIPOVkfW++DQOuCvIwZCwaQsDJYP+x5eJFQFnwkWWJVg+agEkcUDqjdwotdh9Am4diPBRDti0tcWAnf5xb6AqJfpPugWfxeZgfI44U1fUx4/qP8cPgJw/FPRFVk8+PpcpSpsFIDqeFzBRpGLUXYBZnoYmB3caO+NSEqgkblAY2jopPZVkKCK9napnSpXgzELiqKCoDjEmGh1qsSOl9DKEfSmLwh+QMMwupT1cOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wQAgwCFtaZYw/5H0dfCkFCzjH+zjuUeaUjo67Lp/viA=;
- b=mqkdCmOjHBor1/5HAlm4bhLFtGhhOGfsQNyS5qOdF4g019zEFMax1sAbqUBJF8OklxX+qFTj6LvV4Yz5BR9ITOew6kXh9epwIVx5hS1DeluAUFMbdaqTugjroqSxQwHMUuJFtXcWILThZPzyQZk73JMeUGica3zeGVIvfTNI990=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1cb::9)
- by LO2P265MB5887.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:26c::10) with
+ bh=bNfk7c7XhNw0g064mxJvGOAQMtmgbxf7d5d8trfqvpg=;
+ b=jKJ1BOg172WDiW2mk4qFByimE3a96aaDtTI0tNYGYX3zx9ccUet249qYVKWkzawMtSnDV+6WzbBVWg91DsPaUgcHOzuEtsKdeCgebjFpMHshJ5Y1ea4Hrfp9JD+M9Fe+w1IupvOyPnWan4/f30PglGYyAHgka+l7L5bxnHEWhhDRKtwQK6B5viEsCyUo3LO/aR9bzxPHPXhdQvMOy1I2YAh0SryGb3xVlNoUmJbyOvWqOlPaMFbPslifz7X3fLeE7M+RRD5UBEQV5NZ57c1C79c2OvcGrX5QnpgNzEXnvuWYkEqtGNR6ffYqrw9NmcumI4e102ph+YDP1GEnnTLNnw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 222.71.101.198) smtp.rcpttodomain=arm.com smtp.mailfrom=cixtech.com;
+ dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
+ not signed); arc=none (0)
+Received: from SG2PR02CA0137.apcprd02.prod.outlook.com (2603:1096:4:188::17)
+ by SEYPR06MB5398.apcprd06.prod.outlook.com (2603:1096:101:8f::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Thu, 26 Nov
- 2026 02:13:29 +0000
-Received: from CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
- ([fe80::55f6:f98b:7fad:c6e3]) by CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
- ([fe80::55f6:f98b:7fad:c6e3%2]) with mapi id 15.21.0662.004; Thu, 26 Nov 2026
- 02:13:29 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 26 Nov 2026 02:13:27 +0000
-Message-Id: <DN4S2C127FMU.1GA3O72TFAC0Q@garyguo.net>
-Cc: "Jonathan Corbet" <corbet@lwn.net>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>, "Bradley
- Morgan" <bradley.morgan@linux.dev>, "Armin Wolf" <W_Armin@gmx.de>, "Masami
- Hiramatsu" <mhiramat@kernel.org>, <linux-doc@vger.kernel.org>,
- <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <linux-trace-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>, "Alex
- Williamson" <alex@shazbot.org>, "Mostafa Saleh" <smostafa@google.com>,
- <kvm@vger.kernel.org>, <qat-linux@intel.com>,
- <virtualization@lists.linux.dev>, <intel-xe@lists.freedesktop.org>,
- "Vineeth Vijayan" <vneethv@linux.ibm.com>, "Peter Oberparleiter"
- <oberpar@linux.ibm.com>, "Heiko Carstens" <hca@linux.ibm.com>, "Vasily
- Gorbik" <gor@linux.ibm.com>, "Alexander Gordeev" <agordeev@linux.ibm.com>,
- <linux-s390@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
- <linux-spi@vger.kernel.org>, "Frank Li" <Frank.Li@nxp.com>, "Sascha Hauer"
- <s.hauer@pengutronix.de>, <linux-clk@vger.kernel.org>,
- <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
- <linux-remoteproc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, "Takashi Iwai" <tiwai@suse.com>
-Subject: Re: [PATCH v2 00/10] driver core: Disable driver overriding by
- default
-From: "Gary Guo" <gary@garyguo.net>
-To: "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
- <u.kleine-koenig@baylibre.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Danilo Krummrich" <dakr@kernel.org>, "Johan
- Hovold" <johan@kernel.org>, "Bjorn Helgaas" <bhelgaas@google.com>, "Nipun
- Gupta" <nipun.gupta@amd.com>, "Nikhil Agarwal" <nikhil.agarwal@amd.com>,
- "Ioana Ciornei" <ioana.ciornei@nxp.com>, "Longfang Liu"
- <liulongfang@huawei.com>, "Julian Ruess" <julianr@linux.ibm.com>, "Ankit
- Agrawal" <ankita@nvidia.com>, "Brett Creeley" <brett.creeley@amd.com>,
- "Giovanni Cabiddu" <giovanni.cabiddu@intel.com>,
- =?utf-8?q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, "Eric
- Auger" <eric.auger@redhat.com>, "Eric Farman" <farman@linux.ibm.com>,
- "Matthew Rosato" <mjrosato@linux.ibm.com>, "Tony Krowiak"
- <akrowiak@linux.ibm.com>, "Jason Herne" <jjherne@linux.ibm.com>, "Harald
- Freudenberger" <freude@linux.ibm.com>, "Holger Dengler"
- <dengler@linux.ibm.com>, "Haiyang Zhang" <haiyangz@microsoft.com>, "Wei
- Liu" <wei.liu@kernel.org>, "Dexuan Cui" <decui@microsoft.com>, "Michael S.
- Tsirkin" <mst@redhat.com>, "Mark Brown" <broonie@kernel.org>, "Abel Vesa"
- <abelvesa@kernel.org>, "Stephen Boyd" <sboyd@kernel.org>, "Brian Masney"
- <bmasney+clk@redhat.com>, "Jerome Brunet" <jbrunet+clk@baylibre.com>,
- "Bjorn Andersson" <andersson@kernel.org>, "Mathieu Poirier"
- <mathieu.poirier@linaro.org>, "Srinivas Kandagatla" <srini@kernel.org>,
- "Sylwester Nawrocki" <s.nawrocki@samsung.com>, "Liam Girdwood"
- <lgirdwood@gmail.com>, "Jaroslav Kysela" <perex@perex.cz>
-X-Mailer: aerc 0.22.0
-References: <cover.1795171088.git.u.kleine-koenig@baylibre.com>
- <DN4RPY231N71.1XDIB9HKGBU0O@garyguo.net>
-In-Reply-To: <DN4RPY231N71.1XDIB9HKGBU0O@garyguo.net>
-X-ClientProxiedBy: LO4P123CA0119.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:192::16) To CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:400:1cb::9)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.4; Thu, 26 Nov
+ 2026 02:15:06 +0000
+Received: from SG2PEPF000B66CF.apcprd03.prod.outlook.com
+ (2603:1096:4:188:cafe::9f) by SG2PR02CA0137.outlook.office365.com
+ (2603:1096:4:188::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.662.7 via Frontend Transport; Thu, 26
+ Nov 2026 02:15:05 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 222.71.101.198) smtp.mailfrom=cixtech.com; dkim=none (message not signed)
+ header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
+Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
+ 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
+Received: from smtprelay.cixcomputing.com (222.71.101.198) by
+ SG2PEPF000B66CF.mail.protection.outlook.com (10.167.240.23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.662.3 via Frontend Transport; Thu, 26 Nov 2026 02:15:05 +0000
+Received: from JohnnyFan (unknown [172.21.64.24])
+	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id 8CE25427EFC0;
+	Thu, 26 Nov 2026 10:15:03 +0800 (CST)
+Date: Thu, 26 Nov 2026 10:15:02 +0800
+From: Johnny Fan <johnny.fan@cixtech.com>
+To: Leo Yan <leo.yan@arm.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Will Deacon <will@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Hanjun Guo <guohanjun@huawei.com>,
+	Jeremy Linton <jeremy.linton@arm.com>,
+	Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@arm.com>,
+	James Clark <james.clark@linaro.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Al Grant <al.grant@arm.com>, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH 0/8] ACPI: arm64: Support PMU on Heterogeneous Systems
+Message-ID: <aweWJpk82HgKFshd@JohnnyFan>
+References: <20261116-acpi_arm_pmu_registration_hmp-v1-0-0371d4eca626@arm.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -136,150 +119,70 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261116-acpi_arm_pmu_registration_hmp-v1-0-0371d4eca626@arm.com>
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP265MB6051:EE_|LO2P265MB5887:EE_
-X-MS-Office365-Filtering-Correlation-Id: f4548ec8-c010-42c3-51c9-08df4b62dcb1
+X-MS-TrafficTypeDiagnostic: SG2PEPF000B66CF:EE_|SEYPR06MB5398:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2e1220a6-96db-4c0a-e801-08df4b6315fe
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|10070799003|7416014|376014|1800799024|921020|10067099003|261021135927099003|4143699003|261021123027099003|261026140227099003|261022113327099003|261022115727099003|261022075727099003|261021121427099003|261022105027099003|261021130227099003|261026135527099003|261009223027099003|261102123227099003|261028144727099003|261026130827099003|261021133027099003|56012099006|261026121527099003|22082099003|18002099003|3023799007;
+	BCL:0;ARA:13230040|82310400026|36860700016|23010399003|7416014|1800799024|376014|6133799003|261009223027099003|18002099003|22082099003|56012099006|261021121427099003|261102123227099003|10067099003;
 X-Microsoft-Antispam-Message-Info:
-	4Tjadm5PXUwyJcL8Cx8YB2j8p66sON8XUAfyloexpoM+Nw4Z4KJ7/E8U7sL753DXkU3dJLy9+p/FEW8KnDn2vukcZFxmnbjkrUQoJInkZxg6BPT4xEbV8DcuLYDFO8V8b1BfcFOLgjswi/TPyuGX8dh9gbPsEQU4Hd9ZThcLlcFgjONzxV4Zk//Y+wPhXN/j8hOeV3HB6gCJ1b2BGUXin/8wvP3b8hEOKe/OU0q6KHErMxlmJ6GH1y/qUQ+d4uGoet07wafrSJ9BW1Tx0bd67C38ouKL7PeFZ56FpzrrhRo9VHSKQ02ISAH9IQYHfdnJ4ABiCwGsBVZFhhEtLh8hSqBvmypTXxpix6rhITqGeajCk5CACXFBTz7FCpCLenTi2oIXfC6gu325plwAVdQdOUpX9E/FV8jW3DrWsFLX94dxQTpoirKXuFTMRoN2tHLTuGgKLDrvpDka7gpcUjuutRdEue13T6MG0PAFUdn++DOqJhfJJp0NaqsFsA7X5fBCnwm1ldQgoibaldpAyr495oRN/EFRTSxqjHj7PuNhaV+UIxY0FBQoOPZvvvPd1z0DJ4YF5mtjrRkFoAR47Xk6ULLTrMmgl9LiHWRTrtwMjiBbwtnVZK0zbVDHhV/QFkC5Ee+yAAzKSza5w7r8AVNplSWkVz/Eg9U2q54LWK63XK8=
+	7bbVmeq4ViQ4SAcxILLGy7dW7qe6B75sDk/hCx3bhHJZswBShtzSEB/W9x+/L2f9TM4x0OIxoGARVS2vNVBIxySeXKG3p0J60wM721IKmI+/40AtQu71qslvxvFpX1spoXBE9dPxueY6FS0LM9aP6QEJ8DKzOuVRVOH/Yhxz1vti+vixLrgEiC2fGhWS+FvMnl78CeVeKZen4BM4dSjFaRut70fJH89WK3LWTKEtdsOFLh4btaH9t/+axPH8Nw0Ao9gtCIk+EQlTeTssxtabPgQKrZV5A/S1Wp7Tg+q5N/dh7F0PldgObr4ZGKYfrV6TWOmjsSK019NJihG+DT94YiYbSjVQ0SHLCTfBH/+/5QJPa1m4qK/ESZFEgJufxd5mR1vxWsHxCVkDbrY6wkyl1GZewRLQauRFgSHRXo0n7fTrq+nN+nSmX5oimdM8QQCCpgEfwBZCRMM8Ezu0PXr+6gX0PLv+kEZvxJ8tsSQLbEeVZejrm8u0ObKynZXX8VXHY1NSe/md3aLLYE/GPxHrKDw8oWbOsbIqm8Ohg/L5eOt9/9AgGFEJ+mVDfuuteGCkS27SQIATj/bcwRELtw482wFhRTLdzbIQFtJGD9yoszVBxhiYgqTRiMv3NYnG8fYCoW0x983gMDubovMo1hGCTL0VkEu/6SUBGxxCxuYdrp9Jwbra71+gdEf9vFka/xxyR/AG5X/pA4cf1NK0jerxsQ==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(10070799003)(7416014)(376014)(1800799024)(921020)(10067099003)(261021135927099003)(4143699003)(261021123027099003)(261026140227099003)(261022113327099003)(261022115727099003)(261022075727099003)(261021121427099003)(261022105027099003)(261021130227099003)(261026135527099003)(261009223027099003)(261102123227099003)(261028144727099003)(261026130827099003)(261021133027099003)(56012099006)(261026121527099003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1102;
+	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(23010399003)(7416014)(1800799024)(376014)(6133799003)(261009223027099003)(18002099003)(22082099003)(56012099006)(261021121427099003)(261102123227099003)(10067099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bVdxY0FSYi80NVlIN3ZCWlpWMlhITjNSMzRpV1VaTmw5ZG9Od29RVnNFWHlq?=
- =?utf-8?B?S0J5blpaVUFvU1RmaW1YVHp6V3ZYUC94VlZXMW1COVhuazRZK2dITjliTUsw?=
- =?utf-8?B?c1RHM3RSYVMzL2NITkViVVQ4aTZZTlkvQmVHZVFyVHRwN1c0T2NXM2VNbmdC?=
- =?utf-8?B?cVBEWmFKV1czSGZYMGJjbkM1eVZaMFR5R0diVWkxS0ExU3BwV3djSTlUTzMx?=
- =?utf-8?B?TzA4M1dMQndYbENLRGFQbEpHYlhWaWJOakVqZmhNQXVtekVxYnVPdHlkNFQ4?=
- =?utf-8?B?S1ViRm01dmQrUUZZOGNrMUtRUXVXMjJTMFRDUW8wWk1rdi9qWkROL2F6Zm5v?=
- =?utf-8?B?MnFhZzE5TDdxWmt3U0xaNmpFSWVEUEJLZ3RPR0ZGdGt2QTdKKzQrK3A5am5t?=
- =?utf-8?B?cnBLRWFQWGhtYnFpTjJiVzA1bHhVY2ZnaHBwZzVUNGhnd0dyTXJBakVxR2lZ?=
- =?utf-8?B?RWxydWNUZFE1TnppMFk5bzVrOGtaVGJsRkc1Mm1iM3hESmVIemRVV3F0bDdi?=
- =?utf-8?B?M2Q0UWZxZDJmaTdtdGMxLzVjdHdubFpkbnBqTE13MENQa1Q2bG5YSmVkbWdM?=
- =?utf-8?B?NDJhQW54d2kxaWJpTnJReE4rTC9TbmVZOXoxK1pzNFd4UlUrM3BLRHRWUnJX?=
- =?utf-8?B?MzFTMzZkcExhQ25KUnVaeit5U1lJeGtUSVZzOVpiOE9GWmtDYktUdGpITXVK?=
- =?utf-8?B?SVY2ZW5RdWlFQTlJRmdHZ1NXT0FIMFBsZGlGNHFoeENqZ0ZOUlJNSDBxaERv?=
- =?utf-8?B?N1dpdHBVOUNIdmlTTXFValY4RHM1blZYVzVRM1QyWGh5aktuM0xhT3ZId2tJ?=
- =?utf-8?B?WnZtaDBmcFJ4QnY0Uyt6aHM0emduUCtIZmE2c3pzdEVtZVl4TldrV3E0eWZR?=
- =?utf-8?B?RDUwRUZqM1JxZk9uTnZpWGo1WFFhQ3pxOW1DL0k2amwzU2ZxYWQxM05zdCsv?=
- =?utf-8?B?enpUWC94eVZsRHR3NldCSytpcVFPNkZOVXNoMmRPY0cvSkRKMDJMZmNLZHY4?=
- =?utf-8?B?T21MN0U4T2ExWXlIWndmSlF4OE9LZU9DeTJteGE4OUs2THBYOFZSekM1Y1J5?=
- =?utf-8?B?NzB1MnkwOFBNZ2pMZnFPanFBM0Q5OXJVSk9Gd09xa3Zkcm5HemIzNVVjOUVR?=
- =?utf-8?B?NTJieW45UzBrMTRLeFBjcmZSWWtZS0tnQXZYNncyd3BVMEJBQys1NFVDdE5O?=
- =?utf-8?B?eEFhZjRYK0plTjNZZUZuUEZFTC9KbG1vNlk5UTEzaEJ0b09jdks1S3Y5OHFq?=
- =?utf-8?B?TVR6TWtXTk9WQnZuOE1pTDkxczJtRDdiRDZuZTZOalg5YUdXWGlCVktzbklv?=
- =?utf-8?B?RjJFMlpzczZkLzMyRlc4dHZaQXA5SnJSeFowZHRPZENMQTRsVjkxNHF5STc2?=
- =?utf-8?B?d09DUDZXYVJQYWNRanBrM1dYd05BeXpGV1E2eVdNVmR1dVUxTGRCeFVJMG1u?=
- =?utf-8?B?eTJsWG40bUthTy96S1BEMkl6VHg0WFNaYkNyL2tnSlUxYk9jcTJSWEtPSHJO?=
- =?utf-8?B?YWZCUVlXc1grdDgyS2hhd3RjR3hoL1pyQTFiMVRtSXpaTEhmdzRIQ3hObFRR?=
- =?utf-8?B?RXVEZmRkRm95Y0JzRzBsWDRoZFJ5eTBrdkFIRXYyQTg2VGZFa0RZcHJ2Mm5p?=
- =?utf-8?B?REYrald6aWdocVI2MXhwZDJPTDRrcDVpUnhvb21XbVROaXFWZzgyLy9Ec3ZC?=
- =?utf-8?B?aUFLTXRucC9PRXljZnF1amJyamxvOFRjMnAvQ25xZnpORmQ5YnFRY2dkN1J1?=
- =?utf-8?B?VEhmMVFKYmhoRFRSY2ljR28yTTVNcWFkektVc2RRM2FGeUtsRzlQcjZENHBs?=
- =?utf-8?B?eU9TOHk4WHE5bjA3OFZ3Y3Fvd2kxRzNuS2cyNTNMYld4SStDU1Vaay9zSnBq?=
- =?utf-8?B?dFJhMDM1UXNYWWhXN3FNSXNQMnJnNEt3WWdGcHM2M2FXVlVVZU53NGwrSEEr?=
- =?utf-8?B?UVpmbVBGRjZacWtZVjZ4MnRzT0xnek5LbzJjNmpxeUNHYTlVZ1FGdStZZ2xH?=
- =?utf-8?B?WXNFbkRuZGNFVndYVmFSR1VCeHJYYk5IRFBLOFhXWWxkY3FSWWNpb3AwcmJ1?=
- =?utf-8?B?MmdpOFZUQlJNRmJvRlNEWDJqZ2RRbHJOTTlKWnBjT1NmRWNnYWR3NWpyZHZ4?=
- =?utf-8?B?ZFFwT2RCdXhkNlR2VElzUFFRSCtvQ05kMVByRDFMWXFhRytua2tVb000bzNX?=
- =?utf-8?B?bVBWTjZPemxaMVd4ZUUySmdqSjhOU0FhQVFqenhkMmIyT29BeVZLbEpZM3Fn?=
- =?utf-8?B?MjZZa3dtbUtkeUtoa2E2WC96TnFwZkxOSWdRYmFKdUlnYVVoODF1eGNNRkIv?=
- =?utf-8?B?YklDNmlVa1pvODFsMU1uTWhXOHNZSXdiOWZnVXpHaitXUkswdTZ6Zz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4548ec8-c010-42c3-51c9-08df4b62dcb1
-X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2026 02:13:29.2939
+	5TS2jXpZVR8R9kbggziLGfvkUaRK68c3w/1otncHkDWS5CJJomie52nL7000UuXHRJCJFAeyqPglL8qz/NcvdYS67JTWd+rxsyqIJhpcIAS9/5Y60lHYKPzCV5CZXGfuKCPaL8HzOn1hRhocVK1zoNxDNlILM1QUM4Xvfgz23aqdOa7+XO9xeiP6D4Q9+oBpTEjFgdJ3MvOQ7xOMBMyQhCgYS6eDezIy6jeaAxUzlxYxQdCYUKGBqKWVJuqpzCCOMLdqnktnX8PLUZYoupGe7Mw1ZDM1IUfrWf2YtBzrjuDaQLESAMXl+UgYMDernAxlzAesjXhPivcoHqHD8prOF+YtTHPaYMdc2+EoJLmePNQy3aKzMOMin4jUJfSDvHt0p5SqyonJ9jduzw81HEGT38qqDSLzYmxel+Ot8Ft2A3mRD8FoZndA1qjk2U7O17vZ
+X-OriginatorOrg: cixtech.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2026 02:15:05.1388
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: c/guHY35yw70xzV0EMM2yxQMcKR6hXFiEvyhxI6qIHgbL3qi7yNU8zQND/P14Sr1VzKIJPxjBW7GJEQZW/hDnQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB5887
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e1220a6-96db-4c0a-e801-08df4b6315fe
+X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SG2PEPF000B66CF.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB5398
 
-On Thu Nov 26, 2026 at 1:57 AM GMT, Gary Guo wrote:
-> On Fri Nov 20, 2026 at 11:11 AM GMT, Uwe Kleine-K=C3=B6nig wrote:
->> Hello,
->>
->> here comes v2 which addresses the review feedback I got for (implicit)
->> v1. See https://lore.kernel.org/linux-kernel/20261116110853.3418077-2-u.=
-kleine-koenig@baylibre.com
->> for the discussion about that previous submission.
->> =20
->> The objective is to deny force binding a device to a driver that isn't
->> prepared for that. There are many drivers that run in a null pointer
->> exception when this happens and only very few drivers are supposed to be
->> used like that. So the first patch implements an explicit opt-in for
->> drivers and denies other matches; the remaining patches implement the
->> opt-in for drivers that rely on it. This makes it unnecessary to fix
->> individual drivers to explicitly refuse such bindings. See commit
->> 1e50a0349012 ("iio: adc: mcp3564: reject devices without match data")
->> for an example of such a driver-specific fix.
->
-> For PCI, there is actually already a mechanism for it -- override_only. V=
-FIO
-> devices already have that annotation. I think it's a better mechanism. In
-> addition to providing a useful id_info, you can also say what IDs you wan=
-t the
-> override match to become possible.
->
-> We can do something like this?
->
-> diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
-> index 2398f03a77c1..2cf4659b36a4 100644
-> --- a/drivers/pci/pci-driver.c
-> +++ b/drivers/pci/pci-driver.c
-> @@ -218,8 +218,8 @@ static const struct pci_device_id *pci_match_device(s=
-truct pci_driver *drv,
->  	if (found_id)
->  		return found_id;
-> =20
-> -	/* driver_override will always match, send a dummy id */
-> -	if (ret > 0)
-> +	/* For a forced driver override, send a dummy id */
-> +	if (ret > 0 && device_forced_driver_override(dev))
->  		return &pci_device_id_any;
->  	return NULL;
->  }
->
-> Where device_forced_driver_override your added logic about parameter and
-> tainting/warning logic.
->
-> I suppose the issue is that only CDX and PCI have this mechanism via ID t=
-able.
-> That said, other buses can gain a bus-specific allow_override field and y=
-ou just
-> do
->
-> diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
-> index 720a72ecd174..7539b43961e6 100644
-> --- a/drivers/spi/spi.c
-> +++ b/drivers/spi/spi.c
-> @@ -563,7 +563,8 @@ static int spi_match_device(struct device *dev, const=
- struct device_driver *drv)
-> =20
->  	/* Check override first, and if set, only use the named driver */
->  	ret =3D device_match_driver_override(dev, drv);
-> -	if (ret >=3D 0)
-> +	if (ret >=3D 0 && (sdrv->support_driver_override ||
-> +			 device_force_driver_override(dev, drv)))
->  		return ret;
+On Mon, Nov 16, 2026 at 06:21:27PM +0000, Leo Yan wrote:
+> This series has been tested on Orion O6, with four little Cortex-A520
+> cores (CPUs 2-5) and eight big Cortex-A720 cores (CPUs 0-1 and 6-11).
+> It exposes the following PMU devices:
+> 
+>   # ls /sys/bus/event_source/devices/
+>   arm_spe_0  armv8_pmuv3_0  armv8_pmuv3_1  breakpoint  cs_etm  kprobe  software  tracepoint  uprobe
+>   # cat /sys/bus/event_source/devices/armv8_pmuv3_0/cpus
+>   0-1,6-11
+>   # cat /sys/bus/event_source/devices/armv8_pmuv3_1/cpus
+>   2-5
+>   # cat /sys/bus/event_source/devices/arm_spe_0/cpumask
+>   0-1,6-11
+>   # ls /sys/bus/event_source/devices/cs_etm/sinks/
+>   trbe0  trbe1  trbe10  trbe11  trbe2  trbe3  trbe4  trbe5  trbe6  trbe7  trbe8  trbe9
+> 
+> The CPU PMU masks match the MIDR groups: eight A720 CPUs and four A520
+> CPUs. SPE uses the A720 mask, and TRBE exposes one sink per CPU.
+> 
 
-To add on this, from
-https://lore.kernel.org/all/7008c5ea-58fd-4452-a70a-2162cc3d562b@linux.ibm.=
-com/
-tt looks like that for some buses, the "driver_override" is a mere preferen=
-ce
-mechanism and not forced override, as ID/filter must still match.
+Hi Leo,
 
-I took another look at this direction, and it seems that s390/css, s390/ap,=
- cdx
-and vdpa all have this property where forced override wouldn't occur, which=
- is
-probably a hint that this direction is worth exploring.
+Tested on a CIX internal development board (Sky1 SoC, 12 cores,
+Hunter 0-1,6-11 / Hayes 2-5) with the latest internal firmware, on
+top of 7.3-rc7.
 
-Best,
-Gary
+  arm_spe_0/cpumask   = 0-1,6-11
+  armv8_pmuv3_0/cpus  = 0-1,6-11
+  armv8_pmuv3_1/cpus  = 2-5
+
+SPE sampling works on the Hunter cores, CPU PMU events work on both
+CPU groups, and the boot log is clean. I did not test the TRBE sinks.
+
+Tested-by: Johnny Fan <johnny.fan@cixtech.com>
+
+Thanks,
+Johnny
