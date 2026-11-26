@@ -1,55 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.217
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795697471;
-	b=yUSm3qgPeIYzOQqxNW7rQNUs6ogLnZcZAkwS5u2TueSV1PBJTTG/8AlmyBLyugAart53
-	 zkR04OwNT5KOXdzWnRQmHfzi0l8KT8OI1anFOHyWJylw2RU9JxxqV3YTxQyNZMlzHUGF/
-	 5TWenwoPWUSwkNLyVkxL92zw4LvVjWEYUL5VZfS/1O6cLJJBtL2pJePii/tPZrq9jofte
-	 oSIAoqhwIaUi8/Et2XF6un7QtxBu/8Rdqh6799fLP2ukdkCQJtOC6/f2ISeyXnV7hHAaw
-	 fY+nTkKBYL+DOpFFb7EI5DZQ7PETNZF2PdUCFsaZJnzrHiGuoOp39MBBj2d6G+9lN2w==
+	t=1795699673;
+	b=2X04IhJrH97GtabZdIcf4pK1Lg1Ds9F8woD3NL7Xzah6ouHC2g6Fm6zSjh4qP6EZrt0V
+	 uozVlvoXmSu6z0wFdXdKGfjIep5wiKT06twU58RIEca9iarlgZ3Hz7bIzTjPLgu2I0FLA
+	 iMOCqzCOx8zD5orm75B28JgtRwGgr1/rg4MR5Q9naeEI7OJ4abxnvF4XJ8YJjEbYawT30
+	 HezqOWi4IB0uo0EPWLhojjlpwDCalY81Vl7LFhmHdzfFFX5ci8GuCh72HfUkFtJiW6Nbo
+	 cZ3l0KUoEb/ArqP1z09pNADhhaHh3E25Co8dyIo7Q1WKSh1YQ9cQINkSdhyvP6OY1eA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795697471;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=q16GF0njlSdP7LoxbGpcMFaYQri5fmeNaCUnRRlaTx0=;
-	b=sMyNaLb5y92kFzdoLrcakKAIQGLdxnLID3uEzwiiY51KtfXNNGry0lQaO9DplCVsh4rV
-	 GGhjSaR0pHAg5a1zp8bvpGYjp2nGHsLAXMb/9waXU65MSvw+q1OI+o+q5bzrcFWEDaRk2
-	 fUZysG5Ymk+sgrEIkYzL6qRH4KbPo77D5INYs3i9zOq9HQ4XpN33Es+NG2uLPxIvbU63r
-	 s3MjzT+t2DpbJhQekL4YrpU67O11huTBsVaR7dl7X7qd0TY0MNH170YE9mgO0dncL0kwJ
-	 i5xBTry7tLxU/0X53hKbM3CUBgSvrx/7JND1DD7UDtrMBtv7YZblzsmSK5R3uFuwxTA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795699673;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+	bh=gzzgXOgo3+SNm0ByCjOvIm/1n5ybZt8er0jBZ3680yc=;
+	b=SfjGnqwaypiY+fmjdfrci+Hu0WfYZlzrVMiA63qNUi66tqdG/rZLOHiVD8CCn7BisUa4
+	 KV7gX41HHYpnJLI+u/lUZehAYK+O994MpMn0fBrrxkghQWdSIFVFAJwichKirhjrabM9q
+	 ErHeyVvF4+l0lZFDG11Jxg7AbhHp+zxcNVeJh0jA9z5jLqbJUgilC2vkgUBLYBIY+zARR
+	 d7BYNKmwIGHGm7dYUJD0pFNCRk/xQxGSxpKY0eIRQu8yls+HgpiCLhpudREEAnJssNQvs
+	 EPTUj8F+qZfJGdepOdMrqXJ88A7AXSmcCzLum5b9s/oCAposEbtAw6cNW0sGrEySg+w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CuM+B0Tr;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=11fuKA0Q;
+	arc=none smtp.remote-ip=113.46.200.217
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4BA606A31C
-	for <driver-core@lists.linux.dev>; Thu, 26 Nov 2026 12:51:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A81B606A31E;
+	Thu, 26 Nov 2026 13:27:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A81B606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CuM+B0Tr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ABBE1F000D2
-	for <driver-core@lists.linux.dev>; Thu, 26 Nov 2026 12:51:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795697471;
-	bh=q16GF0njlSdP7LoxbGpcMFaYQri5fmeNaCUnRRlaTx0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=CuM+B0TrgcpGtPRfYJrU7EUCnd7OgXWQ2QX07sEI1w8m7LzIyZrcTd3sOo9e1Tj2I
-	 AbdvhCmos7JLecctVIu2bwTnw0rNwiL/eu/eYOq8l61tvUDUOn2QfG61piloWAPlxa
-	 8/ByKD8/7nCKYHF11ivb0P1cZOeRFNLEPqLd174Hv52scmHM3aGJqCqbJQrIFU2wSG
-	 71zU+2QgQIIH91HKlWcywBChe0hZVGA06qmYvBFxHeArvHpU6uC9SNYKg2aFFVdOvL
-	 MQnvcykOA8PXAc3OcDR/WfBq3XrWmCEl0QF248ysLvWSOQcLNsxZCPd3WDgVBxPWfk
-	 Ma4RtCfNwm79Q==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5c31cdbeec9so2213877e87.2
-        for <driver-core@lists.linux.dev>; Thu, 26 Nov 2026 04:51:10 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErEBm7ipKrtPAT3cPU9zanMF/p3MQ31UUQ2/ufUXi0RCdqPmlr6cf7PHptMxhoE88xT/WYbFnBErKq9hHA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8xpLF1rQ5ep0hQj3gWHRntuqWPcloYIOVqqFpTsGCLiKIt/OC5
-	6P2o2yPKEfl4dJ8yhbmaIF/wJaUqec0mX/NBU+AoMVsRiosoEXwEzvVnJNGdnnYJ6Ur9whodzpL
-	gSQXb1eWqMWE9L/70lZ9hkspPyDKFmYw=
-X-Received: by 2002:a05:6512:3d29:b0:5c1:47d6:8258 with SMTP id
- 2adb3069b0e04-5c1bc80120bmr6196876e87.41.1795697469357; Thu, 26 Nov 2026
- 04:51:09 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=11fuKA0Q
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=gzzgXOgo3+SNm0ByCjOvIm/1n5ybZt8er0jBZ3680yc=;
+	b=11fuKA0QNmqBcJC+Z7+EDBDEdopqwlPjiHPaNdUAff+L4Rfg5ecopOB7c41g4dYkKVWnsOz+7
+	diR70qy0hMLD9NrzKzTwcexrrEJpSqnu718+skXXx/Va432+IohJ+HmaImsfXw3HGXjPhG8bwg/
+	N0Q+ahJUMGyTnAubGLSqDU0=
+Received: from mail.maildlp.com (unknown [172.19.163.104])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4jZy4b4Qsbzcb4D;
+	Thu, 26 Nov 2026 21:26:39 +0800 (CST)
+Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
+	by mail.maildlp.com (Postfix) with ESMTPS id 2EF9B4058C;
+	Thu, 26 Nov 2026 21:27:47 +0800 (CST)
+Received: from [10.67.110.140] (10.67.110.140) by
+ whupemk100010.china.huawei.com (7.152.184.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Thu, 26 Nov 2026 21:27:38 +0800
+Message-ID: <2e7397bb-14fa-4d29-bfb5-620495a40245@huawei.com>
+Date: Thu, 26 Nov 2026 21:27:37 +0800
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -59,118 +62,93 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <4779892.LvFx2qVVIh@rafael.j.wysocki> <CAPx+jO8d-25kLQw9X0wW4i3YV4Jn+2Zr7_ZOT9rE10D99kPU_Q@mail.gmail.com>
-In-Reply-To: <CAPx+jO8d-25kLQw9X0wW4i3YV4Jn+2Zr7_ZOT9rE10D99kPU_Q@mail.gmail.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Thu, 26 Nov 2026 13:50:57 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0j5M7fax8_XP1G4oENykq6vg-hgiW4JPaqf=AvRiY-xFA@mail.gmail.com>
-X-Gm-Features: Aa3M54rqPc231r6BvV4IGlb68jllf8ooObFsk4opHGBD8naBN0eygsdnIo8Ab08
-Message-ID: <CAJZ5v0j5M7fax8_XP1G4oENykq6vg-hgiW4JPaqf=AvRiY-xFA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] PM: runtime: Fix issues related to autosuspend
-To: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Linux PM <linux-pm@vger.kernel.org>, 
-	Brian Norris <briannorris@chromium.org>, Alan Stern <stern@rowland.harvard.edu>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Linux Driver Core Development <driver-core@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next -v4 01/17] fs: pass struct path to notify_change()
+To: Al Viro <viro@zeniv.linux.org.uk>
+CC: <mic@digikod.net>, <gnoack@google.com>, <paul@paul-moore.com>,
+	<brauner@kernel.org>, <jack@suse.cz>, <amir73il@gmail.com>,
+	<andrii@kernel.org>, <apparmor@lists.ubuntu.com>, <ast@kernel.org>,
+	<axboe@kernel.dk>, <bpf@vger.kernel.org>, <casey@schaufler-ca.com>,
+	<cel@kernel.org>, <cem@kernel.org>, <chenxiaosong@chenxiaosong.com>,
+	<code@tyhicks.com>, <corbet@lwn.net>, <Dai.Ngo@oracle.com>,
+	<dakr@kernel.org>, <daniel@iogearbox.net>, <dhowells@redhat.com>,
+	<dlemoal@kernel.org>, <dmitry.kasatkin@gmail.com>,
+	<driver-core@lists.linux.dev>, <dsterba@suse.com>,
+	<ecryptfs@vger.kernel.org>, <eddyz87@gmail.com>, <emil@etsalapatis.com>,
+	<eric.snowberg@oracle.com>, <exfat@lists.linux.dev>,
+	<georgia.garcia@canonical.com>, <gregkh@linuxfoundation.org>, <hch@lst.de>,
+	<hirofumi@mail.parknet.co.jp>, <hyc.lee@gmail.com>,
+	<ihor.solodrai@linux.dev>, <jlayton@kernel.org>, <jmorris@namei.org>,
+	<johan@kernel.org>, <john.fastabend@gmail.com>,
+	<john.johansen@canonical.com>, <jolsa@kernel.org>, <kpsingh@kernel.org>,
+	<linkinjeon@kernel.org>, <linux-api@vger.kernel.org>,
+	<linux-block@vger.kernel.org>, <linux-btrfs@vger.kernel.org>,
+	<linux-cifs@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-nfs@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <linux-unionfs@vger.kernel.org>,
+	<linux-xfs@vger.kernel.org>, <liubaolin12138@163.com>,
+	<martin.lau@linux.dev>, <mason@kernel.org>, <mathieu.desnoyers@efficios.com>,
+	<matt@bobrowski.net>, <memxor@gmail.com>, <mhiramat@kernel.org>,
+	<miklos@szeredi.hu>, <neil@brown.name>, <netfs@lists.linux.dev>,
+	<ntfs@lists.linux.dev>, <okorniev@redhat.com>, <omosnacek@gmail.com>,
+	<penguin-kernel@i-love.sakura.ne.jp>, <rafael@kernel.org>,
+	<rdunlap@infradead.org>, <roberto.sassu@huawei.com>, <rostedt@goodmis.org>,
+	<selinux@vger.kernel.org>, <senozhatsky@chromium.org>, <serge@hallyn.com>,
+	<sj1557.seo@samsung.com>, <skhan@linuxfoundation.org>, <song@kernel.org>,
+	<stephen.smalley.work@gmail.com>, <takedakn@nttdata.co.jp>, <tom@talpey.com>,
+	<yonghong.song@linux.dev>, <yuezhang.mo@sony.com>, <zohar@linux.ibm.com>,
+	<utilityemal77@gmail.com>, <lujialin4@huawei.com>
+References: <20261117150542.1169451-1-caixinchen1@huawei.com>
+ <20261117150542.1169451-2-caixinchen1@huawei.com>
+ <20261117183059.GP989762@ZenIV>
+ <32b8d9c9-27d2-4da9-8618-ccfc44dee7a3@huawei.com>
+ <20261119052339.GT989762@ZenIV>
+Content-Language: en-US
+From: Cai Xinchen <caixinchen1@huawei.com>
+In-Reply-To: <20261119052339.GT989762@ZenIV>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ whupemk100010.china.huawei.com (7.152.184.41)
 
-On Thu, Nov 26, 2026 at 12:51=E2=80=AFPM Ulf Hansson
-<ulf.hansson@oss.qualcomm.com> wrote:
+oh, I get it.
+
+I think it would be better to use a new function, such as 
+notify_change_internal，
+to bypass this upperpath check, while retaining the inode check.
+
+ovl_do_notify_change
+->notify_change_internal(...)
+     ->do_notify_change(..., true)
+          ->security_inode_setattr
+              if (!internal)
+                  security_path_setattr
+
+But this leads me to possibly needing to split the inode LSM hooks and 
+the path
+LSM hooks.
+
+On 11/19/2026 1:23 PM, Al Viro wrote:
+> On Wed, Nov 18, 2026 at 05:13:31PM +0800, Cai Xinchen wrote:
+>> On whether we want the mount references at all: they are not for NTFS.
+>> The path-based LSM hooks need them - Landlock's check walks the hierarchy
+>> up from the object with path->mnt->mnt_root and follow_up(), for every
+>> layer, and the idmap we pass has to be the one of the mount the path was
+>> checked in.
+> Then it won't be happy with overlayfs ones:
+>          upper_mnt = clone_private_mount(upperpath);
+> ...
+>          upper_layer->mnt = upper_mnt;
+> in ovl_get_upper(),
+>                  err = ovl_get_upper(sb, ofs, &layers[0], &ctx->upper);
+> in ovl_fill_super_creds()
+> combined with
+> static inline struct vfsmount *ovl_upper_mnt(struct ovl_fs *ofs)
+> {
+>          return ofs->layers[0].mnt;
+> }
 >
-> On Tue, Nov 24, 2026 at 4:40=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.=
-org> wrote:
-> >
-> > Hi All,
-> >
-> > This is a follow-up series for
-> >
-> > https://web.git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git=
-/commit/?h=3Dlinux-next&id=3D26236a3e8803f7e1ace104020d7f006edb220116
-> >
-> > which is in linux-next and it replaces
-> >
-> > https://lore.kernel.org/linux-pm/3076901.e9J7NaK4W3@rafael.j.wysocki/
-> >
-> > (hence v2).
-> >
-> > First of all, there is a potential issue with respecting autosuspend de=
-lays
-> > in pm_runtime_put_autosuspend() and pm_runtime_put_sync_autosuspend() t=
-hat
-> > existed before the above commit, which is addressed in the first patch,
-> > and that fix is relevant for the other patches in the series.
-> >
-> > Second, the commit above overlooked some cases in which a running autos=
-uspend
-> > timer may trigger between dropping a runtime PM reference to a device a=
-nd
-> > updating its last_busy timestamp, which may cause the device to suspend
-> > without respecting its autosuspend delay.  Those cases are addressed by
-> > the second patch.
-> >
-> > Next, I was mistaken when I wrote this in the changelog of the above co=
-mmit:
-> >
-> >  Updating the last_busy timestamp when rpm_idle() returns an error
-> >  without calling rpm_suspend() is not useful because the device is then
-> >  going to remain active for an unknown amount of time and its autosuspe=
-nd
-> >  delay needs to take effect later.
-> >
-> > There actually is a reason for doing this which is that an autosuspend =
-timer
-> > (left behind by an intermediate runtime resume) may be running when rpm=
-_idle()
-> > runs and that autosuspend timer needs to be prevented from using a soon=
--to-be-stale
-> > last_busy timestamp value.  That is addressed by the 3rd patch.
-> >
-> > Finally, the last patch updates a kerneldoc comment that has become out=
-dated after
-> > the commit above.
-> >
-> > For details, please see the patch changelogs.
-> >
-> > Thanks!
-> >
-> >
-> >
->
-> Again, thanks for working on this! For the series, please add:
->
-> Reviewed-by: Ulf Hansson <ulfh@kernel.org>
-
-Thank you!
-
-> As somewhat also proven by the subject $series, there are some churns
-> that we need to deal with in regards to the intermediate rpm_idle()
-> phase. I am wondering if it perhaps may be the time to consider
-> removing it altogether, unless we still think it's useful of course.
-
-I don't think that the rpm_idle() phase is super-useful.
-
-Of course, eliminating it would require getting rid of the runtime
-idle callbacks in the first place, but we all seem to agree that this
-should be doable and probably worth doing.
-
-> In the past we have discussed introducing support for *multiple* (a
-> dynamical amount based on what the device supports) low power states
-> to runtime PM. When I started looking into how to implement it, I
-> stumbled over the rpm_idle() thing, which kind of prevented me from
-> moving forward at that point.
->
-> What do you think?
-
-Here I have some doubts.
-
-I'm not sure if there is a single model covering multiple idle states
-that can be applied to every device in every system.
-
-There are different semantics and different requirements.  For
-example, you may consider "clock gate" and "power gate" states for
-some devices, such that a device needs to go to "clock gate" first and
-then to "power gate".  On the way back, it would need to go to "clock
-gate" before reaching full power.  However, this is not how PCI or
-ACPI PM works: There you can go from shallower to deeper, but to go
-the other way around you need to transition straight to full power.
+> mean that the mount you get won't be attached to anything.  How (un)happy
+> would landlock be with that?
