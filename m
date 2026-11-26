@@ -1,68 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795695477;
-	b=li+tMUikE8IXjA00nbFyWMAcMEL/gTtu1hHjyWAUvMfZPoPMdhAJGurNYpPLlN2wiXf+
-	 7//55vQAEZ1+W6jZkp+S8LIl2+tznDpsvEt0OHhW7OBTbvoGuV5r+rPaw86fwWxUW/iDR
-	 d2rkVcITi2k35ZxZOy1Gy2/VqtsRycgF3ApUkfVb28qSsc/+JiCRYRwDA3OJsmyfOjl4k
-	 VONojpMyrLqCUCBDNONAXrZ1+n9zYzz4jbegswfUm0q5d39ALDYVvFyIK7ypgNT8Lbc9/
-	 9MohNmYBUZTQRmujyL0Zx873GYX42fMNxxCe2YwvvzX2eGjJbuS5Wi8IIzrcsezSHZg==
+	t=1795695776;
+	b=MupDTUat5fT2JE6snTD+k4dhWHfWG6mIbohm9Pv583u2KMeILwLtV0TG31J8C1IPs0d7
+	 Da40ZkQcmPNLXcNWHSjuFsZvIytnmq8OEyI+KthElWVeNMKVqzNzl1r4kYeY6D2GkyGex
+	 jQ+JuH7yvtD+Ggt5RglDpCuTUnwmr+PBbTCl/wZ1iHsdO5S+iHnUKaaKa2ECKRimM5WuD
+	 ocup8udd040c2eeJuwoRlem8U6dtHHM1ntvzM16VI5lbh6o/jZ8jpJm0xpSVrQ45amg09
+	 YwdKFyyPZqhHQMUkff0h4lOW3jDlBJX/LgUNgk0MMDB0zIfV9gUJLSG+AJFSptdSbwg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795695477;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:X-Mailer:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=GnAg1L+ydpIyuTi1m5RI3tEoPVDFRXuqUhAIOsX8UQY=;
-	b=se7JWdDDHlfFQ+okQwABacZvklvlfu/rMN/EWcxGvsFXeqGv+qvWvludrbtTh2Bh4Nzj
-	 iAvlXxOM9h9vTpGmlPcCTiWl261tdNrlmopPQYuAJKYP6HX1OhhRHDYeHMX6/f4xEQQtW
-	 QO3kCSR09NMjVKGfmNkaM2XTP1bQosp4H3q3rRdSUhs4+mYzsd65uMqs7vYbH0XyPkML5
-	 EIkFJiIOJFhRqgWvIo3Jrbq74jMCaJY7o0H3MKB5d5j09SQma7UFxJTjK3gauX2k/EYhC
-	 7/2lQblMfKordGI4a12xobA4pZrVV36DAwZXoTXQg5lBAvd/dwaFH2MotvYN4lkjDLg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795695776;
+	h=Received:DKIM-Signature:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=U5c3MpZCtbAS1IQKT6eCIn8iyPxCecOaQ+GO7P5474Y=;
+	b=ygZSuezN4vc3kPQDpnZwQF/qACerU3F3NOt0uGOtmH85XSoCDQWzpLEUte+OFcyvx1sL
+	 n6mRycAmfAaIyrHxItQ37a+dB+aboeGfvwE1tPf+nfRIPxBuquhhFtpOVNPSoux7ppq2+
+	 llLsFq/VfSaMoq6F7+MXgXtwXk/Sy3qdTRDKZ3XphfkbJkYr/bGYdXG2MTsXIyKnP4DFa
+	 qwHeSpLpQ9fS8kCaEi8KgknVujDikr0BMnC3LmXOsWMmnbYCzLq0Yt8W13Oqh7OoI/1i+
+	 tosS59EKPvuBcJDq2gUaz0I7McE3bTQY/gI7K2YSdBzNWblQ4Swn1uFHhAZZ2+505mg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c2wAPxYa;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YEokUCGt;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57C7606A31E;
-	Thu, 26 Nov 2026 12:17:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB25606A33C;
+	Thu, 26 Nov 2026 12:22:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c2wAPxYa
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1DF51F000CA;
-	Thu, 26 Nov 2026 12:17:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YEokUCGt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A49521F000E0;
+	Thu, 26 Nov 2026 12:22:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795695477;
-	bh=GnAg1L+ydpIyuTi1m5RI3tEoPVDFRXuqUhAIOsX8UQY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=c2wAPxYa3NMibqBlkLQJwnyQyxSjza+cRgDjyzS04FORe11CqOyF0SbP0XYR6qYB8
-	 JdN5mUHxSW8+KA3EH0rmEhp/9p1aVPrjuIQq3WWAQVbhsIbNKHjmcL74IcOG9ve/Sw
-	 DRgYG+7npVqBeDOoBO713j5eXBf5ZLlHvgU4/kf1yx/vaNHxFSkscFcYJ/kEarPGvY
-	 LGJSgzJyZ/zKrNmdap7mmTudfeDynXwzD+ogwHRFNugZWDnB0/ba4GYeET4XQDpH7O
-	 Udzy3f7duURYaZr0CQDbQJtR0rE7ks7bfbRHi8jGRVJUyKocqwxaPhQjD/ahBNxmC7
-	 bm89o4ikWDcpg==
-Date: Thu, 26 Nov 2026 13:17:49 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: linux-hardening@vger.kernel.org
-Cc: Alejandro Colomar <alx@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Andreas Schwab <schwab@linux-m68k.org>, 
-	Andy Shevchenko <andy@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Daniel Scally <djrscally@gmail.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Joe Perches <joe@perches.com>, Johan Hovold <johan@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Len Brown <lenb@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Linus Walleij <linusw@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Saravana Kannan <saravanak@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, alx+linux-hardening@kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: [PATCH v8 4/4] device property: Fix fwnode_name_eq() for empty node
- names
-Message-ID: <5c23d229235adbd447c16d544bfc0feb27c7524b.1795695151.git.alx@kernel.org>
-X-Mailer: git-send-email 2.55.0
-References: <cover.1795695151.git.alx@kernel.org>
+	s=k20260515; t=1795695775;
+	bh=U5c3MpZCtbAS1IQKT6eCIn8iyPxCecOaQ+GO7P5474Y=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=YEokUCGtuxUOphlTG5QuIlc2rBf+8hFl7ZgwelSKmYlrujE1m8NZwxGWwUIMjk6+t
+	 377JsRm1tE4YBftWCLDDk9Hn97am8B++CeWjvjbo3k/bMLR+Ed/ZFtl9+2lOj5592r
+	 D/Z0zErquPePxdMzL0YGEk6wZN3nn2hw9WHLnrhUPbW5VTthXmDsxbqntV+QN1tGf7
+	 WrpbxKFT556OBV9/gzE/Play3R/lfKgjjP5WOYflMxaYBZXo+jT29CMeUzqcUBeG83
+	 BcxCUTmpR62lZfRKMLAvMl3rit/AHkh82YKAMtNdRgWIVjTlI8Y6HE5MyJxbiFRK3Z
+	 boupJhfjVQsBg==
+Date: Thu, 26 Nov 2026 02:22:54 -1000
+Message-ID: <f9d8ff6a6c4a4d098e0d461da4e40474@kernel.org>
+From: Tejun Heo <tj@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Lai Jiangshan <jiangshanlai@gmail.com>, Danilo Krummrich <dakr@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Gary Guo <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Tamir Duberstein <tamird@kernel.org>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ John Hubbard <jhubbard@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ driver-core@lists.linux.dev
+Subject: Re: [PATCH v4 5/5] rust: workqueue: add ScopedWork for non-'static work items
+In-Reply-To: <20261125181752.2027207-1-aliceryhl@google.com>
+References: <20261119-rust-workqueue-v4-0-707c68994940@google.com> <20261119-rust-workqueue-v4-5-707c68994940@google.com> <5eec17370f67438e43bb1c82b1d6a16b@kernel.org> <20261125181752.2027207-1-aliceryhl@google.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -72,107 +69,32 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ktiyemgvkt6rcag7"
-Content-Disposition: inline
-In-Reply-To: <cover.1795695151.git.alx@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
+Hello, Alice.
 
---ktiyemgvkt6rcag7
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: linux-hardening@vger.kernel.org
-Cc: Alejandro Colomar <alx@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Andreas Schwab <schwab@linux-m68k.org>, 
-	Andy Shevchenko <andy@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Daniel Scally <djrscally@gmail.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Joe Perches <joe@perches.com>, Johan Hovold <johan@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Len Brown <lenb@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Linus Walleij <linusw@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Saravana Kannan <saravanak@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, alx+linux-hardening@kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: [PATCH v8 4/4] device property: Fix fwnode_name_eq() for empty node
- names
-Message-ID: <5c23d229235adbd447c16d544bfc0feb27c7524b.1795695151.git.alx@kernel.org>
-References: <cover.1795695151.git.alx@kernel.org>
-MIME-Version: 1.0
-In-Reply-To: <cover.1795695151.git.alx@kernel.org>
+On Wed, Nov 25, 2026 at 06:17:52PM +0000, Alice Ryhl wrote:
+> What I'd say is that this isn't the only way to spawn work on the
+> workqueue. This utility is intended for use-cases where it's convenient
+> to do it like that (e.g. because the queue is defined before the work
+> item in the same struct). We already have another way of spawning work
+> that uses different ownership rules (e.g. self-freeing work) and that
+> mechanism would not go through ScopedWork.
 
-str_has_prefix() returns the prefix length on match and 0 on mismatch,
-so the mistmatch case can't be told from "empty prefix matched an empty
-string".
+This is your design and you know this area far better than I do, so please
+take this with a grain of salt. That said, I wonder whether the interface
+is more tortured and twisted than it needs to be.
 
-For instance: the OF root node's name as returned by
-fwnode_get_name() is "" and will return 0 for any name matched against
-it and since len is 0 too, fwnode_name_eq() will return true.
+Workqueue lifetime seems to add a layer of ugliness, at least going by the
+restrictions on ScopedWork. Wouldn't that be relatively easy to solve by
+adding a percpu refcnt to the Rust wrapper of workqueue and tying work and
+delayed work items to it? Dropping the workqueue would wait until nothing
+is pending, and cancelling delayed work items before that would be up to
+the user. Work and delayed work items would then behave the same way and
+be usable on any workqueue.
 
-Let's use strprefix() instead, which also makes this function simpler.
+Thanks.
 
-Fixes: a9c8c738066b7 ("device property: Add fwnode_name_eq()")
-Closes: https://lore.kernel.org/linux-hardening/20261104-fwnode-for-each-pr=
-op-v1-1-6e28fe1c72c4@oss.qualcomm.com/
-Reported-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Tested-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Signed-off-by: Alejandro Colomar <alx@kernel.org>
----
- drivers/base/property.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/drivers/base/property.c b/drivers/base/property.c
-index 51109794d727..7728116e2968 100644
---- a/drivers/base/property.c
-+++ b/drivers/base/property.c
-@@ -692,15 +692,12 @@ const char *fwnode_get_name_prefix(const struct fwnod=
-e_handle *fwnode)
- bool fwnode_name_eq(const struct fwnode_handle *fwnode, const char *name)
- {
- 	const char *node_name;
--	ptrdiff_t len;
-=20
- 	node_name =3D fwnode_get_name(fwnode);
- 	if (!node_name)
- 		return false;
-=20
--	len =3D strchrnul(node_name, '@') - node_name;
--
--	return str_has_prefix(node_name, name) =3D=3D len;
-+	return strprefix(node_name, name) =3D=3D strchrnul(node_name, '@');
- }
- EXPORT_SYMBOL_GPL(fwnode_name_eq);
-=20
---=20
-2.55.0
-
-
---ktiyemgvkt6rcag7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmsII20ACgkQ64mZXMKQ
-wqlScw//V+5iU8A1ZOhNKsJDwVkiBghPhzHnkD6nj9redIkRIbLW9CA3ZpSallwK
-wXUAhO/tIkqcGZyzCsHod6rG9t8CJ+5UcFZhv03gGLCGIKtkNnaxqguLtDZrkFYA
-LN1o+B1FPNRcF32PCaPqEvqbjzCMSM+ODlbZKjsAF7vXBhX2luQ0Y6SObApmVNGU
-b1GzXw+7UFE66et5gPKtDxVEhLrGh7W85H365g0s3Uzdz0ArT6YTAG62uvZnqzJy
-vOIXagFT8ZxiACzwScgMc76jwrX3jGxrzWjrXCwuAi0FyiQY4pBlMXeyJQHk713J
-RlUHp9cYBggEAhhoLXOk1g1xEa+8Far0WXV3DVDnfJttgDhveeDwt7Mdx6V3+Qy7
-aL6IaUxnbqnnMotCL0NYnMMM4HO5YLD3sP5kUmFFfHPQ/cPA1794FRhrHMrcKWWG
-pK7hcKgjmh/6N1ddkGVPiYd7TTlQhgaf1Qi9pBsrCBkb1fUjQeeHhkol8HpDYAuS
-6jC9u9hmXBKIFHwJMPhIf4bmve7q1t+NmXKlcaqcJFFjr5+cYCpd+KCYXNVB5XNe
-ba4eNyC1Z6zEvrd90dKnxKnWvPMJMpjI2z2nT//hGuYjWrrKLsZP3AFeroCRiivn
-0ZSeCviyIvxwmjvbGKm9LP/qd19qClsIJlZ+aLw2U0Ju7Z0njn4=
-=8hnQ
------END PGP SIGNATURE-----
-
---ktiyemgvkt6rcag7--
+--
+tejun
