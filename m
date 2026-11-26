@@ -1,72 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795676706;
-	b=CfTN8UAlyYOHCrv5bfYHWADthp+vKvgHjZwdq/y2muBjrdgomOhIBE5eV8sIp1fqGWFf
-	 KCJj7+20Qemgz5Eo3CerCChBlIDT8Ok/gebZcOi9T1yww0plEkzB4cXVWe1cx548P+B9A
-	 WqYmstHYpWwSEKBXGrH621N9Vp3Q+GlZIGoyQ1sL186DYI4syhiPlXzR8/0aAiywGouAg
-	 P0Nq9rQdReTaATSFn/NJGgFVNlg1tatCEY13m+o3QKlbq2M4ucN4mFG4S9QmGXUWl/31a
-	 YuqX2YT7ZAGtB+Ms0jKLl7jLk3ybLaHCjOJnlVWSr9TRLrczfMupAEbDQC171WpyVsA==
+	t=1795679833;
+	b=t9HG8/j/bMO0WjK8fDkq1PRZz+wxBX2/Su5HxptSVW2K7aHz/mHpdcFHOO5+W+UBGlQG
+	 brouglP1N0Uacd5O3NAvLmtkVlZQWHf5QyNC1ruomtcKvaAbwA1eH0xhIfSj2ahZkdUpe
+	 h9V41xQTnOxdMETcLWFqHyT7qiNOCJeTEnGJwOkBsxRpMcIrwvkrx4D7YUQlOy+S5bTjb
+	 eeAT0xc3qCnSF9N8+ZCh5cgVJyincQDeOrEw16u3OPBxLQdDkafwqDeIZGV1+HytuW23x
+	 qSK/ai7vfn6H88HmY6HUhzlw6nDn+pvH6WMQO+DZ2S27Q47ky5pcpEVO/ni0TZBilSg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795676706;
-	h=Received:DKIM-Signature:X-Mailer:From:To:Cc:Subject:In-Reply-To:
-	 References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=cp/ltoC04vlPWpyVW0AoQORCWHUFFV9YG64MDzRXtWw=;
-	b=hDF0t/4UZ2WLVzWfvRT5+PI3YSJUTVZbg6GenBXAFDN2aEZFwWI4e5NtIaRcNRv5Xjb/
-	 xOlBB/W3khKExB8lOiaRoCCXIkTsjC42QSbnzLzl8xSOaBJYDoLlJa2ketDTyubULzL+B
-	 lKL2Qg9EH684JO+RYJRPhhk60ZGbWqXMf9noh68d6lrWMqosjBfZjsrsWoPek5vyD0VXd
-	 7LMnI3u+UPOIolE8adPGYmtv8v9udcdU06E5O4p+/qL/qqQKyDw8jXvAOd/zT9puDuqWG
-	 OBBBJmBWVnjFqnzaLM3LfLdeXh4G4HoFpdzhJQTNtRXI2N2GgXTrUVUtspERkVrpsPA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795679833;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=kvqxuyKdqOZIctZ1RVDJiTTys7XqmGboeKGR0Mb/Lz0=;
+	b=jIeG3E6c42/fO8N/XgRY7h00OJCynukwwQiykRXXrZNqhG3sGxjJJKLoJ86i7w0cIIRp
+	 lFijadeVCEyTpZBOTQL+tLiRFgZh6LeHbJpR9zpY82yAgWd0uDEi4E5Mm6hbkCkbXOnuL
+	 AwY508zNiAwcZ4wrv9xGbSpbqbEQaWi1pdeY6kkZHqn0eXm9KrOGk22LSHBfKv67PzSEV
+	 G4FfqshWG6gXo4acwnlsPlDn3wufxI6aSIl2zpS3gsRu2JRcihVHabKQIVaL2b95T7Yb8
+	 yDEHJSGEC5yMhCzyZZaTGpqYMNJcX40jut+YSzsmUCLYuDTTUDVwWfqaJVMKHXK0Hlg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Qa+/Y9Ow";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GVKL0CWE;
+	arc=none smtp.remote-ip=198.175.65.15
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF5E606A31C;
-	Thu, 26 Nov 2026 07:05:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02723606A31C;
+	Thu, 26 Nov 2026 07:57:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02723606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qa+/Y9Ow
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 065411F000C4;
-	Thu, 26 Nov 2026 07:05:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795676706;
-	bh=cp/ltoC04vlPWpyVW0AoQORCWHUFFV9YG64MDzRXtWw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=Qa+/Y9Ow7w/8qe+BKzl555ztoRKlew8zwz9huXh+ArssV9RMTS4fGtjSwNKrC4jYB
-	 G4fbNW0PxqYSuQxMxMWri3XIz7XdB+FFId2BrwObD4Z0Z+qAo9z2EWOHEIFQ5tn4V1
-	 2ZNm4Abr5aQDIHQYawUsQVUbjZXZ4zGQ3E7QZaoxcaj9zLhlM8zdC3AdqNN6y/5ynm
-	 R5gpGYjbRUP98cb0fGij5zgbl4rivcGfO8Jvi38svkIfPg1Zfd9AiDhxT24MBhYgAt
-	 ieACDhEwXSfkXO3H+yMXQNmydnOQsALL9saHFci4mOPP0Yt9HyKx/A9V73dRbEaku6
-	 QKi0MPqaQQ/Rw==
-X-Mailer: emacs 31.1 (via feedmail 11-beta-1 I)
-From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Alexey Kardashevskiy <aik@amd.com>, linux-coco@lists.linux.dev,
-	Dan Williams <djbw@kernel.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Ashish Kalra <ashish.kalra@amd.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH v1 04/10] PCI/TSM: Defer TSM vDEVICE allocation until
- device setup completes
-In-Reply-To: <20261125141947.GD246011@ziepe.ca>
-References: <20261123083337.2731019-1-aneesh.kumar@kernel.org>
- <20261123083337.2731019-5-aneesh.kumar@kernel.org>
- <5e04323f-dfdc-4956-acee-bcc09926726d@amd.com>
- <yq5aqzg99uio.fsf@kernel.org> <20261125141947.GD246011@ziepe.ca>
-Date: Thu, 26 Nov 2026 12:34:57 +0530
-Message-ID: <yq5ald6gul7q.fsf@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GVKL0CWE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795679832; x=1827215832;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7gqO7mtbAkU5IaNVQpE0KYsTeEo00WqOION0Mo8l5RQ=;
+  b=GVKL0CWEFGDvI0s36/UX/xO8hKFVpwEIhE6S4vfUyI/75GmNN+rJRBq8
+   0wMZXHYKBq1dkDTUzLeTKUFGXoKBh8tyhy/dn96jJwQjZ0j8iH2r7K4yh
+   JMvZ5z5kX1XJ/7UtNulMh5ZXOEYLykCU1ZDk+69ezj+Q+0xCLDFuuXSQj
+   Qm0Kellht+VWiFXwk/FJ8nwPy+x+qqjDSnepuXoUuWGtyLpFMzzjji4Sz
+   7wDmnTR1cmPeXDmAwl09W0C0LrovZHZO53P+i8XdvBfv7eBDBSicfx1W0
+   t3SvxCwyomuU6rNFh4GE++dScWhfWqP2AoZ2lQGtJFWSnfaVEsFZGLmgi
+   g==;
+X-CSE-ConnectionGUID: 7X5HWC0wQ8+GpK6freeyDw==
+X-CSE-MsgGUID: BCeYRk6CSvqsEjt49/W5ug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4567265"
+X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
+   d="scan'208";a="4567265"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 23:57:11 -0800
+X-CSE-ConnectionGUID: itKbRMG2R9iWVRnaqlN10Q==
+X-CSE-MsgGUID: sN7xmylnSZSZMY9a4fnawA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
+   d="scan'208";a="12152074"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 25 Nov 2026 23:57:06 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xWULm-00000001TZw-2xrc;
+	Thu, 26 Nov 2026 07:57:02 +0000
+Date: Thu, 26 Nov 2026 15:56:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alice Ryhl <aliceryhl@google.com>, Tejun Heo <tj@kernel.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	Alice Ryhl <aliceryhl@google.com>
+Subject: Re: [PATCH v4 4/5] rust: workqueue: add creation of workqueues
+Message-ID: <20261126154348.RP9PjaYR-lkp@intel.com>
+References: <20261119-rust-workqueue-v4-4-707c68994940@google.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -76,21 +97,65 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261119-rust-workqueue-v4-4-707c68994940@google.com>
 
-Jason Gunthorpe <jgg@ziepe.ca> writes:
+Hi Alice,
 
-> On Wed, Nov 25, 2026 at 02:07:19PM +0530, Aneesh Kumar K.V wrote:
->
->> That is what this patch does. If IDE setup is not complete but the
->> device already has tsm0 attached and connected, pci_tsm_context_get()
->> returns an error from cca_vdevice_init(), preventing the device from
->> being assigned to the VM.
->
-> If the device has not been fully accepted on the SPDM side then you
-> should not be able to create an iommufd vdevice for it, nothing else.
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on aebb7274476403040d582c61478df8f4a7bf9cd3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alice-Ryhl/rust-workqueue-support-stack-allocated-work-items/20261119-141242
+base:   aebb7274476403040d582c61478df8f4a7bf9cd3
+patch link:    https://lore.kernel.org/r/20261119-rust-workqueue-v4-4-707c68994940%40google.com
+patch subject: [PATCH v4 4/5] rust: workqueue: add creation of workqueues
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261126/20261126154348.RP9PjaYR-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126154348.RP9PjaYR-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261126154348.RP9PjaYR-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from rust/helpers/helpers.c:110:
+>> rust/helpers/workqueue.c:27:9: warning: diagnostic behavior may be improved by adding the 'format(printf, 1, 4)' attribute to the declaration of 'rust_helper_alloc_workqueue' [-Wmissing-format-attribute]
+      23 | __rust_helper
+         | __attribute__((format(printf, 1, 4))) 
+      24 | struct workqueue_struct *rust_helper_alloc_workqueue(const char *fmt, unsigned int flags,
+      25 |                                                      int max_active, const void *data)
+      26 | {
+      27 |         return alloc_workqueue(fmt, flags, max_active, data);
+         |                ^
+   include/linux/workqueue.h:519:76: note: expanded from macro 'alloc_workqueue'
+     519 | #define alloc_workqueue(...)    alloc_hooks(alloc_workqueue_noprof(__VA_ARGS__))
+         |                                                                               ^
+   include/linux/alloc_tag.h:270:31: note: expanded from macro 'alloc_hooks'
+     270 |         alloc_hooks_tag(&_alloc_tag, _do_alloc);                        \
+         |                                      ^
+   include/linux/alloc_tag.h:256:9: note: expanded from macro 'alloc_hooks_tag'
+     256 |         typeof(_do_alloc) _res;                                         \
+         |                ^
+   rust/helpers/workqueue.c:24:26: note: 'rust_helper_alloc_workqueue' declared here
+      24 | struct workqueue_struct *rust_helper_alloc_workqueue(const char *fmt, unsigned int flags,
+         |                          ^
+   1 warning generated.
 
 
-That is what this patch does.
+vim +27 rust/helpers/workqueue.c
 
--aneesh
+    22	
+    23	__rust_helper
+    24	struct workqueue_struct *rust_helper_alloc_workqueue(const char *fmt, unsigned int flags,
+    25							     int max_active, const void *data)
+    26	{
+  > 27		return alloc_workqueue(fmt, flags, max_active, data);
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
