@@ -1,79 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795821752;
-	b=pGJTxaGOprzBRsho6wXMiIRUf8ovgh5H5VI6uWdkjf/u6SoGCM75d7EpTYR8nuL5Mg2e
-	 EG4zkeSVbNW3lrIG3T1yeAsTFxGMxFjYPWkVhRnrhHOwdc0rMMfi3xgbIYvBgssSmZiSn
-	 Hxla/13T3bqZoZHaxMleL1VPAiAhoTrKK1x4RahpIm2R+2ABXj8DatXpFQP6VN+V1N516
-	 s5dPli/Xgzab7TpAyPh7cnIyq6M70smiEp2vHXu5GhTkCYM4+x5HR6Qn0sm6eC/iKHaMW
-	 Rced0BeMXenyQBeV7morFkpkcDeOcJEQ2pkuJ1mEtlP7kLPAcWPK/q2qgPU6+xqKS+w==
+	t=1795821761;
+	b=5Yuh7WmcIIunacKsvId6mhD/4XAqIPRM1YBiDrYLr5ubYsQ0xmiHGS39giFJbABa30/t
+	 w9dPpgBt8r5wL1+Zb96y0uwQRFQbvkbFc7n+Gokw6gG++Wo4Pz2TnqcCdOXjMmEp6bcgj
+	 KYxXWO0x5j67C9r7S7p0AC+Ozq3XIYxhA00TZfhjJyVIbOyNSh6bN+nLTf8EAcwZGRsq+
+	 779+DAh1T6H1pJdrDAxdx5ZVU4Uoy7g0UWCJ19TksBzNWAdVRM8T4V+i7hVCBVv7I4PdZ
+	 m43E+2J9seTET1ZnNdQZc0pm7a35L0Ret6ErIlLX0gJ/AhjaoQjeJTy9Dndh+Jij4XQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795821752;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795821761;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Hq7rvbsRcaxo41jm4Qo6/SRz5oMAIKkAB0MNhxGYs5o=;
-	b=dZSjZn2wAjEh/z3pvwm+Ano7Mb2Q7ONb5RG8Rwnaa30JDEusZR/iXqvdTJLt/dePtpH1
-	 CGtc3H+76xtBCWHmnSiaDPDGANqcqQ+Utof6nqF7ro2bXIn6pK6pi2nkW09dwp3sLWuYX
-	 Ad7xKvOKHenai4q0rfaIp4qY8HeznDpnQqyyZcvQHpqZFOnSNh7V/gKhOEZtwwUo7Crr2
-	 taNpnknTDHEb7H3jBDKfsrtO0qUum1MWP4PvoB1JySelsPR7wMffbcDd3Q+GMb7k1z9Wq
-	 FjqbmRyaJoecX44bDdnEeL2+ZD1U1Li5CjmrCvg2S8232pU2FFrr8qKi/bRSiBIlCEg==
+	bh=Uh5lY4ClrWrdxaB8GV0I9jHy5gwTfSUHKKjNSN3H2k0=;
+	b=gFHIsAcI1i6I36X1DYidZZ7k3rlSpvZvWycIXIiJjYtnz9VZn/AlZECfALHy7JuxNhy8
+	 qcCrMmNBxt6UqTIuwQbsEFUMOSTW0/zgYd6rH57Owk6WemgHHOJIUTOgEw2wLmpAe9yL2
+	 994YXbCFBM/QHhIrWx+yM719yVYoyQ8enrwe+QVbfyRQUUm4jw4gFhgF4L3s1beyBqDkC
+	 QLs3nbaSLZQpqq3TissLZl6jjlbnVANjXT/6TgOVACyVqBTjGZo5nYFMMfm3suDpKhtBB
+	 1tGKDpkEjv9a7XQ07CoS0Df4QPnAW/VOqFzheQOIrjCciiITpllasVLpCZgxDWgCGEA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VxP5UCAe;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a58VN8FC;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44DC4606A32A;
-	Fri, 27 Nov 2026 23:22:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BEC8606A32A;
+	Fri, 27 Nov 2026 23:22:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VxP5UCAe
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a58VN8FC
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795821751;
-	b=mr13ppgv9LKgmAb3OZJy4SmLbGK9HP3lWq3wOHaHWAMhMBlms67ENooazDWQfMJzK69U
-	 IaIczn7/LnAPsHSVc9bv1Aw5FxZe5/PtEzI25XcFa+C1s/f5BxaNzfpi4piAMWJ+qyB1i
-	 V7HfHI9H3QWuczve0h3AgnTXvaRKwgSvKE0BGPn5qhELLAk0V3+LO3QeVtiEju4Ouqx3d
-	 NPZtxnW+5NTvdm1WYnngur+Ou6+zGM6OxeBSiw/FSvt0FYQmz8Q/OmF0xpTw5Z+oMkQVZ
-	 XATso+J0A69tlM3SMb0whjfF0CqhmOvTFnMCPNgZLEChBVDkTGeWgYm72/eZm3CEBwQ==
+	t=1795821760;
+	b=yqomprzG6DAfSco0RgshznNe9wug3WDs6UdAAJD+173hTDpUAMIDykXSdXqFHggbNlqW
+	 eCA/oxNgdzG25yGofDbwqFJtDXM6eYtXmoSul7/ZhqpxlOnBPoBy28xgsgeL7abdvXegg
+	 BgsU/qm4BecxjoVm5B35Rt1psLFF/9n967fapX+vKBwDGR1KzFDd5RwEn2f0JGxeLoH86
+	 RwoXoUzfOFbjXl6TXTpHYRJtG6qck243oKK/0EiGay07a9LxiEwYclxfGz77YropRrx0O
+	 FctLyySOsowL0DrncO/N3AR/vMevhE8iGXXtHaVRwXDU9ERIVG14EQytCRTJJF1eL9Q==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795821751;
+	c=relaxed/relaxed; t=1795821760;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Hq7rvbsRcaxo41jm4Qo6/SRz5oMAIKkAB0MNhxGYs5o=;
-	b=rWurylWSBi+2jduSd2uvr2vyaavrc2XrqS+/vqS6yyom96JmNXxtzVL0Tnp5MPkFKG7u
-	 MeI5fPS2QXNIL9u2ZzEaFN262dehiSPMJTcMvEsz4falmXuH7ZMwuItOtPBDxt+BqYnCQ
-	 oksjFEXo2+AG/XeZT/PixY+GY6BX90V2om5U1pNuqr+ODUeCNEApSJwf0lCwZ4CGvYT7T
-	 tCTRtmWyZAwwUbAV3L4xAh/7PIsT+SMm7n74HlCrlm1Yq98BoLzIIIOImwaUjSjxfcvh8
-	 yhSDava1k4mxfYO0RD8S1NmEUzm2vFgz3SFjU+w+4fFseTJCnDqoNCGx/215tOBHd6A==
+	bh=Uh5lY4ClrWrdxaB8GV0I9jHy5gwTfSUHKKjNSN3H2k0=;
+	b=zzBI8q1yZ4tc3hpbDz8e0eA7iWrIhOC1K9EhYWm0UBYy9BYQ8yKiE1TZCJHHOwBi336v
+	 VwEsC0vEFLVVPEf4cg/2062o/gJePDYd03dwkdiCUlTA0J5VXKUE0QtUjIvA+nnhPCmlT
+	 9Q4wEkVCCyOznmGwFbE2LEKqz0ZzNXfsrdZK1DEqcBX3LXncGWDo5p/sLrwGiQT/vF776
+	 S5OxG35qm6cNL3HGIFhtwmOpqVWuGrchBUyVwrxCg0mM8br6fF1uXAS5Coa3wrD9LYyqk
+	 KFIvW/COLCsmnxpp83tTSt0/W3CHFQbhzvSiTixiJWfIEkv3WjD+aQRAMuKQ1G/r0ew==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 2584B1F00893;
+	by smtp.kernel.org (Postfix) with ESMTPS id 488DF1F00897;
 	Fri, 27 Nov 2026 23:22:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795821751;
-	bh=Hq7rvbsRcaxo41jm4Qo6/SRz5oMAIKkAB0MNhxGYs5o=;
+	s=k20260515; t=1795821760;
+	bh=Uh5lY4ClrWrdxaB8GV0I9jHy5gwTfSUHKKjNSN3H2k0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=VxP5UCAeHfEiijQ3u8reoNxXBHWmCEzKCbHTCvGE7N2s1j3xogKiR2jykENy8ZPCX
-	 TFjMb9LfXvRfa7xhmPfR+zTjGdJBdLI4PMABECcvDNxfQ1YC+No8DZDjR9L/3m0ec3
-	 R3TKVkw+aGcziXUuaw1A+OOsaZgKztauo4P9QFdQYrKLa0YLFt7zcZo8HO80PECCNF
-	 J4RtoqNsbpqu34aJcAww33LcXWrfeM1PHPir/B5X2Xgu2K4c0lqUAZgMUXpa/gdnSa
-	 +WhXqrOKrz46n6w74V6dHVN3Id1WJsaKmWgv4u3T5EByQuY/GpT1KZG3DFfQgOeZSK
-	 ipVv5nkeMoC2A==
+	b=a58VN8FC//5l5Y1JAiBGPeKIIEiH+Acw6kmGXylz/DHxVUg9+jqYGg3YDNa87wYll
+	 Z3hI2/BtkW1rOtEztWYLxHuqvGOOwqyc3U5Q+7m/S5ascuLgTQM3mB+UdvZZrUHfy2
+	 OKvtnWhP4OgVrNkyyrXmXzx113Q/6j3RnlnNGd22rZBk8WsxLuNmHKYv6slsXj12cU
+	 E5udOpybI/9DpCB+ibM8cAtIzzN86odMFX7Au+n6QnYJgzZK481CnHJ3GYxH6OKHM5
+	 +5eXy8XuCqUXkV9vMp1JaUdMnC5Wt53chILDi1zOlweVvMKZKSRbvxHLEolot5pKQ/
+	 KuuOy/3BHFzOQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id A33D24DE66;
+	by lkml.kernel.org (Postfix) with ESMTP id C5F3B4DE7A;
 	Fri, 27 Nov 2026 23:22:26 +0000 (UTC)
 From: Fabio Forni via B4 Relay <devnull+development.redaril.me@kernel.org>
-Date: Sat, 28 Nov 2026 00:22:09 +0100
-Subject: [PATCH v2 1/2] drivers: core: platform: Add
- platform_get_match_data() helper
+Date: Sat, 28 Nov 2026 00:22:10 +0100
+Subject: [PATCH v2 2/2] iio: afe: iio-rescale: Add platform IDs
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -84,7 +83,7 @@ List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261128-iio_rescale_platform_ids-v2-1-4c35f16c4f77@redaril.me>
+Message-Id: <20261128-iio_rescale_platform_ids-v2-2-4c35f16c4f77@redaril.me>
 References: <20261128-iio_rescale_platform_ids-v2-0-4c35f16c4f77@redaril.me>
 In-Reply-To: <20261128-iio_rescale_platform_ids-v2-0-4c35f16c4f77@redaril.me>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -96,13 +95,13 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
  linux-iio@vger.kernel.org, Fabio Forni <development@redaril.me>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2613;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2198;
  i=development@redaril.me; h=from:subject:message-id;
- bh=rc/1GfvZE2caXdT5SgAYu19YzMLIslhAQZef0ezkqlo=;
- b=owGbwMvMwCXWeKho1tqFWemMp9WSGLK5BDYmlpf3L+LeVz9x/Vt1ze/S6WsKGX/GM2W56R7NE
- pcSu+TSUcrCIMbFICumyPLfyWhTt5mJ0a1+iVqYOaxMIEMYuDgFYCJ60xn+R/H1XtZSOhpTMUvZ
- qj7YLfCpWuY7/3ctOV2u07T+3Vq9kpHhvYLQdrG9UVJRD1fqTFc7lvLu8tvlZS0/JD6nsf2v5Op
- mBQA=
+ bh=+PVgHL+3DkpqptfD2E18XEnVam67vefeMn6aj+Kl9CY=;
+ b=owGbwMvMwCXWeKho1tqFWemMp9WSGLK5BDbNlek/4JOwjClMI4CvsbQ2SJLH1idQcLPmqWMvT
+ 9884abbUcrCIMbFICumyPLfyWhTt5mJ0a1+iVqYOaxMIEMYuDgFYCICsxj+l23g6Fk/W40ru0Ux
+ c3V21z53Scl3XydmrZfj9GT4UHloGiPD4hkFVfE92gFFc9hClzXavJ2xduU3bam7TxibCheeqOV
+ hBQA=
 X-Developer-Key: i=development@redaril.me; a=openpgp;
  fpr=FF4232B28B363432DA8F187D81C2729AADA16A67
 X-Endpoint-Received: by B4 Relay for development@redaril.me/default with
@@ -113,74 +112,62 @@ Content-Transfer-Encoding: 7bit
 
 From: Fabio Forni <development@redaril.me>
 
-device_get_match_data() retrieves driver data through the device's
-fwnode. However, software nodes don't implement
-fwnode->device_get_match_data(), so for a platform device that is
-dynamically instantiated, device_get_match_data() is of no use.
-platform_get_device_id() can be used instead, but this doesn't make the
-driver code abstract enough.
+When a rescaler is dynamically instantiated and configured with swnode,
+device_get_match_data() will always set rescale->cfg to NULL, because
+device_get_match_data() is unimplemented for software nodes.
 
-Add the platform_get_match_data() helper, so that driver data can be
-retrieved from platform_device's fwnode *or* device_id as a fallback.
+Define a platform_device_id table (a replica of the of_device_id table)
+and call the platform_get_match_data() helper, to deal with both
+swnode-based and non-swnode-based instantiation methods.
 
 Signed-off-by: Fabio Forni <development@redaril.me>
 ---
- drivers/base/platform.c         | 28 ++++++++++++++++++++++++++++
- include/linux/platform_device.h |  2 ++
- 2 files changed, 30 insertions(+)
+ drivers/iio/afe/iio-rescale.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-index 3593d45f4a7a..7db56ffbb6b1 100644
---- a/drivers/base/platform.c
-+++ b/drivers/base/platform.c
-@@ -1090,6 +1090,34 @@ int __init_or_module __platform_driver_probe(struct platform_driver *drv,
- }
- EXPORT_SYMBOL_GPL(__platform_driver_probe);
+diff --git a/drivers/iio/afe/iio-rescale.c b/drivers/iio/afe/iio-rescale.c
+index c01292a15a29..c268dbaaaea6 100644
+--- a/drivers/iio/afe/iio-rescale.c
++++ b/drivers/iio/afe/iio-rescale.c
+@@ -518,6 +518,21 @@ static const struct of_device_id rescale_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, rescale_match);
  
-+/**
-+ * platform_get_match_data - get match data from fwnode or device ID
-+ * @pdev: platform device to get data of
-+ *
-+ * Get match data from fwnode if available, otherwise get match data
-+ * from pdev's platform_device_id->driver_data. driver_data is
-+ * cast into a void* pointer.
-+ *
-+ * Return: -ENODATA if no match data is available.
-+ */
-+const void *platform_get_match_data(const struct platform_device *pdev)
-+{
-+	const struct platform_device_id *id;
-+	const void *ret;
++static const struct platform_device_id rescale_platform_ids[] = {
++	{ .name = "current-sense-amplifier",
++	  .driver_data = (kernel_ulong_t)&rescale_cfg[CURRENT_SENSE_AMPLIFIER] },
++	{ .name = "current-sense-shunt",
++	  .driver_data = (kernel_ulong_t)&rescale_cfg[CURRENT_SENSE_SHUNT] },
++	{ .name = "voltage-divider",
++	  .driver_data = (kernel_ulong_t)&rescale_cfg[VOLTAGE_DIVIDER] },
++	{ .name = "temperature-sense-rtd",
++	  .driver_data = (kernel_ulong_t)&rescale_cfg[TEMP_SENSE_RTD] },
++	{ .name = "temperature-transducer",
++	  .driver_data = (kernel_ulong_t)&rescale_cfg[TEMP_TRANSDUCER] },
++	{ }
++};
++MODULE_DEVICE_TABLE(platform, rescale_platform_ids);
 +
-+	ret = device_get_match_data(&pdev->dev);
-+	if (ret)
-+		return ret;
-+
-+	id = platform_get_device_id(pdev);
-+	if (id && id->driver_data)
-+		return (const void *)id->driver_data;
-+
-+	return ERR_PTR(dev_err_probe(&pdev->dev, -ENODATA,
-+				     "no match data available"));
-+}
-+EXPORT_SYMBOL_GPL(platform_get_match_data);
-+
- /**
-  * __platform_create_bundle - register driver and create corresponding device
-  * @driver: platform driver structure
-diff --git a/include/linux/platform_device.h b/include/linux/platform_device.h
-index 3bd0f1f0d870..426148768b38 100644
---- a/include/linux/platform_device.h
-+++ b/include/linux/platform_device.h
-@@ -326,6 +326,8 @@ static inline void platform_set_drvdata(struct platform_device *pdev,
- 	dev_set_drvdata(&pdev->dev, data);
- }
+ static int rescale_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -548,7 +563,7 @@ static int rescale_probe(struct platform_device *pdev)
  
-+const void *platform_get_match_data(const struct platform_device *pdev);
-+
- /* module_platform_driver() - Helper macro for drivers that don't do
-  * anything special in module init/exit.  This eliminates a lot of
-  * boilerplate.  Each module may only use this macro once, and
+ 	rescale = iio_priv(indio_dev);
+ 
+-	rescale->cfg = device_get_match_data(dev);
++	rescale->cfg = platform_get_match_data(pdev);
+ 	rescale->numerator = 1;
+ 	rescale->denominator = 1;
+ 	rescale->offset = 0;
+@@ -603,6 +618,7 @@ static struct platform_driver rescale_driver = {
+ 		.name = "iio-rescale",
+ 		.of_match_table = rescale_match,
+ 	},
++	.id_table = rescale_platform_ids,
+ };
+ module_platform_driver(rescale_driver);
+ 
 
 -- 
 2.56.1
