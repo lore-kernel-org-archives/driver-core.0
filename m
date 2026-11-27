@@ -1,100 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.182
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795782569;
-	b=e3BSyCM/VfJEao6b+KTgZb3omrEW/lh7dF0euWyVvxiRfzuO7Ho2nkp0hn9BcnvHwQ5b
-	 THYOiJilHj5Oqa0ysSXQLGs5Rvf9A0Wu/SyaWRtbhS/xhLAexI5H9Q0+pnZAGULdzCFen
-	 KRAUr0cXpFyUH9loAwXwwrqRu6EJ4PTFPh759ez2o/tUyUCm47caat6zReV6V4OscXgCF
-	 wSBOYSPOQX46B5fVWmd/x2Ubyoc9ow+xeAtp7tIsM1s9XIskDBZvi00maoo9xGyajkHXZ
-	 AvhDj6iO+dfMolALUUplpC4H1PiatUr3ghXXjyg/jMx7ka7CQzqGsKxkmbaSvlowvLg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795782569;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=gXf5stEDIYuDZVQjUcNyW733hx6qDRKNZoyJXoBIROc=;
-	b=lALRw/VoS/6ej6mAVND9VMV9kvtmRWLGQs00hwzr7k1q6TmPOpJ8vL1OOTNDyog1qhxi
-	 yyT7qnmOhEOxpuR8V8wUb4XuqxQcKAQ1EJJjiG3bRSlRVx2PX7Gw7DA1iS+CHG4e2i9Y5
-	 Xvo2mDi47PrXYq0EV8whhUCIGyh9OHTeqrK0mwGJRvZvXyxvHhJg2oryJMGKFdQLYO2l6
-	 QNPm6eJLcBk5gn/oBz8xAeb0eMM/F79n0Fjmf6efxllX+rhF1nLZ5q3fZBfPv5QTqcozJ
-	 AOYGgapse9T5g7F9ajHLG+QDXyJsEycuaYHTTDMruFZde5kY4aLqNTyfz9RFTm+86mQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="T/zdGZc9";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.182
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795793009;
+	b=dak7pZVkwuosNrdQBDH8mpsWFGZ493CypqsIFfS6G9twgtQlCtP+FBCBX8ivRybeCxnY
+	 gZQjJnAMkvp6qDtZV44QWe8wWnEDJWKhN9j8kgXXEHvaPlr+NAwuajZt2k3nPx86Ign6k
+	 Wztd5F4VD2O36mXye2ajhsFmp8hFJbgqJJFvmK8BHcrjhzH5/vriuHCcbWiRLEyJFtbMv
+	 JA3zvnKt8XaEhN4jO2IUhblOn5kz7CU3mPay7RQdXEX861/iJkR2xURO2T9TmhwNQWovW
+	 frGHU91ofRUd3GVsEYJkJfZmCIwGo9KGMzv2+zWN39u0yLq8lIMn2X10g5yX+SzcMfQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795793009;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-TM-AS-GCONF:X-Proofpoint-Reinject:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=JjEWTfCSXoDP61H7fMsjhbrtYMgCKQELqcke6a5fZC4=;
+	b=GCDEoi4ZX8CVoRzoeGSMvln/Csm2soHYM4RyflwxJc9B6gX+joLYC8yNQMloCm3g81M6
+	 hnFtv/j8UeFliRnCZdn08+Xm3jGw9kHu7iTne/8HIY8ZeZSfRau7wxBbjgLsr+7OdKfLD
+	 JV60lE8t4GLRPE4+tu71cZ8v1uCSVB+pwslqypdxdheLmq2dFMbmQKpjo20dH2hkQwhoR
+	 fk3kXye9Ce2RGAXpKCjQLfnmjjiKbQ9H17HYo9sXAMP04ScNlQQ9a/Bd81Wa8IJj2JxMr
+	 T+IUd+VTfidxaiatGCmTz2Sjvyb1OykzBWliX78hooG9EgQFICNSwGoTnhr4xWg5Wbg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=OOYyrnWo;
+	arc=none smtp.remote-ip=148.163.158.5
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BAD606A329
-	for <driver-core@lists.linux.dev>; Fri, 27 Nov 2026 12:29:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 63BAD606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F15606A31C
+	for <driver-core@lists.linux.dev>; Fri, 27 Nov 2026 15:23:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2F15606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=T/zdGZc9
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-55be673e029so1832151cf.1
-        for <driver-core@lists.linux.dev>; Fri, 27 Nov 2026 04:29:29 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795782568; cv=none;
-        d=google.com; s=arc-20260327;
-        b=CADvtwfAx/Ugxyw0za8m25+f3xto5Rhu25gJQ/gkcbss6Tyv9EgVP3rO86mckgUQ5A
-         EVoLDea4SoaxD7jcrxBckTIyLTuAE1lhMAah10merTlsA3v2cXTfGD+Y7X8QHeQV2NZ3
-         XKzLKphPisNYQzvCPNxy46tORNUIs+e3hixyMRtpJZ1D7H619mXFXkmw1PB09ktaGhIM
-         0huPP6fStX/gxVp4hpzhERS9jR9zIhkbsqZPHQWvmklQ9MpDLAQRmT6hFUshAG80PJ7f
-         fm6CYHh+RsPyjIBW172GEfROtj1V78vaIxMe9VmH2fk3I0NxmSR55n6dt1qyuwkS2p5n
-         WWOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=gXf5stEDIYuDZVQjUcNyW733hx6qDRKNZoyJXoBIROc=;
-        fh=016je1H+2YVLeVc1Sj7IQraQZrnW5RWD1BZ1FgrRTqs=;
-        b=FnuLi5KU8KmeZ36yUK8nPytjgE2+4KWEnRTDwKtC62p7uHlfrRT+K+oJoe8Y2bXcgh
-         jCiSpFD6OyEkQ+PW0GN8zQwhTzmpCwXlrhk29xb5fPF3bWCJCKOIgSmQTBGzFYcOJsDO
-         hqh9DW+480bYNBQatFkZyWeRVTEtXLcaLbdolbQDGHXBYglzgcQ5yysIqtlysuJAWekZ
-         ub73ube6t0bjT809Kb4KlAvXIYDoGKKhsr+qFFt8u66fa22cZSCnKduU8DI4RDsko5qt
-         6Qw1nwroY8Ln/lbeodpALqGVsGPrBIQuvYjj0CuNPZHGfjUEXdFWOAtr9VQENJIe2XJs
-         C6UA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795782568; x=1796387368; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=gXf5stEDIYuDZVQjUcNyW733hx6qDRKNZoyJXoBIROc=;
-        b=T/zdGZc9aDnGY7kzcTkj0QT8OHgtKHeol0lhvlfLiLAoXJUXrSj8DIOBRsWOpO7Htz
-         A86X0gzsTZXxq5xROKuw3YL08YGpJSeVS/uSYvEfaHQ7Co8wGpqwGPo/lm28Ha7hmifl
-         hJubm7ZLAR5KtADQPuz0RstweYXGByzqmKqK4jk0h+JBINMVDMdyhfvX+VD6lhIt8Swj
-         QWNe2u5rmXk0Sm53WE6WzXM3WZCR7pAkgHa2txkxbsLUpX52PpCJAbGwiqcXDW4vEGCy
-         WBb+/yIDBS528nUmXZGbIbSD8SXQ0tAGXbZt98icKwAiDD3b1EUM0saFB7IUimljC1cI
-         wm9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795782568; x=1796387368;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gXf5stEDIYuDZVQjUcNyW733hx6qDRKNZoyJXoBIROc=;
-        b=DuztuufEVHPOUQU6lgUqjbvaL5kPK2LR88YDfC7Co0neIStnQfBrMCHpxw5YPN9O/Y
-         ZVKJUJBsEvgNvda+kGFGlXEDOjNuravZTZ9D7lFQURL3zmjrLPyy46nD6ZAKDB+whQFS
-         Rm86qLBZldDRLnY1NDDWSo+Jlru/jsw5ZmxV7ERVR6iCdTGYcW+IpNqEIPTo9vX8dDAJ
-         2BDdzzn2qtw0fs+KOSQxQXvAFVaHggppH43PwzdLFCmHE3Yb/VfTHw3cZEqjIMTlT5cd
-         +u+k8yDr9k/8pYnUHMzQWNblsY5hvEYrROgjRmwObYisVs9iOWCAo0wuZti0D1UoRS+6
-         XVFw==
-X-Forwarded-Encrypted: i=1; AL+hErFJcGPrb0ye3R/00jE9iZCv/7hOp9MLU3owEuLT9iFLs1b0lKECy8fUnGUNsLeIS+Oiv1T0yfL/QDqoCw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z++nLdLZfUvkJa1oBCgwXPTu2kX/YhSPKJM8BViYRLUM83W7H0e
-	dr59M92rxQ4OIPzY1QWh2H3S7IUJnuInDZONRXCp2TSwTM7Ho1JQggk984CnDAAj1FDiz6Evyor
-	8NS0mLhPcLxVkVpcq5tLRxM0quZQ9B+sgOqMyVftX
-X-Gm-Gg: AZFdTZcj8Ehpz5U+xDNntZy+2UUEVJAtg1FFkHiF5OlngRsTx/UmNQZoixsd7nUH4At
-	PKuFsSVXt9yVGhKFI95MV73TLxFyML+JMNSVJEbAGzs/Yhz+LjY98vxiC4RzHBQSY+MMieQ0oQO
-	woPtRLQtUgKoDc//fHYmdavzYqgv2ulpOZcOE+SMdk9cYI4r1Ue3SpDc4/DLSCxFNhsoT9CVZdG
-	7VYq0sKsHmRRt43KMfWnI2RDD4M/Flu/1laPkJA2RdhZA72/9Tyyq/y2GjAvRTuxlC5taZRdnrg
-	Kt0oSQoQEs0iCU6B9irTgoXFWV3FPESAfaVzgg8HQPa2iz8Wt053WzaDHghaiJwHfWf3iPzpDCJ
-	A2UbhxF7P/tWYqFIJnQuFm1Gq8R5YlK3jRb32+Q==
-X-Received: by 2002:a05:622a:a14:b0:536:6ae9:f55f with SMTP id
- d75a77b69052e-55d8900bdcfmr34062041cf.7.1795782567558; Fri, 27 Nov 2026
- 04:29:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=OOYyrnWo
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ARE4eVO3234319;
+	Fri, 27 Nov 2026 15:23:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=JjEWTfCSXoDP61H7fMsjhbrtYMgCKQELqcke6a5fZ
+	C4=; b=OOYyrnWoM/XawP71YyCPZOPSRBH0ZbkbggVbZrG8QmArWOssvsteX9clk
+	kGDjNA78QuZDWeIda7W+m/EsGbZfI/OFidhOlNqSJBAx3d2iTSujFRSD7Yv4HXd7
+	E1v1uaw9c3tLgdRfTNHnTDLQXNs+KSRnN4QAHyQnL9+pp8Kzc+K29Dd7Psqn5GlQ
+	I252j0/tVfdK5UuLuWk4oUHv/DUFqJRjbrufPRmEUj5F2RE7rW+TnCX6Vm5SkEsJ
+	S7047IOJYr+9VKv2HFmeWO+JDPrUdRjNmF5D7sU43CoVSiMfDpkfAgMB1QfLt2Qe
+	Cea+1A0cmVcA1mkkwWAQOkWfaztYg==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j34gvnpkr-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 27 Nov 2026 15:22:59 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6ARE4IqE3893132;
+	Fri, 27 Nov 2026 15:22:58 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4j6uccu3xq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 27 Nov 2026 15:22:58 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6ARFMreB36176260
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 27 Nov 2026 15:22:53 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C1DA02004E;
+	Fri, 27 Nov 2026 15:22:53 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DEB2C20040;
+	Fri, 27 Nov 2026 15:22:47 +0000 (GMT)
+Received: from li-7bb28a4c-2dab-11b2-a85c-887b5c60d769.ibm.com.com (unknown [9.39.16.105])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 27 Nov 2026 15:22:47 +0000 (GMT)
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+To: maddy@linux.ibm.com, linuxppc-dev@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
+Cc: sshegde@linux.ibm.com, christophe.leroy@csgroup.eu, ritesh.list@gmail.com,
+        tim.c.chen@linux.intel.com, yu.c.chen@intel.com,
+        gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
+        johan@kernel.org, sudeep.holla@kernel.org, peterz@infradead.org,
+        tglx@kernel.org, kprateek.nayak@amd.com, srikar@linux.ibm.com
+Subject: [PATCH v2 0/6] cacheinfo, powerpc, sched: Move powerpc to generic cacheinfo
+Date: Fri, 27 Nov 2026 20:52:36 +0530
+Message-ID: <20261127152242.306333-1-sshegde@linux.ibm.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -104,139 +94,186 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261109182533.3594984-1-lrizzo@google.com> <20261120010655.467825-1-lrizzo@google.com>
- <20261120135013.GO3115493@ziepe.ca> <CAMOZA0LmZ9PFzxLcc1SuS8piFyZu6P=vX_qR2jy-3QRUoNCUKA@mail.gmail.com>
- <1f10002ea9ee16a17087bd06e4a1685a973fdf6e.camel@linux.ibm.com>
- <CAMP57yVZx=s-JXHfQfd_ouv2jV6MMsJXpxVLkQQHG=7qfFVJfA@mail.gmail.com> <d42bd9452d00a0b2a5b7d6652d556c9fc8d2c830.camel@linux.ibm.com>
-In-Reply-To: <d42bd9452d00a0b2a5b7d6652d556c9fc8d2c830.camel@linux.ibm.com>
-From: Luigi Rizzo <lrizzo@google.com>
-Date: Fri, 27 Nov 2026 13:28:50 +0100
-X-Gm-Features: Aa3M54o01jhZM9dCQYVFb8_-yMQWCkVYamRB04RwDLjyCo_Cf-5r3I24fRo_Jr4
-Message-ID: <CAMOZA0JMZ8wUrV08YznFUH7AkmyqXcNdzfd26KsoTtzqt69SVA@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 00/25] PISA: Pre-mapped IOVA Superpage Allocator
- for DMA and CoCo
-To: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: Naman Gulati <namangulati@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Vlastimil Babka <vbabka@kernel.org>, Joerg Roedel <joro@8bytes.org>, 
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Jens Axboe <axboe@kernel.dk>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Luigi Rizzo <rizzo.unipi@gmail.com>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, Harry Yoo <harry@kernel.org>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Simon Horman <horms@kernel.org>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Willem de Bruijn <willemb@google.com>, 
-	Kuniyuki Iwashima <kuniyu@google.com>, Joshua Washington <joshwash@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Alexander Lobakin <aleksander.lobakin@intel.com>, 
-	Christoph Hellwig <hch@lst.de>, Dragos Tatulea <dtatulea@nvidia.com>, Pranjal Shrivastava <praan@google.com>, 
-	Mostafa Saleh <smostafa@google.com>, Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org, 
-	iommu@lists.linux.dev, netdev@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-api@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=CYCdd7rl c=1 sm=1 tr=0 ts=6b09a053 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=Y2IxJ9c9Rs8Kov3niI8_:22 a=e5mUnYsNAAAA:8 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8
+ a=7CQSdrXTAAAA:8 a=E3HGokiD75dCrADgIB4A:9 a=Vxmtnl_E_bksehYqCbjh:22
+ a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI3MDA2MCBTYWx0ZWRfX9Y9wcaK6Ervy
+ zjjBn1pQGy/zFask8QPU5q0uiq4CaKx30mdhthjeFl1w26y1+Dl2TxLhkJBGuspagoKMNbMqYVh
+ Q00xoIxSRUB95Q6xzCO7B8YRZ/v2dWQ=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI3MDA2MCBTYWx0ZWRfX+EV6YLwEvEva
+ 8qON9OjlFLCz4kXV/hgfVzJ7+VcOa8JsgIxVcvnObmIE1ASS3VEKAuXcRj+ngsu71N7Cmg/h3yn
+ e8R+wF7n91XZCsvPMT2feDUfE0GLATBWXX5L9Z0NAdZyWZYamHVn1jUyCGfjF5yutXybNBLNw1v
+ +jJ9rKTpjDEgnVnb0GgbzkUtJ1g84GFtxLS6GJEmLIbccnCrXNNZiDsviNCdDiw06PkHfqXsNAA
+ ZdqIbQEf3Y+0YCXl5vFeIfmsOrbPWR/1Scepclou7eOMIR0J8vOQrNU6eJ+x1sINY+e+OdPiCLP
+ TUwWGRcR/3vU76GNmGstwqPf8O0VRObEm7jklYEOeeV+JDmm6l12gdEOS6Iz4HMmkAK4bqgSzz6
+ bQ34Rb1jE6q8llCWqktxUwxJWo8zX5vi1TVDVZj8kxHBlkJM0GMTVdUeDa2+V/IoxJ2+KSZHZOr
+ nuMILb/vT9BrnabT19w==
+X-Proofpoint-ORIG-GUID: Ike8deZNp8OXbg6A5h0ra5q0jP34957S
+X-Proofpoint-GUID: pZLmlU4KSl5gZEk33xNljkNcANPHz8x4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-27_02,2026-11-27_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
+ clxscore=1015 spamscore=0 bulkscore=0 impostorscore=0 adultscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611270060
 
-Catching up on a few comments:
+This is another attempt to move PowerPC to the generic cacheinfo
+framework and is a spiritual successor to the earlier work from Sudeep
+Holla [1].
 
-On Thu, Nov 26, 2026 at 9:46=E2=80=AFPM Niklas Schnelle <schnelle@linux.ibm=
-.com> wrote:
->
-> On Mon, 2026-11-23 at 09:50 -0800, Naman Gulati wrote:
-> > On Mon, Nov 23, 2026 at 2:10=E2=80=AFAM Niklas Schnelle <schnelle@linux=
-.ibm.com> wrote:
-...
-> > > I think that approach would also align with Jason's idea to keep thin=
-gs
-> > > within the network stack and to work with the tools we have until the=
-ir
-> > > limits become very clear.
-> >
-> > Hi Niklas,
-> >
-> > I have been working on this idea exactly - extending the network
-> > page-pool with a memory provider that allocates large pages, splitting
-> > them into N smaller pages that all share a single IOMMU entry. I
-> > breifly shared my approach in the v1 PMD series [1]. I'm readying a
-> > short RFC to share shortly, would appreciate your feedback.
-> >
-> >
-> > [1] https://lore.kernel.org/netdev/CAMP57yWvHO0pWCR3-9q1gtwVe8WV4Y6i69t=
-rmw+BJRVYf3JB1g@mail.gmail.com/
-> >
->
-> Hi Naman,
->
-> This does look more contained, but I'd say you should still go simpler
-> and fewer steps per series. Some thoughts:
-...
-> - This is still a LOT of churn, my gut says much of the benefit should
-> be possible with much less churn. It's really too much to follow but a
-> cursory look makes me feel like there is duplication between rx and tx,
-> which is weird since for the pre-mapping they should be quite similar.
-> There also seems to be very little integration with the existing page
-> pool, rather it seems to set up a parallel mechanism for the pre-mapped
-> buffers. Really in a first step I think we "just" want to use a more
-> efficient DMA mapping and contiguous memory chunks for the page pool
-> and also keep the page pool API unchanged as much as possible.
+Current motivation came from enabling Cache Aware Scheduling on
+PowerPC with an llc_override kernel parameter [2]. The scheduler obtains
+the effective LLC capacity through get_effective_llc_bytes(), which uses
+generic cacheinfo. Since PowerPC maintains a separate cacheinfo
+implementation and does not populate struct cpu_cacheinfo, llc_bytes is
+zero and the byte-capacity check effectively disables cache-aware
+placement once a process has a visible memory footprint.
 
-The implementations seem large because they expose limitations
-in the current kernel code (or our understanding of it;
-but the proof is in the pudding). Networking for one, since you
-mention it: the tx path allocates memory in many places without any
-hint on how the memory will be used (loopback or device with IOMMU ?
-cleartext or encrypted?).
+Rather than adding an architecture-specific fallback for the physical
+LLC size and sharing information, this series moves PowerPC to generic
+cacheinfo. This also removes the separate PowerPC implementation of the
+cache sysfs interface. If move to generic cacheinfo is contentious due
+to new extentions, I am afraid we might have to fallback to
+arch_llc_bytes kind of hooks.
 
-If we limit to the easy parts (e.g. just network RX) we may avoid
-some churn but we will not resolve the problems arising
-from reasonably strict IOMMU deployments on large systems:
-- IOTLB thrashing (network traffic uses separate PTEs for
-  rx buffers, rx headers, tx_buffers, tx headers). Rx buffers
-  are only 25..50% of the total. See [1] for some data.
-- per-buffer VM exits on overcommitted VMs (same problem as above)
-- IOMMU unmap serialization (with strict DMA, I measured over 10us under lo=
-ad)
-- swiotlb copy cost (on tx and a backlogged queue, most of the copies
-  happen on the TX softirq handler).
+Since many don't read past this, Note that, I have tested this series 
+on PowerVM LPAR (Dedicated and Shared) and PowerNV (Power9). I think
+there may be corner cases of error handling where consumers may have
+stale info. Also Please test this on your powerpc platform if it has
+different device tree quirks. 
 
-Also we will not be able to see what is lacking in the current kernel
-code to address all the above.
+Applies cleanly on:
+powerpc/master at c44104f3642d ("Merge tag 'drm-fixes-2026-11-21' of https://gitlab.freedesktop.org/drm/kernel")
+powerpc/next at b6a9fa34ce41 ("Linux 7.4-rc4")
+tip/sched/core at c47af8566706 ("selftests/sched: Add a test for stuck forced idle under core scheduling")
 
-What I wanted to do with my series (Request-For-Comment, for a reason)
-was to identify the components we presumably need (meaning: implement,
-or figure out where they already exist and actually do what we need)
-and get an idea of how intrusive the changes would be.
+PowerPC move needs a few extensions.
+===================================
+1. PowerPC firmware cache node does not always identify one
+   hardware cache instance. On Power11, one firmware CPU node can represent
+   eight threads, while ibm,thread-groups divides those threads into two
+   SMT4 cache-sharing groups. The series therefore allows an architecture
+   to provide a cache ID derived from its physical cache-sharing topology.
 
-Then it is completely fair to say that the goal is not worth the effort
-and should not be pursued, or to take the low-hanging fruits out of it.
+2. PowerPC device trees commonly describe unified caches using
+   d-cache-* properties. Generic cacheinfo is extended to read those
+   properties while retaining CACHE_TYPE_UNIFIED for the resulting leaf.
 
-cheers
-luigi
 
-[1] Here is an experiment with a system using bidirectional TCP
-traffic on multiple NICs, where IOTLB thrashing becomes a bottleneck.
-Below is how total throughput (TCP payload TX+RX across all NICs)
-changes using 2MB mappings for different regions.
-We really need to cover them all to recover the performance
-of identity mode
+The more involved part is preserving pSeries LPM and DLPAR behavior.
+====================================================================
+3. The existing PowerPC implementation owns references to its firmware
+   cache nodes and destroys and recreates the cache objects when the
+   firmware topology changes. Generic cacheinfo normally retains its
+   per-CPU leaf allocations across CPU offline and online operations.
+   That behavior is appropriate for ordinary hotplug, but not when LPM
+   replaces the firmware cache topology or DLPAR detaches a CPU and its
+   cache nodes.
 
-Use of 2MB mappings         total TCP throughput Gbps
------------------------------------------------------
-none                                  440
-rings                                 572
-rx_buf rings                          577
-rx_buf tx_hdr                         572
-rx_buf tx_buf                         649
-rx_buf rx_hdr                         674
-rx_buf rx_hdr tx_buf                  716
-rx_buf tx_buf tx_hdr                  734
-rx_buf rx_hdr tx_buf tx_hdr rings     744
-identity mode                         744
-------------------------------------------------------
+   This series adds explicit helpers to tear down and rebuild the complete
+   generic cacheinfo hierarchy. These destructive operations run under the
+   CPU hotplug write lock, excluding CPU hotplug readers while the old
+   cacheinfo generationis replaced. Normal generic CPU hotplug behavior
+   remains unchanged.
+
+4. Moving cache discovery to the generic CPUHP callback also exposed an
+   ordering issue for DLPAR-added CPUs. PowerPC previously associated
+   cpu_dev->of_node and initialized its private cacheinfo from the same
+   late dynamic CPUHP callback. Generic cacheinfo runs earlier at
+   CPUHP_AP_BASE_CACHEINFO_ONLINE. For a DLPAR-added CPU, the CPU device
+   already exists at that point, but its of_node is still NULL, causing
+   generic cache discovery to fail.
+
+   An explicit PowerPC CPUHP state is added immediately before
+   CPUHP_AP_BASE_CACHEINFO_ONLINE. The resulting ordering is:
+          PowerPC associates cpu_dev->of_node
+          generic cacheinfo initializes the cache hierarchy
+          PowerPC creates the remaining CPU sysfs attributes
+
+   CPU offline runs these callbacks in reverse order, ensuring that generic
+   cacheinfo is removed before PowerPC releases the OF-node reference.
+
+The series was tested on dedicated and shared Power11 LPARs.
+the existing cache sysfs values and hierarchy are preserved.
+Generic cacheinfo provides id and uevent in addition.
+
+The testcases are covered and marked as success if cache values are
+preserved.
+===================================================================
+
+  - Normal boot on dedicated LPARs		- Success
+  - Normal boot on shared LPARs			- Success
+  - Normal boot with lockdep on dedicated	- Success
+  - CPU Hotplug (Dedicated and Shared LPAR)	- Success
+  - CPU Hotplug with lockdep			- Success 
+  - LPM cacheinfo teardown and rebuild		- Not tested
+  - DLPAR CPU remove and add			- Success
+  - DLPAR CPU remove and add with lockdep	- Success
+  - DLPAR add logical CPUs not present at boot	- Success
+  - DLPAR reuse free CPUid from different node	- Success
+  - Normal boot on PowerNV			- Success
+  - CPU hotplug on PowerNV			- Success
+
+Script used for validation is here:
+https://lore.kernel.org/all/d76a72b5-e489-47fe-81bd-a3bf5935c209@linux.ibm.com/
+It is effectively checking for:
+- Is cache hierarchy/values are same.
+- comparing online,offline,possibe,preset masks.
+- lscpu topology without id.
+
+I have requested for the LPM test. Since I am on leave for next two
+weeks, wanted to send this out. Once I hear from LPM test, I will update
+the thread.
+
+Moving PowerPC to generic cacheinfo also supplies the physical LLC size
+and sharing information required by get_effective_llc_bytes().
+llc_override series[2] will use this information to scale the physical cache
+capacity to MC or package scope. In addition this also gives right
+information for page allocator.
+
+[1] https://lore.kernel.org/all/1424715500-21725-1-git-send-email-sudeep.holla@arm.com/#t
+v1: [2] https://lore.kernel.org/all/20261023131646.2907938-1-sshegde@linux.ibm.com/
+
+v1 -> v2:
+=========
+  - Add full cacheinfo teardown and transactional rebuild handling for
+    firmware topology replacement. Avoiding build failure.
+  - Hold the CPU hotplug write lock while replacing cacheinfo during
+    pSeries LPM.
+  - Add an ordered PowerPC CPUHP state before generic cacheinfo to make
+    cpu_dev->of_node available for DLPAR-added CPUs.
+  - Clean up the caches/derived states after DLPAR remove.
+  - Clean up the caches/derived states after DLPAR add failure
+
+Shrikanth Hegde (6):
+  cacheinfo: Allow architectures to provide custom cache IDs
+  cacheinfo: Support unified caches described by d-cache properties
+  cacheinfo: Add firmware topology replacement helpers
+  powerpc: Set CPU device OF node before generic cacheinfo setup
+  powerpc/cacheinfo: Move to generic cacheinfo
+  sched/topology: Remove stale comment around llc_bytes on powerpc
+
+ arch/powerpc/kernel/cacheinfo.c              | 994 ++-----------------
+ arch/powerpc/kernel/cacheinfo.h              |  13 -
+ arch/powerpc/kernel/sysfs.c                  |  54 +-
+ arch/powerpc/platforms/pseries/hotplug-cpu.c |  35 +
+ arch/powerpc/platforms/pseries/mobility.c    |  17 +-
+ drivers/base/cacheinfo.c                     | 192 +++-
+ include/linux/cacheinfo.h                    |   4 +
+ include/linux/cpuhotplug.h                   |   1 +
+ kernel/sched/topology.c                      |  11 +-
+ 9 files changed, 368 insertions(+), 953 deletions(-)
+ delete mode 100644 arch/powerpc/kernel/cacheinfo.h
+
+-- 
+2.52.0
+
