@@ -1,50 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.251.105.195
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795781559;
-	b=yiF6i+qMJ+33EZuVn4ukcSUfPuwbpQWuToPNjZK+oB+L24Zf8p8uCmD4hJOLQPtUYMZ0
-	 JY7i/n9AvNEPPlElBSC/c+KE5vaMFuLroFrmbBvudTFIm5DyuAyTPGgU119JroMlzJ6TK
-	 Z0bWphM+X9uR8hfYgYHY6KqCHouepSX4pFC6LzOwT3h4fVjeXO8jY0ULvxaPkUZEAgI52
-	 ulViPQiY2Z+zL9epQUAgZgUgORvpp6CsWAvoXR/B6RJRF0ayZkIMfthHYnK9aRveSZRLG
-	 avI8E1eZUC25zVwv/fSX03B84kk+1fh10R7KaSfue4FoHKfZZR6kRAnQkz+55AYt8Yw==
+	t=1795782443;
+	b=Sakx7CHyP56N4zjpReaEdgdWHRs9ob6RBshAb6wKs7NOk/mj+OH+qtnsd/vyEcnzirsV
+	 jZJq0cohD7HIEIvdvNTqp/KhXWnWznTRaOQmd0bNTQ0hlKfnj//rBnVEBlMll51i1s/3q
+	 WwnTNTn+YzfbROud1sK0I6UVkmqOEH630eRyan17S62o5ZcXjwWcMh8bjfi4Jvl2PhEYV
+	 GWS+CEx0p7MUyXBHkE97TTcUPIAxY2cIPBpBBqO5IqWubQYcgKoCCWtf6lPUW40xTgLVS
+	 yasYSiiJLMs8gpxZdXJdjQxrlWhfvlurwgXe1/pn9O/M65AwktjHZoPcW8IbCCrjTlg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795781559;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=bgsXrW1L7I50f6348fPk60A0WzJDFn1VjlNjUkAZEqA=;
-	b=bLF8q06uja/fuW7hqZ1uOw914FOTltjLwGv4sQqZs2k/d1xiczO5HZ3oS7owLE0Xby2z
-	 IB35T0pAP5cbxNjAJUdrBlYaFlPyDkfkBDo7fKPAc4fDzusIBLToeWbc5qmIizqoP4BVI
-	 UDwplD6gSHuEjy5nz1DI3HVlqkIp3Rc4s8J3fdwnLMs75IAko6jeqCHU9NYxbifnmjn7s
-	 x2NYizPHPF6uitl82xKMfCHfGodaURaZ+A5jGS7WoHoQ6uW9BjJyTMuR4KXJuNdNLjaOI
-	 yM25GWgSv/fzGsfVpLsl15i4TYZA5S7C8Lxyyut0Brk06KFtw/BprXw2x7DJsBBuNiQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795782443;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:Date:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
+	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=hr3POgh8HCm2pUyVX82eXsx/WjAOvYbt4tkgYRnk9Fc=;
+	b=ZoD6I8SPoElGixNE3qaToeHZvZr6qEJTvcZcZmRAT5PmbCc5f4nlLyecs4G2meEkHxlG
+	 NHiwvHr/sHPqaqg+ABeKeDLgTMhbRpYxDHLhsBDNhrRXeIZkElvxODlSVyFGvEyyjMczk
+	 V51wi1huwmPxZS8YRT+nLNC+Y48YiNLUunaPQM7R9fnDlNeKFayhgOxd+iq6tHmfWQOKa
+	 ODRqfBNoTwRqrqEPcUnndUzq3U438JkprPwVFhYGLb8tUuYVOX14UCUJ5+D8U5ANOc/YN
+	 rb8mEhSF2v2gIjVXz3ILe+IcdDkZ51B/aHA0G7GsNs5rK84FR/K+2ww/5RpzinJ6VoA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ideasonboard.com;
-	spf=pass smtp.mailfrom=ideasonboard.com;
-	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=LEQkPCfW;
-	arc=none smtp.remote-ip=213.167.242.64
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	dmarc=pass header.from=collabora.com;
+	spf=pass smtp.mailfrom=collabora.com;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=lq5aLGsT;
+	arc=none smtp.remote-ip=148.251.105.195
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CF7606A32A
-	for <driver-core@lists.linux.dev>; Fri, 27 Nov 2026 12:12:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02CF7606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D686606A329
+	for <driver-core@lists.linux.dev>; Fri, 27 Nov 2026 12:27:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1D686606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=LEQkPCfW
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3B002145C;
-	Fri, 27 Nov 2026 13:10:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1795781401;
-	bh=3vvPIXNCXj7hgbbQxA0L1qhL0eGm3PomxB/htctH7xQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LEQkPCfW1nh/CYDvtPCY3IK4QaBj2ypTtfyMQ17ucANCJxcUEah3MaEHpjePyJ1aF
-	 Uly3lL+LsLdAgT4m95Sg1z9nmtVb4aZLTXiRchDGWUEui23IHQ0bx0v1lfigq8nV6i
-	 AbnfkORiTiOPuJD1wUcsHgae0npE/XNZzcHX67bY=
-Message-ID: <5c7fd300-a0bf-4593-8777-5577df2fc859@ideasonboard.com>
-Date: Fri, 27 Nov 2026 14:12:33 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=lq5aLGsT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1795782441;
+	bh=e06JdsJ6NaTyRmO5sHK4ldp+a7pHU6htpMkP4M/mCXo=;
+	h=From:Date:Subject:To:Cc:From;
+	b=lq5aLGsTQ9B0nmXLKoiogYgQhBej7Iwbfu3ckr4wVR6daRYzWfIv0n5LjdbJMVkbP
+	 tHx0eJ5eT80EdKl8lW8EbQ1A/Gz8S6yfhwMtfeKjQG7FnpfIYaLJMETNj717NQQ5vD
+	 o8S4YMy/uFUoqN0ubqKcTY7mE0KFWKZluxDgMp/Xov5ZoZl3J2iGe0FLEE6hRWnIJp
+	 tD8ja7yHWGohbB+AQiPaGCYlZp4JU5+k2sf75qGCyn5zSxR8u1yvNzNeO6RdHhJ5Fz
+	 jAFZmDO+eRNnTo4ck/Z4eYDcFZL+s52zj7B43/HgbkIqSA0MSFCixsXAhjcpHs3dJp
+	 wClDZQJvlO1tQ==
+Received: from jupiter.universe (unknown [100.64.1.62])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sre)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 160B717E014A;
+	Fri, 27 Nov 2026 13:27:21 +0100 (CET)
+Received: by jupiter.universe (Postfix, from userid 1000)
+	id D1B4D48002C; Fri, 27 Nov 2026 13:27:20 +0100 (CET)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+Date: Fri, 27 Nov 2026 13:26:06 +0100
+Subject: [PATCH] regmap: Support mutex-locked maps during atomic shutdown
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -54,233 +65,116 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] pmdomain: core: Add genpd_dev_pm_attach_by_node()
-To: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Len Brown <lenb@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>,
- Ulf Hansson <ulfh@kernel.org>, Devarsh Thakkar <devarsht@ti.com>,
- linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20261023-pm_attach_by_node-v1-1-4dbaccdf8b0e@ideasonboard.com>
- <CAPx+jO_FC1t_UaDfQDPOCy+V-Zdc1b5h5krrppGvYiW-LsD3LQ@mail.gmail.com>
- <4fbeef8c-1dc8-4cac-a4af-835037c3dc4b@ideasonboard.com>
- <CAPx+jO_5OK_9VJo7vh0CP37-fTkd_2j3XtyGkTw3bz4heyYq6Q@mail.gmail.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-In-Reply-To: <CAPx+jO_5OK_9VJo7vh0CP37-fTkd_2j3XtyGkTw3bz4heyYq6Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261127-regmap-atomic-shutdown-v1-1-1a0122144df6@collabora.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMwQ6CMAyA4VchPduELhHQVzEeyqhQEzayDjUhv
+ DtTj9/h/zcwSSoG12qDJC81jaGAThX4icMoqEMxuNo1RK7FJOPMC3KOs3q0ac1DfAfs+czkL11
+ HdQslXpI89PMb3+5/29o/xefvDfb9AJFt99Z6AAAA
+X-Change-ID: 20261127-regmap-atomic-shutdown-ba5a1c988107
+To: Mark Brown <broonie@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Johan Hovold <johan@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ driver-core@lists.linux.dev, kernel@collabora.com, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2427;
+ i=sebastian.reichel@collabora.com; h=from:subject:message-id;
+ bh=e06JdsJ6NaTyRmO5sHK4ldp+a7pHU6htpMkP4M/mCXo=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGsJdyRuZGW3wWp/GUW15z14qpHcM25iSx2fO
+ OnZKZM9Gnp1BIkCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJrCXckAAoJENju1/PI
+ O/qak8wQAJW/V4avOii36Nb4bstRttWUeXAynsEWjjsqsgu5h7a6Lnc9xd5ygLQWm+yzm0em4SD
+ /tGa9InfBkQ/v/PliKRCwBicQzFZiIGOu/X14MmuCvDQZyqLuT8tkLE3oQp5nijnPtnUZv69TEc
+ fecv3vMB0OlmUJMjVsgjEVmhUIevwJYa2eiwFnC7K4z4RraM3SPQ0ToMGuwPGtZHCJBR2K47hy0
+ bpf1k/oCTVklTADOv4fQiPZnw+jYcLdxhLcHQb/4R5sJqDEpCrGGtiB4HHO6zosF8b1cYWGePnB
+ B3S0j6+tXYTiO/JcPOig5JZiUDm132IpNbotir0/jmCrpLfGx2L+YiJ5iuALZ24zLk8/5ncgFS4
+ PR1raTWBZ2TmQI2iLyaV3V/GI+PGv4fN22F7Uma8x0dqYqhBhsnIyxf3eBjrPOk6Ru2gMcdTsWa
+ 27+IEcitcsaNMplbjSP8IZtCeCPLc4wR2YQBB/LvH60+YJ49hf6dDazS9eYqT1VfQQXerGW/VMZ
+ 2rNLVgc9bRWZ4XdECAdJuzZvPN96UHnNlfJPo6qe0JVYzzewsl2VR1MSF+GZJiT471hR2yY9tmr
+ /oZANuggPqebwL6tOSt2rF8BZui0A8cTkxiDG2fiWiOnmoeqIamRvIQhesfHTBQ5OFLxcVE/bw3
+ acz2n8Dp3o3YN89XBI9Mu4w==
+X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
+ fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-Hi Ulf,
+Power-off and restart handlers run very late in the shutdown sequence,
+when only one CPU is left and interrupts are disabled. I2C has long had
+atomic transfer support for this, and SPI recently gained it as well,
+so that PMICs can be told to move the system into poweroff mode.
 
-On 27/11/2026 12:57, Ulf Hansson wrote:
-> On Fri, Nov 27, 2026 at 10:07 AM Tomi Valkeinen
-> <tomi.valkeinen@ideasonboard.com> wrote:
->>
->> Hi,
->>
->> On 25/11/2026 14:50, Ulf Hansson wrote:
->>> On Fri, Oct 23, 2026 at 8:17 PM Tomi Valkeinen
->>> <tomi.valkeinen@ideasonboard.com> wrote:
->>>>
->>>> genpd_dev_pm_attach_by_id() and genpd_dev_pm_attach_by_name() attach a
->>>> virtual device to a PM domain listed in the OF node of the passed
->>>> device.
->>>>
->>>> Some hardware blocks are described in a child node of a main device.
->>>> They have no device of their own, but they do have a PM domain of their
->>>> own. Neither function can attach that domain, as both parse only the OF
->>>> node of the device.
->>>>
->>>> An example case is TI's display subsystem and its OLDI (LVDS)
->>>> transmitters:
->>>>
->>>> dss@30200000 {
->>>>       power-domains = <...>;
->>>>
->>>>       oldi-transmitters {
->>>>           oldi@0 {
->>>>               power-domains = <...>;
->>>>           };
->>>>
->>>>           oldi@1 {
->>>>               power-domains = <...>;
->>>>           };
->>>>       };
->>>> };
->>>>
->>>> The OLDI TX blocks are not part of the DSS IP, but they are not quite
->>>> real devices either as they don't have registers of their own, and are
->>>> instead controlled via DSS registers.
->>>>
->>>> Add genpd_dev_pm_attach_by_node(), which is similar to
->>>> genpd_dev_pm_attach_by_id() but instead of looking for the power-domains
->>>> from the passed device's DT node, the DT node is passed explicitly. Also
->>>> add a matching wrapper function dev_pm_domain_attach_by_node().
->>>>
->>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>>> ---
->>>> This is a new try for managing the OLDI power domains. Previously I
->>>> tried using auxiliary device/driver for OLDIs, and handling the PDs the
->>>> normal way:
->>>>
->>>> https://lore.kernel.org/all/20260529-beagley-ai-display-v3-12-7fefdc5d1adf%40ideasonboard.com/
->>>>
->>>> Then I realized an issue, mentioned in
->>>> Documentation/driver-api/driver-model/driver.rst: "-EPROBE_DEFER must
->>>> not be returned if probe() has already created child devices".
->>>
->>> I don't follow. How is this a problem? Why not create the child
->>> devices at a later point?
->>
->> The problem the above text refers to is (as far as I understand):
->>
->> The main driver probes, and creates a child device, which probes
->> successfully. That causes the flag for "run deferred probes again" to be
->> set. The main driver then continues its probe, but, for some reason,
->> must return -EPROBE_DEFER. But as the above-mentioned flag is set, so
->> probes are ran again, resulting in the same sequence, again and again.
->>
->> Creating the child device later is difficult. We have display pipelines
->> which contain multiple independent devices. All those devices must have
->> probed and their bridges/panels registered to the DRM framework so that
->> the main DRM driver can finish its probe. If parts of the pipeline are
->> missing, we return -EPROBE_DEFER and wait for the missing parts to appear.
-> 
-> Well, I still don't see why creating the child devices later is a
-> problem. In fact, the opposite seems to be the reason for these
-> churns.
-> 
-> Usually what we do to solve this kind of problem is to make sure the
-> main driver for the parent device has completed its operations for the
-> probe and then it populates the child devices. If that doesn't work
-> for some reason, the main driver simply needs to remove the child
-> devices in the error path in the probe.
+Most PMIC drivers use a regmap with the default mutex locking though and
+that may sleep. On a Radxa ROCK 5B+ (RK806 PMIC via SPI) with lockdep
+enabled this results in:
 
-Yes. And this works fine, unless something can cause EDEFE_PROBE after a 
-child device has been created.
+[ BUG: Invalid wait context ]
+systemd-shutdow/1 is trying to lock:
+(rk8xx_spi:91:(&rk806_regmap_config_spi)->lock){+.+.}-{4:4},
+at: regmap_lock_mutex+0x1c/0x30
+...
+Call trace:
+ mutex_lock_nested+0x44/0xb0
+ regmap_lock_mutex+0x1c/0x30
+ regmap_update_bits_base+0x40/0x90
+ rk808_power_off+0x70/0x110
+ sys_off_notify+0x48/0x80
+ atomic_notifier_call_chain+0x74/0x130
+ do_kernel_power_off+0x5c/0x80
 
-> If the main driver requires the child devices to complete their probe,
-> an additional synchronization mechanism needs to be added to allow
-> them to inform the parent.
+Detect this stage using the same check as the I2C and SPI cores and
+just skip the locking as the regmap cannot be accessed by anything
+else at this point.
 
-Yes, I think the component system can be used here. It just adds a bit 
-more complications for a seemingly simple case.
+Note that writing a cached register, which is not yet present in the
+cache, may allocate memory in regcache_write() resulting in a potential
+sleep. But this is not a problem in practice, as registers used for
+power-off are usually volatile.
 
->> And the OLDIs here are not really independent devices. They don't have
->> register space, and OLDI configuration is done via DSS registers. Yet
->> they don't fit very well inside the DSS either, as they are clearly an
->> outside IP, an external encoder. So the aim has been to represent them
->> as separates child DT nodes, which allows setting OLDI properties and
->> the media graph, but there's no compatible string and it's the tidss
->> driver that fully manages the creation/cleanup.
-> 
-> I don't see how this is a problem. It's perfectly fine at ->remove()
-> that the parent should be responsible for removing its children,
-> right?
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+---
+ drivers/base/regmap/regmap.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Yes, my point was just that the OLDI is very much tied to the DSS, and 
-can't act as a separate device. But I have to say it's a bit unclear to 
-me what is a "device" and what is not =).
+diff --git a/drivers/base/regmap/regmap.c b/drivers/base/regmap/regmap.c
+index 0ba82fcc55bf..e73c4df194e5 100644
+--- a/drivers/base/regmap/regmap.c
++++ b/drivers/base/regmap/regmap.c
+@@ -440,15 +440,29 @@ static void regmap_lock_unlock_none(void *__map)
+ 
+ }
+ 
++static inline bool regmap_in_atomic_shutdown(void)
++{
++	return system_state > SYSTEM_RUNNING &&
++	       (IS_ENABLED(CONFIG_PREEMPT_COUNT) ? !preemptible() : irqs_disabled());
++}
++
+ static void regmap_lock_mutex(void *__map)
+ {
+ 	struct regmap *map = __map;
++
++	if (regmap_in_atomic_shutdown())
++		return;
++
+ 	mutex_lock(&map->mutex);
+ }
+ 
+ static void regmap_unlock_mutex(void *__map)
+ {
+ 	struct regmap *map = __map;
++
++	if (regmap_in_atomic_shutdown())
++		return;
++
+ 	mutex_unlock(&map->mutex);
+ }
+ 
 
->> Here a simple pipeline could be:
->>
->> DSS -> OLDI -> panel
->>
->> If the panel hasn't been registered, tidss will defer. But tidss needs
->> OLDI to be there too, when it binds the display pipeline, otherwise it
->> could never finish.
-> 
-> I guess "finish" is the important word here. Finish doesn't
-> necessarily need to be the same thing as that probe completed. This is
-> what it seems to boil down to.
+---
+base-commit: 222b61e9c570dac6c7a786d039e4c226624b426d
+change-id: 20261127-regmap-atomic-shutdown-ba5a1c988107
 
-True. I am quite keen on keeping it simple, and managing the DSS and 
-OLDI as one "thing", so tidss probe handles OLDI and when tidss probe is 
-done, so is OLDI, and so is the display pipeline.
-
-The alternatives, e.g. with component model, are always more complex to 
-write and maintain.
-
->> It is possible to create the DRM bridge entity for the OLDI without any
->> OLDI device/driver, which allows creating the display pipeline. But the
->> OLDI bridge code has to be able to enable the OLDI power domain, and I
->> think the only way to use PDs currently is via devices.
-> 
-> Correct and there are good reasons for that.
-> 
->>
->> So if we created the OLDI DRM bridge as mentioned above, then later in
->> tidss probe we could create a device for OLDI, which probes and binds.
->> That can then be used to control the PD, but there would be no other use
->> for it. And the sequence feels like doing it backwards.
-> 
-> I am not sure this is backwards, at least if we compare with how many
-> other subsystems/drivers are doing it.
-
-What do you mean? Usually the driver probe registers to some kind of a 
-subystem/framework. Here we would first register OLDI to the DRM 
-subsystem, and afterwards create the OLDI device and its probe would be 
-called. That feels backwards to me...
-
-Or are we talking about different things?
-
->>>> The PD virtual devices used in this patch's approach do not hit the
->>>> issue as they don't get a driver, so they are not probed. The tidss
->>>> driver's OLDI part can then use normal pm_runtime_get/put functions to
->>>> manage the OLDI PDs.
->>>
->>> Sorry, but this makes no sense to me. Considering the above statement
->>> about -EPROBE_DEFER and child devices, it sounds like we need to
->>> manage some kind of cleanup in both solutions, right?
->>
->> Yes, but with PD virtual devices there's no probe, so they don't cause
->> the "do deferred probes again" flag to be set. It's not the cleanup as
->> such that causes the problem.
->>
->> In some ways this does feel a bit like a work-around to the framework
->> limitation. Representing OLDI with the aux-bus feels quite correct, I
->> think. But then, all that plumbing just to enable/disable the PD...
-> 
-> Right, but the plumbing sounds quite straightforward, especially since
-> the auxiliary bus would solve most of the problem for us.
-
-It doesn't feel straightforward to me... We have two ways:
-
-- Essentially a single driver and device (tidss) which supports OLDI. 
-Probing, removing, life-cycle management is simple and clear.
-
-- tidss as a parent device, oldi as a child device. Separate 
-probing/removal, life-cycle management tied together but still not the 
-same, setup needs to be done in stages instead of doing it all in probe.
-
-It's not rocket science, but it's still non-trivial, and only to be able 
-to enable/disable a PD.
-
-> More importantly, I really want to avoid introducing another API for
-> attaching to power domains.
-
-Fair enough, I'll look at the aux-bus again.
-
-Btw, this can be done without new APIs, without aux-bus. Afaik the same 
-thing that the code added in this patch will do can also be done in the 
-driver. So tidss would just create a minimal device for the OLDI, 
-without a driver, point it to the OLDI DT node, etc. But it feel a bit 
-like cheating... =)
-
-> To solve this I suggest to re-visit the auxiliary device/driver. It's
-> also important that the created auxiliary device gets its fwnode
-> assigned to the corresponding child node as in this way, the child
-> node will also be properly considered for "sync_state" for the
-> power-domain provider. In regards to the synchronization with the
-> parent, I suggest providing a platform data for the auxiliary device,
-> that the auxiliary driver can use to notify the driver for the parent
-> that it's ready.
-Yep, I'll try to come up with something. And, indeed, perhaps the 
-platform data can be used instead of the component model, maybe it's a 
-bit lighter.
-
-  Tomi
+Best regards,
+--  
+Sebastian Reichel <sebastian.reichel@collabora.com>
 
