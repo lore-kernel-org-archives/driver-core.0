@@ -1,82 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795840986;
-	b=q8MI8Ckkw4W2S1+TbotQN7RsOWVlRKs5sHgxXT2Umo1tyUcFJW0g5tQgpkN/sXtMGK2i
-	 pDFLftvV5ggJpAnPncOcNGLdOhLlyw6AqMzJP2rIfBgD5ieTtYzfHFf+CBBpUN5HiUs0z
-	 Zcb3Uk2yUNk6LK0rojv45zgftXL+8HtNVmliVIVqhBQfEpkMaXaez5j3zxzmc/fLBhorf
-	 WaS/eVDlGlaIN+m3JyvachoKC1O2SkEs7aOrJbZh7U8FUM9jq4jjcRITIbMTU69BU1cPA
-	 GewWibbe4m9eCnfecLToEYx8tG8ky0cTmjeU++FV8Fm+WAmJuC7AWRZqpZdOcq8W8+w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795840986;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
-	 X-Proofpoint-Reinject:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=jE30fb3/wdn9i0oP+c/2t9TrzWP1XvBD4vGbDC218Og=;
-	b=BglxLgEDVNpczc65uMZvGM2CQbt82ruO0yjZNL+MaQQKiulD4/ter2sQnq3ZwQvdlmPK
-	 MuQfw7kF98f92yXS9WXXHoyaMOjtvE2BOmjQJcFTAdQrsk+xeyHZ23kXafIeUv3K1GHAk
-	 42gd0zORACOyEIOLnNCqzQr4b3n+tlHrwHpWmuk+sX7bNm2ug9lIK6d2wVLk45rzSP+XJ
-	 /HzPzISHxie/E4UhcD5D9iLrJpxE880Lj7NyPA6/tCaMco2jsfJJnjAnVMeO9mtD1EJar
-	 AKdXBbVg+VCsU0HNmN7EKtSPkLgtL/iGQR8PIdl6kQGqFkCZCCRKypTMV2/2o/7CWZg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.ibm.com;
-	spf=pass smtp.mailfrom=linux.ibm.com;
-	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=dlUSvQUs;
-	arc=none smtp.remote-ip=148.163.156.1
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=136.143.169.10
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795856705;
+	b=G/RzJF0rz9bD1Qt4kJfQYr7isiv4wJu6JZX0Z3J6BlACrDZSuLXrQdbC0iORp0FwRi7T
+	 aNbZENVINkPyieXnI8onsekfcyfK4Sc3nDQgFEoA5QU7IJNZSkMFuLo18sZZhZYjaDbZp
+	 xeV1ouw3olaEUC8rl9tsCLC/ugVbbRM97DJGJvWnT/fErmrn+IZZv2zyqhPw/+o8GvHdO
+	 YVDYO+V0qAfdEPLtMm2we+8a+MjEeGqzBm5UKWzdTjsKO7Vo6+54/kNGlf1Bj+v8a+KjG
+	 S0IDSqmE3wwUUAtINToiUXhyHJ6uYDzkdlqtaTlDKVhF9sTA+zu333kM53ZnNikjfPA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795856705;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=fR8+AZzMPmjRQhe1cjtha4XcPJsaasrVYp7w8W00FRU=;
+	b=TyCnZL5/GmHaLzmZUoOQkP2SlIBg9Xig6EZuzdwHRPs5cXUwGL+rkYrQtHejrLdW/feI
+	 3dY7BmJPTfCouVgfUgrhB1Zc2JxMYcVzTI1y7kjKNJr4X9SNBsyknbRpmfoWVTp1Hv9tg
+	 WkNDMWt5MbYYwnVmVZhlSvGhoJxoFci42ak9zpa0TMGODhmgfUvy6qJ+g7PXSkIAMDfqs
+	 Aoql3/FRlcZYyWZ/W3Mpp58GBvDyjGxWlpNl4RaNm/vhWqoaMCvYe2DJn0eNblXoCHkU+
+	 Unn8gJfloYVFdIWbCQa6ws64wBKkqrrd2p286KPuj+NPd/fbmGs9j1iga4K8xBSA/xw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=redaril.me;
+	spf=pass smtp.mailfrom=redaril.me;
+	dkim=pass header.d=redaril.me header.i=@redaril.me header.a=rsa-sha256 header.s=zmail header.b=F+rlBotm;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=136.143.169.10
+Received: from sender-op-o10.zoho.eu (sender-op-o10.zoho.eu [136.143.169.10])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440B2606A31C
-	for <driver-core@lists.linux.dev>; Sat, 28 Nov 2026 04:43:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 440B2606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C4D606A323
+	for <driver-core@lists.linux.dev>; Sat, 28 Nov 2026 09:05:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03C4D606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redaril.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redaril.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=dlUSvQUs
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AS4Z1nl756982;
-	Sat, 28 Nov 2026 04:42:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=jE30fb
-	3/wdn9i0oP+c/2t9TrzWP1XvBD4vGbDC218Og=; b=dlUSvQUsM72pfklqRjDsHO
-	hDWRbBzxRatuTv+6Szm45bdoEyuYnbxxXA8FwLA7fZVi0OPwwkbsXPAdZRdyY8XW
-	e888vTe6MkI8nIqJ0/aDricuUxUH9bzdKVqj0qHeZ+8lGhGQHoZKFr3CuztD4ILe
-	0qkE3bRp7+KihOLNXWJRWbwa0SqJyJ1wMuPLHF05ksghv66446CrsDeEU8Ffpsyq
-	jhsbCcFdP7aAjcCI7mQhHL28rEcUChIRfrpisfb3+nGfhnawBhfJJTKFlSKRMX8d
-	4PiidLI7IqPjgB1LeB8JrZTnwTO4MPlT30zN4/sJBMGkBpUGZN+9clRA3sZVbUVw
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j7pp5g75c-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Sat, 28 Nov 2026 04:42:41 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AS4JGJK609539;
-	Sat, 28 Nov 2026 04:42:40 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4j6uccw78k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 28 Nov 2026 04:42:40 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AS4gbOg22938120
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 28 Nov 2026 04:42:37 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F2B2320043;
-	Sat, 28 Nov 2026 04:42:36 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1B62B20040;
-	Sat, 28 Nov 2026 04:42:29 +0000 (GMT)
-Received: from [9.39.18.53] (unknown [9.39.18.53])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Sat, 28 Nov 2026 04:42:28 +0000 (GMT)
-Message-ID: <75748781-c20c-4b1b-acc9-ba8e6e06cf60@linux.ibm.com>
-Date: Sat, 28 Nov 2026 10:12:27 +0530
+	dkim=pass (1024-bit key, unprotected) header.d=redaril.me header.i=@redaril.me header.a=rsa-sha256 header.s=zmail header.b=F+rlBotm
+ARC-Seal: i=1; a=rsa-sha256; t=1795856692; cv=none; 
+	d=zohomail.eu; s=zohoarc; 
+	b=BmvcYnpeszoCL0aV0up+uO2/IQJK/dik7UJsorD/sO+qAuWdGrWEQv5gBraLHzqJzZHIewKqI132vg8kNtRHv1YUFeZTE5x+1vPJhtrvlIip1WDGXdXdsk2WAqOuxCxNICpr8g6pfaFgmZlGt9Jc3Phm5Ehkuu7yjjkxSFxDKqc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
+	t=1795856692; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=fR8+AZzMPmjRQhe1cjtha4XcPJsaasrVYp7w8W00FRU=; 
+	b=RPX8LdONHctMB4NMm0AEyqOosUs7GFzDfOeieRNdSD6acmA+qXhBa/E5yd+1MMQ6kS4Z1HT7hUCXg4H95RpO55ODhFnKQrH9mOiInYEqsTz3lWi8cJa6ZFcowZgtkzs5Co0o/PHN2nhl0Z52Cj9tWE0zdboyDh8kUkunnBxJh8E=
+ARC-Authentication-Results: i=1; mx.zohomail.eu;
+	dkim=pass  header.i=redaril.me;
+	spf=pass  smtp.mailfrom=development@redaril.me;
+	dmarc=pass header.from=<development@redaril.me>
+DKIM-Signature: a=rsa-sha256; b=F+rlBotmIlf7etpnZWsD/sWPQmU4l9X4oUcTs4SgmfqiMrXG13YwkZAnEPjrp+P9XP0OLgzi75RblBhzkTlCk3JFRw/g4AC/bftLlZUmknMXdbGx3ipBKo1cj/P2NeSy8TUmSTqsYqFGznxEJQ2bJBst/NaEGyv3JWjz+Rg+Yr4=; c=relaxed/relaxed; s=zmail; d=redaril.me; v=1; bh=fR8+AZzMPmjRQhe1cjtha4XcPJsaasrVYp7w8W00FRU=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
+Received: by smtp.zoho.eu with SMTPS id 1795856689546186.7563515837245;
+	Sat, 28 Nov 2026 10:04:49 +0100 (CET)
+Message-ID: <a08267fa-5a8d-4945-85f9-a9476a476b04@redaril.me>
+Date: Sat, 28 Nov 2026 10:04:48 +0100
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -87,133 +59,50 @@ List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/7] virt: steal_governor: warn on unexpected preferred
- mask states
-To: Yury Norov <ynorov@nvidia.com>, Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>
-Cc: Yury Norov <yury.norov@gmail.com>,
-        "Rafael J. Wysocki"
- <rafael@kernel.org>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Andrea Righi <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Ilya Leoshkevich <iii@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        K Prateek Nayak <kprateek.nayak@amd.com>,
-        Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>,
-        Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Steven Rostedt
- <rostedt@goodmis.org>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
-        linux-s390@vger.kernel.org
-References: <20261113184257.621707-1-ynorov@nvidia.com>
- <20261113184257.621707-6-ynorov@nvidia.com>
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
+Subject: Re: [PATCH v2 1/2] drivers: core: platform: Add
+ platform_get_match_data() helper
+To: Jonathan Cameron <jic23@kernel.org>,
+ Fabio Forni via B4 Relay <devnull+development.redaril.me@kernel.org>
+Cc: development@redaril.me, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Johan Hovold <johan@kernel.org>, Peter Rosin <peda@lysator.liu.se>,
+ David Lechner <dlechner@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org
+References: <20261128-iio_rescale_platform_ids-v2-0-4c35f16c4f77@redaril.me>
+ <20261128-iio_rescale_platform_ids-v2-1-4c35f16c4f77@redaril.me>
+ <20261128002732.7c47a16d@jic23-hlaptop>
 Content-Language: en-US
-In-Reply-To: <20261113184257.621707-6-ynorov@nvidia.com>
+From: Fabio Forni <development@redaril.me>
+In-Reply-To: <20261128002732.7c47a16d@jic23-hlaptop>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: MJcPJuBtAEqFLc5Jw9N_CJSw4nFus0s3
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI4MDAxOCBTYWx0ZWRfXxtTIwP3qvK1Y
- T+Q1emVYYFw7N0yMORS0l2KI4v9IZMQ4oyjytY6+K46FA6IdouZ35YQH1jBbEz4gSGPVV06P/aC
- yHByN1isFyc2NoEIrb5phwDzsZiZGXE=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI4MDAxOCBTYWx0ZWRfX9IA7cKbQiBOL
- J/fCYFSasuUKGblpfNuMHe6rLzfZ4RQGFUnOKvh+xLS/B0s7MFVALO5lAyUvvU9xwNhs2mD4B95
- PRQ3oJnM3Z3seeV2lDppBKSHqpmEowm4WVPvmu+LuAX7eDdizueyOyMpyxRZb5uwUvFor+S55EC
- mML22z5lWscvLuAmGwB6TmMbU5oacZHS2+esQy75M8gYgV5/1IoSM4oTzgjf1ZIrS9pQU9GVG/8
- NUJ1KE7sRKq4OQEdznZvZ+nHXIPKk8LMfw0v/JPfV4vrd56dt5qrhhrR8brAlAIAxKgaznPC6oy
- bQ6ruYOLJ5UGZWFn1zfu4Mh8WLfgP4JH6KR7NSmS4/muOqIC3aNVWsVgVoW51oPQQNFDXRw6gUw
- 1fTcovxNUOowVP2dfAOdl+Ssv9d3ddUj7a+CRKtbgZPmVtkRgI75N0ktPQsaC5dovgtwiMqOAko
- VWyXPaUr7lBYwYPoAGw==
-X-Authority-Analysis: v=2.4 cv=Ae8kjHXG c=1 sm=1 tr=0 ts=6b0a5bc2 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=Ikd4Dj_1AAAA:8
- a=GoBj-LaQcTnmE09wTXwA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: qQowAyHxu2TmLdxn6Wavq18tyUQajkPu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-28_02,2026-11-27_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0 spamscore=0 malwarescore=0 phishscore=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
- clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611280018
 
-Hi Yury.
+Hello Jonathan,
 
-On 11/14/26 12:12 AM, Yury Norov wrote:
-> Now that preferred cpumask access is properly serialized, and CPU
-> hotplug restores all remaining active CPUs as preferred when the
-> last preferred CPU gets offlined, the corresponding logic in the
-> driver is redundant.
+On 28/11/26 01:27, Jonathan Cameron wrote:
+> On Sat, 28 Nov 2026 00:22:09 +0100
+> Fabio Forni via B4 Relay <devnull+development.redaril.me@kernel.org> wrote:
 > 
-> Instead of removing it completely, add WARN_ON()s in the corresponding
-> paths to harden the preferred CPUs mask management and highlight that
-> this condition is not expected during normal operation.
-> 
-> Signed-off-by: Yury Norov <ynorov@nvidia.com>
-> ---
->   drivers/virt/steal_governor.c | 9 ++++++---
->   1 file changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/virt/steal_governor.c b/drivers/virt/steal_governor.c
-> index 8cd5c0f3e3ef..c34d91267ec1 100644
-> --- a/drivers/virt/steal_governor.c
-> +++ b/drivers/virt/steal_governor.c
-> @@ -142,6 +142,11 @@ static void decrease_preferred_cpus(void)
->   
->   	lockdep_assert_cpus_held();
->   	lockdep_assert_held(&cpu_preferred_mutex);
-> +
-> +	/* We can't end up with no preferred CPUs under normal conditions. */
-> +	if (WARN_ON(cpumask_empty(cpu_preferred_mask)))
-> +		return;
-> +
+>> From: Fabio Forni <development@redaril.me>
+>>
+>> device_get_match_data() retrieves driver data through the device's
+>> fwnode. However, software nodes don't implement
+>> fwnode->device_get_match_data(), so for a platform device that is
+>> dynamically instantiated, device_get_match_data() is of no use.
+>> platform_get_device_id() can be used instead, but this doesn't make the
+>> driver code abstract enough.
+>>
+>> Add the platform_get_match_data() helper, so that driver data can be
+>> retrieved from platform_device's fwnode *or* device_id as a fallback.
+> I'd have added a reference to similar cases like i2c_get_match_data()
+> or spi_get_device_match_data()
 
-With this, we will end up with 2 WARN's for the same thing.
-Once here and once again in preferred_cpus_valid.
+Good idea, I'll do that in v3. I'll wait a few days to let others add comments.
 
-What we have in preferred_cpus_valid covers this already. Why again here?
+> and perhaps have followed the naming in there for the return variable.
+> Both call it match.
 
->   	cpu = cpumask_first_and(housekeeping_cpumask(HK_TYPE_KERNEL_NOISE),
->   				cpu_preferred_mask);
->   	if (cpu >= nr_cpu_ids)
-> @@ -150,8 +155,6 @@ static void decrease_preferred_cpus(void)
->   	/* Always leave first housekeeping core as preferred. */
->   	first_hk_core = topology_sibling_cpumask(cpu);
->   	cpu = cpumask_last(cpu_preferred_mask);
-> -	if (cpu >= nr_cpu_ids)
-> -		return;
->   
->   	/* Find the last CPU which doesn't belong to that first hk_core. */
->   	if (!cpumask_test_cpu(cpu, first_hk_core)) {
-> @@ -246,7 +249,7 @@ static void steal_governor_loop(struct work_struct *work)
->   	 * else: steal ratio is within bounds. Still do design checks so that
->   	 * module restores to active if CPU hotplug breaks those assumptions.
->   	 */
-> -	if (!preferred_cpus_valid()) {
-> +	if (WARN_ON(!preferred_cpus_valid())) {
->   		reset_preferred_cpumask();
->   		return;
->   	}
-
-Regarding this series, IMHO we should split the patches into
-
-1.ones which are actually about fixing the hotplug race (PATCH 3 and 6)
-2.ones which are needed only when the another write interface comes in (PATCH 1,2,4,5,7).
+Alright. I think you want me to return NULL instead of -ENODATA as well?
+The other helpers do so.
